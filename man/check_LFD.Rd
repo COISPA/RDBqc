@@ -4,13 +4,13 @@
 \alias{check_LFD}
 \title{check LFD}
 \usage{
-check_LFD(data, min_len = 1, max_len = 1000)
+check_LFD(data_example, min_len = 1, max_len = 1000)
 }
 \arguments{
 \item{data}{}
 }
 \value{
-comparison plot of LFDs among the  years and length range of the data
+comparison plot of LFDs among the  years and check of length range of the data using allowed range
 }
 \description{
 check LFD
