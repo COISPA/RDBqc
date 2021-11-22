@@ -4,7 +4,7 @@
 \alias{check_LFD}
 \title{check LFD}
 \usage{
-check_LFD(data)
+check_LFD(data, min_len = 1, max_len = 1000)
 }
 \arguments{
 \item{data}{}
