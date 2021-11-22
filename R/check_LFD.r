@@ -7,7 +7,7 @@
 #'
 #' @examples check_LFD(dps9)
 #'
-check_LFD <- function(data_example,min_len=1,max_len=1000) {print(ggplot(data_example=data_example, aes(x=Length.class,y= Number.at.length)) + geom_histogram(stat="identity",colour = "blue", fill = "blue", binwidth = 0.5) + facet_grid(Year~ .))
+check_LFD <- function(data_example,min_len=1,max_len=1000) {print(ggplot(data=data_example, aes(x=Length.class,y= Number.at.length)) + geom_histogram(stat="identity",colour = "blue", fill = "blue", binwidth = 0.5) + facet_grid(Year~ .))
 
 paste("The maximum length class in the data is: ",max(data_example$Length.class)," mm",sep="")
 paste("The minimum length class in the data is: ",min(data_example$Length.class)," mm",sep="")

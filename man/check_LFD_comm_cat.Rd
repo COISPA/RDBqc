@@ -2,7 +2,7 @@
 % Please edit documentation in R/check_LFD_comm_cat.R
 \name{check_LFD_comm_cat}
 \alias{check_LFD_comm_cat}
-\title{Title}
+\title{Check consistency of LFD by year and commercial category}
 \usage{
 check_LFD_comm_cat(data_example)
 }
@@ -10,11 +10,12 @@ check_LFD_comm_cat(data_example)
 \item{data_example}{}
 }
 \value{
-plot
+plot and a summary table with ranges by year and commercial category
 }
 \description{
-Title
+Check consistency of LFD by year and commercial category
 }
 \examples{
 check_LFD_comm_cat(data_example)
+
 }
