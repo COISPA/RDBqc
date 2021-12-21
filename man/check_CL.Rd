@@ -2,16 +2,20 @@
 % Please edit documentation in R/check_CL.R
 \name{check_CL}
 \alias{check_CL}
-\title{Title}
+\title{Quality checks on CL RCG table}
 \usage{
 check_CL(data_exampleCL)
 }
 \arguments{
-\item{data_exampleCL}{}
+\item{data_exampleCL}{Landing table in RCG CL format}
 }
 \value{
-
+Checks_CL list of tables for temporal, spatial, species and metier coverage
 }
 \description{
-Title
+Quality checks on CL RCG table
+}
+\examples{
+check_CL(data_exampleCL)
+
 }
