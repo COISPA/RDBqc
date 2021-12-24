@@ -7,9 +7,12 @@
 #' @export
 #'
 #' @examples check_CL(data_exampleCL)
-#'
+#' @importFrom utils globalVariables
+#' @importFrom ggplot2 aes ggplot geom_line geom_point facet_grid
+#' @importFrom stats aggregate
 check_CL <- function(data_exampleCL) {
 
+    Year <- Sum_Landings<-Species
 temp_covL=aggregate(data_exampleCL$landWt,by=list(data_exampleCL$year,data_exampleCL$quarter,data_exampleCL$month),FUN="sum")
 colnames(temp_covL)=c("Year","Quarter","Month","Sum_Landings")
 temp_covLV=aggregate(data_exampleCL$landValue,by=list(data_exampleCL$year,data_exampleCL$quarter,data_exampleCL$month),FUN="sum")
@@ -37,7 +40,6 @@ colnames(spe_cov_LV)=c("Year","Species","foCatEu5","foCatEu6", "Sum_LandingsValu
 
 Checks_CL=list(temp_covL,temp_covLV,spat_covL,spat_covLV,spe_cov_L,spe_cov_LV)
 
-library(ggplot2)
 ggplot(data=spe_cov_L, aes(x=Year,y= Sum_Landings,colour=Species)) + geom_line(stat="identity") + geom_point(stat="identity") + facet_grid(Year~foCatEu6)
 
 

@@ -17,5 +17,4 @@ Quality checks on CL RCG table
 }
 \examples{
 check_CL(data_exampleCL)
-
 }
