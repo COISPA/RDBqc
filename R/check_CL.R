@@ -12,7 +12,7 @@
 #' @importFrom stats aggregate
 check_CL <- function(data_exampleCL) {
 
-    Year <- Sum_Landings<-Species
+    Year <- Sum_Landings<-Species<-NULL
 temp_covL=aggregate(data_exampleCL$landWt,by=list(data_exampleCL$year,data_exampleCL$quarter,data_exampleCL$month),FUN="sum")
 colnames(temp_covL)=c("Year","Quarter","Month","Sum_Landings")
 temp_covLV=aggregate(data_exampleCL$landValue,by=list(data_exampleCL$year,data_exampleCL$quarter,data_exampleCL$month),FUN="sum")
