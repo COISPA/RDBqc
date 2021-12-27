@@ -13,7 +13,7 @@
 check_loc<-function(data_example){
     oldoptions <- options()$warn
         coordinates <-  NULL
-    # loads world map shape
+        # loads world map shape
     world <- getMap(resolution = "high")
 
     # example points data frame
@@ -104,7 +104,6 @@ check_loc<-function(data_example){
              pos=4)
 
     }
-
 DF2=base::merge(as.data.frame(circabc),data_example,by.x="Code",by.y="Harbour")
 DF=as.data.frame(cbind(DF2$ISO3,DF2$Code,DF2$Name,DF2$Latitude,DF2$Longitude))
     #points <- data.frame(matrix(ncol=5, nrow=3))
