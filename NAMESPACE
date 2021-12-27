@@ -2,6 +2,8 @@
 
 export(check_AL)
 export(check_CL)
+export(check_LFD)
+export(check_LFD_comm_cat)
 export(summarize_trips)
 import(dplyr)
 import(ggplot2)
