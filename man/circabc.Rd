@@ -3,7 +3,7 @@
 \docType{data}
 \name{circabc}
 \alias{circabc}
-\title{Ports coordinate according to codification CIRCABC}
+\title{Ports coordinates according to codification CIRCABC}
 \format{
 An object of class \code{data.frame} with 24335 rows and 5 columns.
 }
@@ -11,10 +11,10 @@ An object of class \code{data.frame} with 24335 rows and 5 columns.
 circabc
 }
 \description{
-Ports coordinate according to codification CIRCABC
+Ports coordinates according to codification CIRCABC
 }
 \author{
-CIRCABC \email{https://circabc.europa.eu/faces/jsp/extension/wai/navigation/container.jsp}
+CIRCABC \email{https://circabc.europa.eu}
 }
 \keyword{CIRCABC}
 \keyword{Harbour}
