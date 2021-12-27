@@ -15,3 +15,7 @@ Depends:
     R (>= 2.10)
 Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra
 LazyData: true
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
