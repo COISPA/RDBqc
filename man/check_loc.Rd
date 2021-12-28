@@ -4,10 +4,12 @@
 \alias{check_loc}
 \title{Check trip location}
 \usage{
-check_loc(data_example)
+check_loc(data_example, ports = circabc)
 }
 \arguments{
 \item{data_example}{detailed data in RCG CS format}
+
+\item{ports}{ports codification file}
 }
 \value{
 map of trip locations

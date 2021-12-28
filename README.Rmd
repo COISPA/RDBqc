@@ -1,0 +1,80 @@
+---
+title: "A priori quality checks on RCG CS and CL dataformats"
+output: github_document
+vignette: >
+  %\VignetteIndexEntry{A priori quality checks on RCG CS and CL dataformats}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+RDBqc allows to carry out a set of quality checks on detailed sampling data and on aggregated landing data.
+The supported data formats in version 0.0.1 are:
+- RCG CS - biological sampling data
+- RCG CL - aggregated landing data.
+
+```{r setup}
+library(RDBqc)
+library(pander)
+library(data.table) 
+```
+Example of Regional Coordination Group Mediterranean & Black Sea data formats:
+```{r input}
+
+head(data_ex)
+head(data_exampleCL)
+
+```
+# Checks on CS
+## Check LFD 
+This function returns 0 if all the lengths collected are within the length range min_len-max_len; if some lengths are outside this range, the corresponding trips are indicated.
+```{r input0}
+check_LFD(data_ex,min_len=6, max_len=250)
+```
+## Check LFD_comm_cat 
+This function reports for each year and commercial category the minimum and maximum lengths in the dataset.
+```{r input1}
+check_LFD_comm_cat(data_ex)
+```
+## Check AL 
+This function reports for each year and and length class the number of age measurements in the dataset. Moreover, the function detects if the age data are in the range min_age-max_age. 
+```{r input2}
+check_AL(data_ex,min_age=0,max_age=5)
+```
+## Check lw 
+This function plots for each year and sex the length-weight scatter plot, checking if the weight data are within the boundaries in input.
+```{r input3}
+check_lw(data_ex,Min=0,Max=200)
+```
+## Check mat 
+This function plots for each year and sex the length-maturity stage scatter plot and the maturity ogive derived from the dataset by sex.
+```{r results='hide', message=FALSE, warning=FALSE,fig.height=3,fig.width=6}
+check_mat(data_ex)
+```
+## Summarize individual measurements
+This function reports for each trip the number of length sex, maturity, individual weight and age measurements. 
+```{r input5}
+summarize_ind_meas(data_ex)
+```
+## Summarize trips
+This function reports for each year, area, harbour, metier and sampling method the number of trips in the dataset. 
+```{r input6}
+summarize_trips(data_ex)
+```
+## Check trips location
+This function reports for each year, area, harbour, metier and sampling method the number of trips in the dataset. 
+```{r input7,fig.height=6,fig.width=6}
+
+check_loc(data_ex)
+```
+# Checks on CL
+This function  
+```{r input8}
+check_CL(data_exampleCL)
+```

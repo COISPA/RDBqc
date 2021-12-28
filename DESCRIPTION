@@ -13,7 +13,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 Depends: 
     R (>= 2.10)
-Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra
+Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, pander, data.table
 LazyData: true
 Suggests: 
     rmarkdown,

@@ -13,6 +13,10 @@ mat <- data_example %>% filter (!is.na(Maturity_Stage)) %>% group_by(Year,Area,S
 sex <- data_example %>% filter (!is.na(Sex) & Sex!="U" & Sex!="C") %>% group_by(Year,Area,Species,Trip_code) %>% summarize(sex_data=sum(Number_at_length))
 age <- data_example %>% filter (!is.na(Age) ) %>% group_by(Year,Area,Species,Trip_code) %>% summarize(age_data=sum(Number_at_length))
 weight <- data_example %>% filter (!is.na(Individual_weight) ) %>% group_by(Year,Area,Species,Trip_code) %>% summarize(weight_data=sum(Number_at_length))
+if (nrow(sex)==0)  {print("No sex data",quote=F)}
+if (nrow(mat)==0)  {print("No maturity data",quote=F)}
+if (nrow(age)==0)  {print("No age data",quote=F)}
+if (nrow(weight)==0)  {print("No weight data",quote=F)}
 
 return(list(lengths, mat, sex, age, weight))
 

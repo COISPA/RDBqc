@@ -25,5 +25,5 @@ if (nrow(error_min_weight)!=0 | nrow(error_max_weight)!=0){
    err <-unique(c(as.character(error_min_weight$Trip_code)),unique(as.character(error_max_weight$Trip_code) ) )
 
 } else {err<-0}
-return(err)
+if (any(!is.na(err))) {return(err)} else {print("No individual weight data",quote=F)}
 }

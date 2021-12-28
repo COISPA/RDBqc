@@ -1,6 +1,7 @@
 
 #' Check trip location
 #' @param data_example detailed data in RCG CS format
+#' @param ports ports codification file
 #' @return map of trip locations
 #' @export
 #' @examples check_loc(data_ex)
@@ -10,7 +11,7 @@
 #' @import rworldxtra
 #' @import sp
 #' @description If Initial and/or Final coordinates are included in the data, maps of them are produced. If not the locations of the harbours are mapped.
-check_loc<-function(data_example){
+check_loc<-function(data_example,ports=circabc){
     oldoptions <- options()$warn
         coordinates <-  NULL
         # loads world map shape
@@ -104,7 +105,8 @@ check_loc<-function(data_example){
              pos=4)
 
     }
-DF2=base::merge(as.data.frame(circabc),data_example,by.x="Code",by.y="Harbour")
+
+DF2=base::merge(as.data.frame(ports),data_example,by.x="Code",by.y="Harbour")
 DF=as.data.frame(cbind(DF2$ISO3,DF2$Code,DF2$Name,DF2$Latitude,DF2$Longitude))
     #points <- data.frame(matrix(ncol=5, nrow=3))
     colnames(DF) <- c("ISO3","Code","Name","Latitude","Longitude")
@@ -150,4 +152,5 @@ DF=as.data.frame(cbind(DF2$ISO3,DF2$Code,DF2$Name,DF2$Latitude,DF2$Longitude))
              pos=4)
 
     }
+
 }

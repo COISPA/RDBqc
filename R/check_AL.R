@@ -25,7 +25,7 @@ error_min_age=data_age[data_age$Age<min_age, ]
 error_max_age=data_age[data_age$Age>max_age, ]
 
 if (nrow(error_min_age)!=0 | nrow(error_max_age)!=0){
-    err<-unique(c(as.character(error_min_age$Trip.code),as.character(error_max_age$Trip.code) ) )
+    err<-unique(c(as.character(error_min_age$Trip_code),as.character(error_max_age$Trip_code) ) )
 } else {err<-0}
 
 return(list(tab_age,err))

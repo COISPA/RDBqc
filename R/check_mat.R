@@ -12,7 +12,7 @@
 check_mat<-function(data_example,immature_stages=c("0","1","2a")){
     Length_class <- Number_at_length <-Maturity_Stage<-Sex<-Stage<-NULL
 
-ggplot(data=data_example, aes(x=Length_class,y=Maturity_Stage ,col=Sex)) + geom_point(stat="identity", fill = "darkorchid4") + facet_grid(Year~ Sex)
+print(ggplot(data=data_example, aes(x=Length_class,y=Maturity_Stage ,col=Sex)) + geom_point(stat="identity", fill = "darkorchid4") + facet_grid(Year~ Sex))
 
 
 # summary table of number of individuals by length class by maturity stage
@@ -20,6 +20,7 @@ data_sex=data_example[!is.na(data_example$Sex),]
 
 tab_sex=aggregate(data_sex$Number_at_length,by=list(data_sex$Year,data_sex$Length_class),FUN="length")
 colnames(tab_sex)=c("Year","Length_class","nb_sex_measurements")
+
 
 # summary table of number of individuals by length class by maturity stage
 data_mat=data_example[!is.na(data_example$Maturity_Stage),]
@@ -78,9 +79,10 @@ SE_MR= 2*log(3,exp(1))/((coeff[2])^2)*sqrt(I22)
 
 
 plot(merge_temp$Length_class, merge_temp$Mature/merge_temp$Total,cex=1.5,xlab="length(mm)",ylab="proportion of matures",main=paste("Females",years,sep=""))
-
 lines(merge_temp$Length_class,predict(mod,new.data=merge_temp$Length_class,type="response"),col="deeppink3",lty=1,lwd=3)
 legend("bottomright",paste(c("L50= ","MR= "),c(round(L50,3),round(MR,3)),"+/-",c(round(SE_L50,3),round(SE_MR,3))))
+
+
 
 #males
 merge_temp=merge[as.character(merge$Sex)!="F" & as.character(merge$Sex)!="N",]
@@ -109,9 +111,8 @@ MR=L75-L25
 SE_MR= 2*log(3,exp(1))/((coeff[2])^2)*sqrt(I22)
 
 plot(merge_temp$Length_class, merge_temp$Mature/merge_temp$Total,cex=1.5,xlab="length(mm)",ylab="proportion of matures",main=paste("Males",years,sep=""))
-
 lines(merge_temp$Length_class,predict(mod,new.data=merge_temp$Length_class,type="response"),col="deepskyblue3",lty=1,lwd=3)
-
 legend("bottomright",paste(c("L50= ","MR= "),c(round(L50,3),round(MR,3)),"+/-",c(round(SE_L50,3),round(SE_MR,3))))
+
 
 }
