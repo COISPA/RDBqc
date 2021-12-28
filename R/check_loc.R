@@ -3,7 +3,7 @@
 #' @param data_example detailed data in RCG CS format
 #' @param ports ports codification file
 #' @return map of trip locations
-#' @export
+#' @export check_loc
 #' @examples check_loc(data_ex)
 #' @importFrom graphics par points text
 #' @importFrom utils globalVariables
@@ -11,6 +11,7 @@
 #' @import rworldxtra
 #' @import sp
 #' @description If Initial and/or Final coordinates are included in the data, maps of them are produced. If not the locations of the harbours are mapped.
+
 check_loc<-function(data_example,ports=circabc){
     oldoptions <- options()$warn
         coordinates <-  NULL

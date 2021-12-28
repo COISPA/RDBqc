@@ -4,3 +4,5 @@
 #' @author CIRCABC \email{https://circabc.europa.eu}
 #' @keywords CIRCABC Harbour
 "circabc"
+
+utils::globalVariables(c("circabc"))
