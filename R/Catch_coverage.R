@@ -13,7 +13,7 @@
 Catch_coverage<-function(Catch_tab,SP,MS,GSA){
     Catch_tab=Catch_tab[Catch_tab$SPECIES==SP & Catch_tab$COUNTRY==MS & Catch_tab$AREA==GSA,]
 
-   DISCARDS<- LANDINGS<-SP<-MS<-GSA<-COUNTRY<-AREA<-YEAR<-QUARTER<-VESSEL_LENGTH<- GEAR<- MESH_SIZE_RANGE<-FISHERY<-NULL
+   DISCARDS<- LANDINGS<-COUNTRY<-AREA<-YEAR<-QUARTER<-VESSEL_LENGTH<- GEAR<- MESH_SIZE_RANGE<-FISHERY<-NULL
 
 
 Summary_land_wt=aggregate(Catch_tab[,2:13]$LANDINGS,by=list(Catch_tab$COUNTRY, Catch_tab$YEAR, Catch_tab$QUARTER, Catch_tab$VESSEL_LENGTH, Catch_tab$GEAR, Catch_tab$MESH_SIZE_RANGE, Catch_tab$FISHERY,  Catch_tab$AREA,Catch_tab$SPECIES),FUN="sum")
