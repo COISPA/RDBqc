@@ -2,7 +2,7 @@
 % Please edit documentation in R/Landing_coverage.R
 \name{Landing_coverage}
 \alias{Landing_coverage}
-\title{Catch_cov: function to check the coverage in Catch table}
+\title{Landing_cov: function to check the coverage in Landing table}
 \usage{
 Landing_coverage(Landing_tab, SP, MS, GSA)
 }
@@ -19,7 +19,7 @@ Landing_coverage(Landing_tab, SP, MS, GSA)
 summary table and plots
 }
 \description{
-Catch_cov: function to check the coverage in Catch table
+Landing_cov: function to check the coverage in Landing table
 }
 \examples{
 Landing_coverage(Landing_tab_example,"DPS","ITA","9")

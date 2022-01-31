@@ -1,4 +1,4 @@
-#' Catch_cov: function to check the coverage in Catch table
+#' Landing_cov: function to check the coverage in Landing table
 #'
 #' @param Landing_tab Landing table in MED&BS format
 #' @param SP species (three alpha code)
