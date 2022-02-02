@@ -1,0 +1,58 @@
+
+rm(list=ls())
+data_exampleCL= read.table("C:\\Users\\Utente\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\STREAMLINE\\First Workshop Nov2021\\Conversion from RCG  to COST objects\\DPS_GSA99_LANDINGS.csv",sep=";",header=T)
+usethis::use_data(data_exampleCL)
+
+roxygen2::roxygenise()
+check_LFD(data_ex,min_len=5,max_len=200)
+
+library(ggplot2)
+
+
+check_lw(data_ex,Min=0,Max=1000)
+
+check_AL(data_ex,min_age=0,max_age=30)
+check_mat(data_ex)
+
+
+setwd("C:\\Users\\Utente\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\MARE22\\STREAM\\WP6\\Task 6.1")
+name_file=  "MUT_GSA18_RCGformat_test"
+data_ex= read.table(paste(name_file,".csv",sep=""),sep=";",header=T)
+
+nomi_col= c("Sampling_type","Flag_country", "Year","Trip_code",
+            "Harbour","Number_of_sets_hauls_on_trip","Days_at_sea","Sampling.method", "Aggregation_level",
+            "Station_number","Duration_of_fishing_operation","Initial_latitude","Initial_longitude",
+            "Final_latitude","Final_longitude",    "Depth_of_fishing_operation","Water_depth","Catch_registration","Species_registration", "Date",
+            "Area",  "Fishing_activity_category_National","Fishing_activity_category_European_lvl_6",
+            "Species", "Catch_category",  "Weight","Subsample_weight", "Sex", "Maturity_method",  "Maturity_scale","Maturity_Stage","Ageing.method",
+            "Age",    "Length_code","Length_class",    "Number_at_length", "Commercial_size_category_scale",   "Commercial_size_category",      "fish_ID","Individual_weight")
+
+colnames(data_ex)<-nomi_col
+
+
+usethis::use_data(data_ex,overwrite = TRUE)
+
+summarize_trips(data_ex)
+circabc= read.csv2("C:\\RDBqc\\Code-Location-v2.1_.csv",header=T)
+circabc=circabc[,1:5]
+circabc$Name=stri_enc_toascii(circabc$Name)
+#save(circabc,file="data/circabc.rda",compress = "xz")
+usethis::use_data(circabc,overwrite = TRUE)
+
+
+Catch_tab_example=read.table("C:\\RDBqc\\Catch_DPS9.csv",sep=",",header=T)
+usethis::use_data(Catch_tab_example,overwrite=TRUE)
+roxygen2::roxygenise()
+
+
+Landing_tab_example=read.table("C:\\RDBqc\\Landing_DPS9.csv",sep=",",header=T)
+usethis::use_data(Landing_tab_example,overwrite=TRUE)
+
+roxygen2::roxygenise()
+
+
+MA_tab_example=read.table("C:\\RDBqc\\MA_DPS9.csv",sep=",",header=T)
+usethis::use_data(MA_tab_example,overwrite=TRUE)
+
+roxygen2::roxygenise()
+

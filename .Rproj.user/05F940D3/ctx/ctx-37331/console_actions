@@ -1,0 +1,14 @@
+{
+    "type": [
+        2,
+        0,
+        1,
+        2
+    ],
+    "data": [
+        "\nR version 4.1.1 (2021-08-10) -- \"Kick Things\"\nCopyright (C) 2021 The R Foundation for Statistical Computing\nPlatform: x86_64-w64-mingw32/x64 (64-bit)\n\nR is free software and comes with ABSOLUTELY NO WARRANTY.\nYou are welcome to redistribute it under certain conditions.\nType 'license()' or 'licence()' for distribution details.\n\nR is a collaborative project with many contributors.\nType 'contributors()' for more information and\n'citation()' on how to cite R or R packages in publications.\n\nType 'demo()' for some demos, 'help()' for on-line help, or\n'help.start()' for an HTML browser interface to help.\nType 'q()' to quit R.\n\n",
+        "> ",
+        "roxygen2::roxygenise()",
+        "\u001B[36mi\u001B[39m Loading \u001B[34m\u001B[34mRDBqc\u001B[34m\u001B[39m\nWriting NAMESPACE\nWriting NAMESPACE\n\nRestarting R session...\n\n"
+    ]
+}

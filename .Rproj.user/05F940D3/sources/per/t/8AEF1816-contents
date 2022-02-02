@@ -1,0 +1,422 @@
+    ## LOADING LIBRARIES ####
+    library(data.table)
+    library(ggplot2)
+    library(reshape2)
+    library(dplyr)
+    library(stringr)
+    
+    ##STOCK and THRESHOLD ####
+    files <- list.files(path="../DB_20210409", pattern="*.csv", full.names=TRUE, recursive=FALSE)
+    
+    MS <- "ITA"
+    SP <-"NEP" 
+    GSA <- "9"
+    ck_sp <- c("HKE","MUT","MUR","SOL","CTC","PIL","ANE") # list of the teleosteans and cephalopods species which have been target of the last STECF WGs SA meetings. The list is needed to set other parameters in running the script. Leave as it is or add new codes if I have forgotten any other Teleostean o Cephalopod species (please not include Crustaceans!!).
+    
+    threshold = 5 # SOP difference with "official" value. Only values having a SOP correction more than 1+%threshold (in this case 1+0.05) or less than 1-%threshold (1-0.05) will be saved in a csv file both for landing and discards.  
+    
+    #### Create folder by MS and area to save outputS ####
+    dir_t=paste0("../output","/","COMMERCIAL",sep="")
+    dir.create(file.path(dir_t,MS,GSA,SP,"Quality_Checks"), recursive = T)
+    getwd()
+    for (x in files){  
+    t <- fread(x, stringsAsFactors = F)
+    t$area <- as.numeric(gsub("[^0-9]", "", t$area))
+    t <- t[t$country%in%MS & t$area%in%GSA & t$species%in%SP,]
+    colnames(t)=toupper(colnames(t))
+      assign(paste0(str_remove(basename(x),".csv")), t)
+    }
+    
+    ## LANDINGS AT AGE ####
+    catch$LANDINGS[catch$LANDINGS==-1] <- 0
+    catch_land_wt=catch %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(LANDINGS=sum(LANDINGS,na.rm=T))
+   
+   data <- catch  %>%
+     group_by(YEAR, GEAR) %>%
+    summarise(LANDINGS = sum(LANDINGS,na.rm=T))
+   
+   gr <- data.frame("YEAR"=seq(min(data$YEAR),max(data$YEAR),1),"GEAR"=rep(unique(data$GEAR),each=max(data$YEAR)-min(data$YEAR)+1),"LAND"=0)
+  
+    data <- full_join(gr,data)
+   
+    data[is.na(data)] <- 0
+   
+   # data <-  data[data$LANDINGS>0,]
+    
+   ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","Landings in catch.tiff"),width = 10, height = 8, dpi = 150, units = "in", plot=
+            ggplot(data, aes(x=YEAR, y=LANDINGS, fill=GEAR)) + 
+      geom_area(size=0.5, colour="black")+
+      ggtitle(paste0("Landings in catch of ",SP, " in ", MS,"_GSA",GSA))+xlab("")+ylab("tonnes")+theme(legend.position = "bottom")+scale_x_continuous(breaks=seq(min(data$YEAR),max(data$YEAR),2))
+      )
+     
+  ## DISCARDS AT AGE ####
+    catch$DISCARDS[catch$DISCARDS==-1] <- 0
+    catch_disc_wt=catch %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(DISCARDS=sum(DISCARDS,na.rm=T))
+    
+    data <- catch  %>%
+      group_by(YEAR, GEAR) %>%
+      summarise(DISCARDS = sum(DISCARDS))
+    
+    gr <- data.frame("YEAR"=seq(min(data$YEAR),max(data$YEAR),1),"GEAR"=rep(unique(data$GEAR),each=max(data$YEAR)-min(data$YEAR)+1),"LAND"=0)
+    
+    data <- full_join(gr,data)
+    
+    data[is.na(data)] <- 0
+  
+    # data <-  data[data$DISCARDS>0,]
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","Discards in catch.tiff"),width = 10, height = 8, dpi = 150, units = "in", plot=
+             ggplot(data, aes(x=YEAR, y=DISCARDS, fill=GEAR)) + geom_area(size=0.5, colour="black")+theme_bw()+
+             ggtitle(paste0("Discards in catch of ",SP, " in ", MS,"_GSA",GSA))+xlab("")+ylab("tonnes")+theme(legend.position = "bottom")+scale_x_continuous(breaks=seq(min(data$YEAR),max(data$YEAR),2))
+           )
+    
+    write.csv(catch,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","catch.csv"))
+    
+  ## LANDINGS AT LENGTH ####
+    landings$LANDINGS[landings$LANDINGS==-1] <- 0
+    land_wt=landings %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(LANDINGS=sum(LANDINGS,na.rm=T))
+    
+    data <- landings  %>%
+      group_by(YEAR, GEAR) %>%
+      summarise(LANDINGS = sum(LANDINGS,na.rm=T))
+    
+    gr <- data.frame("YEAR"=seq(min(data$YEAR),max(data$YEAR),1),"GEAR"=rep(unique(data$GEAR),each=max(data$YEAR)-min(data$YEAR)+1),"LAND"=0)
+
+    data <- full_join(gr,data)
+    
+    data[is.na(data)] <- 0
+  
+    # data <-  data[data$LANDINGS>0,]
+    
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","Landings in length.tiff"),width = 10, height = 8, dpi = 150, units = "in", plot=
+ggplot(data, aes(x=YEAR, y=LANDINGS, fill=GEAR)) + 
+             geom_area(size=0.5, colour="black")+theme_bw()+
+  ggtitle(paste0("Landings of ",SP, " in ", MS,"_GSA",GSA))+xlab("")+ylab("tonnes")+theme(legend.position = "bottom")+
+  scale_x_continuous(breaks=seq(min(data$YEAR),max(data$YEAR),2))
+)
+    
+    write.csv(landings,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","landings.csv"))
+    
+  ## DISCARDS AT LENGTH ####
+    discards$DISCARDS[discards$DISCARDS==-1] <- 0
+    disc_wt=discards %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(DISCARDS=sum(DISCARDS,na.rm=T))
+    
+    data <- discards  %>%
+      group_by(YEAR, GEAR) %>%
+      summarise(DISCARDS = sum(DISCARDS))
+    
+    gr <- data.frame("YEAR"=seq(min(data$YEAR),max(data$YEAR),1),"GEAR"=rep(unique(data$GEAR),each=max(data$YEAR)-min(data$YEAR)+1),"LAND"=0)
+    
+    data <- full_join(gr,data)
+    
+    data[is.na(data)] <- 0
+  
+    # data <-  data[data$DISCARDS>0,]
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","Discards in length.tiff"),width = 10, height = 8, dpi = 150, units = "in", plot=
+             ggplot(data, aes(x=YEAR, y=DISCARDS, fill=GEAR)) +  geom_area(size=0.5, colour="black")+theme_bw()+
+             ggtitle(paste0("Discards of ",SP, " in ", MS,"_GSA",GSA))+xlab("")+ylab("tonnes")+theme(legend.position = "bottom")+
+             scale_x_continuous(breaks=seq(min(data$YEAR),max(data$YEAR),2))
+           )
+    
+    write.csv(discards,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","discards.csv"))
+    
+  ## Maturity by length #### 
+    write.csv(ml,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","ML.csv"))
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","ML.tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(ml, aes(x=LENGTHCLASS, y=PRM, col=SEX))+geom_point()+geom_line()+scale_y_continuous(breaks=seq(0,1,0.5))+facet_grid(START_YEAR~SEX)+ggtitle(paste0("Maturity by length class of ",SP, " in ", MS,"_GSA",GSA)))
+    
+    for (i in unique(ml$SEX)){
+      ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","ML_all_",i,".tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=  ggplot(data=ml[ml$SEX%in% i,], aes(x=LENGTHCLASS,y= PRM,col=factor(START_YEAR))) + geom_line(stat="identity") +theme(legend.position = "bottom")
+             +expand_limits(x = 0, y = 0)+
+               theme(
+                 legend.text = element_text(color = "blue", size = 6))+guides(col=guide_legend(title=""))
+             
+      )}
+    
+    
+  ## Maturity by age ####
+    write.csv(ma,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","MA.csv"))
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","MA.tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(ma, aes(x=AGECLASS, y=PRM, col=SEX))+geom_point()+geom_line()+scale_y_continuous(breaks=seq(0,1,0.5))+facet_grid(START_YEAR~SEX)+ggtitle(paste0("Maturity by age class of ",SP, " in ", MS,"_GSA",GSA)))
+    
+    for (i in unique(ma$SEX)){
+      ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","MA_all_",i,".tiff"),width = 10, height = 8, dpi = 150, units = "in",plot= ggplot(data=ma[ma$SEX%in% i,], aes(x=AGECLASS,y= PRM,col=factor(START_YEAR))) + geom_line(stat="identity") +theme(legend.position = "bottom")
+             +expand_limits(x = 0, y = 0)+
+               theme(
+                 legend.text = element_text(color = "blue", size = 6))+guides(col=guide_legend(title=""))
+      )}
+    
+    
+    
+  ## Sex ratio by length ####
+    write.csv(srl,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","SexratioLength.csv"))
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","SRL.tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(srl, aes(x=LENGTHCLASS, y=SEXRATIO,col="red"))+geom_point()+geom_line()+scale_y_continuous(breaks=seq(0,1,0.25))+expand_limits(x = 0, y = 0)+facet_wrap(~START_YEAR)+ggtitle(paste0("Sexratio by length class of ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "none") )
+    
+    
+   
+    
+    
+  ## Sex ratio by age ####
+    write.csv(sra,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","Sexratioage.csv"))
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","SRA.tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(sra, aes(x=AGECLASS, y=SEXRATIO,col="red"))+geom_point()+geom_line()+scale_y_continuous(breaks=seq(0,1,0.25))+expand_limits(x = 0, y = 0)+facet_wrap(~START_YEAR)+ggtitle(paste0("Sexratio by age class of ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "none") )
+    
+  ## VBGF ####
+    write.csv(gp,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","VBGF.csv"))
+  
+      for (i in 1:nrow(gp)){
+        if(gp$SPECIES%in%ck_sp){
+    if(gp$VB_UNITS[i]%in%c("cm","NA")){
+    gp$ID[i] <- paste0(gp$START_YEAR[i], " Linf = ",gp$VB_LINF[i],", k = ",gp$VB_K[i]," t0 = ",gp$VB_T0[i]) 
+    gp$VB_LINF[i] <- gp$VB_LINF[i]
+    }else{
+    gp$ID[i] <- paste0(gp$START_YEAR[i], " Linf = ",gp$VB_LINF[i]/10,", k = ",gp$VB_K[i]," t0 = ",gp$VB_T0[i])
+    gp$VB_LINF[i] <- gp$VB_LINF[i]/10
+    }
+        }else{
+          if(gp$VB_UNITS[i]%in%c("cm","NA")){
+            gp$ID[i] <- paste0(gp$START_YEAR[i], " Linf = ",gp$VB_LINF[i]*10,", k = ",gp$VB_K[i]," t0 = ",gp$VB_T0[i]) 
+            gp$VB_LINF[i] <- gp$VB_LINF[i]*10
+          }else{
+            gp$ID[i] <- paste0(gp$START_YEAR[i], " Linf = ",gp$VB_LINF[i],", k = ",gp$VB_K[i]," t0 = ",gp$VB_T0[i])
+            gp$VB_LINF[i] <- gp$VB_LINF[i]
+          }
+          
+        }
+    }
+    
+    Age=seq(0.5,20,0.5)
+    
+  ## VBGF####
+    F_age <- list()
+    counter=1
+    for (i in unique(gp$SEX)){
+    GP=gp[!gp$VB_LINF%in%-999 & !gp$VB_LINF%in%-1 & !gp$VB_LINF%in%999 &  !gp$VB_K%in%-999 & !gp$VB_K%in%-1 &  !gp$VB_K%in%999 & !gp$VB_T0%in%-999 & !gp$VB_T0%in%999 & gp$SEX%in%i,]
+    GP$LENGTH <- NA
+    for (j in 1:nrow(GP)){
+              F_age[[counter]] <- data.frame("ID"=GP$ID[j],"COUNTRY"=GP$COUNTRY[j],"AREA"=GP$AREA[j],"START_YEAR"=GP$START_YEAR[j],"SPECIES"=GP$SPECIES[j],"SEX"=GP$SEX[j],"AGE"=Age, "LENGTH"=GP$VB_LINF[j]*(1-exp(-GP$VB_K[j]*(Age-GP$VB_T0[j]))))
+    counter <- counter+1
+              }
+    
+    }
+    VBGF <- do.call("rbind",F_age)
+ 
+    VBGF <- VBGF[!VBGF$LENGTH%in%NA,]
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","VBGF.tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(VBGF,aes(x=AGE,y=LENGTH,col=SEX))+geom_point()+geom_line()+
+      facet_wrap(~START_YEAR)+ggtitle(paste0("VBGF curve of ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "bottom")+scale_x_continuous(breaks=seq(0,20,2))+expand_limits(x = 0, y = 0))
+    
+    
+    for (i in unique(VBGF$SEX)){
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","VBGF_",i,".tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(VBGF[VBGF$SEX%in%i,],aes(x=AGE,y=LENGTH,col=ID))+geom_point()+geom_line()+
+      facet_wrap(~START_YEAR)+ggtitle(paste0("VBGF curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "bottom")+theme(
+        legend.text = element_text(color = "blue", size = 6))+guides(col=guide_legend(title=""))
+      )}
+   
+    for (i in unique(VBGF$SEX)){
+      ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","VBGF_all_",i,".tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(VBGF[VBGF$SEX%in%i,],aes(x=AGE,y=LENGTH,col=ID))+geom_point()+geom_line()+ggtitle(paste0("VBGF curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "bottom")+theme(
+                 legend.text = element_text(color = "blue", size = 6))+guides(col=guide_legend(title=""))
+      )}
+    
+    
+    
+    
+    
+    ## LW ####
+   gp$ID <- paste0(gp$START_YEAR, " a = ",gp$A,", b = ",gp$B) 
+      
+    if(!SP%in%ck_sp){
+    len=seq(1,80,1)
+      }else{
+        len=seq(5,40,5)
+      }
+    
+    ## FEMALE LW####
+    F_wt <- list()
+    counter=1
+    for (i in unique(gp$SEX)){
+      LW_F=gp[!gp$A%in%-999 & !gp$A%in%-1 & !gp$A%in%999 &  !gp$B%in%-999 & !gp$B%in%999 & !gp$B%in%-1 & gp$SEX%in%i,]
+      
+      LW_F$WEIGHT <- NA
+      for (j in 1:nrow(LW_F)){
+          F_wt[[counter]] <- data.frame("ID"=LW_F$ID[j],"COUNTRY"=LW_F$COUNTRY[j],"AREA"=LW_F$AREA[j],"START_YEAR"=LW_F$START_YEAR[j],"SPECIES"=LW_F$SPECIES[j],"SEX"=LW_F$SEX[j],"LENGTH"=len,"WEIGHT"=LW_F$A[j]*len^LW_F$B[j])
+        counter <- counter+1
+          }
+    }
+    LW_final <- do.call("rbind",F_wt)
+      
+      
+      LW_final <- LW_final[!LW_final$WEIGHT%in%NA,]
+      
+      if(!SP%in%ck_sp){
+        steps <-seq(0,80,20)
+      }else{
+        steps=seq(0,40,5)
+      }
+      
+      ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","LW.tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(LW_final,aes(x=LENGTH,y=WEIGHT,col=SEX))+geom_point()+geom_line()+
+               facet_wrap(~START_YEAR)+ggtitle(paste0("LW curve of ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "bottom")+scale_x_continuous(breaks=steps)+expand_limits(x = 0, y = 0))
+      
+      for (i in unique(LW_final$SEX)){
+      ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","LW_",i,".tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(LW_final[LW_final$SEX%in%i,],aes(x=LENGTH,y=WEIGHT,col=ID))+geom_point()+geom_line()+
+               facet_wrap(~START_YEAR)+ggtitle(paste0("LW curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "bottom")
+               +scale_x_continuous(breaks=steps)+expand_limits(x = 0, y = 0)+
+               theme(
+                 legend.text = element_text(color = "blue", size = 6))+guides(col=guide_legend(title=""))
+    
+             
+      )}
+      
+      for (i in unique(LW_final$SEX)){
+        ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","LW_all_",i,".tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(LW_final[LW_final$SEX%in%i,],aes(x=LENGTH,y=WEIGHT,col=ID))+geom_point()+geom_line()+
+                # facet_wrap(~START_YEAR)+
+               ggtitle(paste0("LW curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "bottom")
+               +scale_x_continuous(breaks=steps)+expand_limits(x = 0, y = 0)+
+                 theme(
+                   legend.text = element_text(color = "blue", size = 6))+guides(col=guide_legend(title=""))
+   
+        )}
+      
+      
+      
+    ## ALK ####
+    for (i in unique(alk$SEX)){
+      ALK_F=alk[alk$SEX%in%i,]
+    ALK_F=reshape2::melt(ALK_F,id.vars = c("COUNTRY","AREA", "START_YEAR", "SEX","AGE"),measure.vars=colnames(ALK_F)[14:114])
+    ALK_F$len=as.numeric(gsub("[^0-9.-]+","\\1",ALK_F$variable))
+    ALK_F=ALK_F[!ALK_F$value%in%c(0,-1),]
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","ALK_",i,".tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(data=ALK_F, aes(x=AGE,y=len,col=as.factor(START_YEAR))) + geom_point(size=2) + facet_grid(~AGE)+ggtitle(paste0("ALK of ",i," ",SP, " in ", MS,"_GSA",GSA))+guides(col=guide_legend(title="Year"))+theme(axis.title.x=element_text(), axis.text.x=element_blank(), axis.ticks.x=element_blank()))
+    ALK_F_tmp <- ALK_F
+    ALK_F_tmp <- tidyr::uncount(ALK_F_tmp,ALK_F_tmp$value)
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","Boxplot_ALK_",i,".tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=
+    ggplot(ALK_F_tmp, aes(x=as.factor(AGE), y=len,fill=as.factor(AGE))) + 
+      geom_boxplot(outlier.colour="red", outlier.shape=8,
+                   outlier.size=1)+theme_bw()+ggtitle(paste0("ALK boxplot of ",i," ",SP, " in ", MS,"_GSA",GSA))+xlab("Age")+ylab("Length")+theme(legend.position = "none")
+    )
+    }
+      
+     
+    write.csv(alk,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","alk.csv"))
+    
+    ##### Sum of product landings (age_number*age_wt=tot_landings) ####
+    catches=as.data.frame (catch)
+    var_no_landed <- grep("_NO_LANDED", names(catches), value=TRUE)
+    var_no_discard <- grep("_NO_DISCARD", names(catches), value=TRUE)
+    var_wt_landed <- grep("_WT_LANDED", names(catches), value=TRUE)
+    var_wt_discard <- grep("_WT_DISCARD", names(catches), value=TRUE)
+    
+    
+    sel_nl=c(var_no_landed)
+    pippo=(catches[,which(names(catches) %in% sel_nl)])
+    pippo[is.na(pippo)]=0
+    
+    pippo[pippo == -1] <- 0
+    
+    pippo[pippo == ""] <- 0
+    ck_nbl=rowSums(pippo)
+    
+    sel_wtl=c(var_wt_landed)
+    pippo2=catches[,which(names(catches) %in% sel_wtl)]
+    pippo2[is.na(pippo2)]=0
+    
+    pippo2[pippo2 == -1] <- 0
+    
+    pippo2[pippo2 == ""] <- 0
+    ck_wtl=rowSums(pippo2)
+    
+    sumprod=round(rowSums(pippo*pippo2),6)
+    pippo4=catches[,which(names(catches) %in% c("COUNTRY","AREA","GEAR","QUARTER","MESH_SIZE_RANGE","FISHERY","YEAR","SPECIES","LANDINGS"))]
+    pippo4=cbind(pippo4,sumprod)
+    SOPl= pippo4$LANDINGS/pippo4$sumprod
+    pippo4=cbind(pippo4,SOPl,ck_nbl,ck_wtl)
+    length (which(pippo4$SOPl==Inf))##cases in which there is landings but not number or wt by age
+    
+    sopl_27=pippo4[pippo4$SOPl!= Inf,]
+    sopl_27a=sopl_27[sopl_27$SOPl!= -Inf,]
+    length(which(sopl_27a$SOPl>1+threshold/100 | sopl_27a$SOPl < 1-threshold/100))##cases in which SOP is needed
+    SOPl1=sopl_27a[which(sopl_27a$SOPl>1+threshold/100 | sopl_27a$SOPl < 1-threshold/100),]
+      
+    write.csv(SOPl1,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","SOP_land_needed.csv"))
+    
+    ##### Sum of product discards (age_number*age_wt=tot_discards) ####
+    sel_nd=c(var_no_discard)
+    pippo5=catches[,which(names(catches) %in% sel_nd)]
+    pippo5[is.na(pippo5)]=0
+   
+    pippo5[pippo5 == -1] <- 0
+    
+    pippo5[pippo5 == ""] <- 0
+    ck_nbd=rowSums(pippo5)
+    
+    sel_wtd=c(var_wt_discard)
+    pippo6=catches[,which(names(catches) %in% sel_wtd)]
+    pippo6[is.na(pippo6)]=0
+   
+    pippo6[pippo6 == -1] <- 0
+   
+    pippo6[pippo6 == ""] <- 0
+    ck_wtd=rowSums(pippo6)
+    
+    sumprod2=round(rowSums(pippo5*pippo6),6)
+    pippo7=catches[,which(names(catches) %in% c("COUNTRY","AREA","GEAR","QUARTER","MESH_SIZE_RANGE","FISHERY","YEAR","SPECIES","DISCARDS"))]
+    pippo7=cbind(pippo7,sumprod2)
+    SOPd= pippo7$DISCARD/pippo7$sumprod
+    pippo7=cbind(pippo7,SOPd,ck_nbd,ck_wtd)
+    length (which(pippo7$SOPd==Inf))#cases in which there is landings but not number or wt by age
+   
+    sopd_27=pippo7[pippo7$SOPd!= Inf,]
+    sopd_27a=sopd_27[sopd_27$SOPd!= -Inf,]
+    length(which(sopd_27a$SOPd>1+threshold/100 | sopd_27a$SOPd < 1-threshold/100))##cases in which SOP is needed
+    SOPd1=sopd_27a[which(sopd_27a$SOPd>1+threshold/100 | sopd_27a$SOPd < 1-threshold/100),] 
+  
+    write.csv(SOPd1,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","SOP_disc_needed.csv"))
+    
+## Boxplot of the VBGF parameters by sex ####
+    gp_red_VBGF <- gp[,c("START_YEAR","SEX","VB_LINF","VB_K","VB_T0")]
+    gp_red_VBGF <-  gp_red_VBGF[!gp_red_VBGF$VB_LINF%in%c(-999,999,-1),]
+    p1 <- ggplot(gp_red_VBGF,aes(x=as.factor(START_YEAR),y=VB_LINF,col=SEX))+geom_point()+facet_grid(~SEX)+xlab("")+ylab("Linfinite values")+theme(legend.position = "none")+ggtitle(paste0(SP," range of the VBGF parameters by sex"," in ", MS,"_GSA",GSA))+theme(axis.text.x = element_blank(), axis.ticks = element_blank())
+     
+   p2 <-  ggplot(gp_red_VBGF,aes(x=as.factor(START_YEAR),y=VB_K,col=SEX))+geom_point()+facet_grid(~SEX)+xlab("")+ylab("K values")+theme(legend.position = "none")+theme(axis.text.x = element_blank(), axis.ticks = element_blank())
+     
+    p3 <- ggplot(gp_red_VBGF,aes(x=as.factor(START_YEAR),y=VB_T0,col=SEX))+geom_point()+facet_grid(~SEX)+xlab("")+ylab("T0 values")+theme(axis.text.x = element_text(size=8, angle=90))+theme(legend.position = "bottom")
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","VBGF range.tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=gridExtra::grid.arrange(p1,p2,p3, nrow=3))
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","VBGF parameters Boxplot.tiff"),width = 10, height = 8, dpi = 150, units = "in",plot= ggplot(melt(gp_red_VBGF, id=c("START_YEAR","SEX")), aes(x=SEX, y=value,fill=SEX)) + geom_boxplot(outlier.colour="red", outlier.shape=8, outlier.size=4)+facet_wrap(~variable,scales="free")+theme_bw()+ggtitle(paste0(SP," boxplot of the VBGF parameters by sex"," in ", MS,"_GSA",GSA)))
+    
+    gp_red_LW <- gp[,c("START_YEAR","SEX","A","B")]
+    gp_red_LW <-  gp_red_LW[!gp_red_LW$A%in%c(-999,999,-1),]
+    
+    p4 <- ggplot(gp_red_LW,aes(x=as.factor(START_YEAR),y=A,col=SEX))+geom_point()+facet_grid(~SEX)+xlab("")+ylab("a parameter")+theme(legend.position = "none")+ggtitle(paste0(SP," range of the LW parameters by sex"," in ", MS,"_GSA",GSA))+theme(axis.text.x = element_blank(), axis.ticks = element_blank())
+    
+    p5 <-  ggplot(gp_red_LW,aes(x=as.factor(START_YEAR),y=B,col=SEX))+geom_point()+facet_grid(~SEX)+xlab("")+ylab("b parameter")+theme(axis.text.x = element_text(size=8, angle=90))+theme(legend.position = "bottom")
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","LW range.tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=
+    gridExtra::grid.arrange(p4,p5,nrow=2))
+    
+    ggsave(filename=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","LW parameters Boxplot.tiff"),width = 10, height = 8, dpi = 150, units = "in",plot=ggplot(melt(gp_red_LW, id=c("START_YEAR","SEX")), aes(x=SEX, y=value,fill=SEX)) + geom_boxplot(outlier.colour="red", outlier.shape=8,outlier.size=4)+facet_wrap(~variable,scales="free")+theme_bw()+ggtitle(paste0(SP," boxplot of the LW parameters by sex"," in ", MS,"_GSA",GSA)))
+    
+## Checking VBGF units #####
+check_vbunits <- list()
+for (i in 1:nrow(gp)){
+      check_vbunits[[i]] <- data.frame("Row"=i,"COUNTRY"=gp$COUNTRY[i],"AREA"=gp$AREA[i],"START_YEAR"=gp$START_YEAR[i],"SPECIES"=gp$SPECIES[i],"SEX"=gp$SEX[i],"VB_units"=gp$VB_UNITS [i])}
+    
+    check_vbunits <- do.call("rbind", check_vbunits)
+    check_vbunits$check <-ifelse(SP%in%ck_sp,"cm","mm")
+    check_vbunits$test <- "NA"
+    for (i in 1:nrow(check_vbunits)){
+      check_vbunits$test[i] <-  ifelse(check_vbunits$VB_units[i]%in%check_vbunits$check[i],"ok","to check")
+    }
+    
+    check_vbunits[check_vbunits$test%in%"to check",]
+    write.csv(check_vbunits,file=paste0(dir_t,"/",MS,"/",GSA,"/",SP,"/","Quality_Checks","/","check_vbunits.csv"))
+
+print("If issues in the VB_units have been spotted, records row number which need to be checked in check_vbunits.csv file (and likely to be fixed in the original GP file) will be printed above (If a sequence of NA per Country, Area, Start_year and Species will be visualized it mean that no data were available). If no records are printed the VB units reported should be coherent with the usual VB units used for the analyzed species (cm for Teleosteans and Cephalopods and mm for Crustaceans)")
+    
+## Checking LW parameters units along the years ####
+table(gp$L_W_UNITS,gp$START_YEAR)
+print("Please have a look if LW units are coherent with the species and the DCF format. Output AS table of extent 0 x 0 it means no information available ")
+## END OF SCRIPT ##

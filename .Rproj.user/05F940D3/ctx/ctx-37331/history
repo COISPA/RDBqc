@@ -1,0 +1,512 @@
+range[3] <- min(DF$Latitude)
+range[4] <- max(DF$Latitude)
+coordinates(DF) <- ~ Longitude + Latitude
+# definition of a buffer area arount the map extension
+dlon <- (range[2]-range[1])*0.1
+dlat <- (range[4]-range[3])*0.1
+# store the par values to be used in the onexit function
+old_par <- list()
+old_par$mar <-par()$mar
+old_par$fin <-par()$fin
+# onexit declaration
+on.exit(c(par(mar=old_par$mar,fin=old_par$fin),options(warn=oldoptions)))
+options(warn=-1)
+# par parameters
+par(new=TRUE, mar=c(4, 5, 4, 2))
+# empty plot with the map extension
+plot(1,1,type="n",xlim=c(range[1]-dlon,range[2]+dlon), ylim=c(range[3]-dlat,range[4]+dlat) ,
+xlab=expression(paste("Longitude (",degree,"E)")),
+ylab=expression(paste("Latitude (",degree,"N)")),
+asp=1)
+# plot the world shape in the map extension
+plot(world, border="grey", col="light grey", add=TRUE)
+plot(DF, col="red", add=TRUE,pch=16,cex=1.4)
+text(x=labels$Longitude,
+y=labels$Latitude,
+labels=labels$Name,
+pos=4)
+}
+DF2=base::merge(circabc,data_example,by.x="Code",by.y="Harbour")
+DF=as.data.frame(cbind(DF2$ISO3,DF2$Code,DF2$Name,DF2$Latitude,DF2$Longitude))
+#points <- data.frame(matrix(ncol=5, nrow=3))
+colnames(DF) <- c("ISO3","Code","Name","Latitude","Longitude")
+DF$Latitude=as.numeric(DF$Latitude)
+DF$Longitude=as.numeric(DF$Longitude)
+labels <- DF
+# definition of the map extension
+range <- min(DF$Longitude)
+range[2] <- max(DF$Longitude)
+range[3] <- min(DF$Latitude)
+range[4] <- max(DF$Latitude)
+coordinates(DF) <- ~ Longitude + Latitude
+# definition of a buffer area arount the map extension
+dlon <- (range[2]-range[1])*0.1
+dlat <- (range[4]-range[3])*0.1
+# store the par values to be used in the onexit function
+old_par <- list()
+old_par$mar <-par()$mar
+old_par$fin <-par()$fin
+# onexit declaration
+on.exit(c(par(mar=old_par$mar,fin=old_par$fin),options(warn=oldoptions)))
+options(warn=-1)
+# par parameters
+par(new=TRUE, mar=c(4, 5, 4, 2))
+# empty plot with the map extension
+plot(1,1,type="n",xlim=c(range[1]-dlon,range[2]+dlon), ylim=c(range[3]-dlat,range[4]+dlat) ,
+xlab=expression(paste("Longitude (",degree,"E)")),
+ylab=expression(paste("Latitude (",degree,"N)")),
+asp=1)
+# plot the world shape in the map extension
+plot(world, border="grey", col="light grey", add=TRUE)
+plot(DF, col="red", add=TRUE,pch=16,cex=1.4)
+text(x=labels$Longitude,
+y=labels$Latitude,
+labels=labels$Name,
+pos=4)
+DF
+roxygen2::roxygenise()
+roxygen2::roxygenise()
+roxygen2::roxygenise()
+library(RDBqc)
+circabc
+roxygen2::roxygenise()
+circabc
+circabc= read.csv("C:\\RDBqc\\Code-Location-v2.1.csv",sep=";",header=T)
+circabc==circabc=[,1.5]
+circabc==circabc=[,1:5]
+circabc==circabc[,1:5]
+circabc=circabc[,1:5]
+usethis::use_data(circabc,overwrite = TRUE)
+library(RDBqc)
+circabc= read.csv("C:\\RDBqc\\Code-Location-v2.1.csv",sep=";",header=T)
+circabc=circabc[,1:5]
+circabc
+save(circabc,file="data/circabc.rda",compress = "xz")
+load("C:/RDBqc/RDBqc/data/circabc.rda")
+View(circabc)
+circabc= read.csv("C:\\RDBqc\\Code-Location-v2.1_.csv",sep=";",header=T)
+circabc=circabc[,1:5]
+save(circabc,file="data/circabc.rda",compress = "xz")
+circabc= read.csv("C:\\RDBqc\\Code-Location-v2.1_.csv",sep=";",header=T)
+circabc=circabc[,1:5]
+save(circabc,file="data/circabc.rda",compress = "xz")
+roxygen2::roxygenise()
+install.packages("rworldxtra")
+circabc= read.csv("C:\\RDBqc\\Code-Location-v2.1_.csv",sep=";",header=T)
+circabc=circabc[,1:5]
+usethis::use_data(circabc,overwrite = TRUE)
+roxygen2::roxygenise()
+?options
+old_par
+library(RDBqc)
+data_example
+data_example<-data_ex
+coordinates <-  NULL
+# loads world map shape
+world <- getMap(resolution = "high")
+# example points data frame
+DF=as.data.frame(cbind(data_example$Flag_country,data_example$Trip_code,data_example$Harbour,data_example$Initial_latitude,data_example$Initial_longitude))
+#points <- data.frame(matrix(ncol=5, nrow=3))
+colnames(DF) <- c("ISO3","Code","Name","Latitude","Longitude")
+if(any(!is.na(DF$Latitude))){
+labels <- DF
+# definition of the map extension
+range <- min(DF$Longitude)
+range[2] <- max(DF$Longitude)
+range[3] <- min(DF$Latitude)
+range[4] <- max(DF$Latitude)
+coordinates(DF) <- ~ Longitude + Latitude
+# definition of a buffer area arount the map extension
+dlon <- (range[2]-range[1])*0.1
+dlat <- (range[4]-range[3])*0.1
+# store the par values to be used in the onexit function
+old_par <- list()
+old_par$mar <-par()$mar
+old_par$fin <-par()$fin
+# onexit declaration
+on.exit(c(par(mar=old_par$mar,fin=old_par$fin)))
+options(warn=-1)
+# par parameters
+par(new=TRUE, mar=c(4, 5, 4, 2))
+# empty plot with the map extension
+plot(1,1,type="n",xlim=c(range[1]-dlon,range[2]+dlon), ylim=c(range[3]-dlat,range[4]+dlat) ,
+xlab=expression(paste("Longitude (",degree,"E)")),
+ylab=expression(paste("Latitude (",degree,"N)")),
+asp=1)
+# plot the world shape in the map extension
+plot(world, border="grey", col="light grey", add=TRUE)
+plot(DF, col="red", add=TRUE,pch=16,cex=1.4)
+text(x=labels$Longitude,
+y=labels$Latitude,
+labels=labels$Name,
+pos=4)
+}    # coordinate
+DF=as.data.frame(cbind(data_example$Flag_country,data_example$Trip_code,data_example$Harbour,data_example$Final_latitude,data_example$Final_longitude))
+#points <- data.frame(matrix(ncol=5, nrow=3))
+colnames(DF) <- c("ISO3","Code","Name","Latitude","Longitude")
+if(any(!is.na(DF$Latitude))){
+labels <- DF
+# definition of the map extension
+range <- min(DF$Longitude)
+range[2] <- max(DF$Longitude)
+range[3] <- min(DF$Latitude)
+range[4] <- max(DF$Latitude)
+coordinates(DF) <- ~ Longitude + Latitude
+# definition of a buffer area arount the map extension
+dlon <- (range[2]-range[1])*0.1
+dlat <- (range[4]-range[3])*0.1
+# store the par values to be used in the onexit function
+old_par <- list()
+old_par$mar <-par()$mar
+old_par$fin <-par()$fin
+# onexit declaration
+on.exit(c(par(mar=old_par$mar,fin=old_par$fin)))
+options(warn=-1)
+# par parameters
+par(new=TRUE, mar=c(4, 5, 4, 2))
+# empty plot with the map extension
+plot(1,1,type="n",xlim=c(range[1]-dlon,range[2]+dlon), ylim=c(range[3]-dlat,range[4]+dlat) ,
+xlab=expression(paste("Longitude (",degree,"E)")),
+ylab=expression(paste("Latitude (",degree,"N)")),
+asp=1)
+# plot the world shape in the map extension
+plot(world, border="grey", col="light grey", add=TRUE)
+plot(DF, col="red", add=TRUE,pch=16,cex=1.4)
+text(x=labels$Longitude,
+y=labels$Latitude,
+labels=labels$Name,
+pos=4)
+}
+DF2=base::merge(circabc,data_example,by.x="Code",by.y="Harbour")
+DF=as.data.frame(cbind(DF2$ISO3,DF2$Code,DF2$Name,DF2$Latitude,DF2$Longitude))
+#points <- data.frame(matrix(ncol=5, nrow=3))
+colnames(DF) <- c("ISO3","Code","Name","Latitude","Longitude")
+DF$Latitude=as.numeric(DF$Latitude)
+DF$Longitude=as.numeric(DF$Longitude)
+if(any(!is.na(DF$Latitude))){
+labels <- DF
+# definition of the map extension
+range <- min(DF$Longitude)
+range[2] <- max(DF$Longitude)
+range[3] <- min(DF$Latitude)
+range[4] <- max(DF$Latitude)
+coordinates(DF) <- ~ Longitude + Latitude
+# definition of a buffer area arount the map extension
+dlon <- (range[2]-range[1])*0.1
+dlat <- (range[4]-range[3])*0.1
+# store the par values to be used in the onexit function
+old_par <- list()
+old_par$mar <-par()$mar
+old_par$fin <-par()$fin
+# onexit declaration
+on.exit(c(par(mar=old_par$mar,fin=old_par$fin)))
+options(warn=-1)
+# par parameters
+par(new=TRUE, mar=c(4, 5, 4, 2))
+# empty plot with the map extension
+plot(1,1,type="n",xlim=c(range[1]-dlon,range[2]+dlon), ylim=c(range[3]-dlat,range[4]+dlat) ,
+xlab=expression(paste("Longitude (",degree,"E)")),
+ylab=expression(paste("Latitude (",degree,"N)")),
+asp=1)
+# plot the world shape in the map extension
+plot(world, border="grey", col="light grey", add=TRUE)
+plot(DF, col="red", add=TRUE,pch=16,cex=1.4)
+text(x=labels$Longitude,
+y=labels$Latitude,
+labels=labels$Name,
+pos=4)
+}
+library(rworldmap)
+library(sp)
+if(any(!is.na(DF$Latitude))){
+labels <- DF
+# definition of the map extension
+range <- min(DF$Longitude)
+range[2] <- max(DF$Longitude)
+range[3] <- min(DF$Latitude)
+range[4] <- max(DF$Latitude)
+coordinates(DF) <- ~ Longitude + Latitude
+# definition of a buffer area arount the map extension
+dlon <- (range[2]-range[1])*0.1
+dlat <- (range[4]-range[3])*0.1
+# store the par values to be used in the onexit function
+old_par <- list()
+old_par$mar <-par()$mar
+old_par$fin <-par()$fin
+# onexit declaration
+on.exit(c(par(mar=old_par$mar,fin=old_par$fin)))
+options(warn=-1)
+# par parameters
+par(new=TRUE, mar=c(4, 5, 4, 2))
+# empty plot with the map extension
+plot(1,1,type="n",xlim=c(range[1]-dlon,range[2]+dlon), ylim=c(range[3]-dlat,range[4]+dlat) ,
+xlab=expression(paste("Longitude (",degree,"E)")),
+ylab=expression(paste("Latitude (",degree,"N)")),
+asp=1)
+# plot the world shape in the map extension
+plot(world, border="grey", col="light grey", add=TRUE)
+plot(DF, col="red", add=TRUE,pch=16,cex=1.4)
+text(x=labels$Longitude,
+y=labels$Latitude,
+labels=labels$Name,
+pos=4)
+}
+DF2=base::merge(circabc,data_example,by.x="Code",by.y="Harbour")
+DF=as.data.frame(cbind(DF2$ISO3,DF2$Code,DF2$Name,DF2$Latitude,DF2$Longitude))
+#points <- data.frame(matrix(ncol=5, nrow=3))
+colnames(DF) <- c("ISO3","Code","Name","Latitude","Longitude")
+DF$Latitude=as.numeric(DF$Latitude)
+DF$Longitude=as.numeric(DF$Longitude)
+if(any(!is.na(DF$Latitude))){
+labels <- DF
+# definition of the map extension
+range <- min(DF$Longitude)
+range[2] <- max(DF$Longitude)
+range[3] <- min(DF$Latitude)
+range[4] <- max(DF$Latitude)
+coordinates(DF) <- ~ Longitude + Latitude
+# definition of a buffer area arount the map extension
+dlon <- (range[2]-range[1])*0.1
+dlat <- (range[4]-range[3])*0.1
+# store the par values to be used in the onexit function
+old_par <- list()
+old_par$mar <-par()$mar
+old_par$fin <-par()$fin
+# onexit declaration
+on.exit(c(par(mar=old_par$mar,fin=old_par$fin)))
+options(warn=-1)
+# par parameters
+par(new=TRUE, mar=c(4, 5, 4, 2))
+# empty plot with the map extension
+plot(1,1,type="n",xlim=c(range[1]-dlon,range[2]+dlon), ylim=c(range[3]-dlat,range[4]+dlat) ,
+xlab=expression(paste("Longitude (",degree,"E)")),
+ylab=expression(paste("Latitude (",degree,"N)")),
+asp=1)
+# plot the world shape in the map extension
+plot(world, border="grey", col="light grey", add=TRUE)
+plot(DF, col="red", add=TRUE,pch=16,cex=1.4)
+text(x=labels$Longitude,
+y=labels$Latitude,
+labels=labels$Name,
+pos=4)
+}
+labels <- DF
+# definition of the map extension
+range <- min(DF$Longitude)
+range[2] <- max(DF$Longitude)
+range[3] <- min(DF$Latitude)
+range[4] <- max(DF$Latitude)
+coordinates(DF) <- ~ Longitude + Latitude
+load("C:/RDBqc/RDBqc/data/circabc.rda")
+View(circabc)
+library(RDBqc)
+circabc= read.csv("C:\\RDBqc\\Code-Location-v2.1_.csv",sep=";",header=T)
+circabc= read.csv("C:\\RDBqc\\Code-Location-v2.1_.csv",header=T)
+circabc=circabc[,1:5]
+circabc= read.csv("C:\\RDBqc\\Code-Location-v2.1_.csv",header=T)
+circabc=circabc[,1:5]
+circabc
+circabc= read.csv2("C:\\RDBqc\\Code-Location-v2.1_.csv",header=T)
+circabc
+circabc=circabc[,1:5]
+#save(circabc,file="data/circabc.rda",compress = "xz")
+usethis::use_data(circabc,overwrite = TRUE)
+library(RDBqc)
+roxygen2::roxygenise()
+roxygen2::roxygenise()
+library(RDBqc)
+circabc
+?circabc
+roxygen2::roxygenise()
+?circabc
+circabc= read.csv2("C:\\RDBqc\\Code-Location-v2.1_.csv",header=T)
+circabc=circabc[,1:5]
+circabc$Name=stri_enc_toascii(circabc$Name)
+install.packages("stringi")
+circabc= read.csv2("C:\\RDBqc\\Code-Location-v2.1_.csv",header=T)
+circabc= read.csv2("C:\\RDBqc\\Code-Location-v2.1_.csv",header=T)
+circabc=circabc[,1:5]
+circabc$Name=stri_enc_toascii(circabc$Name)
+library(string)
+library(stringi)
+circabc$Name=stri_enc_toascii(circabc$Name)
+head(circabc)
+#save(circabc,file="data/circabc.rda",compress = "xz")
+usethis::use_data(circabc,overwrite = TRUE)
+circabc$Name
+Stangle()
+usethis::use_vignette("my-vignette")
+library(pander)
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+library(RDBqc)
+library(pander)
+library(data.table)
+#chunk option
+knitr::opts_chunk$set(cache=FALSE,echo=TRUE, warning=FALSE,
+message=FALSE, fig.height=6,progress=FALSE,verbose=FALSE,
+include=TRUE,dev='png',autodep=FALSE)
+panderOptions('table.split.table', 60)
+panderOptions('table.style', 'grid')
+panderOptions('table.split.cells', 10)
+panderOptions('table.alignment.default', 'left')
+panderOptions('table.alignment.rownames', 'right')
+panderOptions('decimal.mark', ',')
+panderOptions('graph.fontsize', '10')
+head(data_ex)
+head(data_exampleCL)
+check_LFD(data_ex)
+## Check LFD (returning)
+check_LFD(data_ex,Min=6, Max=20)
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+library(RDBqc)
+library(pander)
+library(data.table)
+head(data_ex)
+head(data_exampleCL)
+## Check LFD (returning)
+check_LFD(data_ex,min_len=6, max_len=20)
+data_ex
+library(RDBqc)
+check_LFD(data_ex,min_len=6, max_len=20)
+data_ex
+Length_class <- Number_at_length <-NULL
+print(ggplot(data=data_example, aes(x=Length_class,y= Number_at_length)) + geom_histogram(stat="identity",colour = "blue", fill = "blue") + facet_grid(Year~ .))
+library(ggplot2)
+print(ggplot(data=data_example, aes(x=Length_class,y= Number_at_length)) + geom_histogram(stat="identity",colour = "blue", fill = "blue") + facet_grid(Year~ .))
+error_min_length=data_example[data_example$Length_class<min_len, ]
+error_max_length=data_example[data_example$Length_class>max_len, ]
+error_min_length
+data_example=data_ex
+error_min_length=data_example[data_example$Length_class<min_len, ]
+min_len=1
+max_len=10
+Length_class <- Number_at_length <-NULL
+print(ggplot(data=data_example, aes(x=Length_class,y= Number_at_length)) + geom_histogram(stat="identity",colour = "blue", fill = "blue") + facet_grid(Year~ .))
+error_min_length=data_example[data_example$Length_class<min_len, ]
+error_max_length=data_example[data_example$Length_class>max_len, ]
+error_min_length
+error_max_length
+if (nrow(error_min_length)!=0 | nrow(error_max_length)!=0){
+err<-unique(c(as.character(error_min_length$Trip_code)), unique(as.character(error_max_length$Trip.code) ))
+}  else {err<-0}
+return(err)
+#' check LFD
+#'
+#' @param data_example RCG CS table
+#' @param min_len minimum length
+#' @param max_len maximum length
+#' @return comparison plot of LFDs among the  years and check of length range of the data using allowed range
+#' @export
+#' @examples check_LFD(data_ex,min_len=1,max_len=35)
+#' @import ggplot2
+#' @importFrom utils globalVariables
+check_LFD <- function(data_example,min_len=1,max_len=1000) {
+Length_class <- Number_at_length <-NULL
+print(ggplot(data=data_example, aes(x=Length_class,y= Number_at_length)) + geom_histogram(stat="identity",colour = "blue", fill = "blue") + facet_grid(Year~ .))
+error_min_length=data_example[data_example$Length_class<min_len, ]
+error_max_length=data_example[data_example$Length_class>max_len, ]
+if (nrow(error_min_length)!=0 | nrow(error_max_length)!=0){
+err<-unique(c(as.character(error_min_length$Trip_code)), unique(as.character(error_max_length$Trip.code) ))
+}  else {err<-0}
+return(err)
+}
+if (nrow(error_min_length)!=0 | nrow(error_max_length)!=0){
+err<-unique(c(as.character(error_min_length$Trip_code)), unique(as.character(error_max_length$Trip.code) ))
+}  else {err<-0}
+err
+nrow(error_max_length)
+nrow(error_min_length)!=0 | nrow(error_max_length)!=0
+err<-unique(c(as.character(error_min_length$Trip_code)), unique(as.character(error_max_length$Trip.code) ))
+err
+unique(c(as.character(error_min_length$Trip_code), unique(as.character(error_max_length$Trip.code) )))
+as.character(error_min_length$Trip_code)
+as.character(unique(error_min_length$Trip_code)
+as.character(unique(error_min_length$Trip_code)
+unique(error_min_length$Trip_code),
+as.character(unique(error_min_length$Trip_code), unique(error_max_length$Trip.code)
+)
+library(RDBqc)
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+library(RDBqc)
+library(pander)
+library(data.table)
+head(data_ex)
+head(data_exampleCL)
+## Check LFD (returning)
+check_LFD(data_ex,min_len=6, max_len=20)
+check_LFD(data_ex,min_len=6, max_len=20)
+data_example=data_ex
+Length_class <- Number_at_length <-NULL
+print(ggplot(data=data_example, aes(x=Length_class,y= Number_at_length)) + geom_histogram(stat="identity",colour = "blue", fill = "blue") + facet_grid(Year~ .))
+error_min_length=data_example[data_example$Length_class<min_len, ]
+error_max_length=data_example[data_example$Length_class>max_len, ]
+error_max_length
+nrow(error_min_length)!=0 | nrow(error_max_length)!=0
+err<-c(as.character(unique(error_min_length$Trip_code), unique(error_max_length$Trip_code) ))
+err
+as.character(unique(error_min_length$Trip_code)
+unique(error_max_length$Trip_code) )
+as.character(unique(error_min_length$Trip_code)
+as.character(c(unique(error_min_length$Trip_code), unique(error_max_length$Trip_code) ))
+library(RDBqc)
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+library(RDBqc)
+library(pander)
+library(data.table)
+head(data_ex)
+head(data_exampleCL)
+## Check LFD (returning)
+check_LFD(data_ex,min_len=6, max_len=20)
+## Check LFD (returning)
+check_LFD(data_ex,min_len=6, max_len=10)
+data_example=data_ex
+Length_class <- Number_at_length <-NULL
+print(ggplot(data=data_example, aes(x=Length_class,y= Number_at_length)) + geom_histogram(stat="identity",colour = "blue", fill = "blue") + facet_grid(Year~ .))
+error_min_length=data_example[data_example$Length_class<min_len, ]
+error_max_length=data_example[data_example$Length_class>max_len, ]
+nrow(error_min_length)!=0 | nrow(error_max_length)!=0
+max_len
+err<-as.character(c(unique(error_min_length$Trip_code), unique(error_max_length$Trip_code) ))
+err
+if (nrow(error_min_length)!=0 | nrow(error_max_length)!=0){
+err<-as.character(c(unique(error_min_length$Trip_code), unique(error_max_length$Trip_code) ))
+} else {err<-0}
+err
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+library(RDBqc)
+library(pander)
+library(data.table)
+head(data_ex)
+head(data_exampleCL)
+## Check LFD (returning)
+check_LFD(data_ex,min_len=6, max_len=250)
+max_len
+library(RDBqc)
+knitr::opts_chunk$set(
+collapse = TRUE,
+comment = "#>"
+)
+library(RDBqc)
+library(pander)
+library(data.table)
+head(data_ex)
+head(data_exampleCL)
+## Check LFD (returning)
+check_LFD(data_ex,min_len=6, max_len=250)
+check_LFD
+roxygen2::roxygenise()
