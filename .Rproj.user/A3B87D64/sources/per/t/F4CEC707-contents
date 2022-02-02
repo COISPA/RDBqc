@@ -1,0 +1,359 @@
+---
+title: "Quality checks DGMARE_MedBS format (STREAM project, Task 6.1)"
+author: "Bitetto Isabella - COISPA"
+
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Quality checks on DGMARE_MedBS datacall formats
+
+## Coverage
+
+### Catch
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+library(ggplot2)
+
+# Input to be updated by the user:
+setwd("C:\\Ale\\PROGETTI IN CORSO\\MARE201622\\WP6 STREAM\\Task 6.1\\DPS9 posteriori checks")
+
+name_file_Catch=  "Catch_DPS9"
+name_file_Land=  "Landing_DPS9"
+name_file_Disc=  "Discard_DPS9"
+name_file_ML="ML_DPS9"
+name_file_MA="MA_DPS9"
+name_file_SL="SRL_DPS9"
+name_file_SA="SRA_DPS9"
+name_file_GP="GP_DPS9"
+
+########################################################
+A_Catch= read.table(paste(name_file_Catch,".csv",sep=""),sep=",",header=T)
+B_Landing= read.table(paste(name_file_Land,".csv",sep=""),sep=",",header=T)
+C_Discard= read.table(paste(name_file_Disc,".csv",sep=""),sep=",",header=T)
+
+ML=read.table(paste(name_file_ML,".csv",sep=""),sep=",",header=T)
+MA=read.table(paste(name_file_MA,".csv",sep=""),sep=",",header=T)
+SL=read.table(paste(name_file_SL,".csv",sep=""),sep=",",header=T)
+SA=read.table(paste(name_file_SA,".csv",sep=""),sep=",",header=T)
+GP=read.table(paste(name_file_GP,".csv",sep=""),sep=",",header=T)
+
+Catch = paste("Checking the file ", name_file_Catch,".csv",sep="")
+Land = paste("Checking the file ", name_file_Land,".csv",sep="")
+Disc = paste("Checking the file ", name_file_Disc,".csv",sep="")
+Matlen = paste("Checking the file ", name_file_ML,".csv",sep="")
+Matage = paste("Checking the file ", name_file_MA,".csv",sep="")
+SRlen = paste("Checking the file ", name_file_SL,".csv",sep="")
+SRage = paste("Checking the file ", name_file_SA,".csv",sep="")
+GP_ = paste("Checking the file ", name_file_GP,".csv",sep="")
+
+threshold = 5
+
+```
+`r Catch`
+
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+
+Summary_land_wt=aggregate(A_Catch[,2:13]$LANDINGS,by=list(A_Catch$COUNTRY, A_Catch$YEAR, A_Catch$QUARTER, A_Catch$VESSEL_LENGTH, A_Catch$GEAR, A_Catch$MESH_SIZE_RANGE, A_Catch$FISHERY,  A_Catch$AREA,A_Catch$SPECIES),FUN="sum")
+colnames(Summary_land_wt)=c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY",  "AREA","SPECIES",  "LANDINGS" )
+
+knitr::kable(
+  Summary_land_wt[1:nrow(Summary_land_wt),1:ncol(Summary_land_wt)], caption = 'Table 1 - Landing at age at coverage.'
+)
+
+
+
+Summary_disc_wt=aggregate(A_Catch[,2:13]$DISCARDS,by=list(A_Catch$COUNTRY, A_Catch$YEAR, A_Catch$QUARTER, A_Catch$VESSEL_LENGTH, A_Catch$GEAR, A_Catch$MESH_SIZE_RANGE, A_Catch$FISHERY,  A_Catch$AREA,A_Catch$SPECIES),FUN="sum")
+colnames(Summary_disc_wt)=c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY",  "AREA","SPECIES",  "DISCARDS" )
+
+Summary_disc_wt= Summary_disc_wt[-which(round(Summary_disc_wt$DISCARDS,2)==-1),]
+
+knitr::kable(
+  Summary_disc_wt[1:nrow(Summary_disc_wt),1:ncol(Summary_disc_wt)], caption = 'Discard at age at coverage.'
+)
+
+
+
+```
+
+### Landing
+
+`r Land`
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+
+Summary_land_wt=aggregate(B_Landing[,2:12]$LANDINGS,by=list(B_Landing$COUNTRY, B_Landing$YEAR, B_Landing$QUARTER, B_Landing$VESSEL_LENGTH, B_Landing$GEAR, B_Landing$MESH_SIZE_RANGE, B_Landing$FISHERY,  B_Landing$AREA,B_Landing$SPECIES),FUN="sum")
+colnames(Summary_land_wt)=c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY",  "AREA","SPECIES",  "LANDINGS" )
+
+knitr::kable(
+  Summary_land_wt[1:nrow(Summary_land_wt),1:ncol(Summary_land_wt)], caption = 'Table 2 -Landing at length coverage.'
+)
+
+```
+
+### Discard
+
+`r Disc`
+
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+Summary_disc_wt=aggregate(C_Discard[,2:13]$DISCARDS,by=list(C_Discard$COUNTRY, C_Discard$YEAR, C_Discard$QUARTER, C_Discard$VESSEL_LENGTH, C_Discard$GEAR, C_Discard$MESH_SIZE_RANGE, C_Discard$FISHERY,  C_Discard$AREA,C_Discard$SPECIES),FUN="sum")
+colnames(Summary_disc_wt)=c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY",  "AREA","SPECIES",  "DISCARDS" )
+
+knitr::kable(
+  Summary_disc_wt[1:nrow(Summary_disc_wt),1:ncol(Summary_disc_wt)], caption = 'Table 3 -Discard at length coverage.'
+)
+
+
+```
+
+### ML
+
+`r Matlen`
+
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+
+Summary_ML=aggregate(ML$SEX,by=list(ML$COUNTRY, ML$AREA, ML$START_YEAR, ML$END_YEAR, ML$SPECIES,ML$SEX),FUN="length")
+colnames(Summary_ML)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX")
+
+knitr::kable(
+  Summary_ML[1:nrow(Summary_ML),1:(ncol(Summary_ML)-1)], caption = 'Table 4 -Maturity at length coverage.'
+)
+
+
+
+ggplot(data=ML, aes(x=LENGTHCLASS,y= PRM,col=factor(START_YEAR))) + geom_line(stat="identity", binwidth = 0.5) + facet_grid(AREA+COUNTRY~ SEX)
+
+
+```
+
+### MA
+
+`r Matage`
+
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+
+Summary_MA=aggregate(MA$AGECLASS,by=list(MA$COUNTRY, MA$AREA, MA$START_YEAR, MA$END_YEAR, MA$SPECIES,MA$SEX),FUN="length")
+colnames(Summary_MA)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX")
+
+knitr::kable(
+  Summary_MA[1:nrow(Summary_MA),1:(ncol(Summary_MA)-1)], caption = 'Table 5 -Maturity at age coverage.'
+)
+
+
+ggplot(data=MA, aes(x=AGECLASS,y= PRM,col=factor(START_YEAR))) + geom_line(stat="identity", binwidth = 0.5) + facet_grid(AREA+COUNTRY~ SEX)
+
+
+```
+
+
+
+### SRL
+
+`r SRlen`
+
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+
+Summary_SL=aggregate(SL$SEX_RATIO,by=list(SL$COUNTRY, SL$AREA, SL$START_YEAR, SL$END_YEAR, SL$SPECIES),FUN="length")
+colnames(Summary_SL)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX_RATIO")
+
+knitr::kable(
+  Summary_SL[1:nrow(Summary_SL),1:(ncol(Summary_SL)-1)], caption = 'Table 5 -Sex ratio at length coverage.'
+)
+
+
+
+
+ggplot(data=SL, aes(x=LENGTHCLASS,y= SEX_RATIO,col=factor(START_YEAR))) + geom_line(stat="identity", binwidth = 0.5) + facet_grid(AREA+COUNTRY~ .)
+
+
+```
+
+### SRA
+
+`r SRage`
+
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+
+Summary_SA=aggregate(SA$SEX_RATIO,by=list(SA$COUNTRY, SA$AREA, SA$START_YEAR, SA$END_YEAR, SA$SPECIES),FUN="length")
+colnames(Summary_SA)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX_RATIO")
+
+knitr::kable(
+  Summary_SA[1:nrow(Summary_SA),1:(ncol(Summary_SA)-1)], caption = 'Table 6 -Sex ratio at age coverage.'
+)
+
+
+ggplot(data=SA, aes(x=AGECLASS,y= SEX_RATIO,col=factor(START_YEAR))) + geom_line(stat="identity", binwidth = 0.5) + facet_grid(AREA+COUNTRY~ .)
+
+
+```
+
+### GP
+
+`r GP_`
+
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE,fig.height=6,fig.width=8}
+
+Summary_GP=aggregate(GP$VB_LINF,by=list(GP$COUNTRY, GP$AREA, GP$START_YEAR, GP$END_YEAR, GP$SPECIES,GP$SEX),FUN="length")
+colnames(Summary_GP)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX")
+
+knitr::kable(
+  Summary_GP[1:nrow(Summary_GP),1:(ncol(Summary_GP)-1)], caption = 'Table 5 -Growth parameters coverage.'
+)
+
+
+GP_F=GP[GP$VB_LINF!=999 & GP$VB_K!=999 & GP$VB_T0!=999 & as.character(GP$SEX)=="F",]
+
+Age=seq(0.5,20,0.5)
+
+for (i in 1:nrow(GP_F)){
+if(i==1 ){
+Length=GP_F$VB_LINF[i]*(1-exp(-GP_F$VB_K[i]*(Age-GP_F$VB_T0[i])))
+plot(Age,  Length,type="l",col="black",lwd=2, main=paste(name_file_GP,"_females",sep=""),ylim=c(1,max(GP$VB_LINF)))
+ }  else if(i>1 ){
+ Length=GP_F$VB_LINF[i]*(1-exp(-GP_F$VB_K[i]*(Age-GP_F$VB_T0[i])))
+lines(Age,  Length,type="l",col=i,lwd=2)
+ }
+ }
+
+legend("bottomright",legend=as.character(GP_F$START_YEAR),col=seq(1,nrow(GP_F),1))
+dev.off()
+
+GP_M=GP[GP$VB_LINF!=999 & GP$VB_K!=999 & GP$VB_T0!=999 & as.character(GP$SEX)=="M",]
+
+
+for (i in 1:nrow(GP_M)){
+if(i==1 ){
+Length=GP_M$VB_LINF[i]*(1-exp(-GP_M$VB_K[i]*(Age-GP_M$VB_T0[i])))
+plot(Age,  Length,type="l",col="black",lwd=2, main=paste(name_file_GP,"_males",sep=""),ylim=c(1,max(GP$VB_LINF)))
+ }  else if(i>1 ){
+ Length=GP_M$VB_LINF[i]*(1-exp(-GP_M$VB_K[i]*(Age-GP_M$VB_T0[i])))
+lines(Age,  Length,type="l",col=i,lwd=2)
+ }
+ }
+
+legend("bottomright",legend=GP_M$START_YEAR,col=seq(2,nrow(GP_M),1))
+dev.off()
+
+```
+
+
+## Sum of products
+
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+
+#-----------CHECK CONSISTENCY LANDING-------------------------------------------
+Data_call=A_Catch
+
+Landing_nb = Data_call[,1:12]
+for (i in 1:20){
+Landing_nb = cbind(Landing_nb,Data_call[,colnames(Data_call)==paste("AGE_",i-1,"_NO_LANDED",sep="")])
+}
+Landing_nb = cbind(Landing_nb,Data_call[,colnames(Data_call)=="AGE_20_PLUS_NO_LANDED"])
+
+colnames(Landing_nb)=c(colnames(Data_call[1:12]),paste("AGE_",c(0:19),"_NO_LANDED",sep=""),"AGE_20_PLUS_NO_LANDED")
+
+Landing_nb$Sum= rowSums(Landing_nb[,13:ncol(Landing_nb)])
+
+pos_indices=which(Landing_nb$Sum>0)
+
+
+# matrice dei pesi medi
+Landing_wt = Data_call[,1:12]
+for (i in 1:20){
+Landing_wt = cbind(Landing_wt,Data_call[,colnames(Data_call)==paste("AGE_",i-1,"_MEAN_WEIGHT_LANDED",sep="")])           
+}
+Landing_wt = cbind(Landing_wt,Data_call[,colnames(Data_call)=="AGE_20_PLUS_MEAN_WEIGHT_LANDED"])           
+
+colnames(Landing_wt)=c(colnames(Data_call[1:12]),paste("AGE_",c(0:19),"_MEAN_WEIGHT_LANDED",sep=""),"AGE_20_PLUS_MEAN_WEIGHT_LANDED")
+
+Data_call$check_LANDING=""
+Data_call$check_DISCARD=""
+
+for (r in pos_indices){
+  
+nb = Landing_nb[r,13:(ncol(Landing_nb)-1)]
+wt = Landing_wt[r,13:ncol(Landing_wt)]
+Prod =  sum(nb*wt)
+percentage = (Prod - Landing_wt[r,12])/Landing_wt[r,12]*100 
+    if (abs(round(percentage,2)) > threshold)
+    {  
+    Data_call$check_LANDING[r] = round(percentage,2)
+    }
+    
+}
+
+
+#-----------CHECK CONSISTENCY DISCARD-------------------------------------------
+
+# matrice del discard in numero
+Discard_nb = Data_call[,c(1:11,13)]
+for (i in 1:20){
+Discard_nb = cbind(Discard_nb,Data_call[,colnames(Data_call)==paste("AGE_",i-1,"_NO_DISCARD",sep="")])
+}
+Discard_nb = cbind(Discard_nb,Data_call[,colnames(Data_call)=="AGE_20_PLUS_NO_DISCARD"])
+
+colnames(Discard_nb)=c(colnames(Data_call[c(1:11,13)]),paste("AGE_",c(0:19),"_NO_DISCARD",sep=""),"AGE_20_PLUS_NO_DISCARD")
+
+Discard_nb$Sum= rowSums(Discard_nb[,13:ncol(Discard_nb)])
+
+pos_indices=which(Discard_nb$Sum>0)
+  
+# matrice dei pesi medi
+Discard_wt = Data_call[,c(1:11,13)]
+for (i in 1:20){
+Discard_wt = cbind(Discard_wt,Data_call[,colnames(Data_call)==paste("AGE_",i-1,"_MEAN_WEIGHT_DISCARD",sep="")])           
+}
+Discard_wt = cbind(Discard_wt,Data_call[,colnames(Data_call)=="AGE_20_PLUS_MEAN_WEIGHT_DISCARD"])           
+colnames(Discard_wt)=c(colnames(Data_call[c(1:11,13)]),paste("AGE_",c(0:19),"_MEAN_WEIGHT_DISCARD",sep=""),"AGE_20_PLUS_MEAN_WEIGHT_DISCARD")
+
+
+
+for (r in pos_indices){
+nb = Discard_nb[r,13:(ncol(Discard_nb)-1)]
+wt = Discard_wt[r,13:ncol(Discard_wt)]
+Prod =  sum(nb*wt)
+percentage = ifelse((Discard_wt[r,12]==0)&(Prod==0),NA,(Prod - Discard_wt[r,12])/Discard_wt[r,12]*100) 
+    if (!is.na(percentage) & abs(round(percentage,2)) > threshold)
+    { 
+    Data_call$check_DISCARD[r] = round(percentage,2)
+    }
+    
+} 
+ 
+write.table(Data_call,paste(name_file_Catch,"_checked_sum_of_products.csv",sep=""),sep=";",row.names=F)
+
+error_land=Data_call[Data_call$check_LANDING>=threshold,]
+error_disc=Data_call[Data_call$check_DISCARD>=threshold,]
+
+```
+Below the records with a difference in the landing in the sum of products >= of the `r threshold` % are reported.
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+if (nrow(error_land)>0)
+    {error_land[,c(1,(ncol(error_land)-1))]
+} else {
+  "No error occurred"
+}
+```
+Below the records with a difference in the discard in the sum of products >= of the `r threshold` % are reported.
+
+```{r,warning=FALSE,include=TRUE,echo=FALSE}
+
+if (nrow(error_disc)>0)
+    {error_disc[,c(1,ncol(error_disc))]
+} else {
+  "No error occurred"
+}
+
+```
+

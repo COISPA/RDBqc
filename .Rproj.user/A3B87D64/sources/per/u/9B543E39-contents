@@ -1,0 +1,6 @@
+SL_tab_example=read.table("C:\\Users\\Bitetto Isabella\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB Anneex 4a\\from STREAM\\scripts from github\\STREAM_MARE-2016-22-Task-6.1-A-posteriori-checks\\SRL_DPS9.csv",sep=",",header=T)
+save(SL_tab_example,file="data\\SL_tab_example.rda",compress="xz")
+library(roxygen2)
+roxygenize()
+SA=read.table("C:\\Users\\Bitetto Isabella\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB Anneex 4a\\from STREAM\\scripts from github\\STREAM_MARE-2016-22-Task-6.1-A-posteriori-checks\\SRA_DPS9.csv",sep=",",header=T)
+save(SA,file="SA_tab_example.rda",compress="xz")

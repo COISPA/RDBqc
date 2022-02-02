@@ -1,0 +1,19 @@
+
+#' SL_tab (sex ratio at length) table check
+#' @param SL_tab sex ratio at length table in MED&BS datacall format
+#' @return a summary table and plots
+#' @export
+#' @import ggplot2 dplyr
+#' @examples SL_tab_check(SL_tab_example)
+SL_tab_check<-function(SL_tab) {
+
+COUNTRY<-YEAR<-START_YEAR<-END_YEAR<-SPECIES<-SEX_RATIO<-NULL
+Summary_SL=aggregate(SL_tab$SEX_RATIO,by=list(SL_tab$COUNTRY, SL_tab$AREA, SL_tab$START_YEAR, SL_tab$END_YEAR, SL_tab$SPECIES),FUN="length")
+colnames(Summary_SL)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX_RATIO")
+
+Summary_SL=Summary_SL[1:nrow(Summary_SL),1:(ncol(Summary_SL)-1)]
+
+
+ggplot(data=SL_tab, aes(x=LENGTHCLASS,y= SEX_RATIO,col=factor(START_YEAR))) + geom_line(stat="identity", binwidth = 0.5) + facet_grid(AREA+COUNTRY~ .)
+return(Summary_SL)
+}
