@@ -6,6 +6,8 @@ Discard_coverage        Discard_cov: function to check the coverage in
 Discard_tab_example     Discard table in MED&BS datacall format
 GP_check                GP_tab (growth params) table check
 GP_tab_example          GP table in MED&BS datacall format
+LW_check_MED_BS         LW params in GP_tab (sex ratio at length) table
+                        check#'
 Landing_coverage        Landing_cov: function to check the coverage in
                         Landing table
 Landing_tab_example     Landing table in MED&BS datacall format

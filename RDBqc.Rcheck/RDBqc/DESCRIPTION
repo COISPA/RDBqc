@@ -18,7 +18,7 @@ LazyData: true
 Suggests: rmarkdown, knitr
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2022-02-02 15:13:21 UTC; Bitetto Isabella
+Packaged: 2022-02-02 15:28:15 UTC; Bitetto Isabella
 Author: Walter Zupa [aut, cre] (<https://orcid.org/0000-0002-2058-8652>)
 Maintainer: Walter Zupa <zupa@coispa.it>
-Built: R 4.1.1; ; 2022-02-02 15:13:32 UTC; windows
+Built: R 4.1.1; ; 2022-02-02 15:28:25 UTC; windows

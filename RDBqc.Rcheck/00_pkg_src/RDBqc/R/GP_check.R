@@ -8,9 +8,9 @@
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
 #' @examples GP_check(GP_tab_example,"MUT","ITA","SA 18")
-#'
 GP_check<-function(GP_tab,SP,MS,GSA) {
     AGE<-LENGTH<-ID<-COUNTRY<-YEAR<-START_YEAR<-END_YEAR<-SPECIES<-SEX<-NULL
+
     ck_sp <- c("HKE","MUT","MUR","SOL","CTC","PIL","ANE")
     GP_tab=GP_tab[GP_tab$SPECIES==SP & GP_tab$COUNTRY==MS & GP_tab$AREA==GSA,]
 

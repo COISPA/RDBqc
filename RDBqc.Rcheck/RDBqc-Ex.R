@@ -73,9 +73,27 @@ GP_check(GP_tab_example,"MUT","ITA","SA 18")
 
 
 
-
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("GP_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("LW_check_MED_BS")
+### * LW_check_MED_BS
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: LW_check_MED_BS
+### Title: LW params in GP_tab (sex ratio at length) table check#'
+### Aliases: LW_check_MED_BS
+
+### ** Examples
+
+LW_check_MED_BS(GP_tab_example,"MUT","ITA","SA 18")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("LW_check_MED_BS", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
 nameEx("Landing_coverage")
 ### * Landing_coverage
