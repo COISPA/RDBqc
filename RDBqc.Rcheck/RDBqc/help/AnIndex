@@ -12,6 +12,8 @@ data_ex	data_ex
 data_exampleCL	data_exampleCL
 Discard_coverage	Discard_coverage
 Discard_tab_example	Discard_tab_example
+GP_check	GP_check
+GP_tab_example	GP_tab_example
 Landing_coverage	Landing_coverage
 Landing_tab_example	Landing_tab_example
 MA_tab_check	MA_tab_check

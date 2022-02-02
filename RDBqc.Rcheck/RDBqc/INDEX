@@ -4,6 +4,8 @@ Catch_tab_example       Catch table in MED&BS datacall format
 Discard_coverage        Discard_cov: function to check the coverage in
                         Discard table
 Discard_tab_example     Discard table in MED&BS datacall format
+GP_check                GP_tab (growth params) table check
+GP_tab_example          GP table in MED&BS datacall format
 Landing_coverage        Landing_cov: function to check the coverage in
                         Landing table
 Landing_tab_example     Landing table in MED&BS datacall format
