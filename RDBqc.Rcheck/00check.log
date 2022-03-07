@@ -1,4 +1,4 @@
-* using log directory 'C:/RDBqc/RDBqc.Rcheck'
+* using log directory 'C:/RDBqc/RDBqc/RDBqc.Rcheck'
 * using R version 4.1.1 (2021-08-10)
 * using platform: x86_64-w64-mingw32 (64-bit)
 * using session charset: ISO8859-1
@@ -34,25 +34,12 @@
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... NOTE
-LW_check_MED_BS: no visible binding for global variable 'LENGTH'
-LW_check_MED_BS: no visible binding for global variable 'WEIGHT'
-LW_check_MED_BS: no visible binding for global variable 'SEX'
-LW_check_MED_BS: no visible binding for global variable 'ID'
-Undefined global functions or variables:
-  ID LENGTH SEX WEIGHT
+* checking R code for possible problems ... OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd line widths ... OK
 * checking Rd cross-references ... OK
-* checking for missing documentation entries ... WARNING
-Oggetti  codice  non documentati:
-  'T'
-Dataset non documentati:
-  'T'
-All user-level objects in a package should have documentation entries.
-See chapter 'Writing R documentation files' in the 'Writing R
-Extensions' manual.
+* checking for missing documentation entries ... OK
 * checking for code/documentation mismatches ... OK
 * checking Rd \usage sections ... OK
 * checking Rd contents ... OK
@@ -73,10 +60,13 @@ The error most likely occurred in:
 > ### ** Examples
 > 
 > LW_check_MED_BS(GP_tab_example,"MUT","ITA","SA 18")
-Error in LW_check_MED_BS(GP_tab_example, "MUT", "ITA", "SA 18") : 
-  object 'Summary_GP' not found
+Error: Cannot use `+.gg()` with a single argument. Did you accidentally put + on a new line?
+Backtrace:
+    x
+ 1. \-RDBqc::LW_check_MED_BS(GP_tab_example, "MUT", "ITA", "SA 18")
+ 2.   \-ggplot2:::`+.gg`(scale_x_continuous(breaks = steps))
 Execution halted
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 1 ERROR, 1 WARNING, 1 NOTE
+Status: 1 ERROR

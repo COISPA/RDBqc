@@ -11,8 +11,10 @@
 LW_check_MED_BS<-function(GP_tab,SP,MS,GSA) {
 GP_tab=GP_tab[GP_tab$SPECIES==SP & GP_tab$COUNTRY==MS & GP_tab$AREA==GSA,]
 
+LENGTH<-WEIGHT<-SEX<-ID<-NULL
+
 Summary_LW=aggregate(GP_tab$A,by=list(GP_tab$COUNTRY, GP_tab$AREA, GP_tab$START_YEAR, GP_tab$END_YEAR, GP_tab$SPECIES,GP_tab$SEX),FUN="length")
-colnames(Summary_GP)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX")
+colnames(Summary_LW)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX")
 
 GP_tab$ID <- paste0(GP_tab$START_YEAR, " a = ",GP_tab$A,", b = ",GP_tab$B)
 ck_sp <- c("HKE","MUT","MUR","SOL","CTC","PIL","ANE")

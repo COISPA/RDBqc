@@ -12,6 +12,7 @@ data_ex	data_ex
 data_exampleCL	data_exampleCL
 Discard_coverage	Discard_coverage
 Discard_tab_example	Discard_tab_example
+Duplicated_GFCM_II2	Duplicated_GFCM_II2
 GP_check	GP_check
 GP_tab_example	GP_tab_example
 Landing_coverage	Landing_coverage
@@ -27,3 +28,4 @@ SL_tab_check	SL_tab_check
 SL_tab_example	SL_tab_example
 summarize_ind_meas	summarize_ind_meas
 summarize_trips	summarize_trips
+task_ii2	task_ii2

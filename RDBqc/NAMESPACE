@@ -2,6 +2,7 @@
 
 export(Catch_coverage)
 export(Discard_coverage)
+export(Duplicated_GFCM_II2)
 export(GP_check)
 export(LW_check_MED_BS)
 export(Landing_coverage)
