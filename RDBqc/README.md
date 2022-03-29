@@ -9,7 +9,6 @@ aggregated landing data.
 ``` r
 library(RDBqc)
 library(pander)
-#> Warning: il pacchetto 'pander' è stato creato con R versione 4.1.2
 library(data.table) 
 ```
 
@@ -124,7 +123,7 @@ head(data_exampleCL)
 ## Check LFD
 
 This function returns 0 if all the lengths collected are within the
-length range min\_len-max\_len; if some lengths are outside this range,
+length range min_len-max_len; if some lengths are outside this range,
 the corresponding trips are indicated.
 
 ``` r
@@ -136,7 +135,7 @@ check_LFD(data_ex,min_len=6, max_len=250)
 
     #> [1] "01_18_2016" "4_18_2014"
 
-## Check LFD\_comm\_cat
+## Check LFD_comm_cat
 
 This function reports for each year and commercial category the minimum
 and maximum lengths in the dataset.
@@ -167,7 +166,7 @@ check_LFD_comm_cat(data_ex)
 
 This function reports for each year and and length class the number of
 age measurements in the dataset. Moreover, the function detects if the
-age data are in the range min\_age-max\_age.
+age data are in the range min_age-max_age.
 
 ``` r
 check_AL(data_ex,min_age=0,max_age=5)
@@ -354,8 +353,8 @@ check_mat(data_ex)
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-2-2.png)<!-- -->![](README_files/figure-gfm/unnamed-chunk-2-3.png)<!-- -->
-\#\# Summarize individual measurements This function reports for each
-trip the number of length sex, maturity, individual weight and age
+## Summarize individual measurements This function reports for each trip
+the number of length sex, maturity, individual weight and age
 measurements.
 
 ``` r
@@ -469,7 +468,7 @@ method the number of trips in the dataset.
 check_loc(data_ex)
 ```
 
-![](README_files/figure-gfm/input7-1.png)<!-- --> \# Checks on CL This
+![](README_files/figure-gfm/input7-1.png)<!-- --> # Checks on CL This
 function
 
 ``` r
