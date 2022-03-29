@@ -12,11 +12,7 @@
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
 * checking for hidden files and directories ... OK
-* checking for portable file names ... WARNING
-Found the following file with a non-portable file name:
-  R/GFCM_Check_ empty_field_II2.R
-These are not fully portable file names.
-See section 'Package structure' in the 'Writing R Extensions' manual.
+* checking for portable file names ... OK
 * checking whether package 'RDBqc' can be installed ... OK
 * checking installed package size ... OK
 * checking package directory ... OK
@@ -59,23 +55,8 @@ See section 'Package structure' in the 'Writing R Extensions' manual.
   'G.5 <96> Stomatopods / 5' in object 'sex_mat'
 * checking LazyData ... OK
 * checking data for ASCII and uncompressed saves ... OK
-* checking examples ... ERROR
-Running examples in 'RDBqc-Ex.R' failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: check_presence_taskII2
-> ### Title: Check of missing combination GSA/Fleet segment per year
-> ### Aliases: check_presence_taskII2
-> 
-> ### ** Examples
-> 
-> check_presence_taskII2(task_ii2,combination_taskII2)
-Error in `$<-.data.frame`(`*tmp*`, "Reference_Year", value = numeric(0)) : 
-  replacement has 0 rows, data has 5
-Calls: check_presence_taskII2 -> $<- -> $<-.data.frame
-Execution halted
+* checking examples ... OK
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 1 ERROR, 2 WARNINGs
+Status: 1 WARNING

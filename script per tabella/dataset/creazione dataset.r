@@ -3,17 +3,17 @@ setwd("C:\\Users\\Loredana Casciaro\\Desktop\\controlli GFCM-FDI\\script per tab
 task_ii2= read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\script per tabella\\dataset\\dc_dcrf_task_ii2_catch.csv",sep=";",header=T)
 save(task_ii2, file="data/task_ii2.rda",compress="xz")
 
-task_iii= read.table("C:\\Users\\Loredana Casciaro\\Desktop\\controlli GFCM-FDI\\script per tabella\\dataset\\dc_dcrf_task_iii_incidental_catch.csv",sep=";",header=T)
-save(task_iii, file="task_iii.rda",compress="xz")
+task_iii= read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\script per tabella\\dataset\\dc_dcrf_task_iii_incidental_catch.csv",sep=";",header=T)
+save(task_iii, file="data/task_iii.rda",compress="xz")
 
-task_vii2= read.table("C:\\Users\\Loredana Casciaro\\Desktop\\controlli GFCM-FDI\\script per tabella\\dataset\\dc_dcrf_task_vii2_length_data.csv",sep=";",header=T)
-save(task_vii2, file="task_vii2.rda",compress="xz")
+task_vii2= read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\script per tabella\\dataset\\dc_dcrf_task_vii2_length_data.csv",sep=";",header=T)
+save(task_vii2, file="data/task_vii2.rda",compress="xz")
 
-task_vii31= read.table("C:\\Users\\Loredana Casciaro\\Desktop\\controlli GFCM-FDI\\script per tabella\\dataset\\dc_dcrf_task_vii31_size_1st_matur.csv",sep=";",header=T)
-save(task_vii31, file="task_vii31.rda",compress="xz")
+task_vii31= read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\script per tabella\\dataset\\dc_dcrf_task_vii31_size_1st_matur.csv",sep=";",header=T)
+save(task_vii31, file="data/task_vii31.rda",compress="xz")
 
-task_vii32= read.table("C:\\Users\\Loredana Casciaro\\Desktop\\controlli GFCM-FDI\\script per tabella\\dataset\\dc_dcrf_task_vii32_maturity_data.csv",sep=";",header=T)
-save(task_vii32, file="task_vii32.rda",compress="xz")
+task_vii32= read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\script per tabella\\dataset\\dc_dcrf_task_vii32_maturity_data.csv",sep=";",header=T)
+save(task_vii32, file="data/task_vii32.rda",compress="xz")
 
 fdi_g_effort= read.table("C:\\Users\\Loredana Casciaro\\Desktop\\controlli GFCM-FDI\\script per tabella\\dataset\\dc_fdi_g_effort.csv",sep=";",header=T)
 save(fdi_g_effort, file="fdi_g_effort.rda",compress="xz")

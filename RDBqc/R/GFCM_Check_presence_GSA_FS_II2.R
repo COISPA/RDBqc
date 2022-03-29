@@ -14,7 +14,7 @@
 check_presence_taskII2 <- function(data1,data2){
   #Declaration of variables and suppression of empty columns for dataframe1
   #str(data1)
-  data1$Reference_Year=as.numeric(data1$reference_year)
+  data1$Reference_Year=as.numeric(data1$Reference_Year)
   data1$CPC=as.character(data1$CPC)
   data1$GSA=as.numeric(data1$GSA)
   data1$Segment=as.character(data1$Segment)

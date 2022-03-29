@@ -1709,7 +1709,215 @@ Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 > ### ** Examples
 > 
 > check_presence_taskII2(task_ii2,combination_taskII2)
-Error in `$<-.data.frame`(`*tmp*`, "Reference_Year", value = numeric(0)) : 
-  replacement has 0 rows, data has 5
-Calls: check_presence_taskII2 -> $<- -> $<-.data.frame
-Execution halted
+    GSA fleet_segment year
+1    10          L-02 2020
+2    10          L-03 2020
+3    10          P-05 2020
+4    10          P-06 2020
+5    10          P-07 2020
+6    10          S-02 2020
+7    10          S-08 2020
+8    10          S-09 2020
+9    10          T-11 2020
+10 11.2          P-05 2020
+11 11.2          P-06 2020
+12 11.2          P-07 2020
+13 11.2          S-03 2020
+14 11.2          T-10 2020
+15 11.2          T-11 2020
+16 11.2          T-12 2020
+17   16          L-02 2020
+18   16          L-03 2020
+19   16          P-05 2020
+20   16          P-06 2020
+21   16          P-07 2020
+22   16          S-02 2020
+23   16          S-03 2020
+24   16          T-07 2020
+25   16          T-10 2020
+26   16          T-11 2020
+27   16          T-12 2020
+28   17          D-03 2020
+29   17          P-05 2020
+30   17          P-21 2020
+31   17          S-03 2020
+32   17          S-04 2020
+33   17          T-17 2020
+34   17          T-22 2020
+35   17          T-25 2020
+36   18          D-03 2020
+37   18          L-01 2020
+38   18          L-05 2020
+39   18          P-05 2020
+40   18          P-06 2020
+41   18          P-07 2020
+42   18          S-04 2020
+43   18          T-07 2020
+44   18          T-08 2020
+45   18          T-10 2020
+46   18          T-11 2020
+47   18          T-12 2020
+48   19          L-05 2020
+49   19          P-05 2020
+50   19          P-06 2020
+51   19          P-07 2020
+52   19          S-02 2020
+53   19          S-09 2020
+54   19          T-11 2020
+55    9          L-02 2020
+56    9          P-07 2020
+57    9          P-22 2020
+58    9          S-02 2020
+59    9          S-09 2020
+60    9          T-25 2020
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_presence_taskII2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("summarize_ind_meas")
+> ### * summarize_ind_meas
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: summarize_ind_meas
+> ### Title: Number of individual by trip for which biological data have been
+> ###   collected (length, sex, maturity, weight and age)
+> ### Aliases: summarize_ind_meas
+> 
+> ### ** Examples
+> 
+> summarize_ind_meas(data_ex)
+[1] No weight data
+[[1]]
+# A tibble: 139 x 5
+# Groups:   Year, Area, Species [4]
+    Year Area  Species         Trip_code  length_measurements
+   <int> <chr> <chr>           <chr>                    <int>
+ 1  2014 GSA99 Mullus barbatus 12_18_2014                 120
+ 2  2014 GSA99 Mullus barbatus 14_18_2014                 163
+ 3  2014 GSA99 Mullus barbatus 15_18_2014                 252
+ 4  2014 GSA99 Mullus barbatus 17_18_2014                 239
+ 5  2014 GSA99 Mullus barbatus 19_18_2014                1657
+ 6  2014 GSA99 Mullus barbatus 20_18_2014                 752
+ 7  2014 GSA99 Mullus barbatus 22_18_2014                  62
+ 8  2014 GSA99 Mullus barbatus 27_18_2014                2217
+ 9  2014 GSA99 Mullus barbatus 41_18_2014                 396
+10  2014 GSA99 Mullus barbatus 43_18_2014                1039
+# ... with 129 more rows
+
+[[2]]
+# A tibble: 139 x 5
+# Groups:   Year, Area, Species [4]
+    Year Area  Species         Trip_code  maturity_data
+   <int> <chr> <chr>           <chr>              <int>
+ 1  2014 GSA99 Mullus barbatus 12_18_2014           120
+ 2  2014 GSA99 Mullus barbatus 14_18_2014           163
+ 3  2014 GSA99 Mullus barbatus 15_18_2014           252
+ 4  2014 GSA99 Mullus barbatus 17_18_2014           239
+ 5  2014 GSA99 Mullus barbatus 19_18_2014          1657
+ 6  2014 GSA99 Mullus barbatus 20_18_2014           752
+ 7  2014 GSA99 Mullus barbatus 22_18_2014            62
+ 8  2014 GSA99 Mullus barbatus 27_18_2014          2217
+ 9  2014 GSA99 Mullus barbatus 41_18_2014           396
+10  2014 GSA99 Mullus barbatus 43_18_2014          1039
+# ... with 129 more rows
+
+[[3]]
+# A tibble: 139 x 5
+# Groups:   Year, Area, Species [4]
+    Year Area  Species         Trip_code  sex_data
+   <int> <chr> <chr>           <chr>         <int>
+ 1  2014 GSA99 Mullus barbatus 12_18_2014      120
+ 2  2014 GSA99 Mullus barbatus 14_18_2014      163
+ 3  2014 GSA99 Mullus barbatus 15_18_2014      252
+ 4  2014 GSA99 Mullus barbatus 17_18_2014      239
+ 5  2014 GSA99 Mullus barbatus 19_18_2014     1657
+ 6  2014 GSA99 Mullus barbatus 20_18_2014      752
+ 7  2014 GSA99 Mullus barbatus 22_18_2014       62
+ 8  2014 GSA99 Mullus barbatus 27_18_2014     2217
+ 9  2014 GSA99 Mullus barbatus 41_18_2014      396
+10  2014 GSA99 Mullus barbatus 43_18_2014     1039
+# ... with 129 more rows
+
+[[4]]
+# A tibble: 107 x 5
+# Groups:   Year, Area, Species [4]
+    Year Area  Species         Trip_code  age_data
+   <int> <chr> <chr>           <chr>         <int>
+ 1  2014 GSA99 Mullus barbatus 12_18_2014       54
+ 2  2014 GSA99 Mullus barbatus 14_18_2014       52
+ 3  2014 GSA99 Mullus barbatus 15_18_2014       68
+ 4  2014 GSA99 Mullus barbatus 17_18_2014       27
+ 5  2014 GSA99 Mullus barbatus 19_18_2014       84
+ 6  2014 GSA99 Mullus barbatus 20_18_2014       32
+ 7  2014 GSA99 Mullus barbatus 22_18_2014       12
+ 8  2014 GSA99 Mullus barbatus 27_18_2014        1
+ 9  2014 GSA99 Mullus barbatus 41_18_2014        8
+10  2014 GSA99 Mullus barbatus 43_18_2014        4
+# ... with 97 more rows
+
+[[5]]
+# A tibble: 0 x 5
+# Groups:   Year, Area, Species [0]
+# ... with 5 variables: Year <int>, Area <chr>, Species <chr>, Trip_code <chr>,
+#   weight_data <int>
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("summarize_ind_meas", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("summarize_trips")
+> ### * summarize_trips
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: summarize_trips
+> ### Title: summarizing the number of trips/hauls monitored by year by port,
+> ###   metier, sampling method;
+> ### Aliases: summarize_trips
+> 
+> ### ** Examples
+> 
+> summarize_trips(data_ex)
+# A tibble: 32 x 6
+# Groups:   Year, Area, Harbour, Fishing_activity_category_European_lvl_6 [20]
+    Year Area  Harbour Fishing_activity_category_Europ~ Sampling.method Nb_trips
+   <int> <chr> <chr>   <chr>                            <chr>              <int>
+ 1  2014 GSA99 ITBCE   OTB_DEF_>=40_0_0                 Observer               2
+ 2  2014 GSA99 ITBDS   OTB_DEF_>=40_0_0                 Observer               2
+ 3  2014 GSA99 ITBDS   OTB_DEF_>=40_0_0                 SelfSampling           2
+ 4  2014 GSA99 ITMFR   OTB_DEF_>=40_0_0                 Observer               1
+ 5  2014 GSA99 ITMFR   OTB_DEF_>=40_0_0                 SelfSampling           7
+ 6  2014 GSA99 ITMNP   OTB_DEF_>=40_0_0                 Observer               2
+ 7  2014 GSA99 ITMOL   OTB_DEF_>=40_0_0                 Observer               6
+ 8  2014 GSA99 ITMOL   OTB_DEF_>=40_0_0                 SelfSampling           3
+ 9  2015 GSA99 ITBCE   OTB_DEF_>=40_0_0                 Observer               1
+10  2015 GSA99 ITBCE   OTB_DEF_>=40_0_0                 SelfSampling           1
+# ... with 22 more rows
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("summarize_trips", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> ### * <FOOTER>
+> ###
+> cleanEx()
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  8.55 0.44 8.98 NA NA 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
