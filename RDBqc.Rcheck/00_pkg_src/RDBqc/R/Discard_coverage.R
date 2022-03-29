@@ -23,11 +23,11 @@ Discard_coverage<-function(Discard_tab,SP,MS,GSA){
 
 
     Discard_tab$Discard_tab[Discard_tab$DISCARDS==-1] <- 0
-    land_wt=Discard_tab %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(DISCARDS=sum(DISCARDS,na.rm=T))
+    land_wt=Discard_tab %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(DISCARDS=sum(DISCARDS,na.rm=TRUE))
 
     data <- Discard_tab  %>%
         group_by(YEAR, GEAR) %>%
-        summarise(DISCARDS = sum(DISCARDS,na.rm=T))
+        summarise(DISCARDS = sum(DISCARDS,na.rm=TRUE))
 
     gr <- data.frame("YEAR"=seq(min(data$YEAR),max(data$YEAR),1),"GEAR"=rep(unique(data$GEAR),each=max(data$YEAR)-min(data$YEAR)+1),"DISC"=0)
 

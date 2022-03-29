@@ -24,11 +24,11 @@ colnames(Summary_land_wt)=c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR
 
 
     Landing_tab$Landing_tab[Landing_tab$LANDINGS==-1] <- 0
-    land_wt=Landing_tab %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(LANDINGS=sum(LANDINGS,na.rm=T))
+    land_wt=Landing_tab %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(LANDINGS=sum(LANDINGS,na.rm=TRUE))
 
     data <- Landing_tab  %>%
         group_by(YEAR, GEAR) %>%
-        summarise(LANDINGS = sum(LANDINGS,na.rm=T))
+        summarise(LANDINGS = sum(LANDINGS,na.rm=TRUE))
 
     gr <- data.frame("YEAR"=seq(min(data$YEAR),max(data$YEAR),1),"GEAR"=rep(unique(data$GEAR),each=max(data$YEAR)-min(data$YEAR)+1),"LAND"=0)
 

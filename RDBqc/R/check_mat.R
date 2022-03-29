@@ -57,7 +57,7 @@ years= paste("(",min(merge_temp$Year),"-",max(merge_temp$Year),")",sep="")
 Mat=aggregate(merge_temp$Mature,by=list(merge_temp$Length_class),FUN="sum")
 Immat=aggregate(merge_temp$Immature,by=list(merge_temp$Length_class),FUN="sum")
 
-merge_temp=merge(Mat,Immat,by=c("Group.1"), all=T)
+merge_temp=merge(Mat,Immat,by=c("Group.1"), all=TRUE)
 colnames(merge_temp)=c("Length_class","Mature","Immature")
 merge_temp$Total=rowSums(data.frame(merge_temp$Mature,merge_temp$Immature))
 
