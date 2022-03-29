@@ -117,3 +117,11 @@
 #' @author Isabella Bitetto \email{bitetto@coispa.it}
 #' @keywords GFCM datacall
 "task_vii31"
+
+#' minmaxLtaskVII31 in GFCM datacall format
+#'
+#' @name minmaxLtaskVII31
+#' @docType data
+#' @author Isabella Bitetto \email{bitetto@coispa.it}
+#' @keywords GFCM datacall
+"minmaxLtaskVII31"

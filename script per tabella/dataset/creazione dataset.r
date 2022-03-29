@@ -36,11 +36,13 @@ save(combination_taskII2, file="combination_taskII2.rda",compress="xz")
 catfau_check= read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\script per tabella\\dataset\\catfau_check.csv",sep=";",header=T)
 save(catfau_check, file="data/catfau_check.rda",compress="xz")
 
-sex_mat= read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\script per tabella\\dataset\\sex_mat.csv",sep=";",header=T)
+library(readr)
+sex_mat <- read_delim("~/GitHub/RDBqc/script per tabella/dataset/sex_mat.csv", delim = ";", escape_double = FALSE, locale = locale(encoding = "WINDOWS-1252"), trim_ws = TRUE)
 save(sex_mat, file="data/sex_mat.rda",compress="xz")
 
-minmaxLtaskVII2= read.table("C:\\Users\\Loredana Casciaro\\Desktop\\controlli GFCM-FDI\\script per tabella\\dataset\\minmax-L-taskVII.2.csv",sep=";",header=T)
+minmaxLtaskVII2= read.table("C:\\Users\\Loredana Casciaro\\Desktop\\controlli GFCM-FDI\\script per tabella\\dataset\\minmax_L_taskVII.2.csv",sep=";",header=T)
 save(minmaxLtaskVII2, file="minmax-L-taskVII2.rda",compress="xz")
 
-
+minmaxLtaskVII31= read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\script per tabella\\dataset\\minmax_L50_taskVII.3.1.csv",sep=";",header=T)
+save(minmaxLtaskVII31, file="data/minmaxLtaskVII31.rda",compress="xz")
 
