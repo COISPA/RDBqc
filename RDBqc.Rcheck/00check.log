@@ -1,9 +1,10 @@
-* using log directory 'G:/RDBqc/RDBqc.Rcheck'
+* using log directory 'D:/Documents and Settings/Utente/Documenti/GitHub/RDBqc/RDBqc.Rcheck'
 * using R version 4.1.2 (2021-11-01)
 * using platform: x86_64-w64-mingw32 (64-bit)
 * using session charset: ISO8859-1
+* using options '--no-manual --as-cran'
 * checking for file 'RDBqc/DESCRIPTION' ... OK
-* this is package 'RDBqc' version '0.0.1'
+* this is package 'RDBqc' version '0.0.3'
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... OK
@@ -11,10 +12,15 @@
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
 * checking for hidden files and directories ... OK
-* checking for portable file names ... OK
+* checking for portable file names ... WARNING
+Found the following file with a non-portable file name:
+  R/GFCM_Check_ empty_field_II2.R
+These are not fully portable file names.
+See section 'Package structure' in the 'Writing R Extensions' manual.
 * checking whether package 'RDBqc' can be installed ... OK
 * checking installed package size ... OK
 * checking package directory ... OK
+* checking for future file timestamps ... OK
 * checking DESCRIPTION meta-information ... OK
 * checking top-level files ... OK
 * checking for left-over files ... OK
@@ -28,16 +34,14 @@
 * checking whether the namespace can be loaded with stated dependencies ... OK
 * checking whether the namespace can be unloaded cleanly ... OK
 * checking loading without being on the library search path ... OK
-* checking dependencies in R code ... NOTE
-Namespace nel campo Imports non importati da:
-  'data.table' 'pander'
-  All declared Imports should be used.
+* checking dependencies in R code ... OK
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
 * checking R code for possible problems ... OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
+* checking Rd line widths ... OK
 * checking Rd cross-references ... OK
 * checking for missing documentation entries ... OK
 * checking for code/documentation mismatches ... OK
@@ -45,14 +49,33 @@ Namespace nel campo Imports non importati da:
 * checking Rd contents ... OK
 * checking for unstated dependencies in examples ... OK
 * checking contents of 'data' directory ... OK
-* checking data for non-ASCII characters ... OK
+* checking data for non-ASCII characters ... WARNING
+  Warning: found non-ASCII strings
+  'G.5 <96> Stomatopods / 0' in object 'sex_mat'
+  'G.5 <96> Stomatopods / 1' in object 'sex_mat'
+  'G.5 <96> Stomatopods / 2' in object 'sex_mat'
+  'G.5 <96> Stomatopods / 3' in object 'sex_mat'
+  'G.5 <96> Stomatopods / 4' in object 'sex_mat'
+  'G.5 <96> Stomatopods / 5' in object 'sex_mat'
 * checking LazyData ... OK
 * checking data for ASCII and uncompressed saves ... OK
-* checking examples ... OK
-* checking PDF version of manual ... WARNING
-LaTeX errors when creating PDF version.
-This typically indicates Rd problems.
-* checking PDF version of manual without hyperrefs or index ... ERROR
-Re-running with no redirection of stdout/stderr.
+* checking examples ... ERROR
+Running examples in 'RDBqc-Ex.R' failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_presence_taskII2
+> ### Title: Check of missing combination GSA/Fleet segment per year
+> ### Aliases: check_presence_taskII2
+> 
+> ### ** Examples
+> 
+> check_presence_taskII2(task_ii2,combination_taskII2)
+Error in `$<-.data.frame`(`*tmp*`, "Reference_Year", value = numeric(0)) : 
+  replacement has 0 rows, data has 5
+Calls: check_presence_taskII2 -> $<- -> $<-.data.frame
+Execution halted
+* checking for non-standard things in the check directory ... OK
+* checking for detritus in the temp directory ... OK
 * DONE
-Status: 1 ERROR, 1 WARNING, 1 NOTE
+Status: 1 ERROR, 2 WARNINGs

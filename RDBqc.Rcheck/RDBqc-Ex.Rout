@@ -21,6 +21,18 @@ Type 'q()' to quit R.
 > source(file.path(R.home("share"), "R", "examples-header.R"))
 > options(warn = 1)
 > options(pager = "console")
+> base::assign(".ExTimings", "RDBqc-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
 > library('RDBqc')
 > 
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
@@ -31,6 +43,7 @@ Type 'q()' to quit R.
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: Catch_coverage
 > ### Title: Catch_cov: function to check the coverage in Catch table
 > ### Aliases: Catch_coverage
@@ -249,12 +262,15 @@ Joining, by = c("YEAR", "GEAR")
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("Catch_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("Discard_coverage")
 > ### * Discard_coverage
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: Discard_coverage
 > ### Title: Discard_cov: function to check the coverage in Discard table
 > ### Aliases: Discard_coverage
@@ -310,12 +326,15 @@ Joining, by = c("YEAR", "GEAR")
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("Discard_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("Duplicated_GFCM_II2")
 > ### * Duplicated_GFCM_II2
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: Duplicated_GFCM_II2
 > ### Title: Check duplicated records in GFCM Task II.2 table
 > ### Aliases: Duplicated_GFCM_II2
@@ -328,12 +347,15 @@ integer(0)
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("Duplicated_GFCM_II2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("GP_check")
 > ### * GP_check
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: GP_check
 > ### Title: GP_tab (growth params) table check
 > ### Aliases: GP_check
@@ -357,12 +379,15 @@ integer(0)
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("GP_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("LW_check_MED_BS")
 > ### * LW_check_MED_BS
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: LW_check_MED_BS
 > ### Title: LW params in GP_tab (sex ratio at length) table check#'
 > ### Aliases: LW_check_MED_BS
@@ -386,12 +411,15 @@ integer(0)
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("LW_check_MED_BS", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("Landing_coverage")
 > ### * Landing_coverage
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: Landing_coverage
 > ### Title: Landing_cov: function to check the coverage in Landing table
 > ### Aliases: Landing_coverage
@@ -519,12 +547,15 @@ Joining, by = c("YEAR", "GEAR")
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("Landing_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("MA_tab_check")
 > ### * MA_tab_check
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: MA_tab_check
 > ### Title: MA_tab (maturity at age) table check
 > ### Aliases: MA_tab_check
@@ -549,12 +580,15 @@ Warning: Ignoring unknown parameters: binwidth
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("MA_tab_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("ML_tab_check")
 > ### * ML_tab_check
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: ML_tab_check
 > ### Title: ML_tab (maturity at length) table check
 > ### Aliases: ML_tab_check
@@ -579,12 +613,15 @@ Warning: Ignoring unknown parameters: binwidth
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ML_tab_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("SA_tab_check")
 > ### * SA_tab_check
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: SA_tab_check
 > ### Title: SA_tab (sex ratio at age) table check
 > ### Aliases: SA_tab_check
@@ -610,12 +647,15 @@ Warning: Ignoring unknown parameters: binwidth
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("SA_tab_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("SL_tab_check")
 > ### * SL_tab_check
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: SL_tab_check
 > ### Title: SL_tab (sex ratio at length) table check
 > ### Aliases: SL_tab_check
@@ -641,12 +681,15 @@ Warning: Ignoring unknown parameters: binwidth
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("SL_tab_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("check_AL")
 > ### * check_AL
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: check_AL
 > ### Title: Check consistency of age-length relationship
 > ### Aliases: check_AL
@@ -816,12 +859,15 @@ Warning: Ignoring unknown parameters: binwidth
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_AL", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("check_CL")
 > ### * check_CL
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: check_CL
 > ### Title: Quality checks on CL RCG table
 > ### Aliases: check_CL
@@ -882,12 +928,550 @@ Warning: Ignoring unknown parameters: binwidth
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_CL", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_EF_FDI_G")
+> ### * check_EF_FDI_G
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_EF_FDI_G
+> ### Title: Check empty fields in FDI G table
+> ### Aliases: check_EF_FDI_G
+> 
+> ### ** Examples
+> 
+> check_EF_FDI_G(fdi_g_effort)
+no NA in the country column
+no NA in the year column
+no NA in the quarter column
+no NA in the vessel_length column
+no NA in the fishing_tech column
+no NA in the gear_type column
+no NA in the target_assemblage column
+no NA in the mesh_size_range column
+no NA in the metier column
+no NA in the supra_region column
+no NA in the sub_region column
+no NA in the eez_indicator column
+no NA in the geo_indicator column
+no NA in the specon_tech column
+no NA in the deep column
+no NA in the totseadays column
+no NA in the totkwdaysatsea column
+no NA in the totgtdaysatsea column
+no NA in the totfishdays column
+no NA in the totkwfishdays column
+no NA in the totgtfishdays column
+no NA in the hrsea column
+no NA in the kwhrsea column
+no NA in the gthrsea column
+no NA in the totves column
+no NA in the confidential column
+[[1]]
+          country              year           quarter     vessel_length 
+                0                 0                 0                 0 
+     fishing_tech         gear_type target_assemblage   mesh_size_range 
+                0                 0                 0                 0 
+           metier      supra_region        sub_region     eez_indicator 
+                0                 0                 0                 0 
+    geo_indicator       specon_tech              deep        totseadays 
+                0                 0                 0                 0 
+   totkwdaysatsea    totgtdaysatsea       totfishdays     totkwfishdays 
+                0                 0                 0                 0 
+    totgtfishdays             hrsea           kwhrsea           gthrsea 
+                0                 0                 0                 0 
+           totves      confidential 
+                0                 0 
+
+[[2]]
+[[2]]$country
+integer(0)
+
+[[2]]$year
+integer(0)
+
+[[2]]$quarter
+integer(0)
+
+[[2]]$vessel_length
+integer(0)
+
+[[2]]$fishing_tech
+integer(0)
+
+[[2]]$gear_type
+integer(0)
+
+[[2]]$target_assemblage
+integer(0)
+
+[[2]]$mesh_size_range
+integer(0)
+
+[[2]]$metier
+integer(0)
+
+[[2]]$supra_region
+integer(0)
+
+[[2]]$sub_region
+integer(0)
+
+[[2]]$eez_indicator
+integer(0)
+
+[[2]]$geo_indicator
+integer(0)
+
+[[2]]$specon_tech
+integer(0)
+
+[[2]]$deep
+integer(0)
+
+[[2]]$totseadays
+integer(0)
+
+[[2]]$totkwdaysatsea
+integer(0)
+
+[[2]]$totgtdaysatsea
+integer(0)
+
+[[2]]$totfishdays
+integer(0)
+
+[[2]]$totkwfishdays
+integer(0)
+
+[[2]]$totgtfishdays
+integer(0)
+
+[[2]]$hrsea
+integer(0)
+
+[[2]]$kwhrsea
+integer(0)
+
+[[2]]$gthrsea
+integer(0)
+
+[[2]]$totves
+integer(0)
+
+[[2]]$confidential
+integer(0)
+
+
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_EF_FDI_G", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_EF_FDI_H")
+> ### * check_EF_FDI_H
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_EF_FDI_H
+> ### Title: Check empty fields in FDI H table
+> ### Aliases: check_EF_FDI_H
+> 
+> ### ** Examples
+> 
+> check_EF_FDI_H(fdi_h_spatial_land)
+no NA in the country column
+no NA in the year column
+no NA in the quarter column
+no NA in the vessel_length column
+no NA in the fishing_tech column
+no NA in the gear_type column
+no NA in the target_assemblage column
+no NA in the mesh_size_range column
+no NA in the metier column
+no NA in the supra_region column
+no NA in the sub_region column
+no NA in the eez_indicator column
+no NA in the geo_indicator column
+no NA in the specon_tech column
+no NA in the deep column
+no NA in the rectangle_type column
+no NA in the rectangle_lat column
+no NA in the rectangle_lon column
+no NA in the c_square column
+no NA in the species column
+no NA in the totwghtlandg column
+no NA in the totvallandg column
+no NA in the confidential column
+[[1]]
+          country              year           quarter     vessel_length 
+                0                 0                 0                 0 
+     fishing_tech         gear_type target_assemblage   mesh_size_range 
+                0                 0                 0                 0 
+           metier      supra_region        sub_region     eez_indicator 
+                0                 0                 0                 0 
+    geo_indicator       specon_tech              deep    rectangle_type 
+                0                 0                 0                 0 
+    rectangle_lat     rectangle_lon          c_square           species 
+                0                 0                 0                 0 
+     totwghtlandg       totvallandg      confidential 
+                0                 0                 0 
+
+[[2]]
+[[2]]$country
+integer(0)
+
+[[2]]$year
+integer(0)
+
+[[2]]$quarter
+integer(0)
+
+[[2]]$vessel_length
+integer(0)
+
+[[2]]$fishing_tech
+integer(0)
+
+[[2]]$gear_type
+integer(0)
+
+[[2]]$target_assemblage
+integer(0)
+
+[[2]]$mesh_size_range
+integer(0)
+
+[[2]]$metier
+integer(0)
+
+[[2]]$supra_region
+integer(0)
+
+[[2]]$sub_region
+integer(0)
+
+[[2]]$eez_indicator
+integer(0)
+
+[[2]]$geo_indicator
+integer(0)
+
+[[2]]$specon_tech
+integer(0)
+
+[[2]]$deep
+integer(0)
+
+[[2]]$rectangle_type
+integer(0)
+
+[[2]]$rectangle_lat
+integer(0)
+
+[[2]]$rectangle_lon
+integer(0)
+
+[[2]]$c_square
+integer(0)
+
+[[2]]$species
+integer(0)
+
+[[2]]$totwghtlandg
+integer(0)
+
+[[2]]$totvallandg
+integer(0)
+
+[[2]]$confidential
+integer(0)
+
+
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_EF_FDI_H", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_EF_FDI_I")
+> ### * check_EF_FDI_I
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_EF_FDI_I
+> ### Title: Check empty fields in FDI I table
+> ### Aliases: check_EF_FDI_I
+> 
+> ### ** Examples
+> 
+> check_EF_FDI_I(fdi_i_spatial_fe)
+no NA in the country column
+no NA in the year column
+no NA in the quarter column
+no NA in the vessel_length column
+no NA in the fishing_tech column
+no NA in the gear_type column
+no NA in the target_assemblage column
+no NA in the mesh_size_range column
+no NA in the metier column
+no NA in the supra_region column
+no NA in the sub_region column
+no NA in the eez_indicator column
+no NA in the geo_indicator column
+no NA in the specon_tech column
+no NA in the deep column
+no NA in the rectangle_type column
+no NA in the rectangle_lat column
+no NA in the rectangle_lon column
+no NA in the c_square column
+no NA in the totfishdays column
+no NA in the confidential column
+[[1]]
+          country              year           quarter     vessel_length 
+                0                 0                 0                 0 
+     fishing_tech         gear_type target_assemblage   mesh_size_range 
+                0                 0                 0                 0 
+           metier      supra_region        sub_region     eez_indicator 
+                0                 0                 0                 0 
+    geo_indicator       specon_tech              deep    rectangle_type 
+                0                 0                 0                 0 
+    rectangle_lat     rectangle_lon          c_square       totfishdays 
+                0                 0                 0                 0 
+     confidential 
+                0 
+
+[[2]]
+[[2]]$country
+integer(0)
+
+[[2]]$year
+integer(0)
+
+[[2]]$quarter
+integer(0)
+
+[[2]]$vessel_length
+integer(0)
+
+[[2]]$fishing_tech
+integer(0)
+
+[[2]]$gear_type
+integer(0)
+
+[[2]]$target_assemblage
+integer(0)
+
+[[2]]$mesh_size_range
+integer(0)
+
+[[2]]$metier
+integer(0)
+
+[[2]]$supra_region
+integer(0)
+
+[[2]]$sub_region
+integer(0)
+
+[[2]]$eez_indicator
+integer(0)
+
+[[2]]$geo_indicator
+integer(0)
+
+[[2]]$specon_tech
+integer(0)
+
+[[2]]$deep
+integer(0)
+
+[[2]]$rectangle_type
+integer(0)
+
+[[2]]$rectangle_lat
+integer(0)
+
+[[2]]$rectangle_lon
+integer(0)
+
+[[2]]$c_square
+integer(0)
+
+[[2]]$totfishdays
+integer(0)
+
+[[2]]$confidential
+integer(0)
+
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_EF_FDI_I", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_EF_FDI_J")
+> ### * check_EF_FDI_J
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_EF_FDI_J
+> ### Title: Check empty fields in FDI J table
+> ### Aliases: check_EF_FDI_J
+> 
+> ### ** Examples
+> 
+> check_EF_FDI_J(fdi_j_capacity)
+no NA in the country column
+no NA in the year column
+no NA in the vessel_length column
+no NA in the fishing_tech column
+no NA in the supra_region column
+no NA in the geo_indicator column
+no NA in the principal_sub_region column
+no NA in the tottrips column
+no NA in the totkw column
+no NA in the totgt column
+no NA in the totves column
+no NA in the avgage column
+no NA in the avgloa column
+no NA in the maxseadays column
+[[1]]
+             country                 year        vessel_length 
+                   0                    0                    0 
+        fishing_tech         supra_region        geo_indicator 
+                   0                    0                    0 
+principal_sub_region             tottrips                totkw 
+                   0                    0                    0 
+               totgt               totves               avgage 
+                   0                    0                    0 
+              avgloa           maxseadays 
+                   0                    0 
+
+[[2]]
+[[2]]$country
+integer(0)
+
+[[2]]$year
+integer(0)
+
+[[2]]$vessel_length
+integer(0)
+
+[[2]]$fishing_tech
+integer(0)
+
+[[2]]$supra_region
+integer(0)
+
+[[2]]$geo_indicator
+integer(0)
+
+[[2]]$principal_sub_region
+integer(0)
+
+[[2]]$tottrips
+integer(0)
+
+[[2]]$totkw
+integer(0)
+
+[[2]]$totgt
+integer(0)
+
+[[2]]$totves
+integer(0)
+
+[[2]]$avgage
+integer(0)
+
+[[2]]$avgloa
+integer(0)
+
+[[2]]$maxseadays
+integer(0)
+
+
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_EF_FDI_J", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_EF_taskII2")
+> ### * check_EF_taskII2
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_EF_taskII2
+> ### Title: Check empty fields in GFCM Task II.2 table
+> ### Aliases: check_EF_taskII2
+> 
+> ### ** Examples
+> 
+> check_EF_taskII2(task_ii2)
+no NA in the Reference_Year column
+no NA in the CPC column
+no NA in the GSA column
+no NA in the Segment column
+no NA in the Species column
+no NA in the Landing column
+no NA in the Catch column
+[[1]]
+Reference_Year            CPC            GSA        Segment        Species 
+             0              0              0              0              0 
+       Landing          Catch 
+             0              0 
+
+[[2]]
+[[2]]$Reference_Year
+integer(0)
+
+[[2]]$CPC
+integer(0)
+
+[[2]]$GSA
+integer(0)
+
+[[2]]$Segment
+integer(0)
+
+[[2]]$Species
+integer(0)
+
+[[2]]$Landing
+integer(0)
+
+[[2]]$Catch
+integer(0)
+
+
+> 
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_EF_taskII2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("check_LFD")
 > ### * check_LFD
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: check_LFD
 > ### Title: check LFD
 > ### Aliases: check_LFD
@@ -927,12 +1511,15 @@ Warning: Ignoring unknown parameters: binwidth, bins, pad
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_LFD", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("check_LFD_comm_cat")
 > ### * check_LFD_comm_cat
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: check_LFD_comm_cat
 > ### Title: Check consistency of LFD by year and commercial category
 > ### Aliases: check_LFD_comm_cat
@@ -961,12 +1548,99 @@ Warning: Ignoring unknown parameters: binwidth, bins, pad
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_LFD_comm_cat", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_RD_FDI_G")
+> ### * check_RD_FDI_G
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_RD_FDI_G
+> ### Title: Check duplicated records in FDI G table
+> ### Aliases: check_RD_FDI_G
+> 
+> ### ** Examples
+> 
+> check_RD_FDI_G(fdi_g_effort)
+no duplicated lines in the data frame
+integer(0)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_RD_FDI_G", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_RD_FDI_H")
+> ### * check_RD_FDI_H
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_RD_FDI_H
+> ### Title: Check duplicated records in FDI H table
+> ### Aliases: check_RD_FDI_H
+> 
+> ### ** Examples
+> 
+> check_RD_FDI_H(fdi_h_spatial_land)
+no duplicated lines in the data frame
+integer(0)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_RD_FDI_H", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_RD_FDI_I")
+> ### * check_RD_FDI_I
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_RD_FDI_I
+> ### Title: Check duplicated records in FDI I table
+> ### Aliases: check_RD_FDI_I
+> 
+> ### ** Examples
+> 
+> check_RD_FDI_I(fdi_i_spatial_fe)
+no duplicated lines in the data frame
+integer(0)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_RD_FDI_I", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_RD_FDI_J")
+> ### * check_RD_FDI_J
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_RD_FDI_J
+> ### Title: Check duplicated records in FDI J table
+> ### Aliases: check_RD_FDI_J
+> 
+> ### ** Examples
+> 
+> check_RD_FDI_J(fdi_j_capacity)
+no duplicated lines in the data frame
+integer(0)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_RD_FDI_J", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("check_loc")
 > ### * check_loc
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: check_loc
 > ### Title: Check trip location
 > ### Aliases: check_loc
@@ -977,12 +1651,15 @@ Warning: Ignoring unknown parameters: binwidth, bins, pad
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_loc", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("check_lw")
 > ### * check_lw
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: check_lw
 > ### Title: Consistency of length-weight relationship and consistency with
 > ###   allowed ranges
@@ -996,12 +1673,15 @@ Warning: Ignoring unknown parameters: binwidth
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_lw", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("check_mat")
 > ### * check_mat
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: check_mat
 > ### Title: Check consistency sex and maturity stage
 > ### Aliases: check_mat
@@ -1013,142 +1693,23 @@ Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("check_mat", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
-> nameEx("summarize_ind_meas")
-> ### * summarize_ind_meas
+> nameEx("check_presence_taskII2")
+> ### * check_presence_taskII2
 > 
 > flush(stderr()); flush(stdout())
 > 
-> ### Name: summarize_ind_meas
-> ### Title: Number of individual by trip for which biological data have been
-> ###   collected (length, sex, maturity, weight and age)
-> ### Aliases: summarize_ind_meas
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_presence_taskII2
+> ### Title: Check of missing combination GSA/Fleet segment per year
+> ### Aliases: check_presence_taskII2
 > 
 > ### ** Examples
 > 
-> summarize_ind_meas(data_ex)
-[1] No weight data
-[[1]]
-# A tibble: 139 x 5
-# Groups:   Year, Area, Species [4]
-    Year Area  Species         Trip_code  length_measurements
-   <int> <chr> <chr>           <chr>                    <int>
- 1  2014 GSA99 Mullus barbatus 12_18_2014                 120
- 2  2014 GSA99 Mullus barbatus 14_18_2014                 163
- 3  2014 GSA99 Mullus barbatus 15_18_2014                 252
- 4  2014 GSA99 Mullus barbatus 17_18_2014                 239
- 5  2014 GSA99 Mullus barbatus 19_18_2014                1657
- 6  2014 GSA99 Mullus barbatus 20_18_2014                 752
- 7  2014 GSA99 Mullus barbatus 22_18_2014                  62
- 8  2014 GSA99 Mullus barbatus 27_18_2014                2217
- 9  2014 GSA99 Mullus barbatus 41_18_2014                 396
-10  2014 GSA99 Mullus barbatus 43_18_2014                1039
-# ... with 129 more rows
-
-[[2]]
-# A tibble: 139 x 5
-# Groups:   Year, Area, Species [4]
-    Year Area  Species         Trip_code  maturity_data
-   <int> <chr> <chr>           <chr>              <int>
- 1  2014 GSA99 Mullus barbatus 12_18_2014           120
- 2  2014 GSA99 Mullus barbatus 14_18_2014           163
- 3  2014 GSA99 Mullus barbatus 15_18_2014           252
- 4  2014 GSA99 Mullus barbatus 17_18_2014           239
- 5  2014 GSA99 Mullus barbatus 19_18_2014          1657
- 6  2014 GSA99 Mullus barbatus 20_18_2014           752
- 7  2014 GSA99 Mullus barbatus 22_18_2014            62
- 8  2014 GSA99 Mullus barbatus 27_18_2014          2217
- 9  2014 GSA99 Mullus barbatus 41_18_2014           396
-10  2014 GSA99 Mullus barbatus 43_18_2014          1039
-# ... with 129 more rows
-
-[[3]]
-# A tibble: 139 x 5
-# Groups:   Year, Area, Species [4]
-    Year Area  Species         Trip_code  sex_data
-   <int> <chr> <chr>           <chr>         <int>
- 1  2014 GSA99 Mullus barbatus 12_18_2014      120
- 2  2014 GSA99 Mullus barbatus 14_18_2014      163
- 3  2014 GSA99 Mullus barbatus 15_18_2014      252
- 4  2014 GSA99 Mullus barbatus 17_18_2014      239
- 5  2014 GSA99 Mullus barbatus 19_18_2014     1657
- 6  2014 GSA99 Mullus barbatus 20_18_2014      752
- 7  2014 GSA99 Mullus barbatus 22_18_2014       62
- 8  2014 GSA99 Mullus barbatus 27_18_2014     2217
- 9  2014 GSA99 Mullus barbatus 41_18_2014      396
-10  2014 GSA99 Mullus barbatus 43_18_2014     1039
-# ... with 129 more rows
-
-[[4]]
-# A tibble: 107 x 5
-# Groups:   Year, Area, Species [4]
-    Year Area  Species         Trip_code  age_data
-   <int> <chr> <chr>           <chr>         <int>
- 1  2014 GSA99 Mullus barbatus 12_18_2014       54
- 2  2014 GSA99 Mullus barbatus 14_18_2014       52
- 3  2014 GSA99 Mullus barbatus 15_18_2014       68
- 4  2014 GSA99 Mullus barbatus 17_18_2014       27
- 5  2014 GSA99 Mullus barbatus 19_18_2014       84
- 6  2014 GSA99 Mullus barbatus 20_18_2014       32
- 7  2014 GSA99 Mullus barbatus 22_18_2014       12
- 8  2014 GSA99 Mullus barbatus 27_18_2014        1
- 9  2014 GSA99 Mullus barbatus 41_18_2014        8
-10  2014 GSA99 Mullus barbatus 43_18_2014        4
-# ... with 97 more rows
-
-[[5]]
-# A tibble: 0 x 5
-# Groups:   Year, Area, Species [0]
-# ... with 5 variables: Year <int>, Area <chr>, Species <chr>, Trip_code <chr>,
-#   weight_data <int>
-
-> 
-> 
-> 
-> cleanEx()
-> nameEx("summarize_trips")
-> ### * summarize_trips
-> 
-> flush(stderr()); flush(stdout())
-> 
-> ### Name: summarize_trips
-> ### Title: summarizing the number of trips/hauls monitored by year by port,
-> ###   metier, sampling method;
-> ### Aliases: summarize_trips
-> 
-> ### ** Examples
-> 
-> summarize_trips(data_ex)
-# A tibble: 32 x 6
-# Groups:   Year, Area, Harbour, Fishing_activity_category_European_lvl_6 [20]
-    Year Area  Harbour Fishing_activity_category_Europ~ Sampling.method Nb_trips
-   <int> <chr> <chr>   <chr>                            <chr>              <int>
- 1  2014 GSA99 ITBCE   OTB_DEF_>=40_0_0                 Observer               2
- 2  2014 GSA99 ITBDS   OTB_DEF_>=40_0_0                 Observer               2
- 3  2014 GSA99 ITBDS   OTB_DEF_>=40_0_0                 SelfSampling           2
- 4  2014 GSA99 ITMFR   OTB_DEF_>=40_0_0                 Observer               1
- 5  2014 GSA99 ITMFR   OTB_DEF_>=40_0_0                 SelfSampling           7
- 6  2014 GSA99 ITMNP   OTB_DEF_>=40_0_0                 Observer               2
- 7  2014 GSA99 ITMOL   OTB_DEF_>=40_0_0                 Observer               6
- 8  2014 GSA99 ITMOL   OTB_DEF_>=40_0_0                 SelfSampling           3
- 9  2015 GSA99 ITBCE   OTB_DEF_>=40_0_0                 Observer               1
-10  2015 GSA99 ITBCE   OTB_DEF_>=40_0_0                 SelfSampling           1
-# ... with 22 more rows
-> 
-> 
-> 
-> ### * <FOOTER>
-> ###
-> cleanEx()
-> options(digits = 7L)
-> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  5.01 0.25 5.33 NA NA 
-> grDevices::dev.off()
-null device 
-          1 
-> ###
-> ### Local variables: ***
-> ### mode: outline-minor ***
-> ### outline-regexp: "\\(> \\)?### [*]+" ***
-> ### End: ***
-> quit('no')
+> check_presence_taskII2(task_ii2,combination_taskII2)
+Error in `$<-.data.frame`(`*tmp*`, "Reference_Year", value = numeric(0)) : 
+  replacement has 0 rows, data has 5
+Calls: check_presence_taskII2 -> $<- -> $<-.data.frame
+Execution halted
