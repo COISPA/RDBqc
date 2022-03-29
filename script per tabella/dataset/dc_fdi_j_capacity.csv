@@ -1,0 +1,6 @@
+country;year;vessel_length;fishing_tech;supra_region;geo_indicator;principal_sub_region;tottrips;totkw;totgt;totves;avgage;avgloa;maxseadays
+ ITA ;2017; VL1824 ; DTS ; MBS ; NGI ; GSA16 ;13089;32283;8045;133;32;20.91;216
+ ITA ;2017; VL1824 ; DTS ; MBS ; NGI ; GSA18 ;6978;20861;4041;79;24;20.63;146
+ ITA ;2017; VL1824 ; DTS ; MBS ; NGI ; GSA19 ;2576;6353;1577;24;28;22.07;232
+ ITA ;2017; VL1824 ; DTS ; MBS ; NGI ; GSA9 ;20368;35009;6862;128;35;21.04;177
+ ITA ;2017; VL2440 ; DTS ; MBS ; NGI ; GSA11 ;2082;8700;2878;21;18;27.53;186

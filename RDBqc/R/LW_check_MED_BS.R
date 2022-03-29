@@ -9,6 +9,13 @@
 #' @importFrom grDevices dev.off
 #' @examples LW_check_MED_BS(GP_tab_example,"MUT","ITA","SA 18")
 LW_check_MED_BS<-function(GP_tab,SP,MS,GSA) {
+    if(FALSE){
+        GP_tab <- GP_tab_example
+        SP <- "MUT"
+        MS <- "ITA"
+        GSA <- "SA 18"
+    }
+
 GP_tab=GP_tab[GP_tab$SPECIES==SP & GP_tab$COUNTRY==MS & GP_tab$AREA==GSA,]
 
 LENGTH<-WEIGHT<-SEX<-ID<-NULL
@@ -46,26 +53,33 @@ LW_final <- LW_final[!LW_final$WEIGHT%in%NA,]
     steps <-seq(0,80,20)
 
 
-ggplot(LW_final,aes(x=LENGTH,y=WEIGHT,col=SEX))+geom_point()+geom_line()+
-           facet_wrap(~START_YEAR)+ggtitle(paste0("LW curve of ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "bottom")+scale_x_continuous(breaks=steps)+expand_limits(x = 0, y = 0)
+p <- ggplot(LW_final,aes(x=LENGTH,y=WEIGHT,col=SEX))+geom_point()+geom_line()+
+           facet_wrap(~START_YEAR)+ggtitle(paste0("LW curve of ",SP, " in ", MS,"_",GSA))+theme(legend.position = "bottom")+scale_x_continuous(breaks=steps)+expand_limits(x = 0, y = 0)
+print(p)
 
+i <- "M"
 for (i in unique(LW_final$SEX)){
-    ggplot(LW_final[LW_final$SEX%in%i,],aes(x=LENGTH,y=WEIGHT,col=ID))+geom_point()+geom_line()+
-               facet_wrap(~START_YEAR)+ggtitle(paste0("LW curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "bottom")
-           +scale_x_continuous(breaks=steps)+expand_limits(x = 0, y = 0)+
-               theme(
-                   legend.text = element_text(color = "blue", size = 6))+guides(col=guide_legend(title=paste(SP,GSA,MS)))
+ if (nrow(LW_final[LW_final$SEX%in%i,])>0) {
+    p <- ggplot(LW_final[LW_final$SEX%in%i,],aes(x=LENGTH,y=WEIGHT,col=ID))+geom_point()+geom_line()+
+               facet_wrap(~START_YEAR)+ggtitle(paste0("LW curve of ",i," ",SP, " in ", MS,"_",GSA))+theme(legend.position = "bottom")+
+               scale_x_continuous(breaks=steps)+expand_limits(x = 0, y = 0)+
+               theme(legend.text = element_text(color = "blue", size = 6))+
+               guides(col=guide_legend(title=paste(SP,GSA,MS)))
+    print(p)
+       }
     }
 
 for (i in unique(LW_final$SEX)){
-    ggplot(LW_final[LW_final$SEX%in%i,],aes(x=LENGTH,y=WEIGHT,col=ID))+geom_point()+geom_line()+
+    if (nrow(LW_final[LW_final$SEX%in%i,])>0){
+    p <- ggplot(LW_final[LW_final$SEX%in%i,],aes(x=LENGTH,y=WEIGHT,col=ID))+geom_point()+geom_line()+
                # facet_wrap(~START_YEAR)+
-               ggtitle(paste0("LW curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "bottom")
-           +scale_x_continuous(breaks=steps)+expand_limits(x = 0, y = 0)+
-               theme(
-                   legend.text = element_text(color = "blue", size = 6))+guides(col=guide_legend(title=paste(SP,GSA,MS))
-
-                   )}
+               ggtitle(paste0("LW curve of ",i," ",SP, " in ", MS,"_",GSA))+theme(legend.position = "bottom")+
+        scale_x_continuous(breaks=steps)+
+        expand_limits(x = 0, y = 0)+
+        theme(legend.text = element_text(color = "blue", size = 6))+guides(col=guide_legend(title=paste(SP,GSA,MS)))
+    print(p)
+        }
+    }
 return(Summary_LW)
 }
 

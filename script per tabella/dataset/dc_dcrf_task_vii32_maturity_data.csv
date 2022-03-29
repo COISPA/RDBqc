@@ -1,0 +1,11 @@
+country;reference_year;gsa;source_data_cd;survey_name;fleet_segment_cd;scientific_name;length_unit;len;sex;maturity;n_individ_measured_per_lenclass_sex_mstage;w_individ_sampled_per_lenclass_sex_mstage;n_individ_expanded_per_lenclass_sex_mstage;comments
+ITA;2017;18;SU;MEDITS;T-12;CTC;cm;7.5;M;G.2 - Cephalopods / 2a;1;0.063;1;
+ITA;2017;18;SU;MEDITS;T-12;CTC;cm;8;F;G.2 - Cephalopods / 2a;1;0.075;1;
+ITA;2017;18;SU;MEDITS;T-12;CTC;cm;8.5;M;G.2 - Cephalopods / 2b;1;0.089;1;
+ITA;2017;18;SU;MEDITS;T-12;CTC;cm;9.5;F;G.2 - Cephalopods / 2a;1;0.12;1;
+ITA;2017;18;SU;MEDITS;T-12;CTC;cm;10;M;G.2 - Cephalopods / 2a;1;0.137;1;
+ITA;2017;18;SU;MEDITS;T-12;CTC;cm;10.5;M;G.2 - Cephalopods / 3a;1;0.156;1;
+ITA;2017;18;SU;MEDITS;T-12;CTC;cm;10.5;M;G.2 - Cephalopods / 3b;1;0.156;1;
+ITA;2017;18;SU;MEDITS;T-12;CTC;cm;11.5;F;G.2 - Cephalopods / 2a;1;0.199;1;
+ITA;2017;18;SU;MEDITS;T-12;CTC;cm;12;M;G.2 - Cephalopods / 3a;1;0.224;1;
+ITA;2017;18;SU;MEDITS;T-12;CTC;cm;13.5;F;G.2 - Cephalopods / 2b;1;0.307;1;
