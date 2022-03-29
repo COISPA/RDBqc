@@ -18,10 +18,10 @@ colnames(Summary_SL)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX
 Summary_SL=Summary_SL[1:nrow(Summary_SL),1:(ncol(Summary_SL)-1)]
 
 
-ggplot(data=SL_tab, aes(x=LENGTHCLASS,y= SEX_RATIO,col=factor(START_YEAR))) + geom_line(stat="identity", binwidth = 0.5) + facet_grid(AREA+COUNTRY~ .)
+print(ggplot(data=SL_tab, aes(x=LENGTHCLASS,y=SEX_RATIO,col=factor(START_YEAR))) + geom_line(stat="identity", binwidth = 0.5) + facet_grid(AREA+COUNTRY~ .))
 
 
-ggplot(SL_tab, aes(x=LENGTHCLASS, y=SEXRATIO,col="red"))+geom_point()+geom_line()+scale_y_continuous(breaks=seq(0,1,0.25))+expand_limits(x = 0, y = 0)+facet_wrap(~START_YEAR)+ggtitle(paste0("Sexratio by length class of ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "none")
+print(ggplot(SL_tab, aes(x=LENGTHCLASS, y=SEX_RATIO,col="red"))+geom_point()+geom_line()+scale_y_continuous(breaks=seq(0,1,0.25))+expand_limits(x = 0, y = 0)+facet_wrap(~START_YEAR)+ggtitle(paste0("Sexratio by length class of ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "none"))
 
 return(Summary_SL)
 }
