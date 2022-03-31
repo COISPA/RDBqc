@@ -1,0 +1,23 @@
+Package: RDBqc
+Title: Quality check functions for RDBFIS
+Version: 0.0.3
+Authors@R: 
+    person("Isabella", "Bitetto", , "bitetto@coispa.it", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-8497-1642"))
+    person("Walter", "Zupa", , "zupa@coispa.it", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-2058-8652"))       
+Description: The package contains functions used to perform a priori and a posteriori quality checks on RDBFIS data.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends: R (>= 4.1.2)
+Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, pander, data.table,
+        grDevices, magrittr, tictoc,tidyverse, fishmethods,tidyr
+LazyData: true
+Suggests: rmarkdown, knitr
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2022-03-31 10:35:39 UTC; Walter
+Author: Walter Zupa [aut, cre] (<https://orcid.org/0000-0002-2058-8652>)
+Maintainer: Walter Zupa <zupa@coispa.it>
