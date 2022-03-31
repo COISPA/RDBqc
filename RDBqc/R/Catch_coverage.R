@@ -31,11 +31,11 @@ Summary_disc_wt= Summary_disc_wt[-which(round(Summary_disc_wt$DISCARDS,2)==-1),]
 # Plot 1
  ## LANDINGS AT AGE ####
  Catch_tab$LANDINGS[Catch_tab$LANDINGS==-1] <- 0
- catch_land_wt=Catch_tab %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(LANDINGS=sum(LANDINGS,na.rm=T))
+ catch_land_wt=Catch_tab %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(LANDINGS=sum(LANDINGS,na.rm=TRUE))
 
  data <- Catch_tab  %>%
      group_by(YEAR, GEAR) %>%
-     summarise(LANDINGS = sum(LANDINGS,na.rm=T))
+     summarise(LANDINGS = sum(LANDINGS,na.rm=TRUE))
 
  gr <- data.frame("YEAR"=seq(min(data$YEAR),max(data$YEAR),1),"GEAR"=rep(unique(data$GEAR),each=max(data$YEAR)-min(data$YEAR)+1),"LAND"=0)
 
@@ -50,7 +50,7 @@ Summary_disc_wt= Summary_disc_wt[-which(round(Summary_disc_wt$DISCARDS,2)==-1),]
 # Plot 2
  ## DISCARDS AT AGE ####
  Catch_tab$DISCARDS[Catch_tab$DISCARDS==-1] <- 0
- Catch_tab_disc_wt=Catch_tab %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(DISCARDS=sum(DISCARDS,na.rm=T))
+ Catch_tab_disc_wt=Catch_tab %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE,FISHERY) %>% summarize(DISCARDS=sum(DISCARDS,na.rm=TRUE))
 
  data <- Catch_tab  %>%
      group_by(YEAR, GEAR) %>%

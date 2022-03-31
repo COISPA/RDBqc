@@ -1,6 +1,6 @@
-country;reference_year;gsa;scientific_name;sex;l50;reference;comments
-ITA;2017;19;HKE;F;33.6;;
-ITA;2017;19;HKE;M;17.8;;
-ITA;2017;19;MTS;F;20.3;;
-ITA;2017;19;MUT;F;11.4;;
-ITA;2017;19;MUT;M;10.4;;
+Reference_Year;CPC;GSA;Species;Sex;L50;Reference;Comments
+2019;ITA;19;HKE;F;33.6;;
+2019;ITA;19;HKE;M;17.8;;
+2019;ITA;19;MTS;F;20.3;;
+2019;ITA;19;MUT;F;11.4;;
+2019;ITA;19;MUT;M;10.4;;
