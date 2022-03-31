@@ -9,7 +9,7 @@
 #' @examples check_LFD(data_ex,species="Mullus barbatus",min_len=1,max_len=35)
 #' @import ggplot2
 #' @importFrom utils globalVariables
-check_LFD <- function(data,species,min_len=1,max_len=1000) {
+check_LFD <- function(data,species,min_len=1,max_len=1000){
 
     data <- data[data$Species==species, ]
     Length_class <- Number_at_length <-NULL
