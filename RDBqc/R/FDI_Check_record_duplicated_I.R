@@ -1,9 +1,10 @@
 #' Check duplicated records in FDI I table
 #'
+#' @description The function check the presence of duplicated records. In particular, it checks whether the combination of the first 15 columns generates duplicate records.
 #' @param data GFCM Task I table
 #' @param verbose boolean. If TRUE a message is printed.
 #'
-#' @return indices of the duplicated rows in the first 15 columns
+#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 15 columns of the FDI G table.
 #' @export
 #'
 #' @examples check_RD_FDI_I(fdi_i_spatial_fe)
