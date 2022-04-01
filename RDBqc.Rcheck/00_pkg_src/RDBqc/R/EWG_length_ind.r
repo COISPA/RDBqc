@@ -1,0 +1,382 @@
+#' Main length size indicators
+#'
+#' @param data data frame of landings or discards data
+#' @param type type of data frame. "l" for landing and "d" for discard
+#' @param out type of oututplot to be generated. "mean" or "median"
+#' @param MS member state code as it is reported in the landing data
+#' @param GSA string value of the GSA code
+#' @param SP species reference code in the three alpha code format
+#' @param splines spline values assignment to fit cumulative distributions
+#' @param Xtresholds threshold value
+#' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @examples EWG_length_ind(landing,type="l",out="mean",MS=c("ITA"),
+#' GSA=c("18"),SP="NEP", splines=c(0.2,0.4,0.6,0.8),
+#' Xtresholds = c(0.25,0.5,0.75))
+#' @import tidyverse
+#' @importFrom dplyr full_join
+#' @importFrom magrittr %>%
+#' @importFrom dplyr group_by
+#' @importFrom dplyr inner_join
+#' @importFrom dplyr left_join
+#' @importFrom dplyr summarize
+#' @importFrom utils globalVariables
+#' @importFrom dplyr mutate
+#' @importFrom dplyr filter
+#' @importFrom dplyr full_join
+#' @importFrom data.table .SD
+#' @importFrom utils tail
+#' @importFrom stats aggregate approxfun loess predict setNames
+#' @importFrom ggplot2 facet_wrap guide_legend guides
+#' @export EWG_length_ind
+
+EWG_length_ind <- function (data,type,out="mean",MS,GSA,SP, splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75)) {
+
+    if (FALSE) {
+        data=landing
+        splines <- c(0.2)
+        Xtresholds = c(0.5)
+        type="l"
+        out = "mean" # "mean"
+        MS <- c("ITA")
+        GSA <- c("18")
+        SP <- "NEP"
+
+        EWG_length_ind(data=discards, type="d",out="median",MS="ITA",GSA="18", SP="NEP",splines=splines, Xtresholds=Xtresholds)
+
+    }
+
+    . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery  <- NULL
+    value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
+
+    if (type == "l") {
+        landed <- data #landed<-fread("../data/landings.csv")
+        landed$area <- as.numeric(gsub("[^0-9]", "", landed$area))
+        landed$upload_id <- NA
+        id_landings <- NA
+        landed <- cbind(id_landings,landed)
+        landed$landings[landed$landings==-1]=0
+
+        ## Subsetting DataFrame, preparing data for further elaboration and setting output directory ####
+        land <- landed[which(landed$area==GSA & landed$country==MS & landed$species==SP),]
+        var_no_landed <- grep("lengthclass", names(land), value=TRUE)
+        max_no_landed<-land[,lapply(.SD,max),by=.(country,area,species,year,gear,mesh_size_range,fishery),.SDcols=var_no_landed]
+        max_no_landed[max_no_landed==-1]=0
+        max_no_landed2=max_no_landed[,-(1:7)]
+
+        # is.na(max_no_landed)
+        p=as.data.frame(colSums(max_no_landed2,na.rm=TRUE))
+        p$Length=c(0:100)
+        names(p)=c("Sum","Length")
+        maxlength= max(p[which(p$Sum > 0),"Length"])
+        unit=unique(land$unit)
+
+        ###### LANDINGS #######
+        cols <- c(which(colnames(land) %in% c("year", "area", "species", "unit","gear","fishery","country")), grep("lengthclass", colnames(land)))
+        dat <- land[, cols, with=FALSE]
+        lccols <- grep("lengthclass", colnames(dat))
+        colnames(dat)[lccols] <- gsub("[^0-9]", "", colnames(dat)[lccols])
+        ldat <- data.table::melt(dat, id.vars=c("year", "area","species", "unit", "country", "gear", "fishery"), variable.name="start_length", value.name="value")
+        ldat$start_length=as.integer(ldat$start_length)
+        ldat[(ldat$value<0) | is.na(ldat$value),"value"] <- 0
+
+        LFL=aggregate(ldat$value,by=list(ldat$year,ldat$gear,ldat$fishery,ldat$start_length),sum)
+        names(LFL)=c("year","gear","fishery","start_length","value")
+        LFL$ID=paste0(LFL$gear,"_",LFL$fishery,sep="")
+        LFL$start_length=LFL$start_length-1
+
+
+        tempcum <- list()
+        c=1
+
+        for (i in unique(LFL$year)){
+            tempyr <- LFL[LFL$year%in%i,]
+            for(j in unique(tempyr$gear)){
+                tempgear <- tempyr[tempyr$gear%in%j,]
+                for(z in unique(tempgear$fishery)){
+                    tempfish <- tempgear[tempgear$fishery%in%z,]
+                    xout <- as.data.frame(transform(tempfish, cumFreq = cumsum(value)))
+                    xout$relative = xout$cumFreq/max(xout$cumFreq)
+                    tempcum[[c]] <- xout
+                    c=c+1
+                }
+            }
+        }
+
+        db <- do.call(rbind,tempcum)
+
+        suppressMessages(NUMBERb <- LFL %>% group_by(year,gear,fishery) %>%
+            summarize(total_number = sum(value)))
+
+        suppressMessages(MEANdb <- LFL %>% group_by(year,gear,fishery) %>%
+            summarize(mean_size = (sum(start_length*value,na.rm = T))/sum(value,na.rm = T)))
+
+        suppressMessages(LFL_mutate <- inner_join(LFL,MEANdb))
+        LFL_mutate$square <- (LFL_mutate$start_length-LFL_mutate$mean_size)^2
+        LFL_mutate$fsquare <- LFL_mutate$square*LFL_mutate$value
+
+        suppressMessages(SDdb <- LFL_mutate %>% group_by(year,gear,fishery) %>%
+            summarize(sd_size = sqrt(sum(fsquare)/(sum(value)-1))))
+
+        suppressMessages(MINdb <- LFL %>% group_by(year,gear,fishery) %>%
+            filter(value > 0, na.rm = TRUE) %>%
+            summarize(min_size = min(start_length,na.rm = T)))
+
+        suppressMessages(MAXdb <- LFL %>% group_by(year,gear,fishery) %>%
+            filter(value > 0, na.rm = TRUE) %>%
+            summarize(max_size = max(start_length,na.rm = T)))
+
+        suppressMessages(final_DB <- left_join(MINdb,MEANdb))
+        suppressMessages(final_DB <- inner_join(final_DB,MAXdb))
+
+        suppressMessages(final_DB <- left_join(final_DB,SDdb))
+
+        suppressMessages(final_DB <- left_join(NUMBERb,final_DB))
+        suppressMessages(final_DB <- as.data.frame(final_DB))
+
+        LFLandings <- LFL
+
+        suppressMessages(db <- left_join(NUMBERb,db))
+        dbland <- setNames(NUMBERb,c("year","gear","fishery","total_number_landed"))
+        dbl = filter(db, total_number != 0)
+
+        tmp1 <- list()
+        c=1
+
+        for (i in unique(dbl$year)){
+            #i=2019
+            tempyr <- dbl[dbl$year%in%i,]
+            for(j in unique(tempyr$gear)){
+                #j="OTB"
+                tempgear <- tempyr[tempyr$gear%in%j,]
+                for(z in unique(tempgear$fishery)){
+                    #z="DEMSP"
+                    tempfish <- tempgear[tempgear$fishery%in%z,]
+                    for (q in unique(splines)){
+                        smooth_vals = loess(tempfish$relative~tempfish$start_length,span=q)
+
+                        X = seq(0,100,1)
+                        P = abs(predict(smooth_vals, X))
+                        M = which.max(P)
+                        Inverse1 = approxfun(X[1:M] ~ P[1:M])
+
+                        db1 <- data.frame(spline=q,percentile=Xtresholds,percentile_value=Inverse1(Xtresholds))
+                        db1$year <- i
+                        db1$gear <- j
+                        db1$fishery <- z
+                        tmp1[[c]] <- db1
+                        c=c+1
+                    }
+                }
+            }
+        }
+        db27 <- do.call(rbind,tmp1)
+
+        suppressMessages(LFLandingsDB <- left_join(final_DB,db27))
+
+
+        result <- LFLandingsDB
+
+        if (out=="mean") {
+               plot=ggplot(LFLandingsDB[LFLandingsDB$total_number>0,], aes(x=as.numeric(year), y=as.numeric(mean_size),col=fishery))+geom_point(col="black") +geom_line() + facet_wrap(~gear,scales = "free")+ scale_x_continuous(breaks = seq(min(LFLandingsDB$year),max(LFLandingsDB$year),by=2))+
+                   theme(axis.text.x = element_text(angle=45,size=8))+
+                   theme(strip.background =element_rect(fill="white"))+
+                   theme(axis.text.y = element_text(angle=90,size=8)) +
+                   ggtitle(paste0("Landing Mean Length ",SP," ",MS," ",GSA))+
+                   xlab("")+
+                   ylab(paste0("Mean size","(",unit,")"))+
+                   theme(legend.position="bottom")+
+                   guides(colour = guide_legend(nrow = 1))
+               print(plot)
+
+        } else if (out == "median") {
+
+               plot=ggplot(LFLandingsDB[LFLandingsDB$spline%in%0.2 & LFLandingsDB$percentile %in%0.50 & LFLandingsDB$total_number>0,], aes(x=as.numeric(year), y=as.numeric(percentile_value),col=fishery))+geom_point(col="black") +geom_line() + facet_wrap(~gear,scales = "free")+ scale_x_continuous(breaks = seq(min(LFLandingsDB$year),max(LFLandingsDB$year),by=2))+
+                   theme(axis.text.x = element_text(angle=45,size=8))+
+                   theme(strip.background =element_rect(fill="white"))+
+                   theme(axis.text.y = element_text(angle=90,size=8)) +
+                   ggtitle(paste0("Landing Median Length ",SP," ",MS," ",GSA))+
+                   xlab("")+
+                   ylab(paste0("Median size","(",unit,")"))+
+                   theme(legend.position="bottom")+
+                   guides(colour = guide_legend(nrow = 1))
+               print(plot)
+               }
+    }
+
+   ############################################################
+
+
+
+    if (type == "d") {
+
+
+        discarded <- data # fread("../data/discards.csv")
+        discarded$area <- as.numeric(gsub("[^0-9]", "", discarded$area))
+        discarded$upload_id <- NA
+        discarded$discards[discarded$discards==-1]=0
+
+        disc <- discarded[which(discarded$area==GSA & discarded$country==MS & discarded$species==SP),]
+        var_no_discard <- grep("lengthclass", names(disc), value=TRUE)
+        max_no_discard<-disc[,lapply(.SD,max),by=.(country,area,species,year,gear,mesh_size_range,fishery),.SDcols=var_no_discard]
+        max_no_discard[max_no_discard==-1]=0
+        max_no_discard2=max_no_discard[,-(1:7)]
+
+        # is.na(max_no_landed)
+        p=as.data.frame(colSums(max_no_discard2,na.rm=TRUE))
+        p$Length=c(0:100)
+        names(p)=c("Sum","Length")
+        maxlength= max(p[which(p$Sum > 0),"Length"])
+        unit=unique(disc$unit)
+
+        cols <- c(which(colnames(disc) %in% c("year", "area", "species", "unit","gear","fishery","country")), grep("lengthclass", colnames(disc)))
+        dat1 <- disc[, cols, with=FALSE]
+        lccols <- grep("lengthclass", colnames(dat1))
+        colnames(dat1)[lccols] <- gsub("[^0-9]", "", colnames(dat1)[lccols])
+        ddat <- data.table::melt(dat1, id.vars=c("year", "area","species", "unit", "country", "gear", "fishery"), variable.name="start_length", value.name="value")
+        ddat$start_length=as.integer(ddat$start_length)
+        ddat[(ddat$value<0) | is.na(ddat$value),"value"] <- 0
+
+        LFD=aggregate(ddat$value,by=list(ddat$year,ddat$gear,ddat$fishery,ddat$start_length),sum)
+        names(LFD)=c("year","gear","fishery","start_length","value")
+        LFD$ID=paste0(LFD$gear,"_",LFD$fishery,sep="")
+        LFD$start_length=LFD$start_length-1
+
+
+        if (nrow(disc)>0){
+            LFL <- LFD
+            tempcum <- list()
+            c=1
+            for (i in unique(LFL$year)){
+                tempyr <- LFL[LFL$year%in%i,]
+                for(j in unique(tempyr$gear)){
+                    tempgear <- tempyr[tempyr$gear%in%j,]
+                    for(z in unique(tempgear$fishery)){
+                        tempfish <- tempgear[tempgear$fishery%in%z,]
+                        xout <- as.data.frame(transform(tempfish, cumFreq = cumsum(value)))
+                        xout$relative = xout$cumFreq/max(xout$cumFreq)
+                        tempcum[[c]] <- xout
+                        c=c+1
+                    }
+                }
+            }
+
+
+            db <- do.call(rbind,tempcum)
+
+
+            suppressMessages(NUMBERb <- LFL %>% group_by(year,gear,fishery) %>%
+                summarize(total_number = sum(value)))
+
+            suppressMessages(MEANdb <- LFL %>% group_by(year,gear,fishery) %>%
+                summarize(mean_size = (sum(start_length*value,na.rm = T))/sum(value,na.rm = T)))
+
+            suppressMessages(LFL_mutate <- inner_join(LFL,MEANdb))
+            LFL_mutate$square <- (LFL_mutate$start_length-LFL_mutate$mean_size)^2
+            LFL_mutate$fsquare <- LFL_mutate$square*LFL_mutate$value
+
+            suppressMessages(SDdb <- LFL_mutate %>% group_by(year,gear,fishery) %>%
+                summarize(sd_size = sqrt(sum(fsquare)/(sum(value)-1))))
+
+
+            suppressMessages(MINdb <- LFL %>% group_by(year,gear,fishery) %>%
+                filter(value > 0, na.rm = TRUE) %>%
+                summarize(min_size = min(start_length,na.rm = T)))
+
+
+            suppressMessages(MAXdb <- LFL %>% group_by(year,gear,fishery) %>%
+                filter(value > 0, na.rm = TRUE) %>%
+                summarize(max_size = max(start_length,na.rm = T)))
+
+
+            suppressMessages(final_DB <- left_join(MINdb,MEANdb))
+            suppressMessages(final_DB <- inner_join(final_DB,MAXdb))
+            suppressMessages(final_DB <- left_join(final_DB,SDdb))
+
+            suppressMessages(final_DB <- left_join(NUMBERb,final_DB))
+            final_DB <- as.data.frame(final_DB)
+
+            LFDiscards <- LFL
+
+            suppressMessages(db <- left_join(NUMBERb,db))
+            dbdisc <- setNames(NUMBERb,c("year","gear","fishery","total_number_discarded"))
+            dbs = filter(db, total_number != 0)
+
+            tmp1 <- list()
+            c=1
+
+            for (i in unique(dbs$year)){
+                #i=2019
+                tempyr <- dbs[dbs$year%in%i,]
+                for(j in unique(tempyr$gear)){
+                    #j="OTB"
+                    tempgear <- tempyr[tempyr$gear%in%j,]
+                    for(z in unique(tempgear$fishery)){
+                        #z="DEMSP"
+                        tempfish <- tempgear[tempgear$fishery%in%z,]
+                        for (q in unique(splines)){
+
+                            smooth_vals = loess(tempfish$relative~tempfish$start_length,span=q)
+
+                            X = seq(0,100,1)
+                            P = abs(predict(smooth_vals, X))
+                            M = which.max(P)
+                            Inverse1 = approxfun(X[1:M] ~ P[1:M])
+
+                            db1 <- data.frame(spline=q,percentile=Xtresholds,percentile_value=Inverse1(Xtresholds))
+                            db1$year <- i
+                            db1$gear <- j
+                            db1$fishery <- z
+                            tmp1[[c]] <- db1
+                            c=c+1
+                        }
+                    }
+                }
+            }
+
+            db27 <- do.call(rbind,tmp1)
+
+            suppressMessages(LFDiscardsDB <- left_join(final_DB,db27))
+
+            result <- LFDiscardsDB
+
+            if (out=="mean") {
+
+
+                plot=ggplot(LFDiscardsDB[LFDiscardsDB$total_number>0,], aes(x=as.numeric(year), y=as.numeric(mean_size),col=fishery))+geom_point(col="black") +geom_line() + facet_wrap(~gear,scales = "free")+ scale_x_continuous(breaks = seq(min(LFDiscardsDB$year),max(LFDiscardsDB$year),by=2))+
+                       theme(axis.text.x = element_text(angle=45,size=8))+
+                       theme(strip.background =element_rect(fill="white"))+
+                       theme(axis.text.y = element_text(angle=90,size=8)) +
+                       ggtitle(paste0("Discard Mean Length ",SP," ",MS," ",GSA))+
+                       xlab("")+
+                       ylab(paste0("Mean size","(",unit,")"))+
+                       theme(legend.position="bottom")+
+                       guides(colour = guide_legend(nrow = 1))
+                print(plot)
+
+            }  else if (out == "median") {
+
+                plot=ggplot(LFDiscardsDB[LFDiscardsDB$spline%in%0.2 & LFDiscardsDB$percentile %in%0.50 & LFDiscardsDB$total_number>0,], aes(x=as.numeric(year), y=as.numeric(percentile_value),col=fishery))+geom_point(col="black") +geom_line() + facet_wrap(~gear,scales = "free")+ scale_x_continuous(breaks = seq(min(LFDiscardsDB$year),max(LFDiscardsDB$year),by=2))+
+                       theme(axis.text.x = element_text(angle=45,size=8))+
+                       theme(strip.background =element_rect(fill="white"))+
+                       theme(axis.text.y = element_text(angle=90,size=8)) +
+                       ggtitle(paste0("Discard Median Length ",SP," ",MS," ",GSA))+
+                       xlab("")+
+                       ylab(paste0("Median size","(",unit,")"))+
+                       theme(legend.position="bottom")+
+                       guides(colour = guide_legend(nrow = 1))
+                print(plot)
+
+            }
+
+
+        } else {
+            print("No discards data available for this stock")
+        }
+    }
+
+
+return (result)
+
+}

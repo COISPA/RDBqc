@@ -1,0 +1,2199 @@
+
+R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+Copyright (C) 2021 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "RDBqc"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> options(pager = "console")
+> base::assign(".ExTimings", "RDBqc-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
+> library('RDBqc')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("Catch_coverage")
+> ### * Catch_coverage
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: Catch_coverage
+> ### Title: Catch_cov: function to check the coverage in Catch table
+> ### Aliases: Catch_coverage
+> 
+> ### ** Examples
+> 
+> Catch_coverage(Catch_tab_example,"DPS","ITA","9")
+Joining, by = c("YEAR", "GEAR")
+Joining, by = c("YEAR", "GEAR")
+[[1]]
+   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY AREA SPECIES
+1      ITA 2004      -1            -1  OTB          50D100      -1    9     DPS
+2      ITA 2004      -1            -1  GNS              -1    DEMF    9     DPS
+3      ITA 2007      -1            -1  GNS              -1    DEMF    9     DPS
+4      ITA 2008      -1            -1  GNS              -1    DEMF    9     DPS
+5      ITA 2014      -1            -1  GNS              -1    DEMF    9     DPS
+6      ITA 2017       2            -1  GNS              -1    DEMF    9     DPS
+7      ITA 2003      -1            -1  GTR              -1   DEMSP    9     DPS
+8      ITA 2004      -1            -1  GTR              -1   DEMSP    9     DPS
+9      ITA 2005      -1            -1  GTR              -1   DEMSP    9     DPS
+10     ITA 2012      -1            -1  GTR              -1   DEMSP    9     DPS
+11     ITA 2003      -1            -1  OTB              -1   DEMSP    9     DPS
+12     ITA 2005      -1            -1  OTB          50D100   DEMSP    9     DPS
+13     ITA 2006      -1            -1  OTB          50D100   DEMSP    9     DPS
+14     ITA 2007      -1            -1  OTB          50D100   DEMSP    9     DPS
+15     ITA 2008      -1            -1  OTB          50D100   DEMSP    9     DPS
+16     ITA 2009      -1            -1  OTB          50D100   DEMSP    9     DPS
+17     ITA 2010      -1            -1  OTB          50D100   DEMSP    9     DPS
+18     ITA 2011      -1            -1  OTB          50D100   DEMSP    9     DPS
+19     ITA 2012      -1            -1  OTB          50D100   DEMSP    9     DPS
+20     ITA 2013      -1            -1  OTB          50D100   DEMSP    9     DPS
+21     ITA 2014      -1            -1  OTB          50D100   DEMSP    9     DPS
+22     ITA 2015      -1            -1  OTB          50D100   DEMSP    9     DPS
+23     ITA 2016       1            -1  OTB          50D100   DEMSP    9     DPS
+24     ITA 2017       1            -1  OTB          50D100   DEMSP    9     DPS
+25     ITA 2016       2            -1  OTB          50D100   DEMSP    9     DPS
+26     ITA 2017       2            -1  OTB          50D100   DEMSP    9     DPS
+27     ITA 2016       3            -1  OTB          50D100   DEMSP    9     DPS
+28     ITA 2017       3            -1  OTB          50D100   DEMSP    9     DPS
+29     ITA 2016       4            -1  OTB          50D100   DEMSP    9     DPS
+30     ITA 2017       4            -1  OTB          50D100   DEMSP    9     DPS
+31     ITA 2008      -1            -1  OTB          50D100    DWSP    9     DPS
+32     ITA 2010      -1            -1  OTB          50D100    DWSP    9     DPS
+33     ITA 2011      -1            -1  OTB          50D100    DWSP    9     DPS
+34     ITA 2012      -1            -1  OTB          50D100    DWSP    9     DPS
+35     ITA 2013      -1            -1  OTB          50D100    DWSP    9     DPS
+36     ITA 2014      -1            -1  OTB          50D100    DWSP    9     DPS
+37     ITA 2015      -1            -1  OTB          50D100    DWSP    9     DPS
+38     ITA 2016      -1            -1  OTB          50D100    DWSP    9     DPS
+39     ITA 2005      -1            -1  OTB          50D100  MDDWSP    9     DPS
+40     ITA 2006      -1            -1  OTB          50D100  MDDWSP    9     DPS
+41     ITA 2007      -1            -1  OTB          50D100  MDDWSP    9     DPS
+42     ITA 2008      -1            -1  OTB          50D100  MDDWSP    9     DPS
+43     ITA 2009      -1            -1  OTB          50D100  MDDWSP    9     DPS
+44     ITA 2010      -1            -1  OTB          50D100  MDDWSP    9     DPS
+45     ITA 2011      -1            -1  OTB          50D100  MDDWSP    9     DPS
+46     ITA 2012      -1            -1  OTB          50D100  MDDWSP    9     DPS
+47     ITA 2013      -1            -1  OTB          50D100  MDDWSP    9     DPS
+48     ITA 2014      -1            -1  OTB          50D100  MDDWSP    9     DPS
+49     ITA 2015      -1            -1  OTB          50D100  MDDWSP    9     DPS
+50     ITA 2016       1            -1  OTB          50D100  MDDWSP    9     DPS
+51     ITA 2017       1            -1  OTB          50D100  MDDWSP    9     DPS
+52     ITA 2016       2            -1  OTB          50D100  MDDWSP    9     DPS
+53     ITA 2017       2            -1  OTB          50D100  MDDWSP    9     DPS
+54     ITA 2016       3            -1  OTB          50D100  MDDWSP    9     DPS
+55     ITA 2017       3            -1  OTB          50D100  MDDWSP    9     DPS
+56     ITA 2016       4            -1  OTB          50D100  MDDWSP    9     DPS
+57     ITA 2017       4            -1  OTB          50D100  MDDWSP    9     DPS
+     LANDINGS
+1  367.431910
+2    3.628830
+3    2.263080
+4    0.508290
+5    0.027360
+6    0.026880
+7    5.933227
+8    4.177760
+9    0.517960
+10   0.161160
+11 316.615971
+12  41.955260
+13  55.302990
+14  89.849750
+15 187.262190
+16 238.541980
+17 309.589920
+18 404.501390
+19 483.420540
+20 426.367160
+21 466.692420
+22 663.633400
+23 158.379000
+24 168.457870
+25 165.632000
+26 226.377570
+27 157.255000
+28 163.881790
+29 167.289000
+30 171.422780
+31   0.164650
+32   9.691160
+33   9.676960
+34   5.543910
+35   3.829750
+36   2.112830
+37   8.549960
+38  10.478000
+39 388.470180
+40 407.103060
+41 125.318150
+42  66.065310
+43  64.598710
+44 154.013300
+45 136.853120
+46 132.123730
+47 145.464160
+48  92.632310
+49 119.266000
+50  15.353000
+51  16.607640
+52  79.350000
+53  45.163590
+54  61.089000
+55  49.455210
+56  20.785000
+57  15.440050
+
+[[2]]
+   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY AREA SPECIES
+5      ITA 2014      -1            -1  GNS              -1    DEMF    9     DPS
+6      ITA 2017       2            -1  GNS              -1    DEMF    9     DPS
+7      ITA 2003      -1            -1  GTR              -1   DEMSP    9     DPS
+10     ITA 2012      -1            -1  GTR              -1   DEMSP    9     DPS
+11     ITA 2003      -1            -1  OTB              -1   DEMSP    9     DPS
+13     ITA 2006      -1            -1  OTB          50D100   DEMSP    9     DPS
+16     ITA 2009      -1            -1  OTB          50D100   DEMSP    9     DPS
+17     ITA 2010      -1            -1  OTB          50D100   DEMSP    9     DPS
+18     ITA 2011      -1            -1  OTB          50D100   DEMSP    9     DPS
+19     ITA 2012      -1            -1  OTB          50D100   DEMSP    9     DPS
+20     ITA 2013      -1            -1  OTB          50D100   DEMSP    9     DPS
+21     ITA 2014      -1            -1  OTB          50D100   DEMSP    9     DPS
+22     ITA 2015      -1            -1  OTB          50D100   DEMSP    9     DPS
+23     ITA 2016       1            -1  OTB          50D100   DEMSP    9     DPS
+24     ITA 2017       1            -1  OTB          50D100   DEMSP    9     DPS
+25     ITA 2016       2            -1  OTB          50D100   DEMSP    9     DPS
+26     ITA 2017       2            -1  OTB          50D100   DEMSP    9     DPS
+27     ITA 2016       3            -1  OTB          50D100   DEMSP    9     DPS
+28     ITA 2017       3            -1  OTB          50D100   DEMSP    9     DPS
+29     ITA 2016       4            -1  OTB          50D100   DEMSP    9     DPS
+30     ITA 2017       4            -1  OTB          50D100   DEMSP    9     DPS
+33     ITA 2011      -1            -1  OTB          50D100    DWSP    9     DPS
+34     ITA 2012      -1            -1  OTB          50D100    DWSP    9     DPS
+35     ITA 2013      -1            -1  OTB          50D100    DWSP    9     DPS
+37     ITA 2015      -1            -1  OTB          50D100    DWSP    9     DPS
+38     ITA 2016      -1            -1  OTB          50D100    DWSP    9     DPS
+40     ITA 2006      -1            -1  OTB          50D100  MDDWSP    9     DPS
+43     ITA 2009      -1            -1  OTB          50D100  MDDWSP    9     DPS
+44     ITA 2010      -1            -1  OTB          50D100  MDDWSP    9     DPS
+45     ITA 2011      -1            -1  OTB          50D100  MDDWSP    9     DPS
+46     ITA 2012      -1            -1  OTB          50D100  MDDWSP    9     DPS
+47     ITA 2013      -1            -1  OTB          50D100  MDDWSP    9     DPS
+48     ITA 2014      -1            -1  OTB          50D100  MDDWSP    9     DPS
+49     ITA 2015      -1            -1  OTB          50D100  MDDWSP    9     DPS
+50     ITA 2016       1            -1  OTB          50D100  MDDWSP    9     DPS
+51     ITA 2017       1            -1  OTB          50D100  MDDWSP    9     DPS
+52     ITA 2016       2            -1  OTB          50D100  MDDWSP    9     DPS
+53     ITA 2017       2            -1  OTB          50D100  MDDWSP    9     DPS
+54     ITA 2016       3            -1  OTB          50D100  MDDWSP    9     DPS
+55     ITA 2017       3            -1  OTB          50D100  MDDWSP    9     DPS
+56     ITA 2016       4            -1  OTB          50D100  MDDWSP    9     DPS
+57     ITA 2017       4            -1  OTB          50D100  MDDWSP    9     DPS
+    DISCARDS
+5   0.000000
+6   0.000000
+7   0.000000
+10  0.000000
+11  0.000000
+13  0.000000
+16 38.355420
+17 24.396528
+18 60.519315
+19  6.571266
+20 26.761695
+21 44.978926
+22 89.320018
+23  4.321935
+24 16.215517
+25  2.726606
+26 10.594472
+27 18.256248
+28  0.000000
+29  4.391166
+30 14.491513
+33  0.000000
+34  0.000000
+35  0.000000
+37  0.000000
+38  0.000000
+40  0.000000
+43  0.000000
+44  2.703603
+45  2.743526
+46  0.996779
+47  3.279211
+48  0.000000
+49  0.000000
+50  1.122239
+51  0.165092
+52  4.120538
+53  0.000000
+54  0.000000
+55  0.000000
+56  0.000000
+57  0.000000
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("Catch_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("Discard_coverage")
+> ### * Discard_coverage
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: Discard_coverage
+> ### Title: Discard_cov: function to check the coverage in Discard table
+> ### Aliases: Discard_coverage
+> 
+> ### ** Examples
+> 
+> Discard_coverage(Discard_tab_example,"DPS","ITA","9")
+Joining, by = c("YEAR", "GEAR")
+   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY AREA SPECIES
+1      ITA 2009      -1            -1  OTB          50D100   DEMSP    9     DPS
+2      ITA 2010      -1            -1  OTB          50D100   DEMSP    9     DPS
+3      ITA 2011      -1            -1  OTB          50D100   DEMSP    9     DPS
+4      ITA 2012      -1            -1  OTB          50D100   DEMSP    9     DPS
+5      ITA 2013      -1            -1  OTB          50D100   DEMSP    9     DPS
+6      ITA 2014      -1            -1  OTB          50D100   DEMSP    9     DPS
+7      ITA 2015      -1            -1  OTB          50D100   DEMSP    9     DPS
+8      ITA 2016       1            -1  OTB          50D100   DEMSP    9     DPS
+9      ITA 2017       1            -1  OTB          50D100   DEMSP    9     DPS
+10     ITA 2016       2            -1  OTB          50D100   DEMSP    9     DPS
+11     ITA 2017       2            -1  OTB          50D100   DEMSP    9     DPS
+12     ITA 2016       3            -1  OTB          50D100   DEMSP    9     DPS
+13     ITA 2016       4            -1  OTB          50D100   DEMSP    9     DPS
+14     ITA 2017       4            -1  OTB          50D100   DEMSP    9     DPS
+15     ITA 2010      -1            -1  OTB          50D100  MDDWSP    9     DPS
+16     ITA 2011      -1            -1  OTB          50D100  MDDWSP    9     DPS
+17     ITA 2012      -1            -1  OTB          50D100  MDDWSP    9     DPS
+18     ITA 2013      -1            -1  OTB          50D100  MDDWSP    9     DPS
+19     ITA 2016       1            -1  OTB          50D100  MDDWSP    9     DPS
+20     ITA 2017       1            -1  OTB          50D100  MDDWSP    9     DPS
+21     ITA 2016       2            -1  OTB          50D100  MDDWSP    9     DPS
+    LANDINGS
+1  38.355420
+2  24.396528
+3  60.519315
+4   6.571266
+5  26.761695
+6  44.978926
+7  89.320018
+8   4.321935
+9  16.215517
+10  2.726606
+11 10.594472
+12 18.256248
+13  4.391166
+14 14.491513
+15  2.703603
+16  2.743526
+17  0.996779
+18  3.279211
+19  1.122239
+20  0.165092
+21  4.120538
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("Discard_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("Duplicated_GFCM_II2")
+> ### * Duplicated_GFCM_II2
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: Duplicated_GFCM_II2
+> ### Title: Check duplicated records in GFCM Task II.2 table
+> ### Aliases: Duplicated_GFCM_II2
+> 
+> ### ** Examples
+> 
+> Duplicated_GFCM_II2(task_ii2)
+no duplicated lines in the data frame
+integer(0)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("Duplicated_GFCM_II2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_check_duplicates")
+> ### * EWG_check_duplicates
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_check_duplicates
+> ### Title: Check for duplicated data rows
+> ### Aliases: EWG_check_duplicates
+> 
+> ### ** Examples
+> 
+> EWG_check_duplicates(data=landing,type="l",MS="ITA",GSA="18",SP="ARA",verbose=TRUE)
+No duplicated records in the data.
+NULL
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_check_duplicates", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_comp_disc_YQ")
+> ### * EWG_comp_disc_YQ
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_comp_disc_YQ
+> ### Title: Comparison between discards in weight by quarter and -1
+> ### Aliases: EWG_comp_disc_YQ
+> 
+> ### ** Examples
+> 
+> EWG_comp_disc_YQ(disc=discards,MS="ITA",GSA=18,SP="MUT")
+   year gear     tot_q     tot_yr    ratio
+1  2017  OTB  13.16708         NA       NA
+2  2016  OTB  87.41031         NA       NA
+3  2009  OTB        NA  14.733682       NA
+4  2010  OTB        NA  35.006651       NA
+5  2011  GNS        NA   5.380352       NA
+6  2011  OTB        NA  13.921707       NA
+7  2012  OTB        NA 434.052568       NA
+8  2013  GNS        NA   1.384992       NA
+9  2013  OTB        NA  18.051114       NA
+10 2014  OTB        NA 119.616226       NA
+11 2015  OTB        NA  89.366259       NA
+12 2018  OTB 182.86969         NA       NA
+13 2019  OTB 197.69516   0.341000 579.7512
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_comp_disc_YQ", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_comp_disc_YQ_fishery")
+> ### * EWG_comp_disc_YQ_fishery
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_comp_disc_YQ_fishery
+> ### Title: Comparison between discards in weight by quarter, quarter -1 and
+> ###   by fishery
+> ### Aliases: EWG_comp_disc_YQ_fishery
+> 
+> ### ** Examples
+> 
+> EWG_comp_disc_YQ(disc=discards,MS="ITA",GSA=18,SP="MUT")
+   year gear     tot_q     tot_yr    ratio
+1  2017  OTB  13.16708         NA       NA
+2  2016  OTB  87.41031         NA       NA
+3  2009  OTB        NA  14.733682       NA
+4  2010  OTB        NA  35.006651       NA
+5  2011  GNS        NA   5.380352       NA
+6  2011  OTB        NA  13.921707       NA
+7  2012  OTB        NA 434.052568       NA
+8  2013  GNS        NA   1.384992       NA
+9  2013  OTB        NA  18.051114       NA
+10 2014  OTB        NA 119.616226       NA
+11 2015  OTB        NA  89.366259       NA
+12 2018  OTB 182.86969         NA       NA
+13 2019  OTB 197.69516   0.341000 579.7512
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_comp_disc_YQ_fishery", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_comp_land_Q_VL_fishery")
+> ### * EWG_comp_land_Q_VL_fishery
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_comp_land_Q_VL_fishery
+> ### Title: Comparison between landings in weight by quarter and fishery
+> ###   accounting for vessel length
+> ### Aliases: EWG_comp_land_Q_VL_fishery
+> 
+> ### ** Examples
+> 
+> EWG_comp_land_Q_VL_fishery(land=landing,MS="ITA",GSA=11,SP="ARA")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+Joining, by = c("year", "gear", "fishery", "quarter")
+   year gear fishery quarter   tot_VL  tot_NoVL ratio
+1  2009  OTB      -1      -1 65.25162        NA    NA
+2  2010  OTB      -1      -1 53.33388        NA    NA
+3  2011  OTB      -1      -1 59.41221        NA    NA
+4  2012  OTB      -1      -1 57.27200        NA    NA
+5  2013  OTB      -1      -1 40.52084        NA    NA
+6  2014  OTB      -1      -1 46.42420        NA    NA
+7  2005  OTB      NA      -1       NA  97.72260    NA
+8  2006  OTB      NA      -1       NA 171.72925    NA
+9  2007  OTB      NA      -1       NA  56.53758    NA
+10 2008  OTB      NA      -1       NA  74.64212    NA
+11 2015  OTB     DWS       1  0.25600        NA    NA
+12 2015  OTB     DWS       2  5.49900        NA    NA
+13 2015  OTB     DWS       3  5.41600        NA    NA
+14 2015  OTB      NA      -1       NA  46.25110    NA
+15 2016  OTB     DWS       1  5.34800        NA    NA
+16 2016  OTB     DWS       2 10.01000        NA    NA
+17 2016  OTB     DWS       3  7.49000        NA    NA
+18 2016  OTB     DWS       4  1.23300        NA    NA
+19 2016  OTB     MDD      -1       NA  65.31905    NA
+20 2017  OTB     DWS       1  2.98200        NA    NA
+21 2017  OTB     DWS       2  4.18800        NA    NA
+22 2017  OTB     DWS       3 13.23800        NA    NA
+23 2017  OTB     DWS       4  1.58800        NA    NA
+24 2017  OTB     MDD       1       NA  18.57300    NA
+25 2017  OTB     MDD       2       NA  31.93811    NA
+26 2017  OTB     MDD       3       NA  22.51660    NA
+27 2017  OTB     MDD       4       NA  14.99857    NA
+28 2018  OTB     DWS       1 34.83800        NA    NA
+29 2018  OTB     DWS       2 78.38100        NA    NA
+30 2018  OTB     DWS       3 48.87600        NA    NA
+31 2018  OTB     DWS       4 32.51400        NA    NA
+32 2018  OTB     MDD       1       NA  14.33637    NA
+33 2018  OTB     MDD       2       NA  27.11435    NA
+34 2018  OTB     MDD       3       NA  33.12960    NA
+35 2018  OTB     MDD       4       NA  15.29823    NA
+36 2019  OTB     DWS       1       NA   3.13910    NA
+37 2019  OTB     DWS       2       NA   5.97575    NA
+38 2019  OTB     DWS       3       NA   2.65112    NA
+39 2019  OTB     DWS       4       NA   3.80342    NA
+40 2019  OTB     MDD       1       NA  22.14817    NA
+41 2019  OTB     MDD       2       NA  32.24053    NA
+42 2019  OTB     MDD       3       NA  24.14981    NA
+43 2019  OTB     MDD       4       NA  12.89522    NA
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_comp_land_Q_VL_fishery", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_comp_land_YQ")
+> ### * EWG_comp_land_YQ
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_comp_land_YQ
+> ### Title: Comparison between landings in weight by quarter and -1
+> ### Aliases: EWG_comp_land_YQ
+> 
+> ### ** Examples
+> 
+> EWG_comp_land_YQ(land=landing,MS="ITA",GSA=11,SP="ARA")
+   year gear    tot_q    tot_yr     ratio
+1  2009  OTB       NA  65.25162        NA
+2  2010  OTB       NA  53.33388        NA
+3  2011  OTB       NA  59.41221        NA
+4  2012  OTB       NA  57.27200        NA
+5  2013  OTB       NA  40.52084        NA
+6  2014  OTB       NA  46.42420        NA
+7  2005  OTB       NA  97.72260        NA
+8  2006  OTB       NA 171.72925        NA
+9  2007  OTB       NA  56.53758        NA
+10 2008  OTB       NA  74.64212        NA
+11 2015  OTB  11.1710  46.25110 0.2415294
+12 2016  OTB  24.0810  65.31905 0.3686673
+13 2017  OTB 110.0223        NA        NA
+14 2018  OTB 284.4875        NA        NA
+15 2019  OTB 107.0031        NA        NA
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_comp_land_YQ", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_comp_land_YQ_VL")
+> ### * EWG_comp_land_YQ_VL
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_comp_land_YQ_VL
+> ### Title: Comparison between landings in weight by quarter accounting for
+> ###   vessel length
+> ### Aliases: EWG_comp_land_YQ_VL
+> 
+> ### ** Examples
+> 
+> EWG_comp_land_YQ_VL(land=landing,MS="ITA",GSA=11,SP="ARA")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+Joining, by = c("year", "gear", "quarter")
+   year gear quarter   tot_VL  tot_NoVL     ratio
+1  2009  OTB      -1 65.25162        NA        NA
+2  2010  OTB      -1 53.33388        NA        NA
+3  2011  OTB      -1 59.41221        NA        NA
+4  2012  OTB      -1 57.27200        NA        NA
+5  2013  OTB      -1 40.52084        NA        NA
+6  2014  OTB      -1 46.42420        NA        NA
+7  2005  OTB      -1       NA  97.72260        NA
+8  2006  OTB      -1       NA 171.72925        NA
+9  2007  OTB      -1       NA  56.53758        NA
+10 2008  OTB      -1       NA  74.64212        NA
+11 2015  OTB       1  0.25600        NA        NA
+12 2015  OTB       2  5.49900        NA        NA
+13 2015  OTB       3  5.41600        NA        NA
+14 2015  OTB      -1       NA  46.25110        NA
+15 2016  OTB       1  5.34800        NA        NA
+16 2016  OTB       2 10.01000        NA        NA
+17 2016  OTB       3  7.49000        NA        NA
+18 2016  OTB       4  1.23300        NA        NA
+19 2016  OTB      -1       NA  65.31905        NA
+20 2017  OTB       1  2.98200  18.57300 0.1605556
+21 2017  OTB       2  4.18800  31.93811 0.1311286
+22 2017  OTB       3 13.23800  22.51660 0.5879218
+23 2017  OTB       4  1.58800  14.99857 0.1058768
+24 2018  OTB       1 34.83800  14.33637 2.4300433
+25 2018  OTB       2 78.38100  27.11435 2.8907571
+26 2018  OTB       3 48.87600  33.12960 1.4752970
+27 2018  OTB       4 32.51400  15.29823 2.1253439
+28 2019  OTB       1       NA  25.28727        NA
+29 2019  OTB       2       NA  38.21628        NA
+30 2019  OTB       3       NA  26.80093        NA
+31 2019  OTB       4       NA  16.69864        NA
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_comp_land_YQ_VL", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_comp_land_YQ_fishery")
+> ### * EWG_comp_land_YQ_fishery
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_comp_land_YQ_fishery
+> ### Title: Comparison between landings in weight by quarter, quarter -1 and
+> ###   by fishery
+> ### Aliases: EWG_comp_land_YQ_fishery
+> 
+> ### ** Examples
+> 
+> EWG_comp_land_YQ(land=landing,MS="ITA",GSA=11,SP="ARA")
+   year gear    tot_q    tot_yr     ratio
+1  2009  OTB       NA  65.25162        NA
+2  2010  OTB       NA  53.33388        NA
+3  2011  OTB       NA  59.41221        NA
+4  2012  OTB       NA  57.27200        NA
+5  2013  OTB       NA  40.52084        NA
+6  2014  OTB       NA  46.42420        NA
+7  2005  OTB       NA  97.72260        NA
+8  2006  OTB       NA 171.72925        NA
+9  2007  OTB       NA  56.53758        NA
+10 2008  OTB       NA  74.64212        NA
+11 2015  OTB  11.1710  46.25110 0.2415294
+12 2016  OTB  24.0810  65.31905 0.3686673
+13 2017  OTB 110.0223        NA        NA
+14 2018  OTB 284.4875        NA        NA
+15 2019  OTB 107.0031        NA        NA
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_comp_land_YQ_fishery", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_disc_mean_weight")
+> ### * EWG_disc_mean_weight
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_disc_mean_weight
+> ### Title: Mean weight by year,gear and fishery aggregation
+> ### Aliases: EWG_disc_mean_weight
+> 
+> ### ** Examples
+> 
+> EWG_disc_mean_weight(disc=discards,MS="ITA",GSA=18,SP="MUT")
+   year quarter vessel_length gear mesh_size_range fishery      totW     totN
+1  2009      -1            -1  OTB           40D50    DEMF  14411899  1707506
+2  2009      -1            -1  OTB           40D50     MDD    321783    28711
+3  2010      -1            -1  OTB           40D50    DEMF  25103203  3011115
+4  2010      -1            -1  OTB           40D50     MDD   9903448  1124233
+5  2011      -1            -1  GNS           16D20    DEMF   5380352   273956
+6  2011      -1            -1  OTB          50D100    DEMF  13499805  1197440
+7  2011      -1            -1  OTB          50D100     MDD    421902    33364
+8  2012      -1            -1  OTB          50D100    DEMF 433426950 65203106
+9  2012      -1            -1  OTB          50D100     MDD    625618    77101
+10 2013      -1            -1  GNS           16D20    DEMF   1384992    58515
+11 2013      -1            -1  OTB          50D100    DEMF  18039815  1828910
+12 2013      -1            -1  OTB          50D100     MDD     11299      857
+13 2014      -1            -1  OTB          50D100    DEMF 118898868 14857772
+14 2014      -1            -1  OTB          50D100     MDD    717358    75933
+15 2015      -1            -1  OTB          50D100    DEMF  89324668  8221585
+16 2015      -1            -1  OTB          50D100     MDD     41591     4752
+17 2016       1            -1  OTB          50D100    DEMF   2191802   148337
+18 2016       3            -1  OTB          50D100    DEMF   9958233  1186689
+19 2016       4            -1  OTB          50D100    DEMF  75150908  7665628
+20 2016       4            -1  OTB          50D100     MDD    109372    12999
+21 2017       4            -1  OTB          50D100    DEMF  13085387  1593098
+22 2017       4            -1  OTB          50D100     MDD     81691     8781
+23 2018       1            -1  OTB          50D100   DEMSP   2181602   254850
+24 2018       1            -1  OTB          50D100     MDD     26334     3011
+25 2018       2            -1  OTB          50D100   DEMSP   3078301   362347
+26 2018       3            -1  OTB          50D100   DEMSP 151029359 18846888
+27 2018       4            -1  OTB          50D100   DEMSP  26529471  2589575
+28 2018       4            -1  OTB          50D100     MDD     24621     2792
+29 2019      -1            NA  OTB          50D100     MDD    341000    38055
+30 2019       1            NA  OTB          50D100   DEMSP    731670    80500
+31 2019       2            NA  OTB          50D100   DEMSP    254670    16684
+32 2019       3            NA  OTB          50D100   DEMSP 121394540 16290601
+33 2019       4            NA  OTB          50D100   DEMSP  75314280  8145915
+          MW
+1   8.440321
+2  11.207656
+3   8.336846
+4   8.809071
+5  19.639475
+6  11.273888
+7  12.645426
+8   6.647336
+9   8.114266
+10 23.669008
+11  9.863698
+12 13.184364
+13  8.002470
+14  9.447250
+15 10.864653
+16  8.752315
+17 14.775828
+18  8.391611
+19  9.803621
+20  8.413878
+21  8.213799
+22  9.303155
+23  8.560337
+24  8.745932
+25  8.495450
+26  8.013491
+27 10.244720
+28  8.818410
+29  8.960715
+30  9.089068
+31 15.264325
+32  7.451815
+33  9.245650
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_disc_mean_weight", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_land_mean_weight")
+> ### * EWG_land_mean_weight
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_land_mean_weight
+> ### Title: Mean weight by year,gear and fishery aggregation
+> ### Aliases: EWG_land_mean_weight
+> 
+> ### ** Examples
+> 
+> EWG_land_mean_weight(land=landing,MS="ITA",GSA=11,SP="ARA")
+   year quarter vessel_length gear mesh_size_range fishery      totW    totN
+1  2005      -1            NA  OTB           40SXX      NA  97722600 5167014
+2  2006      -1            NA  OTB           40SXX      NA 171729250 9221544
+3  2007      -1            NA  OTB           40SXX      NA  56537580 3138961
+4  2008      -1            NA  OTB           40SXX      NA  74642120 3654230
+5  2009      -1            -1  OTB           40SXX      -1  65251621 4907812
+6  2010      -1            -1  OTB           40SXX      -1  53333883 3175002
+7  2011      -1            -1  OTB           40SXX      -1  59412209 4662298
+8  2012      -1            -1  OTB           40SXX      -1  57272002 2861620
+9  2013      -1            -1  OTB           40SXX      -1  40520836 2530896
+10 2014      -1            -1  OTB           40SXX      -1  46424202 3086366
+11 2015      -1            NA  OTB           40SXX      NA  46251100 3267673
+12 2015       1        VL2440  OTB           40D50     DWS    256000       0
+13 2015       2        VL1218  OTB           40D50     DWS   2781000       0
+14 2015       2        VL2440  OTB           40D50     DWS   2718000       0
+15 2015       3        VL2440  OTB           40D50     DWS   5416000       0
+16 2016      -1            NA  OTB           40SXX     MDD  65319050 4607839
+17 2016       1        VL2440  OTB           40D50     DWS   5348000       0
+18 2016       2        VL2440  OTB           40D50     DWS  10010000       0
+19 2016       3        VL2440  OTB           40D50     DWS   7490000       0
+20 2016       4        VL2440  OTB           40D50     DWS   1233000       0
+21 2017       1            NA  OTB           40D50     MDD  18573000 1624822
+22 2017       1        VL1824  OTB           40D50     DWS   1161000       0
+23 2017       1        VL2440  OTB           40D50     DWS   1821000       0
+24 2017       2            NA  OTB           40D50     MDD  31938110 2296838
+25 2017       2        VL1824  OTB           40D50     DWS   1681000       0
+26 2017       2        VL2440  OTB           40D50     DWS   2507000       0
+27 2017       3            NA  OTB           40D50     MDD  22516600 1236609
+28 2017       3        VL1824  OTB           40D50     DWS    591000       0
+29 2017       3        VL2440  OTB           40D50     DWS  12647000       0
+30 2017       4            NA  OTB           40D50     MDD  14998570  744693
+31 2017       4        VL2440  OTB           40D50     DWS   1588000       0
+32 2018       1            NA  OTB           40D50     MDD  14336370 1068077
+33 2018       1        VL1218  OTB           40D50     DWS   1521000       0
+34 2018       1        VL1824  OTB           40D50     DWS   2959000       0
+35 2018       1        VL2440  OTB           40D50     DWS  30358000       0
+36 2018       2            NA  OTB           40D50     MDD  27114350 1785186
+37 2018       2        VL1218  OTB           40D50     DWS   5637000       0
+38 2018       2        VL1824  OTB           40D50     DWS  12763000       0
+39 2018       2        VL2440  OTB           40D50     DWS  59981000       0
+40 2018       3            NA  OTB           40D50     MDD  33129600 2429858
+41 2018       3        VL1218  OTB           40D50     DWS   4258000       0
+42 2018       3        VL1824  OTB           40D50     DWS  11317000       0
+43 2018       3        VL2440  OTB           40D50     DWS  33301000       0
+44 2018       4            NA  OTB           40D50     MDD  15298230 1209270
+45 2018       4        VL1218  OTB           40D50     DWS    457000       0
+46 2018       4        VL1824  OTB           40D50     DWS   4020000       0
+47 2018       4        VL2440  OTB           40D50     DWS  28037000       0
+48 2019       1            NA  OTB              NA     DWS   3139100       0
+49 2019       1            NA  OTB              NA     MDD  22148170 2273483
+50 2019       2            NA  OTB              NA     DWS   5975750       0
+51 2019       2            NA  OTB              NA     MDD  32240530 2467181
+52 2019       3            NA  OTB              NA     DWS   2651120       0
+53 2019       3            NA  OTB              NA     MDD  24149810 1153611
+54 2019       4            NA  OTB              NA     DWS   3803420       0
+55 2019       4            NA  OTB              NA     MDD  12895220  802287
+          MW
+1  18.912780
+2  18.622614
+3  18.011559
+4  20.426224
+5  13.295461
+6  16.798063
+7  12.743117
+8  20.013839
+9  16.010471
+10 15.041703
+11 14.154140
+12       Inf
+13       Inf
+14       Inf
+15       Inf
+16 14.175636
+17       Inf
+18       Inf
+19       Inf
+20       Inf
+21 11.430791
+22       Inf
+23       Inf
+24 13.905251
+25       Inf
+26       Inf
+27 18.208342
+28       Inf
+29       Inf
+30 20.140608
+31       Inf
+32 13.422600
+33       Inf
+34       Inf
+35       Inf
+36 15.188529
+37       Inf
+38       Inf
+39       Inf
+40 13.634377
+41       Inf
+42       Inf
+43       Inf
+44 12.650798
+45       Inf
+46       Inf
+47       Inf
+48       Inf
+49  9.741955
+50       Inf
+51 13.067760
+52       Inf
+53 20.934102
+54       Inf
+55 16.073076
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_land_mean_weight", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_length_ind")
+> ### * EWG_length_ind
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_length_ind
+> ### Title: Main length size indicators
+> ### Aliases: EWG_length_ind
+> 
+> ### ** Examples
+> 
+> EWG_length_ind(landing,type="l",out="mean",MS=c("ITA"),
++ GSA=c("18"),SP="NEP", splines=c(0.2,0.4,0.6,0.8),
++ Xtresholds = c(0.25,0.5,0.75))
+Warning in regularize.values(x, y, ties, missing(ties), na.rm = na.rm) :
+  collapsing to unique 'x' values
+    year gear fishery total_number min_size mean_size max_size  sd_size spline
+1   2002   NA      NA        0.000       NA        NA       NA       NA     NA
+2   2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.2
+3   2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.2
+4   2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.2
+5   2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.4
+6   2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.4
+7   2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.4
+8   2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.6
+9   2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.6
+10  2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.6
+11  2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.8
+12  2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.8
+13  2002  OTB      NA    18441.201       10  31.09957       58 7.006130    0.8
+14  2003  GNS     DEF        0.000       NA        NA       NA       NA     NA
+15  2003   NA      NA        0.000       NA        NA       NA       NA     NA
+16  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.2
+17  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.2
+18  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.2
+19  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.4
+20  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.4
+21  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.4
+22  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.6
+23  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.6
+24  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.6
+25  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.8
+26  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.8
+27  2003  OTB      NA    39384.627       15  31.39667       68 7.300362    0.8
+28  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.2
+29  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.2
+30  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.2
+31  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.4
+32  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.4
+33  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.4
+34  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.6
+35  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.6
+36  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.6
+37  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.8
+38  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.8
+39  2004  OTB      NA    48829.414        9  30.92667       60 8.549939    0.8
+40  2005  GNS     DEF        0.000       NA        NA       NA       NA     NA
+41  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.2
+42  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.2
+43  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.2
+44  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.4
+45  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.4
+46  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.4
+47  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.6
+48  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.6
+49  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.6
+50  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.8
+51  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.8
+52  2005  OTB      NA    37388.697       15  34.78603       56 6.838938    0.8
+53  2006  GNS     DEF        0.000       NA        NA       NA       NA     NA
+54  2006   NA      NA        0.000       NA        NA       NA       NA     NA
+55  2006  OTB   DEMSP        0.000       NA        NA       NA       NA     NA
+56  2006  OTB     MDD        0.000       NA        NA       NA       NA     NA
+57  2007  GNS     DEF        0.000       NA        NA       NA       NA     NA
+58  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.2
+59  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.2
+60  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.2
+61  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.4
+62  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.4
+63  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.4
+64  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.6
+65  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.6
+66  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.6
+67  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.8
+68  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.8
+69  2007  OTB      NA    80208.032       11  26.92112       57 5.429413    0.8
+70  2008  GNS     DEF        0.000       NA        NA       NA       NA     NA
+71  2008  GNS     SLP        0.000       NA        NA       NA       NA     NA
+72  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.2
+73  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.2
+74  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.2
+75  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.4
+76  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.4
+77  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.4
+78  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.6
+79  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.6
+80  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.6
+81  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.8
+82  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.8
+83  2008  OTB      NA    50231.772       16  28.94377       59 5.141466    0.8
+84  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.2
+85  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.2
+86  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.2
+87  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.4
+88  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.4
+89  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.4
+90  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.6
+91  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.6
+92  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.6
+93  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.8
+94  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.8
+95  2009  OTB   DEMSP    47495.132       15  29.35082       66 6.350615    0.8
+96  2009  OTB     DWS        0.000       NA        NA       NA       NA     NA
+97  2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.2
+98  2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.2
+99  2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.2
+100 2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.4
+101 2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.4
+102 2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.4
+103 2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.6
+104 2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.6
+105 2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.6
+106 2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.8
+107 2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.8
+108 2009  OTB     MDD     5204.365       13  28.69487       62 6.788229    0.8
+109 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.2
+110 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.2
+111 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.2
+112 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.4
+113 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.4
+114 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.4
+115 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.6
+116 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.6
+117 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.6
+118 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.8
+119 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.8
+120 2010  OTB   DEMSP    33527.330       16  29.82981       67 6.661556    0.8
+121 2010  OTB     DWS        0.000       NA        NA       NA       NA     NA
+122 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.2
+123 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.2
+124 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.2
+125 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.4
+126 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.4
+127 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.4
+128 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.6
+129 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.6
+130 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.6
+131 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.8
+132 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.8
+133 2010  OTB     MDD     9350.185       15  29.40715       63 6.315380    0.8
+134 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.2
+135 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.2
+136 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.2
+137 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.4
+138 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.4
+139 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.4
+140 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.6
+141 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.6
+142 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.6
+143 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.8
+144 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.8
+145 2011  OTB   DEMSP    30613.182       15  29.65508       67 6.286753    0.8
+146 2011  OTB     DWS        0.000       NA        NA       NA       NA     NA
+147 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.2
+148 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.2
+149 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.2
+150 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.4
+151 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.4
+152 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.4
+153 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.6
+154 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.6
+155 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.6
+156 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.8
+157 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.8
+158 2011  OTB     MDD     4017.812       15  31.21974       66 6.970616    0.8
+159 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.2
+160 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.2
+161 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.2
+162 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.4
+163 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.4
+164 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.4
+165 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.6
+166 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.6
+167 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.6
+168 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.8
+169 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.8
+170 2012  OTB   DEMSP    21047.028       13  28.64275       65 6.801771    0.8
+171 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.2
+172 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.2
+173 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.2
+174 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.4
+175 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.4
+176 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.4
+177 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.6
+178 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.6
+179 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.6
+180 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.8
+181 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.8
+182 2012  OTB     MDD     1806.233       14  32.08517       61 7.114149    0.8
+183 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.2
+184 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.2
+185 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.2
+186 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.4
+187 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.4
+188 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.4
+189 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.6
+190 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.6
+191 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.6
+192 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.8
+193 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.8
+194 2013  OTB   DEMSP    27097.552       14  31.67565       74 6.963480    0.8
+195 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.2
+196 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.2
+197 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.2
+198 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.4
+199 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.4
+200 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.4
+201 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.6
+202 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.6
+203 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.6
+204 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.8
+205 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.8
+206 2013  OTB     MDD      909.079       15  31.60286       62 7.322474    0.8
+207 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.2
+208 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.2
+209 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.2
+210 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.4
+211 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.4
+212 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.4
+213 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.6
+214 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.6
+215 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.6
+216 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.8
+217 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.8
+218 2014  OTB   DEMSP    24159.284       14  27.02610       63 5.980629    0.8
+219 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.2
+220 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.2
+221 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.2
+222 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.4
+223 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.4
+224 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.4
+225 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.6
+226 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.6
+227 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.6
+228 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.8
+229 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.8
+230 2014  OTB     MDD     1172.684       15  29.18925       61 7.762123    0.8
+231 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.2
+232 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.2
+233 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.2
+234 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.4
+235 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.4
+236 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.4
+237 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.6
+238 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.6
+239 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.6
+240 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.8
+241 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.8
+242 2015  OTB   DEMSP    14458.806       16  33.28794       61 6.975835    0.8
+243 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.2
+244 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.2
+245 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.2
+246 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.4
+247 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.4
+248 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.4
+249 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.6
+250 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.6
+251 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.6
+252 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.8
+253 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.8
+254 2015  OTB     MDD     1256.385       15  30.05014       65 7.064879    0.8
+255 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.2
+256 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.2
+257 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.2
+258 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.4
+259 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.4
+260 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.4
+261 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.6
+262 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.6
+263 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.6
+264 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.8
+265 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.8
+266 2016  OTB   DEMSP    11879.669       16  34.48688       63 6.767546    0.8
+267 2016  OTB     DWS        0.000       NA        NA       NA       NA     NA
+268 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.2
+269 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.2
+270 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.2
+271 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.4
+272 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.4
+273 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.4
+274 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.6
+275 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.6
+276 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.6
+277 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.8
+278 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.8
+279 2016  OTB     MDD      742.776       18  31.73082       60 7.120810    0.8
+280 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.2
+281 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.2
+282 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.2
+283 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.4
+284 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.4
+285 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.4
+286 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.6
+287 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.6
+288 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.6
+289 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.8
+290 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.8
+291 2017  OTB   DEMSP    19202.605       14  32.00582       68 7.431919    0.8
+292 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.2
+293 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.2
+294 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.2
+295 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.4
+296 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.4
+297 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.4
+298 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.6
+299 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.6
+300 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.6
+301 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.8
+302 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.8
+303 2017  OTB     MDD     1765.430       17  28.92513       67 5.346325    0.8
+304 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.2
+305 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.2
+306 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.2
+307 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.4
+308 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.4
+309 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.4
+310 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.6
+311 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.6
+312 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.6
+313 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.8
+314 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.8
+315 2018  OTB   DEMSP    19567.170       16  33.06090       67 6.004930    0.8
+316 2018  OTB     DWS        0.000       NA        NA       NA       NA     NA
+317 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.2
+318 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.2
+319 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.2
+320 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.4
+321 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.4
+322 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.4
+323 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.6
+324 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.6
+325 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.6
+326 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.8
+327 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.8
+328 2018  OTB     MDD     1832.725       19  31.75950       65 7.700572    0.8
+329 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.2
+330 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.2
+331 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.2
+332 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.4
+333 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.4
+334 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.4
+335 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.6
+336 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.6
+337 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.6
+338 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.8
+339 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.8
+340 2019  OTB   DEMSP    12899.244       18  33.28457       64 5.197953    0.8
+341 2019  OTB     DWS        0.000       NA        NA       NA       NA     NA
+342 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.2
+343 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.2
+344 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.2
+345 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.4
+346 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.4
+347 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.4
+348 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.6
+349 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.6
+350 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.6
+351 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.8
+352 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.8
+353 2019  OTB     MDD      889.602       16  30.50723       65 6.718600    0.8
+    percentile percentile_value
+1           NA               NA
+2         0.25        25.835796
+3         0.50        30.281157
+4         0.75        34.978042
+5         0.25        25.346651
+6         0.50        30.216633
+7         0.75        35.648614
+8         0.25        23.476454
+9         0.50        30.225971
+10        0.75        36.569231
+11        0.25        19.539590
+12        0.50        29.292467
+13        0.75        38.088206
+14          NA               NA
+15          NA               NA
+16        0.25        26.049222
+17        0.50        30.050354
+18        0.75        34.344781
+19        0.25        25.488929
+20        0.50        30.026924
+21        0.75        35.392276
+22        0.25        23.539748
+23        0.50        30.167786
+24        0.75        36.507751
+25        0.25        19.664298
+26        0.50        29.393687
+27        0.75        38.211871
+28        0.25        24.468174
+29        0.50        29.412907
+30        0.75        35.261471
+31        0.25        24.056142
+32        0.50        29.579125
+33        0.75        35.813908
+34        0.25        22.381167
+35        0.50        29.738725
+36        0.75        36.699760
+37        0.25        18.944782
+38        0.50        28.979506
+39        0.75        38.208448
+40          NA               NA
+41        0.25        29.610247
+42        0.50        33.929155
+43        0.75        38.950643
+44        0.25        28.833128
+45        0.50        34.237145
+46        0.75        39.506162
+47        0.25        27.730555
+48        0.50        34.308367
+49        0.75        40.887341
+50        0.25        23.929130
+51        0.50        33.338987
+52        0.75        42.278916
+53          NA               NA
+54          NA               NA
+55          NA               NA
+56          NA               NA
+57          NA               NA
+58        0.25        22.491690
+59        0.50        25.543087
+60        0.75        29.185863
+61        0.25        21.653958
+62        0.50        26.099190
+63        0.75        30.282875
+64        0.25        18.658913
+65        0.50        26.140410
+66        0.75        31.692680
+67        0.25        15.917122
+68        0.50        24.493238
+69        0.75        32.905113
+70          NA               NA
+71          NA               NA
+72        0.25        24.841331
+73        0.50        27.708276
+74        0.75        31.046982
+75        0.25        23.777445
+76        0.50        28.119371
+77        0.75        32.244657
+78        0.25        21.363643
+79        0.50        28.096550
+80        0.75        33.932473
+81        0.25        17.687181
+82        0.50        26.843848
+83        0.75        34.922245
+84        0.25        24.140736
+85        0.50        28.111214
+86        0.75        32.605063
+87        0.25        23.528402
+88        0.50        28.412697
+89        0.75        33.440862
+90        0.25        21.460563
+91        0.50        28.445804
+92        0.75        34.673898
+93        0.25        17.892776
+94        0.50        27.315172
+95        0.75        35.687088
+96          NA               NA
+97        0.25        23.336552
+98        0.50        26.863756
+99        0.75        31.409882
+100       0.25        22.599057
+101       0.50        27.483562
+102       0.75        32.248112
+103       0.25        20.354804
+104       0.50        27.641251
+105       0.75        33.883880
+106       0.25        17.168941
+107       0.50        26.452598
+108       0.75        34.911170
+109       0.25        24.564736
+110       0.50        28.086452
+111       0.75        32.667560
+112       0.25        23.852820
+113       0.50        28.603722
+114       0.75        33.661884
+115       0.25        21.833465
+116       0.50        28.727404
+117       0.75        34.988063
+118       0.25        18.243082
+119       0.50        27.743995
+120       0.75        36.161383
+121         NA               NA
+122       0.25        24.230909
+123       0.50        27.969308
+124       0.75        32.475218
+125       0.25        23.617127
+126       0.50        28.383511
+127       0.75        33.273504
+128       0.25        21.508673
+129       0.50        28.434728
+130       0.75        34.612751
+131       0.25        17.929875
+132       0.50        27.330583
+133       0.75        35.669497
+134       0.25        24.544309
+135       0.50        28.144851
+136       0.75        32.636584
+137       0.25        23.882975
+138       0.50        28.584042
+139       0.75        33.524242
+140       0.25        21.809673
+141       0.50        28.657349
+142       0.75        34.836596
+143       0.25        18.166955
+144       0.50        27.605691
+145       0.75        35.939230
+146         NA               NA
+147       0.25        25.841478
+148       0.50        29.459124
+149       0.75        34.214403
+150       0.25        25.254807
+151       0.50        29.777773
+152       0.75        35.198291
+153       0.25        23.377106
+154       0.50        30.002110
+155       0.75        36.324960
+156       0.25        19.555904
+157       0.50        29.239792
+158       0.75        37.952101
+159       0.25        23.278893
+160       0.50        26.816731
+161       0.75        31.455381
+162       0.25        22.545920
+163       0.50        27.449200
+164       0.75        32.226899
+165       0.25        20.293679
+166       0.50        27.602809
+167       0.75        33.850652
+168       0.25        17.123593
+169       0.50        26.400472
+170       0.75        34.869785
+171       0.25        26.565816
+172       0.50        30.635991
+173       0.75        35.259429
+174       0.25        26.150218
+175       0.50        30.722024
+176       0.75        36.193854
+177       0.25        24.461839
+178       0.50        30.977564
+179       0.75        37.305015
+180       0.25        20.471499
+181       0.50        30.206923
+182       0.75        39.184887
+183       0.25        26.352344
+184       0.50        30.559635
+185       0.75        35.140877
+186       0.25        25.937293
+187       0.50        30.554032
+188       0.75        35.890357
+189       0.25        24.124442
+190       0.50        30.667139
+191       0.75        36.905077
+192       0.25        20.097187
+193       0.50        29.813551
+194       0.75        38.671524
+195       0.25        26.212058
+196       0.50        30.661177
+197       0.75        34.763620
+198       0.25        25.741544
+199       0.50        30.406647
+200       0.75        35.794355
+201       0.25        23.826112
+202       0.50        30.487683
+203       0.75        36.872155
+204       0.25        19.916095
+205       0.50        29.692966
+206       0.75        38.630863
+207       0.25        22.287428
+208       0.50        25.579588
+209       0.75        29.615512
+210       0.25        21.551103
+211       0.50        26.127556
+212       0.75        30.472182
+213       0.25        18.602113
+214       0.50        26.172647
+215       0.75        31.866737
+216       0.25         6.398276
+217       0.50        24.576352
+218       0.75        33.075274
+219       0.25        22.814649
+220       0.50        27.162464
+221       0.75        33.417483
+222       0.25        22.400607
+223       0.50        27.819235
+224       0.75        33.671343
+225       0.25        20.512827
+226       0.50        28.058982
+227       0.75        34.779663
+228       0.25        17.430504
+229       0.50        27.027824
+230       0.75        35.791261
+231       0.25        27.432814
+232       0.50        32.223500
+233       0.75        37.504505
+234       0.25        27.229408
+235       0.50        32.437817
+236       0.75        37.851117
+237       0.25        26.082976
+238       0.50        32.684968
+239       0.75        38.994667
+240       0.25        21.955121
+241       0.50        31.611935
+242       0.75        40.715179
+243       0.25        24.296220
+244       0.50        28.331246
+245       0.75        33.769960
+246       0.25        23.805764
+247       0.50        28.822519
+248       0.75        34.270150
+249       0.25        21.957745
+250       0.50        28.941985
+251       0.75        35.364632
+252       0.25        18.388968
+253       0.50        28.005991
+254       0.75        36.571591
+255       0.25        29.432256
+256       0.50        33.398262
+257       0.75        37.760368
+258       0.25        28.577938
+259       0.50        33.681855
+260       0.75        38.583257
+261       0.25        27.379199
+262       0.50        33.840080
+263       0.75        40.188920
+264       0.25        23.443038
+265       0.50        32.854928
+266       0.75        41.823632
+267         NA               NA
+268       0.25        26.127814
+269       0.50        29.929470
+270       0.75        34.812446
+271       0.25        25.690780
+272       0.50        30.183239
+273       0.75        35.714681
+274       0.25        23.913436
+275       0.50        30.489117
+276       0.75        36.824273
+277       0.25        20.050102
+278       0.50        29.771713
+279       0.75        38.650552
+280       0.25        26.111958
+281       0.50        31.589413
+282       0.75        36.095808
+283       0.25        26.005359
+284       0.50        31.185998
+285       0.75        36.724991
+286       0.25        24.416251
+287       0.50        31.158014
+288       0.75        37.644591
+289       0.25        20.399218
+290       0.50        30.241518
+291       0.75        39.348644
+292       0.25        24.915777
+293       0.50        27.633842
+294       0.75        30.787001
+295       0.25        23.703400
+296       0.50        28.036891
+297       0.75        32.095133
+298       0.25        21.260750
+299       0.50        28.023088
+300       0.75        33.858955
+301       0.25        17.626469
+302       0.50        26.777392
+303       0.75        34.878179
+304       0.25        28.336318
+305       0.50        32.148736
+306       0.75        36.064993
+307       0.25        27.642566
+308       0.50        32.251025
+309       0.75        36.824257
+310       0.25        26.227024
+311       0.50        32.419853
+312       0.75        38.161406
+313       0.25        21.867306
+314       0.50        31.322988
+315       0.75        40.161396
+316         NA               NA
+317       0.25        25.549214
+318       0.50        29.783527
+319       0.75        35.587763
+320       0.25        25.244610
+321       0.50        30.126488
+322       0.75        36.079321
+323       0.25        23.651704
+324       0.50        30.453097
+325       0.75        37.021612
+326       0.25        19.936635
+327       0.50        29.771886
+328       0.75        38.828524
+329       0.25        29.359564
+330       0.50        32.665736
+331       0.75        35.916923
+332       0.25        28.223619
+333       0.50        32.740075
+334       0.75        36.840557
+335       0.25        26.751370
+336       0.50        32.824607
+337       0.75        38.301911
+338       0.25        22.320612
+339       0.50        31.610464
+340       0.75        40.308321
+341         NA               NA
+342       0.25        25.044905
+343       0.50        29.462288
+344       0.75        33.989116
+345       0.25        24.684292
+346       0.50        29.437220
+347       0.75        34.774022
+348       0.25        22.731236
+349       0.50        29.490144
+350       0.75        35.790436
+351       0.25        18.936727
+352       0.50        28.564089
+353       0.75        37.113185
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_length_ind", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_lengthclass_0")
+> ### * EWG_lengthclass_0
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_lengthclass_0
+> ### Title: Length classes number 0 in landings and discards
+> ### Aliases: EWG_lengthclass_0
+> 
+> ### ** Examples
+> 
+> EWG_lengthclass_0(data=landing,type="l",MS="ITA",GSA=11,SP="ARA",verbose=TRUE)
+31 cases in which length class number are zero and landings > 0
+                        id country year quarter vessel_length gear
+11                             ITA 2015       2        VL1218  OTB
+12                             ITA 2015       1        VL2440  OTB
+13                             ITA 2015       2        VL2440  OTB
+14                             ITA 2015       3        VL2440  OTB
+15                             ITA 2016       1        VL2440  OTB
+16                             ITA 2016       2        VL2440  OTB
+17                             ITA 2016       3        VL2440  OTB
+18                             ITA 2016       4        VL2440  OTB
+19                             ITA 2017       1        VL1824  OTB
+20                             ITA 2017       2        VL1824  OTB
+21                             ITA 2017       3        VL1824  OTB
+22                             ITA 2017       1        VL2440  OTB
+23                             ITA 2017       2        VL2440  OTB
+24                             ITA 2017       3        VL2440  OTB
+25                             ITA 2017       4        VL2440  OTB
+26                             ITA 2018       1        VL1218  OTB
+27                             ITA 2018       2        VL1218  OTB
+28                             ITA 2018       3        VL1218  OTB
+29                             ITA 2018       4        VL1218  OTB
+30                             ITA 2018       1        VL1824  OTB
+31                             ITA 2018       2        VL1824  OTB
+32                             ITA 2018       3        VL1824  OTB
+33                             ITA 2018       4        VL1824  OTB
+34                             ITA 2018       1        VL2440  OTB
+35                             ITA 2018       2        VL2440  OTB
+36                             ITA 2018       3        VL2440  OTB
+37                             ITA 2018       4        VL2440  OTB
+39 ITA20191OTBDWSGSA 11ARA     ITA 2019       1            NA  OTB
+40 ITA20192OTBDWSGSA 11ARA     ITA 2019       2            NA  OTB
+41 ITA20193OTBDWSGSA 11ARA     ITA 2019       3            NA  OTB
+42 ITA20194OTBDWSGSA 11ARA     ITA 2019       4            NA  OTB
+   mesh_size_range fishery area specon species landings ck_0_length
+11           40D50     DWS   11     -1     ARA  2.78100           0
+12           40D50     DWS   11     -1     ARA  0.25600           0
+13           40D50     DWS   11     -1     ARA  2.71800           0
+14           40D50     DWS   11     -1     ARA  5.41600           0
+15           40D50     DWS   11     -1     ARA  5.34800           0
+16           40D50     DWS   11     -1     ARA 10.01000           0
+17           40D50     DWS   11     -1     ARA  7.49000           0
+18           40D50     DWS   11     -1     ARA  1.23300           0
+19           40D50     DWS   11     -1     ARA  1.16100           0
+20           40D50     DWS   11     -1     ARA  1.68100           0
+21           40D50     DWS   11     -1     ARA  0.59100           0
+22           40D50     DWS   11     -1     ARA  1.82100           0
+23           40D50     DWS   11     -1     ARA  2.50700           0
+24           40D50     DWS   11     -1     ARA 12.64700           0
+25           40D50     DWS   11     -1     ARA  1.58800           0
+26           40D50     DWS   11     -1     ARA  1.52100           0
+27           40D50     DWS   11     -1     ARA  5.63700           0
+28           40D50     DWS   11     -1     ARA  4.25800           0
+29           40D50     DWS   11     -1     ARA  0.45700           0
+30           40D50     DWS   11     -1     ARA  2.95900           0
+31           40D50     DWS   11     -1     ARA 12.76300           0
+32           40D50     DWS   11     -1     ARA 11.31700           0
+33           40D50     DWS   11     -1     ARA  4.02000           0
+34           40D50     DWS   11     -1     ARA 30.35800           0
+35           40D50     DWS   11     -1     ARA 59.98100           0
+36           40D50     DWS   11     -1     ARA 33.30100           0
+37           40D50     DWS   11     -1     ARA 28.03700           0
+39              NA     DWS   11     -1     ARA  3.13910           0
+40              NA     DWS   11     -1     ARA  5.97575           0
+41              NA     DWS   11     -1     ARA  2.65112           0
+42              NA     DWS   11     -1     ARA  3.80342           0
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_lengthclass_0", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_plot_disc_vol")
+> ### * EWG_plot_disc_vol
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_plot_disc_vol
+> ### Title: Plot of total discards by gear and fishery
+> ### Aliases: EWG_plot_disc_vol
+> 
+> ### ** Examples
+> 
+> EWG_plot_disc_vol(data=discards,MS="ITA",GSA=18,SP="MUT")
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_plot_disc_vol", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_plot_discard_ts")
+> ### * EWG_plot_discard_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_plot_discard_ts
+> ### Title: Plot of total discards
+> ### Aliases: EWG_plot_discard_ts
+> 
+> ### ** Examples
+> 
+> EWG_plot_discard_ts(disc=discards,MS="ITA",GSA=11,SP="ARA",by="quarter")
+No discard data in the subset.
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_plot_discard_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_plot_land_vol")
+> ### * EWG_plot_land_vol
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_plot_land_vol
+> ### Title: Plot of total landing by gear and fishery
+> ### Aliases: EWG_plot_land_vol
+> 
+> ### ** Examples
+> 
+> EWG_plot_land_vol(data=landing,MS="ITA",GSA=11,SP="ARA")
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_plot_land_vol", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_plot_landing_ts")
+> ### * EWG_plot_landing_ts
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_plot_landing_ts
+> ### Title: Plot of total landing
+> ### Aliases: EWG_plot_landing_ts
+> 
+> ### ** Examples
+> 
+> EWG_plot_landing_ts(land=landing,MS="ITA",GSA=18,SP="ARA",by="quarter")
+Joining, by = c("year", "quarter")
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_plot_landing_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_weight_0")
+> ### * EWG_weight_0
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_weight_0
+> ### Title: weight 0 in landings and discards
+> ### Aliases: EWG_weight_0
+> 
+> ### ** Examples
+> 
+> EWG_weight_0(data=landing,type="l",MS="ITA",GSA=18,SP="HKE", verbose=TRUE)
+ cases in which length class number differ from zero if landing = 0
+integer(0)
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_weight_0", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_weight_minus1")
+> ### * EWG_weight_minus1
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_weight_minus1
+> ### Title: weight -1 in landings
+> ### Aliases: EWG_weight_minus1
+> 
+> ### ** Examples
+> 
+> EWG_weight_minus1(data=landing,type="l",MS="ITA",GSA=18,SP="HKE",verbose=TRUE)
+There aren't -1 landings
+[1] 0
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_weight_minus1", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("EWG_yr_missing_length")
+> ### * EWG_yr_missing_length
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: EWG_yr_missing_length
+> ### Title: Years with missing length distributions
+> ### Aliases: EWG_yr_missing_length
+> 
+> ### ** Examples
+> 
+> EWG_yr_missing_length(data=landing,type="l",MS=c("ITA"),GSA=c("18"),SP="NEP")
+   year gear fishery total_number_landed
+1  2002   NA      NA                   0
+2  2003  GNS     DEF                   0
+3  2003   NA      NA                   0
+4  2005  GNS     DEF                   0
+5  2006  GNS     DEF                   0
+6  2006   NA      NA                   0
+7  2006  OTB   DEMSP                   0
+8  2006  OTB     MDD                   0
+9  2007  GNS     DEF                   0
+10 2008  GNS     DEF                   0
+11 2008  GNS     SLP                   0
+12 2009  OTB     DWS                   0
+13 2010  OTB     DWS                   0
+14 2011  OTB     DWS                   0
+15 2016  OTB     DWS                   0
+16 2018  OTB     DWS                   0
+17 2019  OTB     DWS                   0
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("EWG_yr_missing_length", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("GP_check")
+> ### * GP_check
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: GP_check
+> ### Title: GP_tab (growth params) table check
+> ### Aliases: GP_check
+> 
+> ### ** Examples
+> 
+> GP_check(GP_tab_example,"MUT","ITA","SA 18")
+   COUNTRY  YEAR START_YEAR END_YEAR SPECIES SEX
+1      ITA SA 18       2014     2014     MUT   C
+2      ITA SA 18       2015     2015     MUT   C
+3      ITA SA 18       2016     2016     MUT   C
+4      ITA SA 18       2017     2017     MUT   C
+5      ITA SA 18       2014     2014     MUT   F
+6      ITA SA 18       2015     2015     MUT   F
+7      ITA SA 18       2016     2016     MUT   F
+8      ITA SA 18       2017     2017     MUT   F
+9      ITA SA 18       2014     2014     MUT   M
+10     ITA SA 18       2015     2015     MUT   M
+11     ITA SA 18       2016     2016     MUT   M
+12     ITA SA 18       2017     2017     MUT   M
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("GP_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("LW_check_MED_BS")
+> ### * LW_check_MED_BS
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: LW_check_MED_BS
+> ### Title: LW params in GP_tab (sex ratio at length) table check#'
+> ### Aliases: LW_check_MED_BS
+> 
+> ### ** Examples
+> 
+> LW_check_MED_BS(GP_tab_example,"MUT","ITA","SA 18")
+   COUNTRY  YEAR START_YEAR END_YEAR SPECIES SEX NA
+1      ITA SA 18       2014     2014     MUT   C  1
+2      ITA SA 18       2015     2015     MUT   C  1
+3      ITA SA 18       2016     2016     MUT   C  1
+4      ITA SA 18       2017     2017     MUT   C  1
+5      ITA SA 18       2014     2014     MUT   F  1
+6      ITA SA 18       2015     2015     MUT   F  1
+7      ITA SA 18       2016     2016     MUT   F  1
+8      ITA SA 18       2017     2017     MUT   F  1
+9      ITA SA 18       2014     2014     MUT   M  1
+10     ITA SA 18       2015     2015     MUT   M  1
+11     ITA SA 18       2016     2016     MUT   M  1
+12     ITA SA 18       2017     2017     MUT   M  1
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("LW_check_MED_BS", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("Landing_coverage")
+> ### * Landing_coverage
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: Landing_coverage
+> ### Title: Landing_cov: function to check the coverage in Landing table
+> ### Aliases: Landing_coverage
+> 
+> ### ** Examples
+> 
+> Landing_coverage(Landing_tab_example,"DPS","ITA","9")
+Joining, by = c("YEAR", "GEAR")
+   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY AREA SPECIES
+1      ITA 2003      -1            -1  OTB          50D100      -1    9     DPS
+2      ITA 2004      -1            -1  OTB          50D100      -1    9     DPS
+3      ITA 2004      -1            -1  GNS              -1    DEMF    9     DPS
+4      ITA 2007      -1            -1  GNS              -1    DEMF    9     DPS
+5      ITA 2008      -1            -1  GNS              -1    DEMF    9     DPS
+6      ITA 2014      -1            -1  GNS              -1    DEMF    9     DPS
+7      ITA 2017       2            -1  GNS              -1    DEMF    9     DPS
+8      ITA 2003      -1            -1  GTR              -1   DEMSP    9     DPS
+9      ITA 2004      -1            -1  GTR              -1   DEMSP    9     DPS
+10     ITA 2005      -1            -1  GTR              -1   DEMSP    9     DPS
+11     ITA 2012      -1            -1  GTR              -1   DEMSP    9     DPS
+12     ITA 2005      -1            -1  OTB          50D100   DEMSP    9     DPS
+13     ITA 2006      -1            -1  OTB          50D100   DEMSP    9     DPS
+14     ITA 2007      -1            -1  OTB          50D100   DEMSP    9     DPS
+15     ITA 2008      -1            -1  OTB          50D100   DEMSP    9     DPS
+16     ITA 2009      -1            -1  OTB          50D100   DEMSP    9     DPS
+17     ITA 2010      -1            -1  OTB          50D100   DEMSP    9     DPS
+18     ITA 2011      -1            -1  OTB          50D100   DEMSP    9     DPS
+19     ITA 2012      -1            -1  OTB          50D100   DEMSP    9     DPS
+20     ITA 2013      -1            -1  OTB          50D100   DEMSP    9     DPS
+21     ITA 2014      -1            -1  OTB          50D100   DEMSP    9     DPS
+22     ITA 2015      -1            -1  OTB          50D100   DEMSP    9     DPS
+23     ITA 2016       1            -1  OTB          50D100   DEMSP    9     DPS
+24     ITA 2017       1            -1  OTB          50D100   DEMSP    9     DPS
+25     ITA 2016       2            -1  OTB          50D100   DEMSP    9     DPS
+26     ITA 2017       2            -1  OTB          50D100   DEMSP    9     DPS
+27     ITA 2016       3            -1  OTB          50D100   DEMSP    9     DPS
+28     ITA 2017       3            -1  OTB          50D100   DEMSP    9     DPS
+29     ITA 2016       4            -1  OTB          50D100   DEMSP    9     DPS
+30     ITA 2017       4            -1  OTB          50D100   DEMSP    9     DPS
+31     ITA 2008      -1            -1  OTB          50D100    DWSP    9     DPS
+32     ITA 2010      -1            -1  OTB          50D100    DWSP    9     DPS
+33     ITA 2011      -1            -1  OTB          50D100    DWSP    9     DPS
+34     ITA 2012      -1            -1  OTB          50D100    DWSP    9     DPS
+35     ITA 2013      -1            -1  OTB          50D100    DWSP    9     DPS
+36     ITA 2014      -1            -1  OTB          50D100    DWSP    9     DPS
+37     ITA 2015      -1            -1  OTB          50D100    DWSP    9     DPS
+38     ITA 2016      -1            -1  OTB          50D100    DWSP    9     DPS
+39     ITA 2005      -1            -1  OTB          50D100  MDDWSP    9     DPS
+40     ITA 2006      -1            -1  OTB          50D100  MDDWSP    9     DPS
+41     ITA 2007      -1            -1  OTB          50D100  MDDWSP    9     DPS
+42     ITA 2008      -1            -1  OTB          50D100  MDDWSP    9     DPS
+43     ITA 2009      -1            -1  OTB          50D100  MDDWSP    9     DPS
+44     ITA 2010      -1            -1  OTB          50D100  MDDWSP    9     DPS
+45     ITA 2011      -1            -1  OTB          50D100  MDDWSP    9     DPS
+46     ITA 2012      -1            -1  OTB          50D100  MDDWSP    9     DPS
+47     ITA 2013      -1            -1  OTB          50D100  MDDWSP    9     DPS
+48     ITA 2014      -1            -1  OTB          50D100  MDDWSP    9     DPS
+49     ITA 2015      -1            -1  OTB          50D100  MDDWSP    9     DPS
+50     ITA 2016       1            -1  OTB          50D100  MDDWSP    9     DPS
+51     ITA 2017       1            -1  OTB          50D100  MDDWSP    9     DPS
+52     ITA 2016       2            -1  OTB          50D100  MDDWSP    9     DPS
+53     ITA 2017       2            -1  OTB          50D100  MDDWSP    9     DPS
+54     ITA 2016       3            -1  OTB          50D100  MDDWSP    9     DPS
+55     ITA 2017       3            -1  OTB          50D100  MDDWSP    9     DPS
+56     ITA 2016       4            -1  OTB          50D100  MDDWSP    9     DPS
+57     ITA 2017       4            -1  OTB          50D100  MDDWSP    9     DPS
+     LANDINGS
+1  316.615971
+2  367.431910
+3    3.628830
+4    2.263080
+5    0.508290
+6    0.027360
+7    0.026880
+8    5.933227
+9    4.177760
+10   0.517960
+11   0.161160
+12  41.955260
+13  55.302990
+14  89.849750
+15 187.262190
+16 238.541980
+17 309.589920
+18 404.501390
+19 483.420540
+20 426.367160
+21 466.692420
+22 663.633400
+23 158.379000
+24 168.457870
+25 165.632000
+26 226.377570
+27 157.255000
+28 163.881790
+29 167.289000
+30 171.422780
+31   0.164650
+32   9.691160
+33   9.676960
+34   5.543910
+35   3.829750
+36   2.112830
+37   8.549960
+38  10.478000
+39 388.470180
+40 407.103060
+41 125.318150
+42  66.065310
+43  64.598710
+44 154.013300
+45 136.853120
+46 132.123730
+47 145.464160
+48  92.632310
+49 119.266000
+50  15.353000
+51  16.607640
+52  79.350000
+53  45.163590
+54  61.089000
+55  49.455210
+56  20.785000
+57  15.440050
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("Landing_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("MA_tab_check")
+> ### * MA_tab_check
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: MA_tab_check
+> ### Title: MA_tab (maturity at age) table check
+> ### Aliases: MA_tab_check
+> 
+> ### ** Examples
+> 
+> MA_tab_check(MA_tab_example,"DPS","ITA","9")
+Warning: Ignoring unknown parameters: binwidth
+   COUNTRY YEAR START_YEAR END_YEAR SPECIES   SEX
+1      ITA    9       2006     2006     DPS FALSE
+2      ITA    9       2007     2007     DPS FALSE
+3      ITA    9       2008     2008     DPS FALSE
+4      ITA    9       2009     2009     DPS FALSE
+5      ITA    9       2010     2010     DPS FALSE
+6      ITA    9       2011     2011     DPS FALSE
+7      ITA    9       2012     2012     DPS FALSE
+8      ITA    9       2013     2013     DPS FALSE
+9      ITA    9       2014     2014     DPS FALSE
+10     ITA    9       2015     2015     DPS FALSE
+11     ITA    9       2016     2016     DPS FALSE
+12     ITA    9       2017     2016     DPS FALSE
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("MA_tab_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("ML_tab_check")
+> ### * ML_tab_check
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: ML_tab_check
+> ### Title: ML_tab (maturity at length) table check
+> ### Aliases: ML_tab_check
+> 
+> ### ** Examples
+> 
+> ML_tab_check(ML_tab_example,"DPS","ITA","9")
+Warning: Ignoring unknown parameters: binwidth
+   COUNTRY YEAR START_YEAR END_YEAR SPECIES   SEX
+1      ITA    9       2006     2006     DPS FALSE
+2      ITA    9       2007     2007     DPS FALSE
+3      ITA    9       2008     2008     DPS FALSE
+4      ITA    9       2009     2009     DPS FALSE
+5      ITA    9       2010     2010     DPS FALSE
+6      ITA    9       2011     2011     DPS FALSE
+7      ITA    9       2012     2012     DPS FALSE
+8      ITA    9       2013     2013     DPS FALSE
+9      ITA    9       2014     2014     DPS FALSE
+10     ITA    9       2015     2015     DPS FALSE
+11     ITA    9       2016     2016     DPS FALSE
+12     ITA    9       2017     2017     DPS FALSE
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ML_tab_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("SA_tab_check")
+> ### * SA_tab_check
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: SA_tab_check
+> ### Title: SA_tab (sex ratio at age) table check
+> ### Aliases: SA_tab_check
+> 
+> ### ** Examples
+> 
+> SA_tab_check(SA_tab_example,"DPS","ITA","9")
+Warning: Ignoring unknown parameters: binwidth
+   COUNTRY YEAR START_YEAR END_YEAR SPECIES
+1      ITA    9       2003     2005     DPS
+2      ITA    9       2006     2006     DPS
+3      ITA    9       2007     2007     DPS
+4      ITA    9       2008     2008     DPS
+5      ITA    9       2009     2009     DPS
+6      ITA    9       2010     2010     DPS
+7      ITA    9       2011     2011     DPS
+8      ITA    9       2012     2012     DPS
+9      ITA    9       2013     2013     DPS
+10     ITA    9       2014     2014     DPS
+11     ITA    9       2015     2015     DPS
+12     ITA    9       2016     2016     DPS
+13     ITA    9       2017     2017     DPS
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("SA_tab_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("SL_tab_check")
+> ### * SL_tab_check
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: SL_tab_check
+> ### Title: SL_tab (sex ratio at length) table check
+> ### Aliases: SL_tab_check
+> 
+> ### ** Examples
+> 
+> SL_tab_check(SL_tab_example,"DPS","ITA","9")
+Warning: Ignoring unknown parameters: binwidth
+   COUNTRY YEAR START_YEAR END_YEAR SPECIES
+1      ITA    9       2003     2005     DPS
+2      ITA    9       2006     2006     DPS
+3      ITA    9       2007     2007     DPS
+4      ITA    9       2008     2008     DPS
+5      ITA    9       2009     2009     DPS
+6      ITA    9       2010     2010     DPS
+7      ITA    9       2011     2011     DPS
+8      ITA    9       2012     2012     DPS
+9      ITA    9       2013     2013     DPS
+10     ITA    9       2014     2014     DPS
+11     ITA    9       2015     2015     DPS
+12     ITA    9       2016     2016     DPS
+13     ITA    9       2017     2017     DPS
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("SL_tab_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("check_AL")
+> ### * check_AL
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: check_AL
+> ### Title: Check consistency of age-length relationship
+> ### Aliases: check_AL
+> 
+> ### ** Examples
+> 
+> check_AL(data_ex,min_age=0,max_age=30)
+Error in data$Species %in% species : 
+  argument "species" is missing, with no default
+Calls: check_AL -> [ -> [.data.frame -> %in%
+Execution halted

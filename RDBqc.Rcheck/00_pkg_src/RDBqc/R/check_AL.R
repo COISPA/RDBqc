@@ -7,7 +7,7 @@
 #' @param verbose boolean. If it is TRUE messages are reported with the outputs
 #' @return summary table length-age and error (if any)
 #' @export
-#' @examples check_AL(data_ex,species="Mullus barbatus",min_age=0,max_age=30)
+#' @examples check_AL(data_ex,min_age=0,max_age=30)
 #' @import ggplot2
 #' @importFrom stats aggregate
 #' @importFrom utils globalVariables
@@ -17,10 +17,8 @@ check_AL<-function(data,species,min_age=0,max_age=30, verbose=TRUE){
     if (FALSE) {
         data <- data_ex
         species <- "Mullus barbatus"
-        min_age=0
-        max_age=30
         verbose=TRUE
-        # data$Age <- NA
+        data$Age <- NA
     }
 
 AGE_na <- data[is.na(data$Age) & data$Species %in% species,]
@@ -38,13 +36,8 @@ if (nrow(data)==0) {
     message("No useful data for the analysis")
 } else if (nrow(data)>0){
 
-p <- ggplot(data=data, aes(x=Age,y=Length_class,col=Sex)) +
-    geom_point() +
-    facet_grid(Year~ Sex) +
-    ggtitle(species) +
-    xlab("Age") +
-    ylab("Length class (mm)")
-print(p)
+ggplot(data=data, aes(x=Age,y=Length_class,col=Sex)) + geom_point() + facet_grid(Year~ Sex)
+
 # summary table of number of individuals by length class by year
 data_age=data[!is.na(data$Age),]
 
