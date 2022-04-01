@@ -24,5 +24,5 @@ summary table length-age and error (if any)
 Check consistency of age-length relationship
 }
 \examples{
-check_AL(data_ex,min_age=0,max_age=30)
+check_AL(data_ex,species="Mullus barbatus",min_age=0,max_age=30)
 }

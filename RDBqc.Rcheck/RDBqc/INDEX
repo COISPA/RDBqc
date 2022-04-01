@@ -4,8 +4,6 @@ Catch_tab_example       Catch table in MED&BS datacall format
 Discard_coverage        Discard_cov: function to check the coverage in
                         Discard table
 Discard_tab_example     Discard table in MED&BS datacall format
-Duplicated_GFCM_II2     Check duplicated records in GFCM Task II.2
-                        table
 EWG_check_duplicates    Check for duplicated data rows
 EWG_comp_disc_YQ        Comparison between discards in weight by
                         quarter and -1

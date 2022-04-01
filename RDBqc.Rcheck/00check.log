@@ -18,9 +18,7 @@
 * checking package directory ... OK
 * checking for future file timestamps ... OK
 * checking DESCRIPTION meta-information ... OK
-* checking top-level files ... NOTE
-Non-standard file/directory found at top level:
-  'README_files'
+* checking top-level files ... OK
 * checking for left-over files ... OK
 * checking index information ... OK
 * checking package subdirectories ... OK
@@ -55,18 +53,18 @@ Running examples in 'RDBqc-Ex.R' failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: check_AL
-> ### Title: Check consistency of age-length relationship
-> ### Aliases: check_AL
+> ### Name: check_loc
+> ### Title: Check trip location
+> ### Aliases: check_loc
 > 
 > ### ** Examples
 > 
-> check_AL(data_ex,min_age=0,max_age=30)
-Error in data$Species %in% species : 
-  argument "species" is missing, with no default
-Calls: check_AL -> [ -> [.data.frame -> %in%
+> check_loc(data_ex)
+Error in `$<-.data.frame`(`*tmp*`, "Legend", value = "initial position") : 
+  replacement has 1 row, data has 0
+Calls: check_loc -> $<- -> $<-.data.frame
 Execution halted
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 1 ERROR, 1 NOTE
+Status: 1 ERROR

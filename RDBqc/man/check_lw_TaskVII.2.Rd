@@ -10,10 +10,10 @@ check_lw_TaskVII.2(data)
 \item{data}{GFCM Task VII.2 table}
 }
 \value{
-Plot of the length weight relationship for each species
+The function return a plot of the length weight relationship per species.
 }
 \description{
-Plot of the relationship length weight for each species
+Function to check the consistency of length-weight relationship in the GFCM Task VII.2 table per species.
 }
 \examples{
 check_lw_TaskVII.2(task_vii2)

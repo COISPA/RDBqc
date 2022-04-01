@@ -9,15 +9,14 @@ check_presence_taskII2(data1, data2)
 \arguments{
 \item{data1}{GFCM Task II.2 table}
 
-\item{data2}{Combination for Task II.2 table}
+\item{data2}{List of combination of the expected GSA/Fleet segments per year for Task II.2 table}
 }
 \value{
-List of missing combination GSA/Fleet segment per year
+The function returns a list of missing combinations GSA/Fleet segment per year.
 }
 \description{
-Check of missing combination GSA/Fleet segment per year
+Function to verify the completeness of the GSA/Fleet segments in Task II.2 table, as reported in the combination_taskII2 table.
 }
 \examples{
 check_presence_taskII2(task_ii2,combination_taskII2)
-
 }

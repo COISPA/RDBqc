@@ -1,18 +1,14 @@
 #' Check mismatching species/Catfau and Sex per maturity stages for Task VII.3.2 table
 #'
+#' @description Function to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table.
 #' @param data GFCM Task VII.3.2 table
-#' @param species Combination of SPECIES X CATFAU for Task VII.3.2 table
-#' @param matsex Combination of Sex X maturity stages for Task VII.3.2 table
+#' @param species List of combination of species/faunistic category for Task VII.3.2 table
+#' @param matsex List of combination of sex/maturity stages for Task VII.3.2 table
 #'
-#' @return List of mismatching combination Specie/CATFAU
-#' @return List of mismatching combination Sex/maturity
+#' @return Two lists are returned by the function. The first output gives the list of mismatching combination of species/faunistic categories. The second output gives the list of mismatching combination of sex/maturity stages.
 #' @export
 #'
 #' @examples check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat)
-#'
-#' #Clean the global environment of R
-
-
 
 
 check_species_catfau_TaskVII.3.2 <- function(data,species,matsex){

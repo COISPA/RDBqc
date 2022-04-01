@@ -74,6 +74,7 @@ check_loc<-function(data,ports=circabc){
         DF$Latitude <- as.numeric(DF$Latitude)
         DF$Longitude <- as.numeric(DF$Longitude)
         labels <- DF
+        DF <- DF[!duplicated(DF),]
         # definition of the map extension
         range <- min(DF$Longitude)
         range[2] <- max(DF$Longitude)
@@ -101,7 +102,7 @@ check_loc<-function(data,ports=circabc){
         plot(1,1,type="n",xlim=c(range[1]-dlon,range[2]+dlon), ylim=c(range[3]-dlat,range[4]+dlat) ,
              xlab=expression(paste("Longitude (",degree,"E)")),
              ylab=expression(paste("Latitude (",degree,"N)")),
-             asp=1)
+             asp=1/cos(45*pi/180))
 
         # plot the world shape in the map extension
         plot(world, border="grey", col="light grey", add=TRUE)

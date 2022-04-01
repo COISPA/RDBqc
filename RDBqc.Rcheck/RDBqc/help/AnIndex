@@ -39,7 +39,6 @@ data_exampleCL	data_exampleCL
 discards	discards
 Discard_coverage	Discard_coverage
 Discard_tab_example	Discard_tab_example
-Duplicated_GFCM_II2	Duplicated_GFCM_II2
 EWG_check_duplicates	EWG_check_duplicates
 EWG_comp_disc_YQ	EWG_comp_disc_YQ
 EWG_comp_disc_YQ_fishery	EWG_comp_disc_YQ_fishery

@@ -12,10 +12,10 @@ check_EF_TaskVII32(data, verbose = TRUE)
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
-two lists. The first list gives the number of NA for each column of interest. The second list gives the index of each NA in the column of interest
+Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
 }
 \description{
-Check empty fields in GFCM Task VII.3.2 table
+The function checks the presence of not allowed empty data in the given table, according to the \href{https://gfcm.sharepoint.com/sites/DCRF/Shared\%20Documents/Forms/AllItems.aspx?id=\%2Fsites\%2FDCRF\%2FShared\%20Documents\%2FGFCM\%2DDCRF\%2Dmanual\%2D2018\%2Dv\%2E21\%2E2\%2Epdf&parent=\%2Fsites\%2FDCRF\%2FShared\%20Documents&p=true&ga=1}{GFCM, 2018. GFCM Data Collection Reference Framework (DCRF). Version: 20.1}
 }
 \examples{
 check_EF_TaskVII32(task_vii32)

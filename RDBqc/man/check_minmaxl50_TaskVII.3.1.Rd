@@ -12,10 +12,10 @@ check_minmaxl50_TaskVII.3.1(data1, data2)
 \item{data2}{Theoretical values of min/max L50 for each species and sex}
 }
 \value{
-Table for comparison between min/max L50 observed for each species and sex with theoretical values
+The function returns a table with the comparison between min/max L50 observed for each species and sex with theoretical values.
 }
 \description{
-Comparison between min/max L50 observed for each species and sex with theoretical values
+Function to verify the consistency of L50 reported in the TaskVII.3.1 table with the theoretical values reported in the minmaxLtaskVII31 table. The function allows to identify the records in which the observed L50 are greater or lower than the expected ones.
 }
 \examples{
 check_minmaxl50_TaskVII.3.1(task_vii31,minmaxLtaskVII31)

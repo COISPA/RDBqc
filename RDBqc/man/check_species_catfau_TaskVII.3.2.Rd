@@ -9,20 +9,16 @@ check_species_catfau_TaskVII.3.2(data, species, matsex)
 \arguments{
 \item{data}{GFCM Task VII.3.2 table}
 
-\item{species}{Combination of SPECIES X CATFAU for Task VII.3.2 table}
+\item{species}{List of combination of species/faunistic category for Task VII.3.2 table}
 
-\item{matsex}{Combination of Sex X maturity stages for Task VII.3.2 table}
+\item{matsex}{List of combination of sex/maturity stages for Task VII.3.2 table}
 }
 \value{
-List of mismatching combination Specie/CATFAU
-
-List of mismatching combination Sex/maturity
+Two lists are returned by the function. The first output gives the list of mismatching combination of species/faunistic categories. The second output gives the list of mismatching combination of sex/maturity stages.
 }
 \description{
-Check mismatching species/Catfau and Sex per maturity stages for Task VII.3.2 table
+Function to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table.
 }
 \examples{
 check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat)
-
-#Clean the global environment of R
 }

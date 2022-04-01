@@ -3,8 +3,8 @@
 #'
 #' @param data GFCM Task VII.3.1 table
 #' @param verbose boolean. If TRUE a message is printed.
-#'
-#' @return indices of the duplicated rows in the first 5 columns
+#' @description The function check the presence of duplicated records. In particular, it checks whether the combination of the first 5 columns generates duplicate records.
+#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 5 columns of the Task Task VII.3.1 table.
 #' @export
 #'
 #' @examples check_RD_taskVII31(task_vii31)
@@ -19,7 +19,11 @@ check_RD_taskVII31 <- function(data, verbose=TRUE){
   #   check_RD_taskVII31(data, tab="tabVII31", verbose=TRUE)
   # }
 
-  df <- data[ , which(colnames(data)%in% c("Reference_Year", "CPC", "GSA", "Species", "Sex" ))] # c(1:5)
+  df <- data[ , which(colnames(data)%in% c("Reference_Year",
+                                           "CPC",
+                                           "GSA",
+                                           "Species",
+                                           "Sex" ))]
 
   #Identify the line number of duplicate
   duplicated_line=which(duplicated(df))

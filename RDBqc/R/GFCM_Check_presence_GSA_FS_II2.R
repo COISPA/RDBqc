@@ -1,15 +1,13 @@
 #' Check of missing combination GSA/Fleet segment per year
 #'
+#' @description Function to verify the completeness of the GSA/Fleet segments in Task II.2 table, as reported in the combination_taskII2 table.
 #' @param data1 GFCM Task II.2 table
-#' @param data2 Combination for Task II.2 table
+#' @param data2 List of combination of the expected GSA/Fleet segments per year for Task II.2 table
 #'
-#' @return List of missing combination GSA/Fleet segment per year
+#' @return The function returns a list of missing combinations GSA/Fleet segment per year.
 #' @export
 #'
 #' @examples check_presence_taskII2(task_ii2,combination_taskII2)
-#'
-####
-
 
 check_presence_taskII2 <- function(data1,data2){
   #Declaration of variables and suppression of empty columns for dataframe1

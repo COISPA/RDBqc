@@ -57,25 +57,6 @@ Discard_coverage(Discard_tab_example,"DPS","ITA","9")
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("Discard_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
-nameEx("Duplicated_GFCM_II2")
-### * Duplicated_GFCM_II2
-
-flush(stderr()); flush(stdout())
-
-base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-### Name: Duplicated_GFCM_II2
-### Title: Check duplicated records in GFCM Task II.2 table
-### Aliases: Duplicated_GFCM_II2
-
-### ** Examples
-
-Duplicated_GFCM_II2(task_ii2)
-
-
-
-base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
-base::cat("Duplicated_GFCM_II2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
-cleanEx()
 nameEx("EWG_check_duplicates")
 ### * EWG_check_duplicates
 
@@ -569,7 +550,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-check_AL(data_ex,min_age=0,max_age=30)
+check_AL(data_ex,species="Mullus barbatus",min_age=0,max_age=30)
 
 
 

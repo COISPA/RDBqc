@@ -10,10 +10,10 @@ check_lmat_TaskVII.3.2(data)
 \item{data}{GFCM Task VII.3.2 table}
 }
 \value{
-Plot of the maturity stages per length for each sex and species
+The function return a plot of the maturity stages per length and sex per species.
 }
 \description{
-Plot of the maturity stages per length for each sex and species
+Function to plot the lengths at maturity stages by species and sex to easily identify outliers.
 }
 \examples{
 check_lmat_TaskVII.3.2(task_vii32)

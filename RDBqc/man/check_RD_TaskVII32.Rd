@@ -12,10 +12,10 @@ check_RD_TaskVII32(data, verbose = TRUE)
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
-indices of the duplicated rows in the first 10 columns
+The function returns the indices of the duplicated rows, checking the unique combinations of the first 10 columns of the Task Task VII.3.2 table.
 }
 \description{
-Check duplicated records in GFCM Task VII.3.2 table
+The function check the presence of duplicated records. In particular, it checks whether the combination of the first 10 columns generates duplicate records.
 }
 \examples{
 check_RD_TaskVII32(task_vii32)
