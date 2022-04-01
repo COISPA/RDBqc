@@ -4,21 +4,25 @@
 \alias{check_LFD}
 \title{check LFD}
 \usage{
-check_LFD(data_example, min_len = 1, max_len = 1000)
+check_LFD(data, species, min_len = 1, max_len = 1000, verbose = TRUE)
 }
 \arguments{
-\item{data_example}{RCG CS table}
+\item{data}{RCG CS table}
+
+\item{species}{reference species for the analysis}
 
 \item{min_len}{minimum length}
 
 \item{max_len}{maximum length}
+
+\item{verbose}{boolean. If it is TRUE messages are reported with the outputs}
 }
 \value{
 comparison plot of LFDs among the  years and check of length range of the data using allowed range
 }
 \description{
-check LFD
+The function allows to check the consistency of LFDs (length frequency distributions) by year on a given species generating a multi-frame plot. The function also returns the records in which the length classes are greater or lower than the expected ones (\code{min_len} and \code{max_len} parameters).
 }
 \examples{
-check_LFD(data_ex,min_len=1,max_len=35)
+check_LFD(data_ex,species="Mullus barbatus",min_len=1,max_len=35)
 }

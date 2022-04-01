@@ -21,8 +21,8 @@ check_lw(data, species, Min = 0, Max = 1000, verbose = TRUE)
 Plot and error message
 }
 \description{
-The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the trip codes in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters).
+The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the records in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters).
 }
 \examples{
-check_lw(data_ex,species="Aristaeomorpha foliacea",Min=0,Max=1000)
+check_lw(data_ex,species="Mullus barbatus",Min=0,Max=1000)
 }

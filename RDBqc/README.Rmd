@@ -35,7 +35,7 @@ head(data_exampleCL)
 ## Check LFD 
 This function returns 0 if all the lengths collected are within the length range min_len-max_len; if some lengths are outside this range, the corresponding trips are indicated.
 ```{r input0}
-check_LFD(data_ex,min_len=6, max_len=250)
+check_LFD(data_ex,species="Mullus barbatus",min_len=6, max_len=250)
 ```
 ## Check LFD_comm_cat 
 This function reports for each year and commercial category the minimum and maximum lengths in the dataset.
@@ -43,14 +43,14 @@ This function reports for each year and commercial category the minimum and maxi
 check_LFD_comm_cat(data_ex)
 ```
 ## Check AL 
-This function reports for each year and and length class the number of age measurements in the dataset. Moreover, the function detects if the age data are in the range min_age-max_age. 
+This function reports for each year and length class the number of age measurements in the dataset. Moreover, the function detects if the age data are in the range min_age-max_age. 
 ```{r input2}
 check_AL(data_ex,min_age=0,max_age=5)
 ```
 ## Check lw 
 This function plots for each year and sex the length-weight scatter plot, checking if the weight data are within the boundaries in input.
 ```{r input3}
-check_lw(data_ex,Min=0,Max=200)
+check_lw(data_ex,species="Mullus barbatus",Min=0,Max=200)
 ```
 ## Check mat 
 This function plots for each year and sex the length-maturity stage scatter plot and the maturity ogive derived from the dataset by sex.

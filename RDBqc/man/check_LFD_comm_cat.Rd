@@ -4,10 +4,14 @@
 \alias{check_LFD_comm_cat}
 \title{Check consistency of LFD by year and commercial category}
 \usage{
-check_LFD_comm_cat(data_example)
+check_LFD_comm_cat(data, species, verbose = TRUE)
 }
 \arguments{
-\item{data_example}{RCG CS table}
+\item{data}{RCG CS table}
+
+\item{species}{reference species for the analysis}
+
+\item{verbose}{boolean. If it is TRUE messages are reported with the outputs}
 }
 \value{
 plot and a summary table with ranges by year and commercial category
@@ -16,5 +20,5 @@ plot and a summary table with ranges by year and commercial category
 Check consistency of LFD by year and commercial category
 }
 \examples{
-check_LFD_comm_cat(data_ex)
+check_LFD_comm_cat(data_ex, species="Mullus barbatus")
 }

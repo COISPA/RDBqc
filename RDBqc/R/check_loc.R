@@ -1,6 +1,6 @@
 
 #' Check trip location
-#' @param data_example detailed data in RCG CS format
+#' @param data detailed data in RCG CS format
 #' @param ports ports codification file
 #' @return map of trip locations
 #' @export check_loc
@@ -12,17 +12,40 @@
 #' @import sp
 #' @description If Initial and/or Final coordinates are included in the data, maps of them are produced. If not the locations of the harbours are mapped.
 
-check_loc<-function(data_example,ports=circabc){
+check_loc<-function(data,ports=circabc){
+
+    if (FALSE) {
+        data <- data_ex
+        data$Initial_latitude[1] <- 41.4
+        data$Initial_longitude[1] <- 17
+        data$Final_latitude[1] <- 41.5
+        data$Final_longitude[1] <- 17.1
+    }
+
     oldoptions <- options()$warn
         coordinates <-  NULL
         # loads world map shape
     world <- getMap(resolution = "high")
 
+    lat.start.na <- data[is.na(data$Initial_latitude), ]
+    lon.start.na <- data[is.na(data$Initial_longitude), ]
+    lat.end.na <- data[is.na(data$Final_latitude), ]
+    lon.end.na <- data[is.na(data$Final_longitude), ]
+
+    df_coord <- data[!(is.na(data$Initial_latitude)) & !(is.na(data$Initial_longitude)), ]
+
+   # if (nrow(data)>0) {
+   #
+   # }
+
     # example points data frame
-    DF=as.data.frame(cbind(data_example$Flag_country,data_example$Trip_code,data_example$Harbour,data_example$Initial_latitude,data_example$Initial_longitude))
+    DF=as.data.frame(cbind(data$Flag_country,data$Trip_code,data$Harbour,data$Initial_latitude,data$Initial_longitude))
     #points <- data.frame(matrix(ncol=5, nrow=3))
     colnames(DF) <- c("ISO3","Code","Name","Latitude","Longitude")
-   if(any(!is.na(DF$Latitude))){
+      if(any(!is.na(DF$Latitude) & !is.na(DF$Longitude))){
+          DF <- DF[!is.na(DF$Latitude) & !is.na(DF$Longitude) , ]
+          DF$Latitude <- as.numeric(DF$Latitude)
+          DF$Longitude <- as.numeric(DF$Longitude)
        labels <- DF
        # definition of the map extension
        range <- min(DF$Longitude)
@@ -63,10 +86,13 @@ check_loc<-function(data_example,ports=circabc){
 
    }    # coordinate
 
-    DF=as.data.frame(cbind(data_example$Flag_country,data_example$Trip_code,data_example$Harbour,data_example$Final_latitude,data_example$Final_longitude))
+    DF=as.data.frame(cbind(data$Flag_country,data$Trip_code,data$Harbour,data$Final_latitude,data$Final_longitude))
     #points <- data.frame(matrix(ncol=5, nrow=3))
     colnames(DF) <- c("ISO3","Code","Name","Latitude","Longitude")
-    if(any(!is.na(DF$Latitude))){
+      if(any(!is.na(DF$Latitude))){
+          DF <- DF[!is.na(DF$Latitude) & !is.na(DF$Longitude) , ]
+          DF$Latitude <- as.numeric(DF$Latitude)
+          DF$Longitude <- as.numeric(DF$Longitude)
         labels <- DF
         # definition of the map extension
         range <- min(DF$Longitude)
@@ -107,13 +133,15 @@ check_loc<-function(data_example,ports=circabc){
 
     }
 
-DF2=base::merge(as.data.frame(ports),data_example,by.x="Code",by.y="Harbour")
+DF2=base::merge(as.data.frame(ports),data,by.x="Code",by.y="Harbour")
 DF=as.data.frame(cbind(DF2$ISO3,DF2$Code,DF2$Name,DF2$Latitude,DF2$Longitude))
     #points <- data.frame(matrix(ncol=5, nrow=3))
     colnames(DF) <- c("ISO3","Code","Name","Latitude","Longitude")
-    DF$Latitude=as.numeric(DF$Latitude)
-    DF$Longitude=as.numeric(DF$Longitude)
+
     if(any(!is.na(DF$Latitude))){
+        DF <- DF[!is.na(DF$Latitude) & !is.na(DF$Longitude) , ]
+        DF$Latitude=as.numeric(DF$Latitude)
+        DF$Longitude=as.numeric(DF$Longitude)
         labels <- DF
         # definition of the map extension
         range <- min(DF$Longitude)

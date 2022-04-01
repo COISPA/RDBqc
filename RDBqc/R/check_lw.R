@@ -6,7 +6,7 @@
 #' @param Min min weight expected in the data
 #' @param Max max weight expected in the data
 #' @param verbose boolean. If it is TRUE messages are reported with the outputs
-#' @description The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the trip codes in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters).
+#' @description The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the records in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters).
 #' @return Plot and error message
 #' @export
 #' @examples check_lw(data_ex,species="Mullus barbatus",Min=0,Max=1000)
