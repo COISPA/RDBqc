@@ -2,6 +2,7 @@
 #' Check trip location
 #' @param data detailed data in RCG CS format
 #' @param ports ports codification file
+#' @description The function allows to check the spatial distribution of data using the initial and final coordinates, where available, and the ports position in cluded in the data.
 #' @return map of trip locations
 #' @export check_loc
 #' @examples check_loc(data_ex)
@@ -44,8 +45,10 @@ check_loc<-function(data,ports=circabc){
     DF1$Latitude <- as.numeric(DF1$Latitude)
     DF1$Longitude <- as.numeric(DF1$Longitude)
     DF1 <- DF1[!is.na(DF1$Latitude) & !is.na(DF1$Longitude) , ]
-    DF1$Legend <- "initial position"
-    DF1 <- DF1[!duplicated(DF1),]
+    if(nrow(DF1)>0) {
+        DF1$Legend <- "initial position"
+        DF1 <- DF1[!duplicated(DF1),]
+    }
 
     # final coordinates
     DF2=as.data.frame(cbind(data$Flag_country,data$Trip_code,data$Harbour,data$Final_latitude,data$Final_longitude))
@@ -53,9 +56,10 @@ check_loc<-function(data,ports=circabc){
     DF2$Latitude <- as.numeric(DF2$Latitude)
     DF2$Longitude <- as.numeric(DF2$Longitude)
     DF2 <- DF2[!is.na(DF2$Latitude) & !is.na(DF2$Longitude) , ]
-    DF2$Legend <- "final position"
-    DF2 <- DF2[!duplicated(DF2),]
-
+    if(nrow(DF2)>0) {
+        DF2$Legend <- "final position"
+        DF2 <- DF2[!duplicated(DF2),]
+    }
     # ports coordinates
     DF_ports=base::merge(as.data.frame(ports),data,by.x="Code",by.y="Harbour")
     DF3=as.data.frame(cbind(DF_ports$ISO3,DF_ports$Code,DF_ports$Name,DF_ports$Latitude,DF_ports$Longitude))
@@ -63,9 +67,10 @@ check_loc<-function(data,ports=circabc){
     DF3$Latitude=as.numeric(DF3$Latitude)
     DF3$Longitude=as.numeric(DF3$Longitude)
     DF3 <- DF3[!is.na(DF3$Latitude) & !is.na(DF3$Longitude) , ]
-    DF3$Legend <- "ports"
-    DF3 <- DF3[!duplicated(DF3),]
-
+    if(nrow(DF3)>0) {
+        DF3$Legend <- "ports"
+        DF3 <- DF3[!duplicated(DF3),]
+    }
     DF <- rbind(DF1,DF2,DF3)
 
 
@@ -73,7 +78,7 @@ check_loc<-function(data,ports=circabc){
         DF <- DF[!is.na(DF$Latitude) & !is.na(DF$Longitude) , ]
         DF$Latitude <- as.numeric(DF$Latitude)
         DF$Longitude <- as.numeric(DF$Longitude)
-        labels <- DF
+        labels <- DF[DF$Legend =="ports",]
         DF <- DF[!duplicated(DF),]
         # definition of the map extension
         range <- min(DF$Longitude)
@@ -96,7 +101,7 @@ check_loc<-function(data,ports=circabc){
         options(warn=-1)
 
         # par parameters
-        par(new=TRUE, mar=c(4, 5, 4, 2))
+        par(mar=c(4, 5, 4, 2))
 
         # empty plot with the map extension
         plot(1,1,type="n",xlim=c(range[1]-dlon,range[2]+dlon), ylim=c(range[3]-dlat,range[4]+dlat) ,
@@ -108,15 +113,15 @@ check_loc<-function(data,ports=circabc){
         plot(world, border="grey", col="light grey", add=TRUE)
         if (nrow(DF1)>0){
             coordinates(DF1) <- ~ Longitude + Latitude
-            plot(DF1, col="green", add=TRUE,pch=16,cex=1.4)
+            plot(DF1, col="green", add=TRUE,pch=16,cex=0.8)
         }
         if (nrow(DF2)>0){
             coordinates(DF2) <- ~ Longitude + Latitude
-            plot(DF2, col="red", add=TRUE,pch=16,cex=1.4)
+            plot(DF2, col="red", add=TRUE,pch=16,cex=0.8)
         }
         if (nrow(DF3)>0){
             coordinates(DF3) <- ~ Longitude + Latitude
-            plot(DF3, col="blue", add=TRUE,pch=16,cex=1.4)
+            plot(DF3, col="blue", add=TRUE,pch=16,cex=1.1)
         }
 
         text(x=labels$Longitude,

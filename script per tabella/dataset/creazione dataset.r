@@ -46,3 +46,5 @@ save(minmaxLtaskVII2, file="minmax-L-taskVII2.rda",compress="xz")
 minmaxLtaskVII31= read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\script per tabella\\dataset\\minmax_L50_taskVII.3.1.csv",sep=";",header=T)
 save(minmaxLtaskVII31, file="data/minmaxLtaskVII31.rda",compress="xz")
 
+data_ex= read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\script per tabella\\dataset\\data_ex.csv",sep=";",header=T)
+save(data_ex, file="data/data_ex.rda",compress="xz")
