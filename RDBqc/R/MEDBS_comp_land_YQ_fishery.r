@@ -10,7 +10,7 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_comp_land_YQ(land=landing,MS="ITA",GSA=11,SP="ARA")
+#' @examples MEDBS_comp_land_YQ_fishery(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 #' @importFrom dplyr full_join
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by
@@ -23,11 +23,11 @@
 MEDBS_comp_land_YQ_fishery <- function(land,MS,GSA,SP) {
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 11
-        SP <- "ARA"
+        GSA <- 9
+        SP <- "DPS"
         # verbose=TRUE
-        land=landing
-        MEDBS_comp_land_YQ_fishery(land=landing,MS="ITA",GSA=11,SP="ARA",by="quarter")
+        land=Landing_tab_example
+        MEDBS_comp_land_YQ_fishery(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
     }
 
     gear <- landings <- quarter <- tot_q <- tot_yr <- year <- fishery <- NULL

@@ -8,7 +8,7 @@
 #' @return The function returns a dataframe for the comparison of landings aggregated by quarters and fishery accounting for the presence of vessel length information.
 #' @export MEDBS_comp_land_Q_VL_fishery
 #'
-#' @examples MEDBS_comp_land_Q_VL_fishery(land=landing,MS="ITA",GSA=11,SP="ARA")
+#' @examples MEDBS_comp_land_Q_VL_fishery(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
@@ -27,11 +27,11 @@ MEDBS_comp_land_Q_VL_fishery <- function(land,MS,GSA,SP){
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 11
-        SP <- "ARA"
+        GSA <- 9
+        SP <- "DPS"
         # verbose=TRUE
-        land=landing
-        MEDBS_comp_land_Q_VL_fishery(land=landing,MS="ITA",GSA=11,SP="ARA")
+        land=Landing_tab_example
+        MEDBS_comp_land_Q_VL_fishery(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
     }
 
     gear <- landings <- quarter <- vessel_length <- year <- tmp1 <- tot_VL <- tot_NoVL <- fishery <- NULL
@@ -42,6 +42,7 @@ MEDBS_comp_land_Q_VL_fishery <- function(land,MS,GSA,SP){
 
     compLand2 <- list()
     c2 <- 1
+    i=1
     for (i in unique(land$year)){
         #i=2019
         tmp2 <- land[land$year%in%i,]

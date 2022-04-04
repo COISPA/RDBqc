@@ -1,7 +1,6 @@
 #' Kolmogorov-Smirnov test
 #'
 #' @param data data frame of landings or discards data
-#'
 #' @param type type of data frame. "l" for landing and "d" for discard
 #' @param MS member state code as it is reported in the landing data
 #' @param GSA string value of the GSA code
@@ -10,6 +9,7 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @examples MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
 #' @import tidyverse
 #' @importFrom dplyr full_join group_by inner_join left_join summarize mutate filter
 #' @importFrom magrittr %>%
@@ -21,28 +21,28 @@
 MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1) {
 
     if (FALSE) {
-        # library(ggplot2)
-        # library(data.table)
-        # library(tidyverse)
-        # library(fishmethods)
-        data=discards
+
+        data=landing # Landing_tab_example
         # splines <- c(0.2,0.4,0.6,0.8)
         # Xtresholds = c(0.25,0.5,0.75)
-        type="d"
+        type="l"
         # out = "mean" # "mean"
         MS <- c("ITA")
-        GSA <- c("18")
-        SP <- "NEP"
+        GSA <- c(18)
+        SP <- "MUT"
         Rt <- 1
         # tic()
+        Landing_tab_example <- as.data.table(Landing_tab_example)
 
-        MEDBS_ks(data=landing, type="l",MS="ITA",GSA="18", SP="NEP",Rt=1)
+        MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA=9, SP="DPS",Rt=1)
 
     }
 
     . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery  <- NULL
     len <- variable <- dbland <- NULL
     value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
+
+    data <- as.data.table(data)
 
     if (type == "l") {
         landed <- data #landed<-fread("../data/landings.csv")
@@ -154,7 +154,7 @@ MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1) {
                 results <- clus.lf(group=LFLandingsred$year,haul=LFLandingsred$ID,len=LFLandingsred$start_length, number=LFLandingsred$value, binsize=0,resamples=100)
                 mdata <- as.data.frame(results$obs_prop %>% pivot_longer(names_to = "variable",values_to = "value", -len)) # melt(results$obs_prop, id=c("len"))
                 plot <-ggplot(mdata, aes(x=len,y=value,col=variable))+geom_line()+
-                           ggtitle(paste0(i," ",SP," ",MS," ",GSA," ","Landing Cumulative Distribution")) +
+                           ggtitle(paste0(i," ",SP," ",MS," ",GSA," ","Landing")) +
                            xlab("Length") +
                            ylab("Cumulative proportion")
                 plots[[i]] <- plot
@@ -190,9 +190,9 @@ MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1) {
         do.call("grid.arrange", c(plots, ncol=cols))
 
         KS_final_landings <- do.call(rbind,tmpdb)
-        KS_final_landings <- do.call(rbind,tmpdb1)
+        KS_noTest_landings <- do.call(rbind,tmpdb1)
 
-        results <- list(KS_final_discards,KS_noTest_discards)
+        results <- list(KS_final_landings,KS_noTest_landings)
         return(results)
 
     }
@@ -322,7 +322,7 @@ MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1) {
                     #results$results
                     mdata <- as.data.frame(results$obs_prop %>% pivot_longer(names_to = "variable",values_to = "value", -len))  # melt(results$obs_prop, id=c("len"))
                     plot <- ggplot(mdata, aes(x=len,y=value,col=variable))+geom_line()+
-                               ggtitle(paste0(i," ",SP," ",MS," ",GSA," ","Discard Cumulative Distribution")) +
+                               ggtitle(paste0(i," ",SP," ",MS," ",GSA," ","Discard")) +
                                xlab("Length") +
                                ylab("Cumulative proportion")
                     plots[[i]] <- plot

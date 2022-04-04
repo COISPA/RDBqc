@@ -6,11 +6,11 @@
 #' @param SP species reference code in the three alpha code format
 #'
 #' @return The function returns a dataframe for the comparison of landings aggregated by quarters accounting for the presence of vessel length information.
-#' @export MEDBS_comp_land_YQ_VL
+#' @export MEDBS_comp_land_Q_VL
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_comp_land_YQ_VL(land=landing,MS="ITA",GSA=11,SP="ARA")
+#' @examples MEDBS_comp_land_Q_VL(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 #' @importFrom dplyr full_join
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by
@@ -22,15 +22,15 @@
 
 
 
-MEDBS_comp_land_YQ_VL <- function(land,MS,GSA,SP){
+MEDBS_comp_land_Q_VL <- function(land,MS,GSA,SP){
 
     if (FALSE) {
         MS <- "ITA"
         GSA <- 11
         SP <- "ARA"
         # verbose=TRUE
-        land=landing
-        MEDBS_comp_land_YQ_VL(land=landing,MS="ITA",GSA=11,SP="ARA")
+        land=Landing_tab_example
+        MEDBS_comp_land_Q_VL(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
     }
 
     gear <- landings <- quarter <- vessel_length <- year <- tmp1 <- tot_VL <- tot_NoVL <- NULL

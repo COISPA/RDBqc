@@ -24,11 +24,11 @@ MEDBS_comp_land_YQ <- function(land,MS,GSA,SP) {
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 11
-        SP <- "ARA"
+        GSA <- 9
+        SP <- "DPS"
         # verbose=TRUE
-        land=landing
-        MEDBS_comp_land_YQ(land=landing,MS="ITA",GSA=11,SP="ARA")
+        land=Landing_tab_example
+        MEDBS_comp_land_YQ(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
     }
 
      gear <- landings <- quarter <- tot_q <- tot_yr <- year <- NULL
