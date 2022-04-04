@@ -4,7 +4,13 @@
 #' @param data Landing table in RCG CL format
 #' @param species reference species for the analysis
 #' @param verbose boolean. If it is TRUE messages are reported with the outputs
-#' @description the
+#' @description The output is a list of 6 data frames:
+#' 1) Sum of Landings by year, quarter and month;
+#' 2) Sum of Landing value by year, quarter and month;
+#' 3) Sum of landings by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
+#' 4) Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
+#' 5) Sum of landings by Year, Species, foCatEu5, foCatEu6;
+#' 6) Sum of landing value by Year, Species, foCatEu5, foCatEu6;
 #' @return Checks_CL list of tables for temporal, spatial, species and metier coverage
 #' @export
 #'
