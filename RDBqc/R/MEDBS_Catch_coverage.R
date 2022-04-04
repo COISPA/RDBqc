@@ -1,6 +1,6 @@
 #' Catch_cov: function to check the coverage in Catch table
 #'
-#' @param MEDBS_catch Catch table in MEDBS format
+#' @param catch Catch table in MEDBS format
 #' @param SP species (three alpha code)
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))

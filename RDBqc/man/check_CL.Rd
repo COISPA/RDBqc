@@ -24,7 +24,7 @@ The output is a list of 6 data frames:
 \item Sum of landings by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
 \item Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
 \item Sum of landings by Year, Species, foCatEu5, foCatEu6;
-\item Sum of landing value by Year, Species, foCatEu5, foCatEu6;
+\item Sum of landing value by Year, Species, foCatEu5, foCatEu6.
 }
 }
 \examples{

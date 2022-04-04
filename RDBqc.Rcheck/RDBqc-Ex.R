@@ -19,25 +19,6 @@ library('RDBqc')
 base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
 cleanEx()
-nameEx("Discard_coverage")
-### * Discard_coverage
-
-flush(stderr()); flush(stdout())
-
-base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-### Name: Discard_coverage
-### Title: Discard_cov: function to check the coverage in Discard table
-### Aliases: Discard_coverage
-
-### ** Examples
-
-Discard_coverage(Discard_tab_example,"DPS","ITA","9")
-
-
-
-base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
-base::cat("Discard_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
-cleanEx()
 nameEx("GP_check")
 ### * GP_check
 
@@ -164,7 +145,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_disc_YQ(disc=discards,MS="ITA",GSA=18,SP="MUT")
+MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 
 
 
@@ -184,7 +165,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_disc_YQ(disc=discards,MS="ITA",GSA=18,SP="MUT")
+MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 
 
 
@@ -288,6 +269,25 @@ MEDBS_disc_mean_weight(disc=discards,MS="ITA",GSA=18,SP="MUT")
 
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("MEDBS_disc_mean_weight", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_discard_coverage")
+### * MEDBS_discard_coverage
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_discard_coverage
+### Title: Discard_cov: function to check the coverage in Discard table
+### Aliases: MEDBS_discard_coverage
+
+### ** Examples
+
+MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_discard_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
 nameEx("MEDBS_land_mean_weight")
 ### * MEDBS_land_mean_weight

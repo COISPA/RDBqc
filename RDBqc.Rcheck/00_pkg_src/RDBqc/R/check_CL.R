@@ -10,7 +10,7 @@
 #' 3) Sum of landings by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
 #' 4) Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
 #' 5) Sum of landings by Year, Species, foCatEu5, foCatEu6;
-#' 6) Sum of landing value by Year, Species, foCatEu5, foCatEu6;
+#' 6) Sum of landing value by Year, Species, foCatEu5, foCatEu6.
 #' @return Checks_CL list of tables for temporal, spatial, species and metier coverage
 #' @export
 #'
@@ -26,7 +26,7 @@ check_CL <- function(data,species, verbose) {
         check_CL(cs,species)
     }
 
-    Year <- Sum_Landings<-Species<-NULL
+    Year <- foCatEu6<- Sum_Landings<-Species<-NULL
 
     data <- data[data$taxon %in% species,]
 

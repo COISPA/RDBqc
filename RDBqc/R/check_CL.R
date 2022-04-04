@@ -26,7 +26,7 @@ check_CL <- function(data,species, verbose) {
         check_CL(cs,species)
     }
 
-    Year <- Sum_Landings<-Species<-NULL
+    Year <- foCatEu6<- Sum_Landings<-Species<-NULL
 
     data <- data[data$taxon %in% species,]
 

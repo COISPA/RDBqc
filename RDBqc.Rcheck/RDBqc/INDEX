@@ -1,6 +1,4 @@
 Catch_tab_example       Catch table in MED&BS datacall format
-Discard_coverage        Discard_cov: function to check the coverage in
-                        Discard table
 Discard_tab_example     Discard table in MED&BS datacall format
 GP_check                GP_tab (growth params) table check
 GP_tab_example          GP table in MED&BS datacall format
@@ -34,6 +32,9 @@ MEDBS_comp_land_YQ_fishery
 MEDBS_disc_mean_weight
                         Mean weight by year,gear and fishery
                         aggregation
+MEDBS_discard_coverage
+                        Discard_cov: function to check the coverage in
+                        Discard table
 MEDBS_ks                Kolmogorov-Smirnov test
 MEDBS_land_mean_weight
                         Mean weight by year,gear and fishery
@@ -110,7 +111,6 @@ circabc                 Ports coordinates according to codification
 combination_taskII2     combination_taskII2 in GFCM datacall format
 data_ex                 RCG CS example
 data_exampleCL          RCG CL example
-discards                Discards data table as example
 fdi_g_effort            fdi_g_effort in FDI DGMAREMED&BS datacall
                         format
 fdi_h_spatial_land      fdi_h_spatial_land in FDI DGMAREMED&BS datacall

@@ -10,7 +10,7 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_comp_disc_YQ(disc=discards,MS="ITA",GSA=18,SP="MUT")
+#' @examples MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 #' @importFrom dplyr full_join
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by
@@ -24,11 +24,11 @@ MEDBS_comp_disc_YQ <- function(disc,MS,GSA,SP) {
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 11
-        SP <- "ARA"
+        GSA <- 9
+        SP <- "DPS"
         # verbose=TRUE
-        disc=discards
-        MEDBS_comp_disc_YQ(disc=discards,MS="ITA",GSA=18,SP="MUT")
+        disc=Discard_tab_example
+        MEDBS_comp_disc_YQ(disc,MS="ITA",GSA=18,SP="MUT")
     }
 
      gear <- discards <- quarter <- tot_q <- tot_yr <- year <- NULL

@@ -36,8 +36,6 @@ circabc	circabc
 combination_taskII2	combination_taskII2
 data_ex	data_ex
 data_exampleCL	data_exampleCL
-discards	discards
-Discard_coverage	Discard_coverage
 Discard_tab_example	Discard_tab_example
 fdi_g_effort	fdi_g_effort
 fdi_h_spatial_land	fdi_h_spatial_land
@@ -59,6 +57,7 @@ MEDBS_comp_land_Q_VL_fishery	MEDBS_comp_land_Q_VL_fishery
 MEDBS_comp_land_YQ	MEDBS_comp_land_YQ
 MEDBS_comp_land_YQ_fishery	MEDBS_comp_land_YQ_fishery
 MEDBS_comp_land_YQ_VL	MEDBS_comp_land_YQ_VL
+MEDBS_discard_coverage	MEDBS_discard_coverage
 MEDBS_disc_mean_weight	MEDBS_disc_mean_weight
 MEDBS_ks	MEDBS_ks
 MEDBS_land_mean_weight	MEDBS_land_mean_weight

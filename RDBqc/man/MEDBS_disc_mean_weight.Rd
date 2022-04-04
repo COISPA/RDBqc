@@ -22,7 +22,7 @@ The function returns a plot of the mean discards weight by year, gear and fisher
 Mean weight by year,gear and fishery aggregation
 }
 \examples{
-MEDBS_disc_mean_weight(disc=discards,MS="ITA",GSA=18,SP="MUT")
+MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

@@ -34,35 +34,36 @@
 * checking S3 generic/method consistency ... OK
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
-* checking R code for possible problems ... NOTE
-check_CL: no visible binding for global variable 'foCatEu6'
-Undefined global functions or variables:
-  foCatEu6
+* checking R code for possible problems ... OK
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd line widths ... OK
 * checking Rd cross-references ... OK
 * checking for missing documentation entries ... OK
 * checking for code/documentation mismatches ... OK
-* checking Rd \usage sections ... WARNING
-Undocumented arguments in documentation object 'MEDBS_Catch_coverage'
-  'catch'
-Documented arguments not in \usage in documentation object 'MEDBS_Catch_coverage':
-  'MEDBS_catch'
-
-Functions with \usage entries need to have the appropriate \alias
-entries, and all their arguments documented.
-The \usage entries must correspond to syntactically valid R code.
-See chapter 'Writing R documentation files' in the 'Writing R
-Extensions' manual.
+* checking Rd \usage sections ... OK
 * checking Rd contents ... OK
 * checking for unstated dependencies in examples ... OK
 * checking contents of 'data' directory ... OK
 * checking data for non-ASCII characters ... OK
 * checking LazyData ... OK
 * checking data for ASCII and uncompressed saves ... OK
-* checking examples ... OK
+* checking examples ... ERROR
+Running examples in 'RDBqc-Ex.R' failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: MEDBS_disc_mean_weight
+> ### Title: Mean weight by year,gear and fishery aggregation
+> ### Aliases: MEDBS_disc_mean_weight
+> 
+> ### ** Examples
+> 
+> MEDBS_disc_mean_weight(disc=discards,MS="ITA",GSA=18,SP="MUT")
+Error in MEDBS_disc_mean_weight(disc = discards, MS = "ITA", GSA = 18,  : 
+  object 'discards' not found
+Execution halted
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 1 WARNING, 1 NOTE
+Status: 1 ERROR

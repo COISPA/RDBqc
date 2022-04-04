@@ -7,13 +7,13 @@
 MEDBS_Catch_coverage(catch, SP, MS, GSA)
 }
 \arguments{
+\item{catch}{Catch table in MEDBS format}
+
 \item{SP}{species (three alpha code)}
 
 \item{MS}{Country}
 
 \item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
-
-\item{MEDBS_catch}{Catch table in MEDBS format}
 }
 \value{
 summary table and plots
