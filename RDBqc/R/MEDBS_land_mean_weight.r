@@ -8,7 +8,7 @@
 #' @return The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and return the data frame as well. The presence of Inf values in the MW
 #' @export MEDBS_land_mean_weight
 #'
-#' @examples MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=11,SP="ARA")
+#' @examples MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>

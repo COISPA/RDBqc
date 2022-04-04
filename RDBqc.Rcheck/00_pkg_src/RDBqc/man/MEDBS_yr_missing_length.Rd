@@ -21,7 +21,8 @@ MEDBS_yr_missing_length(data, type, MS, GSA, SP)
 Years with missing length distributions
 }
 \examples{
-MEDBS_yr_missing_length(data=landing,type="l",MS=c("ITA"),GSA=c("18"),SP="NEP")
+MEDBS_yr_missing_length(data=Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS")
+MEDBS_yr_missing_length(data=Landing_tab_example,type="l",MS=c("ITA"),GSA=c("9"),SP="DPS")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

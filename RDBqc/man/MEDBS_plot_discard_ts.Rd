@@ -24,7 +24,8 @@ The function returns a plot of the total discard time series by year or by quart
 The function estimates the total discard time series by both year and quarters for a selected combination of member state, GSA and species.
 }
 \examples{
-MEDBS_plot_discard_ts(disc=discards,MS="ITA",GSA=11,SP="ARA",by="quarter")
+MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

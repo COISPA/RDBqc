@@ -11,7 +11,8 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_lengthclass_0(data=landing,type="l",MS="ITA",GSA=11,SP="ARA",verbose=TRUE)
+#' @examples MEDBS_lengthclass_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+#' MEDBS_lengthclass_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
 #' @importFrom utils globalVariables
 #' @export MEDBS_lengthclass_0
 
@@ -25,7 +26,7 @@ MEDBS_lengthclass_0 <- function(data,type="l",MS,GSA,SP, verbose=TRUE){
         verbose=TRUE
         data <- landing
 
-        MEDBS_lengthclass_0(data=landing,type="l",MS="ITA",GSA=18,SP="ARS", verbose=TRUE)
+        MEDBS_lengthclass_0(data=Landing_tab_example,type="l",MS="ITA",GSA=18,SP="ARS", verbose=TRUE)
     }
 
     poi2 <- NULL # in combination with @importFrom utils globalVariables

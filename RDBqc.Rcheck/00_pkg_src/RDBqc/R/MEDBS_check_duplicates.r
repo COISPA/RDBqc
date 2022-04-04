@@ -9,7 +9,8 @@
 #' @description The function checks the presence of duplicated rows in both landings and discards data.
 #' @return The function returns a data frame containing the duplicated rows to be likely deleted from the data.
 #' @examples
-#' MEDBS_check_duplicates(data=landing,type="l",MS="ITA",GSA="18",SP="ARA",verbose=TRUE)
+#' MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+#' MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
 #' @export MEDBS_check_duplicates
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>

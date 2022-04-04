@@ -22,7 +22,7 @@ The function returns a dataframe  for the comparison of landings aggregated by q
 Comparison between landings in weight by quarter and -1
 }
 \examples{
-MEDBS_comp_land_YQ(land=landing,MS="ITA",GSA=11,SP="ARA")
+MEDBS_comp_land_YQ(land=Landing_tab_example,MS="ITA",GSA=11,SP="ARA")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

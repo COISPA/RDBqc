@@ -22,6 +22,9 @@ MEDBS_ks(data, type, MS, GSA, SP, Rt = 1)
 \description{
 Kolmogorov-Smirnov test
 }
+\examples{
+MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
+}
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
 

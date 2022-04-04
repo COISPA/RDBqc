@@ -126,7 +126,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_check_duplicates(data=landing,type="l",MS="ITA",GSA="18",SP="ARA",verbose=TRUE)
+MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
 
 
 
@@ -165,12 +166,32 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_comp_disc_YQ_fishery(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 
 
 
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("MEDBS_comp_disc_YQ_fishery", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_comp_land_Q_VL")
+### * MEDBS_comp_land_Q_VL
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_comp_land_Q_VL
+### Title: Comparison between landings in weight by quarter accounting for
+###   vessel length
+### Aliases: MEDBS_comp_land_Q_VL
+
+### ** Examples
+
+MEDBS_comp_land_Q_VL(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_comp_land_Q_VL", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
 nameEx("MEDBS_comp_land_Q_VL_fishery")
 ### * MEDBS_comp_land_Q_VL_fishery
@@ -185,7 +206,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_land_Q_VL_fishery(land=landing,MS="ITA",GSA=11,SP="ARA")
+MEDBS_comp_land_Q_VL_fishery(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 
 
 
@@ -204,32 +225,12 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_land_YQ(land=landing,MS="ITA",GSA=11,SP="ARA")
+MEDBS_comp_land_YQ(land=Landing_tab_example,MS="ITA",GSA=11,SP="ARA")
 
 
 
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("MEDBS_comp_land_YQ", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
-cleanEx()
-nameEx("MEDBS_comp_land_YQ_VL")
-### * MEDBS_comp_land_YQ_VL
-
-flush(stderr()); flush(stdout())
-
-base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-### Name: MEDBS_comp_land_YQ_VL
-### Title: Comparison between landings in weight by quarter accounting for
-###   vessel length
-### Aliases: MEDBS_comp_land_YQ_VL
-
-### ** Examples
-
-MEDBS_comp_land_YQ_VL(land=landing,MS="ITA",GSA=11,SP="ARA")
-
-
-
-base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
-base::cat("MEDBS_comp_land_YQ_VL", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
 nameEx("MEDBS_comp_land_YQ_fishery")
 ### * MEDBS_comp_land_YQ_fishery
@@ -244,7 +245,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_land_YQ(land=landing,MS="ITA",GSA=11,SP="ARA")
+MEDBS_comp_land_YQ_fishery(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 
 
 
@@ -263,7 +264,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_disc_mean_weight(disc=discards,MS="ITA",GSA=18,SP="MUT")
+MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 
 
 
@@ -289,6 +290,25 @@ MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9")
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("MEDBS_discard_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
+nameEx("MEDBS_ks")
+### * MEDBS_ks
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_ks
+### Title: Kolmogorov-Smirnov test
+### Aliases: MEDBS_ks
+
+### ** Examples
+
+MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_ks", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
 nameEx("MEDBS_land_mean_weight")
 ### * MEDBS_land_mean_weight
 
@@ -301,7 +321,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_land_mean_weight(land=landing,MS="ITA",GSA=11,SP="ARA")
+MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=11,SP="ARA")
 
 
 
@@ -320,8 +340,11 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_length_ind(landing,type="l",out="mean",MS=c("ITA"),
-GSA=c("18"),SP="NEP", splines=c(0.2,0.4,0.6,0.8),
+MEDBS_length_ind(Landing_tab_example,type="l",out="mean",MS=c("ITA"),
+GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+Xtresholds = c(0.25,0.5,0.75))
+MEDBS_length_ind(Discard_tab_example,type="d",out="mean",MS=c("ITA"),
+GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
 Xtresholds = c(0.25,0.5,0.75))
 
 
@@ -341,7 +364,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_lengthclass_0(data=landing,type="l",MS="ITA",GSA=11,SP="ARA",verbose=TRUE)
+MEDBS_lengthclass_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+MEDBS_lengthclass_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
 
 
 
@@ -360,7 +384,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_plot_disc_vol(data=discards,MS="ITA",GSA=18,SP="MUT")
+MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 
 
 
@@ -379,7 +403,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_plot_discard_ts(disc=discards,MS="ITA",GSA=11,SP="ARA",by="quarter")
+MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
 
 
 
@@ -398,7 +423,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_plot_land_vol(data=landing,MS="ITA",GSA=11,SP="ARA")
+MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 
 
 
@@ -417,7 +442,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_plot_landing_ts(land=landing,MS="ITA",GSA=18,SP="ARA",by="quarter")
+MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
 
 
 
@@ -436,7 +462,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_weight_0(data=landing,type="l",MS="ITA",GSA=18,SP="HKE", verbose=TRUE)
+MEDBS_weight_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+MEDBS_weight_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
 
 
 
@@ -455,7 +482,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_weight_minus1(data=landing,type="l",MS="ITA",GSA=18,SP="HKE",verbose=TRUE)
+MEDBS_weight_minus1(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+MEDBS_weight_minus1(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
 
 
 
@@ -474,7 +502,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_yr_missing_length(data=landing,type="l",MS=c("ITA"),GSA=c("18"),SP="NEP")
+MEDBS_yr_missing_length(data=Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS")
+MEDBS_yr_missing_length(data=Landing_tab_example,type="l",MS=c("ITA"),GSA=c("9"),SP="DPS")
 
 
 

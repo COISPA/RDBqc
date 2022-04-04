@@ -24,7 +24,8 @@ The function returns a plot of the total landing time series by year or by quart
 The function estimates the total landings time series by both year and quarters for a selected combination of member state, GSA and species.
 }
 \examples{
-MEDBS_plot_landing_ts(land=landing,MS="ITA",GSA=18,SP="ARA",by="quarter")
+MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

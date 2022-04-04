@@ -9,7 +9,7 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_plot_land_vol(data=landing,MS="ITA",GSA=11,SP="ARA")
+#' @examples MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 facet_grid
@@ -31,11 +31,11 @@ MEDBS_plot_land_vol <- function(data,MS,GSA,SP) {
 
 if (FALSE) {
     MS <- "ITA"
-    GSA <- 11
-    SP <- "ARA"
+    GSA <- 9
+    SP <- "DPS"
     verbose=TRUE
-    land <- landing
-    MEDBS_plot_land_vol(data=landing,MS="ITA",GSA=11,SP="ARA")
+    land <- Landing_tab_example
+    MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 }
 
     year <- gear <- fishery <- landings <- sumLand <- NULL

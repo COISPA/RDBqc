@@ -53,15 +53,20 @@ Running examples in 'RDBqc-Ex.R' failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: MEDBS_disc_mean_weight
+> ### Name: MEDBS_land_mean_weight
 > ### Title: Mean weight by year,gear and fishery aggregation
-> ### Aliases: MEDBS_disc_mean_weight
+> ### Aliases: MEDBS_land_mean_weight
 > 
 > ### ** Examples
 > 
-> MEDBS_disc_mean_weight(disc=discards,MS="ITA",GSA=18,SP="MUT")
-Error in MEDBS_disc_mean_weight(disc = discards, MS = "ITA", GSA = 18,  : 
-  object 'discards' not found
+> MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=11,SP="ARA")
+Warning in min(MWdbpositive$year) :
+  no non-missing arguments to min; returning Inf
+Warning in max(MWdbpositive$year) :
+  no non-missing arguments to max; returning -Inf
+Error in seq.default(min(MWdbpositive$year), max(MWdbpositive$year), by = 4) : 
+  'from' must be a finite number
+Calls: MEDBS_land_mean_weight ... continuous_scale -> check_breaks_labels -> seq -> seq.default
 Execution halted
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK

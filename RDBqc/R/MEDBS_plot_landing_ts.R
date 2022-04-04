@@ -8,7 +8,8 @@
 #' @description The function estimates the total landings time series by both year and quarters for a selected combination of member state, GSA and species.
 #' @return The function returns a plot of the total landing time series by year or by quarters. The plot by year also reports the landing by gear.
 #' @export MEDBS_plot_landing_ts
-#' @examples MEDBS_plot_landing_ts(land=landing,MS="ITA",GSA=18,SP="ARA",by="quarter")
+#' @examples MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+#' MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
@@ -21,12 +22,12 @@ MEDBS_plot_landing_ts <- function(land,MS,GSA,SP,by="year"){
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 18
-        SP <- "ARA"
+        GSA <- 9
+        SP <- "DPS"
         by="year" # "quarter"
         verbose=TRUE
-        land=landing
-        MEDBS_plot_landing_ts(land=landing,MS="ITA",GSA=18,SP="ARA",by="quarter")
+        land=Landing_tab_example
+        MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
     }
 
     year <- gear <- landings <- quarter <- tot <- NULL

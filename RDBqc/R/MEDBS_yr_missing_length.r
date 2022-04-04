@@ -8,13 +8,15 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_yr_missing_length(data=landing,type="l",MS=c("ITA"),GSA=c("18"),SP="NEP")
+#' @examples MEDBS_yr_missing_length(data=Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS")
+#' MEDBS_yr_missing_length(data=Landing_tab_example,type="l",MS=c("ITA"),GSA=c("9"),SP="DPS")
 #' @import tidyverse
 #' @importFrom dplyr full_join group_by inner_join left_join summarize mutate filter
 #' @importFrom magrittr %>%
 #' @importFrom utils globalVariables
 #' @importFrom fishmethods clus.lf
 #' @importFrom tidyr pivot_longer
+#' @importFrom data.table as.data.table
 #' @export MEDBS_yr_missing_length
 
 MEDBS_yr_missing_length <- function (data,type,MS,GSA,SP) {
@@ -24,23 +26,25 @@ MEDBS_yr_missing_length <- function (data,type,MS,GSA,SP) {
         # library(data.table)
         # library(tidyverse)
         # library(fishmethods)
-        data=landing
+        data=Landing_tab_example
         # splines <- c(0.2,0.4,0.6,0.8)
         # Xtresholds = c(0.25,0.5,0.75)
         type="l"
         # out = "mean" # "mean"
         MS <- c("ITA")
-        GSA <- c("18")
-        SP <- "NEP"
+        GSA <- c("9")
+        SP <- "DPS"
         # tic()
 
-        MEDBS_yr_missing_length(data=landing, type="l",MS="ITA",GSA="18", SP="NEP")
+        MEDBS_yr_missing_length(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS")
 
     }
 
     . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery  <- NULL
     len <- variable <- dbland <- NULL
     value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
+
+    data <- as.data.table(data)
 
     if (type == "l") {
         landed <- data #landed<-fread("../data/landings.csv")

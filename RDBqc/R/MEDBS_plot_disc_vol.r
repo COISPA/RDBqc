@@ -9,7 +9,7 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_plot_disc_vol(data=discards,MS="ITA",GSA=18,SP="MUT")
+#' @examples MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 facet_grid
@@ -32,11 +32,11 @@ MEDBS_plot_disc_vol <- function (data,MS,GSA,SP) {
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 18
-        SP <- "MUT"
+        GSA <- 9
+        SP <- "DPS"
         data <- discards
 
-        MEDBS_plot_disc_vol(data=discards,MS="ITA",GSA=18,SP="MUT")
+        MEDBS_plot_disc_vol(data=discards,MS="ITA",GSA=9,SP="DPS")
     }
 
     year <- gear <- fishery <- discards <- sumLand <- NULL

@@ -11,8 +11,11 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_length_ind(landing,type="l",out="mean",MS=c("ITA"),
-#' GSA=c("18"),SP="NEP", splines=c(0.2,0.4,0.6,0.8),
+#' @examples MEDBS_length_ind(Landing_tab_example,type="l",out="mean",MS=c("ITA"),
+#' GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+#' Xtresholds = c(0.25,0.5,0.75))
+#' MEDBS_length_ind(Discard_tab_example,type="d",out="mean",MS=c("ITA"),
+#' GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
 #' Xtresholds = c(0.25,0.5,0.75))
 #' @import tidyverse
 #' @importFrom dplyr full_join
@@ -29,12 +32,13 @@
 #' @importFrom utils tail
 #' @importFrom stats aggregate approxfun loess predict setNames
 #' @importFrom ggplot2 facet_wrap guide_legend guides
+#' @importFrom data.table as.data.table
 #' @export MEDBS_length_ind
 
 MEDBS_length_ind <- function (data,type,out="mean",MS,GSA,SP, splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75)) {
 
     if (FALSE) {
-        data=landing
+        data=Landing_tab_example
         splines <- c(0.2)
         Xtresholds = c(0.5)
         type="l"
@@ -43,12 +47,15 @@ MEDBS_length_ind <- function (data,type,out="mean",MS,GSA,SP, splines=c(0.2,0.4,
         GSA <- c("18")
         SP <- "NEP"
 
-        MEDBS_length_ind(data=discards, type="d",out="median",MS="ITA",GSA="18", SP="NEP",splines=splines, Xtresholds=Xtresholds)
+        MEDBS_length_ind(data=Landing_tab_example, type="l",out="median",MS="ITA",GSA="9", SP="DPS",splines=splines, Xtresholds=Xtresholds)
 
     }
 
+
     . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery  <- NULL
     value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
+
+    data <- as.data.table(data)
 
     if (type == "l") {
         landed <- data #landed<-fread("../data/landings.csv")
@@ -185,7 +192,7 @@ MEDBS_length_ind <- function (data,type,out="mean",MS,GSA,SP, splines=c(0.2,0.4,
                    theme(axis.text.y = element_text(angle=90,size=8)) +
                    ggtitle(paste0("Landing Mean Length ",SP," ",MS," ",GSA))+
                    xlab("")+
-                   ylab(paste0("Mean size","(",unit,")"))+
+                   ylab(paste0("Mean size ","(",unit,")"))+
                    theme(legend.position="bottom")+
                    guides(colour = guide_legend(nrow = 1))
                print(plot)

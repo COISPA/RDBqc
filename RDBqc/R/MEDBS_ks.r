@@ -16,6 +16,8 @@
 #' @importFrom utils globalVariables
 #' @importFrom fishmethods clus.lf
 #' @importFrom tidyr pivot_longer
+#' @importFrom data.table as.data.table
+#' @importFrom gridExtra grid.arrange
 #' @export MEDBS_ks
 
 MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1) {

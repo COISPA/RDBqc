@@ -8,7 +8,7 @@
 #' @return The function returns a plot of the mean discards weight by year, gear and fishery aggregation
 #' @export MEDBS_disc_mean_weight
 #'
-#' @examples MEDBS_disc_mean_weight(disc=discards,MS="ITA",GSA=18,SP="MUT")
+#' @examples MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>

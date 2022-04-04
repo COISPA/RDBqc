@@ -22,7 +22,7 @@ The function returns a plot of the total discards time series by fishery and gea
 Plot of total discards by gear and fishery
 }
 \examples{
-MEDBS_plot_disc_vol(data=discards,MS="ITA",GSA=18,SP="MUT")
+MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

@@ -26,7 +26,8 @@ The function returns the number of rows with -1 values in landing weights having
 The function checks landings in weight equal to -1 having length class filled in
 }
 \examples{
-MEDBS_weight_minus1(data=landing,type="l",MS="ITA",GSA=18,SP="HKE",verbose=TRUE)
+MEDBS_weight_minus1(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+MEDBS_weight_minus1(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

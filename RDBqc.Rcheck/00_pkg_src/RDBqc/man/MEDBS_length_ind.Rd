@@ -36,8 +36,11 @@ MEDBS_length_ind(
 Main length size indicators
 }
 \examples{
-MEDBS_length_ind(landing,type="l",out="mean",MS=c("ITA"),
-GSA=c("18"),SP="NEP", splines=c(0.2,0.4,0.6,0.8),
+MEDBS_length_ind(Landing_tab_example,type="l",out="mean",MS=c("ITA"),
+GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+Xtresholds = c(0.25,0.5,0.75))
+MEDBS_length_ind(Discard_tab_example,type="d",out="mean",MS=c("ITA"),
+GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
 Xtresholds = c(0.25,0.5,0.75))
 }
 \author{

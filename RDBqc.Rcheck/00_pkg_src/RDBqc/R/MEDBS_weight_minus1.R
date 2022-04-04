@@ -8,7 +8,8 @@
 #' @param verbose Boolean value to obtain further explanation messages from the function
 #' @description The function checks landings in weight equal to -1 having length class filled in
 #' @return The function returns the number of rows with -1 values in landing weights having length class filled in.
-#' @examples MEDBS_weight_minus1(data=landing,type="l",MS="ITA",GSA=18,SP="HKE",verbose=TRUE)
+#' @examples MEDBS_weight_minus1(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+#' MEDBS_weight_minus1(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>

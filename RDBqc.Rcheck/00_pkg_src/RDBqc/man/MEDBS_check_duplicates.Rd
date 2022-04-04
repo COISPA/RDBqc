@@ -26,7 +26,8 @@ The function returns a data frame containing the duplicated rows to be likely de
 The function checks the presence of duplicated rows in both landings and discards data.
 }
 \examples{
-MEDBS_check_duplicates(data=landing,type="l",MS="ITA",GSA="18",SP="ARA",verbose=TRUE)
+MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

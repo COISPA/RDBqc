@@ -18,14 +18,14 @@ MEDBS_comp_disc_YQ      Comparison between discards in weight by
 MEDBS_comp_disc_YQ_fishery
                         Comparison between discards in weight by
                         quarter, quarter -1 and by fishery
+MEDBS_comp_land_Q_VL    Comparison between landings in weight by
+                        quarter accounting for vessel length
 MEDBS_comp_land_Q_VL_fishery
                         Comparison between landings in weight by
                         quarter and fishery accounting for vessel
                         length
 MEDBS_comp_land_YQ      Comparison between landings in weight by
                         quarter and -1
-MEDBS_comp_land_YQ_VL   Comparison between landings in weight by
-                        quarter accounting for vessel length
 MEDBS_comp_land_YQ_fishery
                         Comparison between landings in weight by
                         quarter, quarter -1 and by fishery
@@ -119,7 +119,6 @@ fdi_i_spatial_fe        fdi_i_spatial_fe in FDI DGMAREMED&BS datacall
                         format
 fdi_j_capacity          fdi_j_capacity in FDI DGMAREMED&BS datacall
                         format
-landing                 Landing data table as example
 minmaxLtaskVII2         minmaxLtaskVII2 in GFCM datacall format
 minmaxLtaskVII31        minmaxLtaskVII31 in GFCM datacall format
 sex_mat                 sex_mat in GFCM datacall format

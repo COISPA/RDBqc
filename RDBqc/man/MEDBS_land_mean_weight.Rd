@@ -22,7 +22,7 @@ The function returns a plot of the mean landing weight by year, gear and fishery
 Mean weight by year,gear and fishery aggregation
 }
 \examples{
-MEDBS_land_mean_weight(land=landing,MS="ITA",GSA=11,SP="ARA")
+MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

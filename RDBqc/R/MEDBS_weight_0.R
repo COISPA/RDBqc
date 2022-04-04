@@ -8,7 +8,8 @@
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @description The function checks landings or discards in weight equal to 0 having length classes filled in
 #' @return The function returns the number of rows with 0 values in weights having length classes filled in.
-#' @examples MEDBS_weight_0(data=landing,type="l",MS="ITA",GSA=18,SP="HKE", verbose=TRUE)
+#' @examples MEDBS_weight_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+#' MEDBS_weight_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
@@ -21,14 +22,13 @@ MEDBS_weight_0 <- function(data,type="l",MS,GSA,SP, verbose=TRUE){
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 18
-        SP <- "HKE"
+        GSA <- 9
+        SP <- "DPS"
         verbose=TRUE
-        data <- landing
+        data <- Landing_tab_example
         type="l"
-        data[data$id==445387,"landing"] <- 0
-        data[2,"discards"] <- -1
-        MEDBS_weight_0(data=landing,type="d",MS="ITA",GSA=18,SP="HKE", verbose=TRUE)
+        data[20,"landings"] <- 0
+        MEDBS_weight_0(data=data,type="l",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
     }
 
     poi <- NULL # in combination with @importFrom utils globalVariables

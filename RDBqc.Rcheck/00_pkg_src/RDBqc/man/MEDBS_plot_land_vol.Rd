@@ -22,7 +22,7 @@ The function returns a plot of the total landing time series by fishery and gear
 Plot of total landing by gear and fishery
 }
 \examples{
-MEDBS_plot_land_vol(data=landing,MS="ITA",GSA=11,SP="ARA")
+MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
