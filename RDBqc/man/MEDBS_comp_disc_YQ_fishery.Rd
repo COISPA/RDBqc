@@ -22,7 +22,7 @@ The function returns a dataframe  for the comparison of discards aggregated by q
 Comparison between discards in weight by quarter, quarter -1 and by fishery
 }
 \examples{
-MEDBS_comp_disc_YQ(disc=discards,MS="ITA",GSA=18,SP="MUT")
+MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
