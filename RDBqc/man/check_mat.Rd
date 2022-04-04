@@ -4,19 +4,21 @@
 \alias{check_mat}
 \title{Check consistency sex and maturity stage}
 \usage{
-check_mat(data_example, immature_stages = c("0", "1", "2a"))
+check_mat(data, species, verbose = TRUE)
 }
 \arguments{
-\item{data_example}{table of detailed data in RCG format}
+\item{data}{table of detailed data in RCG format}
 
-\item{immature_stages}{maturity stages considered immature}
+\item{species}{reference species for the analysis}
+
+\item{verbose}{boolean. If it is TRUE messages are reported with the outputs}
 }
 \value{
-Plot ogive by sex
+The function the returns the plot of the maturity stages by length class
 }
 \description{
-Check consistency sex and maturity stage
+The function allows to perform a visual check of the maturity stage composition by length class, sex and year.
 }
 \examples{
-check_mat(data_ex,immature_stages=c("0","1","2a"))
+check_mat(data_ex,species="Mullus barbatus")
 }

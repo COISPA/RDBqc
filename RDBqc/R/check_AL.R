@@ -20,7 +20,7 @@ check_AL<-function(data,species,min_age=0,max_age=30, verbose=TRUE){
         min_age=0
         max_age=30
         verbose=TRUE
-        # data$Age <- NA
+        data$Age <- NA
     }
 
 AGE_na <- data[is.na(data$Age) & data$Species %in% species,]

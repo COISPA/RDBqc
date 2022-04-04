@@ -15,6 +15,8 @@ check_loc(data, ports = circabc)
 map of trip locations
 }
 \description{
+The function allows to check the spatial distribution of data using the initial and final coordinates, where available, and the ports position in cluded in the data.
+
 If Initial and/or Final coordinates are included in the data, maps of them are produced. If not the locations of the harbours are mapped.
 }
 \examples{
