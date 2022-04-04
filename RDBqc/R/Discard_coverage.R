@@ -17,7 +17,7 @@ Discard_coverage<-function(Discard_tab,SP,MS,GSA){
 
 
     Summary_land_wt=aggregate(Discard_tab[,2:12]$DISCARDS,by=list(Discard_tab$COUNTRY, Discard_tab$YEAR, Discard_tab$QUARTER, Discard_tab$VESSEL_LENGTH, Discard_tab$GEAR, Discard_tab$MESH_SIZE_RANGE, Discard_tab$FISHERY,  Discard_tab$AREA,Discard_tab$SPECIES),FUN="sum")
-    colnames(Summary_land_wt)=c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY",  "AREA","SPECIES",  "LANDINGS" )
+    colnames(Summary_land_wt)=c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY",  "AREA","SPECIES",  "DISCARDS" )
 
     Summary_land_wt[1:nrow(Summary_land_wt),1:ncol(Summary_land_wt)]
 

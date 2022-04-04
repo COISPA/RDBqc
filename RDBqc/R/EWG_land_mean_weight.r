@@ -5,7 +5,7 @@
 #' @param GSA string value of the GSA code
 #' @param SP species reference code in the three alpha code format
 #'
-#' @return The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and return the data frame as well. The presence of Inf values in the MW
+#' @return The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and return the data frame as well as the presence of Inf values in the MW
 #' @export EWG_land_mean_weight
 #'
 #' @examples EWG_land_mean_weight(land=landing,MS="ITA",GSA=11,SP="ARA")

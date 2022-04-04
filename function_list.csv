@@ -1,76 +1,77 @@
-1;Catch_coverage.R;DataCall;tabella;modificato;da fare
-2;Catch_tab_example.R;;;;
-3;check_AL.R;RCG;CS;W;
-4;check_CL.R;RCG;CL;W;
-5;check_LFD.r;RCG;CS;W;
-6;check_LFD_comm_cat.R;RCG;CS;W;
-7;check_loc.R;RCG;CS;W;
-8;check_lw.R;RCG;CS;W;
-9;check_mat.R;RCG;CS;W;
-10;check_mat_ogive.R;RCG;CS;W;
-11;circabc.R;DATA;;;
-12;data_ex.R;DATA;;;
-13;dataCL.R;DATA;;;
-14;dataset_documentation.r;DATA;;;
-15;Discard_coverage.R;MED&BS;Discard_tab_example;;
-16;Discard_tab_example.R;DATA;;;
-17;discards.r;DATA;;;
-18;EWG_check_duplicates.r;EWG;;;
-19;EWG_comp_disc_YQ.r;EWG;;;
-20;EWG_comp_disc_YQ_fishery.r;EWG;;;
-21;EWG_comp_land_Q_VL.R;EWG;;;
-22;EWG_comp_land_Q_VL_fishery.R;EWG;;;
-23;EWG_comp_land_YQ.r;EWG;;;
-24;EWG_comp_land_YQ_fishery.r;EWG;;;
-25;EWG_disc_mean_weight.r;EWG;;;
-26;EWG_ks.r;EWG;;;
-27;EWG_land_mean_weight.r;EWG;;;
-28;EWG_length_ind.r;EWG;;;
-29;EWG_lengthclass_0.R;EWG;;;
-30;EWG_plot_disc_vol.r;EWG;;;
-31;EWG_plot_discard_ts.R;EWG;;;
-32;EWG_plot_land_vol.r;EWG;;;
-33;EWG_plot_landing_ts.R;EWG;;;
-34;EWG_weight_0.R;EWG;;;
-35;EWG_weight_minus1.R;EWG;;;
-36;EWG_yr_missing_length.r;EWG;;;
-37;FDI_Check_empty_field_G.R;;;;
-38;FDI_Check_empty_field_H.R;;;;
-39;FDI_Check_empty_field_I.R;;;;
-40;FDI_Check_empty_field_J.R;;;;
-41;FDI_Check_record_duplicated_G.R;;;;
-42;FDI_Check_record_duplicated_H.R;;;;
-43;FDI_Check_record_duplicated_I.R;;;;
-44;FDI_Check_record_duplicated_J.R;;;;
-45;GFCM_Check_empty_field_II2.R;;;;
-46;GFCM_Check_empty_field_III.R;;;;
-47;GFCM_Check_empty_field_VII2.R;;;;
-48;GFCM_Check_empty_field_VII31.R;;;;
-49;GFCM_Check_empty_field_VII32.R;;;;
-50;GFCM_Check_min_max_L50_VII31.R;;;;
-51;GFCM_Check_min_max_lenght_VII2.R;;;;
-52;GFCM_Check_presence_GSA_FS_II2.R;;;;
-53;GFCM_Check_record_duplicated_II2.R;;;;
-54;GFCM_Check_record_duplicated_III.R;;;;
-55;GFCM_Check_record_duplicated_VII2.R;;;;
-56;GFCM_Check_record_duplicated_VII31.R;;;;
-57;GFCM_Check_record_duplicated_VII32.R;;;;
-58;GFCM_check_species_catfau_VII32.R;;;;
-59;GFCM_lmat_TaskVII32.R;;;;
-60;GFCM_relatioship_length_weight_VII2.R;;;;
-61;GP_check.R;;;;
-62;GP_tab_example.R;;;;
-63;landing.r;;;;
-64;Landing_coverage.R;;;;
-65;Landing_tab_example.R;;;;
-66;LW_check_MED_BS.R;;;;
-67;MA_tab_check.R;;;;
-68;MA_tab_example.R;;;;
-69;ML_check.R;;;;
-70;ML_tab_example.R;;;;
-71;SA_tab_check.R;;;;
-72;SA_tab_example.R;;;;
-73;SL_tab_check.R;;;;
-74;SL_tab_example.R;;;;
-75;summarize_ind_meas.R;;;;
-76;summarize_trips.R;;;;
+Nb;Script;DataCall;tabella;modificato;da fare;;Quality check;Datacall;Table;Check description
+1;Catch_coverage.R;EWG;Catch;;;;Catch_coverage;MED & BS;Catch;Summary tables and plot of landing and discards by year, Country, quarter, GSA, LOA, gear, mesh size range and fishery.
+2;Catch_tab_example.R;DATA;Catch;;;;Discard_coverage;MED & BS;Discard;Summary table and plot of discards by year, Country, quarter, GSA, LOA, gear, mesh size range and fishery.
+3;check_AL.R;RCG;CS;W;;;check_duplicates;MED & BS;Landing;Check duplicats in landing at length table
+4;check_CL.R;RCG;CL;W;;;comp_disc_YQ;MED & BS;Discard;Comparison of discards aggregated by quarters and by year
+5;check_LFD.r;RCG;CS;W;;;comp_disc_YQ_fishery;MED & BS;Discard;Comparison of discards aggregated by quarters and by year and fishery
+6;check_LFD_comm_cat.R;RCG;CS;W;;;comp_land_Q_VL;MED & BS;Landing;Comparison of landings aggregated by quarters accounting for the presence of vessel length
+7;check_loc.R;RCG;CS;W;;;comp_land_Q_VL_fishery;MED & BS;Landing;Comparison of landings aggregated by quarters and fishery accounting for the presence of vessel length
+8;check_lw.R;RCG;CS;W;;;comp_land_YQ;MED & BS;Landing;Comparison of landings aggregated by quarters and by year
+9;check_mat.R;RCG;CS;W;;;comp_land_YQ_fishery;MED & BS;Landing;Comparison of landings aggregated by quarters and by year and fishery
+10;check_mat_ogive.R;RCG;CS;W;;;disc_mean_weight;MED & BS;Discard;Consistency of  mean mean discard: plot of the discards weight by year, gear and fishery
+11;circabc.R;DATA;;;;;EWG_ks.r;MED & BS;Landing/Discard;Kolmogorov-Smirnov test on culumative landing and discard fucntion at length
+12;data_ex.R;DATA;;;;;EWG_land_mean_weight.r;MED & BS;Landing;Consistency of mean weight: plot and data frame of mean weight by year,gear and fishery
+13;dataCL.R;DATA;;;;;EWG_length_ind.r;MED & BS;Landing/Discard;Consistency of length data: Main length size indicators
+14;dataset_documentation.r;DATA;;;;;EWG_lengthclass_0.R;MED & BS;Landing/Discard;Detection of the records with null individuals in landings and discards
+15;Discard_coverage.R;MED&BS;Discard_tab_example;;;;EWG_plot_disc_vol.r;MED & BS;Discard;Consistency of discard volume: Plot of total discards by gear and fishery
+16;Discard_tab_example.R;DATA;;;;;EWG_plot_discard_ts.R;MED & BS;Discard;Consistency of time series of discard and landing by year or by quarter.
+17;discards.r;DATA;;;;;EWG_plot_land_vol.r;MED & BS;;
+18;EWG_check_duplicates.r;EWG;;;;;EWG_plot_landing_ts.R;MED & BS;;
+19;EWG_comp_disc_YQ.r;EWG;;;;;EWG_weight_0.R;MED & BS;;
+20;EWG_comp_disc_YQ_fishery.r;EWG;;;;;EWG_weight_minus1.R;MED & BS;;
+21;EWG_comp_land_Q_VL.R;EWG;;;;;EWG_yr_missing_length.r;MED & BS;;
+22;EWG_comp_land_Q_VL_fishery.R;EWG;;;;;;;;
+23;EWG_comp_land_YQ.r;EWG;;;;;;;;
+24;EWG_comp_land_YQ_fishery.r;EWG;;;;;;;;
+25;EWG_disc_mean_weight.r;EWG;;;;;;;;
+26;EWG_ks.r;EWG;;;;;;;;
+27;EWG_land_mean_weight.r;EWG;;;;;;;;
+28;EWG_length_ind.r;EWG;;;;;;;;
+29;EWG_lengthclass_0.R;EWG;;;;;check_AL;RCG MED & BS;CS;Consistency of length-age data: plot, summary table and list of errors (outliers).
+30;EWG_plot_disc_vol.r;EWG;;;;;check_CL;RCG MED & BS;CL;Spatial and temporal coverage of landing and landing values in CL tables
+31;EWG_plot_discard_ts.R;EWG;;;;;check_LFD;RCG MED & BS;CS;Consistency of length data: plot and error (outliers)
+32;EWG_plot_land_vol.r;EWG;;;;;check_LFD_comm_cat;RCG MED & BS;CS;Consistency of length and commercial category: plot and a summary table with ranges by year and commercial category
+33;EWG_plot_landing_ts.R;EWG;;;;;check_loc;RCG MED & BS;CS;Visual check of haul and trip position
+34;EWG_weight_0.R;EWG;;;;;check_lw;RCG MED & BS;CS;Consistency of length-weight data: visual check and errors (outliers).
+35;EWG_weight_minus1.R;EWG;;;;;check_mat;RCG MED & BS;CS;Consistency between length and maturity stage: plot of the maturity stages by length class
+36;EWG_yr_missing_length.r;EWG;;;;;check_mat_ogive;RCG MED & BS;CS;Consistency of maturity stages and length, through the estimation of maturity ogive by sex
+37;FDI_Check_empty_field_G.R;;;;;;;;;
+38;FDI_Check_empty_field_H.R;;;;;;;;;
+39;FDI_Check_empty_field_I.R;;;;;;;;;
+40;FDI_Check_empty_field_J.R;;;;;;;;;
+41;FDI_Check_record_duplicated_G.R;;;;;;;;;
+42;FDI_Check_record_duplicated_H.R;;;;;;;;;
+43;FDI_Check_record_duplicated_I.R;;;;;;;;;
+44;FDI_Check_record_duplicated_J.R;;;;;;;;;
+45;GFCM_Check_empty_field_II2.R;;;;;;;;;
+46;GFCM_Check_empty_field_III.R;;;;;;;;;
+47;GFCM_Check_empty_field_VII2.R;;;;;;;;;
+48;GFCM_Check_empty_field_VII31.R;;;;;;;;;
+49;GFCM_Check_empty_field_VII32.R;;;;;;;;;
+50;GFCM_Check_min_max_L50_VII31.R;;;;;;;;;
+51;GFCM_Check_min_max_lenght_VII2.R;;;;;;;;;
+52;GFCM_Check_presence_GSA_FS_II2.R;;;;;;;;;
+53;GFCM_Check_record_duplicated_II2.R;;;;;;;;;
+54;GFCM_Check_record_duplicated_III.R;;;;;;;;;
+55;GFCM_Check_record_duplicated_VII2.R;;;;;;;;;
+56;GFCM_Check_record_duplicated_VII31.R;;;;;;;;;
+57;GFCM_Check_record_duplicated_VII32.R;;;;;;;;;
+58;GFCM_check_species_catfau_VII32.R;;;;;;;;;
+59;GFCM_lmat_TaskVII32.R;;;;;;;;;
+60;GFCM_relatioship_length_weight_VII2.R;;;;;;;;;
+61;GP_check.R;;;;;;;;;
+62;GP_tab_example.R;;;;;;;;;
+63;landing.r;;;;;;;;;
+64;Landing_coverage.R;;;;;;;;;
+65;Landing_tab_example.R;;;;;;;;;
+66;LW_check_MED_BS.R;;;;;;;;;
+67;MA_tab_check.R;;;;;;;;;
+68;MA_tab_example.R;;;;;;;;;
+69;ML_check.R;;;;;;;;;
+70;ML_tab_example.R;;;;;;;;;
+71;SA_tab_check.R;;;;;;;;;
+72;SA_tab_example.R;;;;;;;;;
+73;SL_tab_check.R;;;;;;;;;
+74;SL_tab_example.R;;;;;;;;;
+75;summarize_ind_meas.R;;;;;;;;;
+76;summarize_trips.R;;;;;;;;;
