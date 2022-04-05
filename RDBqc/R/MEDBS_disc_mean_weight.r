@@ -4,7 +4,7 @@
 #' @param MS member state code as it is reported in the discards data
 #' @param GSA string value of the GSA code
 #' @param SP species reference code in the three alpha code format
-#'
+#' @description The function allows to check consistency of  mean discard of a selected species plotting the discards' weight by year, gear and fishery
 #' @return The function returns a plot of the mean discards weight by year, gear and fishery aggregation
 #' @export MEDBS_disc_mean_weight
 #'

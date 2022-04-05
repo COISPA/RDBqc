@@ -19,7 +19,7 @@ MEDBS_comp_disc_YQ(disc, MS, GSA, SP)
 The function returns a data frame  for the comparison of discards aggregated by quarters and by year
 }
 \description{
-Comparison between discards in weight by quarter and -1
+The function allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level.
 }
 \examples{
 MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")

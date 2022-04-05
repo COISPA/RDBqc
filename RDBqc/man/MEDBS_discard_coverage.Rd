@@ -2,7 +2,7 @@
 % Please edit documentation in R/MEDBS_Discard_coverage.R
 \name{MEDBS_discard_coverage}
 \alias{MEDBS_discard_coverage}
-\title{Discard_cov: function to check the coverage in Discard table}
+\title{Discard_cov: function to check the coverage in discard table}
 \usage{
 MEDBS_discard_coverage(Discard_tab, SP, MS, GSA)
 }
@@ -16,10 +16,10 @@ MEDBS_discard_coverage(Discard_tab, SP, MS, GSA)
 \item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
 }
 \value{
-summary table and plots
+summary table and plots of discard time series by year and gear
 }
 \description{
-Discard_cov: function to check the coverage in Discard table
+The function allows to check the coverage of the time series in discard table for a selected species.
 }
 \examples{
 MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9")

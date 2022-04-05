@@ -16,10 +16,10 @@ MEDBS_comp_disc_YQ_fishery(disc, MS, GSA, SP)
 \item{SP}{species reference code in the three alpha code format}
 }
 \value{
-The function returns a dataframe  for the comparison of discards aggregated by quarters and by year and fishery
+The function returns a data frame  for the comparison of discards aggregated by quarters and by year and fishery
 }
 \description{
-Comparison between discards in weight by quarter, quarter -1 and by fishery
+The function allow to estimates the discards in weight for a selected species by quarter and fishery
 }
 \examples{
 MEDBS_comp_disc_YQ_fishery(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")

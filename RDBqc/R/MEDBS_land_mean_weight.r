@@ -4,8 +4,8 @@
 #' @param MS member state code as it is reported in the landing data
 #' @param GSA string value of the GSA code
 #' @param SP species reference code in the three alpha code format
-#'
-#' @return The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and return the data frame as well. The presence of Inf values in the MW
+#' @description The function allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery
+#' @return The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and return the data frame as well.
 #' @export MEDBS_land_mean_weight
 #'
 #' @examples MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")

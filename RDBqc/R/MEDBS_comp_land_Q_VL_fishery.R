@@ -4,8 +4,8 @@
 #' @param MS member state code as it is reported in the landing data
 #' @param GSA string value of the GSA code
 #' @param SP species reference code in the three alpha code format
-#'
-#' @return The function returns a dataframe for the comparison of landings aggregated by quarters and fishery accounting for the presence of vessel length information.
+#' @description The function allows to perform the comparison of landings of a selected species aggregated by quarters and fishery accounting for the presence of vessel length
+#' @return The function returns a data frame for the comparison of landings aggregated by quarters and fishery accounting for the presence of vessel length information.
 #' @export MEDBS_comp_land_Q_VL_fishery
 #'
 #' @examples MEDBS_comp_land_Q_VL_fishery(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")

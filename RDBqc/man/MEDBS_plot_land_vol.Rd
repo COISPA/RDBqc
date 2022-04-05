@@ -19,7 +19,7 @@ MEDBS_plot_land_vol(data, MS, GSA, SP)
 The function returns a plot of the total landing time series by fishery and gear
 }
 \description{
-Plot of total landing by gear and fishery
+The function allows to visual check the time series of landing volumes by fishery of a selected species
 }
 \examples{
 MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")

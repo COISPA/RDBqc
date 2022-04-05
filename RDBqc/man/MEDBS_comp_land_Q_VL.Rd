@@ -19,7 +19,7 @@ MEDBS_comp_land_Q_VL(land, MS, GSA, SP)
 The function returns a dataframe for the comparison of landings aggregated by quarters accounting for the presence of vessel length information.
 }
 \description{
-Comparison between landings in weight by quarter accounting for vessel length
+The function allows to perform the comparison of landings of a selected species aggregated by quarters accounting for the presence of vessel length
 }
 \examples{
 MEDBS_comp_land_Q_VL(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")

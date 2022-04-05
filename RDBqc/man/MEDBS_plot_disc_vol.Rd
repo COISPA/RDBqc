@@ -19,7 +19,7 @@ MEDBS_plot_disc_vol(data, MS, GSA, SP)
 The function returns a plot of the total discards time series by fishery and gear
 }
 \description{
-Plot of total discards by gear and fishery
+The function allows to visual check the time series of discard volumes by fishery of a selected species
 }
 \examples{
 MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")

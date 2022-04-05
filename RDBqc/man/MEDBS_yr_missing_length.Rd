@@ -17,8 +17,11 @@ MEDBS_yr_missing_length(data, type, MS, GSA, SP)
 
 \item{SP}{species reference code in the three alpha code format}
 }
+\value{
+the function returns a data frame containing the reference combination of year, gear and fishery missing length distributions
+}
 \description{
-Years with missing length distributions
+The function checks the presence of years with missing length distributions in both landings and discards for a selected species
 }
 \examples{
 MEDBS_yr_missing_length(data=Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS")

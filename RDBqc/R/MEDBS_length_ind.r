@@ -8,6 +8,8 @@
 #' @param SP species reference code in the three alpha code format
 #' @param splines spline values assignment to fit cumulative distributions
 #' @param Xtresholds threshold value
+#' @description The function allows to check the consistency of length data for a selected species on both landings and discards: Main length size indicators
+#' @return The function returns a plot of the Main length size indicators time series by fishery
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>

@@ -5,6 +5,8 @@
 #' @param MS member state code as it is reported in the landing data
 #' @param GSA string value of the GSA code
 #' @param SP species reference code in the three alpha code format
+#' @description The function checks the presence of years with missing length distributions in both landings and discards for a selected species
+#' @return the function returns a data frame containing the reference combination of year, gear and fishery missing length distributions
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>

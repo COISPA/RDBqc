@@ -4,6 +4,7 @@
 #' @param MS member state code as it is reported in the landing data
 #' @param GSA string value of the GSA code
 #' @param SP species reference code in the three alpha code format
+#' @description The function allows to visual check the time series of landing volumes by fishery of a selected species
 #' @return The function returns a plot of the total landing time series by fishery and gear
 #' @export MEDBS_plot_land_vol
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>

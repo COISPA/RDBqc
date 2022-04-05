@@ -32,8 +32,11 @@ MEDBS_length_ind(
 
 \item{Xtresholds}{threshold value}
 }
+\value{
+The function returns a plot of the Main length size indicators time series by fishery
+}
 \description{
-Main length size indicators
+The function allows to check the consistency of length data for a selected species on both landings and discards: Main length size indicators
 }
 \examples{
 MEDBS_length_ind(Landing_tab_example,type="l",out="mean",MS=c("ITA"),

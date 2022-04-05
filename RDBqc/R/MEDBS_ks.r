@@ -6,6 +6,8 @@
 #' @param GSA string value of the GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param Rt ratio to be applied to subsample data to reduce the risk of rejection of H0 Hypothesis
+#' @description The function allows to perform the Kolmogorov-Smirnov test on both landings and discards for a selected species providing cumulative length distribution plots by fishery and year. The function performs Kolmogorov-Smirnov tests on couples of years to assess if they belong to the same population.
+#' @return the function returns a list of data frames and cumulatine distribution plots
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>

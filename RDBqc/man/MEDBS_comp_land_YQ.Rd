@@ -16,10 +16,10 @@ MEDBS_comp_land_YQ(land, MS, GSA, SP)
 \item{SP}{species reference code in the three alpha code format}
 }
 \value{
-The function returns a dataframe  for the comparison of landings aggregated by quarters and by year
+The function returns a data frame  for the comparison of landings aggregated by quarters and by year
 }
 \description{
-Comparison between landings in weight by quarter and -1
+The function allows to perform the comparison of landings of a selected species aggregated by quarters and by year
 }
 \examples{
 MEDBS_comp_land_YQ(land=Landing_tab_example,MS="ITA",GSA=11,SP="ARA")

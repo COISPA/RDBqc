@@ -16,10 +16,10 @@ MEDBS_land_mean_weight(land, MS, GSA, SP)
 \item{SP}{species reference code in the three alpha code format}
 }
 \value{
-The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and return the data frame as well. The presence of Inf values in the MW
+The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and return the data frame as well.
 }
 \description{
-Mean weight by year,gear and fishery aggregation
+The function allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery
 }
 \examples{
 MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")

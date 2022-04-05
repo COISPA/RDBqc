@@ -4,8 +4,8 @@
 #' @param MS member state code as it is reported in the landing data
 #' @param GSA string value of the GSA code
 #' @param SP species reference code in the three alpha code format
-#'
-#' @return The function returns a dataframe  for the comparison of landings aggregated by quarters and by year
+#' @description The function allows to perform the comparison of landings of a selected species aggregated by quarters and by year
+#' @return The function returns a data frame  for the comparison of landings aggregated by quarters and by year
 #' @export MEDBS_comp_land_YQ
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>

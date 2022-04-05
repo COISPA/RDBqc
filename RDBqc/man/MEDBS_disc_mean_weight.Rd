@@ -19,7 +19,7 @@ MEDBS_disc_mean_weight(disc, MS, GSA, SP)
 The function returns a plot of the mean discards weight by year, gear and fishery aggregation
 }
 \description{
-Mean weight by year,gear and fishery aggregation
+The function allows to check consistency of  mean discard of a selected species plotting the discards' weight by year, gear and fishery
 }
 \examples{
 MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")

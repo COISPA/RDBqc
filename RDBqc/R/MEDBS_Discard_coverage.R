@@ -1,10 +1,11 @@
-#' Discard_cov: function to check the coverage in Discard table
+#' Discard_cov: function to check the coverage in discard table
 #'
 #' @param Discard_tab Discard table in MED&BS format
 #' @param SP species (three alpha code)
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
-#' @return summary table and plots
+#' @description The function allows to check the coverage of the time series in discard table for a selected species.
+#' @return summary table and plots of discard time series by year and gear
 #' @export
 #' @examples MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9")
 #' @import ggplot2 dplyr

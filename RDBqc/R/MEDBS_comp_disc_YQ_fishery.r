@@ -4,8 +4,8 @@
 #' @param MS member state code as it is reported in the discards data
 #' @param GSA string value of the GSA code
 #' @param SP species reference code in the three alpha code format
-#'
-#' @return The function returns a dataframe  for the comparison of discards aggregated by quarters and by year and fishery
+#' @description The function allow to estimates the discards in weight for a selected species by quarter and fishery
+#' @return The function returns a data frame  for the comparison of discards aggregated by quarters and by year and fishery
 #' @export MEDBS_comp_disc_YQ_fishery
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>

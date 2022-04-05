@@ -19,8 +19,11 @@ MEDBS_ks(data, type, MS, GSA, SP, Rt = 1)
 
 \item{Rt}{ratio to be applied to subsample data to reduce the risk of rejection of H0 Hypothesis}
 }
+\value{
+the function returns a list of data frames and cumulatine distribution plots
+}
 \description{
-Kolmogorov-Smirnov test
+The function allows to perform the Kolmogorov-Smirnov test on both landings and discards for a selected species providing cumulative length distribution plots by fishery and year. The function performs Kolmogorov-Smirnov tests on couples of years to assess if they belong to the same population.
 }
 \examples{
 MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
