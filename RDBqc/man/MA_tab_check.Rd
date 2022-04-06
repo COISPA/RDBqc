@@ -4,7 +4,7 @@
 \alias{MA_tab_check}
 \title{MA_tab (maturity at age) table check}
 \usage{
-MA_tab_check(MA_tab, SP, MS, GSA)
+MA_tab_check(MA_tab, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{MA_tab}{maturity at AGE table in MED&BS datacall format}
@@ -14,6 +14,8 @@ MA_tab_check(MA_tab, SP, MS, GSA)
 \item{MS}{Country}
 
 \item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+
+\item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
 a summary table and plots

@@ -4,7 +4,7 @@
 \alias{ML_tab_check}
 \title{ML_tab (maturity at length) table check}
 \usage{
-ML_tab_check(ML_tab, SP, MS, GSA)
+ML_tab_check(ML_tab, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{ML_tab}{maturity at length table in MED&BS datacall format}
@@ -14,13 +14,15 @@ ML_tab_check(ML_tab, SP, MS, GSA)
 \item{MS}{Country}
 
 \item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+
+\item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
 a summary table and plots
 }
 \description{
-ML_tab (maturity at length) table check
+The function allows to check the maturity at length (ML) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
 }
 \examples{
-ML_tab_check(ML_tab_example,"DPS","ITA","9")
+ML_tab_check(ML_tab_example, "DPS", "ITA", "9")
 }

@@ -3,24 +3,69 @@
 #' @param SP species (three alpha code)
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
+#' @param verbose boolean value to obtain further explanation messages from the function
+#' @description The function allows to check the sex ratio at age (SA) table providing a summary table of the data coverage and plots for the selected species of the proportion of sex ratio for age class by year.
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
-#' @examples SA_tab_check(SA_tab_example,"DPS","ITA","9")
-SA_tab_check<-function(SA_tab,SP,MS,GSA) {
-    SA_tab=SA_tab[SA_tab$SPECIES==SP & SA_tab$COUNTRY==MS & SA_tab$AREA==GSA,]
+#' @examples SA_tab_check(SA_tab_example, "DPS", "ITA", "9")
+SA_tab_check <- function(SA_tab, SP, MS, GSA,verbose=TRUE) {
 
-    SEXRATIO<-Summary_SA<- AGECLASS<-  COUNTRY<-YEAR<-START_YEAR<-END_YEAR<-SPECIES<-SEX_RATIO<-NULL
+    if (FALSE) {
+        SA_tab = SA_tab_example
+        SP = "DPS"
+        MS = "ITA"
+        GSA = "9"
+    }
 
-    Summary_SA=aggregate(SA_tab$SEX_RATIO,by=list(SA_tab$COUNTRY, SA_tab$AREA, SA_tab$START_YEAR, SA_tab$END_YEAR, SA_tab$SPECIES),FUN="length")
-    colnames(Summary_SA)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX_RATIO")
+  SA_tab <- SA_tab[SA_tab$SPECIES == SP & SA_tab$COUNTRY == MS & SA_tab$AREA == GSA, ]
 
-    Summary_SA=Summary_SA[1:nrow(Summary_SA),1:(ncol(Summary_SA)-1)]
+  if (nrow(SA_tab)==0) {
+      if (verbose){
+          message(paste0("No data available for the selected species (",SP,")") )
+      }
+  } else if (nrow(SA_tab)>0) {
 
+  SEXRATIO <- Summary_SA <- AGECLASS <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX_RATIO <- NULL
 
-    ggplot(data=SA_tab, aes(x=AGECLASS,y= SEX_RATIO,col=factor(START_YEAR))) + geom_line(stat="identity", binwidth = 0.5) + facet_grid(AREA+COUNTRY~ .)
+  Summary_SA <- aggregate(SA_tab$SEX_RATIO, by = list(SA_tab$COUNTRY, SA_tab$AREA, SA_tab$START_YEAR, SA_tab$END_YEAR, SA_tab$SPECIES), FUN = "length")
+  colnames(Summary_SA) <- c("COUNTRY", "YEAR", "START_YEAR", "END_YEAR", "SPECIES", "SEX_RATIO")
 
-    ggplot(SA_tab, aes(x=AGECLASS, y=SEXRATIO,col="red"))+geom_point()+geom_line()+scale_y_continuous(breaks=seq(0,1,0.25))+expand_limits(x = 0, y = 0)+facet_wrap(~START_YEAR)+ggtitle(paste0("Sexratio by age class of ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "none")
+  Summary_SA <- Summary_SA[1:nrow(Summary_SA), 1:(ncol(Summary_SA) - 1)]
 
-    return(Summary_SA)
+  output <- list()
+  l <- length(output)+1
+  output[[l]] <- Summary_SA
+  names(output)[[l]] <- "summary table"
+
+  p <- ggplot(data = SA_tab, aes(x = AGECLASS, y = SEX_RATIO, col = factor(START_YEAR))) +
+    geom_line(stat = "identity") +
+    facet_grid(AREA + COUNTRY ~ .)+
+    labs(color='Years') +
+    ggtitle(SP) +
+    xlab("Age class") +
+    ylab("Sex ratio")
+
+  print(p)
+  l <- length(output)+1
+  output[[l]] <- p
+  names(output)[[l]] <- paste("SA_cum",SP,MS,GSA,sep=" _ ")
+
+  p <- ggplot(SA_tab, aes(x = AGECLASS,y = SEX_RATIO, col = "red")) +
+    geom_point() +
+    geom_line() +
+    scale_y_continuous(breaks = seq(0, 1, 0.25)) +
+    expand_limits(x = 0, y = 0) +
+    facet_wrap(~START_YEAR) +
+    ggtitle(paste0("Sexratio by age class of ", SP, " in ", MS, "_GSA", GSA)) +
+    theme(legend.position = "none") +
+    xlab("Age class") +
+    ylab("Sex ratio")
+  print(p)
+  l <- length(output)+1
+  output[[l]] <- p
+  names(output)[[l]] <- paste("SA",SP,MS,GSA,sep=" _ ")
+
+  return(Summary_SA)
+  }
 }

@@ -4,7 +4,7 @@
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
 #' @description The function allows to check the growth parameters by sex and year for a selected species
-#' @return a summary table and a plot of the growth curves by sex and year
+#' @return a list of objects contaning a summary table and different plots of the growth curves by sex and year.
 #' @export
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
@@ -73,36 +73,57 @@ GP_check<-function(GP_tab,SP,MS,GSA) {
         VBGF <- do.call("rbind",F_age)
 
         VBGF <- VBGF[!VBGF$LENGTH%in%NA,]
+
+        plots <- list()
+
+        l <- length(plots)+1
+        plots[[l]] <- Summary_GP
+        names(plots)[[l]] <- "summary table"
+
         p <- ggplot(VBGF,aes(x=AGE,y=LENGTH,col=SEX))+
             geom_point()+
             geom_line()+
             facet_wrap(~START_YEAR)+ggtitle(paste0("VBGF curve of ",SP, " in ", MS,"_GSA",GSA))+theme(legend.position = "bottom")+scale_x_continuous(breaks=seq(0,20,2))+expand_limits(x = 0, y = 0)
         print(p)
 
+        l <- length(plots)+1
+        plots[[l]] <- p
+        names(plots)[[l]] <- paste("VBGF",SP,MS,GSA,sep=" _ ")
+
 ## PLOT 2
-        # for (i in unique(VBGF$SEX)){
-        #     p <- ggplot(VBGF[VBGF$SEX%in%i,],aes(x=AGE,y=LENGTH,col=ID))+
-        #         geom_point()+
-        #         geom_line()+
-        #         facet_wrap(~START_YEAR)+
-        #         ggtitle(paste0("VBGF curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+
-        #         theme(legend.position = "bottom")+
-        #         theme(legend.text = element_text(color = "blue", size = 6))+
-        #         guides(col=guide_legend(title=""))
-        #     print(p)
-        # }
+        for (i in unique(VBGF$SEX)){
+            p <- ggplot(VBGF[VBGF$SEX%in%i,],aes(x=AGE,y=LENGTH,col=ID))+
+                geom_point()+
+                geom_line()+
+                facet_wrap(~START_YEAR)+
+                ggtitle(paste0("VBGF curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+
+                # theme(legend.position = "bottom")+
+                theme(legend.text = element_text(color = "blue", size = 6))+
+                guides(col=guide_legend(title=""))
+            print(p)
+
+            l <- length(plots)+1
+            plots[[l]] <- p
+
+            names(plots)[[l]] <- paste("VBGF_year",SP,MS,GSA,i,sep=" _ ")
+        }
 
 ## PROT 3
-        # for (i in unique(VBGF$SEX)){
-        #     p <- ggplot(VBGF[VBGF$SEX%in%i,],aes(x=AGE,y=LENGTH,col=ID))+
-        #         geom_point()+
-        #         geom_line()+
-        #         ggtitle(paste0("VBGF curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+
-        #         theme(legend.position = "bottom", legend.box = "vertical")+
-        #         theme(legend.text = element_text(color = "blue", size = 6))+
-        #         guides(col=guide_legend(title=""))
-        #     print(p)
-        # }
+        for (i in unique(VBGF$SEX)){
+            p <- ggplot(VBGF[VBGF$SEX%in%i,],aes(x=AGE,y=LENGTH,col=ID))+
+                geom_point()+
+                geom_line()+
+                ggtitle(paste0("VBGF curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+
+                theme(legend.position = "bottom", legend.box = "vertical")+
+                theme(legend.text = element_text(color = "blue", size = 6))+
+                guides(col=guide_legend(title=""))
+            print(p)
+
+            l <- length(plots)+1
+            plots[[l]] <- p
+
+            names(plots)[[l]] <- paste("VBGF_cum",SP,MS,GSA,i,sep=" _ ")
+        }
 
 
         # #############  MALES  ###############
@@ -148,7 +169,6 @@ GP_check<-function(GP_tab,SP,MS,GSA) {
         #####################################
 
 
-
-        return(Summary_GP)
+        return(plots)
 }
 }

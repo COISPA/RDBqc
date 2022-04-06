@@ -4,7 +4,7 @@
 \alias{SA_tab_check}
 \title{SA_tab (sex ratio at age) table check}
 \usage{
-SA_tab_check(SA_tab, SP, MS, GSA)
+SA_tab_check(SA_tab, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{SA_tab}{sex ratio at age table in MED&BS datacall format}
@@ -14,13 +14,15 @@ SA_tab_check(SA_tab, SP, MS, GSA)
 \item{MS}{Country}
 
 \item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+
+\item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
 a summary table and plots
 }
 \description{
-SA_tab (sex ratio at age) table check
+The function allows to check the sex ratio at age (SA) table providing a summary table of the data coverage and plots for the selected species of the proportion of sex ratio for age class by year.
 }
 \examples{
-SA_tab_check(SA_tab_example,"DPS","ITA","9")
+SA_tab_check(SA_tab_example, "DPS", "ITA", "9")
 }

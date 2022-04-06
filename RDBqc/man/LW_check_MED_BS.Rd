@@ -2,9 +2,9 @@
 % Please edit documentation in R/LW_check_MED_BS.R
 \name{LW_check_MED_BS}
 \alias{LW_check_MED_BS}
-\title{LW params in GP_tab (sex ratio at length) table check#'}
+\title{LW params in GP_tab in table check#'}
 \usage{
-LW_check_MED_BS(GP_tab, SP, MS, GSA)
+LW_check_MED_BS(GP_tab, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{GP_tab}{growth params table in MED&BS datacall format}
@@ -14,13 +14,15 @@ LW_check_MED_BS(GP_tab, SP, MS, GSA)
 \item{MS}{Country}
 
 \item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+
+\item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
-a summary table and plots
+a summary table and plots of the LW params
 }
 \description{
-LW params in GP_tab (sex ratio at length) table check#'
+The function allows to check the length-weight parameters included in the GP table for a selected species
 }
 \examples{
-LW_check_MED_BS(GP_tab_example,"MUT","ITA","SA 18")
+LW_check_MED_BS(GP_tab_example,"MUT","ITA","18")
 }

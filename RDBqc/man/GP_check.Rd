@@ -16,7 +16,7 @@ GP_check(GP_tab, SP, MS, GSA)
 \item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
 }
 \value{
-a summary table and a plot of the growth curves by sex and year
+a list of objects contaning a summary table and different plots of the growth curves by sex and year.
 }
 \description{
 The function allows to check the growth parameters by sex and year for a selected species
