@@ -66,6 +66,6 @@ SA_tab_check <- function(SA_tab, SP, MS, GSA,verbose=TRUE) {
   output[[l]] <- p
   names(output)[[l]] <- paste("SA",SP,MS,GSA,sep=" _ ")
 
-  return(Summary_SA)
+  return(output)
   }
 }

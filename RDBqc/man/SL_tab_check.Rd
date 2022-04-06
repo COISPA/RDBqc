@@ -4,7 +4,7 @@
 \alias{SL_tab_check}
 \title{SL_tab (sex ratio at length) table check}
 \usage{
-SL_tab_check(SL_tab, SP, MS, GSA)
+SL_tab_check(SL_tab, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{SL_tab}{sex ratio at length table in MED&BS datacall format}
@@ -14,6 +14,8 @@ SL_tab_check(SL_tab, SP, MS, GSA)
 \item{MS}{Country}
 
 \item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+
+\item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
 a summary table and plots
