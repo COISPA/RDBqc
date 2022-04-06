@@ -9,8 +9,8 @@
 #' @export
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
-#' @examples LW_check_MED_BS(GP_tab_example,"MUT","ITA","18")
-LW_check_MED_BS<-function(GP_tab,SP,MS,GSA,verbose=TRUE) {
+#' @examples MEDBS_LW_check(GP_tab_example,"MUT","ITA","18")
+MEDBS_LW_check<-function(GP_tab,SP,MS,GSA,verbose=TRUE) {
     if(FALSE){
         GP_tab <- GP_tab_example
         SP <- "NEP"

@@ -8,8 +8,8 @@
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
-#' @examples SA_tab_check(SA_tab_example, "DPS", "ITA", "9")
-SA_tab_check <- function(SA_tab, SP, MS, GSA,verbose=TRUE) {
+#' @examples MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "9")
+MEDBS_SA_check <- function(SA_tab, SP, MS, GSA,verbose=TRUE) {
 
     if (FALSE) {
         SA_tab = SA_tab_example

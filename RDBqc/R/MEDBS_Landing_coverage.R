@@ -7,10 +7,10 @@
 #' @return summary table and plots
 #' @export
 
-#' @examples Landing_coverage(Landing_tab_example,"DPS","ITA","9")
+#' @examples MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","9")
 #' @import ggplot2 dplyr
 #' @importFrom utils globalVariables
-Landing_coverage<-function(Landing_tab,SP,MS,GSA){
+MEDBS_Landing_coverage<-function(Landing_tab,SP,MS,GSA){
 
     if(FALSE) {
         Landing_tab <- Landing_tab_example

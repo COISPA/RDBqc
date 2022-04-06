@@ -8,8 +8,8 @@
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
-#' @examples ML_tab_check(ML_tab_example, "DPS", "ITA", "9")
-ML_tab_check <- function(ML_tab, SP, MS, GSA,verbose=TRUE) {
+#' @examples MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "9")
+MEDBS_ML_check <- function(ML_tab, SP, MS, GSA,verbose=TRUE) {
     if(FALSE){
         ML_tab <- ML_tab_example
         verbose=TRUE

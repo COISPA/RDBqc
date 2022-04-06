@@ -4,11 +4,12 @@
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
 #' @param verbose boolean value to obtain further explanation messages from the function
+#' @description The function allows to check the maturity at age (MA) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
-#' @examples MA_tab_check(MA_tab_example,"DPS","ITA","9")
-MA_tab_check <- function(MA_tab, SP, MS, GSA, verbose=TRUE) {
+#' @examples MEDBS_MA_check(MA_tab_example,"DPS","ITA","9")
+MEDBS_MA_check <- function(MA_tab, SP, MS, GSA, verbose=TRUE) {
 
     if (FALSE) {
         MA_tab <- MA_tab_example
@@ -59,7 +60,9 @@ names(output)[[l]] <- "summary table"
         )) + geom_line(stat = "identity") +
         facet_grid(AREA + COUNTRY ~ SEX)+
         labs(color='Years') +
-        ggtitle(SP)
+        ggtitle(SP) +
+        xlab("Age class") +
+        ylab("PRM")
     print(p)
     l <- length(output)+1
     output[[l]] <- p
@@ -76,7 +79,9 @@ names(output)[[l]] <- "summary table"
             expand_limits(x = 0, y = 0) +
             theme(legend.text = element_text(color = "blue", size = 6)) +
             guides(col = guide_legend(title = "Years")) +
-            ggtitle(paste(SP,i,sep=" - "))
+            ggtitle(paste(SP,i,sep=" - ")) +
+            xlab("Age class") +
+            ylab("PRM")
         print(p)
         l <- length(output)+1
         output[[l]] <- p

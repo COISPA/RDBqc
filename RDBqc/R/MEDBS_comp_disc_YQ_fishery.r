@@ -4,6 +4,7 @@
 #' @param MS member state code as it is reported in the discards data
 #' @param GSA string value of the GSA code
 #' @param SP species reference code in the three alpha code format
+#' @param verbose boolean value to obtain further explanation messages from the function
 #' @description The function allow to estimates the discards in weight for a selected species by quarter and fishery
 #' @return The function returns a data frame  for the comparison of discards aggregated by quarters and by year and fishery
 #' @export MEDBS_comp_disc_YQ_fishery
@@ -20,13 +21,12 @@
 #' @importFrom dplyr filter
 #' @importFrom dplyr full_join
 
-MEDBS_comp_disc_YQ_fishery <- function(disc,MS,GSA,SP) {
+MEDBS_comp_disc_YQ_fishery <- function(disc,MS,GSA,SP,verbose=TRUE) {
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 11
-        SP <- "ARA"
+        GSA <- 9
+        SP <- "DPS"
         # verbose=TRUE
-        disc=discards
         disc=Discard_tab_example
         MEDBS_comp_disc_YQ_fishery(disc,MS="ITA",GSA=9,SP="DPS")
     }
@@ -36,9 +36,15 @@ MEDBS_comp_disc_YQ_fishery <- function(disc,MS,GSA,SP) {
     land <- disc
     land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
     land=land[which(land$area==as.numeric(GSA) & land$country==MS & land$species==SP),]
+    if (nrow(land)==0){
+        if (verbose){
+            message(paste0("No data available for the selected species (",SP,")") )
+        }
+    } else {
+
+
     land$landings[land$discards==-1] <- 0
 
-if (nrow(land)>0) {
     compLand0 <- list()
     c0 <- 1
     for (i in unique(land$year)){
@@ -54,8 +60,6 @@ if (nrow(land)>0) {
 
     return(as.data.frame(compLandings0))
 
-} else {
-    message("No discard data in the subset.\n")
-}
+    }
 }
 

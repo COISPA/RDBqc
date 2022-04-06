@@ -7,9 +7,9 @@
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
-#' @examples SL_tab_check(SL_tab_example,"DPS","ITA","9")
+#' @examples MEDBS_SL_check(SL_tab_example,"DPS","ITA","9")
 
-SL_tab_check<-function(SL_tab,SP,MS,GSA,verbose=TRUE) {
+MEDBS_SL_check<-function(SL_tab,SP,MS,GSA,verbose=TRUE) {
 
     if (FALSE){
         SL_tab <- SL_tab_example
