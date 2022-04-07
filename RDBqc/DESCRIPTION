@@ -1,6 +1,6 @@
 Package: RDBqc
 Title: Quality check functions for RDBFIS
-Version: 0.0.4
+Version: 0.0.5
 Authors@R: 
     person("Isabella", "Bitetto", , "bitetto@coispa.it", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-8497-1642"))

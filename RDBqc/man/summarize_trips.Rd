@@ -4,10 +4,18 @@
 \alias{summarize_trips}
 \title{summarizing the number of trips/hauls monitored by year by port, metier, sampling method;}
 \usage{
-summarize_trips(data_example)
+summarize_trips(data, MS, GSA, SP, verbose = TRUE)
 }
 \arguments{
-\item{data_example}{RCG CS table}
+\item{data}{RCG CS table}
+
+\item{MS}{member state code as it is reported in the landing data}
+
+\item{GSA}{string value of the GSA code}
+
+\item{SP}{species reference code in the three alpha code format}
+
+\item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
 Number of trips by area, year, port, metier and sampling method
@@ -16,5 +24,5 @@ Number of trips by area, year, port, metier and sampling method
 summarizing the number of trips/hauls monitored by year by port, metier, sampling method;
 }
 \examples{
-summarize_trips(data_ex)
+summarize_trips(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
 }

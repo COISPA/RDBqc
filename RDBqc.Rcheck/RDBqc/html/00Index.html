@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>R: Quality check functions for RDBFIS</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+<h1> Quality check functions for RDBFIS
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;RDBqc&rsquo; version 0.0.5</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table width="100%">
+<tr><td style="width: 25%;"><a href="Catch_tab_example.html">Catch_tab_example</a></td>
+<td>Catch table in MED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="catfau_check.html">catfau_check</a></td>
+<td>catfau_check in GFCM datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="check_AL.html">check_AL</a></td>
+<td>Check consistency of age-length relationship</td></tr>
+<tr><td style="width: 25%;"><a href="check_CL.html">check_CL</a></td>
+<td>Quality checks on CL RCG table</td></tr>
+<tr><td style="width: 25%;"><a href="check_EF_FDI_G.html">check_EF_FDI_G</a></td>
+<td>Check empty fields in FDI G table</td></tr>
+<tr><td style="width: 25%;"><a href="check_EF_FDI_H.html">check_EF_FDI_H</a></td>
+<td>Check empty fields in FDI H table</td></tr>
+<tr><td style="width: 25%;"><a href="check_EF_FDI_I.html">check_EF_FDI_I</a></td>
+<td>Check empty fields in FDI I table</td></tr>
+<tr><td style="width: 25%;"><a href="check_EF_FDI_J.html">check_EF_FDI_J</a></td>
+<td>Check empty fields in FDI J table</td></tr>
+<tr><td style="width: 25%;"><a href="check_EF_taskII2.html">check_EF_taskII2</a></td>
+<td>Check empty fields in GFCM Task II.2 table</td></tr>
+<tr><td style="width: 25%;"><a href="check_EF_taskIII.html">check_EF_taskIII</a></td>
+<td>Check empty fields in GFCM Task III table</td></tr>
+<tr><td style="width: 25%;"><a href="check_EF_taskVII2.html">check_EF_taskVII2</a></td>
+<td>Check empty fields in GFCM Task VII.2 table</td></tr>
+<tr><td style="width: 25%;"><a href="check_EF_TaskVII31.html">check_EF_TaskVII31</a></td>
+<td>Check empty fields in GFCM Task VII.3.1 table</td></tr>
+<tr><td style="width: 25%;"><a href="check_EF_TaskVII32.html">check_EF_TaskVII32</a></td>
+<td>Check empty fields in GFCM Task VII.3.2 table</td></tr>
+<tr><td style="width: 25%;"><a href="check_LFD.html">check_LFD</a></td>
+<td>check LFD</td></tr>
+<tr><td style="width: 25%;"><a href="check_LFD_comm_cat.html">check_LFD_comm_cat</a></td>
+<td>Check consistency of LFD by year and commercial category</td></tr>
+<tr><td style="width: 25%;"><a href="check_lmat_TaskVII.3.2.html">check_lmat_TaskVII.3.2</a></td>
+<td>Plot of the maturity stages per length for each sex and species</td></tr>
+<tr><td style="width: 25%;"><a href="check_loc.html">check_loc</a></td>
+<td>Check trip location</td></tr>
+<tr><td style="width: 25%;"><a href="check_lw.html">check_lw</a></td>
+<td>Consistency of length-weight relationship and consistency with allowed ranges</td></tr>
+<tr><td style="width: 25%;"><a href="check_lw_TaskVII.2.html">check_lw_TaskVII.2</a></td>
+<td>Plot of the relationship length weight for each species</td></tr>
+<tr><td style="width: 25%;"><a href="check_mat.html">check_mat</a></td>
+<td>Check consistency sex and maturity stage</td></tr>
+<tr><td style="width: 25%;"><a href="check_mat_ogive.html">check_mat_ogive</a></td>
+<td>Maturity ogives by sex</td></tr>
+<tr><td style="width: 25%;"><a href="check_minmaxl50_TaskVII.3.1.html">check_minmaxl50_TaskVII.3.1</a></td>
+<td>Comparison between min/max L50 observed for each species and sex with theoretical values</td></tr>
+<tr><td style="width: 25%;"><a href="check_minmaxl_TaskVII.2.html">check_minmaxl_TaskVII.2</a></td>
+<td>Comparison between min/max observed for each species with theoretical values</td></tr>
+<tr><td style="width: 25%;"><a href="check_presence_taskII2.html">check_presence_taskII2</a></td>
+<td>Check of missing combination GSA/Fleet segment per year</td></tr>
+<tr><td style="width: 25%;"><a href="check_RD_FDI_G.html">check_RD_FDI_G</a></td>
+<td>Check duplicated records in FDI G table</td></tr>
+<tr><td style="width: 25%;"><a href="check_RD_FDI_H.html">check_RD_FDI_H</a></td>
+<td>Check duplicated records in FDI H table</td></tr>
+<tr><td style="width: 25%;"><a href="check_RD_FDI_I.html">check_RD_FDI_I</a></td>
+<td>Check duplicated records in FDI I table</td></tr>
+<tr><td style="width: 25%;"><a href="check_RD_FDI_J.html">check_RD_FDI_J</a></td>
+<td>Check duplicated records in FDI J table</td></tr>
+<tr><td style="width: 25%;"><a href="check_RD_taskII2.html">check_RD_taskII2</a></td>
+<td>Check duplicated records in GFCM Task II.2 table</td></tr>
+<tr><td style="width: 25%;"><a href="check_RD_taskIII.html">check_RD_taskIII</a></td>
+<td>Check duplicated records in GFCM Task III table</td></tr>
+<tr><td style="width: 25%;"><a href="check_RD_taskVII2.html">check_RD_taskVII2</a></td>
+<td>Check duplicated records in GFCM Task VII.2 table</td></tr>
+<tr><td style="width: 25%;"><a href="check_RD_taskVII31.html">check_RD_taskVII31</a></td>
+<td>Check duplicated records in GFCM Task VII.3.1 table</td></tr>
+<tr><td style="width: 25%;"><a href="check_RD_TaskVII32.html">check_RD_TaskVII32</a></td>
+<td>Check duplicated records in GFCM Task VII.3.2 table</td></tr>
+<tr><td style="width: 25%;"><a href="check_species_catfau_TaskVII.3.2.html">check_species_catfau_TaskVII.3.2</a></td>
+<td>Check mismatching species/Catfau and Sex per maturity stages for Task VII.3.2 table</td></tr>
+<tr><td style="width: 25%;"><a href="circabc.html">circabc</a></td>
+<td>Ports coordinates according to codification CIRCABC</td></tr>
+<tr><td style="width: 25%;"><a href="combination_taskII2.html">combination_taskII2</a></td>
+<td>combination_taskII2 in GFCM datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="data_ex.html">data_ex</a></td>
+<td>RCG CS example</td></tr>
+<tr><td style="width: 25%;"><a href="data_exampleCL.html">data_exampleCL</a></td>
+<td>RCG CL example</td></tr>
+<tr><td style="width: 25%;"><a href="Discard_tab_example.html">Discard_tab_example</a></td>
+<td>Discard table in MED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="fdi_g_effort.html">fdi_g_effort</a></td>
+<td>fdi_g_effort in FDI DGMAREMED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="fdi_h_spatial_land.html">fdi_h_spatial_land</a></td>
+<td>fdi_h_spatial_land in FDI DGMAREMED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="fdi_i_spatial_fe.html">fdi_i_spatial_fe</a></td>
+<td>fdi_i_spatial_fe in FDI DGMAREMED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="fdi_j_capacity.html">fdi_j_capacity</a></td>
+<td>fdi_j_capacity in FDI DGMAREMED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="GP_check.html">GP_check</a></td>
+<td>GP_tab (growth params) table check</td></tr>
+<tr><td style="width: 25%;"><a href="GP_tab_example.html">GP_tab_example</a></td>
+<td>GP table in MED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="Landing_tab_example.html">Landing_tab_example</a></td>
+<td>Landing table in MED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="MA_tab_example.html">MA_tab_example</a></td>
+<td>MA table in MED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_Catch_coverage.html">MEDBS_Catch_coverage</a></td>
+<td>Catch_cov: function to check the coverage in Catch table</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_check_duplicates.html">MEDBS_check_duplicates</a></td>
+<td>Check for duplicated data rows</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_comp_disc_YQ.html">MEDBS_comp_disc_YQ</a></td>
+<td>Comparison between discards in weight by quarter and -1</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_comp_disc_YQ_fishery.html">MEDBS_comp_disc_YQ_fishery</a></td>
+<td>Comparison between discards in weight by quarter, quarter -1 and by fishery</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_comp_land_Q_VL.html">MEDBS_comp_land_Q_VL</a></td>
+<td>Comparison between landings in weight by quarter accounting for vessel length</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_comp_land_Q_VL_fishery.html">MEDBS_comp_land_Q_VL_fishery</a></td>
+<td>Comparison between landings in weight by quarter and fishery accounting for vessel length</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_comp_land_YQ.html">MEDBS_comp_land_YQ</a></td>
+<td>Comparison between landings in weight by quarter and -1</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_comp_land_YQ_fishery.html">MEDBS_comp_land_YQ_fishery</a></td>
+<td>Comparison between landings in weight by quarter, quarter -1 and by fishery</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_discard_coverage.html">MEDBS_discard_coverage</a></td>
+<td>Discard_cov: function to check the coverage in discard table</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_disc_mean_weight.html">MEDBS_disc_mean_weight</a></td>
+<td>Mean weight by year,gear and fishery aggregation</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_ks.html">MEDBS_ks</a></td>
+<td>Kolmogorov-Smirnov test</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_Landing_coverage.html">MEDBS_Landing_coverage</a></td>
+<td>Landing_cov: function to check the coverage in Landing table</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_land_mean_weight.html">MEDBS_land_mean_weight</a></td>
+<td>Mean weight by year,gear and fishery aggregation</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_lengthclass_0.html">MEDBS_lengthclass_0</a></td>
+<td>Length classes number 0 in landings and discards</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_length_ind.html">MEDBS_length_ind</a></td>
+<td>Main length size indicators</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_LW_check.html">MEDBS_LW_check</a></td>
+<td>LW params in GP_tab in table check#'</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_MA_check.html">MEDBS_MA_check</a></td>
+<td>MA_tab (maturity at age) table check</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_ML_check.html">MEDBS_ML_check</a></td>
+<td>ML_tab (maturity at length) table check</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_plot_discard_ts.html">MEDBS_plot_discard_ts</a></td>
+<td>Plot of total discards</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_plot_disc_vol.html">MEDBS_plot_disc_vol</a></td>
+<td>Plot of total discards by gear and fishery</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_plot_landing_ts.html">MEDBS_plot_landing_ts</a></td>
+<td>Plot of total landing</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_plot_land_vol.html">MEDBS_plot_land_vol</a></td>
+<td>Plot of total landing by gear and fishery</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_SA_check.html">MEDBS_SA_check</a></td>
+<td>SA_tab (sex ratio at age) table check</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_SL_check.html">MEDBS_SL_check</a></td>
+<td>SL_tab (sex ratio at length) table check</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_weight_0.html">MEDBS_weight_0</a></td>
+<td>weight 0 in landings and discards</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_weight_minus1.html">MEDBS_weight_minus1</a></td>
+<td>weight -1 in landings</td></tr>
+<tr><td style="width: 25%;"><a href="MEDBS_yr_missing_length.html">MEDBS_yr_missing_length</a></td>
+<td>Years with missing length distributions</td></tr>
+<tr><td style="width: 25%;"><a href="minmaxLtaskVII2.html">minmaxLtaskVII2</a></td>
+<td>minmaxLtaskVII2 in GFCM datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="minmaxLtaskVII31.html">minmaxLtaskVII31</a></td>
+<td>minmaxLtaskVII31 in GFCM datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="ML_tab_example.html">ML_tab_example</a></td>
+<td>ML table in MED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="SA_tab_example.html">SA_tab_example</a></td>
+<td>SA table in MED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="sex_mat.html">sex_mat</a></td>
+<td>sex_mat in GFCM datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="SL_tab_example.html">SL_tab_example</a></td>
+<td>SL table in MED&amp;BS datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="summarize_ind_meas.html">summarize_ind_meas</a></td>
+<td>Number of individual by trip for which biological data have been collected (length, sex, maturity, weight and age)</td></tr>
+<tr><td style="width: 25%;"><a href="summarize_trips.html">summarize_trips</a></td>
+<td>summarizing the number of trips/hauls monitored by year by port, metier, sampling method;</td></tr>
+<tr><td style="width: 25%;"><a href="task_ii2.html">task_ii2</a></td>
+<td>task_ii2 in GFCM DCRF datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="task_iii.html">task_iii</a></td>
+<td>task_iii in GFCM DCRF datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="task_vii2.html">task_vii2</a></td>
+<td>task_vii2 in GFCM DCRF datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="task_vii31.html">task_vii31</a></td>
+<td>task_vii31 in GFCM datacall format</td></tr>
+<tr><td style="width: 25%;"><a href="task_vii32.html">task_vii32</a></td>
+<td>task_vii32 in GFCM DCRF datacall format</td></tr>
+</table>
+</div></body></html>
