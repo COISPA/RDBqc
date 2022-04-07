@@ -4,12 +4,16 @@
 \alias{check_AL}
 \title{Check consistency of age-length relationship}
 \usage{
-check_AL(data, species, min_age = 0, max_age = 30, verbose = TRUE)
+check_AL(data, MS, GSA, SP, min_age = 0, max_age = 30, verbose = TRUE)
 }
 \arguments{
 \item{data}{table of detailed data in RCG format}
 
-\item{species}{reference species for the analysis}
+\item{MS}{member state code as it is reported in the landing data}
+
+\item{GSA}{string value of the GSA code}
+
+\item{SP}{reference species for the analysis}
 
 \item{min_age}{minimum age expected}
 
@@ -24,5 +28,5 @@ summary table length-age and error (if any)
 Check consistency of age-length relationship
 }
 \examples{
-check_AL(data_ex,species="Mullus barbatus",min_age=0,max_age=30)
+check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=30)
 }

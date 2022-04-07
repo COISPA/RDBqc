@@ -2,7 +2,9 @@
 #' Quality checks on CL RCG table
 #'
 #' @param data Landing table in RCG CL format
-#' @param species reference species for the analysis
+#' @param MS member state code as it is reported in the landing data
+#' @param GSA string value of the GSA code
+#' @param SP reference species for the analysis
 #' @param verbose boolean. If it is TRUE messages are reported with the outputs
 #' @description The output is a list of 6 data frames:
 #' 1) Sum of Landings by year, quarter and month;
@@ -14,25 +16,27 @@
 #' @return Checks_CL list of tables for temporal, spatial, species and metier coverage
 #' @export
 #'
-#' @examples check_CL(data_exampleCL,species="Parapenaeus longirostris")
+#' @examples check_CL(data_exampleCL,SP="Parapenaeus longirostris")
 #' @importFrom utils globalVariables
 #' @importFrom ggplot2 aes ggplot geom_line geom_point facet_grid
 #' @importFrom stats aggregate
-check_CL <- function(data,species, verbose) {
+check_CL <- function(data,MS,GSA,SP, verbose=TRUE) {
 
     if (FALSE) {
-        data <- cs
-        species="Merluccius merluccius"
-        check_CL(cs,species)
+        data <- data_exampleCL
+        SP="Parapenaeus longirostris"
+        MS = "COUNTRY1"
+        GSA="GSA99"
+        check_CL(data_exampleCL,MS,GSA,SP)
     }
 
     Year <- foCatEu6<- Sum_Landings<-Species<-NULL
 
-    data <- data[data$taxon %in% species,]
+    data <- data[as.character(data$taxon) %in% SP & data$vslFlgCtry %in% MS & data$area %in% GSA ,]
 
     if (nrow(data) == 0) {
         if(verbose){
-            message(paste0("No data available for the selected species (",species,")"))
+            message(paste0("No data available for the selected species (",SP,")"))
         }
     } else if (nrow(data)>0) {
 
@@ -73,11 +77,11 @@ p <- ggplot(data=spe_cov_L, aes(x=Year,y= Sum_Landings, color=foCatEu6)) +
     geom_line(stat="identity") +
     geom_point(stat="identity") +
     facet_grid(scales="free_y") +
-    ggtitle(species) +
+    ggtitle(SP) +
     ylab("Sum Landings")
-print(p)
+# print(p)
 
 
-return(Checks_CL)
+return(list(Checks_CL,p))
 }
 }
