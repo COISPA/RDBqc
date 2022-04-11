@@ -5,7 +5,7 @@
 \alias{combination_taskII2}
 \title{combination_taskII2 in GFCM datacall format}
 \format{
-An object of class \code{data.frame} with 60 rows and 3 columns.
+An object of class \code{data.frame} with 60 rows and 4 columns.
 }
 \usage{
 combination_taskII2

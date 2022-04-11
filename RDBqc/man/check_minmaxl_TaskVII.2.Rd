@@ -4,12 +4,16 @@
 \alias{check_minmaxl_TaskVII.2}
 \title{Comparison between min/max observed for each species with theoretical values}
 \usage{
-check_minmaxl_TaskVII.2(data1, data2)
+check_minmaxl_TaskVII.2(data, tab_length, MS, GSA)
 }
 \arguments{
-\item{data1}{GFCM Task II.2 table}
+\item{data}{GFCM Task II.2 table}
 
-\item{data2}{Theoretical values of min/max for each species}
+\item{tab_length}{Theoretical values of min/max length for each species}
+
+\item{MS}{member state code as it is reported in the landing data}
+
+\item{GSA}{string value of the GSA code}
 }
 \value{
 The function returns a table with the comparison between min/max lengths observed for each species with theoretical values.
@@ -18,5 +22,5 @@ The function returns a table with the comparison between min/max lengths observe
 Function to verify the consistency of the lengths reported in the TaskVII.2 table with the theoretical values reported in the minmaxLtaskVII2 table. The function allows to identify the records in which the observed lengths are greater or lower than the expected ones.
 }
 \examples{
-check_minmaxl_TaskVII.2(task_vii2,minmaxLtaskVII2)
+check_minmaxl_TaskVII.2(task_vii2,minmaxLtaskVII2,MS="ITA",GSA="18")
 }

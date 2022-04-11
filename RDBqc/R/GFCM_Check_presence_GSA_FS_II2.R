@@ -3,13 +3,19 @@
 #' @description Function to verify the completeness of the GSA/Fleet segments in Task II.2 table, as reported in the combination_taskII2 table.
 #' @param data1 GFCM Task II.2 table
 #' @param data2 List of combination of the expected GSA/Fleet segments per year for Task II.2 table
-#'
+#' @param MS member state code as it is reported in the landing data
+#' @param GSA string value of the GSA code
 #' @return The function returns a list of missing combinations GSA/Fleet segment per year.
 #' @export
 #'
-#' @examples check_presence_taskII2(task_ii2,combination_taskII2)
+#' @examples check_presence_taskII2(task_ii2,combination_taskII2,MS="ITA",GSA="18")
 
-check_presence_taskII2 <- function(data1,data2){
+check_presence_taskII2 <- function(data1,data2,MS,GSA){
+    if(FALSE){
+        data1 <- task_ii2
+        data2 <- combination_taskII2
+    }
+
   #Declaration of variables and suppression of empty columns for dataframe1
   #str(data1)
   data1$Reference_Year=as.numeric(data1$Reference_Year)
@@ -21,24 +27,33 @@ check_presence_taskII2 <- function(data1,data2){
   data1$Discards=as.numeric(data1$Discards)
   data1$Catch=as.numeric(data1$Catch)
 
-
+  data1 <- data1[data1$CPC %in% MS & data1$GSA %in% GSA, ]
+  yrs <- unique(data1$Reference_Year)
 
   #Declaration of variables and suppression of empty columns for dataframe2
   data2$GSA=as.numeric(data2$GSA)
   data2$Fleet.segment=as.character(data2$Fleet.segment)
 
+  data2 <- data2[data2$CPC %in% MS & data2$GSA %in% GSA & data2$Reference.year %in% yrs, ]
   #Data visualization
   #str(data1)
   #str(data2)
 
+  if (nrow(data2)==0) {
+      message(paste0("No reference values for the following years: ", paste(yrs,collapse = ", "),"."))
+  } else {
+
+  if (nrow(level_fac_dat2)>0 & nrow(level_fac_dat1)>0){
+
+
   #creation of variable ID by concatenating GSA and Fleet.segment and year for data frame 1 and dataframe 2
   #creation of variable ID for data frame1
   data1$ID=paste(data1$GSA,"_",data1$Segment,"_",data1$Reference_Year)
-  data1$ID=as.factor(data1$ID)
+  # data1$ID=as.factor(data1$ID)
 
   #creation of variable ID for data frame2
   data2$ID=paste(data2$GSA,"_",data2$Fleet.segment,"_",data2$Reference.year)
-  data2$ID=as.factor(data2$ID)
+  # data2$ID=as.factor(data2$ID)
 
   #Creation of data frame mixing the information from the two dataframes
 
@@ -56,4 +71,8 @@ check_presence_taskII2 <- function(data1,data2){
   colnames(absent) <- c("GSA","fleet_segment","year")
 
   return(absent)
+
+  }
+  }
+
 }

@@ -4,14 +4,15 @@
 #' @param data GFCM Task VII.3.2 table
 #' @param species List of combination of species/faunistic category for Task VII.3.2 table
 #' @param matsex List of combination of sex/maturity stages for Task VII.3.2 table
-#'
+#' @param MS member state code as it is reported in the landing data
+#' @param GSA string value of the GSA code
 #' @return Two lists are returned by the function. The first output gives the list of mismatching combination of species/faunistic categories. The second output gives the list of mismatching combination of sex/maturity stages.
 #' @export
 #'
-#' @examples check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat)
+#' @examples check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18")
 
 
-check_species_catfau_TaskVII.3.2 <- function(data,species,matsex){
+check_species_catfau_TaskVII.3.2 <- function(data,species,matsex, MS, GSA){
 
 #Control 1 - Scientific name X CATFAU
 data$CATFAU_REV=substr(data$Maturity, 1, 3)

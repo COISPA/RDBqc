@@ -1,24 +1,31 @@
 #'  Comparison between min/max observed for each species with theoretical values
 #'
 #' @description Function to verify the consistency of the lengths reported in the TaskVII.2 table with the theoretical values reported in the minmaxLtaskVII2 table. The function allows to identify the records in which the observed lengths are greater or lower than the expected ones.
-#' @param data1 GFCM Task II.2 table
-#' @param data2 Theoretical values of min/max for each species
-#'
+#' @param data GFCM Task II.2 table
+#' @param tab_length Theoretical values of min/max length for each species
+#' @param MS member state code as it is reported in the landing data
+#' @param GSA string value of the GSA code
 #' @return The function returns a table with the comparison between min/max lengths observed for each species with theoretical values.
 #' @export
 #'
-#' @examples check_minmaxl_TaskVII.2(task_vii2,minmaxLtaskVII2)
+#' @examples check_minmaxl_TaskVII.2(task_vii2,minmaxLtaskVII2,MS="ITA",GSA="18")
 
 
 
 
 
-check_minmaxl_TaskVII.2 <- function(data1,data2){
+check_minmaxl_TaskVII.2 <- function(data,tab_length,MS,GSA){
+
+    data <- data[data$CPC %in% MS & data$GSA %in% GSA,]
+
+    if (nrow(data)==0) {
+        message("No data for the selected Country and GSA combination. ")
+    } else {
 
 #Creation of Pivot for calculation of min/max depending of species
-pivot_min=with(data1,tapply(Length,Species,min))
+pivot_min=with(data,tapply(Length,Species,min))
 # pivot_min #pivot min
-pivot_max=with(data1,tapply(Length,Species,max))
+pivot_max=with(data,tapply(Length,Species,max))
 # pivot_max #pivot max
 
 #Creation of the final data frame for observed values
@@ -31,8 +38,16 @@ Check_species_final$Species=as.character(names(pivot_min))
 # str(Check_species_final)
 ##
 #Creation of colum for merging and merging with fixed values
-data_merge=merge(Check_species_final, data2, by = "Species")
+data_merge=merge(Check_species_final, tab_length, by = "Species", all.x=TRUE)
 # str(data_merge)
+
+if (nrow(data_merge[is.na(data_merge$min.y),])>0 | nrow(data_merge[is.na(data_merge$max.y),])>0) {
+    sp <- as.character(unique(c(data_merge[is.na(data_merge$min.y),"Species"], data_merge[is.na(data_merge$max.y),"Species"])))
+    message(paste0('No reference range values for the following species: ', paste(sp, collapse=", "), ". NA values will be removed from the analysis"))
+    data_merge <- data_merge[!is.na(data_merge$min.y) & !is.na(data_merge$max.y),]
+}
+
+if (nrow(data_merge)>0){
 
 #Creation of final dataframe
 dataframe_check=data.frame(data_merge$Species,
@@ -64,6 +79,8 @@ for (i in 1:length(dataframe_check$max_observed))
 # write.table(dataframe_check, file="C:\\Users\\Loredana Casciaro\\Desktop\\controlli GFCM-FDI\\TEST SA\\checkminmax.csv", quote=TRUE,
 #             dec=".", row.names=FALSE, col.names=TRUE, sep =";")
 return(dataframe_check)
+}
+}
 }
 
 
