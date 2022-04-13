@@ -12,69 +12,458 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-RDBqc allows to carry out a set of quality checks on detailed sampling data and on aggregated landing data.
-The supported data formats in version 0.0.1 are:
-- RCG CS - biological sampling data
-- RCG CL - aggregated landing data.
-
-```{r setup}
 library(RDBqc)
 library(pander)
 library(data.table) 
 ```
+
+RDBqc allows to carry out a set of quality checks on detailed sampling data and on aggregated landing data.
+The supported data formats in version `r packageVersion("RDBqc")` are:
+
+* RCG CS - biological sampling data
+* RCG CL - aggregated landing data.
+* MEDBS format
+
+# Checks on RCG
+
 Example of Regional Coordination Group Mediterranean & Black Sea data formats:
-```{r input}
 
-head(data_ex)
-head(data_exampleCL)
+_CS table_
 
-```
-# Checks on CS
-## Check LFD 
-This function returns 0 if all the lengths collected are within the length range min_len-max_len; if some lengths are outside this range, the corresponding trips are indicated.
-```{r input0}
-check_LFD(data_ex,species="Mullus barbatus",min_len=6, max_len=250)
-```
-## Check LFD_comm_cat 
-This function reports for each year and commercial category the minimum and maximum lengths in the dataset.
 ```{r input1}
-check_LFD_comm_cat(data_ex)
+head(data_ex)
 ```
-## Check AL 
-This function reports for each year and length class the number of age measurements in the dataset. Moreover, the function detects if the age data are in the range min_age-max_age. 
-```{r input2}
-check_AL(data_ex,min_age=0,max_age=5)
-```
-## Check lw 
-This function plots for each year and sex the length-weight scatter plot, checking if the weight data are within the boundaries in input.
-```{r input3}
-check_lw(data_ex,species="Mullus barbatus",Min=0,Max=200)
-```
-## Check mat 
-This function plots for each year and sex the length-maturity stage scatter plot and the maturity ogive derived from the dataset by sex.
-```{r results='hide', message=FALSE, warning=FALSE,fig.height=3,fig.width=6}
-check_mat(data_ex)
-```
-## Summarize individual measurements
-This function reports for each trip the number of length sex, maturity, individual weight and age measurements. 
-```{r input5}
-summarize_ind_meas(data_ex)
-```
-## Summarize trips
-This function reports for each year, area, harbour, metier and sampling method the number of trips in the dataset. 
-```{r input6}
-summarize_trips(data_ex)
-```
-## Check trips location
-This function reports for each year, area, harbour, metier and sampling method the number of trips in the dataset. 
-```{r input7,fig.height=6,fig.width=6}
 
-check_loc(data_ex)
+_CL table_
+
+```{r input2}
+head(data_exampleCL)
 ```
-# Checks on CL
-This function  
-```{r input8}
-check_CL(data_exampleCL)
+
+## Checks on CS
+
+### check LFD
+
+This function returns an empty data frame if all the lengths collected are within the length range min_len-max_len; if some lengths are outside this range, the corresponding records are returned as a data frame.
+
+```{r RCG_check_LFD}
+RCG_check_LFD(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",min_len=6,max_len=250)[[1]]
 ```
+
+A plot of the frequency distribution is also returned:
+
+```{r RCG_check_LFD2}
+RCG_check_LFD(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",min_len=6,max_len=250)[[2]]
+```
+### check LFD by commercial categories
+This function reports for each year and commercial category the minimum and maximum lengths in the dataset.
+```{r RCG_check_LFD_comm_cat}
+RCG_check_LFD_comm_cat(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus")[[1]]
+```
+
+A plot of the length distributions by year and commercial category is also returned:
+
+```{r RCG_check_LFD_comm_cat2}
+RCG_check_LFD_comm_cat(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus")[[2]]
+```
+
+### Check AL 
+
+This function reports for each year and length class the number of age measurements in the dataset, providing a summary data frame. 
+```{r RCG_check_AL}
+results <- RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=5)[[1]]
+head(results)
+```
+
+Moreover, the function detects if the age data are in the range min_age-max_age, reporting the list of the trip codes including outliers. 
+
+```{r RCG_check_AL2}
+RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=5)[[2]]
+```
+
+A plot of the age/length relationship by sex and year is outputted for the selected species
+
+```{r RCG_check_AL3}
+RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=5)[[3]]
+```
+
+### Check lw 
+
+This function plots for each year and sex the length-weight scatter plot
+```{r RCG_check_lw2}
+RCG_check_lw(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",Min=0,Max=200)[[2]]
+```
+
+Furthermore, it checks if the weight data are within the boundaries in input, providing the data frame of the records with the outliers
+
+```{r RCG_check_lw1}
+RCG_check_lw(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",Min=0,Max=200)[[1]]
+```
+
+### check maturity stages 
+
+This function plots for each year and sex the length-maturity stage scatter plot
+
+```{r RCG_check_mat, results='hide', message=FALSE, warning=FALSE,fig.height=6,fig.width=9}
+RCG_check_mat(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
+```
+
+### check matutity ogive
+
+This function plots the maturity ogive by sex derived from the dataset:
+
+```{r RCG_check_mat_ogive}
+RCG_check_mat_ogive(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus", sex="F",immature_stages=c("0","1","2a"))
+```
+ 
+### Summarize individual measurements
+
+This function reports for each trip the number of length sex, maturity, individual weight and age measurements for a selected species. 
+
+```{r RCG_summarize_ind_meas}
+results <- RCG_summarize_ind_meas(data=data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
+head(results)
+```
+
+### Summarize trips
+
+This function reports for the selected species the number of trips in the dataset for each year, area, harbour, metier and sampling method. 
+
+```{r RCG_summarize_trips}
+results <- RCG_summarize_trips(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
+head(results)
+```
+
+### Check trips location
+
+The function allows to check the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data.
+
+```{r RCG_check_loc,fig.height=8,fig.width=10}
+RCG_check_loc(data_ex)
+```
+
+## Checks on CL
+
+This function allows to check the data in the CL table for the selected species. The output is a list of 6 data frames:
+
+1. Sum of Landings by year, quarter and month;
+
+```{r RCG_check_CL1}
+RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[1]]
+```
+
+2. Sum of Landing value by year, quarter and month;
+
+```{r RCG_check_CL2}
+RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[2]]
+```
+
+3. Sum of landings by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
+
+```{r RCG_check_CL3}
+RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[3]]
+```
+
+4. Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
+
+```{r RCG_check_CL4}
+RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[4]]
+```
+
+5. Sum of landings by Year, Species, foCatEu5, foCatEu6;
+
+```{r RCG_check_CL5}
+RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[5]]
+```
+
+6. Sum of landing value by Year, Species, foCatEu5, foCatEu6.
+
+```{r RCG_check_CL6}
+RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[6]]
+```
+
+7. Plot of the landings by year and foCatEu6
+
+```{r RCG_check_CL7}
+RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[7]]
+```
+
+# Checks on MEDBS format
+
+_catch table_
+
+```{r Catch_tab_example}
+head(Catch_tab_example)
+```
+
+_landings table_
+
+```{r Landing_tab_example}
+head(Landing_tab_example)
+```
+
+_discards table_
+
+```{r Discard_tab_example}
+head(Discard_tab_example)
+```
+
+## Checks on Catch table
+
+### Check catches coverage
+
+The function allows to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species. In particular:
+
+1. summary table of landings
+
+```{r MEDBS_Catch_coverage1}
+results <- suppressMessages(MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","9"))
+head(results[[1]])
+```
+
+2. summary table of discards
+
+```{r MEDBS_Catch_coverage2}
+head(results[[2]])
+```
+
+3. Plot of landing volumes in catch table
+
+```{r MEDBS_Catch_coverage3}
+results[[3]]
+```
+
+4. Plot of discard volumes in catch table
+
+```{r MEDBS_Catch_coverage4}
+results[[4]]
+```
+
+## Checks on discard and landing tables
+
+### check duplicated records
+
+The function checks the presence of duplicated rows in both landings 
+
+```{r MEDBS_check_duplicates_landings}
+Landing_tab_example <- rbind(Landing_tab_example,Landing_tab_example[1,])
+MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+```
+
+and discards data
+
+```{r MEDBS_check_duplicates_discards}
+Discard_tab_example <- rbind(Discard_tab_example,Discard_tab_example[1,])
+MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+```
+
+## Kolmogorov-Smirnov test
+
+The function allows to perform the Kolmogorov-Smirnov test on both landings and discards for a selected species. The function performs Kolmogorov-Smirnov tests on couples of years to assess if they belong to the same population, returning a summary data frame.
+
+```{r MEDBS_ks_landing1}
+ks <- MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
+results <- ks[[1]]
+head(results)
+```
+
+The function returns also the cumulative length distribution plots by fishery and year.
+
+```{r MEDBS_ks_landing2,fig.height=10,fig.width=10}
+plot(ks[[3]])
+```
+
+### Check consistency of length data
+
+The function allows to check the consistency of length data for a selected species on both landings and discards returning a summary table of the main length size indicators time series by fishery.
+
+```{r MEDBS_length_ind_tab}
+results <- MEDBS_length_ind(Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75))
+head(results[[1]])
+```
+
+A plot of the time series of mean length in discards and landings is returned.
+
+```{r MEDBS_length_ind_plot1}
+results[[2]]
+```
+
+A plot of the time series of median length in discards and landings is returned.
+
+```{r MEDBS_length_ind_plot2}
+results[[3]]
+```
+
+### Check of null individuals in landings and discards
+
+The function checks landings and discards for the presence of length class filled in having weigth > 0, returning a data frame with the rows with 0 values length class having weigth > 0.
+
+```{r MEDBS_lengthclass_0}
+results <- MEDBS_lengthclass_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+head(results)
+```
+
+### weight 0 in landings and discards
+
+The function checks landings or discards in weight equal to 0 having length classes filled in, returning the number of rows with 0 values in weights having length classes filled in.
+
+```{r MEDBS_weight_0}
+MEDBS_weight_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+```
+
+### weight -1 in landings and discards
+
+The function checks landings in weight equal to -1 having length class filled in, returning the number of rows with -1 values in landing weights having length class filled in.
+
+```{r MEDBS_weight_minus1}
+MEDBS_weight_minus1(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+```
+
+### Years with missing length distributions
+
+The function checks the presence of years with missing length distributions in both landings and discards for a selected species. A data frame of the missing length distributions is returned.
+
+```{r MEDBS_yr_missing_length}
+results <- MEDBS_yr_missing_length(data=Landing_tab_example,type="l",MS=c("ITA"),GSA=c("9"),SP="DPS")
+head(results)
+```
+
+## Checks on landings
+
+### Comparison between landings in weight by quarter accounting for vessel length
+
+The function allows to perform the comparison of landings of a selected species aggregated by quarters accounting for the presence of vessel length. A dataframe for the comparison of landings aggregated by quarters accounting for the presence of vessel length information is returned.
+
+```{r MEDBS_comp_land_Q_VL}
+results <- suppressMessages(MEDBS_comp_land_Q_VL(land = Landing_tab_example, 
+           MS = "ITA", GSA = 9, SP = "DPS"))
+head(results)
+```
+
+### Comparison between landings in weight by quarter and fishery accounting for vessel length
+
+The function allows to perform the comparison of landings of a selected species aggregated by quarters and fishery accounting for the presence of vessel length. 
+The function returns a data frame for the comparison of landings aggregated by quarters and fishery accounting for the presence of vessel length information.
+
+```{r MEDBS_comp_land_Q_VL_fishery}
+results <- suppressMessages(MEDBS_comp_land_Q_VL_fishery(land = Landing_tab_example, 
+        MS = "ITA", GSA = 9, SP = "DPS"))
+head(results)
+```
+
+### Comparison between landings in weight by quarter and -1
+
+The function allows to perform the comparison of landings of a selected species aggregated by quarters and by year.
+The function returns a data frame  for the comparison of landings aggregated by quarters and by year.
+
+```{r MEDBS_comp_land_YQ}
+MEDBS_comp_land_YQ(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+```
+
+### Comparison between landings in weight by quarter, quarter -1 and by fishery
+
+The function allows to perform the comparison of landings of a selected species aggregated by quarters and by year and fishery.
+The function returns a data frame  for the comparison of landings aggregated by quarters and by year and fishery.
+
+```{r MEDBS_comp_land_YQ_fishery}
+results <- suppressMessages(MEDBS_comp_land_YQ_fishery(land = Landing_tab_example, MS = "ITA", GSA = 9, SP = "DPS"))
+head(results)
+```
+
+### Check mean weight by year,gear and fishery aggregation
+
+The function allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery.
+A summary data frame is returned.
+
+```{r MEDBS_land_mean_weight}
+results <- MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")[[1]]
+head(results)
+```
+
+The function returns a plot of the mean landing weight by year, gear and fishery aggregation as well.
+
+```{r MEDBS_land_mean_weight2}
+MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")[[2]]
+```
+
+### Plot of total landing by gear and fishery
+
+The function allows to visual check the time series of landing volumes by fishery of a selected species. The function returns a plot of the total landing time series by fishery and gear.
+
+```{r MEDBS_plot_land_vol}
+MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+```
+
+### Plot of total landing
+
+The function estimates the total landings time series by both year and quarters for a selected combination of member state, GSA and species. The function returns a plot of the total landing time series by year or by quarters. The plot by year also reports the landing by gear.
+
+```{r MEDBS_plot_landing_ts}
+suppressMessages(MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter"))
+```
+
+### check the coverage in Landing table
+
+The function `MEDBS_Landing_coverage` allows to check the coverage in landing table providing a summary table
+
+```{r MEDBS_Landing_coverage}
+results <- suppressMessages(MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","9"))
+head(results[[1]])
+```
+
+a plot of the landing coverage is also provided.
+
+```{r MEDBS_Landing_coverage2}
+results[[2]]
+```
+
+## Checks on discards
+
+### check the coverage in discard table
+
+The function `MEDBS_discard_coverage` allows to check the coverage of the time series in discard table for a selected species. The function returns a summary table.
+
+```{r}
+results <- suppressMessages(MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9"))
+head(results[[1]])
+```
+
+A plots of discard time series by year and gear is also provided.
+
+```{r}
+results[[2]]
+```
+
+### Comparison between discards in weight by quarter and -1
+
+The function `MEDBS_comp_disc_YQ` allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level. The function returns a data frame  for the comparison of discards aggregated by quarters and by year
+
+```{r}
+MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+```
+
+### Comparison between discards in weight by quarter, quarter -1 and by fishery
+
+The function `MEDBS_comp_disc_YQ_fishery` allow to estimates the discards in weight for a selected species by quarter and fishery. The function returns a data frame  for the comparison of discards aggregated by quarters and by year and fishery
+
+```{r MEDBS_comp_disc_YQ_fishery}
+results <- MEDBS_comp_disc_YQ_fishery(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+head(results)
+```
+
+### Check mean weight by year,gear and fishery aggregation in discard
+
+
+
+
+
+
+
+
+
+
+
+
+
+

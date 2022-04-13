@@ -33,11 +33,11 @@ MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1,verbose=TRUE) {
         type="l"
         # out = "mean" # "mean"
         MS <- c("ITA")
-        GSA <- c(18)
-        SP <- "HKE"
+        GSA <- c(9)
+        SP <- "DPS"
         Rt <- 1
         # tic()
-        Landing_tab_example <- as.data.table(Landing_tab_example)
+         data <- Landing_tab_example <- as.data.table(Landing_tab_example)
 
         MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA=9, SP="DPS",Rt=1)
 
@@ -62,7 +62,7 @@ MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1,verbose=TRUE) {
 
   if (nrow(land)== 0) {
       if (verbose){
-          message(paste0("No landing data available for the selected species (",SP,")") )
+          message(paste0("No landing data available for the selected species (",SP,")")          )
       }
   } else {
 
@@ -199,12 +199,11 @@ MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1,verbose=TRUE) {
         nsq <- round(sqrt(n),0)
         nCol <- floor(sqrt(n))
         cols <- max(nsq,nCol)
-        do.call("grid.arrange", c(plots, ncol=cols))
-
+        plots <- do.call(grid.arrange, c(plots, ncol=cols))
         KS_final_landings <- do.call(rbind,tmpdb)
         KS_noTest_landings <- do.call(rbind,tmpdb1)
 
-        results <- list(KS_final_landings,KS_noTest_landings)
+        results <- list(KS_final_landings,KS_noTest_landings,plots)
         return(results)
 
   } # nrow(land) > 0
@@ -371,12 +370,12 @@ MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1,verbose=TRUE) {
             nsq <- round(sqrt(n),0)
             nCol <- floor(sqrt(n))
             cols <- max(nsq,nCol)
-            do.call("grid.arrange", c(plots, ncol=cols))
+            plots <- do.call("grid.arrange", c(plots, ncol=cols))
 
             KS_final_discards <- do.call(rbind,tmpdb)
             KS_noTest_discards <- do.call(rbind,tmpdb1)
 
-            results <- list(KS_final_discards,KS_noTest_discards)
+            results <- list(KS_final_discards,KS_noTest_discards,plots)
             return(results)
 
         } else {

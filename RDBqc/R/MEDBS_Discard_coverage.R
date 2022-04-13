@@ -64,7 +64,6 @@ MEDBS_discard_coverage<-function(Discard_tab,SP,MS,GSA,verbose=TRUE){
         geom_area(size=0.5, colour="black")+theme_bw()+
         ggtitle(paste0("Discards of ",SP, " in ", MS,"_GSA",GSA))+xlab("")+ylab("tonnes")+theme(legend.position = "bottom")+
         scale_x_continuous(breaks=seq(min(data$year),max(data$year),2))
-    print(p)
 
     l <- length(output)+1
     output[[l]] <- p

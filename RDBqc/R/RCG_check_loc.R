@@ -2,7 +2,7 @@
 #' Check trip location
 #' @param data detailed data in RCG CS format
 #' @param ports ports codification file
-#' @description The function allows to check the spatial distribution of data using the initial and final coordinates, where available, and the ports position in cluded in the data.
+#' @description The function allows to check the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data.
 #' @return map of trip locations
 #' @export RCG_check_loc
 #' @examples RCG_check_loc(data_ex)

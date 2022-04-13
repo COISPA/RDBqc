@@ -5,7 +5,7 @@
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
 #' @param verbose boolean value to obtain further explanation messages from the function
-#' @description The function allows to check the function to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
+#' @description The function allows to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
 #' @return summary table and plots
 #' @export
 #' @examples MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","9")

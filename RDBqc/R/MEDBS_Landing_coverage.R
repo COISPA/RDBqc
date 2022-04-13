@@ -5,7 +5,8 @@
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
 #' @param verbose boolean value to obtain further explanation messages from the function
-#' @return summary table and plots
+#' @description the function allows to check the coverage in landing table providing a summary table and a plot of landing
+#' @return a list containing a summary table and coverage plot is provided
 #' @export
 
 #' @examples MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","9")

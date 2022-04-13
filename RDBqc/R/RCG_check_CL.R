@@ -71,7 +71,7 @@ colnames(spe_cov_L)=c("Year","Species","foCatEu5","foCatEu6", "Sum_Landings")
 spe_cov_LV=aggregate(data$landValue,by=list(data$year,data$taxon, data$foCatEu5, data$foCatEu6),FUN="sum")
 colnames(spe_cov_LV)=c("Year","Species","foCatEu5","foCatEu6", "Sum_LandingsValue")
 
-Checks_CL=list(temp_covL,temp_covLV,spat_covL,spat_covLV,spe_cov_L,spe_cov_LV)
+# Checks_CL=list()
 
 p <- ggplot(data=spe_cov_L, aes(x=Year,y= Sum_Landings, color=foCatEu6)) +
     geom_line(stat="identity") +
@@ -82,6 +82,12 @@ p <- ggplot(data=spe_cov_L, aes(x=Year,y= Sum_Landings, color=foCatEu6)) +
 # print(p)
 
 
-return(list(Checks_CL,p))
+return(list(temp_covL,
+            temp_covLV,
+            spat_covL,
+            spat_covLV,
+            spe_cov_L,
+            spe_cov_LV,
+            p))
 }
 }

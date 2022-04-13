@@ -4,7 +4,7 @@
 \alias{check_species_catfau_TaskVII.3.2}
 \title{Check mismatching species/Catfau and Sex per maturity stages for Task VII.3.2 table}
 \usage{
-check_species_catfau_TaskVII.3.2(data, species, matsex)
+check_species_catfau_TaskVII.3.2(data, species, matsex, MS, GSA)
 }
 \arguments{
 \item{data}{GFCM Task VII.3.2 table}
@@ -12,6 +12,10 @@ check_species_catfau_TaskVII.3.2(data, species, matsex)
 \item{species}{List of combination of species/faunistic category for Task VII.3.2 table}
 
 \item{matsex}{List of combination of sex/maturity stages for Task VII.3.2 table}
+
+\item{MS}{member state code as it is reported in the landing data}
+
+\item{GSA}{string value of the GSA code}
 }
 \value{
 Two lists are returned by the function. The first output gives the list of mismatching combination of species/faunistic categories. The second output gives the list of mismatching combination of sex/maturity stages.
@@ -20,5 +24,5 @@ Two lists are returned by the function. The first output gives the list of misma
 Function to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table.
 }
 \examples{
-check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat)
+check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18")
 }
