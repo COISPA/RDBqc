@@ -18,7 +18,7 @@ MEDBS_comp_land_YQ_fishery(land, MS, GSA, SP, verbose = TRUE)
 \item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
-The function returns a dataframe  for the comparison of landings aggregated by quarters and by year and fishery
+The function returns a data frame  for the comparison of landings aggregated by quarters and by year and fishery
 }
 \description{
 The function allows to perform the comparison of landings of a selected species aggregated by quarters and by year and fishery

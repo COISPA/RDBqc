@@ -1,4 +1,4 @@
-#' LW params in GP_tab in table check#'
+#' LW params in GP_tab in table check
 #' @param GP_tab growth params table in MED&BS datacall format
 #' @param SP species (three alpha code)
 #' @param MS Country
@@ -75,7 +75,7 @@ p <- ggplot(LW_final,aes(x=LENGTH,y=WEIGHT,col=SEX))+
     scale_x_continuous(breaks=steps)+
     expand_limits(x = 0, y = 0)
 
-print(p)
+# print(p)
 
 l <- length(plots)+1
 plots[[l]] <- p
@@ -95,7 +95,7 @@ for (i in unique(LW_final$SEX)){
         expand_limits(x = 0, y = 0)+
         theme(legend.text = element_text(color = "blue", size = 6))+
         guides(col=guide_legend(title=paste(SP,GSA,MS)))
-    print(p)
+    # print(p)
 
     l <- length(plots)+1
     plots[[l]] <- p
@@ -114,7 +114,7 @@ for (i in unique(LW_final$SEX)){
         expand_limits(x = 0, y = 0)+
         theme(legend.text = element_text(color = "blue", size = 6))+
         guides(col=guide_legend(title=paste(SP,GSA,MS)))
-    print(p)
+    # print(p)
 
     l <- length(plots)+1
     plots[[l]] <- p

@@ -2,7 +2,7 @@
 % Please edit documentation in R/MEDBS_LW_check.R
 \name{MEDBS_LW_check}
 \alias{MEDBS_LW_check}
-\title{LW params in GP_tab in table check#'}
+\title{LW params in GP_tab in table check}
 \usage{
 MEDBS_LW_check(GP_tab, SP, MS, GSA, verbose = TRUE)
 }

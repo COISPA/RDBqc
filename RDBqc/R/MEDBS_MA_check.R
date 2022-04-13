@@ -63,7 +63,7 @@ names(output)[[l]] <- "summary table"
         ggtitle(SP) +
         xlab("Age class") +
         ylab("PRM")
-    print(p)
+    # print(p)
     l <- length(output)+1
     output[[l]] <- p
     names(output)[[l]] <- paste("MA",SP,MS,GSA,sep=" _ ")
@@ -82,7 +82,7 @@ names(output)[[l]] <- "summary table"
             ggtitle(paste(SP,i,sep=" - ")) +
             xlab("Age class") +
             ylab("PRM")
-        print(p)
+        # print(p)
         l <- length(output)+1
         output[[l]] <- p
         names(output)[[l]] <- paste("MA_sex",SP,MS,GSA,i,sep=" _ ")

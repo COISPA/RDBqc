@@ -424,14 +424,14 @@ results[[2]]
 
 The function `MEDBS_discard_coverage` allows to check the coverage of the time series in discard table for a selected species. The function returns a summary table.
 
-```{r}
+```{r MEDBS_discard_coverage1}
 results <- suppressMessages(MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9"))
 head(results[[1]])
 ```
 
 A plots of discard time series by year and gear is also provided.
 
-```{r}
+```{r MEDBS_discard_coverage2}
 results[[2]]
 ```
 
@@ -439,7 +439,7 @@ results[[2]]
 
 The function `MEDBS_comp_disc_YQ` allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level. The function returns a data frame  for the comparison of discards aggregated by quarters and by year
 
-```{r}
+```{r MEDBS_comp_disc_YQ}
 MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 ```
 
@@ -454,7 +454,136 @@ head(results)
 
 ### Check mean weight by year,gear and fishery aggregation in discard
 
+The function `MEDBS_disc_mean_weight` allows to check consistency of mean discard weight of a selected species providing a table of the mean individual weight by year, gear and fishery. 
 
+```{r MEDBS_disc_mean_weight1}
+results <- MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+head(results[[1]])
+```
+
+The function also returns a plot of the mean discards weight by year, gear and fishery aggregation.
+
+```{r MEDBS_disc_mean_weight2,fig.height=8,fig.width=10}
+results[[2]]
+```
+
+### Plot of total discards by gear and fishery
+
+The function `MEDBS_plot_disc_vol` allows to visual check the time series of discard volumes by fishery of a selected species. The function returns a plot of the total discards time series by fishery and gear.
+
+```{r MEDBS_plot_disc_vol,fig.height=6,fig.width=8}
+MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+```
+
+### Plot of total discards time series
+
+The function estimates the total discard time series by both year and quarters for a selected combination of member state, GSA and species. The function returns a plot of the total discard time series by year or by quarters. The parameter `by="year"` also reports the landing by gear.
+
+```{r MEDBS_plot_discard_ts}
+MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+```
+
+## Other checks
+
+### GP_tab (growth params) table check
+
+The function `GP_check` allows to check the growth parameters by sex and year for a selected species.  The function returns a list of objects containing a summary table and different plots of the growth curves by sex
+
+```{r GP_check1}
+results <- GP_check(GP_tab_example,"MUT","ITA","18")
+results[[1]]
+print(names(results)[1])
+```
+
+```{r GP_check2}
+print(names(results)[2])
+results[[2]]
+```
+
+```{r GP_check3}
+print(names(results)[3])
+results[[3]]
+```
+
+```{r GP_check4}
+print(names(results)[4])
+results[[4]]
+```
+
+```{r GP_check}
+print(names(results)[5])
+results[[5]]
+```
+
+```{r GP_check6}
+print(names(results)[6])
+results[[6]]
+```
+
+```{r GP_check7}
+print(names(results)[7])
+results[[7]]
+```
+
+```{r GP_check8}
+print(names(results)[8])
+results[[8]]
+```
+
+### LW params in GP_tab in table check
+
+The function allows to check the length-weight parameters included in the GP table for a selected species. The function returns a summary table.
+
+```{r MEDBS_LW_check1}
+results <- MEDBS_LW_check(GP_tab_example,"MUT","ITA","18")
+results[[1]]
+```
+
+
+
+plots of the length-weigth relationships for the selected species by year and sex are also returned.
+
+```{r MEDBS_LW_check2}
+results[[2]]
+results[[3]]
+results[[4]]
+results[[5]]
+results[[6]]
+results[[7]]
+results[[8]]
+```
+
+### MA_tab (maturity at age) table check
+
+The function `MEDBS_MA_check` allows to check the maturity at age (MA) table providing a summary table of the data coverage.
+
+```{r MEDBS_MA_check1}
+results <- MEDBS_MA_check(MA_tab_example,"DPS","ITA","9")
+results[[1]]
+```
+
+The function also provides plots for the selected species of the proportion of matures for age class by sex and year.
+
+```{r MEDBS_MA_check2}
+results[[2]]
+results[[3]]
+```
+
+### ML_tab (maturity at length) table check
+
+The function allows to check the maturity at length (ML) table providing a summary table of the data coverage for the selected species of the proportion of matures for age class by sex and year.
+
+```{r}
+results <- MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "9")
+results[[1]]
+```
+
+Plots for the selected species of the proportion of matures for age class by sex and year are also returned.
+
+```{r}
+results[[2]]
+results[[3]]
+```
 
 
 

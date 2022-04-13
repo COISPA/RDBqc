@@ -18,10 +18,10 @@ MEDBS_Landing_coverage(Landing_tab, SP, MS, GSA, verbose = TRUE)
 \item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
-summary table and plots
+a list containing a summary table and coverage plot is provided
 }
 \description{
-Landing_cov: function to check the coverage in Landing table
+the function allows to check the coverage in landing table providing a summary table and a plot of landing
 }
 \examples{
 MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","9")

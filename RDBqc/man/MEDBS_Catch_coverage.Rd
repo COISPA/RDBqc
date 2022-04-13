@@ -21,7 +21,7 @@ MEDBS_Catch_coverage(catch, SP, MS, GSA, verbose = TRUE)
 summary table and plots
 }
 \description{
-The function allows to check the function to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
+The function allows to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
 }
 \examples{
 MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","9")

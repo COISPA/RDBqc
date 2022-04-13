@@ -1647,3 +1647,295 @@ results[[2]]
 ```
 
 ![](README_files/figure-gfm/MEDBS_Landing_coverage2-1.png)<!-- -->
+
+## Checks on discards
+
+### check the coverage in discard table
+
+The function `MEDBS_discard_coverage` allows to check the coverage of
+the time series in discard table for a selected species. The function
+returns a summary table.
+
+``` r
+results <- suppressMessages(MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9"))
+head(results[[1]])
+#>   country year quarter vessel_length gear mesh_size_range fishery area species
+#> 1     ITA 2009      -1            -1  OTB          50D100   DEMSP    9     DPS
+#> 2     ITA 2010      -1            -1  OTB          50D100   DEMSP    9     DPS
+#> 3     ITA 2011      -1            -1  OTB          50D100   DEMSP    9     DPS
+#> 4     ITA 2012      -1            -1  OTB          50D100   DEMSP    9     DPS
+#> 5     ITA 2013      -1            -1  OTB          50D100   DEMSP    9     DPS
+#> 6     ITA 2014      -1            -1  OTB          50D100   DEMSP    9     DPS
+#>    discards
+#> 1 76.710840
+#> 2 24.396528
+#> 3 60.519315
+#> 4  6.571266
+#> 5 26.761695
+#> 6 44.978926
+```
+
+A plots of discard time series by year and gear is also provided.
+
+``` r
+results[[2]]
+```
+
+![](README_files/figure-gfm/MEDBS_discard_coverage2-1.png)<!-- -->
+
+### Comparison between discards in weight by quarter and -1
+
+The function `MEDBS_comp_disc_YQ` allows to compare the discards weights
+aggregated by quarter and by year for a selected species at the gear
+level. The function returns a data frame for the comparison of discards
+aggregated by quarters and by year
+
+``` r
+MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+#>   year gear    tot_q    tot_yr ratio
+#> 1 2009  OTB       NA 76.710840    NA
+#> 2 2010  OTB       NA 27.100131    NA
+#> 3 2011  OTB       NA 63.262841    NA
+#> 4 2012  OTB       NA  7.568045    NA
+#> 5 2013  OTB       NA 30.040906    NA
+#> 6 2014  OTB       NA 44.978926    NA
+#> 7 2015  OTB       NA 89.320018    NA
+#> 8 2016  OTB 34.93873        NA    NA
+#> 9 2017  OTB 41.46659        NA    NA
+```
+
+### Comparison between discards in weight by quarter, quarter -1 and by fishery
+
+The function `MEDBS_comp_disc_YQ_fishery` allow to estimates the
+discards in weight for a selected species by quarter and fishery. The
+function returns a data frame for the comparison of discards aggregated
+by quarters and by year and fishery
+
+``` r
+results <- MEDBS_comp_disc_YQ_fishery(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+head(results)
+#>   year gear fishery tot_q    tot_yr ratio
+#> 1 2009  OTB   DEMSP    NA 76.710840    NA
+#> 2 2010  OTB   DEMSP    NA 24.396528    NA
+#> 3 2010  OTB  MDDWSP    NA  2.703603    NA
+#> 4 2011  OTB   DEMSP    NA 60.519315    NA
+#> 5 2011  OTB  MDDWSP    NA  2.743526    NA
+#> 6 2012  OTB   DEMSP    NA  6.571266    NA
+```
+
+### Check mean weight by year,gear and fishery aggregation in discard
+
+The function `MEDBS_disc_mean_weight` allows to check consistency of
+mean discard weight of a selected species providing a table of the mean
+individual weight by year, gear and fishery.
+
+``` r
+results <- MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+head(results[[1]])
+#>   year quarter vessel_length gear mesh_size_range fishery     totW       totN
+#> 1 2009      -1            -1  OTB          50D100   DEMSP 76710840 22633620.8
+#> 2 2010      -1            -1  OTB          50D100   DEMSP 24396528  6011330.6
+#> 3 2010      -1            -1  OTB          50D100  MDDWSP  2703603   345221.9
+#> 4 2011      -1            -1  OTB          50D100   DEMSP 60519315 29133415.7
+#> 5 2011      -1            -1  OTB          50D100  MDDWSP  2743526   744126.7
+#> 6 2012      -1            -1  OTB          50D100   DEMSP  6571266   998156.0
+#>         MW
+#> 1 3.389243
+#> 2 4.058424
+#> 3 7.831493
+#> 4 2.077316
+#> 5 3.686907
+#> 6 6.583406
+```
+
+The function also returns a plot of the mean discards weight by year,
+gear and fishery aggregation.
+
+``` r
+results[[2]]
+#> geom_path: Each group consists of only one observation. Do you need to adjust
+#> the group aesthetic?
+#> geom_path: Each group consists of only one observation. Do you need to adjust
+#> the group aesthetic?
+```
+
+![](README_files/figure-gfm/MEDBS_disc_mean_weight2-1.png)<!-- -->
+
+### Plot of total discards by gear and fishery
+
+The function `MEDBS_plot_disc_vol` allows to visual check the time
+series of discard volumes by fishery of a selected species. The function
+returns a plot of the total discards time series by fishery and gear.
+
+``` r
+MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+```
+
+![](README_files/figure-gfm/MEDBS_plot_disc_vol-1.png)<!-- -->
+
+### Plot of total discards time series
+
+The function estimates the total discard time series by both year and
+quarters for a selected combination of member state, GSA and species.
+The function returns a plot of the total discard time series by year or
+by quarters. The parameter `by="year"` also reports the landing by gear.
+
+``` r
+MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+```
+
+![](README_files/figure-gfm/MEDBS_plot_discard_ts-1.png)<!-- -->
+
+## Other checks
+
+### GP_tab (growth params) table check
+
+The function `GP_check` allows to check the growth parameters by sex and
+year for a selected species. The function returns a list of objects
+containing a summary table and different plots of the growth curves by
+sex
+
+``` r
+results <- GP_check(GP_tab_example,"MUT","ITA","18")
+results[[1]]
+#>    COUNTRY YEAR START_YEAR END_YEAR SPECIES SEX
+#> 1      ITA   18       2014     2014     MUT   C
+#> 2      ITA   18       2015     2015     MUT   C
+#> 3      ITA   18       2016     2016     MUT   C
+#> 4      ITA   18       2017     2017     MUT   C
+#> 5      ITA   18       2014     2014     MUT   F
+#> 6      ITA   18       2015     2015     MUT   F
+#> 7      ITA   18       2016     2016     MUT   F
+#> 8      ITA   18       2017     2017     MUT   F
+#> 9      ITA   18       2014     2014     MUT   M
+#> 10     ITA   18       2015     2015     MUT   M
+#> 11     ITA   18       2016     2016     MUT   M
+#> 12     ITA   18       2017     2017     MUT   M
+print(names(results)[1])
+#> [1] "summary table"
+```
+
+``` r
+print(names(results)[2])
+#> [1] "VBGF _ MUT _ ITA _ 18"
+results[[2]]
+```
+
+![](README_files/figure-gfm/GP_check2-1.png)<!-- -->
+
+``` r
+print(names(results)[3])
+#> [1] "VBGF_year _ MUT _ ITA _ 18 _ F"
+results[[3]]
+```
+
+![](README_files/figure-gfm/GP_check3-1.png)<!-- -->
+
+``` r
+print(names(results)[4])
+#> [1] "VBGF_year _ MUT _ ITA _ 18 _ M"
+results[[4]]
+```
+
+![](README_files/figure-gfm/GP_check4-1.png)<!-- -->
+
+``` r
+print(names(results)[5])
+#> [1] "VBGF_year _ MUT _ ITA _ 18 _ C"
+results[[5]]
+```
+
+![](README_files/figure-gfm/GP_check-1.png)<!-- -->
+
+``` r
+print(names(results)[6])
+#> [1] "VBGF_cum _ MUT _ ITA _ 18 _ F"
+results[[6]]
+```
+
+![](README_files/figure-gfm/GP_check6-1.png)<!-- -->
+
+``` r
+print(names(results)[7])
+#> [1] "VBGF_cum _ MUT _ ITA _ 18 _ M"
+results[[7]]
+```
+
+![](README_files/figure-gfm/GP_check7-1.png)<!-- -->
+
+``` r
+print(names(results)[8])
+#> [1] "VBGF_cum _ MUT _ ITA _ 18 _ C"
+results[[8]]
+```
+
+![](README_files/figure-gfm/GP_check8-1.png)<!-- -->
+
+### LW params in GP_tab in table check
+
+The function allows to check the length-weight parameters included in
+the GP table for a selected species. The function returns a summary
+table.
+
+``` r
+results <- MEDBS_LW_check(GP_tab_example,"MUT","ITA","18")
+results[[1]]
+#>    COUNTRY YEAR START_YEAR END_YEAR SPECIES SEX NA
+#> 1      ITA   18       2014     2014     MUT   C  1
+#> 2      ITA   18       2015     2015     MUT   C  1
+#> 3      ITA   18       2016     2016     MUT   C  1
+#> 4      ITA   18       2017     2017     MUT   C  1
+#> 5      ITA   18       2014     2014     MUT   F  1
+#> 6      ITA   18       2015     2015     MUT   F  1
+#> 7      ITA   18       2016     2016     MUT   F  1
+#> 8      ITA   18       2017     2017     MUT   F  1
+#> 9      ITA   18       2014     2014     MUT   M  1
+#> 10     ITA   18       2015     2015     MUT   M  1
+#> 11     ITA   18       2016     2016     MUT   M  1
+#> 12     ITA   18       2017     2017     MUT   M  1
+```
+
+plots of the length-weigth relationships for the selected species by
+year and sex are also returned.
+
+``` r
+results[[2]]
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+results[[3]]
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+
+``` r
+results[[4]]
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
+
+``` r
+results[[5]]
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-4.png)<!-- -->
+
+``` r
+results[[6]]
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-5.png)<!-- -->
+
+``` r
+results[[7]]
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-6.png)<!-- -->
+
+``` r
+results[[8]]
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-7.png)<!-- -->
