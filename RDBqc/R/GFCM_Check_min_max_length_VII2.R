@@ -3,8 +3,8 @@
 #' @description Function to verify the consistency of the lengths reported in the TaskVII.2 table with the theoretical values reported in the minmaxLtaskVII2 table. The function allows to identify the records in which the observed lengths are greater or lower than the expected ones.
 #' @param data GFCM Task II.2 table
 #' @param tab_length Theoretical values of min/max length for each species
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @return The function returns a table with the comparison between min/max lengths observed for each species with theoretical values.
 #' @export
 #'

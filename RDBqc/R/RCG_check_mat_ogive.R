@@ -1,8 +1,8 @@
 #' Maturity ogives by sex
 #'
 #' @param data table of detailed data in RCG format
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP reference species for the analysis
 #' @param sex defines the sex of the individuals selected for the analysis ('F' for females, 'M' for males)
 #' @param immature_stages maturity stages considered immature

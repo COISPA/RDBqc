@@ -2,8 +2,8 @@
 #'
 #' @param data data frame of landings or discards data
 #' @param type type of data frame. "l" for landing and "d" for discard
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param splines spline values assignment to fit cumulative distributions
 #' @param Xtresholds threshold value

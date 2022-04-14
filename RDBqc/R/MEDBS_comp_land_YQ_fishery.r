@@ -1,8 +1,8 @@
 #' Comparison between landings in weight by quarter, quarter -1 and by fishery
 #'
 #' @param land data frame containing landing data
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @description The function allows to perform the comparison of landings of a selected species aggregated by quarters and by year and fishery

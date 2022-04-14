@@ -2,7 +2,7 @@
 #'
 #' @param disc data frame containing discard data
 #' @param MS member state code as it is reported in the discard data
-#' @param GSA string value of the GSA code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param by string defining the temporal aggregation level of discard data to be plotted. Allowed values are: "year" and "quarter
 #' @description The function estimates the total discard time series by both year and quarters for a selected combination of member state, GSA and species.

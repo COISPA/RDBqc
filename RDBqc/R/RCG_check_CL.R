@@ -2,8 +2,8 @@
 #' Quality checks on CL RCG table
 #'
 #' @param data Landing table in RCG CL format
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP reference species for the analysis
 #' @param verbose boolean. If it is TRUE messages are reported with the outputs
 #' @description The output is a list of 6 data frames:

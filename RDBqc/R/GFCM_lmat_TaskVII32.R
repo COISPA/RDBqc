@@ -2,7 +2,9 @@
 #'
 #' @description Function to plot the lengths at maturity stages by species and sex to easily identify outliers.
 #' @param data GFCM Task VII.3.2 table
-#'
+#' @param MS member state code
+#' @param GSA GSA code
+#' @param SP species reference code in the three alpha code format
 #' @return The function return a plot of the maturity stages per length and sex per species.
 #' @export
 #' @import ggplot2
@@ -10,7 +12,7 @@
 #' @examples check_lmat_TaskVII.3.2(task_vii32)
 
 
-check_lmat_TaskVII.3.2 <- function(data){
+check_lmat_TaskVII.3.2 <- function(data, MS, GSA, SP){
 
     FAU_stage <- Length <- Sex <- NULL
 

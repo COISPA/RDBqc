@@ -3,8 +3,8 @@
 #' summarizing the number of trips/hauls monitored by year by port, metier, sampling method;
 #'
 #' @param data RCG CS table
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @return Number of trips by area, year, port, metier and sampling method

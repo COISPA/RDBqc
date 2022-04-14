@@ -9,9 +9,9 @@ RCG_check_LFD(data, MS, GSA, SP, min_len = 1, max_len = 1000, verbose = TRUE)
 \arguments{
 \item{data}{RCG CS table}
 
-\item{MS}{member state code as it is reported in the landing data}
+\item{MS}{member state code}
 
-\item{GSA}{string value of the GSA code}
+\item{GSA}{GSA code}
 
 \item{SP}{reference species for the analysis}
 

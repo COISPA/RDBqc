@@ -1,8 +1,8 @@
 #' Mean weight by year,gear and fishery aggregation
 #'
 #' @param land data frame containing landing data
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @description The function allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery

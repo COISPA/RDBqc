@@ -4,8 +4,8 @@
 #' @param data RCG CS table
 #' @param SP reference species for the analysis
 #' @param verbose boolean. If it is TRUE messages are reported with the outputs
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @description The function allows to check the consistency of LFDs (length frequency distributions) by year and commercial size cetegory on a given species generating a multi-frame plot. The function also returns a data frame with the length range by year and commercial size category.
 #' @return plot and a summary table with ranges by year and commercial category
 #' @export

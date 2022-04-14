@@ -11,9 +11,9 @@ check_minmaxl_TaskVII.2(data, tab_length, MS, GSA)
 
 \item{tab_length}{Theoretical values of min/max length for each species}
 
-\item{MS}{member state code as it is reported in the landing data}
+\item{MS}{member state code}
 
-\item{GSA}{string value of the GSA code}
+\item{GSA}{GSA code}
 }
 \value{
 The function returns a table with the comparison between min/max lengths observed for each species with theoretical values.

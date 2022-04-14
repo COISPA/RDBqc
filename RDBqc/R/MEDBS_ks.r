@@ -2,8 +2,8 @@
 #'
 #' @param data data frame of landings or discards data
 #' @param type type of data frame. "l" for landing and "d" for discard
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param Rt ratio to be applied to subsample data to reduce the risk of rejection of H0 Hypothesis
 #' @param verbose boolean value to obtain further explanation messages from the function

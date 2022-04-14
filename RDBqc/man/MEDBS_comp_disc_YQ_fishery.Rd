@@ -11,7 +11,7 @@ MEDBS_comp_disc_YQ_fishery(disc, MS, GSA, SP, verbose = TRUE)
 
 \item{MS}{member state code as it is reported in the discards data}
 
-\item{GSA}{string value of the GSA code}
+\item{GSA}{GSA code}
 
 \item{SP}{species reference code in the three alpha code format}
 

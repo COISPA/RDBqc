@@ -1,8 +1,8 @@
 #' Check consistency sex and maturity stage
 #'
 #' @param data table of detailed data in RCG format
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP reference species for the analysis
 #' @param verbose boolean. If it is TRUE messages are reported with the outputs
 #' @description The function allows to perform a visual check of the maturity stage composition by length class, sex and year.

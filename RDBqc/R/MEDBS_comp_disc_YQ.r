@@ -2,7 +2,7 @@
 #'
 #' @param disc data frame containing discards data
 #' @param MS member state code as it is reported in the discards data
-#' @param GSA string value of the GSA code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @description The function allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level.
 #' @return The function returns a data frame  for the comparison of discards aggregated by quarters and by year

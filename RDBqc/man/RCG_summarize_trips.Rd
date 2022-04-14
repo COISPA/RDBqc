@@ -9,9 +9,9 @@ RCG_summarize_trips(data, MS, GSA, SP, verbose = TRUE)
 \arguments{
 \item{data}{RCG CS table}
 
-\item{MS}{member state code as it is reported in the landing data}
+\item{MS}{member state code}
 
-\item{GSA}{string value of the GSA code}
+\item{GSA}{GSA code}
 
 \item{SP}{species reference code in the three alpha code format}
 

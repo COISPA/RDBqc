@@ -11,9 +11,9 @@ MEDBS_lengthclass_0(data, type = "l", MS, GSA, SP, verbose = TRUE)
 
 \item{type}{string vector indicating the type of table to be checked. "l" for landing; "d" for discards.}
 
-\item{MS}{member state code as it is reported in the landing data}
+\item{MS}{member state code}
 
-\item{GSA}{string value of the GSA code}
+\item{GSA}{GSA code}
 
 \item{SP}{species reference code in the three alpha code format}
 

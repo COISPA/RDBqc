@@ -3,7 +3,7 @@
 #' @param data data.table object containing landing or discard data
 #' @param type type of table: "l" for landings; "d" for discards
 #' @param MS member state code as it is reported in both landing and discard data
-#' @param GSA string value of the GSA code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @description The function checks landings or discards in weight equal to 0 having length classes filled in

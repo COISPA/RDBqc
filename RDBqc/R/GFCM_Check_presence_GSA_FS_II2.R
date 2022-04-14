@@ -3,8 +3,8 @@
 #' @description Function to verify the completeness of the GSA/Fleet segments in Task II.2 table, as reported in the combination_taskII2 table.
 #' @param data1 GFCM Task II.2 table
 #' @param data2 List of combination of the expected GSA/Fleet segments per year for Task II.2 table
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @return The function returns a list of missing combinations GSA/Fleet segment per year.
 #' @export
 #'

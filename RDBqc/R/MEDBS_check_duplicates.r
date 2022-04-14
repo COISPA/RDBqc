@@ -2,8 +2,8 @@
 #'
 #' @param data data frame containing landing data
 #' @param type string vector indicating the type of table to be checked. "l" for landing; "d" for discards.
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param verbose Boolean value to obtain further explanation messages from the function
 #' @description The function checks the presence of duplicated rows in both landings and discards data.

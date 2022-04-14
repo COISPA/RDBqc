@@ -13,12 +13,12 @@ check_species_catfau_TaskVII.3.2(data, species, matsex, MS, GSA)
 
 \item{matsex}{List of combination of sex/maturity stages for Task VII.3.2 table}
 
-\item{MS}{member state code as it is reported in the landing data}
+\item{MS}{member state code}
 
-\item{GSA}{string value of the GSA code}
+\item{GSA}{GSA code}
 }
 \value{
-Two lists are returned by the function. The first output gives the list of mismatching combination of species/faunistic categories. The second output gives the list of mismatching combination of sex/maturity stages.
+Two vectors are returned by the function. The first provides the list of mismatching combination of species/faunistic categories. The second vector provides the list of mismatching combination of sex/maturity stages.
 }
 \description{
 Function to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table.

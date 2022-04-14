@@ -11,9 +11,9 @@ check_presence_taskII2(data1, data2, MS, GSA)
 
 \item{data2}{List of combination of the expected GSA/Fleet segments per year for Task II.2 table}
 
-\item{MS}{member state code as it is reported in the landing data}
+\item{MS}{member state code}
 
-\item{GSA}{string value of the GSA code}
+\item{GSA}{GSA code}
 }
 \value{
 The function returns a list of missing combinations GSA/Fleet segment per year.

@@ -20,9 +20,9 @@ MEDBS_length_ind(
 
 \item{type}{type of data frame. "l" for landing and "d" for discard}
 
-\item{MS}{member state code as it is reported in the landing data}
+\item{MS}{member state code}
 
-\item{GSA}{string value of the GSA code}
+\item{GSA}{GSA code}
 
 \item{SP}{species reference code in the three alpha code format}
 

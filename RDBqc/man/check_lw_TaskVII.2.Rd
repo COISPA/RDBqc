@@ -4,10 +4,18 @@
 \alias{check_lw_TaskVII.2}
 \title{Plot of the relationship length weight for each species}
 \usage{
-check_lw_TaskVII.2(data)
+check_lw_TaskVII.2(data, MS, GSA, SP, verbose = TRUE)
 }
 \arguments{
 \item{data}{GFCM Task VII.2 table}
+
+\item{MS}{member state code}
+
+\item{GSA}{GSA code}
+
+\item{SP}{species reference code in the three alpha code format}
+
+\item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
 The function return a plot of the length weight relationship per species.
@@ -16,5 +24,6 @@ The function return a plot of the length weight relationship per species.
 Function to check the consistency of length-weight relationship in the GFCM Task VII.2 table per species.
 }
 \examples{
-check_lw_TaskVII.2(task_vii2)
+check_lw_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP = "BOG")
+
 }

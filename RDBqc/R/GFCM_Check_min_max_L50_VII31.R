@@ -3,8 +3,8 @@
 #' @description Function to verify the consistency of L50 reported in the TaskVII.3.1 table with the theoretical values reported in the minmaxLtaskVII31 table. The function allows to identify the records in which the observed L50 are greater or lower than the expected ones.
 #' @param data GFCM Task VII.3.1 table
 #' @param tab_L50 Theoretical values of min/max L50 for each species and sex
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @return The function returns a table with the comparison between min/max L50 observed for each species and sex with theoretical values.
 #' @export
 #'

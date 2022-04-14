@@ -2,7 +2,7 @@
 #'
 #' @param data data frame containing discard data
 #' @param MS member state code as it is reported in the discard data
-#' @param GSA string value of the GSA code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @description The function allows to visual check the time series of discard volumes by fishery of a selected species
 #' @return The function returns a plot of the total discards time series by fishery and gear

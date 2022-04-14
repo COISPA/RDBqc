@@ -2,8 +2,8 @@
 #'
 #' @param data table of detailed data in RCG format
 #' @param SP reference species for the analysis
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param min_age minimum age expected
 #' @param max_age maximum age expected
 #' @param verbose boolean. If it is TRUE messages are reported with the outputs

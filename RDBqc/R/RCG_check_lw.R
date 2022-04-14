@@ -2,8 +2,8 @@
 #' Consistency of length-weight relationship and consistency with allowed ranges
 #'
 #' @param data table of detailed data in RCG format
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP reference species for the analysis
 #' @param Min min weight expected in the data
 #' @param Max max weight expected in the data

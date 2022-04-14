@@ -9,9 +9,9 @@ RCG_check_mat(data, MS, GSA, SP, verbose = TRUE)
 \arguments{
 \item{data}{table of detailed data in RCG format}
 
-\item{MS}{member state code as it is reported in the landing data}
+\item{MS}{member state code}
 
-\item{GSA}{string value of the GSA code}
+\item{GSA}{GSA code}
 
 \item{SP}{reference species for the analysis}
 

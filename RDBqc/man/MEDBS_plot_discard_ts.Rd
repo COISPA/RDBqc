@@ -11,7 +11,7 @@ MEDBS_plot_discard_ts(disc, MS, GSA, SP, by = "year")
 
 \item{MS}{member state code as it is reported in the discard data}
 
-\item{GSA}{string value of the GSA code}
+\item{GSA}{GSA code}
 
 \item{SP}{species reference code in the three alpha code format}
 

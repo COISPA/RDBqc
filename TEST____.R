@@ -6,8 +6,19 @@ roxygenise()
 GP_tab_example=read.table("C:\\RDBqc\\GP_MUT18.csv",sep=";",header=T)
 save(GP_tab_example,file="data/GP_tab_example.rda",compress="xz")
 
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+
+# create empty vignettes in
+
+usethis::use_vignette("my-vignette")
+
+# after the vignettes are finalized, create a package including vignettes with:
+devtools::build(manual=TRUE) ## for source package
+devtools::build(binary=TRUE, vignette=TRUE) # binary package do not include vignettes
+
+
+
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 
 #' @param verbose boolean value to obtain further explanation messages from the function

@@ -1,8 +1,8 @@
 ---
-title: "A priori quality checks on RCG CS and CL dataformats"
-output: github_document
+title: "RDBqc"
+output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{A priori quality checks on RCG CS and CL dataformats}
+  %\VignetteIndexEntry{RDBqc}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -12,7 +12,9 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
 
+```{r setup}
 library(RDBqc)
 ```
 

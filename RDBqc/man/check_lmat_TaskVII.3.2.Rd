@@ -4,10 +4,16 @@
 \alias{check_lmat_TaskVII.3.2}
 \title{Plot of the maturity stages per length for each sex and species}
 \usage{
-check_lmat_TaskVII.3.2(data)
+check_lmat_TaskVII.3.2(data, MS, GSA, SP)
 }
 \arguments{
 \item{data}{GFCM Task VII.3.2 table}
+
+\item{MS}{member state code}
+
+\item{GSA}{GSA code}
+
+\item{SP}{species reference code in the three alpha code format}
 }
 \value{
 The function return a plot of the maturity stages per length and sex per species.

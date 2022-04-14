@@ -1,7 +1,7 @@
 #' Number of individual by trip for which biological data have been collected (length, sex, maturity, weight and age)
 #' @param data detailed data in RCG CS format
-#' @param MS member state code as it is reported in the landing data
-#' @param GSA string value of the GSA code
+#' @param MS member state code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @return a list containing a summary of measurements by trip for each biological variable
