@@ -21,7 +21,7 @@ MEDBS_SL_check(SL_tab, SP, MS, GSA, verbose = TRUE)
 a summary table and plots
 }
 \description{
-SL_tab (sex ratio at length) table check
+The function allows to check the sex ratio at length (SL) table providing a summary table of the data coverage and plots for the selected species of the proportion of sex ratio for length class by year.
 }
 \examples{
 MEDBS_SL_check(SL_tab_example,"DPS","ITA","9")

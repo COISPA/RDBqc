@@ -4,6 +4,7 @@
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
 #' @param verbose boolean value to obtain further explanation messages from the function
+#' @description The function allows to check the sex ratio at length (SL) table providing a summary table of the data coverage and plots for the selected species of the proportion of sex ratio for length class by year.
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
@@ -45,7 +46,7 @@ p <- ggplot(data=SL_tab, aes(x=LENGTHCLASS,y=SEX_RATIO,col=factor(START_YEAR))) 
     xlab("Length class") +
     ylab("Sex ratio")
 
-print(p)
+# print(p)
 l <- length(output)+1
 output[[l]] <- p
 names(output)[[l]] <- paste("SL_cum",SP,MS,GSA,sep=" _ ")
@@ -57,7 +58,7 @@ p <- ggplot(SL_tab, aes(x=LENGTHCLASS, y=SEX_RATIO,col="red"))+
     facet_wrap(~START_YEAR)+
     ggtitle(paste0("Sex ratio by length class of ",SP, " in ", MS,"_GSA",GSA))+
     theme(legend.position = "none")
-print(p)
+# print(p)
 l <- length(output)+1
 output[[l]] <- p
 names(output)[[l]] <- paste("SL",SP,MS,GSA,sep=" _ ")

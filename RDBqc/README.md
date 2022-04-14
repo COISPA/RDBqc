@@ -7,14 +7,15 @@ version 0.0.6 are:
 
 -   RCG CS - biological sampling data
 -   RCG CL - aggregated landing data.
--   MEDBS format
+-   MEDBS tables
+-   FDI tables (G, H, I and J)
 
 # Checks on RCG
 
 Example of Regional Coordination Group Mediterranean & Black Sea data
 formats:
 
-*CS table*
+**CS table**
 
 ``` r
 head(data_ex)
@@ -90,7 +91,7 @@ head(data_ex)
 #> 6      NA          74.61447
 ```
 
-*CL table*
+**CL table**
 
 ``` r
 head(data_exampleCL)
@@ -533,7 +534,7 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 ![](README_files/figure-gfm/RCG_check_CL7-1.png)<!-- -->
 
-# Checks on MEDBS format
+# Checks on MEDBS tables
 
 *catch table*
 
@@ -1902,40 +1903,639 @@ year and sex are also returned.
 results[[2]]
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/MEDBS_LW_check2-1.png)<!-- -->
 
 ``` r
 results[[3]]
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+![](README_files/figure-gfm/MEDBS_LW_check2-2.png)<!-- -->
 
 ``` r
 results[[4]]
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-3.png)<!-- -->
+![](README_files/figure-gfm/MEDBS_LW_check2-3.png)<!-- -->
 
 ``` r
 results[[5]]
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-4.png)<!-- -->
+![](README_files/figure-gfm/MEDBS_LW_check2-4.png)<!-- -->
 
 ``` r
 results[[6]]
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-5.png)<!-- -->
+![](README_files/figure-gfm/MEDBS_LW_check2-5.png)<!-- -->
 
 ``` r
 results[[7]]
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-6.png)<!-- -->
+![](README_files/figure-gfm/MEDBS_LW_check2-6.png)<!-- -->
 
 ``` r
 results[[8]]
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-7.png)<!-- -->
+![](README_files/figure-gfm/MEDBS_LW_check2-7.png)<!-- -->
+
+### MA_tab (maturity at age) table check
+
+The function `MEDBS_MA_check` allows to check the maturity at age (MA)
+table providing a summary table of the data coverage.
+
+``` r
+results <- MEDBS_MA_check(MA_tab_example,"DPS","ITA","9")
+results[[1]]
+#>    COUNTRY YEAR START_YEAR END_YEAR SPECIES SEX
+#> 1      ITA    9       2006     2006     DPS   F
+#> 2      ITA    9       2007     2007     DPS   F
+#> 3      ITA    9       2008     2008     DPS   F
+#> 4      ITA    9       2009     2009     DPS   F
+#> 5      ITA    9       2010     2010     DPS   F
+#> 6      ITA    9       2011     2011     DPS   F
+#> 7      ITA    9       2012     2012     DPS   F
+#> 8      ITA    9       2013     2013     DPS   F
+#> 9      ITA    9       2014     2014     DPS   F
+#> 10     ITA    9       2015     2015     DPS   F
+#> 11     ITA    9       2016     2016     DPS   F
+#> 12     ITA    9       2017     2016     DPS   F
+```
+
+The function also provides plots for the selected species of the
+proportion of matures for age class by sex and year.
+
+``` r
+results[[2]]
+```
+
+![](README_files/figure-gfm/MEDBS_MA_check2-1.png)<!-- -->
+
+``` r
+results[[3]]
+```
+
+![](README_files/figure-gfm/MEDBS_MA_check2-2.png)<!-- -->
+
+### ML_tab (maturity at length) table check
+
+The function `MEDBS_ML_check` allows to check the maturity at length
+(ML) table providing a summary table of the data coverage for the
+selected species of the proportion of matures for age class by sex and
+year.
+
+``` r
+results <- MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "9")
+```
+
+![](README_files/figure-gfm/MEDBS_ML_check1-1.png)<!-- -->![](README_files/figure-gfm/MEDBS_ML_check1-2.png)<!-- -->
+
+``` r
+results[[1]]
+#>    COUNTRY YEAR START_YEAR END_YEAR SPECIES SEX
+#> 1      ITA    9       2006     2006     DPS   F
+#> 2      ITA    9       2007     2007     DPS   F
+#> 3      ITA    9       2008     2008     DPS   F
+#> 4      ITA    9       2009     2009     DPS   F
+#> 5      ITA    9       2010     2010     DPS   F
+#> 6      ITA    9       2011     2011     DPS   F
+#> 7      ITA    9       2012     2012     DPS   F
+#> 8      ITA    9       2013     2013     DPS   F
+#> 9      ITA    9       2014     2014     DPS   F
+#> 10     ITA    9       2015     2015     DPS   F
+#> 11     ITA    9       2016     2016     DPS   F
+#> 12     ITA    9       2017     2017     DPS   F
+```
+
+Plots for the selected species of the proportion of matures for age
+class by sex and year are also returned.
+
+``` r
+results[[2]]
+```
+
+![](README_files/figure-gfm/MEDBS_ML_check2-1.png)<!-- -->
+
+``` r
+results[[3]]
+```
+
+![](README_files/figure-gfm/MEDBS_ML_check2-2.png)<!-- -->
+
+### SA_tab (sex ratio at age) table check
+
+The function `MEDBS_SA_check` allows to check the sex ratio at age (SA)
+table providing a summary table of the data coverage for the selected
+species of the proportion of sex ratio for age class by year.
+
+``` r
+results <- MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "9")
+results[[1]]
+#>    COUNTRY YEAR START_YEAR END_YEAR SPECIES
+#> 1      ITA    9       2003     2005     DPS
+#> 2      ITA    9       2006     2006     DPS
+#> 3      ITA    9       2007     2007     DPS
+#> 4      ITA    9       2008     2008     DPS
+#> 5      ITA    9       2009     2009     DPS
+#> 6      ITA    9       2010     2010     DPS
+#> 7      ITA    9       2011     2011     DPS
+#> 8      ITA    9       2012     2012     DPS
+#> 9      ITA    9       2013     2013     DPS
+#> 10     ITA    9       2014     2014     DPS
+#> 11     ITA    9       2015     2015     DPS
+#> 12     ITA    9       2016     2016     DPS
+#> 13     ITA    9       2017     2017     DPS
+```
+
+Plots for the selected species of the proportion of sex ratio for age
+class by year are also returned.
+
+``` r
+results[[2]]
+```
+
+![](README_files/figure-gfm/MEDBS_SA_check2-1.png)<!-- -->
+
+``` r
+results[[3]]
+```
+
+![](README_files/figure-gfm/MEDBS_SA_check2-2.png)<!-- -->
+
+### SL_tab (sex ratio at length) table check
+
+The function allows to check the sex ratio at length (SL) table
+providing a summary table of the data coverage for the selected species
+of the proportion of sex ratio for length class by year.
+
+``` r
+results <- MEDBS_SL_check(SL_tab_example,"DPS","ITA","9")
+results[[1]]
+#>    COUNTRY YEAR START_YEAR END_YEAR SPECIES
+#> 1      ITA    9       2003     2005     DPS
+#> 2      ITA    9       2006     2006     DPS
+#> 3      ITA    9       2007     2007     DPS
+#> 4      ITA    9       2008     2008     DPS
+#> 5      ITA    9       2009     2009     DPS
+#> 6      ITA    9       2010     2010     DPS
+#> 7      ITA    9       2011     2011     DPS
+#> 8      ITA    9       2012     2012     DPS
+#> 9      ITA    9       2013     2013     DPS
+#> 10     ITA    9       2014     2014     DPS
+#> 11     ITA    9       2015     2015     DPS
+#> 12     ITA    9       2016     2016     DPS
+#> 13     ITA    9       2017     2017     DPS
+```
+
+Plots for the selected species of the proportion of sex ratio for length
+class by year are returned.
+
+``` r
+results[[2]]
+```
+
+![](README_files/figure-gfm/MEDBS_SL_check2-1.png)<!-- -->
+
+``` r
+results[[3]]
+```
+
+![](README_files/figure-gfm/MEDBS_SL_check2-2.png)<!-- -->
+
+# Checks on FDI tables
+
+## Table G
+
+### Check empty fields in FDI G table
+
+The function `check_EF_FDI_G` checks the presence of not allowed empty
+data in the given table, according to the ‘Fisheries Dependent
+Information data call 2021 - Annex 1’. A list is returned by the
+function. The first list’s object is a vector containing the number of
+NA for each reference column.
+
+``` r
+check_EF_FDI_G(fdi_g_effort, verbose=FALSE)[[1]]
+#>           country              year           quarter     vessel_length 
+#>                 0                 0                 0                 0 
+#>      fishing_tech         gear_type target_assemblage   mesh_size_range 
+#>                 0                 0                 0                 0 
+#>            metier      supra_region        sub_region     eez_indicator 
+#>                 0                 0                 0                 0 
+#>     geo_indicator       specon_tech              deep        totseadays 
+#>                 0                 0                 0                 0 
+#>    totkwdaysatsea    totgtdaysatsea       totfishdays     totkwfishdays 
+#>                 0                 0                 0                 0 
+#>     totgtfishdays             hrsea           kwhrsea           gthrsea 
+#>                 0                 0                 0                 0 
+#>            totves      confidential 
+#>                 0                 0
+```
+
+The second list’s object gives the index of each NA in the reference
+column.
+
+``` r
+check_EF_FDI_G(fdi_g_effort, verbose=FALSE)[[2]]
+#> $country
+#> integer(0)
+#> 
+#> $year
+#> integer(0)
+#> 
+#> $quarter
+#> integer(0)
+#> 
+#> $vessel_length
+#> integer(0)
+#> 
+#> $fishing_tech
+#> integer(0)
+#> 
+#> $gear_type
+#> integer(0)
+#> 
+#> $target_assemblage
+#> integer(0)
+#> 
+#> $mesh_size_range
+#> integer(0)
+#> 
+#> $metier
+#> integer(0)
+#> 
+#> $supra_region
+#> integer(0)
+#> 
+#> $sub_region
+#> integer(0)
+#> 
+#> $eez_indicator
+#> integer(0)
+#> 
+#> $geo_indicator
+#> integer(0)
+#> 
+#> $specon_tech
+#> integer(0)
+#> 
+#> $deep
+#> integer(0)
+#> 
+#> $totseadays
+#> integer(0)
+#> 
+#> $totkwdaysatsea
+#> integer(0)
+#> 
+#> $totgtdaysatsea
+#> integer(0)
+#> 
+#> $totfishdays
+#> integer(0)
+#> 
+#> $totkwfishdays
+#> integer(0)
+#> 
+#> $totgtfishdays
+#> integer(0)
+#> 
+#> $hrsea
+#> integer(0)
+#> 
+#> $kwhrsea
+#> integer(0)
+#> 
+#> $gthrsea
+#> integer(0)
+#> 
+#> $totves
+#> integer(0)
+#> 
+#> $confidential
+#> integer(0)
+```
+
+### Check duplicated records in FDI G table
+
+The function `check_RD_FDI_G` check the presence of duplicated records.
+In particular, it checks whether the combination of the first 15 columns
+generates duplicate records. The function returns the indices of the
+duplicated rows.
+
+``` r
+g_effort <- rbind(fdi_g_effort,fdi_g_effort[1,])
+check_RD_FDI_G(g_effort)
+#> 1 record/s duplicated
+#> [1] 6
+```
+
+## Table H
+
+### Check empty fields in FDI H table
+
+The function `check_EF_FDI_H` checks the presence of not allowed empty
+data in the given table, according to the ‘Fisheries Dependent
+Information data call 2021 - Annex 1’. A list is returned by the
+function. The first list’s object is a vector containing the number of
+NA for each reference column.
+
+``` r
+check_EF_FDI_H(fdi_h_spatial_land, verbose=FALSE)[[1]]
+#>           country              year           quarter     vessel_length 
+#>                 0                 0                 0                 0 
+#>      fishing_tech         gear_type target_assemblage   mesh_size_range 
+#>                 0                 0                 0                 0 
+#>            metier      supra_region        sub_region     eez_indicator 
+#>                 0                 0                 0                 0 
+#>     geo_indicator       specon_tech              deep    rectangle_type 
+#>                 0                 0                 0                 0 
+#>     rectangle_lat     rectangle_lon          c_square           species 
+#>                 0                 0                 0                 0 
+#>      totwghtlandg       totvallandg      confidential 
+#>                 0                 0                 0
+```
+
+The second list’s object gives the index of each NA in the reference
+column.
+
+``` r
+check_EF_FDI_H(fdi_h_spatial_land, verbose=FALSE)[[2]]
+#> $country
+#> integer(0)
+#> 
+#> $year
+#> integer(0)
+#> 
+#> $quarter
+#> integer(0)
+#> 
+#> $vessel_length
+#> integer(0)
+#> 
+#> $fishing_tech
+#> integer(0)
+#> 
+#> $gear_type
+#> integer(0)
+#> 
+#> $target_assemblage
+#> integer(0)
+#> 
+#> $mesh_size_range
+#> integer(0)
+#> 
+#> $metier
+#> integer(0)
+#> 
+#> $supra_region
+#> integer(0)
+#> 
+#> $sub_region
+#> integer(0)
+#> 
+#> $eez_indicator
+#> integer(0)
+#> 
+#> $geo_indicator
+#> integer(0)
+#> 
+#> $specon_tech
+#> integer(0)
+#> 
+#> $deep
+#> integer(0)
+#> 
+#> $rectangle_type
+#> integer(0)
+#> 
+#> $rectangle_lat
+#> integer(0)
+#> 
+#> $rectangle_lon
+#> integer(0)
+#> 
+#> $c_square
+#> integer(0)
+#> 
+#> $species
+#> integer(0)
+#> 
+#> $totwghtlandg
+#> integer(0)
+#> 
+#> $totvallandg
+#> integer(0)
+#> 
+#> $confidential
+#> integer(0)
+```
+
+### Check duplicated records in FDI H table
+
+The function `check_RD_FDI_H` check the presence of duplicated records.
+In particular, it checks whether the combination of the first 15 columns
+generates duplicate records. The function returns the indices of the
+duplicated rows.
+
+``` r
+h_spatial_land <- rbind(fdi_h_spatial_land,fdi_h_spatial_land[1,])
+check_RD_FDI_H(h_spatial_land)
+#> There are 1 lines duplicated
+#> [1] 6
+```
+
+## Table I
+
+### Check empty fields in FDI I table
+
+The function checks the presence of not allowed empty data in the given
+table, according to the ‘Fisheries Dependent Information data call 2021
+- Annex 1’. A list is returned by the function. The first list’s object
+is a vector containing the number of NA for each reference column.
+
+``` r
+check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[1]]
+#>           country              year           quarter     vessel_length 
+#>                 0                 0                 0                 0 
+#>      fishing_tech         gear_type target_assemblage   mesh_size_range 
+#>                 0                 0                 0                 0 
+#>            metier      supra_region        sub_region     eez_indicator 
+#>                 0                 0                 0                 0 
+#>     geo_indicator       specon_tech              deep    rectangle_type 
+#>                 0                 0                 0                 0 
+#>     rectangle_lat     rectangle_lon          c_square       totfishdays 
+#>                 0                 0                 0                 0 
+#>      confidential 
+#>                 0
+```
+
+The second list’s object gives the index of each NA in the reference
+column.
+
+``` r
+check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[2]]
+#> $country
+#> integer(0)
+#> 
+#> $year
+#> integer(0)
+#> 
+#> $quarter
+#> integer(0)
+#> 
+#> $vessel_length
+#> integer(0)
+#> 
+#> $fishing_tech
+#> integer(0)
+#> 
+#> $gear_type
+#> integer(0)
+#> 
+#> $target_assemblage
+#> integer(0)
+#> 
+#> $mesh_size_range
+#> integer(0)
+#> 
+#> $metier
+#> integer(0)
+#> 
+#> $supra_region
+#> integer(0)
+#> 
+#> $sub_region
+#> integer(0)
+#> 
+#> $eez_indicator
+#> integer(0)
+#> 
+#> $geo_indicator
+#> integer(0)
+#> 
+#> $specon_tech
+#> integer(0)
+#> 
+#> $deep
+#> integer(0)
+#> 
+#> $rectangle_type
+#> integer(0)
+#> 
+#> $rectangle_lat
+#> integer(0)
+#> 
+#> $rectangle_lon
+#> integer(0)
+#> 
+#> $c_square
+#> integer(0)
+#> 
+#> $totfishdays
+#> integer(0)
+#> 
+#> $confidential
+#> integer(0)
+```
+
+### Check duplicated records in FDI I table
+
+The function `check_RD_FDI_I` check the presence of duplicated records.
+In particular, it checks whether the combination of the first 15 columns
+generates duplicate records. The function returns the indices of the
+duplicated rows.
+
+``` r
+i_spatial_fe <- rbind(fdi_i_spatial_fe,fdi_i_spatial_fe[1,])
+check_RD_FDI_I(i_spatial_fe)
+#> There are 1 lines duplicated
+#> [1] 6
+```
+
+## Table J
+
+### Check empty fields in FDI J table
+
+The function checks the presence of not allowed empty data in the given
+table, according to the Fisheries Dependent Information data call 2021 -
+Annex 1. A list is returned by the function. The first list’s object is
+a vector containing the number of NA for each reference column.
+
+``` r
+check_EF_FDI_J(fdi_j_capacity, verbose=FALSE)[[1]]
+#>              country                 year        vessel_length 
+#>                    0                    0                    0 
+#>         fishing_tech         supra_region        geo_indicator 
+#>                    0                    0                    0 
+#> principal_sub_region             tottrips                totkw 
+#>                    0                    0                    0 
+#>                totgt               totves               avgage 
+#>                    0                    0                    0 
+#>               avgloa           maxseadays 
+#>                    0                    0
+```
+
+The second list’s object gives the index of each NA in the reference
+column.
+
+``` r
+check_EF_FDI_J(fdi_j_capacity, verbose=FALSE)[[2]]
+#> $country
+#> integer(0)
+#> 
+#> $year
+#> integer(0)
+#> 
+#> $vessel_length
+#> integer(0)
+#> 
+#> $fishing_tech
+#> integer(0)
+#> 
+#> $supra_region
+#> integer(0)
+#> 
+#> $geo_indicator
+#> integer(0)
+#> 
+#> $principal_sub_region
+#> integer(0)
+#> 
+#> $tottrips
+#> integer(0)
+#> 
+#> $totkw
+#> integer(0)
+#> 
+#> $totgt
+#> integer(0)
+#> 
+#> $totves
+#> integer(0)
+#> 
+#> $avgage
+#> integer(0)
+#> 
+#> $avgloa
+#> integer(0)
+#> 
+#> $maxseadays
+#> integer(0)
+```
+
+### Check duplicated records in FDI J table
+
+The function `check_RD_FDI_J` check the presence of duplicated records.
+In particular, it checks whether the combination of the first 15 columns
+generates duplicate records. The function returns the indices of the
+duplicated rows.
+
+``` r
+j_capacity <- rbind(fdi_j_capacity,fdi_j_capacity[1,])
+check_RD_FDI_J(j_capacity)
+#> There are 1 lines duplicated
+#> [1] 6
+```

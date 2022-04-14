@@ -33,7 +33,7 @@ if (verbose){
  if (length(duplicated_line)==0) {
        message("no duplicated lines in the data frame")
     } else {
-       message(paste0("There are ",length(duplicated_line)," lines duplicated"))
+        message(paste0(length(duplicated_line)," record/s duplicated"))
     }
 }
 

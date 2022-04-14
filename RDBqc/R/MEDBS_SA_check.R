@@ -46,7 +46,7 @@ MEDBS_SA_check <- function(SA_tab, SP, MS, GSA,verbose=TRUE) {
     xlab("Age class") +
     ylab("Sex ratio")
 
-  print(p)
+  # print(p)
   l <- length(output)+1
   output[[l]] <- p
   names(output)[[l]] <- paste("SA_cum",SP,MS,GSA,sep=" _ ")
@@ -61,7 +61,7 @@ MEDBS_SA_check <- function(SA_tab, SP, MS, GSA,verbose=TRUE) {
     theme(legend.position = "none") +
     xlab("Age class") +
     ylab("Sex ratio")
-  print(p)
+  # print(p)
   l <- length(output)+1
   output[[l]] <- p
   names(output)[[l]] <- paste("SA",SP,MS,GSA,sep=" _ ")

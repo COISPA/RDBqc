@@ -4,7 +4,7 @@
 #' @param data GFCM Task III table
 #' @param verbose boolean. If TRUE a message is printed.
 #' @description The function check the presence of duplicated records. In particular, it checks whether the combination of the first 10 columns generates duplicate records.
-#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 5 columns of the Task Task III table.
+#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 10 columns of the Task Task III table.
 #' @export
 #'
 #' @examples check_RD_taskIII(task_iii)
@@ -40,7 +40,7 @@ if (verbose){
  if (length(duplicated_line)==0) {
        message("no duplicated lines in the data frame")
     } else {
-       message(paste0("There are ",length(duplicated_line)," lines duplicated"))
+       message(paste0(length(duplicated_line)," record/s duplicated"))
     }
 }
 

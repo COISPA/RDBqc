@@ -23,19 +23,36 @@ The supported data formats in version `r packageVersion("RDBqc")` are:
 
 * RCG CS - biological sampling data
 * RCG CL - aggregated landing data.
-* MEDBS format
+* MEDBS - catch data
+* MEDBS - discard data
+* MEDBS - landing data
+* MEDBS - GP table
+* MEDBS - LW table
+* MEDBS - MA table
+* MEDBS - ML table
+* MEDBS - SA table
+* MEDBS - SL table
+* FDI tables (G, H, I and J)
+* GFCM - Task II.2 table
+* GFCM - Task III table
+* GFCM - Task VII.2 table
+* GFCM - Task VII.3.1 table
+* GFCM - Task VII.3.2 table
+* GFCM - Task II.2 table
+* GFCM - Task II.2 table
+
 
 # Checks on RCG
 
 Example of Regional Coordination Group Mediterranean & Black Sea data formats:
 
-_CS table_
+**CS table**
 
 ```{r input1}
 head(data_ex)
 ```
 
-_CL table_
+**CL table**
 
 ```{r input2}
 head(data_exampleCL)
@@ -189,7 +206,7 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[7]]
 ```
 
-# Checks on MEDBS format
+# Checks on MEDBS tables
 
 _catch table_
 
@@ -571,22 +588,271 @@ results[[3]]
 
 ### ML_tab (maturity at length) table check
 
-The function allows to check the maturity at length (ML) table providing a summary table of the data coverage for the selected species of the proportion of matures for age class by sex and year.
+The function `MEDBS_ML_check` allows to check the maturity at length (ML) table providing a summary table of the data coverage for the selected species of the proportion of matures for age class by sex and year.
 
-```{r}
+```{r MEDBS_ML_check1}
 results <- MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "9")
 results[[1]]
 ```
 
 Plots for the selected species of the proportion of matures for age class by sex and year are also returned.
 
-```{r}
+```{r MEDBS_ML_check2}
 results[[2]]
 results[[3]]
 ```
 
+### SA_tab (sex ratio at age) table check
 
+The function `MEDBS_SA_check` allows to check the sex ratio at age (SA) table providing a summary table of the data coverage for the selected species of the proportion of sex ratio for age class by year.
 
+```{r MEDBS_SA_check1}
+results <- MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "9")
+results[[1]]
+```
+
+Plots for the selected species of the proportion of sex ratio for age class by year are also returned.
+
+```{r MEDBS_SA_check2}
+results[[2]]
+results[[3]]
+```
+
+### SL_tab (sex ratio at length) table check
+
+The function allows to check the sex ratio at length (SL) table providing a summary table of the data coverage for the selected species of the proportion of sex ratio for length class by year.
+
+```{r MEDBS_SL_check1}
+results <- MEDBS_SL_check(SL_tab_example,"DPS","ITA","9")
+results[[1]]
+```
+
+Plots for the selected species of the proportion of sex ratio for length class by year are returned.
+
+```{r MEDBS_SL_check2}
+results[[2]]
+results[[3]]
+```
+
+# Checks on FDI tables
+
+## Table G
+
+### Check empty fields in FDI G table
+
+The function `check_EF_FDI_G` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2021 - Annex 1'.
+A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
+
+```{r check_EF_FDI_G1}
+check_EF_FDI_G(fdi_g_effort, verbose=FALSE)[[1]]
+```
+
+The second list's object gives the index of each NA in the reference column.
+
+```{r check_EF_FDI_G2}
+check_EF_FDI_G(fdi_g_effort, verbose=FALSE)[[2]]
+```
+
+### Check duplicated records in FDI G table
+
+The function `check_RD_FDI_G` check the presence of duplicated records. In particular, it checks whether the combination of the first 15 columns generates duplicate records. The function returns the indices of the duplicated rows.
+
+```{r check_RD_FDI_G}
+g_effort <- rbind(fdi_g_effort,fdi_g_effort[1,])
+check_RD_FDI_G(g_effort)
+```
+
+## Table H
+
+### Check empty fields in FDI H table
+
+The function `check_EF_FDI_H` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2021 - Annex 1'.
+A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
+
+```{r check_EF_FDI_H1}
+check_EF_FDI_H(fdi_h_spatial_land, verbose=FALSE)[[1]]
+```
+
+The second list's object gives the index of each NA in the reference column.
+
+```{r check_EF_FDI_H2}
+check_EF_FDI_H(fdi_h_spatial_land, verbose=FALSE)[[2]]
+```
+
+### Check duplicated records in FDI H table
+
+The function `check_RD_FDI_H` check the presence of duplicated records. In particular, it checks whether the combination of the first 15 columns generates duplicate records. The function returns the indices of the duplicated rows.
+
+```{r check_RD_FDI_H}
+h_spatial_land <- rbind(fdi_h_spatial_land,fdi_h_spatial_land[1,])
+check_RD_FDI_H(h_spatial_land)
+```
+
+## Table I
+
+### Check empty fields in FDI I table
+
+The function checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2021 - Annex 1'. A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
+
+```{r check_EF_FDI_I1}
+check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[1]]
+```
+
+The second list's object gives the index of each NA in the reference column.
+
+```{r check_EF_FDI_I2}
+check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[2]]
+```
+
+### Check duplicated records in FDI I table
+
+The function `check_RD_FDI_I` check the presence of duplicated records. In particular, it checks whether the combination of the first 15 columns generates duplicate records. The function returns the indices of the duplicated rows.
+
+```{r check_RD_FDI_I}
+i_spatial_fe <- rbind(fdi_i_spatial_fe,fdi_i_spatial_fe[1,])
+check_RD_FDI_I(i_spatial_fe)
+```
+
+## Table J
+
+### Check empty fields in FDI J table
+
+The function checks the presence of not allowed empty data in the given table, according to the Fisheries Dependent Information data call 2021 - Annex 1. A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column.
+
+```{r check_EF_FDI_J1}
+check_EF_FDI_J(fdi_j_capacity, verbose=FALSE)[[1]]
+```
+
+The second list's object gives the index of each NA in the reference column.
+
+```{r check_EF_FDI_J2}
+check_EF_FDI_J(fdi_j_capacity, verbose=FALSE)[[2]]
+```
+
+### Check duplicated records in FDI J table
+
+The function `check_RD_FDI_J` check the presence of duplicated records. In particular, it checks whether the combination of the first 15 columns generates duplicate records. The function returns the indices of the duplicated rows.
+
+```{r check_RD_FDI_J}
+j_capacity <- rbind(fdi_j_capacity,fdi_j_capacity[1,])
+check_RD_FDI_J(j_capacity)
+```
+
+# GFCM data format
+
+## Task II.2 table
+
+### Check empty fields in GFCM Task II.2 table
+
+The function `check_EF_taskII2` checks the presence of not allowed empty data in the given table, according to the GFCM Data Collection Reference Framework (DCRF, V. 20.1). The function returns two lists. The first list gives the number of NA for each reference column. 
+
+```{r check_EF_taskII2_1}
+check_EF_taskII2(task_ii2, verbose=FALSE)[[1]]
+```
+
+The second list returns the index of each NA in the reference column.
+
+```{r check_EF_taskII2_2}
+check_EF_taskII2(task_ii2, verbose=FALSE)[[2]]
+```
+
+### Check of missing combination GSA/Fleet segment per year
+
+Function `check_presence_taskII2` allows to verify the completeness of the GSA/Fleet segments in Task II.2 table, as reported in the combination_taskII2 table. The output is a list of missing combinations GSA/Fleet segment per year.
+
+```{r check_presence_taskII2}
+check_presence_taskII2(task_ii2,combination_taskII2,MS="ITA",GSA="18")
+```
+
+### Check duplicated records in GFCM Task II.2 table
+
+The function `check_RD_taskII2` checks the presence of duplicated records. In particular, it checks whether the combination of the first 5 columns generates duplicate records. The function returns the indices of the duplicated rows, checking the unique combinations of the first 5 columns of the Task II.2 table.
+
+```{r check_RD_taskII2}
+ii2 <- rbind(task_ii2,task_ii2[1,])
+check_RD_taskII2(ii2)
+```
+
+## Task III table
+
+### Check empty fields in GFCM Task III table
+
+The function `check_EF_taskIII` checks the presence of not allowed empty data in the given table, according to the GFCM Data Collection Reference Framework (DCRF, V. 20.1). The function returns two lists. The first list gives the number of NA for each reference column. 
+
+```{r check_EF_taskIII1}
+check_EF_taskIII(task_iii,verbose=FALSE)[[1]]
+```
+
+The second list returns the index of each NA in the reference column.
+
+```{r check_EF_taskIII2}
+check_EF_taskIII(task_iii,verbose=FALSE)[[2]]
+```
+
+### Check duplicated records in GFCM Task III table
+
+The function `check_RD_taskIII` checks the presence of duplicated records. In particular, it checks whether the combination of the first 10 columns generates duplicate records. The function returns the indices of the duplicated rows, checking the unique combinations of the first 10 columns of the Task Task III table.
+
+```{r check_RD_taskIII}
+check_RD_taskIII(task_iii)
+```
+
+## Task VII.2 table
+
+### Check empty fields in GFCM Task VII.2 table
+
+The function `check_EF_taskVII2` checks the presence of not allowed empty data in the given table, according to the GFCM Data Collection Reference Framework (DCRF, V. 20.1). The function returns two lists. The first list gives the number of NA for each reference column.
+
+```{r check_EF_taskVII2_1}
+check_EF_taskVII2(task_vii2, verbose=FALSE)[[1]]
+```
+
+The second list returns the index of each NA in the reference column.
+
+```{r check_EF_taskVII2_2}
+check_EF_taskVII2(task_vii2, verbose=FALSE)[[2]]
+```
+
+### Check duplicated records in GFCM Task VII.2 table
+
+The function `check_RD_taskVII2` checks the presence of duplicated records. In particular, it checks whether the combination of the first 9 columns generates duplicate records. The function returns the indices of the duplicated rows, checking the unique combinations of the first 9 columns of the Task VII.2 table.
+
+```{r check_RD_taskVII2}
+check_RD_taskVII2(task_vii2)
+```
+
+### Comparison between min/max observed for each species with theoretical values
+
+Function to verify the consistency of the lengths reported in the TaskVII.2 table with the theoretical values reported in the minmaxLtaskVII2 table. The function allows to identify the records in which the observed lengths are greater or lower than the expected ones.
+
+```{r}
+check_minmaxl_TaskVII.2(task_vii2,minmaxLtaskVII2,MS="ITA",GSA="18")
+```
+
+## Task VII.3.1 table
+
+### Check empty fields in GFCM Task VII.3.1 table
+
+The function `check_EF_TaskVII31` checks the presence of not allowed empty data in the given table, according to the GFCM Data Collection Reference Framework (DCRF, V. 20.1). The function returns two lists. The first list gives the number of NA for each reference column.
+
+```{r check_EF_TaskVII31}
+check_EF_TaskVII31(task_vii31, verbose=FALSE)[[1]]
+```
+
+The second list returns the index of each NA in the reference column.
+
+```{r check_EF_TaskVII31}
+check_EF_TaskVII31(task_vii31, verbose=FALSE)[[2]]
+```
+
+### Comparison between min/max L50 observed for each species and sex with theoretical values
+
+Function to verify the consistency of L50 reported in the TaskVII.3.1 table with the theoretical values reported in the minmaxLtaskVII31 table. The function allows to identify the records in which the observed L50 are greater or lower than the expected ones.
+The function returns a table with the comparison between min/max L50 observed for each species and sex with theoretical values. The field check_max of the returned data frame will contain "Warning" in case of L50 outliers.
+
+```{r}
+check_minmaxl50_TaskVII.3.1(task_vii31,minmaxLtaskVII31,MS="ITA",GSA="19")
+```
 
 
 
