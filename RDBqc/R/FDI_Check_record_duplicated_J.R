@@ -5,7 +5,7 @@
 #' @param data GFCM Task J table
 #' @param verbose boolean. If TRUE a message is printed.
 #'
-#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 15 columns of the FDI G table.
+#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 7 columns of the FDI G table.
 #' @export
 #'
 #' @examples check_RD_FDI_J(fdi_j_capacity)
