@@ -1,0 +1,200 @@
+
+#' Check empty fields in GFCM Task II.2 table
+#'
+#' @description The function checks the presence of not allowed empty data in the given table, according to the \href{https://gfcm.sharepoint.com/sites/DCRF/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDCRF%2FShared%20Documents%2FGFCM%2DDCRF%2Dmanual%2D2018%2Dv%2E21%2E2%2Epdf&parent=%2Fsites%2FDCRF%2FShared%20Documents&p=true&ga=1}{GFCM, 2018. GFCM Data Collection Reference Framework (DCRF). Version: 20.1}
+#' @param data GFCM Task II.2 table
+#' @param verbose boolean. If TRUE a message is printed.
+#'
+#' @return Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
+#' @export
+#'
+#' @examples check_EF_taskII2(task_ii2)
+#'
+
+
+#' Check empty fields in GFCM Task III table
+#'
+#' @description The function checks the presence of not allowed empty data in the given table, according to the \href{https://gfcm.sharepoint.com/sites/DCRF/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDCRF%2FShared%20Documents%2FGFCM%2DDCRF%2Dmanual%2D2018%2Dv%2E21%2E2%2Epdf&parent=%2Fsites%2FDCRF%2FShared%20Documents&p=true&ga=1}{GFCM, 2018. GFCM Data Collection Reference Framework (DCRF). Version: 20.1}
+#' @param data GFCM Task III table
+#' @param verbose boolean. If TRUE a message is printed.
+#'
+#' @return Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
+#' @export
+#'
+#' @examples check_EF_taskIII(task_iii)
+#'
+
+
+#' Check empty fields in GFCM Task VII.2 table
+#'
+#' @description The function checks the presence of not allowed empty data in the given table, according to the \href{https://gfcm.sharepoint.com/sites/DCRF/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDCRF%2FShared%20Documents%2FGFCM%2DDCRF%2Dmanual%2D2018%2Dv%2E21%2E2%2Epdf&parent=%2Fsites%2FDCRF%2FShared%20Documents&p=true&ga=1}{GFCM, 2018. GFCM Data Collection Reference Framework (DCRF). Version: 20.1}
+#' @param data GFCM Task VII.2 table
+#' @param verbose boolean. If TRUE a message is printed.
+#'
+#' @return Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
+#' @export
+#'
+#' @examples check_EF_taskVII2(task_vii2)
+#'
+
+
+#' Check empty fields in GFCM Task VII.3.1 table
+#'
+#' @description The function checks the presence of not allowed empty data in the given table, according to the \href{https://gfcm.sharepoint.com/sites/DCRF/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDCRF%2FShared%20Documents%2FGFCM%2DDCRF%2Dmanual%2D2018%2Dv%2E21%2E2%2Epdf&parent=%2Fsites%2FDCRF%2FShared%20Documents&p=true&ga=1}{GFCM, 2018. GFCM Data Collection Reference Framework (DCRF). Version: 20.1}
+#' @param data GFCM Task VII.3.1 table
+#' @param verbose boolean. If TRUE a message is printed.
+#'
+#' @return Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
+#' @export
+#'
+#' @examples check_EF_TaskVII31(task_vii31)
+#'
+
+
+#' Check empty fields in GFCM Task VII.3.2 table
+#'
+#' @description The function checks the presence of not allowed empty data in the given table, according to the \href{https://gfcm.sharepoint.com/sites/DCRF/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDCRF%2FShared%20Documents%2FGFCM%2DDCRF%2Dmanual%2D2018%2Dv%2E21%2E2%2Epdf&parent=%2Fsites%2FDCRF%2FShared%20Documents&p=true&ga=1}{GFCM, 2018. GFCM Data Collection Reference Framework (DCRF). Version: 20.1}
+#' @param data GFCM Task VII.3.2 table
+#' @param verbose boolean. If TRUE a message is printed.
+#'
+#' @return Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
+#' @export
+#'
+#' @examples check_EF_TaskVII32(task_vii32)
+#'
+
+
+#' Check duplicated records in GFCM Task II.2 table
+#'
+#' @description The function check the presence of duplicated records. In particular, it checks whether the combination of the first 5 columns generates duplicate records.
+#' @param data GFCM Task II.2 table
+#' @param verbose boolean. If TRUE a message is printed.
+#'
+#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 5 columns of the Task II.2 table.
+#' @export
+#'
+#' @examples check_RD_taskII2(task_ii2)
+
+
+#' Check duplicated records in GFCM Task III table
+#'
+#' @description The function check the presence of duplicated records. In particular, it checks whether the combination of the first 10 columns generates duplicate records.
+#' @param data GFCM Task III table
+#' @param verbose boolean. If TRUE a message is printed.
+#'
+#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 5 columns of the Task Task III table.
+#' @export
+#'
+#' @examples check_RD_taskIII(task_iii)
+
+
+#' Check duplicated records in GFCM Task VII.2 table
+#'
+#' @description The function check the presence of duplicated records. In particular, it checks whether the combination of the first 9 columns generates duplicate records.
+#' @param data GFCM Task VII.2 table
+#' @param verbose boolean. If TRUE a message is printed.
+#'
+#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 9 columns of the Task Task VII.2 table.
+#' @export
+#'
+#' @examples check_RD_taskVII2(task_vii2)
+
+
+#' Check duplicated records in GFCM Task VII.3.1 table
+#'
+#' @description The function check the presence of duplicated records. In particular, it checks whether the combination of the first 5 columns generates duplicate records.
+#' @param data GFCM Task VII.3.1 table
+#' @param verbose boolean. If TRUE a message is printed.
+#'
+#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 5 columns of the Task Task VII.3.1 table.
+#' @export
+#'
+#' @examples check_RD_taskVII31(task_vii31)
+
+
+#' Check duplicated records in GFCM Task VII.3.2 table
+#'
+#' @description The function check the presence of duplicated records. In particular, it checks whether the combination of the first 10 columns generates duplicate records.
+#' @param data GFCM Task VII.3.2 table
+#' @param verbose boolean. If TRUE a message is printed.
+#'
+#' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 10 columns of the Task Task VII.3.2 table.
+#' @export
+#'
+#' @examples check_RD_TaskVII32(task_vii32)
+
+
+DA QUI INIZIANO QUELLE COMPLETAMENTE SCRITTE DA ME
+
+
+#'  Comparison between min/max L50 observed for each species and sex with theoretical values
+#'
+#' @description Function to verify the consistency of L50 reported in the TaskVII.3.1 table respect to theoretical values reported in the minmaxLtaskVII31 table. The function allows to identufy the records in which the observed L50 are greater or lower than the expected ones.
+#' @param data1 GFCM Task VII.3.1 table
+#' @param data2 Theoretical values of min/max L50 for each species and sex
+#'
+#' @return The function returns a table with the comparison between min/max L50 observed for each species and sex with theoretical values.
+#' @export
+#'
+#' @examples check_minmaxl50_TaskVII.3.1(task_vii31,minmaxLtaskVII31)
+
+
+#'  Comparison between min/max observed for each species with theoretical values
+#'
+#' @description Function to verify the consistency of the lengths reported in the TaskVII.2 table respect to theoretical values reported in the minmaxLtaskVII2 table. The function allows to identufy the records in which the observed lengths are greater or lower than the expected ones.
+#' @param data1 GFCM Task II.2 table
+#' @param data2 Theoretical values of min/max for each species
+#'
+#' @return The function returns a table with the comparison between min/max lengths observed for each species with theoretical values. 
+#' @export
+#'
+#' @examples check_minmaxl_TaskVII.2(task_vii2,minmaxLtaskVII2)
+
+
+#' Check of missing combination GSA/Fleet segment per year
+#'
+#' @description Fuction to verify the completeness GSA/Fleet segment, as reported in the combination_taskII2 table.
+#' @param data1 GFCM Task II.2 table
+#' @param data2 List of combination GSA/Fleet segment per year for Task II.2 table
+#'
+#' @return The function returns a list of missing combinations GSA/Fleet segment per year.
+#' @export
+#'
+#' @examples check_presence_taskII2(task_ii2,combination_taskII2)
+
+
+#' Check mismatching species/Catfau and Sex per maturity stages for Task VII.3.2 table
+#'
+#' @description Function to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table.
+#' @param data GFCM Task VII.3.2 table
+#' @param species List of combination species/faunistic category for Task VII.3.2 table
+#' @param matsex List of combination of sex/maturity stages for Task VII.3.2 table
+#'
+#' @return Two lists are returned by the function. The first list gives the list of mismatching combination species/faunistic category. The second list gives the list of mismatching combination sex/maturity stages.
+#' @export
+#'
+#' @examples check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat)
+
+
+#' Plot of the maturity stages per length for each sex and species
+#'
+#' @description Function to check the lenghts at maturity stages by species and sex, to easily identify outliers.
+#' @param data GFCM Task VII.3.2 table
+#'
+#' @return The function return one plot per species of the maturity stages per length and sex.
+#' @export
+#' @import ggplot2
+#'
+#' @examples check_lmat_TaskVII.3.2(task_vii32)
+
+
+#' Plot of the relationship length weight for each species
+#'
+#' @description Function to check the consistency of length-weight relationship in the GFCM Task VII.2 table per species.
+#' @param data GFCM Task VII.2 table
+#'
+#' @return The function return one plot per species of the length weight relationship.
+#' @export
+#' @import ggplot2
+#'
+#' @examples check_lw_TaskVII.2(task_vii2)
