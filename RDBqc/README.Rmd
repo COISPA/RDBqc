@@ -1,5 +1,5 @@
 ---
-title: "A priori quality checks on RCG CS and CL dataformats"
+title: "Quality checks on RDBFIS data formats"
 output: github_document
 vignette: >
   %\VignetteIndexEntry{A priori quality checks on RCG CS and CL dataformats}
@@ -16,11 +16,15 @@ knitr::opts_chunk$set(
 library(RDBqc)
 ```
 
-RDBqc allows to carry out a set of quality checks on detailed sampling data and on aggregated landing data.
-The supported data formats in version `r packageVersion("RDBqc")` are:
+RDBqc allows to carry out a set of _a priori_ quality checks on detailed sampling data and on aggregated landing data, and _a posteriori_ quality check on MEDBS, FDI and GFCM data call formats.
 
+The supported quality checks in version `r packageVersion("RDBqc")` are:
+
+### _A priori_ quality checks
 * RCG CS - biological sampling data
-* RCG CL - aggregated landing data.
+* RCG CL - aggregated landing data
+
+### _A posteriori_ quality checks
 * MEDBS - catch data
 * MEDBS - discard data
 * MEDBS - landing data
