@@ -29,8 +29,6 @@ The supported quality checks in version 0.0.8 are:
 -   GFCM - Task VII.2 table
 -   GFCM - Task VII.3.1 table
 -   GFCM - Task VII.3.2 table
--   GFCM - Task II.2 table
--   GFCM - Task II.2 table
 
 # Checks on RCG
 
