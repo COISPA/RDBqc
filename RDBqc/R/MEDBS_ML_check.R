@@ -17,6 +17,9 @@ MEDBS_ML_check <- function(ML_tab, SP, MS, GSA,verbose=TRUE) {
         MS <- "ITA"
         GSA <- "9"
     }
+
+    colnames(ML_tab) <- toupper(colnames(ML_tab))
+
   ML_tab <- ML_tab[ML_tab$SPECIES == SP & ML_tab$COUNTRY == MS & ML_tab$AREA == GSA, ]
 
   if (nrow(ML_tab)==0){

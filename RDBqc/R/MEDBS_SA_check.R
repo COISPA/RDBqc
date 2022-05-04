@@ -18,6 +18,7 @@ MEDBS_SA_check <- function(SA_tab, SP, MS, GSA,verbose=TRUE) {
         GSA = "9"
     }
 
+    colnames(SA_tab) <- toupper(colnames(SA_tab))
   SA_tab <- SA_tab[SA_tab$SPECIES == SP & SA_tab$COUNTRY == MS & SA_tab$AREA == GSA, ]
 
   if (nrow(SA_tab)==0) {

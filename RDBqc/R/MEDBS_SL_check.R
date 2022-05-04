@@ -18,7 +18,7 @@ MEDBS_SL_check<-function(SL_tab,SP,MS,GSA,verbose=TRUE) {
         MS = "ITA"
         GSA ="9"
     }
-
+    colnames(SL_tab) <- toupper(colnames(SL_tab))
 SEXRATIO<-Summary_SL<-LENGTHCLASS<-cOUNTRY<-YEAR<-START_YEAR<-END_YEAR<-SPECIES<-SEX_RATIO<-NULL
 
 SL_tab=SL_tab[SL_tab$SPECIES==SP & SL_tab$COUNTRY==MS & SL_tab$AREA==GSA,]

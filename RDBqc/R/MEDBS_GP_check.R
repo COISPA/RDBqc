@@ -19,6 +19,8 @@ GP_check<-function(GP_tab,SP,MS,GSA) {
     }
     AGE<-LENGTH<-ID<-COUNTRY<-YEAR<-START_YEAR<-END_YEAR<-SPECIES<-SEX<-NULL
 
+    colnames(GP_tab) <- toupper(colnames(GP_tab))
+
     ck_sp <- c("HKE","MUT","MUR","SOL","CTC","PIL","ANE")
     GP_tab$AREA <- as.numeric(gsub("[^0-9]", "", GP_tab$AREA))
     GP_tab=GP_tab[GP_tab$SPECIES==SP & GP_tab$COUNTRY==MS & GP_tab$AREA==GSA,]
