@@ -4,16 +4,16 @@
 \alias{MEDBS_comp_land_YQ_fishery}
 \title{Comparison between landings in weight by quarter, quarter -1 and by fishery}
 \usage{
-MEDBS_comp_land_YQ_fishery(land, MS, GSA, SP, verbose = TRUE)
+MEDBS_comp_land_YQ_fishery(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{land}{data frame containing landing data}
+\item{data}{data frame containing landing data}
+
+\item{SP}{species reference code in the three alpha code format}
 
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{verbose}{boolean value to obtain further explanation messages from the function}
 }
@@ -24,7 +24,7 @@ The function returns a data frame  for the comparison of landings aggregated by 
 The function allows to perform the comparison of landings of a selected species aggregated by quarters and by year and fishery
 }
 \examples{
-MEDBS_comp_land_YQ_fishery(land = Landing_tab_example, MS = "ITA", GSA = 9, SP = "DPS")
+MEDBS_comp_land_YQ_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

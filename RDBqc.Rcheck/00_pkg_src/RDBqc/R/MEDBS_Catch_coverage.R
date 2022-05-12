@@ -1,6 +1,6 @@
 #' Catch_cov: function to check the coverage in Catch table
 #'
-#' @param catch Catch table in MEDBS format
+#' @param data Catch table in MEDBS format
 #' @param SP species (three alpha code)
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
@@ -8,20 +8,24 @@
 #' @description The function allows to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
 #' @return summary table and plots
 #' @export
-#' @examples MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","9")
+#' @examples MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9")
 #' @import ggplot2 dplyr
 #' @importFrom utils globalVariables
 
-MEDBS_Catch_coverage<-function(catch,SP,MS,GSA,verbose=TRUE){
+MEDBS_Catch_coverage<-function(data,SP,MS,GSA,verbose=TRUE){
 
     if (FALSE) {
         catch=Catch_tab_example
         SP="DPS"
         MS="ITA"
-        GSA="9"
+        GSA="GSA 9"
     }
 
+
     DISCARDS<- LANDINGS<-COUNTRY<-AREA<-YEAR<-QUARTER<-VESSEL_LENGTH<- GEAR<- MESH_SIZE_RANGE<-FISHERY<-NULL
+
+    catch <- data
+    colnames(catch) <- toupper(colnames(catch))
 
     catch=catch[catch$SPECIES==SP & catch$COUNTRY==MS & catch$AREA==GSA,]
 
@@ -71,7 +75,7 @@ catch_land_wt=catch %>% group_by(COUNTRY,AREA,YEAR,QUARTER,VESSEL_LENGTH, GEAR, 
 
  p <- ggplot(data, aes(x=YEAR, y=LANDINGS, fill=GEAR)) +
             geom_area(size=0.5, colour="black")+
-            ggtitle(paste0("Landings in catch of ",SP, " in ", MS,"_GSA",GSA))+xlab("")+ylab("tonnes")+theme(legend.position = "bottom")+scale_x_continuous(breaks=seq(min(data$YEAR),max(data$YEAR),2))
+            ggtitle(paste0("Landings in catch of ",SP, " in ", MS," - ",GSA))+xlab("")+ylab("tonnes")+theme(legend.position = "bottom")+scale_x_continuous(breaks=seq(min(data$YEAR),max(data$YEAR),2))
 
 l <- length(output)+1
 output[[l]] <- p
@@ -96,7 +100,7 @@ names(output)[[l]] <- "landings_at_age"
 
 p <- ggplot(data, aes(x=YEAR, y=DISCARDS, fill=GEAR)) +
     geom_area(size=0.5, colour="black")+theme_bw()+
-            ggtitle(paste0("Discards in catch of ",SP, " in ", MS,"_GSA",GSA))+xlab("")+
+            ggtitle(paste0("Discards in catch of ",SP, " in ", MS," - ",GSA))+xlab("")+
     ylab("tonnes")+theme(legend.position = "bottom")+scale_x_continuous(breaks=seq(min(data$YEAR),max(data$YEAR),2))
 l <- length(output)+1
 output[[l]] <- p

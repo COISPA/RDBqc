@@ -4,10 +4,10 @@
 \alias{MEDBS_Catch_coverage}
 \title{Catch_cov: function to check the coverage in Catch table}
 \usage{
-MEDBS_Catch_coverage(catch, SP, MS, GSA, verbose = TRUE)
+MEDBS_Catch_coverage(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{catch}{Catch table in MEDBS format}
+\item{data}{Catch table in MEDBS format}
 
 \item{SP}{species (three alpha code)}
 
@@ -24,5 +24,5 @@ summary table and plots
 The function allows to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
 }
 \examples{
-MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","9")
+MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9")
 }

@@ -1,7 +1,7 @@
 Package: RDBqc
 Title: Quality check functions for RDBFIS
-Version: 0.0.8
-Date: 2022-04-20
+Version: 0.0.10
+Date: 2022-05-10
 Authors@R: 
     c(person("Isabella", "Bitetto", email="bitetto@coispa.it", role = c("cre","aut"),
            comment = c(ORCID = "0000-0002-8497-1642")),
@@ -24,7 +24,7 @@ LazyData: true
 Suggests: rmarkdown, knitr
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2022-04-20 09:21:19 UTC; Walter
+Packaged: 2022-05-12 10:08:15 UTC; Walter
 Author: Isabella Bitetto [cre, aut] (<https://orcid.org/0000-0002-8497-1642>),
   Walter Zupa [aut] (<https://orcid.org/0000-0002-2058-8652>),
   Alessandro Mannini [com],

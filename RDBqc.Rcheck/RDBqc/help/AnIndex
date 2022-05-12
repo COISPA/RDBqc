@@ -33,7 +33,6 @@ fdi_g_effort	fdi_g_effort
 fdi_h_spatial_land	fdi_h_spatial_land
 fdi_i_spatial_fe	fdi_i_spatial_fe
 fdi_j_capacity	fdi_j_capacity
-GP_check	GP_check
 GP_tab_example	GP_tab_example
 Landing_tab_example	Landing_tab_example
 MA_tab_example	MA_tab_example
@@ -47,6 +46,7 @@ MEDBS_comp_land_YQ	MEDBS_comp_land_YQ
 MEDBS_comp_land_YQ_fishery	MEDBS_comp_land_YQ_fishery
 MEDBS_discard_coverage	MEDBS_discard_coverage
 MEDBS_disc_mean_weight	MEDBS_disc_mean_weight
+MEDBS_GP_check	MEDBS_GP_check
 MEDBS_ks	MEDBS_ks
 MEDBS_Landing_coverage	MEDBS_Landing_coverage
 MEDBS_land_mean_weight	MEDBS_land_mean_weight

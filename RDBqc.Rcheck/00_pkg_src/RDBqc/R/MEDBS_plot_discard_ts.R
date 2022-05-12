@@ -1,15 +1,15 @@
 #' Plot of total discards
 #'
-#' @param disc data frame containing discard data
+#' @param data data frame containing discard data
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code as it is reported in the discard data
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @param by string defining the temporal aggregation level of discard data to be plotted. Allowed values are: "year" and "quarter
 #' @description The function estimates the total discard time series by both year and quarters for a selected combination of member state, GSA and species.
 #' @return The function returns a plot of the total discard time series by year or by quarters. The plot by year also reports the landing by gear.
 #' @export MEDBS_plot_discard_ts
-#' @examples MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
-#' MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
+#' @examples MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
+#' MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
@@ -17,22 +17,24 @@
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by summarize
 #' @importFrom utils globalVariables
-MEDBS_plot_discard_ts <- function(disc,MS,GSA,SP,by="year"){
+MEDBS_plot_discard_ts <- function(data,SP,MS,GSA,by="year"){
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 18
+        GSA <- "GSA 18"
         SP <- "ARA"
         by="year" # "quarter"
         verbose=TRUE
-        disc=Discard_tab_example
-        MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
+        data=Discard_tab_example
+        MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
     }
 
     year <- gear <- discards <- quarter <- tot <- NULL # in combination with @importFrom utils globalVariables
 
-    disc$area <- as.numeric(gsub("[^0-9.-]+","\\1",disc$area))
-    disc <- disc[which(disc$area==as.numeric(GSA) & disc$country==MS & disc$species==SP),]
+    colnames(data) <- tolower(colnames(data))
+    disc <- data
+    # disc$area <- as.numeric(gsub("[^0-9.-]+","\\1",disc$area))
+    disc <- disc[which(disc$area==as.character(GSA) & disc$country==MS & disc$species==SP),]
 
 
   if (nrow(disc) > 0) {

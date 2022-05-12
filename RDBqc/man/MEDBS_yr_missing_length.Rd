@@ -4,18 +4,18 @@
 \alias{MEDBS_yr_missing_length}
 \title{Years with missing length distributions}
 \usage{
-MEDBS_yr_missing_length(data, type, MS, GSA, SP)
+MEDBS_yr_missing_length(data, type, SP, MS, GSA)
 }
 \arguments{
 \item{data}{data frame of landings or discards data}
 
 \item{type}{type of data frame. "l" for landing and "d" for discard}
 
+\item{SP}{species reference code in the three alpha code format}
+
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 }
 \value{
 the function returns a data frame containing the reference combination of year, gear and fishery missing length distributions
@@ -24,8 +24,8 @@ the function returns a data frame containing the reference combination of year, 
 The function checks the presence of years with missing length distributions in both landings and discards for a selected species
 }
 \examples{
-MEDBS_yr_missing_length(data=Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS")
-MEDBS_yr_missing_length(data=Landing_tab_example,type="l",MS=c("ITA"),GSA=c("9"),SP="DPS")
+MEDBS_yr_missing_length(data=Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
+MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

@@ -4,16 +4,16 @@
 \alias{MEDBS_disc_mean_weight}
 \title{Mean weight by year,gear and fishery aggregation}
 \usage{
-MEDBS_disc_mean_weight(disc, MS, GSA, SP, verbose = TRUE)
+MEDBS_disc_mean_weight(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{disc}{data frame containing discards data}
+\item{data}{data frame containing discards data}
+
+\item{SP}{species reference code in the three alpha code format}
 
 \item{MS}{member state code as it is reported in the discards data}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{verbose}{boolean value to obtain further explanation messages from the function}
 }
@@ -24,7 +24,7 @@ The function returns a plot of the mean discards weight by year, gear and fisher
 The function allows to check consistency of  mean discard of a selected species plotting the discards' weight by year, gear and fishery
 }
 \examples{
-MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_disc_mean_weight(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

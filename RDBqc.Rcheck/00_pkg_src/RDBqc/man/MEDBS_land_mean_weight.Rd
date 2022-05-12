@@ -4,16 +4,16 @@
 \alias{MEDBS_land_mean_weight}
 \title{Mean weight by year,gear and fishery aggregation}
 \usage{
-MEDBS_land_mean_weight(land, MS, GSA, SP, verbose = TRUE)
+MEDBS_land_mean_weight(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{land}{data frame containing landing data}
+\item{data}{data frame containing landing data}
+
+\item{SP}{species reference code in the three alpha code format}
 
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{verbose}{boolean value to obtain further explanation messages from the function}
 }
@@ -24,7 +24,7 @@ The function returns a plot of the mean landing weight by year, gear and fishery
 The function allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery
 }
 \examples{
-MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

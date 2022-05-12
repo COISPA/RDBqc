@@ -4,18 +4,18 @@
 \alias{MEDBS_weight_minus1}
 \title{weight -1 in landings}
 \usage{
-MEDBS_weight_minus1(data, type = "l", MS, GSA, SP, verbose = TRUE)
+MEDBS_weight_minus1(data, type = "l", SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{data.table object containing landing or discards data}
 
 \item{type}{type of table: "l" for landings; "d" for discards}
 
+\item{SP}{species reference code in the three alpha code format}
+
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{verbose}{Boolean value to obtain further explanation messages from the function}
 }
@@ -26,8 +26,8 @@ The function returns the number of rows with -1 values in landing weights having
 The function checks landings in weight equal to -1 having length class filled in
 }
 \examples{
-MEDBS_weight_minus1(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
-MEDBS_weight_minus1(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+MEDBS_weight_minus1(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+MEDBS_weight_minus1(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

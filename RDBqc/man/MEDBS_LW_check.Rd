@@ -4,10 +4,10 @@
 \alias{MEDBS_LW_check}
 \title{LW params in GP_tab in table check}
 \usage{
-MEDBS_LW_check(GP_tab, SP, MS, GSA, verbose = TRUE)
+MEDBS_LW_check(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{GP_tab}{growth params table in MED&BS datacall format}
+\item{data}{growth params table in MED&BS datacall format}
 
 \item{SP}{species (three alpha code)}
 
@@ -24,5 +24,5 @@ a summary table and plots of the LW params
 The function allows to check the length-weight parameters included in the GP table for a selected species
 }
 \examples{
-MEDBS_LW_check(GP_tab_example,"MUT","ITA","18")
+MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
 }

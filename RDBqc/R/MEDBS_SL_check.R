@@ -1,5 +1,5 @@
 #' SL_tab (sex ratio at length) table check
-#' @param SL_tab sex ratio at length table in MED&BS datacall format
+#' @param data sex ratio at length table in MED&BS datacall format
 #' @param SP species (three alpha code)
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
@@ -8,17 +8,18 @@
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
-#' @examples MEDBS_SL_check(SL_tab_example,"DPS","ITA","9")
+#' @examples MEDBS_SL_check(SL_tab_example,"DPS","ITA","GSA 99")
 
-MEDBS_SL_check<-function(SL_tab,SP,MS,GSA,verbose=TRUE) {
+MEDBS_SL_check<-function(data,SP,MS,GSA,verbose=TRUE) {
 
     if (FALSE){
-        SL_tab <- SL_tab_example
+        data <- SL_tab_example
         SP = "DPS"
         MS = "ITA"
-        GSA ="9"
+        GSA ="GSA 99"
     }
-    colnames(SL_tab) <- toupper(colnames(SL_tab))
+    colnames(data) <- toupper(colnames(data))
+    SL_tab <- data
 SEXRATIO<-Summary_SL<-LENGTHCLASS<-cOUNTRY<-YEAR<-START_YEAR<-END_YEAR<-SPECIES<-SEX_RATIO<-NULL
 
 SL_tab=SL_tab[SL_tab$SPECIES==SP & SL_tab$COUNTRY==MS & SL_tab$AREA==GSA,]
@@ -56,7 +57,7 @@ p <- ggplot(SL_tab, aes(x=LENGTHCLASS, y=SEX_RATIO,col="red"))+
     scale_y_continuous(breaks=seq(0,1,0.25))+
     expand_limits(x = 0, y = 0)+
     facet_wrap(~START_YEAR)+
-    ggtitle(paste0("Sex ratio by length class of ",SP, " in ", MS,"_GSA",GSA))+
+    ggtitle(paste0("Sex ratio by length class of ",SP, " in ", MS," - ",GSA))+
     theme(legend.position = "none")
 # print(p)
 l <- length(output)+1

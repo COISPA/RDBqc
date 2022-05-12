@@ -1,5 +1,5 @@
 #' LW params in GP_tab in table check
-#' @param GP_tab growth params table in MED&BS datacall format
+#' @param data growth params table in MED&BS datacall format
 #' @param SP species (three alpha code)
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
@@ -9,17 +9,20 @@
 #' @export
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
-#' @examples MEDBS_LW_check(GP_tab_example,"MUT","ITA","18")
-MEDBS_LW_check<-function(GP_tab,SP,MS,GSA,verbose=TRUE) {
+#' @examples MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
+MEDBS_LW_check<-function(data,SP,MS,GSA,verbose=TRUE) {
     if(FALSE){
         GP_tab <- GP_tab_example
         SP <- "MUT"
         MS <- "ITA"
-        GSA <- "18"
+        GSA <- "GSA 18"
     }
 
 LENGTH<-WEIGHT<-SEX<-ID<-NULL
-GP_tab$AREA <- as.numeric(gsub("[^0-9]", "", GP_tab$AREA))
+
+colnames(data) <- toupper(colnames(data))
+GP_tab <- data
+# GP_tab$AREA <- as.numeric(gsub("[^0-9]", "", GP_tab$AREA))
 GP_tab=GP_tab[GP_tab$SPECIES==SP & GP_tab$COUNTRY==MS & GP_tab$AREA==GSA,]
 
 if (nrow(GP_tab)==0) {
@@ -70,7 +73,7 @@ p <- ggplot(LW_final,aes(x=LENGTH,y=WEIGHT,col=SEX))+
     geom_point()+
     geom_line()+
     facet_wrap(~START_YEAR)+
-    ggtitle(paste0("LW curve of ",SP, " in ", MS,"_",GSA))+
+    ggtitle(paste0("LW curve of ",SP, " in ", MS," - ",GSA))+
     theme(legend.position = "bottom")+
     scale_x_continuous(breaks=steps)+
     expand_limits(x = 0, y = 0)
@@ -89,7 +92,7 @@ for (i in unique(LW_final$SEX)){
         geom_point()+
         geom_line()+
         facet_wrap(~START_YEAR)+
-        ggtitle(paste0("LW curve of ",i," ",SP, " in ", MS,"_",GSA))+
+        ggtitle(paste0("LW curve of ",i," ",SP, " in ", MS," - ",GSA))+
         # theme(legend.position = "bottom")+
         scale_x_continuous(breaks=steps)+
         expand_limits(x = 0, y = 0)+
@@ -108,7 +111,7 @@ for (i in unique(LW_final$SEX)){
     p <- ggplot(LW_final[LW_final$SEX%in%i,],aes(x=LENGTH,y=WEIGHT,col=ID))+
         geom_point()+geom_line()+
         # facet_wrap(~START_YEAR)+
-        ggtitle(paste0("LW curve of ",i," ",SP, " in ", MS,"_",GSA))+
+        ggtitle(paste0("LW curve of ",i," ",SP, " in ", MS," - ",GSA))+
         # theme(legend.position = "bottom")+
         scale_x_continuous(breaks=steps)+
         expand_limits(x = 0, y = 0)+

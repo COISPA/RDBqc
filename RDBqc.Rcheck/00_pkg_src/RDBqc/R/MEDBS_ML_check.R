@@ -1,5 +1,5 @@
 #' ML_tab (maturity at length) table check
-#' @param ML_tab maturity at length table in MED&BS datacall format
+#' @param data maturity at length table in MED&BS datacall format
 #' @param SP species (three alpha code)
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
@@ -8,15 +8,18 @@
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
-#' @examples MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "9")
-MEDBS_ML_check <- function(ML_tab, SP, MS, GSA,verbose=TRUE) {
+#' @examples MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
+MEDBS_ML_check <- function(data, SP, MS, GSA,verbose=TRUE) {
     if(FALSE){
-        ML_tab <- ML_tab_example
+        data <- ML_tab_example
         verbose=TRUE
         SP <- "DPS"
         MS <- "ITA"
-        GSA <- "9"
+        GSA <- "GSA 99"
     }
+
+    colnames(data) <- toupper(colnames(data))
+    ML_tab <- data
   ML_tab <- ML_tab[ML_tab$SPECIES == SP & ML_tab$COUNTRY == MS & ML_tab$AREA == GSA, ]
 
   if (nrow(ML_tab)==0){

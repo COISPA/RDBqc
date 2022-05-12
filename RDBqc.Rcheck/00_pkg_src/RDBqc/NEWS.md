@@ -1,3 +1,8 @@
+- RDBqc v0.0.10
+  - 
+- RDBqc v0.0.9
+  - toupper in colnames of MEDBS checks 
+  
 - RDBqc v0.0.8
   - Vignette included in the library
   - some bugs solved

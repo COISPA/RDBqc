@@ -4,10 +4,10 @@
 \alias{MEDBS_ML_check}
 \title{ML_tab (maturity at length) table check}
 \usage{
-MEDBS_ML_check(ML_tab, SP, MS, GSA, verbose = TRUE)
+MEDBS_ML_check(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{ML_tab}{maturity at length table in MED&BS datacall format}
+\item{data}{maturity at length table in MED&BS datacall format}
 
 \item{SP}{species (three alpha code)}
 
@@ -24,5 +24,5 @@ a summary table and plots
 The function allows to check the maturity at length (ML) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
 }
 \examples{
-MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "9")
+MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 }

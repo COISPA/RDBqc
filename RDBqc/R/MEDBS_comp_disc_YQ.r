@@ -1,16 +1,16 @@
 #' Comparison between discards in weight by quarter and -1
 #'
-#' @param disc data frame containing discards data
+#' @param data data frame containing discards data
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code as it is reported in the discards data
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @description The function allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level.
 #' @return The function returns a data frame  for the comparison of discards aggregated by quarters and by year
 #' @export MEDBS_comp_disc_YQ
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+#' @examples MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
 #' @importFrom dplyr full_join
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by
@@ -20,34 +20,36 @@
 #' @importFrom dplyr filter
 #' @importFrom dplyr full_join
 
-MEDBS_comp_disc_YQ <- function(disc,MS,GSA,SP) {
+MEDBS_comp_disc_YQ <- function(data,MS,GSA,SP) {
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 9
+        GSA <- "GSA 9"
         SP <- "DPS"
         # verbose=TRUE
-        disc=Discard_tab_example
-        MEDBS_comp_disc_YQ(disc,MS="ITA",GSA=18,SP="MUT")
+        data=Discard_tab_example
+        MEDBS_comp_disc_YQ(data,MS="ITA",GSA=GSA,SP=SP)
     }
 
-     gear <- discards <- quarter <- tot_q <- tot_yr <- year <- NULL
+     GEAR <- DISCARDS <- QUARTER <- tot_q <- tot_yr <- YEAR <- NULL
 
-     disc$area <- as.numeric(gsub("[^0-9.-]+","\\1",disc$area))
-     disc=disc[which(disc$area==as.numeric(GSA) & disc$country==MS & disc$species==SP),]
-     disc$discards[disc$discards==-1] <- 0
+     colnames(data) <- toupper(colnames(data))
+     disc <- data
+     # disc$area <- as.numeric(gsub("[^0-9.-]+","\\1",disc$area))
+     disc=disc[which(disc$AREA==as.character(GSA) & disc$COUNTRY==MS & disc$SPECIES==SP),]
+     disc$DISCARDS[disc$DISCARDS==-1] <- 0
 
   if (nrow(disc)>0){
     compLand <- list()
     c <- 1
     i=2009
 
-    for (i in unique(disc$year)){
-        tmp <- disc[disc$year%in%i,]
+    for (i in unique(disc$YEAR)){
+        tmp <- disc[disc$YEAR%in%i,]
         suppressMessages(quarters <- tmp %>%
-            filter(quarter>0) %>% group_by(year,gear) %>% summarize(tot_q=sum(discards)))
+            filter(QUARTER>0) %>% group_by(YEAR,GEAR) %>% summarize(tot_q=sum(DISCARDS)))
         suppressMessages(annual <- tmp %>%
-            filter(quarter<0) %>% group_by(year,gear) %>% summarize(tot_yr=sum(discards)))
+            filter(QUARTER<0) %>% group_by(YEAR,GEAR) %>% summarize(tot_yr=sum(DISCARDS)))
         suppressMessages(final_check <- full_join(quarters,annual))
         suppressMessages(final_check <- final_check %>% mutate(ratio=tot_q/tot_yr))
         compLand[[c]] <-final_check

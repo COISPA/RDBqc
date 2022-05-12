@@ -8,7 +8,7 @@
 #' @description The function allows to check the coverage of the time series in discard table for a selected species.
 #' @return summary table and plots of discard time series by year and gear
 #' @export
-#' @examples MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9")
+#' @examples MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","GSA 9")
 #' @import ggplot2 dplyr
 #' @importFrom utils globalVariables
 MEDBS_discard_coverage<-function(Discard_tab,SP,MS,GSA,verbose=TRUE){
@@ -17,7 +17,7 @@ MEDBS_discard_coverage<-function(Discard_tab,SP,MS,GSA,verbose=TRUE){
         Discard_tab=Discard_tab_example
         SP="DPS"
         MS="ITA"
-        GSA=9
+        GSA="GSA 9"
     }
 
     discards<- landings<-country<-area<-year<-quarter<-vessel_length <- gear<- mesh_size_range <- fishery <-NULL
@@ -62,7 +62,7 @@ MEDBS_discard_coverage<-function(Discard_tab,SP,MS,GSA,verbose=TRUE){
 
     p <- ggplot(data, aes(x=year, y=discards, fill=gear)) +
         geom_area(size=0.5, colour="black")+theme_bw()+
-        ggtitle(paste0("Discards of ",SP, " in ", MS,"_GSA",GSA))+xlab("")+ylab("tonnes")+theme(legend.position = "bottom")+
+        ggtitle(paste0("Discards of ",SP, " in ", MS," - ",GSA))+xlab("")+ylab("tonnes")+theme(legend.position = "bottom")+
         scale_x_continuous(breaks=seq(min(data$year),max(data$year),2))
 
     l <- length(output)+1

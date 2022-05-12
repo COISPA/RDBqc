@@ -2,21 +2,21 @@
 #'
 #' @param data data frame containing landing data
 #' @param type string vector indicating the type of table to be checked. "l" for landing; "d" for discards.
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @param verbose Boolean value to obtain further explanation messages from the function
 #' @description The function checks the presence of duplicated rows in both landings and discards data.
 #' @return The function returns a data frame containing the duplicated rows to be likely deleted from the data.
 #' @examples
-#' MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
-#' MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+#' MEDBS_check_duplicates(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+#' MEDBS_check_duplicates(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 #' @export MEDBS_check_duplicates
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
 
-MEDBS_check_duplicates <- function(data,type="l",MS,GSA,SP,verbose=TRUE) {
+MEDBS_check_duplicates <- function(data,type="l",SP,MS,GSA,verbose=TRUE) {
     if (FALSE) {
         data <- landing
         type <- "l"
@@ -29,19 +29,20 @@ MEDBS_check_duplicates <- function(data,type="l",MS,GSA,SP,verbose=TRUE) {
 
         # data <- rbind(data,data[1,])
 
-        MEDBS_check_duplicates(data=data,type="l",MS="ITA",GSA=18,SP="NEP",verbose=FALSE)
+        MEDBS_check_duplicates(data=data,type="l",MS="ITA",GSA="GSA 18",SP="NEP",verbose=FALSE)
     }
 
 data <- as.data.frame(data)
-    data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
-    data <- data[data$area==as.numeric(GSA) & data$country==MS & data$species==SP,]
+colnames(data) <- toupper(colnames(data))
+    # data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
+    data <- data[data$AREA==as.character(GSA) & data$COUNTRY==MS & data$SPECIES==SP,]
 
     if (type=="l") {
-        data$landings[data$landings==-1] <- 0
+        data$LANDINGS[data$LANDINGS==-1] <- 0
     }
 
     if (type=="d") {
-        data$discards[data$discards==-1] <- 0
+        data$DISCARDS[data$DISCARDS==-1] <- 0
     }
 
     duplicate_rows <- table(duplicated(data[,c(2:13)]))# FALSE means no duplicated records are present

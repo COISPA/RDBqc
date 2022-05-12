@@ -4,10 +4,10 @@
 \alias{MEDBS_Landing_coverage}
 \title{Landing_cov: function to check the coverage in Landing table}
 \usage{
-MEDBS_Landing_coverage(Landing_tab, SP, MS, GSA, verbose = TRUE)
+MEDBS_Landing_coverage(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{Landing_tab}{Landing table in MED&BS format}
+\item{data}{Landing table in MED&BS format}
 
 \item{SP}{species (three alpha code)}
 
@@ -24,5 +24,5 @@ a list containing a summary table and coverage plot is provided
 the function allows to check the coverage in landing table providing a summary table and a plot of landing
 }
 \examples{
-MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","9")
+MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","GSA 9")
 }

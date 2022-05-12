@@ -7,9 +7,9 @@
 MEDBS_length_ind(
   data,
   type,
+  SP,
   MS,
   GSA,
-  SP,
   splines = c(0.2, 0.4, 0.6, 0.8),
   Xtresholds = c(0.25, 0.5, 0.75),
   verbose = TRUE
@@ -20,11 +20,11 @@ MEDBS_length_ind(
 
 \item{type}{type of data frame. "l" for landing and "d" for discard}
 
+\item{SP}{species reference code in the three alpha code format}
+
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{splines}{spline values assignment to fit cumulative distributions}
 
@@ -39,11 +39,11 @@ The function returns a plot of the Main length size indicators time series by fi
 The function allows to check the consistency of length data for a selected species on both landings and discards: Main length size indicators
 }
 \examples{
-MEDBS_length_ind(Landing_tab_example,type="l",MS=c("ITA"),
-GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+MEDBS_length_ind(Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),
+GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),
 Xtresholds = c(0.25,0.5,0.75))
-MEDBS_length_ind(Discard_tab_example,type="d",MS=c("ITA"),
-GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+MEDBS_length_ind(Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),
+GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),
 Xtresholds = c(0.25,0.5,0.75))
 }
 \author{

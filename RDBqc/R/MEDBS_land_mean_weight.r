@@ -1,15 +1,15 @@
 #' Mean weight by year,gear and fishery aggregation
 #'
-#' @param land data frame containing landing data
+#' @param data data frame containing landing data
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @description The function allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery
 #' @return The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and return the data frame as well.
 #' @export MEDBS_land_mean_weight
 #'
-#' @examples MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+#' @examples MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
@@ -20,21 +20,24 @@
 #' @importFrom utils globalVariables
 
 
-MEDBS_land_mean_weight <- function(land,MS,GSA,SP, verbose=TRUE) {
+MEDBS_land_mean_weight <- function(data,SP,MS,GSA, verbose=TRUE) {
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 9
+        GSA <- "GSA 9"
         SP <- "DPS"
         # verbose=TRUE
-        land=Landing_tab_example
-        MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+        data=Landing_tab_example
+        MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
     }
 
     . <- gear <- vessel_length <- mesh_size_range <- landings <- quarter <- MW <- year <- tmp1 <- totW <- totN <- fishery <- NULL
 
-    land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
-    land=land[which(land$area==as.numeric(GSA) & land$country==MS & land$species==SP),]
+    colnames(data) <- tolower(colnames(data))
+    land <- data
+
+    # land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
+    land=land[which(land$area==as.character(GSA) & land$country==MS & land$species==SP),]
 
     if (nrow(land)==0) {
         if (verbose){

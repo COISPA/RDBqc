@@ -2,9 +2,9 @@
 #'
 #' @param data data frame of landings or discards data
 #' @param type type of data frame. "l" for landing and "d" for discard
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @param splines spline values assignment to fit cumulative distributions
 #' @param Xtresholds threshold value
 #' @param verbose boolean value to obtain further explanation messages from the function
@@ -13,11 +13,11 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_length_ind(Landing_tab_example,type="l",MS=c("ITA"),
-#' GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+#' @examples MEDBS_length_ind(Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),
+#' GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),
 #' Xtresholds = c(0.25,0.5,0.75))
-#' MEDBS_length_ind(Discard_tab_example,type="d",MS=c("ITA"),
-#' GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+#' MEDBS_length_ind(Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),
+#' GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),
 #' Xtresholds = c(0.25,0.5,0.75))
 #' @import tidyverse
 #' @importFrom dplyr full_join
@@ -37,7 +37,7 @@
 #' @importFrom data.table as.data.table
 #' @export MEDBS_length_ind
 
-MEDBS_length_ind <- function (data,type,MS,GSA,SP,
+MEDBS_length_ind <- function (data,type,SP,MS,GSA,
 splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75),verbose=TRUE) {
 
     if (FALSE) {
@@ -46,10 +46,10 @@ splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75),verbose=TRUE) {
         Xtresholds = c(0.5)
         type="l"
         MS <- c("ITA")
-        GSA <- c("9")
+        GSA <- c("GSA 9")
         SP <- "DPS"
 
-        MEDBS_length_ind(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",splines=splines, Xtresholds=Xtresholds)
+        MEDBS_length_ind(data=Landing_tab_example, type="l",MS="ITA",GSA="GSA 9", SP="DPS",splines=splines, Xtresholds=Xtresholds)
 
     }
 
@@ -58,10 +58,11 @@ splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75),verbose=TRUE) {
     value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
 
     data <- as.data.table(data)
+    colnames(data) <- tolower(colnames(data))
 
     if (type == "l") {
         landed <- data #landed<-fread("../data/landings.csv")
-        landed$area <- as.numeric(gsub("[^0-9]", "", landed$area))
+        # landed$area <- as.numeric(gsub("[^0-9]", "", landed$area))
         landed$upload_id <- NA
         id_landings <- NA
         landed <- cbind(id_landings,landed)
@@ -244,7 +245,7 @@ splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75),verbose=TRUE) {
 
 
         discarded <- data # fread("../data/discards.csv")
-        discarded$area <- as.numeric(gsub("[^0-9]", "", discarded$area))
+        # discarded$area <- as.numeric(gsub("[^0-9]", "", discarded$area))
         discarded$upload_id <- NA
         discarded$discards[discarded$discards==-1]=0
 

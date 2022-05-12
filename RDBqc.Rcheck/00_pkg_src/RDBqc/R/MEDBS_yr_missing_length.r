@@ -2,16 +2,16 @@
 #'
 #' @param data data frame of landings or discards data
 #' @param type type of data frame. "l" for landing and "d" for discard
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @description The function checks the presence of years with missing length distributions in both landings and discards for a selected species
 #' @return the function returns a data frame containing the reference combination of year, gear and fishery missing length distributions
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_yr_missing_length(data=Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS")
-#' MEDBS_yr_missing_length(data=Landing_tab_example,type="l",MS=c("ITA"),GSA=c("9"),SP="DPS")
+#' @examples MEDBS_yr_missing_length(data=Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
+#' MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
 #' @import tidyverse
 #' @importFrom dplyr full_join group_by inner_join left_join summarize mutate filter
 #' @importFrom magrittr %>%
@@ -21,7 +21,7 @@
 #' @importFrom data.table as.data.table
 #' @export MEDBS_yr_missing_length
 
-MEDBS_yr_missing_length <- function (data,type,MS,GSA,SP) {
+MEDBS_yr_missing_length <- function (data,type,SP,MS,GSA) {
 
     if (FALSE) {
         # library(ggplot2)
@@ -34,11 +34,11 @@ MEDBS_yr_missing_length <- function (data,type,MS,GSA,SP) {
         type="d"
         # out = "mean" # "mean"
         MS <- c("ITA")
-        GSA <- c("9")
+        GSA <- c("GSA 9")
         SP <- "DPS"
         # tic()
 
-        MEDBS_yr_missing_length(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS")
+        MEDBS_yr_missing_length(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9")
 
     }
 
@@ -47,10 +47,11 @@ MEDBS_yr_missing_length <- function (data,type,MS,GSA,SP) {
     value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
 
     data <- as.data.table(data)
+    colnames(data) <- tolower(colnames(data))
 
     if (type == "l") {
         landed <- data #landed<-fread("../data/landings.csv")
-        landed$area <- as.numeric(gsub("[^0-9]", "", landed$area))
+        # landed$area <- as.numeric(gsub("[^0-9]", "", landed$area))
         landed$upload_id <- NA
         id_landings <- NA
         landed <- cbind(id_landings,landed)
@@ -125,7 +126,7 @@ MEDBS_yr_missing_length <- function (data,type,MS,GSA,SP) {
 
 
         discarded <- data # fread("../data/discards.csv")
-        discarded$area <- as.numeric(gsub("[^0-9]", "", discarded$area))
+        # discarded$area <- as.numeric(gsub("[^0-9]", "", discarded$area))
         discarded$upload_id <- NA
         discarded$discards[discarded$discards==-1]=0
 

@@ -4,18 +4,18 @@
 \alias{MEDBS_ks}
 \title{Kolmogorov-Smirnov test}
 \usage{
-MEDBS_ks(data, type, MS, GSA, SP, Rt = 1, verbose = TRUE)
+MEDBS_ks(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE)
 }
 \arguments{
 \item{data}{data frame of landings or discards data}
 
 \item{type}{type of data frame. "l" for landing and "d" for discard}
 
+\item{SP}{species reference code in the three alpha code format}
+
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{Rt}{ratio to be applied to subsample data to reduce the risk of rejection of H0 Hypothesis}
 
@@ -28,7 +28,7 @@ the function returns a list of data frames and cumulatine distribution plots
 The function allows to perform the Kolmogorov-Smirnov test on both landings and discards for a selected species providing cumulative length distribution plots by fishery and year. The function performs Kolmogorov-Smirnov tests on couples of years to assess if they belong to the same population.
 }
 \examples{
-MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
+MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9",Rt=1)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

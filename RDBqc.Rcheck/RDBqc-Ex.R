@@ -19,25 +19,6 @@ library('RDBqc')
 base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
 cleanEx()
-nameEx("GP_check")
-### * GP_check
-
-flush(stderr()); flush(stdout())
-
-base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-### Name: GP_check
-### Title: GP_tab (growth params) table check
-### Aliases: GP_check
-
-### ** Examples
-
-GP_check(GP_tab_example,"MUT","ITA","18")
-
-
-
-base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
-base::cat("GP_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
-cleanEx()
 nameEx("MEDBS_Catch_coverage")
 ### * MEDBS_Catch_coverage
 
@@ -50,12 +31,31 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","9")
+MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9")
 
 
 
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("MEDBS_Catch_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_GP_check")
+### * MEDBS_GP_check
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_GP_check
+### Title: GP_tab (growth params) table check
+### Aliases: MEDBS_GP_check
+
+### ** Examples
+
+MEDBS_GP_check(GP_tab_example,"MUT","ITA","GSA 18")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_GP_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
 nameEx("MEDBS_LW_check")
 ### * MEDBS_LW_check
@@ -69,7 +69,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_LW_check(GP_tab_example,"MUT","ITA","18")
+MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
 
 
 
@@ -88,7 +88,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","9")
+MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","GSA 9")
 
 
 
@@ -107,7 +107,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_MA_check(MA_tab_example,"DPS","ITA","9")
+MEDBS_MA_check(MA_tab_example,"DPS","ITA","GSA 99")
 
 
 
@@ -126,7 +126,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "9")
+MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 
 
 
@@ -145,7 +145,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "9")
+MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
 
 
 
@@ -164,7 +164,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_SL_check(SL_tab_example,"DPS","ITA","9")
+MEDBS_SL_check(SL_tab_example,"DPS","ITA","GSA 99")
 
 
 
@@ -183,8 +183,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
-MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 
 
 
@@ -203,7 +203,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
 
 
 
@@ -223,7 +223,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_disc_YQ_fishery(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_comp_disc_YQ_fishery(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
 
 
 
@@ -243,7 +243,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_land_Q_VL(land = Landing_tab_example, MS = "ITA", GSA = 9, SP = "DPS")
+MEDBS_comp_land_Q_VL(data = Landing_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
 
 
 
@@ -263,7 +263,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_land_Q_VL_fishery(land = Landing_tab_example, MS = "ITA", GSA = 9, SP = "DPS")
+MEDBS_comp_land_Q_VL_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 
 
 
@@ -282,7 +282,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_land_YQ(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_comp_land_YQ(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 
 
 
@@ -302,7 +302,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_comp_land_YQ_fishery(land = Landing_tab_example, MS = "ITA", GSA = 9, SP = "DPS")
+MEDBS_comp_land_YQ_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 
 
 
@@ -321,7 +321,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_disc_mean_weight(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 
 
 
@@ -340,7 +340,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9")
+MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","GSA 9")
 
 
 
@@ -359,7 +359,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
+MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9",Rt=1)
 
 
 
@@ -378,7 +378,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 
 
 
@@ -397,11 +397,11 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_length_ind(Landing_tab_example,type="l",MS=c("ITA"),
-GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+MEDBS_length_ind(Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),
+GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),
 Xtresholds = c(0.25,0.5,0.75))
-MEDBS_length_ind(Discard_tab_example,type="d",MS=c("ITA"),
-GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+MEDBS_length_ind(Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),
+GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),
 Xtresholds = c(0.25,0.5,0.75))
 
 
@@ -421,8 +421,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_lengthclass_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
-MEDBS_lengthclass_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+MEDBS_lengthclass_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+MEDBS_lengthclass_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 
 
 
@@ -441,7 +441,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_plot_disc_vol(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 
 
 
@@ -460,8 +460,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
-MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
+MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
+MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
 
 
 
@@ -480,7 +480,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_plot_land_vol(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 
 
 
@@ -499,8 +499,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
-MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
+MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
+MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
 
 
 
@@ -519,8 +519,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_weight_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
-MEDBS_weight_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+MEDBS_weight_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
+MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
 
 
 
@@ -539,8 +539,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_weight_minus1(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
-MEDBS_weight_minus1(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+MEDBS_weight_minus1(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+MEDBS_weight_minus1(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 
 
 
@@ -559,8 +559,8 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-MEDBS_yr_missing_length(data=Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS")
-MEDBS_yr_missing_length(data=Landing_tab_example,type="l",MS=c("ITA"),GSA=c("9"),SP="DPS")
+MEDBS_yr_missing_length(data=Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
+MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
 
 
 

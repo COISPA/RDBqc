@@ -2,9 +2,9 @@
 #'
 #' @param data data frame of landings or discards data
 #' @param type type of data frame. "l" for landing and "d" for discard
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @param Rt ratio to be applied to subsample data to reduce the risk of rejection of H0 Hypothesis
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @description The function allows to perform the Kolmogorov-Smirnov test on both landings and discards for a selected species providing cumulative length distribution plots by fishery and year. The function performs Kolmogorov-Smirnov tests on couples of years to assess if they belong to the same population.
@@ -12,7 +12,7 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
+#' @examples MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9",Rt=1)
 #' @import tidyverse
 #' @importFrom dplyr full_join group_by inner_join left_join summarize mutate filter
 #' @importFrom magrittr %>%
@@ -23,7 +23,7 @@
 #' @importFrom gridExtra grid.arrange
 #' @export MEDBS_ks
 
-MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1,verbose=TRUE) {
+MEDBS_ks <- function (data,type,SP,MS,GSA,Rt=1,verbose=TRUE) {
 
     if (FALSE) {
 
@@ -33,13 +33,13 @@ MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1,verbose=TRUE) {
         type="l"
         # out = "mean" # "mean"
         MS <- c("ITA")
-        GSA <- c(9)
+        GSA <- c("GSA 9")
         SP <- "DPS"
         Rt <- 1
         # tic()
          data <- Landing_tab_example <- as.data.table(Landing_tab_example)
 
-        MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA=9, SP="DPS",Rt=1)
+        MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA=9,Rt=1)
 
     }
 
@@ -47,11 +47,12 @@ MEDBS_ks <- function (data,type,MS,GSA,SP,Rt=1,verbose=TRUE) {
     len <- variable <- dbland <- NULL
     value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
 
+    colnames(data) <- tolower(colnames(data))
     data <- as.data.table(data)
 
     if (type == "l") {
         landed <- data #landed<-fread("../data/landings.csv")
-        landed$area <- as.numeric(gsub("[^0-9]", "", landed$area))
+        # landed$area <- as.numeric(gsub("[^0-9]", "", landed$area))
         landed$upload_id <- NA
         id_landings <- NA
         landed <- cbind(id_landings,landed)

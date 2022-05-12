@@ -4,16 +4,16 @@
 \alias{MEDBS_plot_land_vol}
 \title{Plot of total landing by gear and fishery}
 \usage{
-MEDBS_plot_land_vol(data, MS, GSA, SP, verbose = TRUE)
+MEDBS_plot_land_vol(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{data frame containing landing data}
 
+\item{SP}{species reference code in the three alpha code format}
+
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{verbose}{boolean value to obtain further explanation messages from the function}
 }
@@ -24,7 +24,7 @@ The function returns a plot of the total landing time series by fishery and gear
 The function allows to visual check the time series of landing volumes by fishery of a selected species
 }
 \examples{
-MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_plot_land_vol(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

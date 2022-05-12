@@ -4,10 +4,10 @@
 \alias{MEDBS_SA_check}
 \title{SA_tab (sex ratio at age) table check}
 \usage{
-MEDBS_SA_check(SA_tab, SP, MS, GSA, verbose = TRUE)
+MEDBS_SA_check(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{SA_tab}{sex ratio at age table in MED&BS datacall format}
+\item{data}{sex ratio at age table in MED&BS datacall format}
 
 \item{SP}{species (three alpha code)}
 
@@ -24,5 +24,5 @@ a summary table and plots
 The function allows to check the sex ratio at age (SA) table providing a summary table of the data coverage and plots for the selected species of the proportion of sex ratio for age class by year.
 }
 \examples{
-MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "9")
+MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
 }

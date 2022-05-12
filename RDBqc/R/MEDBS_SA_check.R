@@ -1,5 +1,5 @@
 #' SA_tab (sex ratio at age) table check
-#' @param SA_tab sex ratio at age table in MED&BS datacall format
+#' @param data sex ratio at age table in MED&BS datacall format
 #' @param SP species (three alpha code)
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
@@ -8,18 +8,19 @@
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
-#' @examples MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "9")
-MEDBS_SA_check <- function(SA_tab, SP, MS, GSA,verbose=TRUE) {
+#' @examples MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
+MEDBS_SA_check <- function(data, SP, MS, GSA,verbose=TRUE) {
 
     if (FALSE) {
         SA_tab = SA_tab_example
         SP = "DPS"
         MS = "ITA"
-        GSA = "9"
+        GSA = "GSA 99"
     }
 
-    colnames(SA_tab) <- toupper(colnames(SA_tab))
-  SA_tab <- SA_tab[SA_tab$SPECIES == SP & SA_tab$COUNTRY == MS & SA_tab$AREA == GSA, ]
+    colnames(data) <- toupper(colnames(data))
+    SA_tab <- data
+    SA_tab <- SA_tab[SA_tab$SPECIES == SP & SA_tab$COUNTRY == MS & SA_tab$AREA == GSA, ]
 
   if (nrow(SA_tab)==0) {
       if (verbose){
@@ -58,7 +59,7 @@ MEDBS_SA_check <- function(SA_tab, SP, MS, GSA,verbose=TRUE) {
     scale_y_continuous(breaks = seq(0, 1, 0.25)) +
     expand_limits(x = 0, y = 0) +
     facet_wrap(~START_YEAR) +
-    ggtitle(paste0("Sexratio by age class of ", SP, " in ", MS, "_GSA", GSA)) +
+    ggtitle(paste0("Sexratio by age class of ", SP, " in ", MS, " - ", GSA)) +
     theme(legend.position = "none") +
     xlab("Age class") +
     ylab("Sex ratio")

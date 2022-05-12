@@ -1,9 +1,9 @@
 #' Plot of total landing by gear and fishery
 #'
 #' @param data data frame containing landing data
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @description The function allows to visual check the time series of landing volumes by fishery of a selected species
 #' @return The function returns a plot of the total landing time series by fishery and gear
@@ -11,7 +11,7 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+#' @examples MEDBS_plot_land_vol(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 facet_grid
@@ -29,21 +29,22 @@
 #' @importFrom dplyr summarize
 #' @importFrom utils globalVariables
 #'
-MEDBS_plot_land_vol <- function(data,MS,GSA,SP,verbose=TRUE) {
+MEDBS_plot_land_vol <- function(data,SP,MS,GSA,verbose=TRUE) {
 
 if (FALSE) {
     MS <- "ITA"
-    GSA <- 9
+    GSA <- "GSA 9"
     SP <- "DPS"
     verbose=TRUE
     land <- Landing_tab_example
-    MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+    MEDBS_plot_land_vol(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 }
 
     year <- gear <- fishery <- landings <- sumLand <- NULL
 
-    data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
-    data=data[which(data$area==as.numeric(GSA) & data$country==MS & data$species==SP),]
+    colnames(data) <- tolower(colnames(data))
+    # data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
+    data=data[which(data$area==as.character(GSA) & data$country==MS & data$species==SP),]
 
     if (nrow(data)==0) {
         if (verbose){

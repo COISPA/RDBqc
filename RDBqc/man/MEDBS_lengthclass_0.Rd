@@ -4,18 +4,18 @@
 \alias{MEDBS_lengthclass_0}
 \title{Length classes number 0 in landings and discards}
 \usage{
-MEDBS_lengthclass_0(data, type = "l", MS, GSA, SP, verbose = TRUE)
+MEDBS_lengthclass_0(data, type = "l", SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{data frame containing landing data}
 
 \item{type}{string vector indicating the type of table to be checked. "l" for landing; "d" for discards.}
 
+\item{SP}{species reference code in the three alpha code format}
+
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{verbose}{Boolean value to obtain further explanation messages from the function}
 }
@@ -26,8 +26,8 @@ The function returns a data frame with the rows with 0 values length class havin
 The function checks landings and discards for the presence of length class filled in having weigth > 0.
 }
 \examples{
-MEDBS_lengthclass_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
-MEDBS_lengthclass_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+MEDBS_lengthclass_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+MEDBS_lengthclass_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

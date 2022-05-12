@@ -38,54 +38,6 @@ Type 'q()' to quit R.
 > base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 > base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
 > cleanEx()
-> nameEx("GP_check")
-> ### * GP_check
-> 
-> flush(stderr()); flush(stdout())
-> 
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: GP_check
-> ### Title: GP_tab (growth params) table check
-> ### Aliases: GP_check
-> 
-> ### ** Examples
-> 
-> GP_check(GP_tab_example,"MUT","ITA","18")
-$`summary table`
-   COUNTRY YEAR START_YEAR END_YEAR SPECIES SEX
-1      ITA   18       2014     2014     MUT   C
-2      ITA   18       2015     2015     MUT   C
-3      ITA   18       2016     2016     MUT   C
-4      ITA   18       2017     2017     MUT   C
-5      ITA   18       2014     2014     MUT   F
-6      ITA   18       2015     2015     MUT   F
-7      ITA   18       2016     2016     MUT   F
-8      ITA   18       2017     2017     MUT   F
-9      ITA   18       2014     2014     MUT   M
-10     ITA   18       2015     2015     MUT   M
-11     ITA   18       2016     2016     MUT   M
-12     ITA   18       2017     2017     MUT   M
-
-$`VBGF _ MUT _ ITA _ 18`
-
-$`VBGF_year _ MUT _ ITA _ 18 _ F`
-
-$`VBGF_year _ MUT _ ITA _ 18 _ M`
-
-$`VBGF_year _ MUT _ ITA _ 18 _ C`
-
-$`VBGF_cum _ MUT _ ITA _ 18 _ F`
-
-$`VBGF_cum _ MUT _ ITA _ 18 _ M`
-
-$`VBGF_cum _ MUT _ ITA _ 18 _ C`
-
-> 
-> 
-> 
-> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
-> base::cat("GP_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
-> cleanEx()
 > nameEx("MEDBS_Catch_coverage")
 > ### * MEDBS_Catch_coverage
 > 
@@ -98,214 +50,214 @@ $`VBGF_cum _ MUT _ ITA _ 18 _ C`
 > 
 > ### ** Examples
 > 
-> MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","9")
+> MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9")
 Joining, by = c("YEAR", "GEAR")
 Joining, by = c("YEAR", "GEAR")
 $summary_landing_table
-   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY AREA SPECIES
-1      ITA 2004      -1            -1  OTB          50D100      -1    9     DPS
-2      ITA 2004      -1            -1  GNS              -1    DEMF    9     DPS
-3      ITA 2007      -1            -1  GNS              -1    DEMF    9     DPS
-4      ITA 2008      -1            -1  GNS              -1    DEMF    9     DPS
-5      ITA 2014      -1            -1  GNS              -1    DEMF    9     DPS
-6      ITA 2017       2            -1  GNS              -1    DEMF    9     DPS
-7      ITA 2003      -1            -1  GTR              -1   DEMSP    9     DPS
-8      ITA 2004      -1            -1  GTR              -1   DEMSP    9     DPS
-9      ITA 2005      -1            -1  GTR              -1   DEMSP    9     DPS
-10     ITA 2012      -1            -1  GTR              -1   DEMSP    9     DPS
-11     ITA 2003      -1            -1  OTB              -1   DEMSP    9     DPS
-12     ITA 2005      -1            -1  OTB          50D100   DEMSP    9     DPS
-13     ITA 2006      -1            -1  OTB          50D100   DEMSP    9     DPS
-14     ITA 2007      -1            -1  OTB          50D100   DEMSP    9     DPS
-15     ITA 2008      -1            -1  OTB          50D100   DEMSP    9     DPS
-16     ITA 2009      -1            -1  OTB          50D100   DEMSP    9     DPS
-17     ITA 2010      -1            -1  OTB          50D100   DEMSP    9     DPS
-18     ITA 2011      -1            -1  OTB          50D100   DEMSP    9     DPS
-19     ITA 2012      -1            -1  OTB          50D100   DEMSP    9     DPS
-20     ITA 2013      -1            -1  OTB          50D100   DEMSP    9     DPS
-21     ITA 2014      -1            -1  OTB          50D100   DEMSP    9     DPS
-22     ITA 2015      -1            -1  OTB          50D100   DEMSP    9     DPS
-23     ITA 2016       1            -1  OTB          50D100   DEMSP    9     DPS
-24     ITA 2017       1            -1  OTB          50D100   DEMSP    9     DPS
-25     ITA 2016       2            -1  OTB          50D100   DEMSP    9     DPS
-26     ITA 2017       2            -1  OTB          50D100   DEMSP    9     DPS
-27     ITA 2016       3            -1  OTB          50D100   DEMSP    9     DPS
-28     ITA 2017       3            -1  OTB          50D100   DEMSP    9     DPS
-29     ITA 2016       4            -1  OTB          50D100   DEMSP    9     DPS
-30     ITA 2017       4            -1  OTB          50D100   DEMSP    9     DPS
-31     ITA 2008      -1            -1  OTB          50D100    DWSP    9     DPS
-32     ITA 2010      -1            -1  OTB          50D100    DWSP    9     DPS
-33     ITA 2011      -1            -1  OTB          50D100    DWSP    9     DPS
-34     ITA 2012      -1            -1  OTB          50D100    DWSP    9     DPS
-35     ITA 2013      -1            -1  OTB          50D100    DWSP    9     DPS
-36     ITA 2014      -1            -1  OTB          50D100    DWSP    9     DPS
-37     ITA 2015      -1            -1  OTB          50D100    DWSP    9     DPS
-38     ITA 2016      -1            -1  OTB          50D100    DWSP    9     DPS
-39     ITA 2005      -1            -1  OTB          50D100  MDDWSP    9     DPS
-40     ITA 2006      -1            -1  OTB          50D100  MDDWSP    9     DPS
-41     ITA 2007      -1            -1  OTB          50D100  MDDWSP    9     DPS
-42     ITA 2008      -1            -1  OTB          50D100  MDDWSP    9     DPS
-43     ITA 2009      -1            -1  OTB          50D100  MDDWSP    9     DPS
-44     ITA 2010      -1            -1  OTB          50D100  MDDWSP    9     DPS
-45     ITA 2011      -1            -1  OTB          50D100  MDDWSP    9     DPS
-46     ITA 2012      -1            -1  OTB          50D100  MDDWSP    9     DPS
-47     ITA 2013      -1            -1  OTB          50D100  MDDWSP    9     DPS
-48     ITA 2014      -1            -1  OTB          50D100  MDDWSP    9     DPS
-49     ITA 2015      -1            -1  OTB          50D100  MDDWSP    9     DPS
-50     ITA 2016       1            -1  OTB          50D100  MDDWSP    9     DPS
-51     ITA 2017       1            -1  OTB          50D100  MDDWSP    9     DPS
-52     ITA 2016       2            -1  OTB          50D100  MDDWSP    9     DPS
-53     ITA 2017       2            -1  OTB          50D100  MDDWSP    9     DPS
-54     ITA 2016       3            -1  OTB          50D100  MDDWSP    9     DPS
-55     ITA 2017       3            -1  OTB          50D100  MDDWSP    9     DPS
-56     ITA 2016       4            -1  OTB          50D100  MDDWSP    9     DPS
-57     ITA 2017       4            -1  OTB          50D100  MDDWSP    9     DPS
-     LANDINGS
-1  367.431910
-2    3.628830
-3    2.263080
-4    0.508290
-5    0.027360
-6    0.026880
-7    5.933227
-8    4.177760
-9    0.517960
-10   0.161160
-11 316.615971
-12  41.955260
-13  55.302990
-14  89.849750
-15 187.262190
-16 238.541980
-17 309.589920
-18 404.501390
-19 483.420540
-20 426.367160
-21 466.692420
-22 663.633400
-23 158.379000
-24 168.457870
-25 165.632000
-26 226.377570
-27 157.255000
-28 163.881790
-29 167.289000
-30 171.422780
-31   0.164650
-32   9.691160
-33   9.676960
-34   5.543910
-35   3.829750
-36   2.112830
-37   8.549960
-38  10.478000
-39 388.470180
-40 407.103060
-41 125.318150
-42  66.065310
-43  64.598710
-44 154.013300
-45 136.853120
-46 132.123730
-47 145.464160
-48  92.632310
-49 119.266000
-50  15.353000
-51  16.607640
-52  79.350000
-53  45.163590
-54  61.089000
-55  49.455210
-56  20.785000
-57  15.440050
+   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA
+1      ITA 2004      -1            -1  OTB          50D100      -1 GSA 9
+2      ITA 2004      -1            -1  GNS              -1    DEMF GSA 9
+3      ITA 2007      -1            -1  GNS              -1    DEMF GSA 9
+4      ITA 2008      -1            -1  GNS              -1    DEMF GSA 9
+5      ITA 2014      -1            -1  GNS              -1    DEMF GSA 9
+6      ITA 2017       2            -1  GNS              -1    DEMF GSA 9
+7      ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9
+8      ITA 2004      -1            -1  GTR              -1   DEMSP GSA 9
+9      ITA 2005      -1            -1  GTR              -1   DEMSP GSA 9
+10     ITA 2012      -1            -1  GTR              -1   DEMSP GSA 9
+11     ITA 2003      -1            -1  OTB              -1   DEMSP GSA 9
+12     ITA 2005      -1            -1  OTB          50D100   DEMSP GSA 9
+13     ITA 2006      -1            -1  OTB          50D100   DEMSP GSA 9
+14     ITA 2007      -1            -1  OTB          50D100   DEMSP GSA 9
+15     ITA 2008      -1            -1  OTB          50D100   DEMSP GSA 9
+16     ITA 2009      -1            -1  OTB          50D100   DEMSP GSA 9
+17     ITA 2010      -1            -1  OTB          50D100   DEMSP GSA 9
+18     ITA 2011      -1            -1  OTB          50D100   DEMSP GSA 9
+19     ITA 2012      -1            -1  OTB          50D100   DEMSP GSA 9
+20     ITA 2013      -1            -1  OTB          50D100   DEMSP GSA 9
+21     ITA 2014      -1            -1  OTB          50D100   DEMSP GSA 9
+22     ITA 2015      -1            -1  OTB          50D100   DEMSP GSA 9
+23     ITA 2016       1            -1  OTB          50D100   DEMSP GSA 9
+24     ITA 2017       1            -1  OTB          50D100   DEMSP GSA 9
+25     ITA 2016       2            -1  OTB          50D100   DEMSP GSA 9
+26     ITA 2017       2            -1  OTB          50D100   DEMSP GSA 9
+27     ITA 2016       3            -1  OTB          50D100   DEMSP GSA 9
+28     ITA 2017       3            -1  OTB          50D100   DEMSP GSA 9
+29     ITA 2016       4            -1  OTB          50D100   DEMSP GSA 9
+30     ITA 2017       4            -1  OTB          50D100   DEMSP GSA 9
+31     ITA 2008      -1            -1  OTB          50D100    DWSP GSA 9
+32     ITA 2010      -1            -1  OTB          50D100    DWSP GSA 9
+33     ITA 2011      -1            -1  OTB          50D100    DWSP GSA 9
+34     ITA 2012      -1            -1  OTB          50D100    DWSP GSA 9
+35     ITA 2013      -1            -1  OTB          50D100    DWSP GSA 9
+36     ITA 2014      -1            -1  OTB          50D100    DWSP GSA 9
+37     ITA 2015      -1            -1  OTB          50D100    DWSP GSA 9
+38     ITA 2016      -1            -1  OTB          50D100    DWSP GSA 9
+39     ITA 2005      -1            -1  OTB          50D100  MDDWSP GSA 9
+40     ITA 2006      -1            -1  OTB          50D100  MDDWSP GSA 9
+41     ITA 2007      -1            -1  OTB          50D100  MDDWSP GSA 9
+42     ITA 2008      -1            -1  OTB          50D100  MDDWSP GSA 9
+43     ITA 2009      -1            -1  OTB          50D100  MDDWSP GSA 9
+44     ITA 2010      -1            -1  OTB          50D100  MDDWSP GSA 9
+45     ITA 2011      -1            -1  OTB          50D100  MDDWSP GSA 9
+46     ITA 2012      -1            -1  OTB          50D100  MDDWSP GSA 9
+47     ITA 2013      -1            -1  OTB          50D100  MDDWSP GSA 9
+48     ITA 2014      -1            -1  OTB          50D100  MDDWSP GSA 9
+49     ITA 2015      -1            -1  OTB          50D100  MDDWSP GSA 9
+50     ITA 2016       1            -1  OTB          50D100  MDDWSP GSA 9
+51     ITA 2017       1            -1  OTB          50D100  MDDWSP GSA 9
+52     ITA 2016       2            -1  OTB          50D100  MDDWSP GSA 9
+53     ITA 2017       2            -1  OTB          50D100  MDDWSP GSA 9
+54     ITA 2016       3            -1  OTB          50D100  MDDWSP GSA 9
+55     ITA 2017       3            -1  OTB          50D100  MDDWSP GSA 9
+56     ITA 2016       4            -1  OTB          50D100  MDDWSP GSA 9
+57     ITA 2017       4            -1  OTB          50D100  MDDWSP GSA 9
+   SPECIES   LANDINGS
+1      DPS 367.431910
+2      DPS   3.628830
+3      DPS   2.263080
+4      DPS   0.508290
+5      DPS   0.027360
+6      DPS   0.026880
+7      DPS   5.933227
+8      DPS   4.177760
+9      DPS   0.517960
+10     DPS   0.161160
+11     DPS 316.615971
+12     DPS  41.955260
+13     DPS  55.302990
+14     DPS  89.849750
+15     DPS 187.262190
+16     DPS 238.541980
+17     DPS 309.589920
+18     DPS 404.501390
+19     DPS 483.420540
+20     DPS 426.367160
+21     DPS 466.692420
+22     DPS 663.633400
+23     DPS 158.379000
+24     DPS 168.457870
+25     DPS 165.632000
+26     DPS 226.377570
+27     DPS 157.255000
+28     DPS 163.881790
+29     DPS 167.289000
+30     DPS 171.422780
+31     DPS   0.164650
+32     DPS   9.691160
+33     DPS   9.676960
+34     DPS   5.543910
+35     DPS   3.829750
+36     DPS   2.112830
+37     DPS   8.549960
+38     DPS  10.478000
+39     DPS 388.470180
+40     DPS 407.103060
+41     DPS 125.318150
+42     DPS  66.065310
+43     DPS  64.598710
+44     DPS 154.013300
+45     DPS 136.853120
+46     DPS 132.123730
+47     DPS 145.464160
+48     DPS  92.632310
+49     DPS 119.266000
+50     DPS  15.353000
+51     DPS  16.607640
+52     DPS  79.350000
+53     DPS  45.163590
+54     DPS  61.089000
+55     DPS  49.455210
+56     DPS  20.785000
+57     DPS  15.440050
 
 $summary_discard_table
-   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY AREA SPECIES
-5      ITA 2014      -1            -1  GNS              -1    DEMF    9     DPS
-6      ITA 2017       2            -1  GNS              -1    DEMF    9     DPS
-7      ITA 2003      -1            -1  GTR              -1   DEMSP    9     DPS
-10     ITA 2012      -1            -1  GTR              -1   DEMSP    9     DPS
-11     ITA 2003      -1            -1  OTB              -1   DEMSP    9     DPS
-13     ITA 2006      -1            -1  OTB          50D100   DEMSP    9     DPS
-16     ITA 2009      -1            -1  OTB          50D100   DEMSP    9     DPS
-17     ITA 2010      -1            -1  OTB          50D100   DEMSP    9     DPS
-18     ITA 2011      -1            -1  OTB          50D100   DEMSP    9     DPS
-19     ITA 2012      -1            -1  OTB          50D100   DEMSP    9     DPS
-20     ITA 2013      -1            -1  OTB          50D100   DEMSP    9     DPS
-21     ITA 2014      -1            -1  OTB          50D100   DEMSP    9     DPS
-22     ITA 2015      -1            -1  OTB          50D100   DEMSP    9     DPS
-23     ITA 2016       1            -1  OTB          50D100   DEMSP    9     DPS
-24     ITA 2017       1            -1  OTB          50D100   DEMSP    9     DPS
-25     ITA 2016       2            -1  OTB          50D100   DEMSP    9     DPS
-26     ITA 2017       2            -1  OTB          50D100   DEMSP    9     DPS
-27     ITA 2016       3            -1  OTB          50D100   DEMSP    9     DPS
-28     ITA 2017       3            -1  OTB          50D100   DEMSP    9     DPS
-29     ITA 2016       4            -1  OTB          50D100   DEMSP    9     DPS
-30     ITA 2017       4            -1  OTB          50D100   DEMSP    9     DPS
-33     ITA 2011      -1            -1  OTB          50D100    DWSP    9     DPS
-34     ITA 2012      -1            -1  OTB          50D100    DWSP    9     DPS
-35     ITA 2013      -1            -1  OTB          50D100    DWSP    9     DPS
-37     ITA 2015      -1            -1  OTB          50D100    DWSP    9     DPS
-38     ITA 2016      -1            -1  OTB          50D100    DWSP    9     DPS
-40     ITA 2006      -1            -1  OTB          50D100  MDDWSP    9     DPS
-43     ITA 2009      -1            -1  OTB          50D100  MDDWSP    9     DPS
-44     ITA 2010      -1            -1  OTB          50D100  MDDWSP    9     DPS
-45     ITA 2011      -1            -1  OTB          50D100  MDDWSP    9     DPS
-46     ITA 2012      -1            -1  OTB          50D100  MDDWSP    9     DPS
-47     ITA 2013      -1            -1  OTB          50D100  MDDWSP    9     DPS
-48     ITA 2014      -1            -1  OTB          50D100  MDDWSP    9     DPS
-49     ITA 2015      -1            -1  OTB          50D100  MDDWSP    9     DPS
-50     ITA 2016       1            -1  OTB          50D100  MDDWSP    9     DPS
-51     ITA 2017       1            -1  OTB          50D100  MDDWSP    9     DPS
-52     ITA 2016       2            -1  OTB          50D100  MDDWSP    9     DPS
-53     ITA 2017       2            -1  OTB          50D100  MDDWSP    9     DPS
-54     ITA 2016       3            -1  OTB          50D100  MDDWSP    9     DPS
-55     ITA 2017       3            -1  OTB          50D100  MDDWSP    9     DPS
-56     ITA 2016       4            -1  OTB          50D100  MDDWSP    9     DPS
-57     ITA 2017       4            -1  OTB          50D100  MDDWSP    9     DPS
-    DISCARDS
-5   0.000000
-6   0.000000
-7   0.000000
-10  0.000000
-11  0.000000
-13  0.000000
-16 38.355420
-17 24.396528
-18 60.519315
-19  6.571266
-20 26.761695
-21 44.978926
-22 89.320018
-23  4.321935
-24 16.215517
-25  2.726606
-26 10.594472
-27 18.256248
-28  0.000000
-29  4.391166
-30 14.491513
-33  0.000000
-34  0.000000
-35  0.000000
-37  0.000000
-38  0.000000
-40  0.000000
-43  0.000000
-44  2.703603
-45  2.743526
-46  0.996779
-47  3.279211
-48  0.000000
-49  0.000000
-50  1.122239
-51  0.165092
-52  4.120538
-53  0.000000
-54  0.000000
-55  0.000000
-56  0.000000
-57  0.000000
+   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA
+5      ITA 2014      -1            -1  GNS              -1    DEMF GSA 9
+6      ITA 2017       2            -1  GNS              -1    DEMF GSA 9
+7      ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9
+10     ITA 2012      -1            -1  GTR              -1   DEMSP GSA 9
+11     ITA 2003      -1            -1  OTB              -1   DEMSP GSA 9
+13     ITA 2006      -1            -1  OTB          50D100   DEMSP GSA 9
+16     ITA 2009      -1            -1  OTB          50D100   DEMSP GSA 9
+17     ITA 2010      -1            -1  OTB          50D100   DEMSP GSA 9
+18     ITA 2011      -1            -1  OTB          50D100   DEMSP GSA 9
+19     ITA 2012      -1            -1  OTB          50D100   DEMSP GSA 9
+20     ITA 2013      -1            -1  OTB          50D100   DEMSP GSA 9
+21     ITA 2014      -1            -1  OTB          50D100   DEMSP GSA 9
+22     ITA 2015      -1            -1  OTB          50D100   DEMSP GSA 9
+23     ITA 2016       1            -1  OTB          50D100   DEMSP GSA 9
+24     ITA 2017       1            -1  OTB          50D100   DEMSP GSA 9
+25     ITA 2016       2            -1  OTB          50D100   DEMSP GSA 9
+26     ITA 2017       2            -1  OTB          50D100   DEMSP GSA 9
+27     ITA 2016       3            -1  OTB          50D100   DEMSP GSA 9
+28     ITA 2017       3            -1  OTB          50D100   DEMSP GSA 9
+29     ITA 2016       4            -1  OTB          50D100   DEMSP GSA 9
+30     ITA 2017       4            -1  OTB          50D100   DEMSP GSA 9
+33     ITA 2011      -1            -1  OTB          50D100    DWSP GSA 9
+34     ITA 2012      -1            -1  OTB          50D100    DWSP GSA 9
+35     ITA 2013      -1            -1  OTB          50D100    DWSP GSA 9
+37     ITA 2015      -1            -1  OTB          50D100    DWSP GSA 9
+38     ITA 2016      -1            -1  OTB          50D100    DWSP GSA 9
+40     ITA 2006      -1            -1  OTB          50D100  MDDWSP GSA 9
+43     ITA 2009      -1            -1  OTB          50D100  MDDWSP GSA 9
+44     ITA 2010      -1            -1  OTB          50D100  MDDWSP GSA 9
+45     ITA 2011      -1            -1  OTB          50D100  MDDWSP GSA 9
+46     ITA 2012      -1            -1  OTB          50D100  MDDWSP GSA 9
+47     ITA 2013      -1            -1  OTB          50D100  MDDWSP GSA 9
+48     ITA 2014      -1            -1  OTB          50D100  MDDWSP GSA 9
+49     ITA 2015      -1            -1  OTB          50D100  MDDWSP GSA 9
+50     ITA 2016       1            -1  OTB          50D100  MDDWSP GSA 9
+51     ITA 2017       1            -1  OTB          50D100  MDDWSP GSA 9
+52     ITA 2016       2            -1  OTB          50D100  MDDWSP GSA 9
+53     ITA 2017       2            -1  OTB          50D100  MDDWSP GSA 9
+54     ITA 2016       3            -1  OTB          50D100  MDDWSP GSA 9
+55     ITA 2017       3            -1  OTB          50D100  MDDWSP GSA 9
+56     ITA 2016       4            -1  OTB          50D100  MDDWSP GSA 9
+57     ITA 2017       4            -1  OTB          50D100  MDDWSP GSA 9
+   SPECIES  DISCARDS
+5      DPS  0.000000
+6      DPS  0.000000
+7      DPS  0.000000
+10     DPS  0.000000
+11     DPS  0.000000
+13     DPS  0.000000
+16     DPS 38.355420
+17     DPS 24.396528
+18     DPS 60.519315
+19     DPS  6.571266
+20     DPS 26.761695
+21     DPS 44.978926
+22     DPS 89.320018
+23     DPS  4.321935
+24     DPS 16.215517
+25     DPS  2.726606
+26     DPS 10.594472
+27     DPS 18.256248
+28     DPS  0.000000
+29     DPS  4.391166
+30     DPS 14.491513
+33     DPS  0.000000
+34     DPS  0.000000
+35     DPS  0.000000
+37     DPS  0.000000
+38     DPS  0.000000
+40     DPS  0.000000
+43     DPS  0.000000
+44     DPS  2.703603
+45     DPS  2.743526
+46     DPS  0.996779
+47     DPS  3.279211
+48     DPS  0.000000
+49     DPS  0.000000
+50     DPS  1.122239
+51     DPS  0.165092
+52     DPS  4.120538
+53     DPS  0.000000
+54     DPS  0.000000
+55     DPS  0.000000
+56     DPS  0.000000
+57     DPS  0.000000
 
 $landings_at_age
 
@@ -316,6 +268,54 @@ $discards_at_age
 > 
 > base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 > base::cat("MEDBS_Catch_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+> nameEx("MEDBS_GP_check")
+> ### * MEDBS_GP_check
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: MEDBS_GP_check
+> ### Title: GP_tab (growth params) table check
+> ### Aliases: MEDBS_GP_check
+> 
+> ### ** Examples
+> 
+> MEDBS_GP_check(GP_tab_example,"MUT","ITA","GSA 18")
+$`summary table`
+   COUNTRY   YEAR START_YEAR END_YEAR SPECIES SEX
+1      ITA GSA 18       2014     2014     MUT   C
+2      ITA GSA 18       2015     2015     MUT   C
+3      ITA GSA 18       2016     2016     MUT   C
+4      ITA GSA 18       2017     2017     MUT   C
+5      ITA GSA 18       2014     2014     MUT   F
+6      ITA GSA 18       2015     2015     MUT   F
+7      ITA GSA 18       2016     2016     MUT   F
+8      ITA GSA 18       2017     2017     MUT   F
+9      ITA GSA 18       2014     2014     MUT   M
+10     ITA GSA 18       2015     2015     MUT   M
+11     ITA GSA 18       2016     2016     MUT   M
+12     ITA GSA 18       2017     2017     MUT   M
+
+$`VBGF _ MUT _ ITA _ GSA 18`
+
+$`VBGF_year _ MUT _ ITA _ GSA 18 _ F`
+
+$`VBGF_year _ MUT _ ITA _ GSA 18 _ M`
+
+$`VBGF_year _ MUT _ ITA _ GSA 18 _ C`
+
+$`VBGF_cum _ MUT _ ITA _ GSA 18 _ F`
+
+$`VBGF_cum _ MUT _ ITA _ GSA 18 _ M`
+
+$`VBGF_cum _ MUT _ ITA _ GSA 18 _ C`
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("MEDBS_GP_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("MEDBS_LW_check")
 > ### * MEDBS_LW_check
@@ -329,35 +329,35 @@ $discards_at_age
 > 
 > ### ** Examples
 > 
-> MEDBS_LW_check(GP_tab_example,"MUT","ITA","18")
+> MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
 $`summary table`
-   COUNTRY AREA START_YEAR END_YEAR SPECIES SEX NA
-1      ITA   18       2014     2014     MUT   C  1
-2      ITA   18       2015     2015     MUT   C  1
-3      ITA   18       2016     2016     MUT   C  1
-4      ITA   18       2017     2017     MUT   C  1
-5      ITA   18       2014     2014     MUT   F  1
-6      ITA   18       2015     2015     MUT   F  1
-7      ITA   18       2016     2016     MUT   F  1
-8      ITA   18       2017     2017     MUT   F  1
-9      ITA   18       2014     2014     MUT   M  1
-10     ITA   18       2015     2015     MUT   M  1
-11     ITA   18       2016     2016     MUT   M  1
-12     ITA   18       2017     2017     MUT   M  1
+   COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX NA
+1      ITA GSA 18       2014     2014     MUT   C  1
+2      ITA GSA 18       2015     2015     MUT   C  1
+3      ITA GSA 18       2016     2016     MUT   C  1
+4      ITA GSA 18       2017     2017     MUT   C  1
+5      ITA GSA 18       2014     2014     MUT   F  1
+6      ITA GSA 18       2015     2015     MUT   F  1
+7      ITA GSA 18       2016     2016     MUT   F  1
+8      ITA GSA 18       2017     2017     MUT   F  1
+9      ITA GSA 18       2014     2014     MUT   M  1
+10     ITA GSA 18       2015     2015     MUT   M  1
+11     ITA GSA 18       2016     2016     MUT   M  1
+12     ITA GSA 18       2017     2017     MUT   M  1
 
-$`LW_cum _ MUT _ ITA _ 18`
+$`LW_cum _ MUT _ ITA _ GSA 18`
 
-$`LW_year _ MUT _ ITA _ 18`
+$`LW_year _ MUT _ ITA _ GSA 18`
 
-$`LW_year _ MUT _ ITA _ 18`
+$`LW_year _ MUT _ ITA _ GSA 18`
 
-$`LW_year _ MUT _ ITA _ 18`
+$`LW_year _ MUT _ ITA _ GSA 18`
 
-$`LW_cum _ MUT _ ITA _ 18`
+$`LW_cum _ MUT _ ITA _ GSA 18`
 
-$`LW_cum _ MUT _ ITA _ 18`
+$`LW_cum _ MUT _ ITA _ GSA 18`
 
-$`LW_cum _ MUT _ ITA _ 18`
+$`LW_cum _ MUT _ ITA _ GSA 18`
 
 > 
 > 
@@ -377,127 +377,127 @@ $`LW_cum _ MUT _ ITA _ 18`
 > 
 > ### ** Examples
 > 
-> MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","9")
-Joining, by = c("year", "gear")
+> MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","GSA 9")
+Joining, by = c("YEAR", "GEAR")
 $`summary table`
-   country year quarter vessel_length gear mesh_size_range fishery area species
-1      ITA 2003      -1            -1  OTB          50D100      -1    9     DPS
-2      ITA 2004      -1            -1  OTB          50D100      -1    9     DPS
-3      ITA 2004      -1            -1  GNS              -1    DEMF    9     DPS
-4      ITA 2007      -1            -1  GNS              -1    DEMF    9     DPS
-5      ITA 2008      -1            -1  GNS              -1    DEMF    9     DPS
-6      ITA 2014      -1            -1  GNS              -1    DEMF    9     DPS
-7      ITA 2017       2            -1  GNS              -1    DEMF    9     DPS
-8      ITA 2003      -1            -1  GTR              -1   DEMSP    9     DPS
-9      ITA 2004      -1            -1  GTR              -1   DEMSP    9     DPS
-10     ITA 2005      -1            -1  GTR              -1   DEMSP    9     DPS
-11     ITA 2012      -1            -1  GTR              -1   DEMSP    9     DPS
-12     ITA 2005      -1            -1  OTB          50D100   DEMSP    9     DPS
-13     ITA 2006      -1            -1  OTB          50D100   DEMSP    9     DPS
-14     ITA 2007      -1            -1  OTB          50D100   DEMSP    9     DPS
-15     ITA 2008      -1            -1  OTB          50D100   DEMSP    9     DPS
-16     ITA 2009      -1            -1  OTB          50D100   DEMSP    9     DPS
-17     ITA 2010      -1            -1  OTB          50D100   DEMSP    9     DPS
-18     ITA 2011      -1            -1  OTB          50D100   DEMSP    9     DPS
-19     ITA 2012      -1            -1  OTB          50D100   DEMSP    9     DPS
-20     ITA 2013      -1            -1  OTB          50D100   DEMSP    9     DPS
-21     ITA 2014      -1            -1  OTB          50D100   DEMSP    9     DPS
-22     ITA 2015      -1            -1  OTB          50D100   DEMSP    9     DPS
-23     ITA 2016       1            -1  OTB          50D100   DEMSP    9     DPS
-24     ITA 2017       1            -1  OTB          50D100   DEMSP    9     DPS
-25     ITA 2016       2            -1  OTB          50D100   DEMSP    9     DPS
-26     ITA 2017       2            -1  OTB          50D100   DEMSP    9     DPS
-27     ITA 2016       3            -1  OTB          50D100   DEMSP    9     DPS
-28     ITA 2017       3            -1  OTB          50D100   DEMSP    9     DPS
-29     ITA 2016       4            -1  OTB          50D100   DEMSP    9     DPS
-30     ITA 2017       4            -1  OTB          50D100   DEMSP    9     DPS
-31     ITA 2008      -1            -1  OTB          50D100    DWSP    9     DPS
-32     ITA 2010      -1            -1  OTB          50D100    DWSP    9     DPS
-33     ITA 2011      -1            -1  OTB          50D100    DWSP    9     DPS
-34     ITA 2012      -1            -1  OTB          50D100    DWSP    9     DPS
-35     ITA 2013      -1            -1  OTB          50D100    DWSP    9     DPS
-36     ITA 2014      -1            -1  OTB          50D100    DWSP    9     DPS
-37     ITA 2015      -1            -1  OTB          50D100    DWSP    9     DPS
-38     ITA 2016      -1            -1  OTB          50D100    DWSP    9     DPS
-39     ITA 2005      -1            -1  OTB          50D100  MDDWSP    9     DPS
-40     ITA 2006      -1            -1  OTB          50D100  MDDWSP    9     DPS
-41     ITA 2007      -1            -1  OTB          50D100  MDDWSP    9     DPS
-42     ITA 2008      -1            -1  OTB          50D100  MDDWSP    9     DPS
-43     ITA 2009      -1            -1  OTB          50D100  MDDWSP    9     DPS
-44     ITA 2010      -1            -1  OTB          50D100  MDDWSP    9     DPS
-45     ITA 2011      -1            -1  OTB          50D100  MDDWSP    9     DPS
-46     ITA 2012      -1            -1  OTB          50D100  MDDWSP    9     DPS
-47     ITA 2013      -1            -1  OTB          50D100  MDDWSP    9     DPS
-48     ITA 2014      -1            -1  OTB          50D100  MDDWSP    9     DPS
-49     ITA 2015      -1            -1  OTB          50D100  MDDWSP    9     DPS
-50     ITA 2016       1            -1  OTB          50D100  MDDWSP    9     DPS
-51     ITA 2017       1            -1  OTB          50D100  MDDWSP    9     DPS
-52     ITA 2016       2            -1  OTB          50D100  MDDWSP    9     DPS
-53     ITA 2017       2            -1  OTB          50D100  MDDWSP    9     DPS
-54     ITA 2016       3            -1  OTB          50D100  MDDWSP    9     DPS
-55     ITA 2017       3            -1  OTB          50D100  MDDWSP    9     DPS
-56     ITA 2016       4            -1  OTB          50D100  MDDWSP    9     DPS
-57     ITA 2017       4            -1  OTB          50D100  MDDWSP    9     DPS
-     landings
-1  316.615971
-2  367.431910
-3    3.628830
-4    2.263080
-5    0.508290
-6    0.027360
-7    0.026880
-8    5.933227
-9    4.177760
-10   0.517960
-11   0.161160
-12  41.955260
-13  55.302990
-14  89.849750
-15 187.262190
-16 238.541980
-17 309.589920
-18 404.501390
-19 483.420540
-20 426.367160
-21 466.692420
-22 663.633400
-23 158.379000
-24 168.457870
-25 165.632000
-26 226.377570
-27 157.255000
-28 163.881790
-29 167.289000
-30 171.422780
-31   0.164650
-32   9.691160
-33   9.676960
-34   5.543910
-35   3.829750
-36   2.112830
-37   8.549960
-38  10.478000
-39 388.470180
-40 407.103060
-41 125.318150
-42  66.065310
-43  64.598710
-44 154.013300
-45 136.853120
-46 132.123730
-47 145.464160
-48  92.632310
-49 119.266000
-50  15.353000
-51  16.607640
-52  79.350000
-53  45.163590
-54  61.089000
-55  49.455210
-56  20.785000
-57  15.440050
+   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA
+1      ITA 2003      -1            -1  OTB          50D100      -1 GSA 9
+2      ITA 2004      -1            -1  OTB          50D100      -1 GSA 9
+3      ITA 2004      -1            -1  GNS              -1    DEMF GSA 9
+4      ITA 2007      -1            -1  GNS              -1    DEMF GSA 9
+5      ITA 2008      -1            -1  GNS              -1    DEMF GSA 9
+6      ITA 2014      -1            -1  GNS              -1    DEMF GSA 9
+7      ITA 2017       2            -1  GNS              -1    DEMF GSA 9
+8      ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9
+9      ITA 2004      -1            -1  GTR              -1   DEMSP GSA 9
+10     ITA 2005      -1            -1  GTR              -1   DEMSP GSA 9
+11     ITA 2012      -1            -1  GTR              -1   DEMSP GSA 9
+12     ITA 2005      -1            -1  OTB          50D100   DEMSP GSA 9
+13     ITA 2006      -1            -1  OTB          50D100   DEMSP GSA 9
+14     ITA 2007      -1            -1  OTB          50D100   DEMSP GSA 9
+15     ITA 2008      -1            -1  OTB          50D100   DEMSP GSA 9
+16     ITA 2009      -1            -1  OTB          50D100   DEMSP GSA 9
+17     ITA 2010      -1            -1  OTB          50D100   DEMSP GSA 9
+18     ITA 2011      -1            -1  OTB          50D100   DEMSP GSA 9
+19     ITA 2012      -1            -1  OTB          50D100   DEMSP GSA 9
+20     ITA 2013      -1            -1  OTB          50D100   DEMSP GSA 9
+21     ITA 2014      -1            -1  OTB          50D100   DEMSP GSA 9
+22     ITA 2015      -1            -1  OTB          50D100   DEMSP GSA 9
+23     ITA 2016       1            -1  OTB          50D100   DEMSP GSA 9
+24     ITA 2017       1            -1  OTB          50D100   DEMSP GSA 9
+25     ITA 2016       2            -1  OTB          50D100   DEMSP GSA 9
+26     ITA 2017       2            -1  OTB          50D100   DEMSP GSA 9
+27     ITA 2016       3            -1  OTB          50D100   DEMSP GSA 9
+28     ITA 2017       3            -1  OTB          50D100   DEMSP GSA 9
+29     ITA 2016       4            -1  OTB          50D100   DEMSP GSA 9
+30     ITA 2017       4            -1  OTB          50D100   DEMSP GSA 9
+31     ITA 2008      -1            -1  OTB          50D100    DWSP GSA 9
+32     ITA 2010      -1            -1  OTB          50D100    DWSP GSA 9
+33     ITA 2011      -1            -1  OTB          50D100    DWSP GSA 9
+34     ITA 2012      -1            -1  OTB          50D100    DWSP GSA 9
+35     ITA 2013      -1            -1  OTB          50D100    DWSP GSA 9
+36     ITA 2014      -1            -1  OTB          50D100    DWSP GSA 9
+37     ITA 2015      -1            -1  OTB          50D100    DWSP GSA 9
+38     ITA 2016      -1            -1  OTB          50D100    DWSP GSA 9
+39     ITA 2005      -1            -1  OTB          50D100  MDDWSP GSA 9
+40     ITA 2006      -1            -1  OTB          50D100  MDDWSP GSA 9
+41     ITA 2007      -1            -1  OTB          50D100  MDDWSP GSA 9
+42     ITA 2008      -1            -1  OTB          50D100  MDDWSP GSA 9
+43     ITA 2009      -1            -1  OTB          50D100  MDDWSP GSA 9
+44     ITA 2010      -1            -1  OTB          50D100  MDDWSP GSA 9
+45     ITA 2011      -1            -1  OTB          50D100  MDDWSP GSA 9
+46     ITA 2012      -1            -1  OTB          50D100  MDDWSP GSA 9
+47     ITA 2013      -1            -1  OTB          50D100  MDDWSP GSA 9
+48     ITA 2014      -1            -1  OTB          50D100  MDDWSP GSA 9
+49     ITA 2015      -1            -1  OTB          50D100  MDDWSP GSA 9
+50     ITA 2016       1            -1  OTB          50D100  MDDWSP GSA 9
+51     ITA 2017       1            -1  OTB          50D100  MDDWSP GSA 9
+52     ITA 2016       2            -1  OTB          50D100  MDDWSP GSA 9
+53     ITA 2017       2            -1  OTB          50D100  MDDWSP GSA 9
+54     ITA 2016       3            -1  OTB          50D100  MDDWSP GSA 9
+55     ITA 2017       3            -1  OTB          50D100  MDDWSP GSA 9
+56     ITA 2016       4            -1  OTB          50D100  MDDWSP GSA 9
+57     ITA 2017       4            -1  OTB          50D100  MDDWSP GSA 9
+   SPECIES   LANDINGS
+1      DPS 316.615971
+2      DPS 367.431910
+3      DPS   3.628830
+4      DPS   2.263080
+5      DPS   0.508290
+6      DPS   0.027360
+7      DPS   0.026880
+8      DPS   5.933227
+9      DPS   4.177760
+10     DPS   0.517960
+11     DPS   0.161160
+12     DPS  41.955260
+13     DPS  55.302990
+14     DPS  89.849750
+15     DPS 187.262190
+16     DPS 238.541980
+17     DPS 309.589920
+18     DPS 404.501390
+19     DPS 483.420540
+20     DPS 426.367160
+21     DPS 466.692420
+22     DPS 663.633400
+23     DPS 158.379000
+24     DPS 168.457870
+25     DPS 165.632000
+26     DPS 226.377570
+27     DPS 157.255000
+28     DPS 163.881790
+29     DPS 167.289000
+30     DPS 171.422780
+31     DPS   0.164650
+32     DPS   9.691160
+33     DPS   9.676960
+34     DPS   5.543910
+35     DPS   3.829750
+36     DPS   2.112830
+37     DPS   8.549960
+38     DPS  10.478000
+39     DPS 388.470180
+40     DPS 407.103060
+41     DPS 125.318150
+42     DPS  66.065310
+43     DPS  64.598710
+44     DPS 154.013300
+45     DPS 136.853120
+46     DPS 132.123730
+47     DPS 145.464160
+48     DPS  92.632310
+49     DPS 119.266000
+50     DPS  15.353000
+51     DPS  16.607640
+52     DPS  79.350000
+53     DPS  45.163590
+54     DPS  61.089000
+55     DPS  49.455210
+56     DPS  20.785000
+57     DPS  15.440050
 
-$`Landing _ DPS _ ITA _ 9`
+$`Landing _ DPS _ ITA _ GSA 9`
 
 > 
 > 
@@ -517,25 +517,25 @@ $`Landing _ DPS _ ITA _ 9`
 > 
 > ### ** Examples
 > 
-> MEDBS_MA_check(MA_tab_example,"DPS","ITA","9")
+> MEDBS_MA_check(MA_tab_example,"DPS","ITA","GSA 99")
 $`summary table`
-   COUNTRY YEAR START_YEAR END_YEAR SPECIES SEX
-1      ITA    9       2006     2006     DPS   F
-2      ITA    9       2007     2007     DPS   F
-3      ITA    9       2008     2008     DPS   F
-4      ITA    9       2009     2009     DPS   F
-5      ITA    9       2010     2010     DPS   F
-6      ITA    9       2011     2011     DPS   F
-7      ITA    9       2012     2012     DPS   F
-8      ITA    9       2013     2013     DPS   F
-9      ITA    9       2014     2014     DPS   F
-10     ITA    9       2015     2015     DPS   F
-11     ITA    9       2016     2016     DPS   F
-12     ITA    9       2017     2016     DPS   F
+   COUNTRY   YEAR START_YEAR END_YEAR SPECIES SEX
+1      ITA GSA 99       2006     2006     DPS   F
+2      ITA GSA 99       2007     2007     DPS   F
+3      ITA GSA 99       2008     2008     DPS   F
+4      ITA GSA 99       2009     2009     DPS   F
+5      ITA GSA 99       2010     2010     DPS   F
+6      ITA GSA 99       2011     2011     DPS   F
+7      ITA GSA 99       2012     2012     DPS   F
+8      ITA GSA 99       2013     2013     DPS   F
+9      ITA GSA 99       2014     2014     DPS   F
+10     ITA GSA 99       2015     2015     DPS   F
+11     ITA GSA 99       2016     2016     DPS   F
+12     ITA GSA 99       2017     2016     DPS   F
 
-$`MA _ DPS _ ITA _ 9`
+$`MA _ DPS _ ITA _ GSA 99`
 
-$`MA_sex _ DPS _ ITA _ 9 _ F`
+$`MA_sex _ DPS _ ITA _ GSA 99 _ F`
 
 > 
 > 
@@ -555,25 +555,25 @@ $`MA_sex _ DPS _ ITA _ 9 _ F`
 > 
 > ### ** Examples
 > 
-> MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "9")
+> MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 $`summary table`
-   COUNTRY YEAR START_YEAR END_YEAR SPECIES SEX
-1      ITA    9       2006     2006     DPS   F
-2      ITA    9       2007     2007     DPS   F
-3      ITA    9       2008     2008     DPS   F
-4      ITA    9       2009     2009     DPS   F
-5      ITA    9       2010     2010     DPS   F
-6      ITA    9       2011     2011     DPS   F
-7      ITA    9       2012     2012     DPS   F
-8      ITA    9       2013     2013     DPS   F
-9      ITA    9       2014     2014     DPS   F
-10     ITA    9       2015     2015     DPS   F
-11     ITA    9       2016     2016     DPS   F
-12     ITA    9       2017     2017     DPS   F
+   COUNTRY   YEAR START_YEAR END_YEAR SPECIES SEX
+1      ITA GSA 99       2006     2006     DPS   F
+2      ITA GSA 99       2007     2007     DPS   F
+3      ITA GSA 99       2008     2008     DPS   F
+4      ITA GSA 99       2009     2009     DPS   F
+5      ITA GSA 99       2010     2010     DPS   F
+6      ITA GSA 99       2011     2011     DPS   F
+7      ITA GSA 99       2012     2012     DPS   F
+8      ITA GSA 99       2013     2013     DPS   F
+9      ITA GSA 99       2014     2014     DPS   F
+10     ITA GSA 99       2015     2015     DPS   F
+11     ITA GSA 99       2016     2016     DPS   F
+12     ITA GSA 99       2017     2017     DPS   F
 
-$`ML _ DPS _ ITA _ 9`
+$`ML _ DPS _ ITA _ GSA 99`
 
-$`ML_sex _ DPS _ ITA _ 9 _ F`
+$`ML_sex _ DPS _ ITA _ GSA 99 _ F`
 
 > 
 > 
@@ -593,26 +593,26 @@ $`ML_sex _ DPS _ ITA _ 9 _ F`
 > 
 > ### ** Examples
 > 
-> MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "9")
+> MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
 $`summary table`
-   COUNTRY YEAR START_YEAR END_YEAR SPECIES
-1      ITA    9       2003     2005     DPS
-2      ITA    9       2006     2006     DPS
-3      ITA    9       2007     2007     DPS
-4      ITA    9       2008     2008     DPS
-5      ITA    9       2009     2009     DPS
-6      ITA    9       2010     2010     DPS
-7      ITA    9       2011     2011     DPS
-8      ITA    9       2012     2012     DPS
-9      ITA    9       2013     2013     DPS
-10     ITA    9       2014     2014     DPS
-11     ITA    9       2015     2015     DPS
-12     ITA    9       2016     2016     DPS
-13     ITA    9       2017     2017     DPS
+   COUNTRY   YEAR START_YEAR END_YEAR SPECIES
+1      ITA GSA 99       2003     2005     DPS
+2      ITA GSA 99       2006     2006     DPS
+3      ITA GSA 99       2007     2007     DPS
+4      ITA GSA 99       2008     2008     DPS
+5      ITA GSA 99       2009     2009     DPS
+6      ITA GSA 99       2010     2010     DPS
+7      ITA GSA 99       2011     2011     DPS
+8      ITA GSA 99       2012     2012     DPS
+9      ITA GSA 99       2013     2013     DPS
+10     ITA GSA 99       2014     2014     DPS
+11     ITA GSA 99       2015     2015     DPS
+12     ITA GSA 99       2016     2016     DPS
+13     ITA GSA 99       2017     2017     DPS
 
-$`SA_cum _ DPS _ ITA _ 9`
+$`SA_cum _ DPS _ ITA _ GSA 99`
 
-$`SA _ DPS _ ITA _ 9`
+$`SA _ DPS _ ITA _ GSA 99`
 
 > 
 > 
@@ -632,26 +632,26 @@ $`SA _ DPS _ ITA _ 9`
 > 
 > ### ** Examples
 > 
-> MEDBS_SL_check(SL_tab_example,"DPS","ITA","9")
+> MEDBS_SL_check(SL_tab_example,"DPS","ITA","GSA 99")
 $`summary table`
-   COUNTRY YEAR START_YEAR END_YEAR SPECIES
-1      ITA    9       2003     2005     DPS
-2      ITA    9       2006     2006     DPS
-3      ITA    9       2007     2007     DPS
-4      ITA    9       2008     2008     DPS
-5      ITA    9       2009     2009     DPS
-6      ITA    9       2010     2010     DPS
-7      ITA    9       2011     2011     DPS
-8      ITA    9       2012     2012     DPS
-9      ITA    9       2013     2013     DPS
-10     ITA    9       2014     2014     DPS
-11     ITA    9       2015     2015     DPS
-12     ITA    9       2016     2016     DPS
-13     ITA    9       2017     2017     DPS
+   COUNTRY   YEAR START_YEAR END_YEAR SPECIES
+1      ITA GSA 99       2003     2005     DPS
+2      ITA GSA 99       2006     2006     DPS
+3      ITA GSA 99       2007     2007     DPS
+4      ITA GSA 99       2008     2008     DPS
+5      ITA GSA 99       2009     2009     DPS
+6      ITA GSA 99       2010     2010     DPS
+7      ITA GSA 99       2011     2011     DPS
+8      ITA GSA 99       2012     2012     DPS
+9      ITA GSA 99       2013     2013     DPS
+10     ITA GSA 99       2014     2014     DPS
+11     ITA GSA 99       2015     2015     DPS
+12     ITA GSA 99       2016     2016     DPS
+13     ITA GSA 99       2017     2017     DPS
 
-$`SL_cum _ DPS _ ITA _ 9`
+$`SL_cum _ DPS _ ITA _ GSA 99`
 
-$`SL _ DPS _ ITA _ 9`
+$`SL _ DPS _ ITA _ GSA 99`
 
 > 
 > 
@@ -671,10 +671,10 @@ $`SL _ DPS _ ITA _ 9`
 > 
 > ### ** Examples
 > 
-> MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+> MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 No duplicated records in the data.
 NULL
-> MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+> MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 No duplicated records in the data.
 NULL
 > 
@@ -695,8 +695,8 @@ NULL
 > 
 > ### ** Examples
 > 
-> MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
-  year gear    tot_q    tot_yr ratio
+> MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
+  YEAR GEAR    tot_q    tot_yr ratio
 1 2009  OTB       NA 38.355420    NA
 2 2010  OTB       NA 27.100131    NA
 3 2011  OTB       NA 63.262841    NA
@@ -725,8 +725,8 @@ NULL
 > 
 > ### ** Examples
 > 
-> MEDBS_comp_disc_YQ_fishery(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
-   year gear fishery     tot_q    tot_yr ratio
+> MEDBS_comp_disc_YQ_fishery(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
+   YEAR GEAR FISHERY     tot_q    tot_yr ratio
 1  2009  OTB   DEMSP        NA 38.355420    NA
 2  2010  OTB   DEMSP        NA 24.396528    NA
 3  2010  OTB  MDDWSP        NA  2.703603    NA
@@ -761,23 +761,23 @@ NULL
 > 
 > ### ** Examples
 > 
-> MEDBS_comp_land_Q_VL(land = Landing_tab_example, MS = "ITA", GSA = 9, SP = "DPS")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-Joining, by = c("year", "gear", "quarter")
-   year gear quarter     tot_VL tot_NoVL ratio
+> MEDBS_comp_land_Q_VL(data = Landing_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "QUARTER")
+   YEAR GEAR QUARTER     tot_VL tot_NoVL ratio
 1  2003  GTR      -1   5.933227       NA    NA
 2  2003  OTB      -1 316.615971       NA    NA
 3  2004  GNS      -1   3.628830       NA    NA
@@ -828,23 +828,23 @@ Joining, by = c("year", "gear", "quarter")
 > 
 > ### ** Examples
 > 
-> MEDBS_comp_land_Q_VL_fishery(land = Landing_tab_example, MS = "ITA", GSA = 9, SP = "DPS")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-Joining, by = c("year", "gear", "fishery", "quarter")
-   year gear fishery quarter     tot_VL tot_NoVL ratio
+> MEDBS_comp_land_Q_VL_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+Joining, by = c("YEAR", "GEAR", "FISHERY", "QUARTER")
+   YEAR GEAR FISHERY QUARTER     tot_VL tot_NoVL ratio
 1  2003  GTR   DEMSP      -1   5.933227       NA    NA
 2  2003  OTB      -1      -1 316.615971       NA    NA
 3  2004  GNS    DEMF      -1   3.628830       NA    NA
@@ -920,8 +920,8 @@ Joining, by = c("year", "gear", "fishery", "quarter")
 > 
 > ### ** Examples
 > 
-> MEDBS_comp_land_YQ(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
-   year gear     tot_q     tot_yr  ratio
+> MEDBS_comp_land_YQ(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+   YEAR GEAR     tot_q     tot_yr  ratio
 1  2003  GTR        NA   5.933227     NA
 2  2003  OTB        NA 316.615971     NA
 3  2004  GNS        NA   3.628830     NA
@@ -965,23 +965,23 @@ Joining, by = c("year", "gear", "fishery", "quarter")
 > 
 > ### ** Examples
 > 
-> MEDBS_comp_land_YQ_fishery(land = Landing_tab_example, MS = "ITA", GSA = 9, SP = "DPS")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-Joining, by = c("year", "gear", "fishery")
-   year gear fishery     tot_q     tot_yr ratio
+> MEDBS_comp_land_YQ_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+Joining, by = c("YEAR", "GEAR", "FISHERY")
+   YEAR GEAR FISHERY     tot_q     tot_yr ratio
 1  2003  GTR   DEMSP        NA   5.933227    NA
 2  2003  OTB      -1        NA 316.615971    NA
 3  2004  GNS    DEMF        NA   3.628830    NA
@@ -1045,9 +1045,9 @@ Joining, by = c("year", "gear", "fishery")
 > 
 > ### ** Examples
 > 
-> MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+> MEDBS_disc_mean_weight(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 $`summary table`
-   year quarter vessel_length gear mesh_size_range fishery     totW        totN
+   YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY     totW        totN
 1  2009      -1            -1  OTB          50D100   DEMSP 38355420 11316810.38
 2  2010      -1            -1  OTB          50D100   DEMSP 24396528  6011330.55
 3  2010      -1            -1  OTB          50D100  MDDWSP  2703603   345221.92
@@ -1092,7 +1092,7 @@ $`summary table`
 20 6.374159
 21 4.641198
 
-$`Disc_MW _ DPS _ ITA _ 9`
+$`Disc_MW _ DPS _ ITA _ GSA 9`
 geom_path: Each group consists of only one observation. Do you need to adjust
 the group aesthetic?
 geom_path: Each group consists of only one observation. Do you need to adjust
@@ -1116,55 +1116,55 @@ the group aesthetic?
 > 
 > ### ** Examples
 > 
-> MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9")
+> MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","GSA 9")
 Joining, by = c("year", "gear")
 $`summary table`
-   country year quarter vessel_length gear mesh_size_range fishery area species
-1      ITA 2009      -1            -1  OTB          50D100   DEMSP    9     DPS
-2      ITA 2010      -1            -1  OTB          50D100   DEMSP    9     DPS
-3      ITA 2011      -1            -1  OTB          50D100   DEMSP    9     DPS
-4      ITA 2012      -1            -1  OTB          50D100   DEMSP    9     DPS
-5      ITA 2013      -1            -1  OTB          50D100   DEMSP    9     DPS
-6      ITA 2014      -1            -1  OTB          50D100   DEMSP    9     DPS
-7      ITA 2015      -1            -1  OTB          50D100   DEMSP    9     DPS
-8      ITA 2016       1            -1  OTB          50D100   DEMSP    9     DPS
-9      ITA 2017       1            -1  OTB          50D100   DEMSP    9     DPS
-10     ITA 2016       2            -1  OTB          50D100   DEMSP    9     DPS
-11     ITA 2017       2            -1  OTB          50D100   DEMSP    9     DPS
-12     ITA 2016       3            -1  OTB          50D100   DEMSP    9     DPS
-13     ITA 2016       4            -1  OTB          50D100   DEMSP    9     DPS
-14     ITA 2017       4            -1  OTB          50D100   DEMSP    9     DPS
-15     ITA 2010      -1            -1  OTB          50D100  MDDWSP    9     DPS
-16     ITA 2011      -1            -1  OTB          50D100  MDDWSP    9     DPS
-17     ITA 2012      -1            -1  OTB          50D100  MDDWSP    9     DPS
-18     ITA 2013      -1            -1  OTB          50D100  MDDWSP    9     DPS
-19     ITA 2016       1            -1  OTB          50D100  MDDWSP    9     DPS
-20     ITA 2017       1            -1  OTB          50D100  MDDWSP    9     DPS
-21     ITA 2016       2            -1  OTB          50D100  MDDWSP    9     DPS
-    discards
-1  38.355420
-2  24.396528
-3  60.519315
-4   6.571266
-5  26.761695
-6  44.978926
-7  89.320018
-8   4.321935
-9  16.215517
-10  2.726606
-11 10.594472
-12 18.256248
-13  4.391166
-14 14.491513
-15  2.703603
-16  2.743526
-17  0.996779
-18  3.279211
-19  1.122239
-20  0.165092
-21  4.120538
+   country year quarter vessel_length gear mesh_size_range fishery  area
+1      ITA 2009      -1            -1  OTB          50D100   DEMSP GSA 9
+2      ITA 2010      -1            -1  OTB          50D100   DEMSP GSA 9
+3      ITA 2011      -1            -1  OTB          50D100   DEMSP GSA 9
+4      ITA 2012      -1            -1  OTB          50D100   DEMSP GSA 9
+5      ITA 2013      -1            -1  OTB          50D100   DEMSP GSA 9
+6      ITA 2014      -1            -1  OTB          50D100   DEMSP GSA 9
+7      ITA 2015      -1            -1  OTB          50D100   DEMSP GSA 9
+8      ITA 2016       1            -1  OTB          50D100   DEMSP GSA 9
+9      ITA 2017       1            -1  OTB          50D100   DEMSP GSA 9
+10     ITA 2016       2            -1  OTB          50D100   DEMSP GSA 9
+11     ITA 2017       2            -1  OTB          50D100   DEMSP GSA 9
+12     ITA 2016       3            -1  OTB          50D100   DEMSP GSA 9
+13     ITA 2016       4            -1  OTB          50D100   DEMSP GSA 9
+14     ITA 2017       4            -1  OTB          50D100   DEMSP GSA 9
+15     ITA 2010      -1            -1  OTB          50D100  MDDWSP GSA 9
+16     ITA 2011      -1            -1  OTB          50D100  MDDWSP GSA 9
+17     ITA 2012      -1            -1  OTB          50D100  MDDWSP GSA 9
+18     ITA 2013      -1            -1  OTB          50D100  MDDWSP GSA 9
+19     ITA 2016       1            -1  OTB          50D100  MDDWSP GSA 9
+20     ITA 2017       1            -1  OTB          50D100  MDDWSP GSA 9
+21     ITA 2016       2            -1  OTB          50D100  MDDWSP GSA 9
+   species  discards
+1      DPS 38.355420
+2      DPS 24.396528
+3      DPS 60.519315
+4      DPS  6.571266
+5      DPS 26.761695
+6      DPS 44.978926
+7      DPS 89.320018
+8      DPS  4.321935
+9      DPS 16.215517
+10     DPS  2.726606
+11     DPS 10.594472
+12     DPS 18.256248
+13     DPS  4.391166
+14     DPS 14.491513
+15     DPS  2.703603
+16     DPS  2.743526
+17     DPS  0.996779
+18     DPS  3.279211
+19     DPS  1.122239
+20     DPS  0.165092
+21     DPS  4.120538
 
-$`Discards_GEAR _ DPS _ ITA _ 9`
+$`Discards_GEAR _ DPS _ ITA _ GSA 9`
 
 > 
 > 
@@ -1184,7 +1184,7 @@ $`Discards_GEAR _ DPS _ ITA _ 9`
 > 
 > ### ** Examples
 > 
-> MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
+> MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9",Rt=1)
 Warning in melt.data.table(dat, id.vars = c("year", "area", "species", "unit",  :
   'measure.vars' [0, 1, 2, 3, ...] are not all of the same type. By order of hierarchy, the molten data value column will be of type 'double'. All measure variables not of type 'double' will be coerced too. Check DETAILS in ?melt.data.table for more on coercion.
 Joining, by = c("year", "gear", "fishery")
@@ -1517,7 +1517,7 @@ OTB_MDDWSP 4 (2-2,2-2) arrange gtable[layout]
 > 
 > ### ** Examples
 > 
-> MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+> MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 $`summary table`
    year quarter vessel_length gear mesh_size_range fishery      totW       totN
 1  2003      -1            -1  GTR              -1   DEMSP   5933227        0.0
@@ -1636,7 +1636,7 @@ $`summary table`
 56  7.482481
 57 13.365172
 
-$`Land_MW _ DPS _ ITA _ 9`
+$`Land_MW _ DPS _ ITA _ GSA 9`
 
 > 
 > 
@@ -1656,8 +1656,8 @@ $`Land_MW _ DPS _ ITA _ 9`
 > 
 > ### ** Examples
 > 
-> MEDBS_length_ind(Landing_tab_example,type="l",MS=c("ITA"),
-+ GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+> MEDBS_length_ind(Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),
++ GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),
 + Xtresholds = c(0.25,0.5,0.75))
 $`summary table`
     year gear fishery total_number min_size mean_size max_size  sd_size spline
@@ -2391,12 +2391,12 @@ $`summary table`
 363       0.50        26.209968
 364       0.75        34.207797
 
-$`MeanLength _ DPS _ ITA _ 9`
+$`MeanLength _ DPS _ ITA _ GSA 9`
 
-$`MedianLength _ DPS _ ITA _ 9`
+$`MedianLength _ DPS _ ITA _ GSA 9`
 
-> MEDBS_length_ind(Discard_tab_example,type="d",MS=c("ITA"),
-+ GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),
+> MEDBS_length_ind(Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),
++ GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),
 + Xtresholds = c(0.25,0.5,0.75))
 $`summary table`
     year gear fishery total_number min_size mean_size max_size  sd_size spline
@@ -2762,9 +2762,9 @@ $`summary table`
 179       0.50       17.9888892
 180       0.75       26.2424871
 
-$`MeanLength _ DPS _ ITA _ 9`
+$`MeanLength _ DPS _ ITA _ GSA 9`
 
-$`MedianLength _ DPS _ ITA _ 9`
+$`MedianLength _ DPS _ ITA _ GSA 9`
 
 > 
 > 
@@ -2784,7 +2784,7 @@ $`MedianLength _ DPS _ ITA _ 9`
 > 
 > ### ** Examples
 > 
-> MEDBS_lengthclass_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+> MEDBS_lengthclass_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 16 cases in which length class number are zero and landings > 0
                               id country year quarter vessel_length gear
 1       ITA 2003 1GTR-1DEMSPSA 9     ITA 2003      -1            -1  GTR
@@ -2803,24 +2803,24 @@ $`MedianLength _ DPS _ ITA _ 9`
 33       ITA 2014-1GNS-1DEMFSA 9     ITA 2014      -1            -1  GNS
 35   ITA 2014-1OTB50D100DWSPSA 9     ITA 2014      -1            -1  OTB
 49       ITA 2017 2GNS-1DEMFSA 9     ITA 2017       2            -1  GNS
-   mesh_size_range fishery area specon species   landings ck_0_length
-1               -1   DEMSP    9     -1     DPS   5.933227           0
-3               -1    DEMF    9     -1     DPS   3.628830           0
-4               -1   DEMSP    9     -1     DPS   4.177760           0
-6               -1   DEMSP    9     -1     DPS   0.517960           0
-10          50D100  MDDWSP    9     -1     DPS 407.103060           0
-11              -1    DEMF    9     -1     DPS   2.263080           0
-14              -1    DEMF    9     -1     DPS   0.508290           0
-16          50D100    DWSP    9     -1     DPS   0.164650           0
-21          50D100    DWSP    9     -1     DPS   9.691160           0
-24          50D100    DWSP    9     -1     DPS   9.676960           0
-26              -1   DEMSP    9     -1     DPS   0.161160           0
-28          50D100    DWSP    9     -1     DPS   5.543910           0
-31          50D100    DWSP    9     -1     DPS   3.829750           0
-33              -1    DEMF    9     -1     DPS   0.027360           0
-35          50D100    DWSP    9     -1     DPS   2.112830           0
-49              -1    DEMF    9     -1     DPS   0.026880           0
-> MEDBS_lengthclass_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+   mesh_size_range fishery  area specon species   landings ck_0_length
+1               -1   DEMSP GSA 9     -1     DPS   5.933227           0
+3               -1    DEMF GSA 9     -1     DPS   3.628830           0
+4               -1   DEMSP GSA 9     -1     DPS   4.177760           0
+6               -1   DEMSP GSA 9     -1     DPS   0.517960           0
+10          50D100  MDDWSP GSA 9     -1     DPS 407.103060           0
+11              -1    DEMF GSA 9     -1     DPS   2.263080           0
+14              -1    DEMF GSA 9     -1     DPS   0.508290           0
+16          50D100    DWSP GSA 9     -1     DPS   0.164650           0
+21          50D100    DWSP GSA 9     -1     DPS   9.691160           0
+24          50D100    DWSP GSA 9     -1     DPS   9.676960           0
+26              -1   DEMSP GSA 9     -1     DPS   0.161160           0
+28          50D100    DWSP GSA 9     -1     DPS   5.543910           0
+31          50D100    DWSP GSA 9     -1     DPS   3.829750           0
+33              -1    DEMF GSA 9     -1     DPS   0.027360           0
+35          50D100    DWSP GSA 9     -1     DPS   2.112830           0
+49              -1    DEMF GSA 9     -1     DPS   0.026880           0
+> MEDBS_lengthclass_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 0 cases in which length class number are zero and discards > 0
  [1] id              country         year            quarter        
  [5] vessel_length   gear            mesh_size_range fishery        
@@ -2845,7 +2845,7 @@ $`MedianLength _ DPS _ ITA _ 9`
 > 
 > ### ** Examples
 > 
-> MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+> MEDBS_plot_disc_vol(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 > 
 > 
 > 
@@ -2864,8 +2864,8 @@ $`MedianLength _ DPS _ ITA _ 9`
 > 
 > ### ** Examples
 > 
-> MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
-> MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
+> MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
+> MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
 Joining, by = c("year", "gear")
 > 
 > 
@@ -2885,7 +2885,7 @@ Joining, by = c("year", "gear")
 > 
 > ### ** Examples
 > 
-> MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+> MEDBS_plot_land_vol(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 > 
 > 
 > 
@@ -2904,9 +2904,9 @@ Joining, by = c("year", "gear")
 > 
 > ### ** Examples
 > 
-> MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+> MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
 Joining, by = c("year", "quarter")
-> MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
+> MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
 Joining, by = c("year", "quarter")
 Joining, by = c("year", "gear")
 > 
@@ -2927,10 +2927,10 @@ Joining, by = c("year", "gear")
 > 
 > ### ** Examples
 > 
-> MEDBS_weight_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+> MEDBS_weight_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
 There aren't 0 landings
 [1] 0
-> MEDBS_weight_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+> MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
 There aren't 0 discards
 [1] 0
 > 
@@ -2951,10 +2951,10 @@ There aren't 0 discards
 > 
 > ### ** Examples
 > 
-> MEDBS_weight_minus1(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+> MEDBS_weight_minus1(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 There aren't -1 landings
 [1] 0
-> MEDBS_weight_minus1(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+> MEDBS_weight_minus1(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 There aren't -1 discards
 [1] 0
 > 
@@ -2975,9 +2975,9 @@ There aren't -1 discards
 > 
 > ### ** Examples
 > 
-> MEDBS_yr_missing_length(data=Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS")
+> MEDBS_yr_missing_length(data=Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
 NULL
-> MEDBS_yr_missing_length(data=Landing_tab_example,type="l",MS=c("ITA"),GSA=c("9"),SP="DPS")
+> MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
    year gear fishery total_number_landed
 1  2003  GTR   DEMSP                   0
 2  2004  GNS    DEMF                   0
@@ -5385,7 +5385,7 @@ character(0)
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  73.03 1.25 74.35 NA NA 
+Time elapsed:  75.5 1.47 77.5 NA NA 
 > grDevices::dev.off()
 null device 
           1 

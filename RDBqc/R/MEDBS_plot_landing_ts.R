@@ -1,16 +1,16 @@
 #' Plot of total landing
 #'
-#' @param land data frame containing landing data
+#' @param data data frame containing landing data
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @param by string defining the temporal aggregation level of landing data to be plotted. Allowed values are: "year" and "quarter
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @description The function estimates the total landings time series by both year and quarters for a selected combination of member state, GSA and species.
 #' @return The function returns a plot of the total landing time series by year or by quarters. The plot by year also reports the landing by gear.
 #' @export MEDBS_plot_landing_ts
-#' @examples MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
-#' MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
+#' @examples MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
+#' MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
@@ -19,29 +19,32 @@
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by summarize
 #' @importFrom utils globalVariables
-MEDBS_plot_landing_ts <- function(land,MS,GSA,SP,by="year",verbose=TRUE){
+MEDBS_plot_landing_ts <- function(data,SP,MS,GSA,by="year",verbose=TRUE){
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 9
+        GSA <- "GSA 9"
         SP <- "DPS"
         by="year" # "quarter"
         verbose=TRUE
         land=Landing_tab_example
-        MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+        land$gear <- NA
+        MEDBS_plot_landing_ts(data=land,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
     }
 
     year <- gear <- landings <- quarter <- tot <- NULL
 
-    land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
-    land=land[which(land$area==as.numeric(GSA) & land$country==MS & land$species==SP),]
+    colnames(data) <- tolower(colnames(data))
+    land <- data
+    # land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
+    land=land[which(land$area==as.character(GSA) & land$country==MS & land$species==SP),]
 
     if (nrow(land)==0) {
         if (verbose){
             message(paste0("No data available for the selected species (",SP,")") )
         }
     } else {
-
+    land[is.na(land$gear),"gear"] <- "NA"
     land$landings[land$landings==-1] <- 0
 
     land_tmp <- as.data.frame(land %>% group_by(year,gear) %>% summarize(tot=sum(landings)))

@@ -4,18 +4,18 @@
 \alias{MEDBS_check_duplicates}
 \title{Check for duplicated data rows}
 \usage{
-MEDBS_check_duplicates(data, type = "l", MS, GSA, SP, verbose = TRUE)
+MEDBS_check_duplicates(data, type = "l", SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{data frame containing landing data}
 
 \item{type}{string vector indicating the type of table to be checked. "l" for landing; "d" for discards.}
 
+\item{SP}{species reference code in the three alpha code format}
+
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{verbose}{Boolean value to obtain further explanation messages from the function}
 }
@@ -26,8 +26,8 @@ The function returns a data frame containing the duplicated rows to be likely de
 The function checks the presence of duplicated rows in both landings and discards data.
 }
 \examples{
-MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
-MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

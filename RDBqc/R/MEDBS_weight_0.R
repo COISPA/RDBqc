@@ -2,14 +2,14 @@
 #'
 #' @param data data.table object containing landing or discard data
 #' @param type type of table: "l" for landings; "d" for discards
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code as it is reported in both landing and discard data
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @description The function checks landings or discards in weight equal to 0 having length classes filled in
 #' @return The function returns the number of rows with 0 values in weights having length classes filled in.
-#' @examples MEDBS_weight_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
-#' MEDBS_weight_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+#' @examples MEDBS_weight_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
+#' MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
@@ -18,23 +18,24 @@
 #' @export MEDBS_weight_0
 #'
 
-MEDBS_weight_0 <- function(data,type="l",MS,GSA,SP, verbose=TRUE){
+MEDBS_weight_0 <- function(data,type="l",SP,MS,GSA, verbose=TRUE){
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 9
+        GSA <- "GSA 9"
         SP <- "DPS"
         verbose=TRUE
         data <- Landing_tab_example
         type="l"
         data[20,"landings"] <- 0
-        MEDBS_weight_0(data=data,type="l",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+        MEDBS_weight_0(data=data,type="l",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
     }
 
     poi <- NULL # in combination with @importFrom utils globalVariables
 
-    data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
-    data=data[which(data$area==as.numeric(GSA) & data$country==MS & data$species==SP),]
+    colnames(data) <- tolower(colnames(data))
+    # data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
+    data=data[which(data$area==as.character(GSA) & data$country==MS & data$species==SP),]
 
   if (type=="l") {
     if (length(which(data$landings==0))>0)

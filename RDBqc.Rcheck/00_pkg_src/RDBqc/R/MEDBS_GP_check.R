@@ -1,26 +1,29 @@
 #' GP_tab (growth params) table check
-#' @param GP_tab growth params table in MED&BS datacall format
+#' @param data growth params table in MED&BS datacall format
 #' @param SP species (three alpha code)
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
 #' @description The function allows to check the growth parameters by sex and year for a selected species
-#' @return a list of objects contaning a summary table and different plots of the growth curves by sex and year.
+#' @return a list of objects containing a summary table and different plots of the growth curves by sex and year.
 #' @export
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
-#' @examples GP_check(GP_tab_example,"MUT","ITA","18")
-GP_check<-function(GP_tab,SP,MS,GSA) {
+#' @examples MEDBS_GP_check(GP_tab_example,"MUT","ITA","GSA 18")
+MEDBS_GP_check<-function(data,SP,MS,GSA) {
 
     if (FALSE) {
-        GP_tab = GP_tab_example
+        data = GP_tab_example
         SP="MUT"
         MS="ITA"
-        GSA="18"
+        GSA="GSA 18"
     }
     AGE<-LENGTH<-ID<-COUNTRY<-YEAR<-START_YEAR<-END_YEAR<-SPECIES<-SEX<-NULL
 
+    colnames(data) <- toupper(colnames(data))
+    GP_tab <- data
+
     ck_sp <- c("HKE","MUT","MUR","SOL","CTC","PIL","ANE")
-    GP_tab$AREA <- as.numeric(gsub("[^0-9]", "", GP_tab$AREA))
+    # GP_tab$AREA <- as.numeric(gsub("[^0-9]", "", GP_tab$AREA))
     GP_tab=GP_tab[GP_tab$SPECIES==SP & GP_tab$COUNTRY==MS & GP_tab$AREA==GSA,]
 
     if (nrow(GP_tab)>0){

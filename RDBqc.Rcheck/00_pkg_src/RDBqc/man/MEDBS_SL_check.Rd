@@ -4,10 +4,10 @@
 \alias{MEDBS_SL_check}
 \title{SL_tab (sex ratio at length) table check}
 \usage{
-MEDBS_SL_check(SL_tab, SP, MS, GSA, verbose = TRUE)
+MEDBS_SL_check(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{SL_tab}{sex ratio at length table in MED&BS datacall format}
+\item{data}{sex ratio at length table in MED&BS datacall format}
 
 \item{SP}{species (three alpha code)}
 
@@ -24,5 +24,5 @@ a summary table and plots
 The function allows to check the sex ratio at length (SL) table providing a summary table of the data coverage and plots for the selected species of the proportion of sex ratio for length class by year.
 }
 \examples{
-MEDBS_SL_check(SL_tab_example,"DPS","ITA","9")
+MEDBS_SL_check(SL_tab_example,"DPS","ITA","GSA 99")
 }

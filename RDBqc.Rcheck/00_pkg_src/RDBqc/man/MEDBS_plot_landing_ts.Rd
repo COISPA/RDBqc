@@ -4,16 +4,16 @@
 \alias{MEDBS_plot_landing_ts}
 \title{Plot of total landing}
 \usage{
-MEDBS_plot_landing_ts(land, MS, GSA, SP, by = "year", verbose = TRUE)
+MEDBS_plot_landing_ts(data, SP, MS, GSA, by = "year", verbose = TRUE)
 }
 \arguments{
-\item{land}{data frame containing landing data}
+\item{data}{data frame containing landing data}
+
+\item{SP}{species reference code in the three alpha code format}
 
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{by}{string defining the temporal aggregation level of landing data to be plotted. Allowed values are: "year" and "quarter}
 
@@ -26,8 +26,8 @@ The function returns a plot of the total landing time series by year or by quart
 The function estimates the total landings time series by both year and quarters for a selected combination of member state, GSA and species.
 }
 \examples{
-MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
-MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
+MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
+MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

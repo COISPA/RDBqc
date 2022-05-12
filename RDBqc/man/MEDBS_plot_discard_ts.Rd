@@ -4,16 +4,16 @@
 \alias{MEDBS_plot_discard_ts}
 \title{Plot of total discards}
 \usage{
-MEDBS_plot_discard_ts(disc, MS, GSA, SP, by = "year")
+MEDBS_plot_discard_ts(data, SP, MS, GSA, by = "year")
 }
 \arguments{
-\item{disc}{data frame containing discard data}
+\item{data}{data frame containing discard data}
+
+\item{SP}{species reference code in the three alpha code format}
 
 \item{MS}{member state code as it is reported in the discard data}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{by}{string defining the temporal aggregation level of discard data to be plotted. Allowed values are: "year" and "quarter}
 }
@@ -24,8 +24,8 @@ The function returns a plot of the total discard time series by year or by quart
 The function estimates the total discard time series by both year and quarters for a selected combination of member state, GSA and species.
 }
 \examples{
-MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
-MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="year")
+MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
+MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

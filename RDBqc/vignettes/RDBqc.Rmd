@@ -241,7 +241,7 @@ The function `MEDBS_Catch_coverage` allows to check the coverage in Catch table 
 1. summary table of landings
 
 ```{r MEDBS_Catch_coverage1}
-results <- suppressMessages(MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","9"))
+results <- suppressMessages(MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
 ```
 
@@ -271,14 +271,14 @@ The function `MEDBS_check_duplicates` checks the presence of duplicated rows in 
 
 ```{r MEDBS_check_duplicates_landings}
 Landing_tab_example <- rbind(Landing_tab_example,Landing_tab_example[1,])
-MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 ```
 
 and discards data
 
 ```{r MEDBS_check_duplicates_discards}
 Discard_tab_example <- rbind(Discard_tab_example,Discard_tab_example[1,])
-MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 ```
 
 ## Kolmogorov-Smirnov test
@@ -286,7 +286,7 @@ MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DP
 The function `MEDBS_ks` allows to perform the Kolmogorov-Smirnov test on both landings and discards for a selected species. The function performs Kolmogorov-Smirnov tests on couples of years to assess if they belong to the same population, returning a summary data frame. The function returns also the cumulative length distribution plots by fishery and year.
 
 ```{r MEDBS_ks_landing1,fig.height=10,fig.width=10}
-ks <- MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
+ks <- MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9",Rt=1)
 results <- ks[[1]]
 head(results)
 ```
@@ -301,7 +301,7 @@ head(results)
 The function `MEDBS_length_ind` allows to check the consistency of length data for a selected species on both landings and discards returning a summary table of the main length size indicators time series by fishery.
 
 ```{r MEDBS_length_ind_tab}
-results <- MEDBS_length_ind(Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75))
+results <- MEDBS_length_ind(Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75))
 head(results[[1]])
 ```
 
@@ -322,7 +322,7 @@ results[[3]]
 The function `MEDBS_lengthclass_0` checks landings and discards for the presence of length class filled in having weigth > 0, returning a data frame with the rows with 0 values length class having weigth > 0.
 
 ```{r MEDBS_lengthclass_0}
-results <- MEDBS_lengthclass_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+results <- MEDBS_lengthclass_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 head(results)
 ```
 
@@ -331,7 +331,7 @@ head(results)
 The function `MEDBS_weight_0` checks landings or discards in weight equal to 0 having length classes filled in, returning the number of rows with 0 values in weights having length classes filled in.
 
 ```{r MEDBS_weight_0}
-MEDBS_weight_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
 ```
 
 ### weight -1 in landings and discards
@@ -339,7 +339,7 @@ MEDBS_weight_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS", verbos
 The function `MEDBS_weight_minus1` checks landings in weight equal to -1 having length class filled in, returning the number of rows with -1 values in landing weights having length class filled in.
 
 ```{r MEDBS_weight_minus1}
-MEDBS_weight_minus1(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+MEDBS_weight_minus1(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 ```
 
 ### Years with missing length distributions
@@ -347,7 +347,7 @@ MEDBS_weight_minus1(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",ve
 The function `MEDBS_yr_missing_length` checks the presence of years with missing length distributions in both landings and discards for a selected species. A data frame of the missing length distributions is returned.
 
 ```{r MEDBS_yr_missing_length}
-results <- MEDBS_yr_missing_length(data=Landing_tab_example,type="l",MS=c("ITA"),GSA=c("9"),SP="DPS")
+results <- MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
 head(results)
 ```
 
@@ -358,8 +358,8 @@ head(results)
 The function `MEDBS_comp_land_Q_VL` allows to perform the comparison of landings of a selected species aggregated by quarters accounting for the presence of vessel length. A dataframe for the comparison of landings aggregated by quarters accounting for the presence of vessel length information is returned.
 
 ```{r MEDBS_comp_land_Q_VL}
-results <- suppressMessages(MEDBS_comp_land_Q_VL(land = Landing_tab_example, 
-           MS = "ITA", GSA = 9, SP = "DPS"))
+results <- suppressMessages(MEDBS_comp_land_Q_VL(data = Landing_tab_example, 
+           SP = "DPS", MS = "ITA", GSA = "GSA 9"))
 head(results)
 ```
 
@@ -369,8 +369,8 @@ The function `MEDBS_comp_land_Q_VL_fishery` allows to perform the comparison of 
 The function returns a data frame for the comparison of landings aggregated by quarters and fishery accounting for the presence of vessel length information.
 
 ```{r MEDBS_comp_land_Q_VL_fishery}
-results <- suppressMessages(MEDBS_comp_land_Q_VL_fishery(land = Landing_tab_example, 
-        MS = "ITA", GSA = 9, SP = "DPS"))
+results <- suppressMessages(MEDBS_comp_land_Q_VL_fishery(data = Landing_tab_example, 
+        MS = "ITA", GSA = "GSA 9", SP = "DPS"))
 head(results)
 ```
 
@@ -380,7 +380,7 @@ The function `MEDBS_comp_land_YQ` allows to perform the comparison of landings o
 The function returns a data frame  for the comparison of landings aggregated by quarters and by year.
 
 ```{r MEDBS_comp_land_YQ}
-MEDBS_comp_land_YQ(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_comp_land_YQ(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 ```
 
 ### Comparison between landings in weight by quarter, quarter -1 and by fishery
@@ -389,7 +389,7 @@ The function `MEDBS_comp_land_YQ_fishery` allows to perform the comparison of la
 The function returns a data frame  for the comparison of landings aggregated by quarters and by year and fishery.
 
 ```{r MEDBS_comp_land_YQ_fishery}
-results <- suppressMessages(MEDBS_comp_land_YQ_fishery(land = Landing_tab_example, MS = "ITA", GSA = 9, SP = "DPS"))
+results <- suppressMessages(MEDBS_comp_land_YQ_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9"))
 head(results)
 ```
 
@@ -399,14 +399,14 @@ The function `MEDBS_land_mean_weight` allows to check consistency of  mean landi
 A summary data frame is returned.
 
 ```{r MEDBS_land_mean_weight}
-results <- MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")[[1]]
+results <- MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")[[1]]
 head(results)
 ```
 
 The function returns a plot of the mean landing weight by year, gear and fishery aggregation as well.
 
 ```{r MEDBS_land_mean_weight2,fig.height=6,fig.width=9}
-MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")[[2]]
+MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")[[2]]
 ```
 
 ### Plot of total landing by gear and fishery
@@ -414,7 +414,7 @@ MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")[[2]]
 The function `MEDBS_plot_land_vol` allows to visual check the time series of landing volumes by fishery of a selected species. The function returns a plot of the total landing time series by fishery and gear.
 
 ```{r MEDBS_plot_land_vol,fig.height=6,fig.width=9}
-MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_plot_land_vol(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 ```
 
 ### Plot of total landing
@@ -422,7 +422,7 @@ MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
 The function `MEDBS_plot_landing_ts` estimates the total landings time series by both year and quarters for a selected combination of member state, GSA and species. The function returns a plot of the total landing time series by year or by quarters. The plot by year also reports the landing by gear.
 
 ```{r MEDBS_plot_landing_ts,fig.height=6,fig.width=9}
-suppressMessages(MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter"))
+suppressMessages(MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter"))
 ```
 
 ### check the coverage in Landing table
@@ -430,7 +430,7 @@ suppressMessages(MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,S
 The function `MEDBS_Landing_coverage` allows to check the coverage in landing table providing a summary table
 
 ```{r MEDBS_Landing_coverage}
-results <- suppressMessages(MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","9"))
+results <- suppressMessages(MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
 ```
 
@@ -447,7 +447,7 @@ results[[2]]
 The function `MEDBS_discard_coverage` allows to check the coverage of the time series in discard table for a selected species. The function returns a summary table.
 
 ```{r MEDBS_discard_coverage1}
-results <- suppressMessages(MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9"))
+results <- suppressMessages(MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
 ```
 
@@ -462,7 +462,7 @@ results[[2]]
 The function `MEDBS_comp_disc_YQ` allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level. The function returns a data frame  for the comparison of discards aggregated by quarters and by year
 
 ```{r MEDBS_comp_disc_YQ}
-MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_comp_disc_YQ(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 ```
 
 ### Comparison between discards in weight by quarter, quarter -1 and by fishery
@@ -470,7 +470,7 @@ MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 The function `MEDBS_comp_disc_YQ_fishery` allow to estimates the discards in weight for a selected species by quarter and fishery. The function returns a data frame  for the comparison of discards aggregated by quarters and by year and fishery
 
 ```{r MEDBS_comp_disc_YQ_fishery}
-results <- MEDBS_comp_disc_YQ_fishery(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+results <- MEDBS_comp_disc_YQ_fishery(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
 head(results)
 ```
 
@@ -479,7 +479,7 @@ head(results)
 The function `MEDBS_disc_mean_weight` allows to check consistency of mean discard weight of a selected species providing a table of the mean individual weight by year, gear and fishery. 
 
 ```{r MEDBS_disc_mean_weight1}
-results <- MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+results <- MEDBS_disc_mean_weight(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 head(results[[1]])
 ```
 
@@ -494,7 +494,7 @@ results[[2]]
 The function `MEDBS_plot_disc_vol` allows to visual check the time series of discard volumes by fishery of a selected species. The function returns a plot of the total discards time series by fishery and gear.
 
 ```{r MEDBS_plot_disc_vol,fig.height=6,fig.width=8}
-MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_plot_disc_vol(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 ```
 
 ### Plot of total discards time series
@@ -502,17 +502,17 @@ MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
 The function `MEDBS_plot_discard_ts` estimates the total discard time series by both year and quarters for a selected combination of member state, GSA and species. The function returns a plot of the total discard time series by year or by quarters. The parameter `by="year"` also reports the landing by gear.
 
 ```{r MEDBS_plot_discard_ts,fig.height=6,fig.width=9}
-MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
 ```
 
 ## Other checks
 
 ### GP_tab (growth params) table check
 
-The function `GP_check` allows to check the growth parameters by sex and year for a selected species.  The function returns a list of objects containing a summary table and different plots of the growth curves by sex
+The function `MEDBS_GP_check` allows to check the growth parameters by sex and year for a selected species.  The function returns a list of objects containing a summary table and different plots of the growth curves by sex
 
 ```{r GP_check1}
-results <- GP_check(GP_tab_example,"MUT","ITA","18")
+results <- MEDBS_GP_check(GP_tab_example,"MUT","ITA","18")
 results[[1]]
 print(names(results)[1])
 ```
@@ -557,7 +557,7 @@ results[[8]]
 The function `MEDBS_LW_check` allows to check the length-weight parameters included in the GP table for a selected species. The function returns a summary table.
 
 ```{r MEDBS_LW_check1}
-results <- MEDBS_LW_check(GP_tab_example,"MUT","ITA","18")
+results <- MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
 results[[1]]
 ```
 
@@ -578,7 +578,7 @@ results[[8]]
 The function `MEDBS_MA_check` allows to check the maturity at age (MA) table providing a summary table of the data coverage.
 
 ```{r MEDBS_MA_check1}
-results <- MEDBS_MA_check(MA_tab_example,"DPS","ITA","9")
+results <- MEDBS_MA_check(MA_tab_example,"DPS","ITA","GSA 99")
 results[[1]]
 ```
 
@@ -594,7 +594,7 @@ results[[3]]
 The function `MEDBS_ML_check` allows to check the maturity at length (ML) table providing a summary table of the data coverage for the selected species of the proportion of matures for age class by sex and year.
 
 ```{r MEDBS_ML_check1,fig.height=6,fig.width=9}
-results <- MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "9")
+results <- MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 results[[1]]
 ```
 
@@ -610,7 +610,7 @@ results[[3]]
 The function `MEDBS_SA_check` allows to check the sex ratio at age (SA) table providing a summary table of the data coverage for the selected species of the proportion of sex ratio for age class by year.
 
 ```{r MEDBS_SA_check1}
-results <- MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "9")
+results <- MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
 results[[1]]
 ```
 
@@ -626,7 +626,7 @@ results[[3]]
 The function `MEDBS_SL_check` allows to check the sex ratio at length (SL) table providing a summary table of the data coverage for the selected species of the proportion of sex ratio for length class by year.
 
 ```{r MEDBS_SL_check1}
-results <- MEDBS_SL_check(SL_tab_example,"DPS","ITA","9")
+results <- MEDBS_SL_check(SL_tab_example,"DPS","ITA","GSA 99")
 results[[1]]
 ```
 

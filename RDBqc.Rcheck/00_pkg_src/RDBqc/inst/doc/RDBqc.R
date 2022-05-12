@@ -89,7 +89,7 @@ head(Landing_tab_example)
 head(Discard_tab_example)
 
 ## ----MEDBS_Catch_coverage1----------------------------------------------------
-results <- suppressMessages(MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","9"))
+results <- suppressMessages(MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
 
 ## ----MEDBS_Catch_coverage2----------------------------------------------------
@@ -103,14 +103,14 @@ results[[4]]
 
 ## ----MEDBS_check_duplicates_landings------------------------------------------
 Landing_tab_example <- rbind(Landing_tab_example,Landing_tab_example[1,])
-MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 
 ## ----MEDBS_check_duplicates_discards------------------------------------------
 Discard_tab_example <- rbind(Discard_tab_example,Discard_tab_example[1,])
-MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 
 ## ----MEDBS_ks_landing1,fig.height=10,fig.width=10-----------------------------
-ks <- MEDBS_ks(data=Landing_tab_example, type="l",MS="ITA",GSA="9", SP="DPS",Rt=1)
+ks <- MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9",Rt=1)
 results <- ks[[1]]
 head(results)
 
@@ -118,7 +118,7 @@ head(results)
 # plot(ks[[3]])
 
 ## ----MEDBS_length_ind_tab-----------------------------------------------------
-results <- MEDBS_length_ind(Discard_tab_example,type="d",MS=c("ITA"),GSA=c("9"),SP="DPS", splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75))
+results <- MEDBS_length_ind(Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),Xtresholds = c(0.25,0.5,0.75))
 head(results[[1]])
 
 ## ----MEDBS_length_ind_plot1,fig.height=6,fig.width=9--------------------------
@@ -128,85 +128,85 @@ results[[2]]
 results[[3]]
 
 ## ----MEDBS_lengthclass_0------------------------------------------------------
-results <- MEDBS_lengthclass_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+results <- MEDBS_lengthclass_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 head(results)
 
 ## ----MEDBS_weight_0-----------------------------------------------------------
-MEDBS_weight_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
 
 ## ----MEDBS_weight_minus1------------------------------------------------------
-MEDBS_weight_minus1(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS",verbose=TRUE)
+MEDBS_weight_minus1(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 
 ## ----MEDBS_yr_missing_length--------------------------------------------------
-results <- MEDBS_yr_missing_length(data=Landing_tab_example,type="l",MS=c("ITA"),GSA=c("9"),SP="DPS")
+results <- MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
 head(results)
 
 ## ----MEDBS_comp_land_Q_VL-----------------------------------------------------
-results <- suppressMessages(MEDBS_comp_land_Q_VL(land = Landing_tab_example, 
-           MS = "ITA", GSA = 9, SP = "DPS"))
+results <- suppressMessages(MEDBS_comp_land_Q_VL(data = Landing_tab_example, 
+           SP = "DPS", MS = "ITA", GSA = "GSA 9"))
 head(results)
 
 ## ----MEDBS_comp_land_Q_VL_fishery---------------------------------------------
-results <- suppressMessages(MEDBS_comp_land_Q_VL_fishery(land = Landing_tab_example, 
-        MS = "ITA", GSA = 9, SP = "DPS"))
+results <- suppressMessages(MEDBS_comp_land_Q_VL_fishery(data = Landing_tab_example, 
+        MS = "ITA", GSA = "GSA 9", SP = "DPS"))
 head(results)
 
 ## ----MEDBS_comp_land_YQ-------------------------------------------------------
-MEDBS_comp_land_YQ(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_comp_land_YQ(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 
 ## ----MEDBS_comp_land_YQ_fishery-----------------------------------------------
-results <- suppressMessages(MEDBS_comp_land_YQ_fishery(land = Landing_tab_example, MS = "ITA", GSA = 9, SP = "DPS"))
+results <- suppressMessages(MEDBS_comp_land_YQ_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9"))
 head(results)
 
 ## ----MEDBS_land_mean_weight---------------------------------------------------
-results <- MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")[[1]]
+results <- MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")[[1]]
 head(results)
 
 ## ----MEDBS_land_mean_weight2,fig.height=6,fig.width=9-------------------------
-MEDBS_land_mean_weight(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")[[2]]
+MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")[[2]]
 
 ## ----MEDBS_plot_land_vol,fig.height=6,fig.width=9-----------------------------
-MEDBS_plot_land_vol(data=Landing_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_plot_land_vol(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 
 ## ----MEDBS_plot_landing_ts,fig.height=6,fig.width=9---------------------------
-suppressMessages(MEDBS_plot_landing_ts(land=Landing_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter"))
+suppressMessages(MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter"))
 
 ## ----MEDBS_Landing_coverage---------------------------------------------------
-results <- suppressMessages(MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","9"))
+results <- suppressMessages(MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
 
 ## ----MEDBS_Landing_coverage2,fig.height=6,fig.width=9-------------------------
 results[[2]]
 
 ## ----MEDBS_discard_coverage1--------------------------------------------------
-results <- suppressMessages(MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","9"))
+results <- suppressMessages(MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
 
 ## ----MEDBS_discard_coverage2,fig.height=6,fig.width=9-------------------------
 results[[2]]
 
 ## ----MEDBS_comp_disc_YQ-------------------------------------------------------
-MEDBS_comp_disc_YQ(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_comp_disc_YQ(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 
 ## ----MEDBS_comp_disc_YQ_fishery-----------------------------------------------
-results <- MEDBS_comp_disc_YQ_fishery(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+results <- MEDBS_comp_disc_YQ_fishery(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
 head(results)
 
 ## ----MEDBS_disc_mean_weight1--------------------------------------------------
-results <- MEDBS_disc_mean_weight(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+results <- MEDBS_disc_mean_weight(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 head(results[[1]])
 
 ## ----MEDBS_disc_mean_weight2,fig.height=8,fig.width=10------------------------
 results[[2]]
 
 ## ----MEDBS_plot_disc_vol,fig.height=6,fig.width=8-----------------------------
-MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_plot_disc_vol(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 
 ## ----MEDBS_plot_discard_ts,fig.height=6,fig.width=9---------------------------
-MEDBS_plot_discard_ts(disc=Discard_tab_example,MS="ITA",GSA=9,SP="DPS",by="quarter")
+MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
 
 ## ----GP_check1----------------------------------------------------------------
-results <- GP_check(GP_tab_example,"MUT","ITA","18")
+results <- MEDBS_GP_check(GP_tab_example,"MUT","ITA","18")
 results[[1]]
 print(names(results)[1])
 
@@ -239,7 +239,7 @@ print(names(results)[8])
 results[[8]]
 
 ## ----MEDBS_LW_check1----------------------------------------------------------
-results <- MEDBS_LW_check(GP_tab_example,"MUT","ITA","18")
+results <- MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
 results[[1]]
 
 ## ----MEDBS_LW_check2,fig.height=6,fig.width=9---------------------------------
@@ -252,7 +252,7 @@ results[[7]]
 results[[8]]
 
 ## ----MEDBS_MA_check1----------------------------------------------------------
-results <- MEDBS_MA_check(MA_tab_example,"DPS","ITA","9")
+results <- MEDBS_MA_check(MA_tab_example,"DPS","ITA","GSA 99")
 results[[1]]
 
 ## ----MEDBS_MA_check2,fig.height=6,fig.width=9---------------------------------
@@ -260,7 +260,7 @@ results[[2]]
 results[[3]]
 
 ## ----MEDBS_ML_check1,fig.height=6,fig.width=9---------------------------------
-results <- MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "9")
+results <- MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 results[[1]]
 
 ## ----MEDBS_ML_check2,fig.height=6,fig.width=9---------------------------------
@@ -268,7 +268,7 @@ results[[2]]
 results[[3]]
 
 ## ----MEDBS_SA_check1----------------------------------------------------------
-results <- MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "9")
+results <- MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
 results[[1]]
 
 ## ----MEDBS_SA_check2,fig.height=6,fig.width=9---------------------------------
@@ -276,7 +276,7 @@ results[[2]]
 results[[3]]
 
 ## ----MEDBS_SL_check1----------------------------------------------------------
-results <- MEDBS_SL_check(SL_tab_example,"DPS","ITA","9")
+results <- MEDBS_SL_check(SL_tab_example,"DPS","ITA","GSA 99")
 results[[1]]
 
 ## ----MEDBS_SL_check2,fig.height=6,fig.width=9---------------------------------

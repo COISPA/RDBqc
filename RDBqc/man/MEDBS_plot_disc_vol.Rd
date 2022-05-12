@@ -4,16 +4,16 @@
 \alias{MEDBS_plot_disc_vol}
 \title{Plot of total discards by gear and fishery}
 \usage{
-MEDBS_plot_disc_vol(data, MS, GSA, SP)
+MEDBS_plot_disc_vol(data, SP, MS, GSA)
 }
 \arguments{
 \item{data}{data frame containing discard data}
 
+\item{SP}{species reference code in the three alpha code format}
+
 \item{MS}{member state code as it is reported in the discard data}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 }
 \value{
 The function returns a plot of the total discards time series by fishery and gear
@@ -22,7 +22,7 @@ The function returns a plot of the total discards time series by fishery and gea
 The function allows to visual check the time series of discard volumes by fishery of a selected species
 }
 \examples{
-MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+MEDBS_plot_disc_vol(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

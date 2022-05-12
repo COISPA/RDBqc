@@ -4,18 +4,18 @@
 \alias{MEDBS_weight_0}
 \title{weight 0 in landings and discards}
 \usage{
-MEDBS_weight_0(data, type = "l", MS, GSA, SP, verbose = TRUE)
+MEDBS_weight_0(data, type = "l", SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{data.table object containing landing or discard data}
 
 \item{type}{type of table: "l" for landings; "d" for discards}
 
+\item{SP}{species reference code in the three alpha code format}
+
 \item{MS}{member state code as it is reported in both landing and discard data}
 
 \item{GSA}{GSA code}
-
-\item{SP}{species reference code in the three alpha code format}
 
 \item{verbose}{boolean value to obtain further explanation messages from the function}
 }
@@ -26,8 +26,8 @@ The function returns the number of rows with 0 values in weights having length c
 The function checks landings or discards in weight equal to 0 having length classes filled in
 }
 \examples{
-MEDBS_weight_0(data=Landing_tab_example,type="l",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
-MEDBS_weight_0(data=Discard_tab_example,type="d",MS="ITA",GSA=9,SP="DPS", verbose=TRUE)
+MEDBS_weight_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
+MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

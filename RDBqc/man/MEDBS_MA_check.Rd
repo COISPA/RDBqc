@@ -4,10 +4,10 @@
 \alias{MEDBS_MA_check}
 \title{MA_tab (maturity at age) table check}
 \usage{
-MEDBS_MA_check(MA_tab, SP, MS, GSA, verbose = TRUE)
+MEDBS_MA_check(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{MA_tab}{maturity at AGE table in MED&BS datacall format}
+\item{data}{maturity at AGE table in MED&BS datacall format}
 
 \item{SP}{species (three alpha code)}
 
@@ -24,5 +24,5 @@ a summary table and plots
 The function allows to check the maturity at age (MA) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
 }
 \examples{
-MEDBS_MA_check(MA_tab_example,"DPS","ITA","9")
+MEDBS_MA_check(MA_tab_example,"DPS","ITA","GSA 99")
 }

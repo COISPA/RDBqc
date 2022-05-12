@@ -1,5 +1,5 @@
 #' MA_tab (maturity at age) table check
-#' @param MA_tab maturity at AGE table in MED&BS datacall format
+#' @param data maturity at AGE table in MED&BS datacall format
 #' @param SP species (three alpha code)
 #' @param MS Country
 #' @param GSA GSA (Geographical sub-area (GFCM sensu))
@@ -8,18 +8,20 @@
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
-#' @examples MEDBS_MA_check(MA_tab_example,"DPS","ITA","9")
-MEDBS_MA_check <- function(MA_tab, SP, MS, GSA, verbose=TRUE) {
+#' @examples MEDBS_MA_check(MA_tab_example,"DPS","ITA","GSA 99")
+MEDBS_MA_check <- function(data, SP, MS, GSA, verbose=TRUE) {
 
     if (FALSE) {
-        MA_tab <- MA_tab_example
+        data <- MA_tab_example
+        data$SEX[1] <- FALSE
         SP <- "DPS"
         MS <- "ITA"
-        GSA <- "9"
+        GSA <- "GSA 99"
+        MEDBS_MA_check(data,"DPS","ITA","GSA 99")
     }
 
-    colnames(MA_tab) <- toupper(colnames(MA_tab))
-
+    colnames(data) <- toupper(colnames(data))
+    MA_tab <- data
     MA_tab = MA_tab[MA_tab$SPECIES == SP & MA_tab$COUNTRY == MS & MA_tab$AREA == GSA, ]
 
 if (nrow(MA_tab)==0){

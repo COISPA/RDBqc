@@ -1,16 +1,16 @@
 #' Plot of total discards by gear and fishery
 #'
 #' @param data data frame containing discard data
+#' @param SP species reference code in the three alpha code format
 #' @param MS member state code as it is reported in the discard data
 #' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
 #' @description The function allows to visual check the time series of discard volumes by fishery of a selected species
 #' @return The function returns a plot of the total discards time series by fishery and gear
 #' @export MEDBS_plot_disc_vol
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+#' @examples MEDBS_plot_disc_vol(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 facet_grid
@@ -29,21 +29,23 @@
 #' @importFrom utils globalVariables
 
 
-MEDBS_plot_disc_vol <- function (data,MS,GSA,SP) {
+MEDBS_plot_disc_vol <- function (data,SP,MS,GSA) {
 
     if (FALSE) {
         MS <- "ITA"
-        GSA <- 9
+        GSA <- "GSA 9"
         SP <- "DPS"
         data <- Discard_tab_example
 
-        MEDBS_plot_disc_vol(data=Discard_tab_example,MS="ITA",GSA=9,SP="DPS")
+        MEDBS_plot_disc_vol(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
     }
 
     year <- gear <- fishery <- discards <- sumLand <- NULL
 
-    data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
-    data <- data[which(data$area==as.numeric(GSA) & data$country==MS & data$species==SP),]
+    colnames(data) <- tolower(colnames(data))
+
+    # data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
+    data <- data[which(data$area==as.character(GSA) & data$country==MS & data$species==SP),]
 
 
     if (nrow(data) > 0) {
@@ -54,7 +56,7 @@ MEDBS_plot_disc_vol <- function (data,MS,GSA,SP) {
                theme(strip.background =element_rect(fill="white"))+
                scale_x_continuous(breaks = seq(min(data$year),max(data$year),by=2))+
                theme(axis.text.x = element_text(angle=45,size=8)) +
-               ggtitle(paste0(SP," ",MS," ",GSA,"Total discards")) +
+               ggtitle(paste0(SP," ",MS," ",GSA," - Total discards")) +
                xlab("") +
                ylab("Discards (t)")
 
