@@ -12,12 +12,12 @@
 MEDBS_MA_check <- function(data, SP, MS, GSA, verbose=TRUE) {
 
     if (FALSE) {
-        data <- MA_tab_example
+        data <- MA # MA_tab_example
         data$SEX[1] <- FALSE
-        SP <- "DPS"
-        MS <- "ITA"
-        GSA <- "GSA 99"
-        MEDBS_MA_check(data,"DPS","ITA","GSA 99")
+        SP <- "MUT"
+        MS <- "GRC"
+        GSA <- "GSA 22"
+        MEDBS_MA_check(data,"MUT","GRC","GSA 22")
     }
 
     colnames(data) <- toupper(colnames(data))
@@ -29,7 +29,8 @@ if (nrow(MA_tab)==0){
         message(paste0("No data available for the selected species (",SP,")") )
     }
     } else if (nrow(MA_tab)>0) {
-    MA_tab[MA_tab$SEX == FALSE, ]$SEX = "F"
+    MA_tab$SEX <- as.character(MA_tab$SEX)
+    MA_tab[MA_tab$SEX == "FALSE", "SEX"] = "F"
     Summary_MA_tab <- AGECLASS <- PRM <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
     Summary_MA_tab = aggregate(
         MA_tab$SEX,

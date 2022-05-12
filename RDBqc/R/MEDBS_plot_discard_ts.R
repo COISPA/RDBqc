@@ -20,14 +20,14 @@
 MEDBS_plot_discard_ts <- function(data,SP,MS,GSA,by="year"){
 
     if (FALSE) {
-        MS <- "ITA"
-        GSA <- "GSA 9"
-        SP <- "DPS"
+        MS <- "GRC"
+        GSA <- "GSA 22"
+        SP <- "MUT"
         by="year" # "quarter"
         verbose=TRUE
-        data=Discard_tab_example
+        data= discards # Discard_tab_example
         Discard_tab_example$gear <- NA
-        MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
+        MEDBS_plot_discard_ts(data=discards,SP="MUT",MS="GRC",GSA="GSA 22",by="year")
     }
 
     year <- gear <- discards <- quarter <- tot <- NULL # in combination with @importFrom utils globalVariables
