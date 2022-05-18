@@ -13,9 +13,10 @@ MEDBS_SA_check <- function(data, SP, MS, GSA,verbose=TRUE) {
 
     if (FALSE) {
         SA_tab = SA_tab_example
-        SP = "DPS"
-        MS = "ITA"
-        GSA = "GSA 99"
+        SP = "HKE"
+        MS = "GRC"
+        GSA = "GSA 22"
+        data=SA
     }
 
     colnames(data) <- toupper(colnames(data))

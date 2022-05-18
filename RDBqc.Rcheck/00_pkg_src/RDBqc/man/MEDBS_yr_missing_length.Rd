@@ -24,8 +24,8 @@ the function returns a data frame containing the reference combination of year, 
 The function checks the presence of years with missing length distributions in both landings and discards for a selected species
 }
 \examples{
-MEDBS_yr_missing_length(data=Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
-MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
+MEDBS_yr_missing_length(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9")
+MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

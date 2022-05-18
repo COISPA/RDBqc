@@ -21,11 +21,11 @@
 MEDBS_weight_0 <- function(data,type="l",SP,MS,GSA, verbose=TRUE){
 
     if (FALSE) {
-        MS <- "ITA"
-        GSA <- "GSA 9"
-        SP <- "DPS"
+        MS <- "GRC"
+        GSA <- "GSA 22"
+        SP <- "HKE"
         verbose=TRUE
-        data <- Landing_tab_example
+        data <- landings # Landing_tab_example
         type="l"
         data[20,"landings"] <- 0
         MEDBS_weight_0(data=data,type="l",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
@@ -35,7 +35,7 @@ MEDBS_weight_0 <- function(data,type="l",SP,MS,GSA, verbose=TRUE){
 
     colnames(data) <- tolower(colnames(data))
     # data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
-    data=data[which(data$area==as.character(GSA) & data$country==MS & data$species==SP),]
+    data=data[data$area==as.character(GSA) & data$country==MS & data$species==SP,]
 
   if (type=="l") {
     if (length(which(data$landings==0))>0)

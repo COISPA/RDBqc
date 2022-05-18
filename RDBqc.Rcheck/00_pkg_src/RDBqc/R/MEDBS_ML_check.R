@@ -27,7 +27,8 @@ MEDBS_ML_check <- function(data, SP, MS, GSA,verbose=TRUE) {
           message(paste0("No data available for the selected species (",SP,")") )
       }
   } else if (nrow(ML_tab)>0){
-  ML_tab[ML_tab$SEX == FALSE, ]$SEX <- "F"
+  ML_tab$SEX <- as.character(ML_tab$SEX)
+  ML_tab[ML_tab$SEX == FALSE, "SEX"] <- "F"
   Summary_ML_tab <- LENGTHCLASS <- PRM <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
   Summary_ML_tab <- aggregate(ML_tab$SEX, by = list(ML_tab$COUNTRY, ML_tab$AREA, ML_tab$START_YEAR, ML_tab$END_YEAR, ML_tab$SPECIES, ML_tab$SEX), FUN = "length")
   colnames(Summary_ML_tab) <- c("COUNTRY", "YEAR", "START_YEAR", "END_YEAR", "SPECIES", "SEX")

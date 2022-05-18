@@ -13,7 +13,7 @@
 MEDBS_SL_check<-function(data,SP,MS,GSA,verbose=TRUE) {
 
     if (FALSE){
-        data <- SL_tab_example
+        data <- SL # SL_tab_example
         SP = "DPS"
         MS = "ITA"
         GSA ="GSA 99"

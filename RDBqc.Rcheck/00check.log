@@ -1,5 +1,5 @@
 * using log directory 'D:/Documents and Settings/Utente/Documenti/GitHub/RDBqc/RDBqc.Rcheck'
-* using R version 4.1.2 (2021-11-01)
+* using R version 4.1.1 (2021-08-10)
 * using platform: x86_64-w64-mingw32 (64-bit)
 * using session charset: ISO8859-1
 * using options '--no-manual --as-cran'
@@ -56,7 +56,7 @@
 * checking examples ... OK
 Examples with CPU (user + system) or elapsed time > 5s
           user system elapsed
-MEDBS_ks 48.74   0.06   49.19
+MEDBS_ks 45.98   0.03   46.02
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in 'inst/doc' ... OK
 * checking re-building of vignette outputs ... OK

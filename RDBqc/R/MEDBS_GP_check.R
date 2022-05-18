@@ -87,7 +87,7 @@ MEDBS_GP_check<-function(data,SP,MS,GSA) {
             geom_point()+
             geom_line()+
             facet_wrap(~START_YEAR)+
-            ggtitle(paste0("VBGF curve of ",SP, " in ", MS,"_GSA",GSA))+
+            ggtitle(paste0("VBGF curve of ",SP, " in ", MS," - ",GSA))+
             # theme(legend.position = "bottom")+
             scale_x_continuous(breaks=seq(0,20,2))+
             expand_limits(x = 0, y = 0)
@@ -103,7 +103,7 @@ MEDBS_GP_check<-function(data,SP,MS,GSA) {
                 geom_point()+
                 geom_line()+
                 facet_wrap(~START_YEAR)+
-                ggtitle(paste0("VBGF curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+
+                ggtitle(paste0("VBGF curve of ",i," ",SP, " in ", MS," - ",GSA))+
                 # theme(legend.position = "bottom")+
                 theme(legend.text = element_text(color = "blue", size = 6))+
                 guides(col=guide_legend(title=""))
@@ -119,7 +119,7 @@ MEDBS_GP_check<-function(data,SP,MS,GSA) {
             p <- ggplot(VBGF[VBGF$SEX%in%i,],aes(x=AGE,y=LENGTH,col=ID))+
                 geom_point()+
                 geom_line()+
-                ggtitle(paste0("VBGF curve of ",i," ",SP, " in ", MS,"_GSA",GSA))+
+                ggtitle(paste0("VBGF curve of ",i," ",SP, " in ", MS," - ",GSA))+
                 # theme(legend.position = "bottom", legend.box = "vertical")+
                 theme(legend.text = element_text(color = "blue", size = 6))+
                 guides(col=guide_legend(title=""))

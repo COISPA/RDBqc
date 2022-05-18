@@ -13,7 +13,7 @@ MEDBS_MA_check <- function(data, SP, MS, GSA, verbose=TRUE) {
 
     if (FALSE) {
         data <- MA # MA_tab_example
-        data$SEX[1] <- FALSE
+        # data$SEX[1] <- FALSE
         SP <- "MUT"
         MS <- "GRC"
         GSA <- "GSA 22"

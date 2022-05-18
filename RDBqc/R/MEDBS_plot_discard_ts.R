@@ -41,10 +41,11 @@ MEDBS_plot_discard_ts <- function(data,SP,MS,GSA,by="year"){
   if (nrow(disc) > 0) {
       disc[is.na(disc$gear), "gear"] <- "NA"
       disc$discards[disc$discards==-1] <- 0
+
     suppressMessages(disc_tmp <- as.data.frame(disc %>% group_by(year,gear) %>% summarize(tot=sum(discards))))
-    gear_tmp <- data.frame("year"=rep(unique(disc_tmp$year)),   "gear"=rep(unique(disc_tmp$gear),each=(max(disc_tmp$year)-min(disc_tmp$year)+1)))
+    gear_tmp <- data.frame("year"=rep(min(disc_tmp$year):max(disc_tmp$year)),   "gear"=rep(unique(disc_tmp$gear),each=(max(disc_tmp$year)-min(disc_tmp$year)+1))) # unique(disc_tmp$year)
     suppressMessages(discqrt_tmp <- as.data.frame(disc %>% group_by(year,quarter) %>% summarize(tot=sum(discards))))
-    quarter_tmp <- data.frame("year"=rep(unique(discqrt_tmp$year)),   "quarter"=rep(unique(discqrt_tmp$quarter),each=(max(disc_tmp$year)-min(disc_tmp$year)+1)))
+    quarter_tmp <- data.frame("year"=rep(min(disc_tmp$year):max(disc_tmp$year)),   "quarter"=rep(unique(discqrt_tmp$quarter),each=(max(disc_tmp$year)-min(disc_tmp$year)+1)))  # unique(discqrt_tmp$year)
 
     suppressMessages(tmpdiscq <- dplyr::left_join(quarter_tmp,discqrt_tmp))
     tmpdiscq[is.na(tmpdiscq[,3]),3] <- 0
@@ -52,8 +53,9 @@ MEDBS_plot_discard_ts <- function(data,SP,MS,GSA,by="year"){
     if (by=="quarter"){
         plot=ggplot(tmpdiscq,aes(x=year,y=tot,fill=as.factor(quarter)))+geom_area(colour="black", size=.2, alpha=.8)+theme_bw() +scale_x_continuous(breaks=seq(min(quarter_tmp$year),max(quarter_tmp$year),2)) +ggtitle(paste0(SP," ",MS," ",GSA," Total discard by quarter"))+ labs(x="", y="Tonnes",fill="Quarter")
     } else if (by=="year") {
-        tmpdisc <- dplyr::left_join(gear_tmp,disc_tmp)
+        suppressMessages(tmpdisc <- dplyr::left_join(gear_tmp,disc_tmp))
         tmpdisc[is.na(tmpdisc[,3]),3] <- 0
+        tmpdisc$gear <- as.factor(tmpdisc$gear)
         plot= ggplot(tmpdisc,aes(x=year,y=tot,fill=gear))+geom_area(colour="black", size=.2, alpha=.8)+theme_bw() +scale_x_continuous(breaks=seq(min(disc_tmp$year),max(gear_tmp$year),2)) +
             ggtitle(paste0(SP," ",MS," ",GSA," Total discard by gear")) +
             labs(x="", y="Tonnes",fill="Gear")

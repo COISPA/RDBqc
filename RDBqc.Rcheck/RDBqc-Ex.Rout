@@ -1,5 +1,5 @@
 
-R version 4.1.2 (2021-11-01) -- "Bird Hippie"
+R version 4.1.1 (2021-08-10) -- "Kick Things"
 Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -671,10 +671,13 @@ $`SL _ DPS _ ITA _ GSA 99`
 > 
 > ### ** Examples
 > 
-> MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
+> MEDBS_check_duplicates(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 No duplicated records in the data.
 NULL
-> MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
+> MEDBS_check_duplicates(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+No duplicated records in the data.
+NULL
+> MEDBS_check_duplicates(data=Catch_tab_example,type="c",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 No duplicated records in the data.
 NULL
 > 
@@ -2866,7 +2869,6 @@ $`MedianLength _ DPS _ ITA _ GSA 9`
 > 
 > MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
 > MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
-Joining, by = c("year", "gear")
 > 
 > 
 > 
@@ -2905,10 +2907,7 @@ Joining, by = c("year", "gear")
 > ### ** Examples
 > 
 > MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
-Joining, by = c("year", "quarter")
 > MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
-Joining, by = c("year", "quarter")
-Joining, by = c("year", "gear")
 > 
 > 
 > 
@@ -2975,9 +2974,9 @@ There aren't -1 discards
 > 
 > ### ** Examples
 > 
-> MEDBS_yr_missing_length(data=Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
+> MEDBS_yr_missing_length(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9")
 NULL
-> MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),GSA=c("GSA 9"))
+> MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9")
    year gear fishery total_number_landed
 1  2003  GTR   DEMSP                   0
 2  2004  GNS    DEMF                   0
@@ -5385,7 +5384,7 @@ character(0)
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  75.5 1.47 77.5 NA NA 
+Time elapsed:  72.32 1.32 73.66 NA NA 
 > grDevices::dev.off()
 null device 
           1 
