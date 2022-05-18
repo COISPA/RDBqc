@@ -1,0 +1,125 @@
+---
+title: "| ![](logo.png){width=6in} \\vspace{1in} \n\n\n\n`r format(params$term)` Report\n\n\n\n
+  \\vspace{0.1in} "
+subtitle: ''
+date: "Compiled on `r format(Sys.time(), '%d/%m/%Y, %H:%M')`"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+params:
+  term: MEDBS datacall
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE
+)
+library(RDBqc)
+library(knitr)
+library(kableExtra)
+# library(pander)
+
+SOP_threshold <- 5
+
+Catch = Catch_tab_example
+# Catch <- rbind(Catch,Catch[1,])
+
+
+Land = Landing_tab_example
+Disc = Discard_tab_example
+ML = ML_tab_example
+MA = MA_tab_example
+SL = SL_tab_example
+SA = SA_tab_example
+GP = GP_tab_example
+ALK = ALK_tab_example
+
+SPs <- c("HKE","MUT","DPS")
+MS <- "ITA"
+GSAs <- c("GSA 9","GSA 99", "GSA 18")
+
+```
+
+\newpage
+
+
+
+# Catch table
+
+## Presence of duplicated record
+
+Data included in the catch table were checked for the presence of duplicated record. The result of the check is here reported:
+
+```{r catch_duplicated_records, results = 'asis'}
+duplicates <- Catch[0,]
+
+g=1
+for (g in 1:length(GSAs)) {
+      s=1
+      for (s in 1:length(SPs)) {
+          # cc <- Catch[Catch$AREA== GSAs[g]&Catch$SPECIES==SPs[s],]
+          # Catch <- rbind(Catch,cc[1,])
+        res <- MEDBS_check_duplicates(data=Catch,type="c",SP=SPs[s],MS="ITA",GSA=GSAs[g],verbose=FALSE)
+        if (!is.null(res)) {
+            duplicates <- rbind(duplicates,res)
+        }
+      }
+}
+
+if (nrow(duplicates)>0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+    duplic <- data.frame(id=duplicates[,1])
+    print(duplic %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+    Catch <- Catch[-which(rownames(Catch) %in% as.numeric(rownames(duplicates))),]
+} else {
+    cat("\n", paste0("- No replicated records in Catch data"), "\n")
+}
+
+```
+
+*Attention*: eventual duplicated records will be removed from catch data for the following analysis
+
+
+## Coverage of catch data
+
+```{r catch_coverage, results = 'asis',fig.height=6,fig.width=9}
+
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_Catch_coverage(Catch,SP=SPs[s],MS=MS,GSA=GSAs[g]))
+        tab1 <- res[[1]]
+        tab2 <- res[[2]]
+      
+        if (!is.null(res)){
+            
+        print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        cat("\n\n\n")
+        print(tab2 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        cat("\n\n\n")
+        
+        print(res[[3]])
+        cat("\n\n\n")
+        print(res[[4]])
+        cat("\n\n\n")
+
+        } else {
+            cat(paste0("\n- No Catch data for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g],")", "\n"))
+        }
+
+
+      }
+}
+res <- suppressMessages(MEDBS_Catch_coverage(Catch,SP="DPS",MS="ITA",GSA="GSA 10",verbose=TRUE))
+# knitr::kable( res[[1]] , "html")
+#         cat("\n\n\n")
+# knitr::kable( res[[2]] , "html")
+        
+```

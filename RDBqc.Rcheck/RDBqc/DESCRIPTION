@@ -24,10 +24,10 @@ LazyData: true
 Suggests: rmarkdown, knitr
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2022-05-18 09:39:57 UTC; Walter
+Packaged: 2022-05-18 13:12:20 UTC; Walter
 Author: Isabella Bitetto [cre, aut] (<https://orcid.org/0000-0002-8497-1642>),
   Walter Zupa [aut] (<https://orcid.org/0000-0002-2058-8652>),
   Alessandro Mannini [com],
   Loredana Casciaro [ctb],
   Sebastien Alfonso [ctb]
-Built: R 4.1.1; ; 2022-05-18 09:40:04 UTC; windows
+Built: R 4.1.1; ; 2022-05-18 13:12:27 UTC; windows

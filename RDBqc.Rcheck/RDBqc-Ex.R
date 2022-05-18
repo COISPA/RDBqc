@@ -19,6 +19,25 @@ library('RDBqc')
 base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
 cleanEx()
+nameEx("MEDBS_ALK")
+### * MEDBS_ALK
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_ALK
+### Title: Plot of Age-Length Keys
+### Aliases: MEDBS_ALK
+
+### ** Examples
+
+MEDBS_ALK(data=ALK_tab_example, SP="MUT", MS="ITA", GSA="GSA 99")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_ALK", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
 nameEx("MEDBS_Catch_coverage")
 ### * MEDBS_Catch_coverage
 
@@ -170,6 +189,25 @@ MEDBS_SL_check(SL_tab_example,"DPS","ITA","GSA 99")
 
 base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
 base::cat("MEDBS_SL_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_SOP")
+### * MEDBS_SOP
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_SOP
+### Title: um of products
+### Aliases: MEDBS_SOP
+
+### ** Examples
+
+MEDBS_SOP(data=Catch_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",threshold = 5)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_SOP", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 cleanEx()
 nameEx("MEDBS_check_duplicates")
 ### * MEDBS_check_duplicates

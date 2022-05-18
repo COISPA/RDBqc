@@ -232,6 +232,13 @@ head(Discard_tab_example)
 
 ## Checks on Catch table
 
+The function `MEDBS_check_duplicates` checks the presence of duplicated rows in catch table 
+
+```{r MEDBS_check_duplicates_catches}
+catch_with_diplicate <- rbind(Catch_tab_example,Catch_tab_example[1,])
+MEDBS_check_duplicates(data=catch_with_diplicate,type="c",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
+```
+
 ### Check catches coverage
 
 The function `MEDBS_Catch_coverage` allows to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species. In particular:
@@ -261,18 +268,34 @@ results[[3]]
 results[[4]]
 ```
 
+### check Sum of products (SOP)
+
+The function checks if the percentage difference between SOP and both volumes of landing and discard are greater then a threshold value. The default value is fixed to 5%.
+
+threshold = 5
+
+```{r}
+MEDBS_SOP(data=Catch_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",threshold = 5)
+```
+
+threshold = 2
+
+```{r}
+MEDBS_SOP(data=Catch_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",threshold = 2)
+```
+
 ## Checks on discard and landing tables
 
 ### check duplicated records
 
-The function `MEDBS_check_duplicates` checks the presence of duplicated rows in both landings 
+The function `MEDBS_check_duplicates` checks the presence of duplicated rows in landings 
 
 ```{r MEDBS_check_duplicates_landings}
 Landing_tab_example <- rbind(Landing_tab_example,Landing_tab_example[1,])
 MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 ```
 
-and discards data
+The function `MEDBS_check_duplicates` also checks the presence of duplicated rows in landings 
 
 ```{r MEDBS_check_duplicates_discards}
 Discard_tab_example <- rbind(Discard_tab_example,Discard_tab_example[1,])

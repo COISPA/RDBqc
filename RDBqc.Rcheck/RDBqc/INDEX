@@ -1,8 +1,10 @@
+ALK_tab_example         ALK table in MED&BS datacall format
 Catch_tab_example       Catch table in MED&BS datacall format
 Discard_tab_example     Discard table in MED&BS datacall format
 GP_tab_example          GP table in MED&BS datacall format
 Landing_tab_example     Landing table in MED&BS datacall format
 MA_tab_example          MA table in MED&BS datacall format
+MEDBS_ALK               Plot of Age-Length Keys
 MEDBS_Catch_coverage    Catch_cov: function to check the coverage in
                         Catch table
 MEDBS_GP_check          GP_tab (growth params) table check
@@ -14,6 +16,7 @@ MEDBS_MA_check          MA_tab (maturity at age) table check
 MEDBS_ML_check          ML_tab (maturity at length) table check
 MEDBS_SA_check          SA_tab (sex ratio at age) table check
 MEDBS_SL_check          SL_tab (sex ratio at length) table check
+MEDBS_SOP               um of products
 MEDBS_check_duplicates
                         Check for duplicated data rows
 MEDBS_comp_disc_YQ      Comparison between discards in weight by

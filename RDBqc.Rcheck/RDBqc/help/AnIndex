@@ -1,3 +1,4 @@
+ALK_tab_example	ALK_tab_example
 Catch_tab_example	Catch_tab_example
 catfau_check	catfau_check
 check_EF_FDI_G	check_EF_FDI_G
@@ -36,6 +37,7 @@ fdi_j_capacity	fdi_j_capacity
 GP_tab_example	GP_tab_example
 Landing_tab_example	Landing_tab_example
 MA_tab_example	MA_tab_example
+MEDBS_ALK	MEDBS_ALK
 MEDBS_Catch_coverage	MEDBS_Catch_coverage
 MEDBS_check_duplicates	MEDBS_check_duplicates
 MEDBS_comp_disc_YQ	MEDBS_comp_disc_YQ
@@ -61,6 +63,7 @@ MEDBS_plot_landing_ts	MEDBS_plot_landing_ts
 MEDBS_plot_land_vol	MEDBS_plot_land_vol
 MEDBS_SA_check	MEDBS_SA_check
 MEDBS_SL_check	MEDBS_SL_check
+MEDBS_SOP	MEDBS_SOP
 MEDBS_weight_0	MEDBS_weight_0
 MEDBS_weight_minus1	MEDBS_weight_minus1
 MEDBS_yr_missing_length	MEDBS_yr_missing_length

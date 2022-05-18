@@ -23,8 +23,9 @@ MEDBS_GP_check<-function(data,SP,MS,GSA) {
     GP_tab <- data
 
     ck_sp <- c("HKE","MUT","MUR","SOL","CTC","PIL","ANE")
+
     # GP_tab$AREA <- as.numeric(gsub("[^0-9]", "", GP_tab$AREA))
-    GP_tab=GP_tab[GP_tab$SPECIES==SP & GP_tab$COUNTRY==MS & GP_tab$AREA==GSA,]
+    GP_tab=GP_tab[GP_tab$SPECIES %in% SP & GP_tab$COUNTRY==MS & GP_tab$AREA==GSA,]
 
     if (nrow(GP_tab)>0){
 
@@ -38,7 +39,7 @@ MEDBS_GP_check<-function(data,SP,MS,GSA) {
 
 
         for (i in 1:nrow(GP_tab)){
-            if(GP_tab$SPECIES[i]%in%ck_sp){
+            if(GP_tab$SPECIES[i]%in% ck_sp){  # ck_sp
                 if(GP_tab$VB_UNITS[i]%in%c("cm","NA")){
                     GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ",GP_tab$VB_LINF[i],", k = ",GP_tab$VB_K[i]," t0 = ",GP_tab$VB_T0[i])
                     GP_tab$VB_LINF[i] <- GP_tab$VB_LINF[i]
