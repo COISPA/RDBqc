@@ -15,10 +15,11 @@
 MEDBS_Catch_coverage<-function(data,SP,MS,GSA,verbose=TRUE){
 
     if (FALSE) {
-        catch=Catch_tab_example
+        data=Catch # Catch_tab_example
         SP="DPS"
         MS="ITA"
-        GSA="GSA 9"
+        GSA="GSA 18"
+        verbose=TRUE
     }
 
 
@@ -35,8 +36,12 @@ MEDBS_Catch_coverage<-function(data,SP,MS,GSA,verbose=TRUE){
         }
     } else if (nrow(catch)>0) {
 
+        catch[is.na(catch$VESSEL_LENGTH),"VESSEL_LENGTH"] <- "NA"
+        catch[is.na(catch$GEAR),"GEAR"] <- "NA"
+        catch[is.na(catch$MESH_SIZE_RANGE),"MESH_SIZE_RANGE"] <- "NA"
+        catch[is.na(catch$FISHERY),"FISHERY"] <- "NA"
 
-Summary_land_wt=aggregate(catch[,2:13]$LANDINGS,by=list(catch$COUNTRY, catch$YEAR, catch$QUARTER, catch$VESSEL_LENGTH, catch$GEAR, catch$MESH_SIZE_RANGE, catch$FISHERY,  catch$AREA,catch$SPECIES),FUN="sum")
+Summary_land_wt=aggregate(catch$LANDINGS,by=list(catch$COUNTRY, catch$YEAR, catch$QUARTER, catch$VESSEL_LENGTH, catch$GEAR, catch$MESH_SIZE_RANGE, catch$FISHERY,  catch$AREA,catch$SPECIES),FUN="sum") # [,2:13]
 colnames(Summary_land_wt)=c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY",  "AREA","SPECIES",  "LANDINGS" )
 
 # Summary_land_wt[1:nrow(Summary_land_wt),1:ncol(Summary_land_wt)]

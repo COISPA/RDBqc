@@ -1,5 +1,6 @@
 - RDBqc v0.0.10
   - update of MEDBS functions
+  - new functions to check SOP and ALK
 - RDBqc v0.0.9
   - toupper in colnames of MEDBS checks 
   

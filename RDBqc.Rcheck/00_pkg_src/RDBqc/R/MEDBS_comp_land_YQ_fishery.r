@@ -24,16 +24,21 @@
 MEDBS_comp_land_YQ_fishery <- function(data, SP, MS, GSA,verbose=TRUE) {
   if (FALSE) {
     MS <- "ITA"
-    GSA <- "GSA 9"
+    GSA <- "GSA 18"
     SP <- "DPS"
     # verbose=TRUE
-    land <- Landing_tab_example
+    land <- Land # Landing_tab_example
     MEDBS_comp_land_YQ_fishery(land = Landing_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
   }
 
   GEAR <- LANDINGS <- QUARTER <- tot_q <- tot_yr <- YEAR <- FISHERY <- NULL
 
   colnames(data) <- toupper(colnames(data))
+  data[is.na(data$VESSEL_LENGTH),"VESSEL_LENGTH"] <- "NA"
+  data[is.na(data$GEAR),"GEAR"] <- "NA"
+  data[is.na(data$MESH_SIZE_RANGE),"MESH_SIZE_RANGE"] <- "NA"
+  data[is.na(data$FISHERY),"FISHERY"] <- "NA"
+
   land <- data
   # land$area <- as.numeric(gsub("[^0-9.-]+", "\\1", land$area))
   land <- land[which(land$AREA == as.character(GSA) & land$COUNTRY == MS & land$SPECIES == SP), ]
@@ -64,6 +69,7 @@ MEDBS_comp_land_YQ_fishery <- function(data, SP, MS, GSA,verbose=TRUE) {
     c0 <- c0 + 1
   }
   compLandings0 <- do.call(rbind, compLand0)
+  compLandings0 <- as.data.frame(compLandings0)
 
   return(as.data.frame(compLandings0))
   }

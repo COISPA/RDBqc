@@ -14,10 +14,10 @@ MEDBS_MA_check <- function(data, SP, MS, GSA, verbose=TRUE) {
     if (FALSE) {
         data <- MA # MA_tab_example
         # data$SEX[1] <- FALSE
-        SP <- "MUT"
-        MS <- "GRC"
-        GSA <- "GSA 22"
-        MEDBS_MA_check(data,"MUT","GRC","GSA 22")
+        SP <- "DPS"
+        MS <- "ITA"
+        GSA <- "GSA 19"
+        MEDBS_MA_check(data,"DPS","ITA","GSA 19")
     }
 
     colnames(data) <- toupper(colnames(data))
@@ -49,13 +49,13 @@ if (nrow(MA_tab)==0){
                                  "START_YEAR",
                                  "END_YEAR",
                                  "SPECIES",
-                                 "SEX")
-
-Summary_MA_tab =  Summary_MA_tab[1:nrow(Summary_MA_tab), 1:(ncol(Summary_MA_tab)-1)]
+                                 "SEX","COUNT")
+    Summary_table_MA <- Summary_MA_tab
+    Summary_MA_tab =  Summary_MA_tab[1:nrow(Summary_MA_tab), 1:(ncol(Summary_MA_tab)-1)]
 
 output <- list()
 l <- length(output)+1
-output[[l]] <- Summary_MA_tab
+output[[l]] <- Summary_table_MA
 names(output)[[l]] <- "summary table"
 
     p <- ggplot(data = MA_tab, aes(

@@ -32,6 +32,11 @@ MEDBS_comp_land_Q_VL_fishery <- function(data, SP, MS, GSA, verbose = TRUE) {
   }
 
     colnames(data) <- toupper(colnames(data))
+    data[is.na(data$VESSEL_LENGTH),"VESSEL_LENGTH"] <- "NA"
+    data[is.na(data$GEAR),"GEAR"] <- "NA"
+    data[is.na(data$MESH_SIZE_RANGE),"MESH_SIZE_RANGE"] <- "NA"
+    data[is.na(data$FISHERY),"FISHERY"] <- "NA"
+
     land <- data
 
   GEAR <- LANDINGS <- QUARTER <- VESSEL_LENGTH  <- YEAR <- tmp1 <- tot_VL <- tot_NoVL <- FISHERY <- NULL

@@ -35,6 +35,11 @@ MEDBS_comp_land_YQ <- function(data,SP,MS,GSA,verbose=TRUE) {
      GEAR <- LANDINGS <- QUARTER <- tot_q <- tot_yr <- YEAR <- NULL
 
      colnames(data) <- toupper(colnames(data))
+     data[is.na(data$VESSEL_LENGTH),"VESSEL_LENGTH"] <- "NA"
+     data[is.na(data$GEAR),"GEAR"] <- "NA"
+     data[is.na(data$MESH_SIZE_RANGE),"MESH_SIZE_RANGE"] <- "NA"
+     data[is.na(data$FISHERY),"FISHERY"] <- "NA"
+
      land <- data
     # land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
     land=land[which(land$AREA==as.character(GSA) & land$COUNTRY==MS & land$SPECIES==SP),]
@@ -64,6 +69,7 @@ MEDBS_comp_land_YQ <- function(data,SP,MS,GSA,verbose=TRUE) {
     }
 
     compLandings <- do.call(rbind,compLand)
+    compLandings <- as.data.frame(compLandings)
     return(as.data.frame(compLandings))
     } # nrow(land)>0
 }

@@ -12,7 +12,7 @@
 #' @examples MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
 MEDBS_LW_check<-function(data,SP,MS,GSA,verbose=TRUE) {
     if(FALSE){
-        GP_tab <- GP_tab_example
+        data <- GP #GP_tab_example
         SP <- "MUT"
         MS <- "ITA"
         GSA <- "GSA 18"
@@ -24,7 +24,7 @@ colnames(data) <- toupper(colnames(data))
 GP_tab <- data
 # GP_tab$AREA <- as.numeric(gsub("[^0-9]", "", GP_tab$AREA))
 GP_tab=GP_tab[GP_tab$SPECIES==SP & GP_tab$COUNTRY==MS & GP_tab$AREA==GSA,]
-
+GP_tab <- GP_tab[!is.na(GP_tab$A) & GP_tab$A != -1, ]
 if (nrow(GP_tab)==0) {
     if (verbose){
         message(paste0("No data available for the selected species (",SP,")") )
@@ -102,7 +102,7 @@ for (i in unique(LW_final$SEX)){
 
     l <- length(plots)+1
     plots[[l]] <- p
-    names(plots)[[l]] <- paste("LW_year",SP,MS,GSA,sep=" _ ")
+    names(plots)[[l]] <- paste("LW_year",SP,MS,GSA,i,sep=" _ ")
        }
     }
 
@@ -121,7 +121,7 @@ for (i in unique(LW_final$SEX)){
 
     l <- length(plots)+1
     plots[[l]] <- p
-    names(plots)[[l]] <- paste("LW_cum",SP,MS,GSA,sep=" _ ")
+    names(plots)[[l]] <- paste("LW_cum",SP,MS,GSA,i,sep=" _ ")
         }
     }
 return(plots)  # Summary_LW

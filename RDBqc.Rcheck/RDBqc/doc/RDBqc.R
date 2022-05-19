@@ -88,6 +88,10 @@ head(Landing_tab_example)
 ## ----Discard_tab_example------------------------------------------------------
 head(Discard_tab_example)
 
+## ----MEDBS_check_duplicates_catches-------------------------------------------
+catch_with_diplicate <- rbind(Catch_tab_example,Catch_tab_example[1,])
+MEDBS_check_duplicates(data=catch_with_diplicate,type="c",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
+
 ## ----MEDBS_Catch_coverage1----------------------------------------------------
 results <- suppressMessages(MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
@@ -100,6 +104,12 @@ results[[3]]
 
 ## ----MEDBS_Catch_coverage4,fig.height=6,fig.width=9---------------------------
 results[[4]]
+
+## -----------------------------------------------------------------------------
+MEDBS_SOP(data=Catch_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",threshold = 5)
+
+## -----------------------------------------------------------------------------
+MEDBS_SOP(data=Catch_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",threshold = 2)
 
 ## ----MEDBS_check_duplicates_landings------------------------------------------
 Landing_tab_example <- rbind(Landing_tab_example,Landing_tab_example[1,])

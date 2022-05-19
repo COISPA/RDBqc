@@ -697,10 +697,14 @@ $`SL _ DPS _ ITA _ GSA 99`
 > ### ** Examples
 > 
 > MEDBS_SOP(data=Catch_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",threshold = 5)
-                             ID check_LANDING check_DISCARD
-24 ITA 2009-1OTB50D100DEMSPSA 9                        7.68
-25 ITA 2014-1OTB50D100DEMSPSA 9                        5.53
-54 ITA 2017 4OTB50D100DEMSPSA 9                        7.73
+   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA
+24     ITA 2009      -1            -1  OTB          50D100   DEMSP GSA 9
+25     ITA 2014      -1            -1  OTB          50D100   DEMSP GSA 9
+54     ITA 2017       4            -1  OTB          50D100   DEMSP GSA 9
+   SPECIES check_LANDING check_DISCARD
+24     DPS                        7.68
+25     DPS                        5.53
+54     DPS                        7.73
 > 
 > 
 > 
@@ -5432,7 +5436,7 @@ character(0)
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  79.46 1.61 81.18 NA NA 
+Time elapsed:  75.72 1.43 77.77 NA NA 
 > grDevices::dev.off()
 null device 
           1 

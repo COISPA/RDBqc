@@ -15,13 +15,19 @@
 MEDBS_Landing_coverage<-function(data,SP,MS,GSA,verbose=TRUE){
 
     if(FALSE) {
-        data <- Landing_tab_example
+        data <- Land # Landing_tab_example
         SP = "DPS"
         MS = "ITA"
-        GSA =  "GSA 9"
+        GSA =  "GSA 18"
+        verbose=TRUE
     }
 
     colnames(data) <- toupper(colnames(data))
+    data[is.na(data$VESSEL_LENGTH),"VESSEL_LENGTH"] <- "NA"
+    data[is.na(data$GEAR),"GEAR"] <- "NA"
+    data[is.na(data$MESH_SIZE_RANGE),"MESH_SIZE_RANGE"] <- "NA"
+    data[is.na(data$FISHERY),"FISHERY"] <- "NA"
+
     Landing_tab <- data
 
     DISCARDS<- LANDINGS<-COUNTRY<-AREA<-YEAR<-QUARTER<-VESSEL_LENGTH<- GEAR<- MESH_SIZE_RANGE<-FISHERY<-NULL
@@ -34,7 +40,7 @@ MEDBS_Landing_coverage<-function(data,SP,MS,GSA,verbose=TRUE){
         }
     } else {
 
-Summary_land_wt=aggregate(Landing_tab[,2:12]$LANDINGS,by=list(Landing_tab$COUNTRY, Landing_tab$YEAR, Landing_tab$QUARTER, Landing_tab$VESSEL_LENGTH, Landing_tab$GEAR, Landing_tab$MESH_SIZE_RANGE, Landing_tab$FISHERY,  Landing_tab$AREA,Landing_tab$SPECIES),FUN="sum")
+Summary_land_wt=aggregate(Landing_tab$LANDINGS,by=list(Landing_tab$COUNTRY, Landing_tab$YEAR, Landing_tab$QUARTER, Landing_tab$VESSEL_LENGTH, Landing_tab$GEAR, Landing_tab$MESH_SIZE_RANGE, Landing_tab$FISHERY,  Landing_tab$AREA,Landing_tab$SPECIES),FUN="sum") # [,2:12]
 colnames(Summary_land_wt)=c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY",  "AREA","SPECIES",  "LANDINGS" )
 
     # Summary_land_wt[1:nrow(Summary_land_wt),1:ncol(Summary_land_wt)]
