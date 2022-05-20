@@ -1,13 +1,19 @@
 ---
 title: "| ![](logo.png){width=6in} \\vspace{1in} \n\n\n\n`r format(params$term)` Report\n\n\n\n
   \\vspace{0.1in} "
-subtitle: ''
+
 date: "Compiled on `r format(Sys.time(), '%d/%m/%Y, %H:%M')`"
+subtitle: ''
+
 output:
   html_document:
+    template: RDBFIS_report_template.html
     toc: true
+    toc-title: "Table of contents"
+    toc_depth: 5
+    number_sections: true
+    collapsed: true
     df_print: paged
-  pdf_document: default
 params:
   term: MEDBS datacall
 ---
@@ -37,7 +43,7 @@ SA = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBq
 GP = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\gp.csv", sep=",",header=TRUE) # GP_tab_example
 ALK = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\alk.csv", sep=",",header=TRUE) # ALK_tab_example
 
-SPs <- c("DPS")
+SPs <- c("HKE")
 MS <- "ITA"
 GSAs <- c("GSA 18","GSA 19")
 
@@ -241,10 +247,10 @@ for (g in 1:length(GSAs)) {
 ```{r comp_Q_VL_fishery, results = 'asis', fig.height=6, fig.width=9}
 g=1
 for (g in 1:length(GSAs)) {
-    cat(paste0("\n### ", GSAs[g], "\n"))
+    cat(paste0("\n#### ", GSAs[g], "\n"))
       s=1
       for (s in 1:length(SPs)) {
-        cat(paste0("\n#### ", SPs[s], "\n"))
+        cat(paste0("\n##### ", SPs[s], "\n"))
         res <- suppressMessages(MEDBS_comp_land_Q_VL_fishery(data = Land, MS = MS, GSA = GSAs[g], SP = SPs[s]))
         res <- res[!is.na(res$ratio) & res$ratio>0, ]
         if (nrow(res)>0){
@@ -386,7 +392,7 @@ for (g in 1:length(GSAs)) {
         res <- suppressMessages(MEDBS_MA_check(MA,SP=SPs[s],MS=MS,GSA=GSAs[g]))
         
         if (class(res)== "list" & length(res)>0){
-            cat(paste0("\n_Summary table of percentage of matures for ",SPs[s]," in ",GSAs[g],"_"))
+            cat(paste0("\n_Summary table of percentage of matures at age for ",SPs[s]," in ",GSAs[g],"_"))
             print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
             
            name <- names(res) 
@@ -405,7 +411,7 @@ for (g in 1:length(GSAs)) {
 
            for (x in index){
                text <- strsplit(name[[x]]," _ ")[[1]][5]
-               cat(paste0("\nPlot of the percercentage of matures for ",SPs[s]," - ",MS," - ",GSAs[g], " - ", text, "\n"))
+               cat(paste0("\nPlot of the percercentage of matures at age for ",SPs[s]," - ",MS," - ",GSAs[g], " - ", text, "\n"))
                print(res[[x]])
                cat("\n\n\n")
            }
@@ -418,9 +424,139 @@ for (g in 1:length(GSAs)) {
 }
 ```
 
+## Plots of Maturity at Length (ML) data
+
+```{r ML_checks, results = 'asis', fig.height=6, fig.width=9}
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_ML_check(ML,SP=SPs[s],MS=MS,GSA=GSAs[g]))
+        
+        if (class(res)== "list" & length(res)>0){
+            cat(paste0("\n_Summary table of percentage of matures at length for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+           name <- names(res) 
+           list_name <- strsplit(name," _ ")
+           short_list <- NULL
+           for (n in 1:length(list_name)) {
+               short_list[n] <-  list_name[[n]][1]
+           }
+           
+           short_list2 <- NULL
+           for (n in 1:length(list_name)) {
+               short_list2[n] <-  list_name[[n]][5]
+           }
+           
+           index <- which(short_list=="ML" & !is.na(short_list2)  )
+
+           x=3
+           for (x in index){
+               text <- strsplit(name[[x]]," _ ")[[1]][5]
+               cat(paste0("\nPlot of the percercentage of matures at length for ",SPs[s]," - ",MS," - ",GSAs[g], " - ", text, "\n"))
+               print(res[[x]])
+               cat("\n\n\n")
+           }
+           
+        } else{
+             cat(paste0("\n- No ML data are available for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+        
+      }
+}
+```
+
+## Plots of Sex Ratio at age (SRA) data
+
+```{r SA_checks, results = 'asis', fig.height=6, fig.width=9}
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_SA_check(SA,SP=SPs[s],MS=MS,GSA=GSAs[g]))
+        
+        if (class(res)== "list" & length(res)>0){
+            cat(paste0("\n_Summary table of sex ratio at age for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+               cat(paste0("\nPlot of sex ratio at age for ",SPs[s]," - ",MS," - ",GSAs[g], " - ", text, "\n"))
+               print(res[[2]])
+               cat("\n\n\n")
+               # 
+               #                cat(paste0("\nPlot of sex ratio at age by year for ",SPs[s]," - ",MS," - ",GSAs[g], " - ", text, "\n"))
+               # print(res[[3]])
+               # cat("\n\n\n")
+        
+           
+        } else{
+             cat(paste0("\n- No SRA data are available for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+        
+      }
+}
+```
 
 
+## Plots of Sex Ratio at length (SRL) data
 
+```{r SL_checks, results = 'asis', fig.height=6, fig.width=9}
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_SL_check(SL,SP=SPs[s],MS=MS,GSA=GSAs[g]))
+        
+        if (class(res)== "list" & length(res)>0){
+            cat(paste0("\n_Summary table of sex ratio at length for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+               cat(paste0("\nPlot of sex ratio at length for ",SPs[s]," - ",MS," - ",GSAs[g], " - ", text, "\n"))
+               print(res[[2]])
+               cat("\n\n\n")
+               # 
+               #                cat(paste0("\nPlot of sex ratio at age by year for ",SPs[s]," - ",MS," - ",GSAs[g], " - ", text, "\n"))
+               # print(res[[3]])
+               # cat("\n\n\n")
+        
+           
+        } else{
+             cat(paste0("\n- No SRL data are available for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+        
+      }
+}
+```
 
+## Plots of Age-Length Keys (ALK) data
 
-
+```{r ALK_checks, results = 'asis', fig.height=6, fig.width=9}
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_ALK(ALK,SP=SPs[s],MS=MS,GSA=GSAs[g]))
+        
+        if (class(res)== "list" & length(res)>0){
+            l=1
+            for (l in 1:length(res)) {
+                sex <- strsplit(names(res[l])," - ")[[1]][1]
+                cat(paste0("\nPlot of ALK for ",SPs[s]," - ",MS," - ",GSAs[g], " - ", sex, "\n"))
+               print(res[[l]])
+               cat("\n\n\n")
+            }
+        } else{
+             cat(paste0("\n- No ALK data are available for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+        
+      }
+}
+```

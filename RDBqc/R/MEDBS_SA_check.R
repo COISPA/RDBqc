@@ -12,16 +12,18 @@
 MEDBS_SA_check <- function(data, SP, MS, GSA,verbose=TRUE) {
 
     if (FALSE) {
-        SA_tab = SA_tab_example
-        SP = "HKE"
-        MS = "GRC"
-        GSA = "GSA 22"
-        data=SA
+        data = SRA #SA_tab_example
+        SP = "DPS"
+        MS = "ITA"
+        GSA = "GSA 18"
+        # data=SA
     }
 
     colnames(data) <- toupper(colnames(data))
+
+
     SA_tab <- data
-    SA_tab <- SA_tab[SA_tab$SPECIES == SP & SA_tab$COUNTRY == MS & SA_tab$AREA == GSA, ]
+    SA_tab <- SA_tab[SA_tab$SPECIES %in% SP & SA_tab$COUNTRY %in% MS & SA_tab$AREA %in% GSA, ]
 
   if (nrow(SA_tab)==0) {
       if (verbose){

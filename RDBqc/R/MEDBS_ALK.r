@@ -13,22 +13,22 @@
 #' @examples MEDBS_ALK(data=ALK_tab_example, SP="MUT", MS="ITA", GSA="GSA 99")
 MEDBS_ALK <- function(data,SP,MS,GSA,verbose=TRUE) {
     if (FALSE) {
-         data <- ALK_tab_example
-         SP="MUT"
-         GSA="GSA 99"
+         data <- ALK # ALK_tab_example
+         SP="HKE"
+         GSA="GSA 18"
          MS="ITA"
     }
 
     AGE <- len <- START_YEAR <- NULL
 
     colnames(data) <- toupper(colnames(data))
-    ALK <- data
+
 
     data=data[data$AREA==as.character(GSA) & data$COUNTRY==MS & data$SPECIES ==SP,]
-
-    if (nrow(data)>0)
+    ALK <- data
+    if (nrow(ALK)>0)
     {
-        sexes <- unique(data$SEX)
+        sexes <- unique(ALK$SEX)
 
         plots <- list()
 
@@ -40,7 +40,7 @@ MEDBS_ALK <- function(data,SP,MS,GSA,verbose=TRUE) {
             ALK_F$len=as.numeric(substring(ALK_F$variable,12,14))
             ALK_F=ALK_F[ALK_F$value!=0,]
             ALK_F$START_YEAR <- factor(ALK_F$START_YEAR)
-            p <- ggplot(data=ALK_F, aes(x=AGE,y=len,col=START_YEAR)) + geom_point(stat="identity") +ggtitle(paste("Females", SP,MS, GSA,sep=" - "))+ labs(col='Year') + xlab('Age') + ylab(paste('Length (',unit,")")) + facet_wrap(START_YEAR~.)
+            p <- ggplot(data=ALK_F, aes(x=AGE,y=len,col=START_YEAR)) + geom_point(stat="identity") +ggtitle(paste("Females", SP,MS, GSA,sep=" - "))+ labs(col='Year') + xlab('Age') + ylab(paste('Length (',unit,")")) + facet_wrap(START_YEAR~.) + theme(legend.position = "none")
 
             l <- length(plots)+1
             plots[[l]] <- p
@@ -56,7 +56,7 @@ MEDBS_ALK <- function(data,SP,MS,GSA,verbose=TRUE) {
             ALK_M$len=as.numeric(substring(ALK_M$variable,12,14))
             ALK_M=ALK_M[ALK_M$value!=0,]
             ALK_M$START_YEAR <- factor(ALK_M$START_YEAR)
-            p <- ggplot(data=ALK_M, aes(x=AGE,y=len,col=START_YEAR)) + geom_point(stat="identity") +ggtitle(paste("Males", SP,MS, GSA,sep=" - "))+ labs(col='Year') + xlab('Age') + ylab(paste('Length (',unit,")")) + facet_wrap(START_YEAR~.)
+            p <- ggplot(data=ALK_M, aes(x=AGE,y=len,col=START_YEAR)) + geom_point(stat="identity") +ggtitle(paste("Males", SP,MS, GSA,sep=" - "))+ labs(col='Year') + xlab('Age') + ylab(paste('Length (',unit,")")) + facet_wrap(START_YEAR~.) + theme(legend.position = "none")
 
             l <- length(plots)+1
             plots[[l]] <- p
@@ -71,7 +71,7 @@ MEDBS_ALK <- function(data,SP,MS,GSA,verbose=TRUE) {
             ALK_C$len=as.numeric(substring(ALK_C$variable,12,14))
             ALK_C=ALK_C[ALK_C$value!=0,]
             ALK_C$START_YEAR <- factor(ALK_C$START_YEAR)
-            p <- ggplot(data=ALK_C, aes(x=AGE,y=len,col=START_YEAR)) + geom_point(stat="identity") +ggtitle(paste("Combined sexes", SP,MS, GSA,sep=" - "))+ labs(col='Year') + xlab('Age') + ylab(paste('Length (',unit,")")) + facet_wrap(START_YEAR~.)
+            p <- ggplot(data=ALK_C, aes(x=AGE,y=len,col=START_YEAR)) + geom_point(stat="identity") +ggtitle(paste("Combined sexes", SP,MS, GSA,sep=" - "))+ labs(col='Year') + xlab('Age') + ylab(paste('Length (',unit,")")) + facet_wrap(START_YEAR~.) + theme(legend.position = "none")
 
             l <- length(plots)+1
             plots[[l]] <- p
