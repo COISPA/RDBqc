@@ -30,6 +30,7 @@ library(kableExtra)
 # library(pander)
 
 SOP_threshold <- 5
+Rt <- 1
 
 Catch = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\catch.csv", sep=";",header=TRUE) # Catch_tab_example
 # Catch <- rbind(Catch,Catch[1,])
@@ -286,12 +287,36 @@ for (g in 1:length(GSAs)) {
 ```
 
 
+## Kolmogorov-Smirnov test
 
+The Kolmogorov-Smirnov test provides cumulative length distribution plots by fishery and year. The test is performed on couples of years to assess if their distributions belong to the same population.
 
-
-
-
-
+```{r KS_test, results = 'asis', fig.height=6, fig.width=9}
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_ks(data=Land, type="l", SP=SPs[s],MS=MS,GSA=GSAs[g],Rt=Rt))
+        
+        if (class(res)== "list" & length(res)>0){
+            cat(paste0("\n_Summary table of Kolmogorov-Smirnov test for ",SPs[s]," in ",GSAs[g],"_"))
+            tab1 <- res[[2]]
+            tab1 <- tab1[tab1$Comment =="belong to same population",]
+            rownames(tab1) <- seq(1,nrow(tab1),1)
+            print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+               cat("\n\n\n")
+               cat(paste0("\nPlot of cumulative length distributions by fishery and year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+               print(res[[4]])
+               cat("\n\n\n")
+        } else{
+             cat(paste0("\n- No Kolmogorov-Smirnov test results are available for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+      }
+}
+```
 
 
 # Growth parameters (GP) table

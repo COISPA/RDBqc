@@ -27,13 +27,13 @@ MEDBS_ks <- function (data,type,SP,MS,GSA,Rt=1,verbose=TRUE) {
 
     if (FALSE) {
 
-        data=landing # Landing_tab_example
+        data=Land # landing # Landing_tab_example
         # splines <- c(0.2,0.4,0.6,0.8)
         # Xtresholds = c(0.25,0.5,0.75)
         type="l"
         # out = "mean" # "mean"
         MS <- c("ITA")
-        GSA <- c("GSA 9")
+        GSA <- c("GSA 18")
         SP <- "DPS"
         Rt <- 1
         # tic()
@@ -204,7 +204,7 @@ MEDBS_ks <- function (data,type,SP,MS,GSA,Rt=1,verbose=TRUE) {
         KS_final_landings <- do.call(rbind,tmpdb)
         KS_noTest_landings <- do.call(rbind,tmpdb1)
 
-        results <- list(KS_final_landings,KS_noTest_landings,plots)
+        results <- list(final_DB,KS_final_landings,KS_noTest_landings,plots)
         return(results)
 
   } # nrow(land) > 0
@@ -376,7 +376,7 @@ MEDBS_ks <- function (data,type,SP,MS,GSA,Rt=1,verbose=TRUE) {
             KS_final_discards <- do.call(rbind,tmpdb)
             KS_noTest_discards <- do.call(rbind,tmpdb1)
 
-            results <- list(KS_final_discards,KS_noTest_discards,plots)
+            results <- list(final_DB,KS_final_discards,KS_noTest_discards,plots)
             return(results)
 
         } else {
