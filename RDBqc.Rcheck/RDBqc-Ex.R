@@ -19,6 +19,66 @@ library('RDBqc')
 base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
 base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
 cleanEx()
+nameEx("FDI_ts_tableA")
+### * FDI_ts_tableA
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_ts_tableA
+### Title: Check empty fields in FDI A table
+### Aliases: FDI_ts_tableA
+
+### ** Examples
+
+FDI_ts_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
+FDI_ts_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_ts_tableA", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("FDI_ts_tableG")
+### * FDI_ts_tableG
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_ts_tableG
+### Title: Check empty fields in FDI G table
+### Aliases: FDI_ts_tableG
+
+### ** Examples
+
+FDI_ts_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")
+FDI_ts_tableG(fdi_g_effort, MS="PSP", GSA="GSA99", fishtech="DTS", met="OTB_MDD_>=40_0_0")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_ts_tableG", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("FDI_ts_tableJ")
+### * FDI_ts_tableJ
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_ts_tableJ
+### Title: Check empty fields in FDI J table
+### Aliases: FDI_ts_tableJ
+
+### ** Examples
+
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99")
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", fishtech = c("DTS","PGP"))
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_ts_tableJ", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
 nameEx("MEDBS_ALK")
 ### * MEDBS_ALK
 

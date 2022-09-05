@@ -12,10 +12,11 @@
 MEDBS_GP_check<-function(data,SP,MS,GSA) {
 
     if (FALSE) {
-        data = GP_tab_example
-        SP="MUT"
+        data = GP # GP_tab_example
+        SP="CTC"
         MS="ITA"
         GSA="GSA 18"
+        MEDBS_GP_check(GP,"CTC","ITA","GSA 18")
     }
     AGE<-LENGTH<-ID<-COUNTRY<-YEAR<-START_YEAR<-END_YEAR<-SPECIES<-SEX<-NULL
 
@@ -26,16 +27,15 @@ MEDBS_GP_check<-function(data,SP,MS,GSA) {
 
     # GP_tab$AREA <- as.numeric(gsub("[^0-9]", "", GP_tab$AREA))
     GP_tab=GP_tab[GP_tab$SPECIES %in% SP & GP_tab$COUNTRY==MS & GP_tab$AREA==GSA,]
-
+    GP_tab <- GP_tab[!is.na(GP_tab$VB_LINF) & GP_tab$VB_LINF!=-1, ]
     if (nrow(GP_tab)>0){
 
 
-        Summary_GP=aggregate(GP_tab$VB_LINF,by=list(GP_tab$COUNTRY, GP_tab$AREA, GP_tab$START_YEAR,
-                            GP_tab$END_YEAR, GP_tab$SPECIES,GP_tab$SEX),FUN="length")
-        colnames(Summary_GP)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX")
+        Summary_GP=aggregate(GP_tab$VB_LINF,by=list(GP_tab$COUNTRY, GP_tab$AREA, GP_tab$START_YEAR,GP_tab$END_YEAR, GP_tab$SPECIES,GP_tab$SEX),FUN="length")
+        colnames(Summary_GP)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX","COUNT")
+        Summary_table_GP <- Summary_GP
 
-
-        Summary_GP=   Summary_GP[1:nrow(Summary_GP),1:(ncol(Summary_GP)-1)]
+        # Summary_GP=   Summary_GP[1:nrow(Summary_GP),1:(ncol(Summary_GP)-1)]
 
 
         for (i in 1:nrow(GP_tab)){
@@ -81,7 +81,7 @@ MEDBS_GP_check<-function(data,SP,MS,GSA) {
         plots <- list()
 
         l <- length(plots)+1
-        plots[[l]] <- Summary_GP
+        plots[[l]] <- Summary_table_GP
         names(plots)[[l]] <- "summary table"
 
         p <- ggplot(VBGF,aes(x=AGE,y=LENGTH,col=SEX))+

@@ -42,6 +42,13 @@
 #' @keywords GFCM DCRF datacall
 "task_vii32"
 
+#' fdi_a_catch in FDI DGMAREMED&BS datacall format
+#'
+#' @name fdi_a_catch
+#' @docType data
+#' @author Isabella Bitetto \email{bitetto@coispa.it}
+#' @keywords FDI DGMAREMED&BS datacall
+"fdi_a_catch"
 
 #' fdi_g_effort in FDI DGMAREMED&BS datacall format
 #'
@@ -51,16 +58,6 @@
 #' @keywords FDI DGMAREMED&BS datacall
 "fdi_g_effort"
 
-
-#' fdi_j_capacity in FDI DGMAREMED&BS datacall format
-#'
-#' @name fdi_j_capacity
-#' @docType data
-#' @author Isabella Bitetto \email{bitetto@coispa.it}
-#' @keywords FDI DGMAREMED&BS datacall
-"fdi_j_capacity"
-
-
 #' fdi_h_spatial_land in FDI DGMAREMED&BS datacall format
 #'
 #' @name fdi_h_spatial_land
@@ -68,6 +65,22 @@
 #' @author Isabella Bitetto \email{bitetto@coispa.it}
 #' @keywords FDI DGMAREMED&BS datacall
 "fdi_h_spatial_land"
+
+#' fdi_h_spatial_landings in FDI DGMAREMED&BS datacall format
+#'
+#' @name fdi_h_spatial_landings
+#' @docType data
+#' @author Isabella Bitetto \email{bitetto@coispa.it}
+#' @keywords FDI DGMAREMED&BS datacall
+"fdi_h_spatial_landings"
+
+#' fdi_i_spatial_effort in FDI DGMAREMED&BS datacall format
+#'
+#' @name fdi_i_spatial_effort
+#' @docType data
+#' @author Isabella Bitetto \email{bitetto@coispa.it}
+#' @keywords FDI DGMAREMED&BS datacall
+"fdi_i_spatial_effort"
 
 
 #' fdi_i_spatial_fe in FDI DGMAREMED&BS datacall format
@@ -77,6 +90,14 @@
 #' @author Isabella Bitetto \email{bitetto@coispa.it}
 #' @keywords FDI DGMAREMED&BS datacall
 "fdi_i_spatial_fe"
+
+#' fdi_j_capacity in FDI DGMAREMED&BS datacall format
+#'
+#' @name fdi_j_capacity
+#' @docType data
+#' @author Isabella Bitetto \email{bitetto@coispa.it}
+#' @keywords FDI DGMAREMED&BS datacall
+"fdi_j_capacity"
 
 #' combination_taskII2 in GFCM datacall format
 #'

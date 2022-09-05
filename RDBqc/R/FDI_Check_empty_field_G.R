@@ -60,7 +60,7 @@ data$kwhrsea[data$kwhrsea==""]=NA
 data$gthrsea[data$gthrsea==""]=NA
 data$totves[data$totves==""]=NA
 data$confidential[data$confidential==""]=NA
-data
+# data
 
 #Localisation of the NA
 results= sapply(data, function(x) sum(is.na(x)))

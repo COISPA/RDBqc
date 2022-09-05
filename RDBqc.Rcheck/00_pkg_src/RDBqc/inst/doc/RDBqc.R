@@ -275,7 +275,6 @@ results[[1]]
 
 ## ----MEDBS_ML_check2,fig.height=6,fig.width=9---------------------------------
 results[[2]]
-results[[3]]
 
 ## ----MEDBS_SA_check1----------------------------------------------------------
 results <- MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")

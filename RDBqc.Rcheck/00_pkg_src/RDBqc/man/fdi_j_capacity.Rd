@@ -5,7 +5,7 @@
 \alias{fdi_j_capacity}
 \title{fdi_j_capacity in FDI DGMAREMED&BS datacall format}
 \format{
-An object of class \code{data.frame} with 5 rows and 14 columns.
+An object of class \code{data.frame} with 2450 rows and 14 columns.
 }
 \usage{
 fdi_j_capacity

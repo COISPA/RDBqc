@@ -16,7 +16,8 @@ MEDBS_SL_check<-function(data,SP,MS,GSA,verbose=TRUE) {
         data <- SL # SL_tab_example
         SP = "DPS"
         MS = "ITA"
-        GSA ="GSA 99"
+        GSA ="GSA 18"
+        MEDBS_SL_check(SL,"DPS","ITA","GSA 19")
     }
     colnames(data) <- toupper(colnames(data))
     SL_tab <- data
@@ -31,13 +32,14 @@ if (nrow(SL_tab)==0) {
 } else if (nrow(SL_tab)>0) {
 
 Summary_SL=aggregate(SL_tab$SEX_RATIO,by=list(SL_tab$COUNTRY, SL_tab$AREA, SL_tab$START_YEAR, SL_tab$END_YEAR, SL_tab$SPECIES),FUN="length")
-colnames(Summary_SL)=c("COUNTRY", "YEAR", "START_YEAR","END_YEAR","SPECIES","SEX_RATIO")
+colnames(Summary_SL)=c("COUNTRY","GSA", "START_YEAR","END_YEAR","SPECIES","COUNT")
 
+Summary_tab_SL <- Summary_SL
 Summary_SL=Summary_SL[1:nrow(Summary_SL),1:(ncol(Summary_SL)-1)]
 
 output <- list()
 l <- length(output)+1
-output[[l]] <- Summary_SL
+output[[l]] <- Summary_tab_SL
 names(output)[[l]] <- "summary table"
 
 p <- ggplot(data=SL_tab, aes(x=LENGTHCLASS,y=SEX_RATIO,col=factor(START_YEAR))) +

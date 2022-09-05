@@ -5,7 +5,7 @@
 \alias{fdi_g_effort}
 \title{fdi_g_effort in FDI DGMAREMED&BS datacall format}
 \format{
-An object of class \code{data.frame} with 5 rows and 26 columns.
+An object of class \code{data.frame} with 2450 rows and 26 columns.
 }
 \usage{
 fdi_g_effort

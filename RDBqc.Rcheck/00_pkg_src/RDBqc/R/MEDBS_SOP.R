@@ -134,7 +134,7 @@ MEDBS_SOP <- function(data,SP,MS,GSA,threshold = 5,verbose=TRUE) {      #data,SP
         # Data_call$check_DISCARD <- as.numeric(Data_call$check_DISCARD)
 
         error=Data_call[(Data_call$check_LANDING>=threshold & !is.na(Data_call$check_LANDING))| (Data_call$check_DISCARD>=threshold & !is.na(Data_call$check_DISCARD))   ,
-                        c(2:9,11,
+                        c(3:8,
                           which(colnames(Data_call)=="check_LANDING"),
                           which(colnames(Data_call)=="check_DISCARD"))]
 
@@ -146,7 +146,7 @@ MEDBS_SOP <- function(data,SP,MS,GSA,threshold = 5,verbose=TRUE) {      #data,SP
 
         }
         df <- data.frame(matrix(ncol=11,nrow=0))
-        colnames(df) <- c("COUNTRY" ,   "YEAR","QUARTER","VESSEL_LENGTH","GEAR",            "MESH_SIZE_RANGE", "FISHERY","AREA","SPECIES","check_LANDING","check_DISCARD")
+        colnames(df) <- c("YEAR","QUARTER","VESSEL_LENGTH","GEAR","MESH_SIZE_RANGE", "FISHERY","check_LANDING","check_DISCARD")
         return(df)
     }
 
