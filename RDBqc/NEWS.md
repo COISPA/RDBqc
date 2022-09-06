@@ -2,6 +2,7 @@
   - update of MEDBS functions
   - new functions to check SOP and ALK
   - implemented the treatment of NA values for VESSEL_LENGTH, GEAR, FISHERY and MESH_SIZE_RANGE in MEDBS functions 
+  - Included new FDI functions
 - RDBqc v0.0.9
   - toupper in colnames of MEDBS checks 
   

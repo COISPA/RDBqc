@@ -1,0 +1,6 @@
+"country";"year";"quarter";"vessel_length";"fishing_tech";"gear_type";"target_assemblage";"mesh_size_range";"metier";"supra_region";"sub_region";"eez_indicator";"geo_indicator";"specon_tech";"deep";"rectangle_type";"rectangle_lat";"rectangle_lon";"c_square";"totfishdays";"confidential"
+"ITA";2014;1;"VL0612";"DTS";"OTB";"DEF";"40D50";"OTB_DEF_>=40_0_0";"MBS";"GSA17";"NK";"NGI";NA;NA;"05*05";NA;NA;NA;4660.918105;"N"
+"ITA";2014;1;"VL0612";"PGP";"FPO";"DEF";"NK";"FPO_DEF_>0_0_0";"MBS";"GSA17";"NK";"NGI";NA;NA;"05*05";NA;NA;NA;5830.032023;"N"
+"ITA";2014;1;"VL0612";"PGP";"FYK";"DEF";"NK";"FYK_DEF_>0_0_0";"MBS";"GSA17";"NK";"NGI";NA;NA;"05*05";NA;NA;NA;2623.621701;"N"
+"ITA";2014;1;"VL0612";"PGP";"GNS";"DEF";"16D20";"GNS_DEF_>=16_0_0";"MBS";"GSA17";"NK";"NGI";NA;NA;"05*05";NA;NA;NA;7214.586901;"N"
+"ITA";2014;1;"VL0612";"PGP";"GTR";"DEF";"16D20";"GTR_DEF_>=16_0_0";"MBS";"GSA17";"NK";"NGI";NA;NA;"05*05";NA;NA;NA;18131.01976;"N"
