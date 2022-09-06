@@ -18,5 +18,5 @@ Two lists are returned by the function. The first list gives the number of NA fo
 The function checks the presence of not allowed empty data in the given table, according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}
 }
 \examples{
-check_EF_FDI_I(fdi_i_spatial_fe)
+check_EF_FDI_I(fdi_i_spatial_effort)
 }

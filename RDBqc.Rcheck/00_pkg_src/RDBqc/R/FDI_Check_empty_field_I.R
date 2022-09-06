@@ -7,7 +7,7 @@
 #' @return Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
 #' @export
 #'
-#' @examples check_EF_FDI_I(fdi_i_spatial_fe)
+#' @examples check_EF_FDI_I(fdi_i_spatial_effort)
 
 
 check_EF_FDI_I <- function(data, verbose=TRUE){
@@ -267,7 +267,7 @@ if (verbose){
 
 
 output=list(results,results2)
-output
+# output
 return(output)
 
 }

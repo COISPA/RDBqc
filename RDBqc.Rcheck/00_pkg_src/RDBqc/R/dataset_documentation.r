@@ -74,15 +74,6 @@
 #' @keywords FDI DGMAREMED&BS datacall
 "fdi_h_spatial_landings"
 
-#' fdi_i_spatial_effort in FDI DGMAREMED&BS datacall format
-#'
-#' @name fdi_i_spatial_effort
-#' @docType data
-#' @author Isabella Bitetto \email{bitetto@coispa.it}
-#' @keywords FDI DGMAREMED&BS datacall
-"fdi_i_spatial_effort"
-
-
 #' fdi_i_spatial_fe in FDI DGMAREMED&BS datacall format
 #'
 #' @name fdi_i_spatial_fe

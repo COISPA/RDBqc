@@ -7,7 +7,7 @@
 #' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 19 columns of the FDI G table.
 #' @export
 #'
-#' @examples check_RD_FDI_I(fdi_i_spatial_fe)
+#' @examples check_RD_FDI_I(fdi_i_spatial_effort)
 
 
 check_RD_FDI_I <- function(data, verbose=TRUE){

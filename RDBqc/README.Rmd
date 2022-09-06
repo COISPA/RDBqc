@@ -718,13 +718,13 @@ check_RD_FDI_H(h_spatial_land)
 The function `check_EF_FDI_I` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2021 - Annex 1'. A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
 
 ```{r check_EF_FDI_I1}
-check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[1]]
+check_EF_FDI_I(fdi_i_spatial_effort,verbose=FALSE)[[1]]
 ```
 
 The second list's object gives the index of each NA in the reference column.
 
 ```{r check_EF_FDI_I2}
-check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[2]]
+check_EF_FDI_I(fdi_i_spatial_effort,verbose=FALSE)[[2]]
 ```
 
 ### Check duplicated records in FDI I table
@@ -732,7 +732,7 @@ check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[2]]
 The function `check_RD_FDI_I` check the presence of duplicated records. In particular, it checks whether the combination of the first 15 columns generates duplicate records. The function returns the indices of the duplicated rows.
 
 ```{r check_RD_FDI_I}
-i_spatial_fe <- rbind(fdi_i_spatial_fe,fdi_i_spatial_fe[1,])
+i_spatial_fe <- rbind(fdi_i_spatial_effort,fdi_i_spatial_effort[1,])
 check_RD_FDI_I(i_spatial_fe)
 ```
 

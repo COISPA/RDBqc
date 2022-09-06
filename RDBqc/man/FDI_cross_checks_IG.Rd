@@ -19,5 +19,5 @@ The function checks the possible data inconsistency between spatial effort in ta
 according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}
 }
 \examples{
-FDI_cross_checks_IG(data1=fdi_i_spatial_fe, data2=fdi_g_effort)
+FDI_cross_checks_IG(data1=fdi_i_spatial_effort, data2=fdi_g_effort)
 }

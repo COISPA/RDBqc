@@ -3,6 +3,7 @@
 ** R
 ** data
 *** moving datasets to lazyload DB
+Avvertimento: l'oggetto'fdi_g_effort' viene creato da più di una chiamata dati
 ** inst
 ** byte-compile and prepare package for lazy loading
 ** help

@@ -6,7 +6,7 @@
 #' @param data2 FDI effort table G
 #' @return The function returns a list with two tables. In the first table all the miss matches between stpatial effort in table I and effort in table G are shown, in the second table the comparison between total spatial effort of table I and total effort in table G is shown.
 #' @export
-#' @examples FDI_cross_checks_IG(data1=fdi_i_spatial_fe, data2=fdi_g_effort)
+#' @examples FDI_cross_checks_IG(data1=fdi_i_spatial_effort, data2=fdi_g_effort)
 #' @import tidyverse
 
 FDI_cross_checks_IG <- function(data1, data2) {

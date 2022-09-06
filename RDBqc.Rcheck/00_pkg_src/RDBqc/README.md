@@ -2393,7 +2393,7 @@ function. The first list’s object is a vector containing the number of
 NA for each reference column.
 
 ``` r
-check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[1]]
+check_EF_FDI_I(fdi_i_spatial_effort,verbose=FALSE)[[1]]
 #>           country              year           quarter     vessel_length 
 #>                 0                 0                 0                 0 
 #>      fishing_tech         gear_type target_assemblage   mesh_size_range 
@@ -2412,7 +2412,7 @@ The second list’s object gives the index of each NA in the reference
 column.
 
 ``` r
-check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[2]]
+check_EF_FDI_I(fdi_i_spatial_effort,verbose=FALSE)[[2]]
 #> $country
 #> integer(0)
 #> 
@@ -2485,7 +2485,7 @@ generates duplicate records. The function returns the indices of the
 duplicated rows.
 
 ``` r
-i_spatial_fe <- rbind(fdi_i_spatial_fe,fdi_i_spatial_fe[1,])
+i_spatial_fe <- rbind(fdi_i_spatial_effort,fdi_i_spatial_effort[1,])
 check_RD_FDI_I(i_spatial_fe)
 #> 1 record/s duplicated
 #> [1] 6

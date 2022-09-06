@@ -29,8 +29,8 @@ FDI_cross_checks_JG <- function(data1, data2,verbose=FALSE) {
     data2[data2=="NA"]<-0
     data2[data2=="DEEP"]<-0
     data2[is.na(data2)] <- 0
-    suppressMessages(data1<-data1%>%filter(country !=0 & year!=0))
-    suppressMessages(data2<-data2%>%filter(country!=0 & year!=0))
+    suppressMessages(data1<-data1 %>% filter(country!=0 & year!=0))
+    suppressMessages(data2<-data2 %>% filter(country!=0 & year!=0))
 
     (data1<-data1[,c(1,2,3,7,11)])
     (data1[,c(2,5)]<-as.data.frame(lapply(data1[,c(2,5)], as.numeric)))

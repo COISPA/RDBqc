@@ -90,7 +90,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-FDI_cross_checks_IG(data1=fdi_i_spatial_fe, data2=fdi_g_effort)
+FDI_cross_checks_IG(data1=fdi_i_spatial_effort, data2=fdi_g_effort)
 
 
 
@@ -1010,7 +1010,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-check_EF_FDI_I(fdi_i_spatial_fe)
+check_EF_FDI_I(fdi_i_spatial_effort)
 
 
 
@@ -1187,7 +1187,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 ### ** Examples
 
-check_RD_FDI_I(fdi_i_spatial_fe)
+check_RD_FDI_I(fdi_i_spatial_effort)
 
 
 
