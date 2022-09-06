@@ -1,4 +1,4 @@
-#' @description The function checks the incorrect combination of NA in table H capacity and in table I. It also show miss-specification of sub-region assigned, according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}
+#' @description The function checks the incorrect combination of NA in table H spatial_landings and in table I spatial_effort. It also show miss-specification of sub-region assigned, according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}
 #' @param data1 FDI spatial_landings in table H
 #' @param data2 FDI spatial_effort table I
 #' @return The function returns a table with all the miss value and NAs between table H and I.

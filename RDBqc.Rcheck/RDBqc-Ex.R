@@ -1,0 +1,1439 @@
+pkgname <- "RDBqc"
+source(file.path(R.home("share"), "R", "examples-header.R"))
+options(warn = 1)
+options(pager = "console")
+base::assign(".ExTimings", "RDBqc-Ex.timings", pos = 'CheckExEnv')
+base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+base::assign(".format_ptime",
+function(x) {
+  if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
+  if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
+  options(OutDec = '.')
+  format(x[1L:3L], digits = 7L)
+},
+pos = 'CheckExEnv')
+
+### * </HEADER>
+library('RDBqc')
+
+base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+cleanEx()
+nameEx("FDI_cov_tableA")
+### * FDI_cov_tableA
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_cov_tableA
+### Title: Check number of record in FDI A table
+### Aliases: FDI_cov_tableA
+
+### ** Examples
+
+FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
+FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_cov_tableA", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("FDI_cross_checks_AG")
+### * FDI_cross_checks_AG
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_cross_checks_AG
+### Title: Cross check between FDI tables A and G
+### Aliases: FDI_cross_checks_AG
+
+### ** Examples
+
+FDI_cross_checks_AG(data1=fdi_a_catch, data2=fdi_g_effort)
+FDI_cross_checks_AG(fdi_a_catch, fdi_g_effort)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_cross_checks_AG", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("FDI_cross_checks_AH")
+### * FDI_cross_checks_AH
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_cross_checks_AH
+### Title: Cross check between FDI tables A and H
+### Aliases: FDI_cross_checks_AH
+
+### ** Examples
+
+FDI_cross_checks_AH(data1=fdi_a_catch, data2=fdi_h_spatial_landings)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_cross_checks_AH", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("FDI_cross_checks_IG")
+### * FDI_cross_checks_IG
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_cross_checks_IG
+### Title: Cross check between FDI tables I and G
+### Aliases: FDI_cross_checks_IG
+
+### ** Examples
+
+FDI_cross_checks_IG(data1=fdi_i_spatial_fe, data2=fdi_g_effort)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_cross_checks_IG", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("FDI_cross_checks_JG")
+### * FDI_cross_checks_JG
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_cross_checks_JG
+### Title: Cross check between FDI tables J and G
+### Aliases: FDI_cross_checks_JG
+
+### ** Examples
+
+FDI_cross_checks_JG(data1=fdi_j_capacity, data2=fdi_g_effort,verbose=TRUE)
+FDI_cross_checks_JG(fdi_j_capacity, fdi_g_effort)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_cross_checks_JG", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("FDI_price_tableA")
+### * FDI_price_tableA
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_price_tableA
+### Title: Check prices trend in FDI A table
+### Aliases: FDI_price_tableA
+
+### ** Examples
+
+FDI_price_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
+FDI_price_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_price_tableA", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("FDI_ts_tableG")
+### * FDI_ts_tableG
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_ts_tableG
+### Title: Check number of record in FDI G table
+### Aliases: FDI_ts_tableG
+
+### ** Examples
+
+FDI_ts_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")
+FDI_ts_tableG(fdi_g_effort, MS="PSP", GSA="GSA99", fishtech="DTS", met="OTB_MDD_>=40_0_0")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_ts_tableG", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("FDI_ts_tableJ")
+### * FDI_ts_tableJ
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: FDI_ts_tableJ
+### Title: Check empty fields in FDI J table
+### Aliases: FDI_ts_tableJ
+
+### ** Examples
+
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99")
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", fishtech = c("DTS","PGP"))
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("FDI_ts_tableJ", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_ALK")
+### * MEDBS_ALK
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_ALK
+### Title: Plot of Age-Length Keys
+### Aliases: MEDBS_ALK
+
+### ** Examples
+
+MEDBS_ALK(data=ALK_tab_example, SP="MUT", MS="ITA", GSA="GSA 99")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_ALK", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_Catch_coverage")
+### * MEDBS_Catch_coverage
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_Catch_coverage
+### Title: Catch_cov: function to check the coverage in Catch table
+### Aliases: MEDBS_Catch_coverage
+
+### ** Examples
+
+MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_Catch_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_GP_check")
+### * MEDBS_GP_check
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_GP_check
+### Title: GP_tab (growth params) table check
+### Aliases: MEDBS_GP_check
+
+### ** Examples
+
+MEDBS_GP_check(GP_tab_example,"MUT","ITA","GSA 18")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_GP_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_LW_check")
+### * MEDBS_LW_check
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_LW_check
+### Title: LW params in GP_tab in table check
+### Aliases: MEDBS_LW_check
+
+### ** Examples
+
+MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_LW_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_Landing_coverage")
+### * MEDBS_Landing_coverage
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_Landing_coverage
+### Title: Landing_cov: function to check the coverage in Landing table
+### Aliases: MEDBS_Landing_coverage
+
+### ** Examples
+
+MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_Landing_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_MA_check")
+### * MEDBS_MA_check
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_MA_check
+### Title: MA_tab (maturity at age) table check
+### Aliases: MEDBS_MA_check
+
+### ** Examples
+
+MEDBS_MA_check(MA_tab_example,"DPS","ITA","GSA 99")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_MA_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_ML_check")
+### * MEDBS_ML_check
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_ML_check
+### Title: ML_tab (maturity at length) table check
+### Aliases: MEDBS_ML_check
+
+### ** Examples
+
+MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_ML_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_SA_check")
+### * MEDBS_SA_check
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_SA_check
+### Title: SA_tab (sex ratio at age) table check
+### Aliases: MEDBS_SA_check
+
+### ** Examples
+
+MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_SA_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_SL_check")
+### * MEDBS_SL_check
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_SL_check
+### Title: SL_tab (sex ratio at length) table check
+### Aliases: MEDBS_SL_check
+
+### ** Examples
+
+MEDBS_SL_check(SL_tab_example,"DPS","ITA","GSA 99")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_SL_check", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_SOP")
+### * MEDBS_SOP
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_SOP
+### Title: um of products
+### Aliases: MEDBS_SOP
+
+### ** Examples
+
+MEDBS_SOP(data=Catch_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",threshold = 5)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_SOP", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_check_duplicates")
+### * MEDBS_check_duplicates
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_check_duplicates
+### Title: Check for duplicated data rows
+### Aliases: MEDBS_check_duplicates
+
+### ** Examples
+
+MEDBS_check_duplicates(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+MEDBS_check_duplicates(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+MEDBS_check_duplicates(data=Catch_tab_example,type="c",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_check_duplicates", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_comp_disc_YQ")
+### * MEDBS_comp_disc_YQ
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_comp_disc_YQ
+### Title: Comparison between discards in weight by quarter and -1
+### Aliases: MEDBS_comp_disc_YQ
+
+### ** Examples
+
+MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_comp_disc_YQ", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_comp_disc_YQ_fishery")
+### * MEDBS_comp_disc_YQ_fishery
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_comp_disc_YQ_fishery
+### Title: Comparison between discards in weight by quarter, quarter -1 and
+###   by fishery
+### Aliases: MEDBS_comp_disc_YQ_fishery
+
+### ** Examples
+
+MEDBS_comp_disc_YQ_fishery(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_comp_disc_YQ_fishery", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_comp_land_Q_VL")
+### * MEDBS_comp_land_Q_VL
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_comp_land_Q_VL
+### Title: Comparison between landings in weight by quarter accounting for
+###   vessel length
+### Aliases: MEDBS_comp_land_Q_VL
+
+### ** Examples
+
+MEDBS_comp_land_Q_VL(data = Landing_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_comp_land_Q_VL", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_comp_land_Q_VL_fishery")
+### * MEDBS_comp_land_Q_VL_fishery
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_comp_land_Q_VL_fishery
+### Title: Comparison between landings in weight by quarter and fishery
+###   accounting for vessel length
+### Aliases: MEDBS_comp_land_Q_VL_fishery
+
+### ** Examples
+
+MEDBS_comp_land_Q_VL_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_comp_land_Q_VL_fishery", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_comp_land_YQ")
+### * MEDBS_comp_land_YQ
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_comp_land_YQ
+### Title: Comparison between landings in weight by quarter and -1
+### Aliases: MEDBS_comp_land_YQ
+
+### ** Examples
+
+MEDBS_comp_land_YQ(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_comp_land_YQ", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_comp_land_YQ_fishery")
+### * MEDBS_comp_land_YQ_fishery
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_comp_land_YQ_fishery
+### Title: Comparison between landings in weight by quarter, quarter -1 and
+###   by fishery
+### Aliases: MEDBS_comp_land_YQ_fishery
+
+### ** Examples
+
+MEDBS_comp_land_YQ_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_comp_land_YQ_fishery", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_disc_mean_weight")
+### * MEDBS_disc_mean_weight
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_disc_mean_weight
+### Title: Mean weight by year,gear and fishery aggregation
+### Aliases: MEDBS_disc_mean_weight
+
+### ** Examples
+
+MEDBS_disc_mean_weight(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_disc_mean_weight", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_discard_coverage")
+### * MEDBS_discard_coverage
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_discard_coverage
+### Title: Discard_cov: function to check the coverage in discard table
+### Aliases: MEDBS_discard_coverage
+
+### ** Examples
+
+MEDBS_discard_coverage(Discard_tab_example,"DPS","ITA","GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_discard_coverage", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_ks")
+### * MEDBS_ks
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_ks
+### Title: Kolmogorov-Smirnov test
+### Aliases: MEDBS_ks
+
+### ** Examples
+
+MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9",Rt=1)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_ks", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_land_mean_weight")
+### * MEDBS_land_mean_weight
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_land_mean_weight
+### Title: Mean weight by year,gear and fishery aggregation
+### Aliases: MEDBS_land_mean_weight
+
+### ** Examples
+
+MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_land_mean_weight", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_length_ind")
+### * MEDBS_length_ind
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_length_ind
+### Title: Main length size indicators
+### Aliases: MEDBS_length_ind
+
+### ** Examples
+
+MEDBS_length_ind(Landing_tab_example,type="l",SP="DPS",MS=c("ITA"),
+GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),
+Xtresholds = c(0.25,0.5,0.75))
+MEDBS_length_ind(Discard_tab_example,type="d",SP="DPS",MS=c("ITA"),
+GSA=c("GSA 9"), splines=c(0.2,0.4,0.6,0.8),
+Xtresholds = c(0.25,0.5,0.75))
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_length_ind", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_lengthclass_0")
+### * MEDBS_lengthclass_0
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_lengthclass_0
+### Title: Length classes number 0 in landings and discards
+### Aliases: MEDBS_lengthclass_0
+
+### ** Examples
+
+MEDBS_lengthclass_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+MEDBS_lengthclass_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_lengthclass_0", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_plot_disc_vol")
+### * MEDBS_plot_disc_vol
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_plot_disc_vol
+### Title: Plot of total discards by gear and fishery
+### Aliases: MEDBS_plot_disc_vol
+
+### ** Examples
+
+MEDBS_plot_disc_vol(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_plot_disc_vol", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_plot_discard_ts")
+### * MEDBS_plot_discard_ts
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_plot_discard_ts
+### Title: Plot of total discards
+### Aliases: MEDBS_plot_discard_ts
+
+### ** Examples
+
+MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
+MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_plot_discard_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_plot_land_vol")
+### * MEDBS_plot_land_vol
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_plot_land_vol
+### Title: Plot of total landing by gear and fishery
+### Aliases: MEDBS_plot_land_vol
+
+### ** Examples
+
+MEDBS_plot_land_vol(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_plot_land_vol", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_plot_landing_ts")
+### * MEDBS_plot_landing_ts
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_plot_landing_ts
+### Title: Plot of total landing
+### Aliases: MEDBS_plot_landing_ts
+
+### ** Examples
+
+MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="quarter")
+MEDBS_plot_landing_ts(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by="year")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_plot_landing_ts", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_weight_0")
+### * MEDBS_weight_0
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_weight_0
+### Title: weight 0 in landings and discards
+### Aliases: MEDBS_weight_0
+
+### ** Examples
+
+MEDBS_weight_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
+MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_weight_0", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_weight_minus1")
+### * MEDBS_weight_minus1
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_weight_minus1
+### Title: weight -1 in landings
+### Aliases: MEDBS_weight_minus1
+
+### ** Examples
+
+MEDBS_weight_minus1(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+MEDBS_weight_minus1(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_weight_minus1", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("MEDBS_yr_missing_length")
+### * MEDBS_yr_missing_length
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: MEDBS_yr_missing_length
+### Title: Years with missing length distributions
+### Aliases: MEDBS_yr_missing_length
+
+### ** Examples
+
+MEDBS_yr_missing_length(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9")
+MEDBS_yr_missing_length(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("MEDBS_yr_missing_length", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("RCG_check_AL")
+### * RCG_check_AL
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: RCG_check_AL
+### Title: Check consistency of age-length relationship
+### Aliases: RCG_check_AL
+
+### ** Examples
+
+RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=30)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("RCG_check_AL", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("RCG_check_CL")
+### * RCG_check_CL
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: RCG_check_CL
+### Title: Quality checks on CL RCG table
+### Aliases: RCG_check_CL
+
+### ** Examples
+
+RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("RCG_check_CL", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("RCG_check_LFD")
+### * RCG_check_LFD
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: RCG_check_LFD
+### Title: RCG_check LFD
+### Aliases: RCG_check_LFD
+
+### ** Examples
+
+RCG_check_LFD(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",min_len=1,max_len=35)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("RCG_check_LFD", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("RCG_check_LFD_comm_cat")
+### * RCG_check_LFD_comm_cat
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: RCG_check_LFD_comm_cat
+### Title: Check consistency of LFD by year and commercial category
+### Aliases: RCG_check_LFD_comm_cat
+
+### ** Examples
+
+RCG_check_LFD_comm_cat(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("RCG_check_LFD_comm_cat", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("RCG_check_loc")
+### * RCG_check_loc
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: RCG_check_loc
+### Title: Check trip location
+### Aliases: RCG_check_loc
+
+### ** Examples
+
+RCG_check_loc(data_ex)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("RCG_check_loc", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("RCG_check_lw")
+### * RCG_check_lw
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: RCG_check_lw
+### Title: Consistency of length-weight relationship and consistency with
+###   allowed ranges
+### Aliases: RCG_check_lw
+
+### ** Examples
+
+RCG_check_lw(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",Min=0,Max=1000)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("RCG_check_lw", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("RCG_check_mat")
+### * RCG_check_mat
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: RCG_check_mat
+### Title: Check consistency sex and maturity stage
+### Aliases: RCG_check_mat
+
+### ** Examples
+
+RCG_check_mat(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("RCG_check_mat", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("RCG_check_mat_ogive")
+### * RCG_check_mat_ogive
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: RCG_check_mat_ogive
+### Title: Maturity ogives by sex
+### Aliases: RCG_check_mat_ogive
+
+### ** Examples
+
+RCG_check_mat_ogive(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",
+sex="F",immature_stages=c("0","1","2a"))
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("RCG_check_mat_ogive", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("RCG_summarize_ind_meas")
+### * RCG_summarize_ind_meas
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: RCG_summarize_ind_meas
+### Title: Number of individual by trip for which biological data have been
+###   collected (length, sex, maturity, weight and age)
+### Aliases: RCG_summarize_ind_meas
+
+### ** Examples
+
+RCG_summarize_ind_meas(data=data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("RCG_summarize_ind_meas", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("RCG_summarize_trips")
+### * RCG_summarize_trips
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: RCG_summarize_trips
+### Title: summarizing the number of trips/hauls monitored by year by port,
+###   metier, sampling method;
+### Aliases: RCG_summarize_trips
+
+### ** Examples
+
+RCG_summarize_trips(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("RCG_summarize_trips", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_EF_FDI_G")
+### * check_EF_FDI_G
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_EF_FDI_G
+### Title: Check empty fields in FDI G table
+### Aliases: check_EF_FDI_G
+
+### ** Examples
+
+check_EF_FDI_G(fdi_g_effort)
+
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_EF_FDI_G", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_EF_FDI_H")
+### * check_EF_FDI_H
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_EF_FDI_H
+### Title: Check empty fields in FDI H table
+### Aliases: check_EF_FDI_H
+
+### ** Examples
+
+check_EF_FDI_H(fdi_h_spatial_land)
+
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_EF_FDI_H", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_EF_FDI_I")
+### * check_EF_FDI_I
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_EF_FDI_I
+### Title: Check empty fields in FDI I table
+### Aliases: check_EF_FDI_I
+
+### ** Examples
+
+check_EF_FDI_I(fdi_i_spatial_fe)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_EF_FDI_I", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_EF_FDI_J")
+### * check_EF_FDI_J
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_EF_FDI_J
+### Title: Check empty fields in FDI J table
+### Aliases: check_EF_FDI_J
+
+### ** Examples
+
+check_EF_FDI_J(fdi_j_capacity)
+
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_EF_FDI_J", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_EF_TaskVII31")
+### * check_EF_TaskVII31
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_EF_TaskVII31
+### Title: Check empty fields in GFCM Task VII.3.1 table
+### Aliases: check_EF_TaskVII31
+
+### ** Examples
+
+check_EF_TaskVII31(task_vii31)
+
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_EF_TaskVII31", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_EF_TaskVII32")
+### * check_EF_TaskVII32
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_EF_TaskVII32
+### Title: Check empty fields in GFCM Task VII.3.2 table
+### Aliases: check_EF_TaskVII32
+
+### ** Examples
+
+check_EF_TaskVII32(task_vii32)
+
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_EF_TaskVII32", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_EF_taskII2")
+### * check_EF_taskII2
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_EF_taskII2
+### Title: Check empty fields in GFCM Task II.2 table
+### Aliases: check_EF_taskII2
+
+### ** Examples
+
+check_EF_taskII2(task_ii2)
+
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_EF_taskII2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_EF_taskIII")
+### * check_EF_taskIII
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_EF_taskIII
+### Title: Check empty fields in GFCM Task III table
+### Aliases: check_EF_taskIII
+
+### ** Examples
+
+check_EF_taskIII(task_iii)
+
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_EF_taskIII", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_EF_taskVII2")
+### * check_EF_taskVII2
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_EF_taskVII2
+### Title: Check empty fields in GFCM Task VII.2 table
+### Aliases: check_EF_taskVII2
+
+### ** Examples
+
+check_EF_taskVII2(task_vii2)
+
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_EF_taskVII2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_RD_FDI_G")
+### * check_RD_FDI_G
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_RD_FDI_G
+### Title: Check duplicated records in FDI G table
+### Aliases: check_RD_FDI_G
+
+### ** Examples
+
+check_RD_FDI_G(fdi_g_effort)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_RD_FDI_G", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_RD_FDI_H")
+### * check_RD_FDI_H
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_RD_FDI_H
+### Title: Check duplicated records in FDI H table
+### Aliases: check_RD_FDI_H
+
+### ** Examples
+
+check_RD_FDI_H(fdi_h_spatial_land)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_RD_FDI_H", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_RD_FDI_I")
+### * check_RD_FDI_I
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_RD_FDI_I
+### Title: Check duplicated records in FDI I table
+### Aliases: check_RD_FDI_I
+
+### ** Examples
+
+check_RD_FDI_I(fdi_i_spatial_fe)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_RD_FDI_I", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_RD_FDI_J")
+### * check_RD_FDI_J
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_RD_FDI_J
+### Title: Check duplicated records in FDI J table
+### Aliases: check_RD_FDI_J
+
+### ** Examples
+
+check_RD_FDI_J(fdi_j_capacity)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_RD_FDI_J", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_RD_TaskVII32")
+### * check_RD_TaskVII32
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_RD_TaskVII32
+### Title: Check duplicated records in GFCM Task VII.3.2 table
+### Aliases: check_RD_TaskVII32
+
+### ** Examples
+
+check_RD_TaskVII32(task_vii32)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_RD_TaskVII32", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_RD_taskII2")
+### * check_RD_taskII2
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_RD_taskII2
+### Title: Check duplicated records in GFCM Task II.2 table
+### Aliases: check_RD_taskII2
+
+### ** Examples
+
+check_RD_taskII2(task_ii2)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_RD_taskII2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_RD_taskIII")
+### * check_RD_taskIII
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_RD_taskIII
+### Title: Check duplicated records in GFCM Task III table
+### Aliases: check_RD_taskIII
+
+### ** Examples
+
+check_RD_taskIII(task_iii)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_RD_taskIII", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_RD_taskVII2")
+### * check_RD_taskVII2
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_RD_taskVII2
+### Title: Check duplicated records in GFCM Task VII.2 table
+### Aliases: check_RD_taskVII2
+
+### ** Examples
+
+check_RD_taskVII2(task_vii2)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_RD_taskVII2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_RD_taskVII31")
+### * check_RD_taskVII31
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_RD_taskVII31
+### Title: Check duplicated records in GFCM Task VII.3.1 table
+### Aliases: check_RD_taskVII31
+
+### ** Examples
+
+check_RD_taskVII31(task_vii31)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_RD_taskVII31", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_lmat_TaskVII.3.2")
+### * check_lmat_TaskVII.3.2
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_lmat_TaskVII.3.2
+### Title: Plot of the maturity stages per length for each sex and species
+### Aliases: check_lmat_TaskVII.3.2
+
+### ** Examples
+
+check_lmat_TaskVII.3.2(task_vii32)
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_lmat_TaskVII.3.2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_lw_TaskVII.2")
+### * check_lw_TaskVII.2
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_lw_TaskVII.2
+### Title: Plot of the relationship length weight for each species
+### Aliases: check_lw_TaskVII.2
+
+### ** Examples
+
+check_lw_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP = "BOG")
+
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_lw_TaskVII.2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_minmaxl50_TaskVII.3.1")
+### * check_minmaxl50_TaskVII.3.1
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_minmaxl50_TaskVII.3.1
+### Title: Comparison between min/max L50 observed for each species and sex
+###   with theoretical values
+### Aliases: check_minmaxl50_TaskVII.3.1
+
+### ** Examples
+
+check_minmaxl50_TaskVII.3.1(task_vii31,minmaxLtaskVII31,MS="ITA",GSA="19")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_minmaxl50_TaskVII.3.1", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_minmaxl_TaskVII.2")
+### * check_minmaxl_TaskVII.2
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_minmaxl_TaskVII.2
+### Title: Comparison between min/max observed for each species with
+###   theoretical values
+### Aliases: check_minmaxl_TaskVII.2
+
+### ** Examples
+
+check_minmaxl_TaskVII.2(task_vii2,minmaxLtaskVII2,MS="ITA",GSA="18")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_minmaxl_TaskVII.2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_presence_taskII2")
+### * check_presence_taskII2
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_presence_taskII2
+### Title: Check of missing combination GSA/Fleet segment per year
+### Aliases: check_presence_taskII2
+
+### ** Examples
+
+check_presence_taskII2(task_ii2,combination_taskII2,MS="ITA",GSA="18")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_presence_taskII2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+cleanEx()
+nameEx("check_species_catfau_TaskVII.3.2")
+### * check_species_catfau_TaskVII.3.2
+
+flush(stderr()); flush(stdout())
+
+base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+### Name: check_species_catfau_TaskVII.3.2
+### Title: Check mismatching species/Catfau and Sex per maturity stages for
+###   Task VII.3.2 table
+### Aliases: check_species_catfau_TaskVII.3.2
+
+### ** Examples
+
+check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18")
+
+
+
+base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+base::cat("check_species_catfau_TaskVII.3.2", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+### * <FOOTER>
+###
+cleanEx()
+options(digits = 7L)
+base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+grDevices::dev.off()
+###
+### Local variables: ***
+### mode: outline-minor ***
+### outline-regexp: "\\(> \\)?### [*]+" ***
+### End: ***
+quit('no')
