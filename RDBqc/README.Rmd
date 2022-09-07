@@ -1,10 +1,12 @@
 ---
-title: "Quality checks on RDBFIS data formats"
+title: "RDBqc: Quality checks on RDBFIS data formats" 
+author: "Walter Zupa"
+date: "`r Sys.Date()`"
 output: github_document
 vignette: >
-  %\VignetteIndexEntry{A priori quality checks on RCG CS and CL dataformats}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{RDBqc: Quality checks on RDBFIS data formats}
+  %\VignetteEngine{knitr::knitr}
+  %\usepackage[UTF-8]{inputenc}
 ---
 
 ```{r, include = FALSE}

@@ -24,7 +24,7 @@ LazyData: true
 Suggests: rmarkdown, knitr
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2022-09-06 16:18:52 UTC; Walter
+Packaged: 2022-09-07 07:29:52 UTC; Walter
 Author: Isabella Bitetto [cre, aut] (<https://orcid.org/0000-0002-8497-1642>),
   Walter Zupa [aut] (<https://orcid.org/0000-0002-2058-8652>),
   Alessandro Mannini [com],

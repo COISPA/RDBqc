@@ -53,25 +53,14 @@
 'qpdf' is needed for checks on size reduction of PDFs
 * checking installed files from 'inst/doc' ... OK
 * checking files in 'vignettes' ... OK
-* checking examples ... ERROR
-Running examples in 'RDBqc-Ex.R' failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: FDI_cross_checks_IG
-> ### Title: Cross check between FDI tables I and G
-> ### Aliases: FDI_cross_checks_IG
-> 
-> ### ** Examples
-> 
-> FDI_cross_checks_IG(data1=fdi_i_spatial_effort, data2=fdi_g_effort)
-Error in nrow(data1) : object 'fdi_i_spatial_effort' not found
-Calls: FDI_cross_checks_IG -> nrow
-Execution halted
+* checking examples ... OK
+Examples with CPU (user + system) or elapsed time > 5s
+          user system elapsed
+MEDBS_ks 75.25   0.06   75.87
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in 'inst/doc' ... OK
 * checking re-building of vignette outputs ... OK
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 1 ERROR, 1 WARNING
+Status: 1 WARNING

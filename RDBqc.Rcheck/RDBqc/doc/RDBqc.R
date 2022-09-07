@@ -313,13 +313,13 @@ h_spatial_land <- rbind(fdi_h_spatial_land,fdi_h_spatial_land[1,])
 check_RD_FDI_H(h_spatial_land)
 
 ## ----check_EF_FDI_I1----------------------------------------------------------
-check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[1]]
+check_EF_FDI_I(fdi_i_spatial_effort,verbose=FALSE)[[1]]
 
 ## ----check_EF_FDI_I2----------------------------------------------------------
-check_EF_FDI_I(fdi_i_spatial_fe,verbose=FALSE)[[2]]
+check_EF_FDI_I(fdi_i_spatial_effort,verbose=FALSE)[[2]]
 
 ## ----check_RD_FDI_I-----------------------------------------------------------
-i_spatial_fe <- rbind(fdi_i_spatial_fe,fdi_i_spatial_fe[1,])
+i_spatial_fe <- rbind(fdi_i_spatial_effort,fdi_i_spatial_effort[1,])
 check_RD_FDI_I(i_spatial_fe)
 
 ## ----check_EF_FDI_J1----------------------------------------------------------

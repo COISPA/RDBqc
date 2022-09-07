@@ -22,5 +22,6 @@ Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, pander, data.table, grDevice
 LazyData: true
 Suggests: 
     rmarkdown,
-    knitr
+    knitr,
+    markdown
 VignetteBuilder: knitr

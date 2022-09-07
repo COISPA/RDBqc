@@ -1,5 +1,7 @@
-Quality checks on RDBFIS data formats
+RDBqc: Quality checks on RDBFIS data formats
 ================
+Walter Zupa
+2022-09-07
 
 RDBqc allows to carry out a set of *a priori* quality checks on detailed
 sampling data and on aggregated landing data, and *a posteriori* quality

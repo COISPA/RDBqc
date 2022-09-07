@@ -137,8 +137,8 @@ fdi_h_spatial_land      fdi_h_spatial_land in FDI DGMAREMED&BS datacall
 fdi_h_spatial_landings
                         fdi_h_spatial_landings in FDI DGMAREMED&BS
                         datacall format
-fdi_i_spatial_fe        fdi_i_spatial_fe in FDI DGMAREMED&BS datacall
-                        format
+fdi_i_spatial_effort    fdi_i_spatial_effort in FDI DGMAREMED&BS
+                        datacall format
 fdi_j_capacity          fdi_j_capacity in FDI DGMAREMED&BS datacall
                         format
 minmaxLtaskVII2         minmaxLtaskVII2 in GFCM datacall format
