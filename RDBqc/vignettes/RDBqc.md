@@ -3963,23 +3963,193 @@ check_minmaxl_TaskVII.2(task_vii2,minmaxLtaskVII2,MS="ITA",GSA="18")
 The function `check_lw_TaskVII.2` allows to check the consistency of length-weight relationship in the GFCM Task VII.2 table by species. The function returns a plot of the length weight relationship per species.
 
 
+```r
+check_lw_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP = "BOG")
+```
+
+![plot of chunk check_lw_TaskVII.2](figure/check_lw_TaskVII.2-1.png)
 
 
 
+## Task VII.3.1 table
+
+### Check empty fields in GFCM Task VII.3.1 table
+
+The function `check_EF_TaskVII31` checks the presence of not allowed empty data in the given table, according to the GFCM Data Collection Reference Framework (DCRF, V. 20.1). The function returns two lists. The first list gives the number of NA for each reference column.
 
 
+```r
+check_EF_TaskVII31(task_vii31, verbose=FALSE)[[1]]
+#> Reference_Year            CPC            GSA        Species            Sex 
+#>              0              0              0              0              0 
+#>            L50 
+#>              0
+```
+
+The second list returns the index of each NA in the reference column.
 
 
+```r
+check_EF_TaskVII31(task_vii31, verbose=FALSE)[[2]]
+#> $Reference_Year
+#> integer(0)
+#> 
+#> $CPC
+#> integer(0)
+#> 
+#> $GSA
+#> integer(0)
+#> 
+#> $Species
+#> integer(0)
+#> 
+#> $Sex
+#> integer(0)
+#> 
+#> $L50
+#> integer(0)
+```
+
+### Comparison between min/max L50 observed for each species and sex with theoretical values
+
+The function `check_minmaxl50_TaskVII.3.1` allows to verify the consistency of L50 reported in the TaskVII.3.1 table with the theoretical values reported in the minmaxLtaskVII31 table. The function allows to identify the records in which the observed L50 are greater or lower than the expected ones.
+The function returns a table with the comparison between min/max L50 observed for each species and sex with theoretical values. The field check_max of the returned data frame will contain "Warning" in case of L50 outliers.
 
 
+```r
+check_minmaxl50_TaskVII.3.1(task_vii31,minmaxLtaskVII31,MS="ITA",GSA="19")
+#>   Species Sex min_observed max_observed min_theoretical max_theoretical
+#> 1     HKE   F         33.6         33.6               5             100
+#> 2     HKE   M         17.8         17.8               5             100
+#> 3     MTS   F         20.3         20.3               5             100
+#> 4     MUT   F         11.4         11.4               5             100
+#> 5     MUT   M         10.4         10.4               5             100
+#>   check_min check_max
+#> 1                    
+#> 2                    
+#> 3                    
+#> 4                    
+#> 5
+```
+
+### Check duplicated records in GFCM Task VII.3.1 table
+
+The function `check_RD_taskVII31` checks the presence of duplicated records. In particular, it checks whether the combination of the first 5 columns generates duplicate records. The function returns the indices of the duplicated rows, checking the unique combinations of the first 5 columns of the Task VII.3.1 table.
 
 
+```r
+check_RD_taskVII31(task_vii31)
+#> no duplicated lines in the data frame
+#> integer(0)
+```
+
+## Task VII.3.2 table
+
+### Check empty fields in GFCM Task VII.3.2 table
+
+The function `check_EF_TaskVII31` checks the presence of not allowed empty data in the given table, according to the GFCM Data Collection Reference Framework (DCRF, V. 20.1). The function returns two lists. The first list gives the number of NA for each reference column.
 
 
+```r
+check_EF_TaskVII32(task_vii32, verbose=FALSE)[[1]]
+#>            Reference_Year                       CPC                       GSA 
+#>                         0                         0                         0 
+#>                    Source                SurveyName                   Segment 
+#>                         0                         0                         0 
+#>                   Species                LengthUnit                    Length 
+#>                         0                         0                         0 
+#>                       Sex                  Maturity NumberIndividualsMeasured 
+#>                         0                         0                         0 
+#>  WeightIndividualsSampled NumberIndividualsExpanded 
+#>                         0                         0
+```
+
+The second list returns the index of each NA in the reference column.
 
 
+```r
+check_EF_TaskVII32(task_vii32, verbose=FALSE)[[2]]
+#> $Reference_Year
+#> integer(0)
+#> 
+#> $CPC
+#> integer(0)
+#> 
+#> $GSA
+#> integer(0)
+#> 
+#> $Source
+#> integer(0)
+#> 
+#> $SurveyName
+#> integer(0)
+#> 
+#> $Segment
+#> integer(0)
+#> 
+#> $Species
+#> integer(0)
+#> 
+#> $LengthUnit
+#> integer(0)
+#> 
+#> $Length
+#> integer(0)
+#> 
+#> $Sex
+#> integer(0)
+#> 
+#> $Maturity
+#> integer(0)
+#> 
+#> $NumberIndividualsMeasured
+#> integer(0)
+#> 
+#> $WeightIndividualsSampled
+#> integer(0)
+#> 
+#> $NumberIndividualsExpanded
+#> integer(0)
+```
 
 
+### Check duplicated records in GFCM Task VII.3.2 table
+
+The function `check_RD_TaskVII32` checks the presence of duplicated records. In particular, it checks whether the combination of the first 10 columns generates duplicate records. The function returns the indices of the duplicated rows, checking the unique combinations of the first 10 columns of the Task VII.3.2 table.
 
 
+```r
+check_RD_TaskVII32(task_vii32)
+#> no duplicated lines in the data frame
+#> integer(0)
+```
 
+### Check mismatching species/Catfau and Sex per maturity stages for Task VII.3.2 table
+
+The function `check_species_catfau_TaskVII.3.2` allows to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table.
+Two vectors are returned by the function. The first provides the list of mismatching combination of species/faunistic categories. 
+
+
+```r
+check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18")[[1]]
+#> character(0)
+```
+
+The second vector provides the list of mismatching combination of sex/maturity stages.
+
+
+```r
+check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18")[[2]]
+#> character(0)
+```
+
+### Plot of the maturity stages per length for each sex and species
+
+Function `check_lmat_TaskVII.3.2` plots the lengths at maturity stages by species and sex to easily identify outliers. The function return a plot of the maturity stages per length and sex per species.
+
+
+```r
+check_lmat_TaskVII.3.2(task_vii32)
+```
+
+![plot of chunk check_lmat_TaskVII.3.2](figure/check_lmat_TaskVII.3.2-1.png)
