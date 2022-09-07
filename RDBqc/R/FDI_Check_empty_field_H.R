@@ -7,7 +7,7 @@
 #' @return Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
 #' @export
 #'
-#' @examples check_EF_FDI_H(fdi_h_spatial_land)
+#' @examples check_EF_FDI_H(fdi_h_spatial_landings)
 #'
 
 

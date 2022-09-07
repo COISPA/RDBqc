@@ -700,13 +700,13 @@ The function `check_EF_FDI_H` checks the presence of not allowed empty data in t
 A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
 
 ```{r check_EF_FDI_H1}
-check_EF_FDI_H(fdi_h_spatial_land, verbose=FALSE)[[1]]
+check_EF_FDI_H(fdi_h_spatial_landings, verbose=FALSE)[[1]]
 ```
 
 The second list's object gives the index of each NA in the reference column.
 
 ```{r check_EF_FDI_H2}
-check_EF_FDI_H(fdi_h_spatial_land, verbose=FALSE)[[2]]
+check_EF_FDI_H(fdi_h_spatial_landings, verbose=FALSE)[[2]]
 ```
 
 ### Check duplicated records in FDI H table
@@ -714,7 +714,7 @@ check_EF_FDI_H(fdi_h_spatial_land, verbose=FALSE)[[2]]
 The function `check_RD_FDI_H` check the presence of duplicated records. In particular, it checks whether the combination of the first 15 columns generates duplicate records. The function returns the indices of the duplicated rows.
 
 ```{r check_RD_FDI_H}
-h_spatial_land <- rbind(fdi_h_spatial_land,fdi_h_spatial_land[1,])
+h_spatial_land <- rbind(fdi_h_spatial_landings,fdi_h_spatial_landings[1,])
 check_RD_FDI_H(h_spatial_land)
 ```
 

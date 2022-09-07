@@ -21,13 +21,13 @@ Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, pander, data.table,
         grDevices, magrittr, tictoc,tidyverse,
         fishmethods,tidyr,gridExtra
 LazyData: true
-Suggests: rmarkdown, knitr
+Suggests: rmarkdown, knitr, markdown
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2022-09-07 07:29:52 UTC; Walter
+Packaged: 2022-09-07 09:30:36 UTC; Walter
 Author: Isabella Bitetto [cre, aut] (<https://orcid.org/0000-0002-8497-1642>),
   Walter Zupa [aut] (<https://orcid.org/0000-0002-2058-8652>),
   Alessandro Mannini [com],
   Loredana Casciaro [ctb],
   Sebastien Alfonso [ctb]
-Built: R 4.1.1; ; 2022-09-07 07:30:04 UTC; windows
+Built: R 4.1.1; ; 2022-09-07 09:30:45 UTC; windows

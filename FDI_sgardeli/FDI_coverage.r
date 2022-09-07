@@ -23,41 +23,41 @@ tblj <- plyr::ldply(files[5], fread)
 #     should we add a check for the consistency of the column names among tables and those required by the call
 
 check_FDI_coverage <- function(data, MS, verbose = TRUE){
-  
+
   # check if MS is existing
-  mslist <- unique(data$COUNTRY)
+  mslist <- unique(data$country)
   if (MS %in% mslist) {
-    print(paste("Coverage of", MS, "data", sep=" ") ) 
+    print(paste("Coverage of", MS, "data", sep=" ") )
   }else{
     stop('MS not existing in provided data')
   }
-  
-  # subset for MS 
-  data1    <- subset(data, COUNTRY == 'GRC')
+
+  # subset for MS
+  data1    <- subset(data, country == 'GRC')
   data1$id <- seq(1,nrow(data1), 1)
-  
-  gsas <- unique(data1$SUB_REGION)
-  yrs  <- unique(data1$YEAR)
-  
-  # check there are gsas and years reported 
+
+  gsas <- unique(data1$sub_region)
+  yrs  <- unique(data1$year)
+
+  # check there are gsas and years reported
   if (is.null(gsas)) {stop('No SUB_REGIONS existing')}
   if (is.null(yrs)) {stop('No YEARS existing')}
-  
-  # check for NAs in gsas or years reported 
-  
-  gsas <- data1$SUB_REGION
-  yrs  <- data1$YEAR
-  
+
+  # check for NAs in gsas or years reported
+
+  gsas <- data1$sub_region
+  yrs  <- data1$year
+
   na1 <- which(is.na(gsas))
   na2 <- which(is.na(yrs))
-  
+
   if (verbose) {
     if (length(na1)!=0) {message(paste('Found NAs in SUB_REGIONS in', length(na1), 'rows' )) }
     if (length(na2)!=0) {message(paste('Found NAs in Years in', length(na2), 'rows' )) }
   }
   # coverage by GSA and year
-  cov <- aggregate(list(records=data1$id), by =list(year = data1$YEAR, gsa= data1$SUB_REGION), FUN=length) 
-  
+  cov <- aggregate(list(records=data1$id), by =list(year = data1$year, gsa= data1$sub_region), FUN=length)
+
   return(cov)
 }
 

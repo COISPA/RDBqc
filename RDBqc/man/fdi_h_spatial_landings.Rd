@@ -5,7 +5,7 @@
 \alias{fdi_h_spatial_landings}
 \title{fdi_h_spatial_landings in FDI DGMAREMED&BS datacall format}
 \format{
-An object of class \code{data.frame} with 2450 rows and 18 columns.
+An object of class \code{data.frame} with 2450 rows and 23 columns.
 }
 \usage{
 fdi_h_spatial_landings

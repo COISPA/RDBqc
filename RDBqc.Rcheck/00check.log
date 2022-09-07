@@ -56,7 +56,7 @@
 * checking examples ... OK
 Examples with CPU (user + system) or elapsed time > 5s
           user system elapsed
-MEDBS_ks 75.25   0.06   75.87
+MEDBS_ks 67.39   0.02   67.83
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in 'inst/doc' ... OK
 * checking re-building of vignette outputs ... OK

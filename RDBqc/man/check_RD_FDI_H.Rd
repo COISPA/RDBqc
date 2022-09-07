@@ -18,5 +18,5 @@ The function returns the indices of the duplicated rows, checking the unique com
 The function check the presence of duplicated records. In particular, it checks whether the combination of the first 15 columns generates duplicate records.
 }
 \examples{
-check_RD_FDI_H(fdi_h_spatial_land)
+check_RD_FDI_H(fdi_h_spatial_landings)
 }

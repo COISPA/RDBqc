@@ -9,7 +9,6 @@
 #' @examples FDI_cross_checks_AH(data1=fdi_a_catch, data2=fdi_h_spatial_landings)
 #' @import tidyverse
 
-
 FDI_cross_checks_AH <- function(data1, data2) {
 
     Data <- country <- cscode <- fishing_tech <- gear_type <- sub_region <- totwghtlandg <- ttwghtl <- vessel_length <- year <- NULL
@@ -30,20 +29,20 @@ data2[data2=="NA"]<-0
 data2[data2=="DEEP"]<-0
 data2[is.na(data2)] <- 0
 suppressMessages(data1<-data1%>%filter(country !=0 & year!=0))
-suppressMessages(data2<-data2%>%filter(cscode !=0 & year!=0))
+suppressMessages(data2<-data2%>%filter(country !=0 & year!=0))
 
 
 data1[,c(2,3,11,16:18,20:22)]<-as.data.frame(lapply(data1[,c(2,3,11,16:18,20:22)], as.numeric))
-data2[,c(2,14,16,17,18)]<-as.data.frame(lapply(data2[,c(2,14,16,17,18)], as.numeric))
-colnames(data2)[c(4,5,6,7,8,11)]<-colnames(data1)[c(4,5,6,8,7,13)]
+data2[,c(2,3,21,22)]<-as.data.frame(lapply(data2[,c(2,3,21,22)], as.numeric))
+# colnames(data2)[c(4,5,6,7,8,11)]<-colnames(data1)[c(4,5,6,8,7,13)]
 
 suppressMessages(data1 <- data1 %>%
         group_by(country, year, vessel_length, fishing_tech, gear_type, sub_region)%>%
         summarize(totwghtlandg=sum(as.numeric(totwghtlandg))))
 
 suppressMessages(data2 <- data2 %>%
-        group_by(year, vessel_length, fishing_tech, gear_type, sub_region) %>%
-        summarize(ttwghtl  =sum(as.numeric(ttwghtl ))))
+        group_by(country,year, vessel_length, fishing_tech, gear_type, sub_region) %>%
+        summarize(ttwghtl  =sum(as.numeric(totwghtlandg ))))
 
 suppressMessages(data <- full_join(data1,data2))
 data$Data <- NA
