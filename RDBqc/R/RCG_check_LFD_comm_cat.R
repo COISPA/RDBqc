@@ -16,8 +16,8 @@ RCG_check_LFD_comm_cat <- function(data,MS,GSA,SP,verbose=TRUE){
     if(FALSE){
         data <- data_ex
         data[1,"Length_class" ] <- NA
-
-        RCG_check_LFD_comm_cat(data, SP="Mullus barbatus")
+        GSA="GSA99"
+        RCG_check_LFD_comm_cat(data,MS="ITA",GSA="GSA99", SP="Mullus barbatus")
     }
 
     Length_class <- Number_at_length <-NULL
