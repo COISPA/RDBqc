@@ -12,24 +12,20 @@
 
 FDI_disc_coverage <- function(data, MS, verbose = TRUE){
 
-    country <- NULL
-
     # check if MS is existing
-    mslist <- unique(data$country)
+    mslist <- unique(data$COUNTRY)
     if (MS %in% mslist) {
-        if(verbose) {
-            message(paste("Discard coverage per GSA for", MS, "data", sep=" ") )
-        }
+        print(paste("Discard coverage per GSA for", MS, "data", sep=" ") )
     }else{
         stop('MS not existing in provided data')
     }
 
     # subset for MS
-    data1    <- subset(data, country == MS)
+    data1    <- subset(data, COUNTRY == 'GRC')
     #data1$id <- seq(1,nrow(data1), 1)
 
-    ngsas <- unique(data1$sub_region)
-    nyrs  <- unique(data1$year)
+    ngsas <- unique(data1$SUB_REGION)
+    nyrs  <- unique(data1$YEAR)
 
     # check there are gsas and years reported
     if (is.null(ngsas)) {stop('No SUB_REGIONS existing')}
@@ -37,8 +33,8 @@ FDI_disc_coverage <- function(data, MS, verbose = TRUE){
 
     # check for NAs in gsas or years reported
 
-    gsas <- data1$sub_region
-    yrs  <- data1$year
+    gsas <- data1$SUB_REGION
+    yrs  <- data1$YEAR
 
     na1 <- which(is.na(gsas))
     na2 <- which(is.na(yrs))
@@ -49,58 +45,53 @@ FDI_disc_coverage <- function(data, MS, verbose = TRUE){
     }
 
     # Discard coverage by GSA and year. Split discards in categories ">0", "0", "NK"
-    d3 <- which(data1$discards == 'NK')
-    suppressWarnings(d1 <- which(as.numeric(data1$discards) > 0))
-    suppressWarnings(d2 <- which(as.numeric(data1$discards) == 0))
-
+    d1 <- which(data1$DISCARDS >= 0)
+    d2 <- which(data1$DISCARDS == 0)
+    d3 <- which(data1$DISCARDS == 'NK'| is.na(data1$DISCARDS))
     data1$DISCcat     <- rep(NA, nrow(data1))
     data1$DISCcat[d1] <- 1
     data1$DISCcat[d2] <- 0
     data1$DISCcat[d3] <- 'NK'
+    discov <- aggregate(list(landings=data1$TOTWGHTLANDG), by =list(year = data1$YEAR, gsa= data1$SUB_REGION, disccat = data1$DISCcat), FUN=sum, na.rm=T)
+    TL     <- aggregate(list(landings=data1$TOTWGHTLANDG), by =list(year = data1$YEAR, gsa= data1$SUB_REGION), FUN=sum, na.rm=T)
 
-    data1[is.na(data1$totwghtlandg),"totwghtlandg"] <- "0"
-    data1[data1$totwghtlandg=="NA","totwghtlandg"]<-"0"
-    data1[data1$totwghtlandg=="NK","totwghtlandg"]<-"0"
-
-    data1$totwghtlandg <- as.numeric(data1$totwghtlandg)
-
-
-    discov <- aggregate(list(landings=data1$totwghtlandg), by =list(year = data1$year, gsa= data1$sub_region, disccat = data1$DISCcat), FUN=sum)
-    TL     <- aggregate(list(landings=data1$totwghtlandg), by =list(year = data1$year, gsa= data1$sub_region), FUN=sum)
-
-    #gsals <- vector("list", length = length(ngsas))
+    gsals <- vector("list", length = length(ngsas))
     for(i in 1:length(ngsas)) {
-        #gsals[[i]] <- discov[which(discov$gsa==ngsas[i]),]
         d        <- discov[which(discov$gsa==ngsas[i]),]
         l        <- TL[which(TL$gsa==ngsas[i]),]
-        if (length(d1)!=0 ) {
-            l$disc1    <- d$landings[which(d$disccat==1)]
-            l$disc1per <- label_percent(1)(d$landings[which(d$disccat==1)]/l$landings)
+        ind1     <- which(d$disccat==1)
+        ind2     <- which(d$disccat==0)
+        ind3     <- which(d$disccat=='NK')
+        if (length(ind1)!=0 ) {
+            l$disc1    <- d$landings[ind1]
+            l$disc1per <- label_percent(1)(d$landings[ind1]/l$landings)
         } else {
             l$disc1    <- rep(0, nrow(l))
             l$disc1per <- label_percent(1)(rep(0, nrow(l)))
         }
-        if (length(d2)!=0 ) {
-            l$disc0    <- d$landings[which(d$disccat==0)]
-            l$disc0per <- label_percent(1)(d$landings[which(d$disccat==0)]/l$landings)
+        if (length(ind2)!=0 ) {
+            l$disc0    <- d$landings[ind2]
+            l$disc0per <- label_percent(1)(d$landings[ind2]/l$landings)
         } else {
             l$disc0    <- rep(0, nrow(l))
             l$disc0per <- label_percent(1)(rep(0, nrow(l)))
+        }
+        if (length(ind3)!=0 ) {
+            l$discNK    <- d$landings[ind3]
+            l$discNKper <- label_percent(1)(d$landings[ind3]/l$landings)
+        } else {
+            l$discNK    <- rep(0, nrow(l))
+            l$discNKper <- label_percent(1)(rep(0, nrow(l)))
+        }
+        colnames(l) <- c('year', 'gsa', 'Total_lands', 'Lands_(disc > 0)',
+                         '% Lands_(disc >0)', 'Lands_(disc = 0)',
+                         '% Lands_(disc = 0)', 'Lands_(disc = NK)',
+                         '% Lands_(disc = NK)')
+        print(paste("Discard coverage in", ngsas[i], sep=' '))
+        print(l)
+        gsals[[i]] <- l
     }
-    if (length(d3)!=0 ) {
-      l$discNK    <- d$landings[which(d$disccat=='NK')]
-      l$discNKper <- label_percent(1)(d$landings[which(d$disccat=='NK')]/l$landings)
-    } else {
-      l$discNK    <- rep(0, nrow(l))
-      l$discNKper <- label_percent(1)(rep(0, nrow(l)))
-    }
-    colnames(l) <- c('year', 'gsa', 'Total _lands', 'Lands_(disc>0)',
-                     '%Lands_(disc>0)', 'Lands_(disc=0)',
-                     '%Lands_(disc=0)', 'Lands_(disc=NK)',
-                     '%Lands_(disc=NK)')
-    if(verbose) {message(paste("Discard coverage in", ngsas[i], sep=' '))}
 
-  }
-
-  return(l)
+    names(gsals) <- ngsas
+    return(gsals)
 }
