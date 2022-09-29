@@ -1,3 +1,5 @@
+- RDBqc v0.0.11
+  - included new FDI functions
 - RDBqc v0.0.10
   - update of MEDBS functions
   - new functions to check SOP and ALK
