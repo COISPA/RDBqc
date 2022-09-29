@@ -2,7 +2,7 @@
 % Please edit documentation in R/FDI_coverage.r
 \name{FDI_coverage}
 \alias{FDI_coverage}
-\title{Coverage of data by table}
+\title{Coverage of data by GSA and year (reporting the number of records)}
 \usage{
 FDI_coverage(data, MS, verbose = TRUE)
 }
@@ -17,8 +17,11 @@ FDI_coverage(data, MS, verbose = TRUE)
 the function returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year
 }
 \description{
-Coverage of data by table
+Coverage of data by GSA and year (reporting the number of records)
 }
 \examples{
-FDI_coverage(data=fdi_h_spatial_landings,MS="ITA", verbose = FALSE)
+FDI_coverage(data=fdi_a_catch,MS="PSP", verbose = FALSE)
+FDI_coverage(data=fdi_h_spatial_landings,MS="PSP", verbose = FALSE)
+FDI_coverage(data=fdi_g_effort,MS="PSP", verbose = FALSE)
+
 }

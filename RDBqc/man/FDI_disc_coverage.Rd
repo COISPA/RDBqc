@@ -14,7 +14,7 @@ FDI_disc_coverage(data, MS, verbose = TRUE)
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
-The function returns a data frame reporting the landing volumes (with discard >0, =0 and =NK and total landing) by GSA and year
+The function returns a list of data frames by GSA reporting the landing volumes (with discard >0, =0 and =NK and total landing) by year
 }
 \description{
 The functions checks the discard coverage in table A (table 2.2.1) for the selected MS by GSAs
