@@ -1,7 +1,7 @@
 ---
 title: "RDBqc: Quality checks on RDBFIS data formats" 
 author: "Walter Zupa"
-date: "2022-09-07"
+date: "2022-09-13"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::knitr}
@@ -421,7 +421,8 @@ This function `RCG_check_mat_ogive` plots the maturity ogive by sex derived from
 
 ```r
 RCG_check_mat_ogive(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus", sex="F",immature_stages=c("0","1","2a"))
-#> Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#> Warning: glm.fit: si sono verificate probabilità stimate numericamente pari a 0
+#> o 1
 ```
 
 ![plot of chunk RCG_check_mat_ogive](figure/RCG_check_mat_ogive-1.png)
