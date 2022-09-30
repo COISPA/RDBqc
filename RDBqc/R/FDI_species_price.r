@@ -105,7 +105,7 @@ FDI_species_price <- function(data, MS, SP=NA, make_plot=F, verbose = FALSE){
             geom_point(color="steelblue") +
             geom_line(color="steelblue") +
             labs(title = "Price per species and year",
-                 y = "price (euros per ton)", x = "year")+
+                 y = "price (Euro/kg)", x = "year")+
             facet_wrap(~ species)
         print(p)
     }

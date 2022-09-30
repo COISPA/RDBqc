@@ -11,6 +11,8 @@
 #' @return The function returns a list. The first element gives the summary table of records number. From the second to the fourth element gives 3 plots for each variables among: of total live weight landed, total value of landings (euro), and total discards (ton)).
 #' @export
 #' @examples FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
+#' FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",
+#' fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")
 #' FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
 #' @import tidyverse
 #' @importFrom tidyr drop_na
@@ -126,8 +128,8 @@ FDI_cov_tableA <- function(data, MS, SP="COMBINED", vessel_len="COMBINED", fisht
        xlab("year")+
        facet_wrap(~ vessel_length ))
 
-   output=list(as.data.frame(data3),plot1,plot2,plot3)
-   names(output)<-c("summary_table","total_landings","total_land_value","total_discards")
+   output=list(as.data.frame(data1),as.data.frame(data3),plot1,plot2,plot3)
+   names(output)<-c("number_of_records","summary_table","total_landings","total_land_value","total_discards")
    return(output)
 
 }}

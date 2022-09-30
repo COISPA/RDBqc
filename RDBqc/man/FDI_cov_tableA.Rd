@@ -37,5 +37,7 @@ The function checks and count the numbers of records data in the given table A g
 }
 \examples{
 FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
+FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",
+fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")
 FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
 }

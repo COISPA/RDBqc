@@ -661,6 +661,32 @@ results[[3]]
 
 # Checks on FDI tables
 
+## Table A
+
+### Coverage of data by GSA and year in table A
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+```{r FDI_coverage_table_A}
+FDI_coverage(data=fdi_a_catch, MS="PSP", verbose = FALSE)
+```
+### Coverage of FDI discard data
+
+The functions checks the discard coverage in table A for the selected MS by GSAs
+
+```{r FDI_disc_coverage_table_A}
+FDI_disc_coverage(fdi_a_catch, MS="PSP", verbose=TRUE)
+```
+
+### Check of species value
+
+The function finds an average price per species and year and compare it to the average price calculated per country.
+
+```{r FFDI_species_price_table_A}
+FDI_species_price(data=fdi_a_catch, MS="PSP",SP=c("ARA","BOG","HKE"), make_plot=TRUE, verbose = TRUE)
+```
+
+
 ## Table G
 
 ### Check empty fields in FDI G table
@@ -685,6 +711,14 @@ The function `check_RD_FDI_G` check the presence of duplicated records. In parti
 ```{r check_RD_FDI_G}
 g_effort <- rbind(fdi_g_effort,fdi_g_effort[1,])
 check_RD_FDI_G(g_effort)
+```
+
+### Coverage of data by GSA and year in table G
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+```{r FDI_coverage_table_G}
+FDI_coverage(data=fdi_g_effort,MS="PSP", verbose = FALSE)
 ```
 
 ## Table H
@@ -713,6 +747,13 @@ h_spatial_land <- rbind(fdi_h_spatial_landings,fdi_h_spatial_landings[1,])
 check_RD_FDI_H(h_spatial_land)
 ```
 
+### Coverage of data by GSA and year in table H
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+```{r FDI_coverage_table_H}
+FDI_coverage(data=fdi_h_spatial_landings ,MS="PSP", verbose = FALSE)
+```
 ## Table I
 
 ### Check empty fields in FDI I table
@@ -736,6 +777,14 @@ The function `check_RD_FDI_I` check the presence of duplicated records. In parti
 ```{r check_RD_FDI_I}
 i_spatial_fe <- rbind(fdi_i_spatial_effort,fdi_i_spatial_effort[1,])
 check_RD_FDI_I(i_spatial_fe)
+```
+
+### Coverage of data by GSA and year in table I
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+```{r FDI_coverage_table_I}
+FDI_coverage(data=fdi_i_spatial_effort ,MS="PSP", verbose = FALSE)
 ```
 
 ## Table J
@@ -762,6 +811,15 @@ The function `check_RD_FDI_J` check the presence of duplicated records. In parti
 j_capacity <- rbind(fdi_j_capacity,fdi_j_capacity[1,])
 check_RD_FDI_J(j_capacity)
 ```
+
+### Coverage of data by GSA and year in table J
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+```{r FDI_coverage_table_J}
+FDI_coverage(data=fdi_j_capacity ,MS="PSP", verbose = FALSE)
+```
+
 
 # GFCM data format
 
