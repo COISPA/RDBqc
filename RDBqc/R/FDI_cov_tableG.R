@@ -240,8 +240,9 @@ FDI_ts_tableG <- function(data, MS, GSA, vessel_len="COMBINED", fishtech="COMBIN
                                  facet_wrap(~ vessel_length ))
 
 
-            output=list(as.data.frame(data3),plot1,plot2,plot3,plot4,plot5,plot6,plot7,plot8)
-            names(output)<-c("summary_table",
+            output=list(as.data.frame(data1),as.data.frame(data3),plot1,plot2,plot3,plot4,plot5,plot6,plot7,plot8)
+            names(output)<-c("number_of_records",
+                             "summary_table",
                              "tot_sea_days",
                              "tot_fishing_days",
                              "tot_KW_days_at_sea",

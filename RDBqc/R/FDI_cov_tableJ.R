@@ -154,8 +154,10 @@ FDI_ts_tableJ <- function(data, MS, GSA,  vessel_len="COMBINED", fishtech="COMBI
                                  xlab("year")+
                                  facet_wrap(~ vessel_length ))
 
-            output=list(as.data.frame(data3),plot1,plot2,plot3,plot4)
-            names(output)<-c("summary_table",
+            output=list(as.data.frame(data1),as.data.frame(data3),plot1,plot2,plot3,plot4)
+            names(output)<-c(
+                             "number_of_records",
+                             "summary_table",
                              "total_trips",
                              "total_total_kW",
                              "total_GT",
