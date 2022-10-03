@@ -10,7 +10,8 @@ Authors@R:
     person("Alessandro", "Mannini", email="alessandro.mannini@ec.europa.eu", role = c("com")),
     person("Loredana", "Casciaro", email="casciaro@coispa.eu", role = c("ctb")),
     person("Sebastien", "Alfonso", email="salfonso@coispa.eu", role = c("ctb")),
-    person("Vasiliki", "Sgardeli", email="vsgard@hcmr.gr", role = c("ctb")) )
+    person("Vasiliki", "Sgardeli", email="vsgard@hcmr.gr", role = c("ctb")),
+    person("Andrea", "Pierucci", email="pierucci@coispa.eu", role = c("ctb")) )
 Maintainer: Isabella Bitetto <bitetto@coispa.eu>
 Description: The package contains functions used to perform a priori and a posteriori quality checks on RDBFIS data.
 License: GPL (>= 3)

@@ -663,6 +663,29 @@ results[[3]]
 
 ## Table A
 
+### Check empty fields in FDI A table
+
+The function `check_EF_FDI_A` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2022 - Annex 1'.
+A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
+
+```{r check_EF_FDI_A1}
+check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[1]]
+```
+
+The second list's object gives the index of each NA in the reference column.
+
+```{r check_EF_FDI_A2}
+check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[2]]
+```
+
+### Check duplicated records in FDI A table
+
+The function `check_RD_FDI_A` check the presence of duplicated records. In particular, it checks whether the combination of the first 19 columns generates duplicate records. The function returns the indices of the duplicated rows.
+
+```{r check_RD_FDI_A}
+check_RD_FDI_A(fdi_a_catch)
+```
+
 ### Coverage of data by GSA and year in table A
 
 The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
@@ -678,12 +701,21 @@ The functions checks the discard coverage in table A for the selected MS by GSAs
 FDI_disc_coverage(fdi_a_catch, MS="PSP", verbose=TRUE)
 ```
 
+### Check number of record in FDI A table
+
+The function checks and count the numbers of records data in the given table A grouped by year, GSA, MS, species, vessels length, and fishing techniques for three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)). If SP, Vessel length, and fishing technique are not specified by the user the function combines those by default.
+
+```{r FDI_cov_tableA}
+FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")
+```
+
+
 ### Check of species value
 
 The function finds an average price per species and year and compare it to the average price calculated per country.
 
 ```{r FFDI_species_price_table_A}
-FDI_species_price(data=fdi_a_catch, MS="PSP",SP=c("ARA","BOG","HKE"), make_plot=TRUE, verbose = TRUE)
+FDI_species_price(data=fdi_a_catch, MS="PSP",SP=c("MUT"), make_plot=TRUE, verbose = TRUE)
 ```
 
 

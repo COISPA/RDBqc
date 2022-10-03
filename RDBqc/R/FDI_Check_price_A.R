@@ -82,12 +82,12 @@ FDI_price_tableA <- function(data, MS, SP="COMBINED", GSA="COMBINED", verbose=TR
                           axis.text.y = element_text(size  = 15,colour="black"),
                           axis.title=element_text(size=15),
                           plot.title = element_text(hjust = 0.5, size = 15))+
-                    ggtitle(paste0(i, " verage price (Euro/Kg)"))+
+                    ggtitle(paste0(i, "Average price (Euro/Kg)"))+
                     ylab("price (Euro/Kg)")+
                     xlab("year")
             }
 
             output=plot_list
-            return(output)
+            return(list(data1,data2,output))
     }
 }
