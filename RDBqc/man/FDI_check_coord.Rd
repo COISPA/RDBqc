@@ -2,7 +2,7 @@
 % Please edit documentation in R/FDI_check_coord.r
 \name{FDI_check_coord}
 \alias{FDI_check_coord}
-\title{compatibility of the geographical coordinates whith rectangle type}
+\title{Compatibility of the geographical coordinates with rectangle type}
 \usage{
 FDI_check_coord(data, MS, verbose = FALSE)
 }

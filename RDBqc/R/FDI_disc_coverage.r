@@ -100,8 +100,10 @@ FDI_disc_coverage <- function(data, MS, verbose = TRUE){
                          '% Lands_(disc >0)', 'Lands_(disc = 0)',
                          '% Lands_(disc = 0)', 'Lands_(disc = NK)',
                          '% Lands_(disc = NK)')
-        print(paste("Discard coverage in", ngsas[i], sep=' '))
-        print(l)
+        if (verbose){
+           print(paste("Discard coverage in", ngsas[i], sep=' '))
+        }
+        # print(l)
         gsals[[i]] <- l
     }
 

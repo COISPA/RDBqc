@@ -1,4 +1,4 @@
-#' compatibility of the geographical coordinates whith rectangle type
+#' Compatibility of the geographical coordinates with rectangle type
 #'
 #' @param data data frame of one between FDI table H (Landings by rectangle) and table I (Effort by rectangle)
 #' @param MS Country code

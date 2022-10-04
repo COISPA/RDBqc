@@ -13,6 +13,9 @@ FDI_vessel_lenth(data, MS, verbose = TRUE)
 
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
+\value{
+The function returns a list of two data frames. The first reports the cases with NAs in either vessel length or vessel category or both, while the second table reports the cases in which vessel length does not match vessel length category.
+}
 \description{
 The function checks the average length vessels with the vessel length category (table J)
 }

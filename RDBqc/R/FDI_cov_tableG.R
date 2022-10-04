@@ -19,11 +19,11 @@
 #' * hrsea,
 #' * kwhrsea
 #' @export
-#' @examples FDI_ts_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")
-#' FDI_ts_tableG(fdi_g_effort, MS="PSP", GSA="GSA99", fishtech="DTS", met="OTB_MDD_>=40_0_0")
+#' @examples FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")
+#' FDI_cov_tableG(fdi_g_effort, MS="PSP", GSA="GSA99", fishtech="DTS", met="OTB_MDD_>=40_0_0")
 #' @import tidyverse
 
-FDI_ts_tableG <- function(data, MS, GSA, vessel_len="COMBINED", fishtech="COMBINED", met="COMBINED", verbose=TRUE) {
+FDI_cov_tableG <- function(data, MS, GSA, vessel_len="COMBINED", fishtech="COMBINED", met="COMBINED", verbose=TRUE) {
 
     country <- fishing_tech <- hrsea <- kwhrsea <- metier <- sub_region <- totfishdays <-
     totgtdaysatsea <- totgtfishdays <- totkwdaysatsea <- totkwfishdays <- totseadays <-

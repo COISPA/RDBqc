@@ -4,6 +4,7 @@
 #' @param MS country code
 #' @param verbose boolean. If TRUE a message is printed.
 #' @description The function checks the average length vessels with the vessel length category (table J)
+#' @return The function returns a list of two data frames. The first reports the cases with NAs in either vessel length or vessel category or both, while the second table reports the cases in which vessel length does not match vessel length category.
 #' @export
 #'
 #' @examples FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)
@@ -46,7 +47,7 @@ FDI_vessel_lenth <- function(data, MS, verbose = TRUE){
     }
     if (length(ind)!=0){
         data$consistent[ind] <- FALSE
-        print(paste("found", length(ind), "cases were vessel length does not match vessel length category", sep=" "))
+        print(paste("found", length(ind), "cases where vessel length does not match vessel length category", sep=" "))
         data_FALSE <- as.data.frame(data[ind, -c(4,5,6,8,14)])
     } else {
         print("Vessel length within vessel length category for all records")
@@ -58,5 +59,5 @@ FDI_vessel_lenth <- function(data, MS, verbose = TRUE){
         data_NAs <- NULL
         data_FALSE <- NULL
     }
-    return(list(data_NAs,data_FALSE))
+    return(list(Table_of_NAs = data_NAs, Table_of_mismatches = data_FALSE))
 }
