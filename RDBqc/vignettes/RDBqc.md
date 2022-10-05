@@ -1,7 +1,7 @@
 ---
 title: "RDBqc: Quality checks on RDBFIS data formats" 
 author: "Walter Zupa"
-date: "2022-09-13"
+date: "2022-10-05"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::knitr}
@@ -11,14 +11,9 @@ vignette: >
 
 
 
+RDBqc allows to carry out a set of _a priori_ quality checks on detailed sampling data and on aggregated landing data, and _a posteriori_ quality check on MEDBS, FDI and GFCM data call formats.
 
-```r
-library(RDBqc)
-```
-
-RDBqc allows to carry out a set of _a priori_ quality checks on detailed sampling data and on aggregated landing data, and _a posteriori_ quality checks on MEDBS, FDI and GFCM data call formats.
-
-The supported quality checks in version 0.0.10 are:
+The supported quality checks in version 0.0.11 are:
 
 ### _A priori_ quality checks
 * RCG CS - biological sampling data
@@ -34,7 +29,7 @@ The supported quality checks in version 0.0.10 are:
 * MEDBS - ML table
 * MEDBS - SA table
 * MEDBS - SL table
-* FDI tables (G, H, I and J)
+* FDI tables (A, G, H, I and J)
 * GFCM - Task II.2 table
 * GFCM - Task III table
 * GFCM - Task VII.2 table
@@ -421,8 +416,7 @@ This function `RCG_check_mat_ogive` plots the maturity ogive by sex derived from
 
 ```r
 RCG_check_mat_ogive(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus", sex="F",immature_stages=c("0","1","2a"))
-#> Warning: glm.fit: si sono verificate probabilità stimate numericamente pari a 0
-#> o 1
+#> Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 ```
 
 ![plot of chunk RCG_check_mat_ogive](figure/RCG_check_mat_ogive-1.png)
@@ -1250,8 +1244,6 @@ head(Discard_tab_example)
 
 ## Checks on Catch table
 
-### check duplicated records
-
 The function `MEDBS_check_duplicates` checks the presence of duplicated rows in catch table 
 
 
@@ -1274,7 +1266,6 @@ MEDBS_check_duplicates(data=catch_with_diplicate,type="c",MS="ITA",GSA="GSA 9",S
 #>    MIN_AGE MAX_AGE
 #> 58      -1      -1
 ```
-
 
 ### Check catches coverage
 
@@ -1406,12 +1397,12 @@ MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="GSA 9",SP
 #> 58              -1   DEMSP GSA 9     -1     DPS 5.933227
 ```
 
-The function `MEDBS_check_duplicates` also checks the presence of duplicated rows in discard 
+The function `MEDBS_check_duplicates` also checks the presence of duplicated rows in landings 
 
 
 ```r
 Discard_tab_example <- rbind(Discard_tab_example,Discard_tab_example[1,])
-MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 #> There is/are 1 replicated row/rows in the data.
 #>       ID COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA
 #> 22 44554     ITA 2009      -1            -1  OTB          50D100   DEMSP GSA 9
@@ -1786,7 +1777,7 @@ The function `MEDBS_comp_disc_YQ` allows to compare the discards weights aggrega
 
 
 ```r
-MEDBS_comp_disc_YQ(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
 #>   YEAR GEAR    tot_q    tot_yr ratio
 #> 1 2009  OTB       NA 76.710840    NA
 #> 2 2010  OTB       NA 27.100131    NA
@@ -1879,72 +1870,91 @@ MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by=
 
 ### GP_tab (growth params) table check
 
-The function `MEDBS_GP_check` allows to check the growth parameters by sex and year for a selected species.  The function returns a list of objects containing a summary table and different plots of the growth curves by sex
+The function `GP_check` allows to check the growth parameters by sex and year for a selected species.  The function returns a list of objects containing a summary table and different plots of the growth curves by sex
 
 
 ```r
-results <- MEDBS_GP_check(GP_tab_example,"MUT","ITA","18")
+results <- MEDBS_GP_check(GP_tab_example,"MUT","ITA","GSA 18")
 results[[1]]
-#> NULL
+#>    COUNTRY   YEAR START_YEAR END_YEAR SPECIES SEX COUNT
+#> 1      ITA GSA 18       2014     2014     MUT   C     1
+#> 2      ITA GSA 18       2015     2015     MUT   C     1
+#> 3      ITA GSA 18       2016     2016     MUT   C     1
+#> 4      ITA GSA 18       2017     2017     MUT   C     1
+#> 5      ITA GSA 18       2014     2014     MUT   F     1
+#> 6      ITA GSA 18       2015     2015     MUT   F     1
+#> 7      ITA GSA 18       2016     2016     MUT   F     1
+#> 8      ITA GSA 18       2017     2017     MUT   F     1
+#> 9      ITA GSA 18       2014     2014     MUT   M     1
+#> 10     ITA GSA 18       2015     2015     MUT   M     1
+#> 11     ITA GSA 18       2016     2016     MUT   M     1
+#> 12     ITA GSA 18       2017     2017     MUT   M     1
 print(names(results)[1])
-#> NULL
+#> [1] "summary table"
 ```
 
 
 ```r
 print(names(results)[2])
-#> NULL
+#> [1] "VBGF _ MUT _ ITA _ GSA 18"
 results[[2]]
-#> NULL
 ```
+
+![plot of chunk GP_check2](figure/GP_check2-1.png)
 
 
 ```r
 print(names(results)[3])
-#> NULL
+#> [1] "VBGF_year _ MUT _ ITA _ GSA 18 _ F"
 results[[3]]
-#> NULL
 ```
+
+![plot of chunk GP_check3](figure/GP_check3-1.png)
 
 
 ```r
 print(names(results)[4])
-#> NULL
+#> [1] "VBGF_year _ MUT _ ITA _ GSA 18 _ M"
 results[[4]]
-#> NULL
 ```
+
+![plot of chunk GP_check4](figure/GP_check4-1.png)
 
 
 ```r
 print(names(results)[5])
-#> NULL
+#> [1] "VBGF_year _ MUT _ ITA _ GSA 18 _ C"
 results[[5]]
-#> NULL
 ```
+
+![plot of chunk GP_check](figure/GP_check-1.png)
 
 
 ```r
 print(names(results)[6])
-#> NULL
+#> [1] "VBGF_cum _ MUT _ ITA _ GSA 18 _ F"
 results[[6]]
-#> NULL
 ```
+
+![plot of chunk GP_check6](figure/GP_check6-1.png)
 
 
 ```r
 print(names(results)[7])
-#> NULL
+#> [1] "VBGF_cum _ MUT _ ITA _ GSA 18 _ M"
 results[[7]]
-#> NULL
 ```
+
+![plot of chunk GP_check7](figure/GP_check7-1.png)
 
 
 ```r
 print(names(results)[8])
-#> NULL
+#> [1] "VBGF_cum _ MUT _ ITA _ GSA 18 _ C"
 results[[8]]
-#> NULL
 ```
+
+![plot of chunk GP_check8](figure/GP_check8-1.png)
 
 ### LW params in GP_tab in table check
 
@@ -2168,6 +2178,484 @@ results[[3]]
 ![plot of chunk MEDBS_SL_check2](figure/MEDBS_SL_check2-2.png)
 
 # Checks on FDI tables
+
+## Table A
+
+### Check empty fields in FDI A table
+
+The function `check_EF_FDI_A` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2022 - Annex 1'.
+A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
+
+
+```r
+check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[1]]
+#>           country              year           quarter     vessel_length 
+#>                 0                 0                 0                 0 
+#>      fishing_tech         gear_type target_assemblage   mesh_size_range 
+#>                 0                 0                 0               446 
+#>            metier   domain_discards   domain_landings      supra_region 
+#>                 0                 0                 0                 0 
+#>        sub_region     eez_indicator     geo_indicator       specon_tech 
+#>                 0              2413                 0                 3 
+#>              deep           species      totwghtlandg       totvallandg 
+#>                 0                 0                30                33 
+#>          discards      confidential 
+#>                 0                 0
+```
+
+The second list's object gives the index of each NA in the reference column.
+
+
+```r
+check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[2]]
+#> $country
+#> integer(0)
+#> 
+#> $year
+#> integer(0)
+#> 
+#> $quarter
+#> integer(0)
+#> 
+#> $vessel_length
+#> integer(0)
+#> 
+#> $fishing_tech
+#> integer(0)
+#> 
+#> $gear_type
+#> integer(0)
+#> 
+#> $target_assemblage
+#> integer(0)
+#> 
+#> $mesh_size_range
+#>   [1]    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18
+#>  [16]   19   20   21   22   23   24   25   26   27   28   29  447  448  449  450
+#>  [31]  451  452  453  454  455  456  457  458  459  460  461  462  463  464  465
+#>  [46]  466  467  468  469  470  471  472  473  474  475  476  477  478  479  480
+#>  [61]  481  482  483  484  485  486  487  488  489  490  491  492  493  494  495
+#>  [76]  496  497  498  499  500  501  502  503  504  505  506  507  508  509  510
+#>  [91]  511  512  513  514  515  516  517  518  519  520  521  522  523  524  525
+#> [106]  526  527  528  529  530  657  658  659  660  661  662  663  664  665  666
+#> [121]  667  668  669  670  671  672  673  674  675  676  677  678  679  680  681
+#> [136]  682  683  684  685  686  687 1730 1731 1732 1733 1734 1735 1736 1737 1738
+#> [151] 1739 1740 1741 1742 1743 1744 1745 1746 1747 1748 1749 1750 1751 1752 1753
+#> [166] 1754 1755 1756 1757 1758 1759 1760 1761 1762 1763 1764 1765 1766 1767 1768
+#> [181] 1769 1770 1771 1772 1773 1774 1775 1776 1777 1778 1779 1780 1781 1782 1783
+#> [196] 1784 1785 1786 1787 1788 1789 1790 1791 1792 1793 1794 1795 1796 1797 1798
+#> [211] 1799 1800 1801 1802 1803 1804 1805 1806 1807 1808 1809 1810 1811 1812 1813
+#> [226] 1814 1815 1816 1817 1818 1819 1820 1821 1822 1823 1824 1825 1826 1827 1828
+#> [241] 1829 1830 1831 1832 1833 1834 1868 1869 1870 1871 1872 1873 1874 1875 1876
+#> [256] 1877 1878 1879 1880 1881 1882 1883 1884 1885 1886 1887 1888 1909 1910 1911
+#> [271] 1912 2082 2083 2084 2085 2086 2087 2088 2089 2090 2091 2092 2093 2133 2134
+#> [286] 2135 2136 2137 2138 2139 2140 2141 2142 2143 2144 2145 2146 2147 2148 2149
+#> [301] 2150 2151 2152 2153 2154 2155 2156 2312 2313 2314 2315 2316 2317 2318 2319
+#> [316] 2320 2321 2322 2323 2324 2325 2326 2327 2328 2329 2330 2331 2332 2333 2334
+#> [331] 2335 2336 2337 2338 2339 2340 2341 2342 2343 2344 2345 2346 2347 2348 2349
+#> [346] 2350 2351 2352 2353 2354 2355 2356 2357 2358 2359 2360 2361 2362 2363 2364
+#> [361] 2365 2366 2367 2368 2369 2370 2371 2372 2373 2374 2375 2376 2377 2378 2379
+#> [376] 2380 2381 2382 2383 2384 2385 2386 2387 2388 2389 2390 2391 2392 2393 2394
+#> [391] 2395 2396 2397 2398 2399 2400 2401 2402 2403 2404 2405 2406 2407 2408 2409
+#> [406] 2410 2411 2412 2413 2414 2415 2416 2417 2418 2419 2420 2421 2422 2423 2424
+#> [421] 2425 2426 2427 2428 2429 2430 2431 2432 2433 2434 2435 2436 2437 2438 2439
+#> [436] 2440 2441 2442 2443 2444 2445 2446 2447 2448 2449 2450
+#> 
+#> $metier
+#> integer(0)
+#> 
+#> $domain_discards
+#> integer(0)
+#> 
+#> $domain_landings
+#> integer(0)
+#> 
+#> $supra_region
+#> integer(0)
+#> 
+#> $sub_region
+#> integer(0)
+#> 
+#> $eez_indicator
+#>    [1]    1    2    3    4    5    6    7    8    9   10   11   12   13   14
+#>   [15]   15   16   17   18   19   20   21   22   23   24   25   26   27   28
+#>   [29]   29   30   31   32   33   34   35   36   37   38   39   40   41   42
+#>   [43]   43   44   45   46   47   48   49   50   51   52   53   54   55   56
+#>   [57]   57   58   59   60   61   62   63   64   65   66   67   68   69   70
+#>   [71]   71   72   73   74   75   76   77   78   79   80   81   82   83   84
+#>   [85]   85   86   87   88   89   90   91   92   93   94   95   96   97   98
+#>   [99]   99  100  101  102  103  104  105  106  107  108  109  110  111  112
+#>  [113]  113  114  115  116  117  118  119  120  121  122  123  124  125  126
+#>  [127]  127  128  129  130  131  132  133  134  135  136  137  138  139  140
+#>  [141]  141  142  143  144  145  146  147  148  149  150  151  152  153  154
+#>  [155]  155  156  157  158  159  160  161  162  163  164  165  166  167  168
+#>  [169]  169  170  171  172  173  174  175  176  177  178  179  180  181  182
+#>  [183]  183  184  185  186  187  188  189  190  191  192  193  194  195  196
+#>  [197]  197  198  199  200  201  202  203  204  205  206  207  208  209  210
+#>  [211]  211  212  213  214  215  216  217  218  219  220  221  222  223  224
+#>  [225]  225  226  227  228  229  230  231  232  233  234  235  236  237  238
+#>  [239]  239  240  241  242  243  244  245  246  247  248  249  250  251  252
+#>  [253]  253  254  255  256  257  258  259  260  261  262  263  264  265  266
+#>  [267]  267  268  269  270  271  272  273  274  275  276  277  278  279  280
+#>  [281]  281  282  283  284  285  286  287  288  289  290  291  292  293  294
+#>  [295]  295  296  297  298  299  300  301  302  303  304  305  306  307  308
+#>  [309]  309  310  311  312  313  314  315  316  317  318  319  320  321  322
+#>  [323]  323  324  325  326  327  328  329  330  331  332  333  334  335  336
+#>  [337]  337  338  339  340  341  342  343  344  345  346  347  348  349  350
+#>  [351]  351  352  353  354  355  356  357  358  359  360  361  362  363  364
+#>  [365]  365  366  367  368  369  370  371  372  373  374  375  376  377  378
+#>  [379]  379  380  381  382  383  384  385  386  387  388  389  390  391  392
+#>  [393]  393  394  395  396  397  398  399  400  401  402  403  404  405  406
+#>  [407]  407  408  409  410  411  412  413  414  415  416  417  418  419  420
+#>  [421]  421  422  423  424  425  426  427  428  429  430  431  432  433  434
+#>  [435]  435  436  437  438  439  440  441  442  443  444  445  446  447  448
+#>  [449]  449  450  451  452  453  454  455  456  457  458  459  460  461  462
+#>  [463]  463  464  465  466  467  468  469  470  471  472  473  474  475  476
+#>  [477]  477  478  479  480  481  482  483  484  485  486  487  488  489  490
+#>  [491]  491  492  493  494  495  496  497  498  499  500  501  502  503  504
+#>  [505]  505  506  507  508  509  510  511  512  513  514  515  516  517  518
+#>  [519]  519  520  521  522  523  524  525  526  528  537  538  539  540  541
+#>  [533]  542  543  544  545  546  547  548  549  550  551  552  553  554  555
+#>  [547]  556  557  558  559  560  561  562  563  564  565  566  567  568  569
+#>  [561]  570  571  572  573  574  575  576  577  578  579  580  581  582  583
+#>  [575]  584  585  586  587  588  589  590  591  592  593  594  595  596  597
+#>  [589]  598  599  600  601  602  603  604  605  606  607  608  609  610  611
+#>  [603]  612  613  614  615  616  622  623  624  625  626  627  628  629  630
+#>  [617]  631  632  633  634  635  636  637  638  639  640  641  642  643  644
+#>  [631]  645  646  647  648  649  650  651  652  653  654  655  656  657  658
+#>  [645]  659  660  661  662  663  664  665  666  667  668  669  670  671  672
+#>  [659]  673  674  675  676  677  678  679  680  681  682  683  684  685  686
+#>  [673]  687  688  689  690  691  692  693  694  695  696  697  698  699  700
+#>  [687]  701  702  703  704  705  706  707  708  709  710  711  712  713  714
+#>  [701]  715  716  717  718  719  720  721  722  723  724  725  726  727  728
+#>  [715]  729  730  731  732  733  734  735  736  737  738  739  740  741  742
+#>  [729]  743  744  745  746  747  748  749  750  751  752  753  754  755  756
+#>  [743]  757  758  759  760  761  762  763  764  765  766  767  768  769  770
+#>  [757]  771  772  773  774  775  776  777  778  779  780  781  782  783  784
+#>  [771]  785  786  787  788  789  790  791  792  793  794  795  796  797  798
+#>  [785]  799  800  801  802  803  804  805  806  807  808  809  810  811  812
+#>  [799]  813  814  815  816  817  818  819  820  821  822  823  824  825  826
+#>  [813]  827  828  829  830  831  832  833  834  835  836  837  838  839  840
+#>  [827]  841  842  843  844  845  846  847  848  849  850  851  852  853  854
+#>  [841]  855  856  857  858  859  860  861  862  864  865  866  867  868  869
+#>  [855]  870  871  872  873  874  875  876  877  878  879  880  881  882  883
+#>  [869]  884  885  886  887  888  889  890  891  892  893  894  895  896  897
+#>  [883]  898  899  900  901  902  903  904  905  906  907  908  909  910  911
+#>  [897]  912  913  914  915  916  917  918  919  920  921  922  923  924  925
+#>  [911]  926  927  928  929  930  931  932  933  934  935  936  937  938  939
+#>  [925]  940  941  942  943  944  945  946  947  948  949  950  951  952  953
+#>  [939]  954  955  956  957  958  959  960  961  962  963  964  965  966  967
+#>  [953]  968  969  970  971  972  973  974  975  976  977  978  979  980  981
+#>  [967]  982  983  984  985  986  987  988  989  990  991  992  993  994  995
+#>  [981]  996  997  998  999 1000 1001 1002 1003 1004 1005 1006 1007 1008 1009
+#>  [995] 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 1020 1021 1022 1023
+#> [1009] 1024 1025 1026 1027 1028 1029 1030 1031 1032 1033 1034 1037 1038 1039
+#> [1023] 1040 1041 1042 1043 1044 1045 1046 1047 1048 1049 1050 1051 1052 1053
+#> [1037] 1054 1055 1056 1057 1058 1059 1060 1061 1062 1063 1064 1065 1066 1067
+#> [1051] 1068 1069 1070 1071 1072 1073 1074 1075 1076 1077 1078 1079 1080 1081
+#> [1065] 1082 1083 1084 1085 1086 1087 1088 1089 1090 1091 1092 1093 1094 1095
+#> [1079] 1096 1097 1098 1099 1100 1101 1102 1103 1104 1105 1106 1107 1108 1109
+#> [1093] 1110 1111 1112 1113 1114 1115 1116 1117 1118 1119 1120 1121 1122 1123
+#> [1107] 1124 1125 1126 1127 1128 1129 1130 1131 1132 1133 1134 1135 1136 1137
+#> [1121] 1138 1139 1140 1141 1142 1143 1144 1145 1146 1147 1148 1149 1150 1151
+#> [1135] 1152 1153 1154 1155 1156 1157 1158 1159 1160 1161 1162 1163 1164 1165
+#> [1149] 1166 1167 1168 1169 1170 1171 1172 1173 1174 1175 1176 1177 1178 1179
+#> [1163] 1180 1181 1182 1183 1184 1185 1186 1187 1188 1189 1190 1191 1192 1193
+#> [1177] 1194 1195 1196 1197 1198 1199 1200 1201 1202 1203 1204 1205 1206 1207
+#> [1191] 1208 1209 1210 1211 1212 1213 1214 1215 1216 1217 1218 1219 1220 1221
+#> [1205] 1222 1223 1224 1227 1228 1229 1230 1231 1232 1233 1234 1235 1236 1237
+#> [1219] 1238 1239 1240 1241 1242 1243 1244 1245 1246 1247 1248 1249 1250 1251
+#> [1233] 1252 1253 1254 1255 1256 1257 1258 1259 1260 1261 1262 1263 1264 1265
+#> [1247] 1266 1267 1268 1269 1270 1271 1272 1273 1274 1275 1276 1277 1278 1279
+#> [1261] 1280 1281 1282 1283 1284 1285 1286 1287 1288 1289 1290 1291 1292 1293
+#> [1275] 1294 1295 1296 1297 1298 1299 1300 1301 1302 1303 1304 1305 1306 1307
+#> [1289] 1308 1309 1310 1311 1312 1313 1314 1315 1316 1317 1318 1319 1320 1321
+#> [1303] 1322 1323 1324 1325 1326 1327 1328 1329 1330 1331 1332 1333 1334 1335
+#> [1317] 1336 1337 1338 1339 1340 1341 1342 1343 1344 1345 1346 1347 1348 1349
+#> [1331] 1350 1351 1352 1353 1354 1355 1356 1357 1358 1359 1360 1361 1362 1363
+#> [1345] 1364 1365 1366 1367 1368 1369 1370 1371 1372 1373 1374 1375 1376 1377
+#> [1359] 1378 1379 1380 1381 1382 1383 1384 1385 1386 1387 1388 1389 1390 1391
+#> [1373] 1392 1393 1394 1395 1396 1397 1398 1399 1400 1401 1402 1403 1404 1405
+#> [1387] 1406 1407 1408 1409 1410 1411 1412 1413 1414 1415 1416 1417 1418 1419
+#> [1401] 1420 1421 1422 1423 1424 1425 1426 1427 1428 1429 1430 1431 1432 1433
+#> [1415] 1434 1435 1436 1437 1438 1439 1440 1441 1442 1443 1444 1445 1446 1447
+#> [1429] 1448 1449 1450 1451 1452 1453 1454 1455 1456 1457 1458 1459 1460 1461
+#> [1443] 1462 1463 1464 1465 1466 1467 1468 1469 1470 1471 1472 1473 1474 1475
+#> [1457] 1476 1477 1478 1479 1480 1481 1482 1483 1484 1485 1486 1487 1488 1489
+#> [1471] 1490 1491 1492 1493 1494 1495 1496 1497 1498 1499 1500 1501 1502 1503
+#> [1485] 1504 1505 1506 1507 1508 1509 1510 1511 1512 1513 1514 1515 1516 1517
+#> [1499] 1519 1520 1521 1522 1523 1524 1525 1526 1527 1528 1529 1530 1531 1532
+#> [1513] 1533 1534 1535 1536 1537 1538 1539 1540 1541 1542 1543 1544 1545 1546
+#> [1527] 1547 1548 1549 1550 1551 1552 1553 1554 1555 1556 1557 1558 1559 1560
+#> [1541] 1561 1562 1563 1564 1565 1566 1567 1568 1569 1570 1571 1572 1573 1574
+#> [1555] 1575 1576 1577 1578 1579 1580 1581 1582 1583 1584 1585 1586 1587 1588
+#> [1569] 1589 1590 1591 1592 1593 1594 1595 1596 1597 1598 1599 1600 1601 1602
+#> [1583] 1603 1604 1605 1607 1608 1609 1610 1611 1612 1613 1614 1615 1616 1617
+#> [1597] 1618 1619 1620 1621 1622 1623 1624 1625 1626 1627 1628 1629 1630 1631
+#> [1611] 1632 1633 1634 1635 1636 1637 1638 1639 1640 1641 1642 1643 1644 1645
+#> [1625] 1646 1647 1648 1649 1650 1651 1652 1653 1654 1655 1656 1657 1658 1659
+#> [1639] 1660 1661 1662 1663 1664 1665 1666 1667 1668 1669 1670 1671 1672 1673
+#> [1653] 1674 1675 1676 1677 1678 1679 1680 1681 1682 1683 1684 1685 1686 1687
+#> [1667] 1688 1689 1690 1691 1692 1693 1694 1695 1696 1697 1698 1699 1700 1701
+#> [1681] 1702 1703 1704 1705 1706 1707 1708 1709 1710 1711 1712 1713 1714 1715
+#> [1695] 1716 1717 1718 1719 1720 1721 1722 1723 1724 1725 1726 1727 1728 1729
+#> [1709] 1730 1731 1732 1733 1734 1735 1736 1737 1738 1739 1740 1741 1742 1743
+#> [1723] 1744 1745 1746 1747 1748 1749 1750 1751 1752 1753 1754 1755 1756 1757
+#> [1737] 1758 1759 1760 1761 1762 1763 1764 1765 1766 1768 1769 1770 1771 1772
+#> [1751] 1773 1774 1775 1777 1779 1780 1781 1782 1783 1784 1785 1786 1787 1788
+#> [1765] 1789 1790 1791 1792 1793 1794 1795 1796 1797 1798 1799 1800 1801 1802
+#> [1779] 1803 1804 1805 1806 1807 1808 1809 1810 1811 1812 1813 1814 1815 1816
+#> [1793] 1817 1818 1819 1820 1821 1822 1823 1824 1825 1826 1827 1828 1829 1830
+#> [1807] 1831 1832 1833 1834 1835 1836 1837 1838 1839 1840 1841 1842 1843 1844
+#> [1821] 1845 1846 1847 1848 1849 1850 1851 1852 1853 1854 1855 1856 1857 1858
+#> [1835] 1859 1860 1861 1862 1863 1864 1865 1866 1867 1868 1869 1870 1871 1872
+#> [1849] 1873 1874 1875 1876 1877 1878 1879 1880 1881 1882 1883 1884 1885 1886
+#> [1863] 1887 1888 1889 1890 1891 1892 1893 1894 1895 1896 1897 1898 1899 1900
+#> [1877] 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914
+#> [1891] 1915 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928
+#> [1905] 1929 1930 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942
+#> [1919] 1943 1944 1945 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956
+#> [1933] 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970
+#> [1947] 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984
+#> [1961] 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998
+#> [1975] 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012
+#> [1989] 2013 2014 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026
+#> [2003] 2027 2028 2029 2030 2031 2032 2033 2034 2035 2036 2037 2038 2039 2040
+#> [2017] 2041 2042 2043 2044 2045 2046 2047 2048 2049 2050 2051 2052 2054 2055
+#> [2031] 2056 2057 2059 2060 2061 2062 2063 2064 2065 2066 2067 2068 2069 2070
+#> [2045] 2071 2072 2073 2074 2075 2076 2077 2078 2079 2080 2081 2082 2083 2084
+#> [2059] 2085 2086 2087 2088 2089 2090 2091 2092 2093 2094 2095 2096 2097 2098
+#> [2073] 2099 2100 2101 2102 2103 2104 2105 2106 2107 2108 2109 2110 2111 2112
+#> [2087] 2113 2114 2115 2116 2117 2118 2119 2120 2121 2122 2123 2124 2125 2126
+#> [2101] 2127 2128 2129 2130 2131 2132 2133 2134 2135 2136 2137 2138 2139 2140
+#> [2115] 2141 2142 2143 2144 2145 2146 2147 2148 2149 2150 2151 2152 2153 2154
+#> [2129] 2155 2156 2157 2158 2159 2160 2161 2162 2163 2164 2165 2166 2167 2168
+#> [2143] 2169 2170 2171 2172 2173 2174 2175 2176 2177 2178 2179 2180 2181 2182
+#> [2157] 2183 2184 2185 2186 2187 2188 2189 2190 2191 2192 2193 2194 2195 2196
+#> [2171] 2197 2198 2199 2200 2201 2202 2203 2204 2205 2206 2208 2209 2210 2211
+#> [2185] 2212 2213 2214 2215 2216 2217 2218 2219 2220 2221 2222 2223 2224 2225
+#> [2199] 2226 2227 2228 2229 2230 2231 2232 2233 2234 2235 2236 2237 2238 2239
+#> [2213] 2240 2241 2242 2243 2244 2245 2246 2247 2248 2249 2250 2251 2252 2253
+#> [2227] 2254 2255 2256 2257 2258 2259 2260 2261 2262 2263 2264 2265 2266 2267
+#> [2241] 2268 2269 2270 2271 2272 2273 2274 2275 2276 2277 2278 2279 2280 2283
+#> [2255] 2284 2285 2286 2287 2288 2289 2290 2291 2292 2293 2294 2295 2296 2297
+#> [2269] 2298 2299 2300 2301 2302 2303 2304 2305 2306 2307 2308 2309 2310 2311
+#> [2283] 2312 2313 2314 2315 2316 2317 2318 2319 2320 2321 2322 2323 2324 2325
+#> [2297] 2326 2327 2328 2329 2330 2331 2332 2333 2334 2335 2336 2337 2338 2339
+#> [2311] 2340 2341 2342 2343 2344 2345 2346 2347 2348 2349 2350 2351 2352 2353
+#> [2325] 2354 2355 2356 2357 2358 2359 2360 2361 2362 2363 2364 2365 2366 2367
+#> [2339] 2368 2369 2370 2371 2372 2373 2374 2375 2376 2377 2378 2379 2380 2381
+#> [2353] 2382 2383 2384 2385 2386 2387 2388 2389 2390 2391 2392 2393 2394 2395
+#> [2367] 2396 2397 2398 2399 2400 2401 2402 2403 2404 2405 2406 2407 2408 2409
+#> [2381] 2410 2411 2412 2413 2414 2415 2416 2417 2418 2419 2420 2421 2422 2423
+#> [2395] 2426 2430 2431 2432 2433 2434 2438 2439 2440 2441 2442 2443 2444 2445
+#> [2409] 2446 2447 2448 2449 2450
+#> 
+#> $geo_indicator
+#> integer(0)
+#> 
+#> $specon_tech
+#> [1] 1 2 3
+#> 
+#> $deep
+#> integer(0)
+#> 
+#> $species
+#> integer(0)
+#> 
+#> $totwghtlandg
+#>  [1]   31   32   33  189  190  191  407  408  409 1336 1337 1338 1547 1548 1549
+#> [16] 1875 1876 1877 2033 2034 2035 2163 2164 2165 2336 2337 2338 2347 2348 2349
+#> 
+#> $totvallandg
+#>  [1]  189  190  191  407  408  409  578  579  580  745  746  747 1040 1041 1042
+#> [16] 1711 1712 1713 1785 1786 1787 1823 1824 1825 2033 2034 2035 2163 2164 2165
+#> [31] 2336 2337 2338
+#> 
+#> $discards
+#> integer(0)
+#> 
+#> $confidential
+#> integer(0)
+```
+
+### Check duplicated records in FDI A table
+
+The function `check_RD_FDI_A` check the presence of duplicated records. In particular, it checks whether the combination of the first 19 columns generates duplicate records. The function returns the indices of the duplicated rows.
+
+
+```r
+check_RD_FDI_A(fdi_a_catch)
+#> 2 record/s duplicated
+#> [1] 153 641
+```
+
+### Coverage of data by GSA and year in table A
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function works on FDI tables A, G, H, I and J.
+
+
+```r
+FDI_coverage(data=fdi_a_catch, MS="PSP", verbose = FALSE)
+#>   year country   gsa records
+#> 1 2014     PSP GSA99     429
+#> 2 2015     PSP GSA99     258
+#> 3 2016     PSP GSA99     258
+#> 4 2017     PSP GSA99     301
+#> 5 2018     PSP GSA99     387
+#> 6 2019     PSP GSA99     430
+#> 7 2020     PSP GSA99     387
+```
+### Coverage of FDI discard data
+
+The functions checks the discard coverage in table A for the selected MS by GSAs
+
+
+```r
+FDI_disc_coverage(fdi_a_catch, MS="PSP", verbose=TRUE)
+#> [1] "Discard coverage per GSA for PSP data"
+#> [1] "Discard coverage in GSA99"
+#> $GSA99
+#>   year   gsa Total_lands Lands_(disc > 0) % Lands_(disc >0) Lands_(disc = 0)
+#> 1 2014 GSA99     265.910            2.656             1.00%            7.729
+#> 2 2015 GSA99     131.154            2.359             1.80%            3.476
+#> 3 2016 GSA99      41.679            0.659             1.58%            3.814
+#> 4 2017 GSA99      72.392            0.065             0.09%            1.986
+#> 5 2018 GSA99     125.115            3.432             2.74%            5.601
+#> 6 2019 GSA99     179.482            5.177             2.88%            7.906
+#> 7 2020 GSA99     225.216            6.209             2.76%            5.663
+#>   % Lands_(disc = 0) Lands_(disc = NK) % Lands_(disc = NK)
+#> 1              2.91%           255.525              96.09%
+#> 2              2.65%           125.319              95.55%
+#> 3              9.15%            37.206              89.27%
+#> 4              2.74%            70.341              97.17%
+#> 5              4.48%           116.082              92.78%
+#> 6              4.40%           166.399              92.71%
+#> 7              2.51%           213.344              94.73%
+```
+
+### Check number of record in FDI A table
+
+The function checks and count the numbers of records data in the given table A grouped by year, GSA, MS, species, vessels length, and fishing techniques for three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)). If SP, Vessel length, and fishing technique are not specified by the user the function combines those by default.
+
+
+```r
+head(FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[1]])
+#>   year sub_region country species vessel_length fishing_tech totwghtlandg
+#> 1 2014      GSA99     PSP     MUT      COMBINED          DFN            4
+#> 2 2014      GSA99     PSP     MUT      COMBINED          DRB            1
+#> 3 2015      GSA99     PSP     MUT      COMBINED          DFN            1
+#> 4 2015      GSA99     PSP     MUT      COMBINED          DTS            2
+#> 5 2015      GSA99     PSP     MUT      COMBINED          PMP            1
+#> 6 2016      GSA99     PSP     MUT      COMBINED          DTS            1
+#>   totvallandg discards
+#> 1           4        0
+#> 2           1        0
+#> 3           1        1
+#> 4           2        2
+#> 5           1        1
+#> 6           1        0
+```
+
+The function also provides a summary tables of the sum of the values grouped by year, GSA, MS, species, vessels length, and fishing techniques for same three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)).
+
+
+```r
+head(FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[2]])
+#>   year sub_region country species vessel_length fishing_tech totwghtlandg
+#> 1 2014      GSA99     PSP     MUT      COMBINED          DFN        2.222
+#> 2 2014      GSA99     PSP     MUT      COMBINED          DRB        0.035
+#> 3 2015      GSA99     PSP     MUT      COMBINED          DFN        0.002
+#> 4 2015      GSA99     PSP     MUT      COMBINED          DTS        0.224
+#> 5 2015      GSA99     PSP     MUT      COMBINED          PMP        0.017
+#> 6 2016      GSA99     PSP     MUT      COMBINED          DTS        0.014
+#>   totvallandg discards
+#> 1  1150.56688    0.000
+#> 2   348.01141    0.000
+#> 3    13.73272    0.000
+#> 4  4050.27014    0.003
+#> 5   116.72815    0.000
+#> 6   139.20457    0.000
+```
+
+A plot for each of the three metrics is also provided: 
+
+
+```r
+FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[3]]
+```
+
+![plot of chunk FDI_cov_tableA_3](figure/FDI_cov_tableA_3-1.png)
+
+```r
+FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[4]]
+```
+
+![plot of chunk FDI_cov_tableA_3](figure/FDI_cov_tableA_3-2.png)
+
+```r
+FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[5]]
+```
+
+![plot of chunk FDI_cov_tableA_3](figure/FDI_cov_tableA_3-3.png)
+
+### Check of species value
+
+The function estimates from the FDI table A an average price per species and year and compares it with average price calculated per country and species. Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings > 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
+
+
+```r
+FDI_prices_not_null(data = fdi_a_catch, MS = "PSP",SP = c("HKE"), verbose = FALSE)[[1]]
+#>   species year land weight land value    price av_price
+#> 1     HKE 2014       1.099  7607.1731 6.921905 4.596886
+#> 2     HKE 2015       0.249  1944.6006 7.809641 4.596886
+#> 3     HKE 2016       0.152   709.8665 4.670174 4.596886
+#> 4     HKE 2017       0.088   495.4508 5.630123 4.596886
+#> 5     HKE 2018      33.917 41572.5541 1.225714 4.596886
+#> 6     HKE 2019      33.907 44517.1845 1.312920 4.596886
+#> 7     HKE 2020       0.485  2234.7473 4.607726 4.596886
+```
+
+Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings > 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
+
+
+```r
+FDI_prices_not_null(data = fdi_a_catch, MS = "PSP",SP = c("HKE"), verbose = TRUE)[[2]]
+#> [1] "Average price per species in PSP"
+#> No cases with total landings > 0 but landings value = 0
+#> [1] year        species     land weight land value  price      
+#> <0 righe> (o 0-length row.names)
+```
+
+
+### Check prices trend in FDI A table
+
+The function checks the trend prices in the given table grouped by year, GSA, MS, and species. If SP are not specified by the user the function combines those by default.
+
+
+```r
+FDI_prices_cov(data = fdi_a_catch, SP = c("HKE"), MS = "PSP", GSA = "GSA99",verbose=FALSE)[[1]]
+#>   year country sub_region species totwghtlandg totvallandg mean_price
+#> 1 2014     PSP      GSA99     HKE        1.099   7607.1731   6.921905
+#> 2 2015     PSP      GSA99     HKE        0.249   1944.6006   7.809641
+#> 3 2016     PSP      GSA99     HKE        0.152    709.8665   4.670174
+#> 4 2017     PSP      GSA99     HKE        0.088    495.4508   5.630123
+#> 5 2018     PSP      GSA99     HKE       33.917  41572.5541   1.225714
+#> 6 2019     PSP      GSA99     HKE       33.907  44517.1845   1.312920
+#> 7 2020     PSP      GSA99     HKE        0.485   2234.7473   4.607726
+```
+
+```r
+FDI_prices_cov(data = fdi_a_catch, SP = c("HKE"), MS = "PSP", GSA = "GSA99",verbose=FALSE)[[2]]
+#>   year country sub_region species totwghtlandg totvallandg mean_price
+#> 1 2014     PSP   COMBINED     HKE        1.099   7607.1731   6.921905
+#> 2 2015     PSP   COMBINED     HKE        0.249   1944.6006   7.809641
+#> 3 2016     PSP   COMBINED     HKE        0.152    709.8665   4.670174
+#> 4 2017     PSP   COMBINED     HKE        0.088    495.4508   5.630123
+#> 5 2018     PSP   COMBINED     HKE       33.917  41572.5541   1.225714
+#> 6 2019     PSP   COMBINED     HKE       33.907  44517.1845   1.312920
+#> 7 2020     PSP   COMBINED     HKE        0.485   2234.7473   4.607726
+```
 
 ## Table G
 
@@ -2497,55 +2985,146 @@ The function `check_RD_FDI_G` check the presence of duplicated records. In parti
 
 
 ```r
-g_effort <- rbind(fdi_g_effort,fdi_g_effort[1,])
-check_RD_FDI_G(g_effort)
-#> 669 record/s duplicated
-#>   [1]   42   43   44   45   46   52   53   54   55   61   62   63   69   75   81
-#>  [16]   82   84   85   87   88   89   90   91   92   93   94   95   98  100  102
-#>  [31]  104  107  108  109  110  111  112  113  114  115  116  119  121  123  125
-#>  [46]  128  129  130  131  132  133  134  135  136  139  140  141  142  143  144
-#>  [61]  145  146  147  148  149  150  151  152  153  155  156  157  163  164  165
-#>  [76]  198  211  217  218  219  220  222  226  227  228  229  231  233  234  236
-#>  [91]  237  238  239  240  253  254  255  256  262  263  264  265  266  272  273
-#> [106]  274  275  281  282  283  289  295  300  302  304  308  311  313  315  317
-#> [121]  320  325  327  329  331  334  335  338  340  342  344  347  348  349  350
-#> [136]  351  352  353  355  356  357  358  359  360  361  362  363  364  365  366
-#> [151]  367  368  369  370  371  372  373  374  375  376  377  378  381  383  385
-#> [166]  387  390  391  392  395  397  399  401  404  405  406  407  408  409  410
-#> [181]  411  412  413  414  415  416  417  418  420  421  422  423  424  425  426
-#> [196]  427  428  429  430  431  432  433  435  436  437  438  439  440  441  442
-#> [211]  443  444  446  474  486  493  502  509  521  523  524  525  526  550  558
-#> [226]  583  586  587  588  592  594  596  598  602  603  607  613  622  626  629
-#> [241]  631  632  635  637  639  641  644  646  647  650  652  654  674  680  693
-#> [256]  704  735  742  758  770  776  777  778  790  796  797  803  804  805  806
-#> [271]  812  814  823  831  832  833  834  840  846  852  853  859  860  861  862
-#> [286]  878  879  880  881  887  888  889  901  907  908  914  915  916  917  923
-#> [301]  924  925  926  927  936  942  950  956  962  963  981  982  988  989  997
-#> [316]  998  999 1005 1011 1017 1018 1024 1025 1026 1027 1033 1034 1043 1044 1045
-#> [331] 1046 1053 1079 1088 1091 1092 1098 1099 1100 1101 1107 1108 1109 1110 1111
-#> [346] 1112 1113 1114 1115 1116 1122 1128 1131 1134 1135 1136 1137 1139 1141 1142
-#> [361] 1143 1144 1147 1149 1151 1153 1154 1156 1157 1158 1159 1160 1161 1162 1163
-#> [376] 1164 1165 1168 1170 1172 1174 1177 1178 1189 1190 1196 1205 1206 1207 1208
-#> [391] 1209 1232 1238 1245 1251 1253 1260 1262 1265 1267 1270 1271 1272 1273 1276
-#> [406] 1278 1287 1293 1299 1300 1306 1307 1308 1309 1315 1316 1317 1318 1319 1325
-#> [421] 1326 1328 1330 1334 1335 1336 1337 1338 1339 1340 1341 1342 1343 1344 1347
-#> [436] 1349 1351 1353 1356 1362 1371 1374 1383 1389 1396 1397 1398 1399 1401 1402
-#> [451] 1403 1404 1405 1406 1407 1408 1409 1410 1411 1412 1413 1414 1415 1416 1417
-#> [466] 1418 1419 1420 1421 1422 1423 1424 1425 1426 1427 1430 1432 1434 1436 1439
-#> [481] 1440 1441 1444 1446 1448 1450 1453 1454 1466 1472 1474 1479 1480 1481 1483
-#> [496] 1484 1486 1490 1493 1495 1496 1499 1500 1501 1502 1503 1504 1505 1506 1507
-#> [511] 1508 1528 1535 1537 1554 1555 1556 1563 1576 1590 1592 1599 1601 1625 1627
-#> [526] 1637 1638 1656 1665 1680 1686 1693 1699 1708 1721 1727 1729 1751 1758 1760
-#> [541] 1769 1800 1807 1822 1823 1824 1825 1826 1832 1833 1834 1861 1880 1881 1926
-#> [556] 1933 1934 1935 1936 1959 1965 1971 1972 1978 1979 1980 1981 1987 1989 1998
-#> [571] 2008 2010 2022 2028 2029 2035 2036 2037 2042 2043 2044 2046 2047 2048 2049
-#> [586] 2050 2051 2052 2054 2055 2056 2057 2061 2063 2065 2067 2100 2102 2110 2111
-#> [601] 2112 2118 2119 2120 2126 2145 2146 2147 2148 2154 2155 2156 2166 2167 2173
-#> [616] 2174 2175 2181 2187 2202 2209 2211 2214 2216 2218 2220 2223 2224 2242 2248
-#> [631] 2249 2255 2256 2257 2258 2264 2265 2266 2267 2284 2293 2294 2297 2299 2321
-#> [646] 2324 2333 2339 2341 2366 2368 2375 2377 2394 2395 2396 2403 2407 2411 2413
-#> [661] 2416 2417 2418 2419 2422 2426 2430 2432 2451
+head(check_RD_FDI_G(fdi_g_effort))
+#> 668 record/s duplicated
+#> [1] 42 43 44 45 46 52
 ```
+
+### Coverage of data by GSA and year in table G
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+
+```r
+FDI_coverage(data=fdi_g_effort,MS="PSP", verbose = FALSE)
+#>   year country   gsa records
+#> 1 2014     PSP GSA99     429
+#> 2 2015     PSP GSA99     258
+#> 3 2016     PSP GSA99     258
+#> 4 2017     PSP GSA99     301
+#> 5 2018     PSP GSA99     387
+#> 6 2019     PSP GSA99     430
+#> 7 2020     PSP GSA99     387
+```
+
+### Check number of record in FDI G table
+
+The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, fishing techniques, and metier for the following 8 variables: Total days at sea; Total Fishing Days; Total kW days at Sea; total GT days at sea; Total kW fishing days; totgtfishdays; Hours at Sea; kW hours at sea. If Vessel length, fishing technique, and metier are not specified by the user the function combines those by default.
+
+
+```r
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[1]]
+#>   year sub_region country vessel_length fishing_tech   metier totseadays
+#> 1 2014      GSA99     PSP      COMBINED     COMBINED COMBINED        429
+#> 2 2015      GSA99     PSP      COMBINED     COMBINED COMBINED        258
+#> 3 2016      GSA99     PSP      COMBINED     COMBINED COMBINED        258
+#> 4 2017      GSA99     PSP      COMBINED     COMBINED COMBINED        301
+#> 5 2018      GSA99     PSP      COMBINED     COMBINED COMBINED        387
+#> 6 2019      GSA99     PSP      COMBINED     COMBINED COMBINED        430
+#> 7 2020      GSA99     PSP      COMBINED     COMBINED COMBINED        387
+#>   totfishdays totkwdaysatsea totgtdaysatsea totkwfishdays totgtfishdays hrsea
+#> 1         421            429            421           417           419   398
+#> 2         252            258            252           248           252   244
+#> 3         258            258            258           234           244   243
+#> 4         301            301            301           288           290   291
+#> 5         387            387            387           368           385   357
+#> 6         430            430            430           411           401   393
+#> 7         383            387            383           373           364   360
+#>   kwhrsea
+#> 1     398
+#> 2     244
+#> 3     243
+#> 4     291
+#> 5     357
+#> 6     393
+#> 7     360
+```
+
+
+```r
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[2]]
+#>   year sub_region country vessel_length fishing_tech   metier totseadays
+#> 1 2014      GSA99     PSP      COMBINED     COMBINED COMBINED      43774
+#> 2 2015      GSA99     PSP      COMBINED     COMBINED COMBINED      33808
+#> 3 2016      GSA99     PSP      COMBINED     COMBINED COMBINED      30133
+#> 4 2017      GSA99     PSP      COMBINED     COMBINED COMBINED      30792
+#> 5 2018      GSA99     PSP      COMBINED     COMBINED COMBINED      27531
+#> 6 2019      GSA99     PSP      COMBINED     COMBINED COMBINED      54994
+#> 7 2020      GSA99     PSP      COMBINED     COMBINED COMBINED      47260
+#>   totfishdays totkwdaysatsea totgtdaysatsea totkwfishdays totgtfishdays  hrsea
+#> 1   1167896.7          43173        4409290            NA            NA     NA
+#> 2   1055410.4          33101        3525484            NA            NA     NA
+#> 3    831831.1          29250        3672117       2878550      779545.5 304445
+#> 4    586293.7          30399        2474672       2394149      563031.3 386703
+#> 5    777467.5          26995        3215308       3069861      746276.9 311062
+#> 6   1249878.1          54537        4834741       4647969     1188048.0 300004
+#> 7   1643316.1          46697        5665237            NA            NA     NA
+#>    kwhrsea
+#> 1       NA
+#> 2       NA
+#> 3 62946924
+#> 4 96712548
+#> 5 62348605
+#> 6 49104568
+#> 7       NA
+```
+
+
+```r
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[3]]
+```
+
+![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-1.png)
+
+```r
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[4]]
+```
+
+![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-2.png)
+
+```r
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[5]]
+```
+
+![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-3.png)
+
+```r
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[6]]
+```
+
+![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-4.png)
+
+```r
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[7]]
+#> Warning: Removed 3 rows containing missing values (geom_point).
+#> Warning: Removed 3 row(s) containing missing values (geom_path).
+```
+
+![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-5.png)
+
+```r
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[8]]
+#> Warning: Removed 3 rows containing missing values (geom_point).
+#> Removed 3 row(s) containing missing values (geom_path).
+```
+
+![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-6.png)
+
+```r
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[9]]
+#> Warning: Removed 3 rows containing missing values (geom_point).
+#> Removed 3 row(s) containing missing values (geom_path).
+```
+
+![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-7.png)
+
+```r
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[10]]
+#> Warning: Removed 3 rows containing missing values (geom_point).
+#> Removed 3 row(s) containing missing values (geom_path).
+```
+
+![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-8.png)
 
 ## Table H
 
@@ -3116,6 +3695,84 @@ check_RD_FDI_H(h_spatial_land)
 #> [16] 1422 1453 1479 1481 1499 2366 2451
 ```
 
+### Coverage of data by GSA and year in table H
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+
+```r
+FDI_coverage(data=fdi_h_spatial_landings ,MS="PSP", verbose = FALSE)
+#>   year country   gsa records
+#> 1 2014     PSP GSA99     429
+#> 2 2015     PSP GSA99     258
+#> 3 2016     PSP GSA99     258
+#> 4 2017     PSP GSA99     301
+#> 5 2018     PSP GSA99     387
+#> 6 2019     PSP GSA99     430
+#> 7 2020     PSP GSA99     387
+```
+
+### check NA values in spatial columns of table H
+
+The function checks the incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included:
+- presence of NA values in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA
+- the presence any data in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported
+- the presence of any data in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in
+
+Furthermore the function identifies the records without any sub-region assignment.
+
+
+```r
+head(FDI_checks_spatial_HI(data=fdi_h_spatial_landings,MS="PSP", verbose=TRUE)[[1]])
+#> no NAs in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA
+#> 2450  record with at least one data among 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported
+#> no data reported in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in
+#> 0 record/s with 'NK' values in 'sub_region' field
+#> 0 record/s with 'NA' values in 'sub_region' field
+#>   country year quarter vessel_length fishing_tech gear_type target_assemblage
+#> 1     PSP 2014       1            NK          DTS       OTB                NK
+#> 2     PSP 2014       2            NK          DTS       OTB                NK
+#> 3     PSP 2014       3            NK          DTS       OTB                NK
+#> 4     PSP 2014       1        VL0006          DRB       DRB              <NA>
+#> 5     PSP 2014       4        VL0612          PMP       DRB              <NA>
+#> 6     PSP 2014       1        VL1218          PMP       DRB              <NA>
+#>   mesh_size_range           metier supra_region sub_region rectangle_type
+#> 1             DEF OTB_DEF_>=40_0_0          OFR      GSA99          05*05
+#> 2             DEF OTB_DEF_>=40_0_0          OFR      GSA99          05*05
+#> 3             DWS OTB_DWS_>=40_0_0          OFR      GSA99          05*05
+#> 4             MOL    DRB_MOL_0_0_0          OFR      GSA99          05*05
+#> 5             MOL    DRB_MOL_0_0_0          MBS      GSA99          05*05
+#> 6             MOL    DRB_MOL_0_0_0          MBS      GSA99          05*05
+#>   rectangle_lat rectangle_lon   c_square
+#> 1            NA            NA 1000:100:1
+#> 2            NA            NA 1000:100:2
+#> 3            NA            NA 1000:100:2
+#> 4            NA            NA 1000:100:3
+#> 5            NA            NA 1000:100:1
+#> 6            NA            NA 1000:100:1
+```
+
+
+```r
+FDI_checks_spatial_HI(data=fdi_h_spatial_landings,MS="PSP", verbose=FALSE)[[2]]
+#>  [1] country           year              quarter           vessel_length    
+#>  [5] fishing_tech      gear_type         target_assemblage mesh_size_range  
+#>  [9] metier            supra_region      sub_region       
+#> <0 righe> (o 0-length row.names)
+```
+
+### Compatibility of the geographical coordinates with rectangle type
+
+
+The function checks in both tables H and I the compatibility of the geographical coordinates (latitude and longitude) with the value provided for the rectangle type. The data frame of the input table is returned retaining the only records in which at least one among latitude and longitude is not compatible with the rectangle type. Two more columns (lat.check and lon.check) are included to the data frame to report the results of the checks respectively for latitude and longitude.
+
+
+```r
+FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
+#> no data available with rectangle coordinates in the selected table
+#> NULL
+```
+
 ## Table I
 
 ### Check empty fields in FDI I table
@@ -3498,19 +4155,88 @@ The function `check_RD_FDI_I` check the presence of duplicated records. In parti
 
 ```r
 i_spatial_fe <- rbind(fdi_i_spatial_effort,fdi_i_spatial_effort[1,])
-check_RD_FDI_I(i_spatial_fe)
+head(check_RD_FDI_I(i_spatial_fe))
 #> 150 record/s duplicated
-#>   [1]   44   45   53   54   55   61   69   81   82   84   85   87   89   91   93
-#>  [16]   94   95  139  145  155  156  165  198  255  308  357  365  366  373  374
-#>  [31]  375  446  541  831  832  833  840  853  861  862  881  887  888  907  914
-#>  [46]  915  916  917  923  924  925  926  927  997  998  999 1017 1018 1046 1053
-#>  [61] 1091 1092 1098 1099 1100 1101 1111 1112 1113 1122 1141 1142 1161 1162 1170
-#>  [76] 1177 1196 1197 1273 1293 1309 1317 1318 1325 1326 1327 1334 1335 1336 1342
-#>  [91] 1362 1371 1383 1389 1401 1402 1403 1409 1410 1411 1412 1418 1419 1420 1421
-#> [106] 1422 1423 1424 1425 1426 1427 1444 1446 1453 1472 1479 1481 1499 1554 1555
-#> [121] 1556 1576 1592 1599 1665 1699 1832 1932 1953 1965 1972 1978 1979 1980 2035
-#> [136] 2044 2054 2055 2056 2126 2209 2333 2339 2341 2366 2375 2394 2395 2396 2451
+#> [1] 44 45 53 54 55 61
 ```
+
+### Coverage of data by GSA and year in table I
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+
+```r
+FDI_coverage(data=fdi_i_spatial_effort ,MS="PSP", verbose = FALSE)
+#>   year country   gsa records
+#> 1 2014     PSP GSA99     429
+#> 2 2015     PSP GSA99     258
+#> 3 2016     PSP GSA99     258
+#> 4 2017     PSP GSA99     301
+#> 5 2018     PSP GSA99     387
+#> 6 2019     PSP GSA99     430
+#> 7 2020     PSP GSA99     387
+```
+
+### check NA values in spatial columns of table I
+
+The function checks the incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included:
+- presence of NA values in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA
+- the presence any data in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported
+- the presence of any data in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in
+
+Furthermore, the function identifies the records without any sub-region assignment.
+
+
+```r
+head(FDI_checks_spatial_HI(data=fdi_i_spatial_effort,MS="PSP", verbose=TRUE)[[1]])
+#> no NAs in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA
+#> 2450  record with at least one data among 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported
+#> no data reported in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in
+#> 0 record/s with 'NK' values in 'sub_region' field
+#> 0 record/s with 'NA' values in 'sub_region' field
+#>   country year quarter vessel_length fishing_tech gear_type target_assemblage
+#> 1     PSP 2014       1            NK          DTS       OTB                NK
+#> 2     PSP 2014       2            NK          DTS       OTB                NK
+#> 3     PSP 2014       3            NK          DTS       OTB                NK
+#> 4     PSP 2014       1        VL0006          DRB       DRB              <NA>
+#> 5     PSP 2014       4        VL0612          PMP       DRB              <NA>
+#> 6     PSP 2014       1        VL1218          PMP       DRB              <NA>
+#>   mesh_size_range           metier supra_region sub_region rectangle_type
+#> 1             DEF OTB_DEF_>=40_0_0          OFR      GSA99          05*05
+#> 2             DEF OTB_DEF_>=40_0_0          OFR      GSA99          05*05
+#> 3             DWS OTB_DWS_>=40_0_0          OFR      GSA99          05*05
+#> 4             MOL    DRB_MOL_0_0_0          OFR      GSA99          05*05
+#> 5             MOL    DRB_MOL_0_0_0          MBS      GSA99          05*05
+#> 6             MOL    DRB_MOL_0_0_0          MBS      GSA99          05*05
+#>   rectangle_lat rectangle_lon   c_square
+#> 1            NA            NA 1000:100:1
+#> 2            NA            NA 1000:100:2
+#> 3            NA            NA 1000:100:2
+#> 4            NA            NA 1000:100:3
+#> 5            NA            NA 1000:100:1
+#> 6            NA            NA 1000:100:1
+```
+
+
+```r
+FDI_checks_spatial_HI(data=fdi_i_spatial_effort,MS="PSP", verbose=FALSE)[[2]]
+#>  [1] country           year              quarter           vessel_length    
+#>  [5] fishing_tech      gear_type         target_assemblage mesh_size_range  
+#>  [9] metier            supra_region      sub_region       
+#> <0 righe> (o 0-length row.names)
+```
+
+### Compatibility of the geographical coordinates with rectangle type
+
+The function checks in both tables H and I the compatibility of the geographical coordinates (latitude and longitude) with the value provided for the rectangle type. The data frame of the input table is returned retaining the only records in which at least one among latitude and longitude is not compatible with the rectangle type. Two more columns (lat.check and lon.check) are included to the data frame to report the results of the checks respectively for latitude and longitude.
+
+
+```r
+FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
+#> no data available with rectangle coordinates in the selected table
+#> NULL
+```
+
 
 ## Table J
 
@@ -3588,169 +4314,460 @@ The function `check_RD_FDI_J` check the presence of duplicated records. In parti
 
 ```r
 j_capacity <- rbind(fdi_j_capacity,fdi_j_capacity[1,])
-check_RD_FDI_J(j_capacity)
+head(check_RD_FDI_J(j_capacity))
 #> 2239 record/s duplicated
-#>    [1]    2    3   14   22   33   34   35   36   42   43   44   45   46   52
-#>   [15]   53   54   55   56   57   58   60   61   62   63   64   65   66   67
-#>   [29]   68   69   70   71   72   73   74   75   76   77   78   79   80   81
-#>   [43]   82   83   84   85   86   87   88   89   90   91   92   93   94   95
-#>   [57]   96   97   98   99  100  101  102  103  104  105  106  107  108  109
-#>   [71]  110  111  112  113  114  115  116  117  118  119  120  121  122  123
-#>   [85]  124  125  126  127  128  129  130  131  132  133  134  135  136  137
-#>   [99]  139  140  141  142  143  144  145  146  147  148  149  150  151  152
-#>  [113]  153  155  156  157  158  159  160  161  162  163  164  165  166  167
-#>  [127]  168  169  170  171  172  173  174  175  176  177  178  179  180  181
-#>  [141]  182  183  184  185  186  187  188  189  190  191  192  193  194  195
-#>  [155]  196  197  198  199  200  201  202  203  204  205  206  207  208  209
-#>  [169]  210  211  212  213  214  215  216  217  218  219  220  221  222  223
-#>  [183]  224  225  226  227  228  229  230  231  232  233  234  235  236  237
-#>  [197]  238  239  240  241  242  243  244  245  246  247  248  249  250  251
-#>  [211]  252  253  254  255  256  257  258  259  260  261  262  263  264  265
-#>  [225]  266  267  268  269  270  271  272  273  274  275  276  277  278  279
-#>  [239]  280  281  282  283  284  285  286  287  288  289  290  291  292  293
-#>  [253]  294  295  296  297  298  299  300  301  302  303  304  305  306  307
-#>  [267]  308  309  310  311  312  313  314  315  316  317  318  319  320  321
-#>  [281]  323  324  325  326  327  328  329  330  331  332  333  334  335  336
-#>  [295]  337  338  339  340  341  342  343  344  345  346  347  348  349  350
-#>  [309]  351  352  353  354  355  356  357  358  359  360  361  362  363  364
-#>  [323]  365  366  367  368  369  370  371  372  373  374  375  376  377  378
-#>  [337]  379  380  381  382  383  384  385  386  387  388  389  390  391  392
-#>  [351]  393  394  395  396  397  398  399  400  401  402  403  404  405  406
-#>  [365]  407  408  409  410  411  412  413  414  415  416  417  418  419  420
-#>  [379]  421  422  423  424  425  426  427  428  429  430  431  432  433  434
-#>  [393]  435  436  437  438  439  440  441  442  443  444  446  447  448  449
-#>  [407]  450  451  452  453  454  455  456  457  458  459  460  461  462  463
-#>  [421]  464  465  466  467  468  469  470  471  472  473  474  475  476  477
-#>  [435]  478  479  480  481  482  483  484  485  486  487  488  489  490  491
-#>  [449]  492  493  494  495  496  497  498  499  500  501  502  503  504  505
-#>  [463]  506  507  508  509  510  511  512  513  514  515  516  517  518  519
-#>  [477]  520  521  522  523  524  525  526  527  528  529  530  531  532  533
-#>  [491]  534  535  536  537  538  539  540  541  542  543  544  545  546  547
-#>  [505]  548  549  550  551  552  553  554  555  556  557  558  559  560  561
-#>  [519]  562  563  564  565  566  567  568  569  570  571  572  573  574  575
-#>  [533]  576  577  578  579  580  581  582  583  584  585  586  587  588  589
-#>  [547]  590  591  592  593  594  595  596  597  598  599  600  601  602  603
-#>  [561]  604  605  606  607  608  609  610  611  612  613  614  615  616  617
-#>  [575]  618  619  620  621  622  623  624  625  626  627  628  629  630  631
-#>  [589]  632  633  634  635  636  637  638  639  640  641  642  643  644  645
-#>  [603]  646  647  648  649  650  651  652  653  654  655  656  666  667  668
-#>  [617]  674  680  686  687  693  694  695  696  702  703  704  705  706  707
-#>  [631]  708  709  710  712  713  714  715  716  717  718  719  720  721  722
-#>  [645]  723  724  725  726  727  728  729  730  731  732  733  734  735  736
-#>  [659]  737  738  739  740  741  742  743  744  745  746  747  748  749  750
-#>  [673]  751  752  753  754  755  756  757  758  759  760  761  762  763  764
-#>  [687]  765  766  767  768  769  770  771  772  773  774  775  776  777  778
-#>  [701]  779  780  781  782  783  784  785  786  787  788  789  790  791  792
-#>  [715]  793  794  795  796  797  798  799  800  801  802  803  804  805  806
-#>  [729]  807  808  809  810  811  812  813  814  815  816  817  818  819  820
-#>  [743]  821  822  823  824  825  826  827  828  829  830  831  832  833  834
-#>  [757]  835  836  837  838  839  840  841  842  843  844  845  846  847  848
-#>  [771]  849  850  851  852  853  854  855  856  857  858  859  860  861  862
-#>  [785]  863  864  865  866  867  868  869  870  871  872  873  874  875  876
-#>  [799]  877  878  879  880  881  882  883  884  885  886  887  888  889  890
-#>  [813]  891  892  893  894  895  896  897  898  899  900  901  902  903  904
-#>  [827]  905  906  907  908  909  910  911  912  913  914  915  916  917  918
-#>  [841]  919  920  921  922  923  924  925  926  927  928  929  930  931  932
-#>  [855]  933  934  935  936  937  938  939  940  941  942  943  944  945  946
-#>  [869]  947  948  949  950  951  952  953  954  955  956  957  958  959  960
-#>  [883]  961  962  963  964  965  966  967  968  969  970  971  972  973  974
-#>  [897]  975  976  977  978  979  980  981  982  983  984  985  986  987  988
-#>  [911]  989  990  991  992  993  994  995  996  997  998  999 1000 1001 1002
-#>  [925] 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016
-#>  [939] 1017 1018 1019 1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030
-#>  [953] 1031 1032 1033 1034 1035 1036 1037 1038 1039 1040 1041 1042 1043 1044
-#>  [967] 1045 1046 1047 1048 1049 1050 1051 1052 1053 1054 1055 1056 1057 1058
-#>  [981] 1059 1060 1061 1062 1063 1064 1065 1066 1067 1068 1069 1070 1071 1072
-#>  [995] 1073 1074 1075 1076 1077 1078 1079 1080 1081 1082 1083 1084 1085 1086
-#> [1009] 1087 1088 1089 1090 1091 1092 1093 1094 1095 1096 1097 1098 1099 1100
-#> [1023] 1101 1102 1103 1104 1105 1106 1107 1108 1109 1110 1111 1112 1113 1114
-#> [1037] 1115 1116 1117 1118 1119 1120 1121 1122 1123 1124 1125 1126 1127 1128
-#> [1051] 1129 1130 1131 1132 1133 1134 1135 1136 1137 1138 1139 1140 1141 1142
-#> [1065] 1143 1144 1145 1146 1147 1148 1149 1150 1151 1152 1153 1154 1155 1156
-#> [1079] 1157 1158 1159 1160 1161 1162 1163 1164 1165 1166 1167 1168 1169 1170
-#> [1093] 1171 1172 1173 1174 1175 1176 1177 1178 1179 1180 1181 1182 1183 1184
-#> [1107] 1185 1186 1187 1188 1189 1190 1191 1192 1193 1194 1195 1196 1197 1198
-#> [1121] 1199 1200 1201 1202 1203 1204 1205 1206 1207 1208 1209 1210 1211 1212
-#> [1135] 1213 1214 1215 1216 1217 1218 1219 1220 1221 1222 1223 1224 1225 1226
-#> [1149] 1227 1228 1229 1230 1231 1232 1233 1234 1235 1236 1237 1238 1239 1240
-#> [1163] 1241 1242 1243 1244 1245 1246 1247 1248 1249 1250 1251 1252 1253 1254
-#> [1177] 1255 1256 1257 1258 1259 1260 1261 1262 1263 1264 1265 1266 1267 1268
-#> [1191] 1269 1270 1271 1272 1273 1274 1275 1276 1277 1278 1279 1280 1281 1282
-#> [1205] 1283 1284 1285 1286 1287 1288 1289 1290 1291 1292 1293 1294 1295 1296
-#> [1219] 1297 1298 1299 1300 1301 1302 1303 1304 1305 1306 1307 1308 1309 1310
-#> [1233] 1311 1312 1313 1314 1315 1316 1317 1318 1319 1320 1321 1322 1323 1324
-#> [1247] 1325 1326 1327 1328 1329 1330 1331 1332 1333 1334 1335 1336 1337 1338
-#> [1261] 1339 1340 1341 1342 1343 1344 1345 1346 1347 1348 1349 1350 1351 1352
-#> [1275] 1353 1354 1355 1356 1357 1358 1359 1360 1361 1362 1363 1364 1365 1366
-#> [1289] 1367 1368 1369 1370 1371 1372 1373 1374 1375 1376 1377 1378 1379 1380
-#> [1303] 1381 1382 1383 1384 1385 1386 1387 1388 1389 1390 1391 1392 1393 1394
-#> [1317] 1395 1396 1397 1398 1399 1400 1401 1402 1403 1404 1405 1406 1407 1408
-#> [1331] 1409 1410 1411 1412 1413 1414 1415 1416 1417 1418 1419 1420 1421 1422
-#> [1345] 1423 1424 1425 1426 1427 1428 1429 1430 1431 1432 1433 1434 1435 1436
-#> [1359] 1437 1438 1439 1440 1441 1442 1443 1444 1445 1446 1447 1448 1449 1450
-#> [1373] 1451 1452 1453 1454 1455 1456 1457 1458 1459 1460 1461 1462 1463 1464
-#> [1387] 1465 1466 1467 1468 1469 1470 1471 1472 1473 1474 1475 1476 1477 1478
-#> [1401] 1479 1480 1481 1482 1483 1484 1485 1486 1487 1488 1489 1490 1491 1492
-#> [1415] 1493 1494 1495 1496 1497 1498 1499 1500 1501 1502 1503 1504 1505 1506
-#> [1429] 1507 1508 1509 1510 1511 1512 1513 1514 1515 1516 1517 1518 1519 1520
-#> [1443] 1521 1522 1523 1524 1525 1526 1527 1528 1529 1530 1531 1532 1533 1534
-#> [1457] 1535 1536 1537 1538 1539 1540 1541 1542 1543 1544 1545 1546 1547 1548
-#> [1471] 1549 1550 1551 1552 1553 1554 1555 1556 1557 1558 1559 1560 1561 1562
-#> [1485] 1563 1564 1565 1566 1567 1568 1569 1570 1571 1572 1573 1574 1575 1576
-#> [1499] 1577 1578 1579 1580 1581 1582 1583 1584 1585 1586 1587 1588 1589 1590
-#> [1513] 1591 1592 1593 1594 1595 1596 1597 1598 1599 1600 1601 1602 1603 1604
-#> [1527] 1605 1606 1607 1608 1609 1610 1611 1612 1613 1614 1615 1616 1617 1618
-#> [1541] 1619 1620 1621 1622 1623 1624 1625 1626 1627 1628 1629 1630 1631 1632
-#> [1555] 1633 1634 1635 1636 1637 1638 1639 1640 1641 1642 1643 1644 1645 1646
-#> [1569] 1647 1648 1649 1650 1651 1652 1653 1654 1655 1656 1657 1658 1659 1660
-#> [1583] 1661 1662 1663 1664 1665 1666 1667 1668 1669 1670 1671 1672 1673 1674
-#> [1597] 1675 1676 1677 1678 1679 1680 1681 1682 1683 1684 1685 1686 1687 1688
-#> [1611] 1689 1690 1691 1692 1693 1694 1695 1696 1697 1698 1699 1700 1701 1702
-#> [1625] 1703 1704 1705 1706 1707 1708 1709 1710 1711 1712 1713 1714 1715 1716
-#> [1639] 1717 1718 1719 1720 1721 1722 1723 1724 1725 1726 1727 1728 1729 1730
-#> [1653] 1731 1732 1733 1734 1735 1736 1737 1738 1739 1740 1741 1742 1743 1744
-#> [1667] 1745 1746 1747 1748 1749 1750 1751 1752 1753 1754 1755 1756 1757 1758
-#> [1681] 1759 1760 1761 1762 1763 1764 1765 1766 1767 1768 1769 1770 1771 1772
-#> [1695] 1773 1774 1775 1776 1777 1778 1779 1780 1781 1782 1783 1784 1785 1786
-#> [1709] 1787 1788 1789 1790 1791 1792 1793 1794 1795 1796 1797 1798 1799 1800
-#> [1723] 1801 1802 1803 1804 1805 1806 1807 1808 1809 1810 1811 1812 1813 1814
-#> [1737] 1815 1816 1817 1818 1819 1820 1821 1822 1823 1824 1825 1826 1827 1828
-#> [1751] 1829 1830 1831 1832 1833 1834 1835 1836 1837 1838 1839 1840 1841 1842
-#> [1765] 1843 1844 1845 1846 1847 1848 1849 1850 1851 1852 1853 1854 1855 1856
-#> [1779] 1857 1858 1859 1860 1861 1862 1863 1864 1865 1866 1867 1877 1878 1879
-#> [1793] 1880 1881 1887 1888 1889 1890 1894 1896 1897 1898 1904 1910 1923 1924
-#> [1807] 1925 1926 1932 1933 1934 1935 1936 1942 1943 1944 1945 1951 1952 1953
-#> [1821] 1959 1965 1966 1967 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978
-#> [1835] 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992
-#> [1849] 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006
-#> [1863] 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019 2020
-#> [1877] 2021 2022 2023 2024 2025 2026 2027 2028 2029 2030 2031 2032 2033 2034
-#> [1891] 2035 2036 2037 2038 2039 2040 2041 2042 2043 2044 2045 2046 2047 2048
-#> [1905] 2049 2050 2051 2052 2053 2054 2055 2056 2057 2058 2059 2060 2061 2062
-#> [1919] 2063 2064 2065 2066 2067 2068 2069 2070 2071 2072 2073 2074 2075 2076
-#> [1933] 2077 2078 2079 2080 2081 2090 2091 2092 2093 2099 2100 2101 2102 2103
-#> [1947] 2109 2110 2111 2112 2118 2119 2120 2126 2132 2133 2139 2145 2146 2147
-#> [1961] 2148 2154 2155 2156 2157 2158 2164 2165 2166 2167 2173 2174 2175 2181
-#> [1975] 2187 2188 2189 2190 2191 2192 2193 2194 2195 2196 2197 2198 2199 2200
-#> [1989] 2201 2202 2203 2204 2205 2206 2207 2208 2209 2210 2211 2212 2213 2214
-#> [2003] 2215 2216 2217 2218 2219 2220 2221 2222 2223 2224 2225 2226 2227 2228
-#> [2017] 2229 2230 2231 2232 2233 2234 2235 2236 2237 2238 2239 2240 2241 2242
-#> [2031] 2243 2244 2245 2246 2247 2248 2249 2250 2251 2252 2253 2254 2255 2256
-#> [2045] 2257 2258 2259 2260 2261 2262 2263 2264 2265 2266 2267 2268 2269 2270
-#> [2059] 2271 2272 2273 2274 2275 2276 2277 2278 2279 2280 2281 2282 2283 2284
-#> [2073] 2285 2286 2287 2288 2289 2290 2291 2292 2293 2294 2295 2296 2297 2298
-#> [2087] 2299 2300 2301 2302 2303 2304 2305 2306 2307 2308 2309 2310 2311 2312
-#> [2101] 2313 2314 2315 2316 2317 2318 2319 2320 2321 2322 2323 2324 2325 2326
-#> [2115] 2327 2328 2329 2330 2331 2332 2333 2334 2335 2336 2337 2338 2339 2340
-#> [2129] 2341 2342 2343 2344 2345 2346 2347 2348 2349 2350 2351 2352 2353 2354
-#> [2143] 2355 2356 2357 2358 2359 2360 2361 2362 2363 2364 2365 2366 2367 2368
-#> [2157] 2369 2370 2371 2372 2373 2374 2375 2376 2377 2378 2379 2380 2381 2382
-#> [2171] 2383 2384 2385 2386 2387 2388 2389 2390 2391 2392 2393 2394 2395 2396
-#> [2185] 2397 2398 2399 2400 2401 2402 2403 2404 2405 2406 2407 2408 2409 2410
-#> [2199] 2411 2412 2413 2414 2415 2416 2417 2418 2419 2420 2421 2422 2423 2424
-#> [2213] 2425 2426 2427 2428 2429 2430 2431 2432 2433 2434 2435 2436 2437 2438
-#> [2227] 2439 2440 2441 2442 2443 2444 2445 2446 2447 2448 2449 2450 2451
+#> [1]  2  3 14 22 33 34
 ```
+
+### Coverage of data by GSA and year in table J
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+
+```r
+FDI_coverage(data=fdi_j_capacity ,MS="PSP", verbose = FALSE)
+#>   year country   gsa records
+#> 1 2014     PSP GSA99     429
+#> 2 2015     PSP GSA99     258
+#> 3 2016     PSP GSA99     258
+#> 4 2017     PSP GSA99     301
+#> 5 2018     PSP GSA99     387
+#> 6 2019     PSP GSA99     430
+#> 7 2020     PSP GSA99     387
+```
+
+### Check of vessel lenght in FDI table J
+
+The function checks the average vessels length with the vessel length category (table J). A list of two data frames is returned. The first reports the cases with NAs in either vessel length or vessel category or both, while the second table reports the cases in which vessel length does not match vessel length category.
+
+
+```r
+head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[1]])
+#> [1] "Check consistency of vessel length with vessel category in table J for PSP data"
+#> [1] "found 30 cases with NAs in either vessel length or vessel category or both. Check output table"
+#> [1] "found 1991 cases where vessel length does not match vessel length category"
+#>    country year vessel_length principal_sub_region totkw totgt totves    avgage
+#> 1      PSP 2014            NK                GSA99   221    21      1   7.00000
+#> 2      PSP 2014            NK                GSA99   471    18      1 444.00000
+#> 3      PSP 2014            NK                GSA99   441    45     44  15.00000
+#> 20     PSP 2016            NK                GSA99   547   108      3  49.66667
+#> 21     PSP 2017            NK                GSA99   818   200      2  44.00000
+#> 22     PSP 2017            NK                GSA99  2213   854      7  18.71429
+#>     avgloa consistent
+#> 1   11.780         NA
+#> 2   12.680         NA
+#> 3  444.000         NA
+#> 20 444.000         NA
+#> 21  21.305         NA
+#> 22  23.370         NA
+```
+
+
+```r
+head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[2]])
+#> [1] "Check consistency of vessel length with vessel category in table J for PSP data"
+#> [1] "found 30 cases with NAs in either vessel length or vessel category or both. Check output table"
+#> [1] "found 1991 cases where vessel length does not match vessel length category"
+#>    country year vessel_length principal_sub_region totkw totgt totves
+#> 4      PSP 2014        VL0006                GSA99   444   108      3
+#> 5      PSP 2014        VL0612                GSA99   598    44     44
+#> 6      PSP 2014        VL1218                GSA99   219    68      1
+#> 8      PSP 2014        VL2440                GSA99   444  1185     18
+#> 9      PSP 2015        VL0006                GSA99  1326    44      6
+#> 10     PSP 2015        VL0612                GSA99  1181   385      1
+#>        avgage   avgloa consistent
+#> 4  4444.00000 16.93333      FALSE
+#> 5    14.00000 21.53000      FALSE
+#> 6    27.00000 20.04000      FALSE
+#> 8    36.55556 21.63611      FALSE
+#> 9    44.00000 44.00000      FALSE
+#> 10   14.00000 37.81000      FALSE
+```
+
+### Check empty fields in FDI J table
+
+The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, and fishing techniques for the following 4 variables: total trips; total kW; total GT; total vessels.
+The function returns a list. The first element gives the summary table of records number. From the second to the fifth element gives 4 plots for each variables among:
+* total trips
+* total kW
+* total GT
+* total vessels
+
+
+
+```r
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=TRUE)[[1]]
+#>   year principal_sub_region country vessel_length fishing_tech total_trips
+#> 1 2014                GSA99     PSP      COMBINED     COMBINED         420
+#> 2 2015                GSA99     PSP      COMBINED     COMBINED         250
+#> 3 2016                GSA99     PSP      COMBINED     COMBINED         252
+#> 4 2017                GSA99     PSP      COMBINED     COMBINED         294
+#> 5 2018                GSA99     PSP      COMBINED     COMBINED         378
+#> 6 2019                GSA99     PSP      COMBINED     COMBINED         423
+#> 7 2020                GSA99     PSP      COMBINED     COMBINED         377
+#>   total_total_kW total_GT total_vessels
+#> 1            429      429           429
+#> 2            258      258           258
+#> 3            258      258           258
+#> 4            301      301           301
+#> 5            387      387           387
+#> 6            430      430           430
+#> 7            387      387           387
+```
+
+
+```r
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[2]]
+#>   year principal_sub_region country vessel_length fishing_tech total_trips
+#> 1 2014                GSA99     PSP      COMBINED     COMBINED    455248.3
+#> 2 2015                GSA99     PSP      COMBINED     COMBINED    183594.9
+#> 3 2016                GSA99     PSP      COMBINED     COMBINED    218005.7
+#> 4 2017                GSA99     PSP      COMBINED     COMBINED    172220.7
+#> 5 2018                GSA99     PSP      COMBINED     COMBINED    363788.8
+#> 6 2019                GSA99     PSP      COMBINED     COMBINED    362471.2
+#> 7 2020                GSA99     PSP      COMBINED     COMBINED    238462.8
+#>   total_total_kW total_GT total_vessels
+#> 1      1018449.9 271891.0       28929.0
+#> 2       630518.2 219999.9       34332.0
+#> 3       600032.3 171230.3        8761.0
+#> 4       643223.7 233306.7        6079.0
+#> 5       896454.6 334577.5       17438.0
+#> 6      1217063.3 468387.0       19054.5
+#> 7       878027.3 316756.3       19888.5
+```
+
+
+```r
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[3]]
+```
+
+![plot of chunk FDI_ts_tableJ_3](figure/FDI_ts_tableJ_3-1.png)
+
+```r
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[4]]
+```
+
+![plot of chunk FDI_ts_tableJ_3](figure/FDI_ts_tableJ_3-2.png)
+
+```r
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[5]]
+```
+
+![plot of chunk FDI_ts_tableJ_3](figure/FDI_ts_tableJ_3-3.png)
+
+```r
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[6]]
+```
+
+![plot of chunk FDI_ts_tableJ_3](figure/FDI_ts_tableJ_3-4.png)
+
+## Cross-checks
+
+### Coverage comparison of totfishdays between FDI tables G and I
+
+The function checks the coverage comparison of totfishdays in FDI tables G and I and returns a data frame of the comparison between the two tables.
+
+
+```r
+FDI_fishdays_cov (dataG=fdi_g_effort, dataI=fdi_i_spatial_effort, MS="PSP", verbose = TRUE)
+#> [1] "Coverage of total fish days for PSP data in tables G and I"
+#>   year country   gsa Total fish days table G Total fish days table I  % diff
+#> 1 2014     PSP GSA99               1167896.7                1332.879 -99.89%
+#> 2 2015     PSP GSA99               1055410.4                 781.721 -99.93%
+#> 3 2016     PSP GSA99                831831.1                1238.866 -99.85%
+#> 4 2017     PSP GSA99                586293.7                1050.782 -99.82%
+#> 5 2018     PSP GSA99                777467.5                1379.131 -99.82%
+#> 6 2019     PSP GSA99               1249878.1                1376.709 -99.89%
+#> 7 2020     PSP GSA99               1643316.1                1371.771 -99.92%
+```
+
+### Coverage of weight of landings in FDI table A and H
+
+The functions checks the coverage of weight of landings comparing data reported in table A and H and returns a data frame with the weight of landings by GSA and year.
+
+
+```r
+FDI_landweight_cov(dataA=fdi_a_catch, dataH=fdi_h_spatial_landings, MS="PSP", verbose = TRUE)
+#> [1] "Coverage of landings' weight for PSP data in tables A and H"
+#>   year country   gsa Lands table A Lands table H    % diff
+#> 1 2014     PSP GSA99       265.910     10651.418  3905.65%
+#> 2 2015     PSP GSA99       131.154      5372.477  3996.31%
+#> 3 2016     PSP GSA99        41.679      5638.029 13427.27%
+#> 4 2017     PSP GSA99        72.392      5266.220  7174.59%
+#> 5 2018     PSP GSA99       125.115      6301.502  4936.57%
+#> 6 2019     PSP GSA99       179.482      7191.640  3906.89%
+#> 7 2020     PSP GSA99       225.216      8186.780  3535.08%
+```
+
+### Check number of vessels in FDI table J and G
+
+The function cross-checks the number of vessels in table J in comparison of the number reported in table G.
+A list of data frames is returned. The first element reports the number of vessel in table J in comparison to table G and the relative difference percentage, while the second table reports the vessels not present in table G.
+
+
+```r
+FDI_vessel_numbers(dataJ=fdi_j_capacity, dataG=fdi_g_effort, MS="PSP", verbose = TRUE)
+#> [1] "Comparing number of vessels in tables J and G for PSP"
+#> $comparison_table_J_G
+#>    year   gsa fish_tech  vesselsJ vesselsG     diff
+#> 1  2014 GSA99       DFN 16795.000     1597   90.49%
+#> 2  2014 GSA99       DRB    65.000       25   61.54%
+#> 3  2014 GSA99       DTS  1090.000       85   92.20%
+#> 4  2014 GSA99       FPO    31.000       23   25.81%
+#> 5  2014 GSA99       HOK   773.000      480   37.90%
+#> 6  2014 GSA99       PMP 10175.000      494   95.14%
+#> 7  2015 GSA99       DFN 11690.000      647   94.47%
+#> 8  2015 GSA99       DRB    32.000       51  -59.38%
+#> 9  2015 GSA99       DTS   189.000       62   67.20%
+#> 10 2015 GSA99       FPO    39.000       29   25.64%
+#> 11 2015 GSA99       HOK 10183.000      147   98.56%
+#> 12 2015 GSA99       PMP 12199.000      504   95.87%
+#> 13 2016 GSA99       DFN  2783.000      917   67.05%
+#> 14 2016 GSA99       DRB   122.000       17   86.07%
+#> 15 2016 GSA99       DTS   589.000       89   84.89%
+#> 16 2016 GSA99       FPO    45.000       47   -4.44%
+#> 17 2016 GSA99       HOK   970.000      331   65.88%
+#> 18 2016 GSA99       PMP  4252.000      673   84.17%
+#> 19 2017 GSA99       DFN  1366.000      980   28.26%
+#> 20 2017 GSA99       DRB    30.000       20   33.33%
+#> 21 2017 GSA99       DTS   536.000       72   86.57%
+#> 22 2017 GSA99       FPO    26.000       17   34.62%
+#> 23 2017 GSA99       HOK  2264.000      507   77.61%
+#> 24 2017 GSA99       PMP  1857.000      249   86.59%
+#> 25 2018 GSA99       DFN  6899.000      657   90.48%
+#> 26 2018 GSA99       DRB   527.000       57   89.18%
+#> 27 2018 GSA99       DTS   174.000      215  -23.56%
+#> 28 2018 GSA99       FPO    54.000       67  -24.07%
+#> 29 2018 GSA99       HOK  7703.000      342   95.56%
+#> 30 2018 GSA99       PMP  2081.000      494   76.26%
+#> 31 2019 GSA99       DFN  5661.498      988   82.55%
+#> 32 2019 GSA99       DRB   427.000       38   91.10%
+#> 33 2019 GSA99       DTS   197.000       74   62.44%
+#> 34 2019 GSA99       FPO   148.000       45   69.59%
+#> 35 2019 GSA99       HOK  4804.000      585   87.82%
+#> 36 2019 GSA99       PMP  7817.000      922   88.21%
+#> 37 2020 GSA99       DFN 15556.000     1466   90.58%
+#> 38 2020 GSA99       DRB    35.000      164 -368.57%
+#> 39 2020 GSA99       DTS   182.000      138   24.18%
+#> 40 2020 GSA99       FPO    67.000       31   53.73%
+#> 41 2020 GSA99       HOK  2061.000      111   94.61%
+#> 42 2020 GSA99       PMP  1987.498      271   86.36%
+#> 
+#> $vessels_not_present_in_table_G
+#> NULL
+```
+
+
+### Cross check between FDI tables A and G
+
+The function checks the possible data inconsistency between landings and effort and returns a summary table where all the mismatches between landings and effort are reported.
+
+
+```r
+head(FDI_cross_checks_AG(data1=fdi_a_catch, data2=fdi_g_effort))
+#>     country year quarter vessel_length fishing_tech gear_type target_assemblage
+#> 18      PSP 2014       1        VL0006          DFN      <NA>              <NA>
+#> 33      PSP 2014       1        VL0006          PMP      <NA>              <NA>
+#> 48      PSP 2014       1        VL0612          DFN      <NA>              <NA>
+#> 78      PSP 2014       1        VL1218          DFN      <NA>              <NA>
+#> 138     PSP 2014       1        VL2440          DFN       GTR               SLP
+#> 158     PSP 2014       1          <NA>          DTS       OTB               DEF
+#>     mesh_size_range           metier sub_region totwghtlandg totfishdays
+#> 18          100D400             <NA>      GSA99        0.000      648.07
+#> 33             <NA>             <NA>      GSA99        0.001        0.00
+#> 48            20D40             <NA>      GSA99        0.000        8.12
+#> 78            20D40             <NA>      GSA99        0.000       56.84
+#> 138            <NA> GNS_SLP_>=16_0_0      GSA99        0.000      317.41
+#> 158            <NA> OTB_DEF_>=40_0_0      GSA99        0.000       22.04
+#>     totseadays                                                            Data
+#> 18          82 no landings, only effort in fishing days and sea days available
+#> 33          28                                 landings and sea days available
+#> 48           1 no landings, only effort in fishing days and sea days available
+#> 78           7 no landings, only effort in fishing days and sea days available
+#> 138         12 no landings, only effort in fishing days and sea days available
+#> 158         19 no landings, only effort in fishing days and sea days available
+```
+
+### Cross check between FDI tables A and H
+
+The function checks the possible data inconsistency between landings in table A and spatial landings in table H. The function returns a list with two tables. In the first table all the mismatches between landings in table A and spatial landings in table H are reported.
+
+
+```r
+FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings,verbose=TRUE)[[1]]
+#>    country year vessel_length fishing_tech gear_type sub_region totwghtlandg
+#> 1      PSP 2014        VL0006          DFN      <NA>      GSA99            0
+#> 2      PSP 2014        VL0612          DFN      <NA>      GSA99            0
+#> 3      PSP 2014        VL2440          PMP       LHP      GSA99            0
+#> 4      PSP 2014          <NA>          DTS       OTB      GSA99            0
+#> 5      PSP 2014          <NA>          PMP       GTR      GSA99            0
+#> 6      PSP 2014          <NA>          PMP       LHP      GSA99            0
+#> 7      PSP 2016        VL0006          PMP       FPO      GSA99            0
+#> 8      PSP 2016        VL2440          PMP       FPO      GSA99            0
+#> 9      PSP 2016          <NA>          PMP       FPO      GSA99            0
+#> 10     PSP 2017          <NA>          PMP       FPO      GSA99            0
+#>     ttwghtl
+#> 1  0.141613
+#> 2  1.051240
+#> 3  0.086005
+#> 4  0.226650
+#> 5  3.042935
+#> 6  5.123999
+#> 7  0.639140
+#> 8  0.001000
+#> 9  1.132000
+#> 10 0.242750
+#>                                                                    Data
+#> 1  landings in tabel A not avalilable and landings in table H available
+#> 2  landings in tabel A not avalilable and landings in table H available
+#> 3  landings in tabel A not avalilable and landings in table H available
+#> 4  landings in tabel A not avalilable and landings in table H available
+#> 5  landings in tabel A not avalilable and landings in table H available
+#> 6  landings in tabel A not avalilable and landings in table H available
+#> 7  landings in tabel A not avalilable and landings in table H available
+#> 8  landings in tabel A not avalilable and landings in table H available
+#> 9  landings in tabel A not avalilable and landings in table H available
+#> 10 landings in tabel A not avalilable and landings in table H available
+```
+
+The second table reports the comparison between total landings of table A and total spatial landings in table H.
+
+
+```r
+FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings)[[2]]
+#>   year country sub_region land_table_A land_table_H
+#> 1 2014     PSP      GSA99      265.910    10651.418
+#> 2 2015     PSP      GSA99      131.154     5372.477
+#> 3 2016     PSP      GSA99       41.679     5638.029
+#> 4 2017     PSP      GSA99       72.392     5266.220
+#> 5 2018     PSP      GSA99      125.115     6301.502
+#> 6 2019     PSP      GSA99      179.482     7191.640
+#> 7 2020     PSP      GSA99      225.216     8186.780
+```
+
+### ross check between FDI tables I and G
+
+The function checks the possible data inconsistency between spatial effort in table I and effort in table G. The function returns a list with two tables. In the first table all the miss matches between spatial effort in table I and effort in table G are shown.
+
+
+```r
+FDI_cross_checks_IG(data1=fdi_i_spatial_effort, data2=fdi_g_effort)[[1]]
+#> [1] year              vessel_length     fishing_tech      gear_type        
+#> [5] sub_region        totfishdays_data1 totfishdays_data2 Data             
+#> <0 righe> (o 0-length row.names)
+```
+
+In the second table the comparison between total spatial effort of table I and total effort in table G is shown.
+
+
+```r
+FDI_cross_checks_IG(data1=fdi_i_spatial_effort, data2=fdi_g_effort)[[2]]
+#>   year sub_region spatial_effort_table_I effort_table_G
+#> 1 2014      GSA99               1332.879      1167896.7
+#> 2 2015      GSA99                781.721      1055410.4
+#> 3 2016      GSA99               1238.866       831831.1
+#> 4 2017      GSA99               1050.782       586293.7
+#> 5 2018      GSA99               1379.131       777467.5
+#> 6 2019      GSA99               1376.709      1249878.1
+#> 7 2020      GSA99               1371.771      1643316.1
+```
+
+### Cross check between FDI tables J and G
+
+The function checks the possible data inconsistency between the amount of vessels in table J capacity and the amount of vessels in table G. The function returns a table with all the mismatches between number of vessels in table J and G are shown.
+
+
+```r
+FDI_cross_checks_JG(data1=fdi_j_capacity, data2=fdi_g_effort,verbose=TRUE)
+#> summary table of missing vessels
+#>    country year principal_sub_region vessel_length total_vessels_tab_J
+#> 1      PSP 2014                GSA99        VL0006                6814
+#> 2      PSP 2014                GSA99        VL0612                3535
+#> 3      PSP 2014                GSA99        VL1218                7997
+#> 4      PSP 2014                GSA99        VL1824                4205
+#> 5      PSP 2014                GSA99        VL2440                5685
+#> 6      PSP 2014                GSA99          <NA>                 693
+#> 7      PSP 2015                GSA99        VL0006                4913
+#> 8      PSP 2015                GSA99        VL0612                2216
+#> 9      PSP 2015                GSA99        VL1218               10202
+#> 10     PSP 2015                GSA99        VL1824                3869
+#> 11     PSP 2015                GSA99        VL2440               13132
+#> 12     PSP 2016                GSA99        VL0006                1179
+#> 13     PSP 2016                GSA99        VL0612                2803
+#> 14     PSP 2016                GSA99        VL1218                1381
+#> 15     PSP 2016                GSA99        VL1824                1342
+#> 16     PSP 2016                GSA99        VL2440                2048
+#> 17     PSP 2016                GSA99          <NA>                   8
+#> 18     PSP 2017                GSA99        VL0006                1133
+#> 19     PSP 2017                GSA99        VL0612                 872
+#> 20     PSP 2017                GSA99        VL1218                1399
+#> 21     PSP 2017                GSA99        VL1824                1140
+#> 22     PSP 2017                GSA99        VL2440                1522
+#> 23     PSP 2017                GSA99          <NA>                  13
+#> 24     PSP 2018                GSA99        VL0006                 818
+#> 25     PSP 2018                GSA99        VL0612                3231
+#> 26     PSP 2018                GSA99        VL1218                3238
+#> 27     PSP 2018                GSA99        VL1824                6937
+#> 28     PSP 2018                GSA99        VL2440                3185
+#> 29     PSP 2018                GSA99          <NA>                  29
+#> 30     PSP 2019                GSA99        VL0006                3169
+#> 31     PSP 2019                GSA99        VL0612                3643
+#> 32     PSP 2019                GSA99        VL1218                3128
+#> 33     PSP 2019                GSA99        VL1824                4015
+#> 34     PSP 2019                GSA99        VL2440                4920
+#> 35     PSP 2019                GSA99          <NA>                 180
+#> 36     PSP 2020                GSA99        VL0006                6721
+#> 37     PSP 2020                GSA99        VL0612                5160
+#> 38     PSP 2020                GSA99        VL1218                2781
+#> 39     PSP 2020                GSA99        VL1824                1725
+#> 40     PSP 2020                GSA99        VL2440                3455
+#> 41     PSP 2020                GSA99          <NA>                  46
+#>    total_vessels_tab_G                                                    info
+#> 1                  700  There are 6114 more vessels in table J than in table G
+#> 2                  464  There are 3071 more vessels in table J than in table G
+#> 3                  770  There are 7227 more vessels in table J than in table G
+#> 4                  937  There are 3268 more vessels in table J than in table G
+#> 5                  711  There are 4974 more vessels in table J than in table G
+#> 6                  118   There are 575 more vessels in table J than in table G
+#> 7                  594  There are 4319 more vessels in table J than in table G
+#> 8                  749  There are 1467 more vessels in table J than in table G
+#> 9                  409  There are 9793 more vessels in table J than in table G
+#> 10                 372  There are 3497 more vessels in table J than in table G
+#> 11                 239 There are 12893 more vessels in table J than in table G
+#> 12                 459   There are 720 more vessels in table J than in table G
+#> 13                 305  There are 2498 more vessels in table J than in table G
+#> 14                 368  There are 1013 more vessels in table J than in table G
+#> 15                 625   There are 717 more vessels in table J than in table G
+#> 16                 621  There are 1427 more vessels in table J than in table G
+#> 17                  84    There are 76 more vessels in table G than in table J
+#> 18                 460   There are 673 more vessels in table J than in table G
+#> 19                 422   There are 450 more vessels in table J than in table G
+#> 20                 655   There are 744 more vessels in table J than in table G
+#> 21                 476   There are 664 more vessels in table J than in table G
+#> 22                 217  There are 1305 more vessels in table J than in table G
+#> 23                  25    There are 12 more vessels in table G than in table J
+#> 24                 357   There are 461 more vessels in table J than in table G
+#> 25                 526  There are 2705 more vessels in table J than in table G
+#> 26                 550  There are 2688 more vessels in table J than in table G
+#> 27                 409  There are 6528 more vessels in table J than in table G
+#> 28                 465  There are 2720 more vessels in table J than in table G
+#> 29                  15    There are 14 more vessels in table J than in table G
+#> 30                 540  There are 2629 more vessels in table J than in table G
+#> 31                 785  There are 2858 more vessels in table J than in table G
+#> 32                 733  There are 2395 more vessels in table J than in table G
+#> 33                 533  There are 3482 more vessels in table J than in table G
+#> 34                 947  There are 3973 more vessels in table J than in table G
+#> 35                  25   There are 155 more vessels in table J than in table G
+#> 36                 965  There are 5756 more vessels in table J than in table G
+#> 37                 732  There are 4428 more vessels in table J than in table G
+#> 38                 220  There are 2561 more vessels in table J than in table G
+#> 39                 479  There are 1246 more vessels in table J than in table G
+#> 40                 780  There are 2675 more vessels in table J than in table G
+#> 41                  15    There are 31 more vessels in table J than in table G
+```
+
+
+#### 
 
 # GFCM data format
 

@@ -4,19 +4,20 @@
 \alias{FDI_cross_checks_IG}
 \title{Cross check between FDI tables I and G}
 \usage{
-FDI_cross_checks_IG(data1, data2)
+FDI_cross_checks_IG(data1, data2, verbose = FALSE)
 }
 \arguments{
 \item{data1}{FDI spatial effort in table I}
 
 \item{data2}{FDI effort table G}
+
+\item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
-The function returns a list with two tables. In the first table all the miss matches between stpatial effort in table I and effort in table G are shown, in the second table the comparison between total spatial effort of table I and total effort in table G is shown.
+The function returns a list with two tables. In the first table all the miss matches between spatial effort in table I and effort in table G are shown, in the second table the comparison between total spatial effort of table I and total effort in table G is shown.
 }
 \description{
 The function checks the possible data inconsistency between spatial effort in table I and effort in table G.
-according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}
 }
 \examples{
 FDI_cross_checks_IG(data1=fdi_i_spatial_effort, data2=fdi_g_effort)

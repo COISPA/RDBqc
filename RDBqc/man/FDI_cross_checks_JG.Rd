@@ -18,7 +18,6 @@ The function returns a list with all the miss matches between number of vessels 
 }
 \description{
 The function checks the possible data inconsistency between the amount of vessels in table J capacity and the amount of vessels in table G.
-according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}
 }
 \examples{
 FDI_cross_checks_JG(data1=fdi_j_capacity, data2=fdi_g_effort,verbose=TRUE)

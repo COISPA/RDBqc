@@ -4,20 +4,21 @@
 \alias{FDI_cross_checks_AH}
 \title{Cross check between FDI tables A and H}
 \usage{
-FDI_cross_checks_AH(data1, data2)
+FDI_cross_checks_AH(data1, data2, verbose = FALSE)
 }
 \arguments{
 \item{data1}{FDI catch table A}
 
 \item{data2}{FDI spatial landings table H}
+
+\item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
 The function returns a list with two tables. In the first table all the miss matches between landings in table A and spatial landings in table H are shown, in the second table the comparison between total landings of table A and total spatial landings in table H is shown.
 }
 \description{
 The function checks the possible data inconsistency between landings in table A and spatial landings in table H.
-according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}
 }
 \examples{
-FDI_cross_checks_AH(data1=fdi_a_catch, data2=fdi_h_spatial_landings)
+FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings)
 }

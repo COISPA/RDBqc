@@ -14,13 +14,11 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
 
-```{r setup}
 library(RDBqc)
 ```
 
-RDBqc allows to carry out a set of _a priori_ quality checks on detailed sampling data and on aggregated landing data, and _a posteriori_ quality checks on MEDBS, FDI and GFCM data call formats.
+RDBqc allows to carry out a set of _a priori_ quality checks on detailed sampling data and on aggregated landing data, and _a posteriori_ quality check on MEDBS, FDI and GFCM data call formats.
 
 The supported quality checks in version `r packageVersion("RDBqc")` are:
 
@@ -38,7 +36,7 @@ The supported quality checks in version `r packageVersion("RDBqc")` are:
 * MEDBS - ML table
 * MEDBS - SA table
 * MEDBS - SL table
-* FDI tables (G, H, I and J)
+* FDI tables (A, G, H, I and J)
 * GFCM - Task II.2 table
 * GFCM - Task III table
 * GFCM - Task VII.2 table
@@ -236,15 +234,12 @@ head(Discard_tab_example)
 
 ## Checks on Catch table
 
-### check duplicated records
-
 The function `MEDBS_check_duplicates` checks the presence of duplicated rows in catch table 
 
 ```{r MEDBS_check_duplicates_catches}
 catch_with_diplicate <- rbind(Catch_tab_example,Catch_tab_example[1,])
 MEDBS_check_duplicates(data=catch_with_diplicate,type="c",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 ```
-
 
 ### Check catches coverage
 
@@ -302,11 +297,11 @@ Landing_tab_example <- rbind(Landing_tab_example,Landing_tab_example[1,])
 MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 ```
 
-The function `MEDBS_check_duplicates` also checks the presence of duplicated rows in discard 
+The function `MEDBS_check_duplicates` also checks the presence of duplicated rows in landings 
 
 ```{r MEDBS_check_duplicates_discards}
 Discard_tab_example <- rbind(Discard_tab_example,Discard_tab_example[1,])
-MEDBS_check_duplicates(data=Discard_tab_example,type="d",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
+MEDBS_check_duplicates(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 ```
 
 ## Kolmogorov-Smirnov test
@@ -490,7 +485,7 @@ results[[2]]
 The function `MEDBS_comp_disc_YQ` allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level. The function returns a data frame  for the comparison of discards aggregated by quarters and by year
 
 ```{r MEDBS_comp_disc_YQ}
-MEDBS_comp_disc_YQ(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
 ```
 
 ### Comparison between discards in weight by quarter, quarter -1 and by fishery
@@ -537,10 +532,10 @@ MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by=
 
 ### GP_tab (growth params) table check
 
-The function `MEDBS_GP_check` allows to check the growth parameters by sex and year for a selected species.  The function returns a list of objects containing a summary table and different plots of the growth curves by sex
+The function `GP_check` allows to check the growth parameters by sex and year for a selected species.  The function returns a list of objects containing a summary table and different plots of the growth curves by sex
 
 ```{r GP_check1}
-results <- MEDBS_GP_check(GP_tab_example,"MUT","ITA","18")
+results <- MEDBS_GP_check(GP_tab_example,"MUT","ITA","GSA 18")
 results[[1]]
 print(names(results)[1])
 ```
@@ -666,6 +661,94 @@ results[[3]]
 
 # Checks on FDI tables
 
+## Table A
+
+### Check empty fields in FDI A table
+
+The function `check_EF_FDI_A` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2022 - Annex 1'.
+A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
+
+```{r check_EF_FDI_A1}
+check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[1]]
+```
+
+The second list's object gives the index of each NA in the reference column.
+
+```{r check_EF_FDI_A2}
+check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[2]]
+```
+
+### Check duplicated records in FDI A table
+
+The function `check_RD_FDI_A` check the presence of duplicated records. In particular, it checks whether the combination of the first 19 columns generates duplicate records. The function returns the indices of the duplicated rows.
+
+```{r check_RD_FDI_A}
+check_RD_FDI_A(fdi_a_catch)
+```
+
+### Coverage of data by GSA and year in table A
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function works on FDI tables A, G, H, I and J.
+
+```{r FDI_coverage_table_A}
+FDI_coverage(data=fdi_a_catch, MS="PSP", verbose = FALSE)
+```
+### Coverage of FDI discard data
+
+The functions checks the discard coverage in table A for the selected MS by GSAs
+
+```{r FDI_disc_coverage_table_A}
+FDI_disc_coverage(fdi_a_catch, MS="PSP", verbose=TRUE)
+```
+
+### Check number of record in FDI A table
+
+The function checks and count the numbers of records data in the given table A grouped by year, GSA, MS, species, vessels length, and fishing techniques for three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)). If SP, Vessel length, and fishing technique are not specified by the user the function combines those by default.
+
+```{r FDI_cov_tableA_1}
+head(FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[1]])
+```
+
+The function also provides a summary tables of the sum of the values grouped by year, GSA, MS, species, vessels length, and fishing techniques for same three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)).
+
+```{r FDI_cov_tableA_2}
+head(FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[2]])
+```
+
+A plot for each of the three metrics is also provided: 
+
+```{r FDI_cov_tableA_3}
+FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[3]]
+FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[4]]
+FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[5]]
+```
+
+### Check of species value
+
+The function estimates from the FDI table A an average price per species and year and compares it with average price calculated per country and species. Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings > 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
+
+```{r FDI_prices_not_null_1}
+FDI_prices_not_null(data = fdi_a_catch, MS = "PSP",SP = c("HKE"), verbose = FALSE)[[1]]
+```
+
+Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings > 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
+
+```{r FDI_prices_not_null_2}
+FDI_prices_not_null(data = fdi_a_catch, MS = "PSP",SP = c("HKE"), verbose = TRUE)[[2]]
+```
+
+
+### Check prices trend in FDI A table
+
+The function checks the trend prices in the given table grouped by year, GSA, MS, and species. If SP are not specified by the user the function combines those by default.
+
+```{r FDI_prices_cov_1}
+FDI_prices_cov(data = fdi_a_catch, SP = c("HKE"), MS = "PSP", GSA = "GSA99",verbose=FALSE)[[1]]
+```
+```{r FDI_prices_cov_2}
+FDI_prices_cov(data = fdi_a_catch, SP = c("HKE"), MS = "PSP", GSA = "GSA99",verbose=FALSE)[[2]]
+```
+
 ## Table G
 
 ### Check empty fields in FDI G table
@@ -688,8 +771,38 @@ check_EF_FDI_G(fdi_g_effort, verbose=FALSE)[[2]]
 The function `check_RD_FDI_G` check the presence of duplicated records. In particular, it checks whether the combination of the first 15 columns generates duplicate records. The function returns the indices of the duplicated rows.
 
 ```{r check_RD_FDI_G}
-g_effort <- rbind(fdi_g_effort,fdi_g_effort[1,])
-check_RD_FDI_G(g_effort)
+head(check_RD_FDI_G(fdi_g_effort))
+```
+
+### Coverage of data by GSA and year in table G
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+```{r FDI_coverage_table_G}
+FDI_coverage(data=fdi_g_effort,MS="PSP", verbose = FALSE)
+```
+
+### Check number of record in FDI G table
+
+The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, fishing techniques, and metier for the following 8 variables: Total days at sea; Total Fishing Days; Total kW days at Sea; total GT days at sea; Total kW fishing days; totgtfishdays; Hours at Sea; kW hours at sea. If Vessel length, fishing technique, and metier are not specified by the user the function combines those by default.
+
+```{r FDI_cov_tableG_1}
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[1]]
+```
+
+```{r FDI_cov_tableG_2}
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[2]]
+```
+
+```{r FDI_cov_tableG_3}
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[3]]
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[4]]
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[5]]
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[6]]
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[7]]
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[8]]
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[9]]
+FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[10]]
 ```
 
 ## Table H
@@ -718,6 +831,40 @@ h_spatial_land <- rbind(fdi_h_spatial_landings,fdi_h_spatial_landings[1,])
 check_RD_FDI_H(h_spatial_land)
 ```
 
+### Coverage of data by GSA and year in table H
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+```{r FDI_coverage_table_H}
+FDI_coverage(data=fdi_h_spatial_landings ,MS="PSP", verbose = FALSE)
+```
+
+### check NA values in spatial columns of table H
+
+The function checks the incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included:
+- presence of NA values in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA
+- the presence any data in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported
+- the presence of any data in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in
+
+Furthermore the function identifies the records without any sub-region assignment.
+
+```{r FDI_checks_spatial_HI_1}
+head(FDI_checks_spatial_HI(data=fdi_h_spatial_landings,MS="PSP", verbose=TRUE)[[1]])
+```
+
+```{r FDI_checks_spatial_HI_2}
+FDI_checks_spatial_HI(data=fdi_h_spatial_landings,MS="PSP", verbose=FALSE)[[2]]
+```
+
+### Compatibility of the geographical coordinates with rectangle type
+
+
+The function checks in both tables H and I the compatibility of the geographical coordinates (latitude and longitude) with the value provided for the rectangle type. The data frame of the input table is returned retaining the only records in which at least one among latitude and longitude is not compatible with the rectangle type. Two more columns (lat.check and lon.check) are included to the data frame to report the results of the checks respectively for latitude and longitude.
+
+```{r FDI_check_coord_1}
+FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
+```
+
 ## Table I
 
 ### Check empty fields in FDI I table
@@ -740,8 +887,42 @@ The function `check_RD_FDI_I` check the presence of duplicated records. In parti
 
 ```{r check_RD_FDI_I}
 i_spatial_fe <- rbind(fdi_i_spatial_effort,fdi_i_spatial_effort[1,])
-check_RD_FDI_I(i_spatial_fe)
+head(check_RD_FDI_I(i_spatial_fe))
 ```
+
+### Coverage of data by GSA and year in table I
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+```{r FDI_coverage_table_I}
+FDI_coverage(data=fdi_i_spatial_effort ,MS="PSP", verbose = FALSE)
+```
+
+### check NA values in spatial columns of table I
+
+The function checks the incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included:
+- presence of NA values in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA
+- the presence any data in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported
+- the presence of any data in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in
+
+Furthermore, the function identifies the records without any sub-region assignment.
+
+```{r FDI_checks_spatial_HI_3}
+head(FDI_checks_spatial_HI(data=fdi_i_spatial_effort,MS="PSP", verbose=TRUE)[[1]])
+```
+
+```{r FDI_checks_spatial_HI_4}
+FDI_checks_spatial_HI(data=fdi_i_spatial_effort,MS="PSP", verbose=FALSE)[[2]]
+```
+
+### Compatibility of the geographical coordinates with rectangle type
+
+The function checks in both tables H and I the compatibility of the geographical coordinates (latitude and longitude) with the value provided for the rectangle type. The data frame of the input table is returned retaining the only records in which at least one among latitude and longitude is not compatible with the rectangle type. Two more columns (lat.check and lon.check) are included to the data frame to report the results of the checks respectively for latitude and longitude.
+
+```{r FDI_check_coord_2}
+FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
+```
+
 
 ## Table J
 
@@ -765,8 +946,128 @@ The function `check_RD_FDI_J` check the presence of duplicated records. In parti
 
 ```{r check_RD_FDI_J}
 j_capacity <- rbind(fdi_j_capacity,fdi_j_capacity[1,])
-check_RD_FDI_J(j_capacity)
+head(check_RD_FDI_J(j_capacity))
 ```
+
+### Coverage of data by GSA and year in table J
+
+The function `FDI_coverage` returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year. The function work on FDI tables A, G, H, I and J.
+
+```{r FDI_coverage_table_J}
+FDI_coverage(data=fdi_j_capacity ,MS="PSP", verbose = FALSE)
+```
+
+### Check of vessel lenght in FDI table J
+
+The function checks the average vessels length with the vessel length category (table J). A list of two data frames is returned. The first reports the cases with NAs in either vessel length or vessel category or both, while the second table reports the cases in which vessel length does not match vessel length category.
+
+```{r FDI_vessel_lenth_1}
+head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[1]])
+```
+
+```{r FDI_vessel_lenth_2}
+head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[2]])
+```
+
+### Check empty fields in FDI J table
+
+The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, and fishing techniques for the following 4 variables: total trips; total kW; total GT; total vessels.
+The function returns a list. The first element gives the summary table of records number. From the second to the fifth element gives 4 plots for each variables among:
+* total trips
+* total kW
+* total GT
+* total vessels
+
+
+```{r FDI_ts_tableJ_1}
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=TRUE)[[1]]
+```
+
+```{r FDI_ts_tableJ_2}
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[2]]
+```
+
+```{r FDI_ts_tableJ_3}
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[3]]
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[4]]
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[5]]
+FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[6]]
+```
+
+## Cross-checks
+
+### Coverage comparison of totfishdays between FDI tables G and I
+
+The function checks the coverage comparison of totfishdays in FDI tables G and I and returns a data frame of the comparison between the two tables.
+
+```{r FDI_fishdays_cov}
+FDI_fishdays_cov (dataG=fdi_g_effort, dataI=fdi_i_spatial_effort, MS="PSP", verbose = TRUE)
+```
+
+### Coverage of weight of landings in FDI table A and H
+
+The functions checks the coverage of weight of landings comparing data reported in table A and H and returns a data frame with the weight of landings by GSA and year.
+
+```{r FDI_landweight_cov}
+FDI_landweight_cov(dataA=fdi_a_catch, dataH=fdi_h_spatial_landings, MS="PSP", verbose = TRUE)
+```
+
+### Check number of vessels in FDI table J and G
+
+The function cross-checks the number of vessels in table J in comparison of the number reported in table G.
+A list of data frames is returned. The first element reports the number of vessel in table J in comparison to table G and the relative difference percentage, while the second table reports the vessels not present in table G.
+
+```{r}
+FDI_vessel_numbers(dataJ=fdi_j_capacity, dataG=fdi_g_effort, MS="PSP", verbose = TRUE)
+```
+
+
+### Cross check between FDI tables A and G
+
+The function checks the possible data inconsistency between landings and effort and returns a summary table where all the mismatches between landings and effort are reported.
+
+```{r FDI_cross_checks_AG}
+head(FDI_cross_checks_AG(data1=fdi_a_catch, data2=fdi_g_effort))
+```
+
+### Cross check between FDI tables A and H
+
+The function checks the possible data inconsistency between landings in table A and spatial landings in table H. The function returns a list with two tables. In the first table all the mismatches between landings in table A and spatial landings in table H are reported.
+
+```{r FDI_cross_checks_AH_1}
+FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings,verbose=TRUE)[[1]]
+```
+
+The second table reports the comparison between total landings of table A and total spatial landings in table H.
+
+```{r FDI_cross_checks_AH_2}
+FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings)[[2]]
+```
+
+### ross check between FDI tables I and G
+
+The function checks the possible data inconsistency between spatial effort in table I and effort in table G. The function returns a list with two tables. In the first table all the miss matches between spatial effort in table I and effort in table G are shown.
+
+```{r FDI_cross_checks_IG_1}
+FDI_cross_checks_IG(data1=fdi_i_spatial_effort, data2=fdi_g_effort)[[1]]
+```
+
+In the second table the comparison between total spatial effort of table I and total effort in table G is shown.
+
+```{r FDI_cross_checks_IG_2}
+FDI_cross_checks_IG(data1=fdi_i_spatial_effort, data2=fdi_g_effort)[[2]]
+```
+
+### Cross check between FDI tables J and G
+
+The function checks the possible data inconsistency between the amount of vessels in table J capacity and the amount of vessels in table G. The function returns a table with all the mismatches between number of vessels in table J and G are shown.
+
+```{r FDI_cross_checks_JG}
+FDI_cross_checks_JG(data1=fdi_j_capacity, data2=fdi_g_effort,verbose=TRUE)
+```
+
+
+#### 
 
 # GFCM data format
 
