@@ -22,7 +22,7 @@ The function returns a data frame  for the comparison of discards aggregated by 
 The function allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level.
 }
 \examples{
-MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
+MEDBS_comp_disc_YQ(data = Discard_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

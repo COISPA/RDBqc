@@ -14,12 +14,12 @@ FDI_cross_checks_JG(data1, data2, verbose = FALSE)
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
-The function returns a list with all the miss matches between number of vessels in table J and G are shown.
+The function returns a list with all the mismatches between number of vessels in table J and G.
 }
 \description{
 The function checks the possible data inconsistency between the amount of vessels in table J capacity and the amount of vessels in table G.
 }
 \examples{
-FDI_cross_checks_JG(data1=fdi_j_capacity, data2=fdi_g_effort,verbose=TRUE)
+FDI_cross_checks_JG(data1 = fdi_j_capacity, data2 = fdi_g_effort, verbose = TRUE)
 FDI_cross_checks_JG(fdi_j_capacity, fdi_g_effort)
 }

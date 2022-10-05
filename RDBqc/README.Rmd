@@ -969,7 +969,7 @@ head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[1]])
 head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[2]])
 ```
 
-### Check empty fields in FDI J table
+### Check number of record in FDI J table
 
 The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, and fishing techniques for the following 4 variables: total trips; total kW; total GT; total vessels.
 The function returns a list. The first element gives the summary table of records number. From the second to the fifth element gives 4 plots for each variables among:
@@ -979,19 +979,19 @@ The function returns a list. The first element gives the summary table of record
 * total vessels
 
 
-```{r FDI_ts_tableJ_1}
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=TRUE)[[1]]
+```{r FDI_cov_tableJ_1}
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=TRUE)[[1]]
 ```
 
-```{r FDI_ts_tableJ_2}
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[2]]
+```{r FDI_cov_tableJ_2}
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[2]]
 ```
 
-```{r FDI_ts_tableJ_3}
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[3]]
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[4]]
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[5]]
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[6]]
+```{r FDI_cov_tableJ_3}
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[3]]
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[4]]
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[5]]
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[6]]
 ```
 
 ## Cross-checks

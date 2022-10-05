@@ -31,15 +31,15 @@ MEDBS_comp_land_Q_VL_fishery <- function(data, SP, MS, GSA, verbose = TRUE) {
     MEDBS_comp_land_Q_VL_fishery(data = Landing_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
   }
 
-    colnames(data) <- toupper(colnames(data))
-    data[is.na(data$VESSEL_LENGTH),"VESSEL_LENGTH"] <- "NA"
-    data[is.na(data$GEAR),"GEAR"] <- "NA"
-    data[is.na(data$MESH_SIZE_RANGE),"MESH_SIZE_RANGE"] <- "NA"
-    data[is.na(data$FISHERY),"FISHERY"] <- "NA"
+  colnames(data) <- toupper(colnames(data))
+  data[is.na(data$VESSEL_LENGTH), "VESSEL_LENGTH"] <- "NA"
+  data[is.na(data$GEAR), "GEAR"] <- "NA"
+  data[is.na(data$MESH_SIZE_RANGE), "MESH_SIZE_RANGE"] <- "NA"
+  data[is.na(data$FISHERY), "FISHERY"] <- "NA"
 
-    land <- data
+  land <- data
 
-  GEAR <- LANDINGS <- QUARTER <- VESSEL_LENGTH  <- YEAR <- tmp1 <- tot_VL <- tot_NoVL <- FISHERY <- NULL
+  GEAR <- LANDINGS <- QUARTER <- VESSEL_LENGTH <- YEAR <- tmp1 <- tot_VL <- tot_NoVL <- FISHERY <- NULL
 
   # land$area <- as.numeric(gsub("[^0-9.-]+", "\\1", land$area))
   land <- land[which(land$AREA == as.character(GSA) & land$COUNTRY == MS & land$SPECIES == SP), ]

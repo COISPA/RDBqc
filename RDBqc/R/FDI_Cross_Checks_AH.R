@@ -9,19 +9,18 @@
 #' @examples FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings)
 #' @import tidyverse
 
-FDI_cross_checks_AH <- function(data1, data2, verbose=FALSE) {
+FDI_cross_checks_AH <- function(data1, data2, verbose = FALSE) {
   Data <- country <- cscode <- fishing_tech <- gear_type <- sub_region <- totwghtlandg <- ttwghtl <- vessel_length <- year <- NULL
 
   if (nrow(data1) != 0 & nrow(data2) != 0) {
+    data1[1:19][data1[1:19] == "NK" | data1[1:19] == "NA" | is.na(data1[1:19])] <- NA
+    data1[20:22][is.na(data1[20:22])] <- 0
 
-    data1[1:19][data1[1:19]=="NK" | data1[1:19]=="NA" | is.na(data1[1:19])]<-NA
-    data1[20:22][is.na(data1[20:22])]<-0
+    data2[1:20][data2[1:20] == "NK" | data2[1:20] == "NA" | is.na(data2[1:20])] <- NA
+    data2[21, 22][is.na(data2[21, 22])] <- 0
 
-    data2[1:20][data2[1:20]=="NK" | data2[1:20]=="NA" | is.na(data2[1:20])]<-NA
-    data2[21,22][is.na(data2[21,22])]<-0
-
-    suppressMessages(data1<-data1%>%filter(!is.na(country) & !is.na(year)))
-    suppressMessages(data2<-data2%>%filter(!is.na(country) & !is.na(year)))
+    suppressMessages(data1 <- data1 %>% filter(!is.na(country) & !is.na(year)))
+    suppressMessages(data2 <- data2 %>% filter(!is.na(country) & !is.na(year)))
 
 
 
@@ -31,11 +30,11 @@ FDI_cross_checks_AH <- function(data1, data2, verbose=FALSE) {
 
     suppressMessages(data1 <- data1 %>%
       group_by(country, year, vessel_length, fishing_tech, gear_type, sub_region) %>%
-      summarize(totwghtlandg = sum(as.numeric(totwghtlandg),na.rm = TRUE)))
+      summarize(totwghtlandg = sum(as.numeric(totwghtlandg), na.rm = TRUE)))
 
     suppressMessages(data2 <- data2 %>%
       group_by(country, year, vessel_length, fishing_tech, gear_type, sub_region) %>%
-      summarize(ttwghtl = sum(as.numeric(totwghtlandg),na.rm = TRUE)))
+      summarize(ttwghtl = sum(as.numeric(totwghtlandg), na.rm = TRUE)))
 
     suppressMessages(data <- full_join(data1, data2))
     data$Data <- NA
@@ -59,21 +58,21 @@ FDI_cross_checks_AH <- function(data1, data2, verbose=FALSE) {
 
     suppressMessages(tot_land_data1 <- data1 %>%
       group_by(year, country, sub_region) %>%
-      summarize(totwghtlandg = sum(as.numeric(totwghtlandg),na.rm = TRUE)))
+      summarize(totwghtlandg = sum(as.numeric(totwghtlandg), na.rm = TRUE)))
 
     suppressMessages(tot_land_data2 <- data2 %>%
       group_by(year, country, sub_region) %>%
-      summarize(ttwghtl = sum(as.numeric(ttwghtl),na.rm = TRUE)))
+      summarize(ttwghtl = sum(as.numeric(ttwghtl), na.rm = TRUE)))
 
     suppressMessages(TOT <- full_join(tot_land_data1, tot_land_data2))
-    colnames(TOT)[c(4,5)] <- c("land_table_A", "land_table_H")
+    colnames(TOT)[c(4, 5)] <- c("land_table_A", "land_table_H")
 
     output <- list(as.data.frame(data_miss), as.data.frame(TOT))
     names(output) <- c("summary_table_missing_values", "total_land_Table_A_vs_Table_H")
   } else {
-     if (verbose) {
-           message("No data available in at least one of the two tables provided")
-          }
+    if (verbose) {
+      message("No data available in at least one of the two tables provided")
+    }
     output <- NULL
   }
   return(output)

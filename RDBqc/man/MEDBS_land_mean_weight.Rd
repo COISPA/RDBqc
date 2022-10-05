@@ -24,7 +24,7 @@ The function returns a plot of the mean landing weight by year, gear and fishery
 The function allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery
 }
 \examples{
-MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+MEDBS_land_mean_weight(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

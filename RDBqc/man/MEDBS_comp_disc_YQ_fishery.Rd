@@ -24,7 +24,7 @@ The function returns a data frame  for the comparison of discards aggregated by 
 The function allow to estimates the discards in weight for a selected species by quarter and fishery
 }
 \examples{
-MEDBS_comp_disc_YQ_fishery(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
+MEDBS_comp_disc_YQ_fishery(data = Discard_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

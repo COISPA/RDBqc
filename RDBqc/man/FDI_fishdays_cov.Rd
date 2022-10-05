@@ -19,8 +19,8 @@ FDI_fishdays_cov(dataG, dataI, MS, verbose = TRUE)
 The function returns a data frame of the comparison of totfishdays between FDI tables G and I
 }
 \description{
-The function checks the coverage comparison of totfishdays in FDI tables G and I
+The function checks the comparison of totfishdays in FDI tables G and I
 }
 \examples{
-FDI_fishdays_cov (dataG=fdi_g_effort, dataI=fdi_i_spatial_effort, MS="PSP", verbose = TRUE)
+FDI_fishdays_cov(dataG = fdi_g_effort, dataI = fdi_i_spatial_effort, MS = "PSP", verbose = TRUE)
 }

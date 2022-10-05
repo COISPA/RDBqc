@@ -24,5 +24,5 @@ a list of ALK plots by sex is returne
 The function allows to check the data in the ALK table providing plots by sex for a selected species
 }
 \examples{
-MEDBS_ALK(data=ALK_tab_example, SP="MUT", MS="ITA", GSA="GSA 99")
+MEDBS_ALK(data = ALK_tab_example, SP = "MUT", MS = "ITA", GSA = "GSA 99")
 }

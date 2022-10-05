@@ -36,6 +36,8 @@ Plot ogive by sex
 The function allows to check the maturity stages composition estimating the maturity ogives by sex for the selected species, using a selected pool of stages to classify the immature stages in the sample.
 }
 \examples{
-RCG_check_mat_ogive(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",
-sex="F",immature_stages=c("0","1","2a"))
+RCG_check_mat_ogive(data_ex,
+  MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",
+  sex = "F", immature_stages = c("0", "1", "2a")
+)
 }

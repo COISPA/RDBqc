@@ -24,5 +24,5 @@ Two vectors are returned by the function. The first provides the list of mismatc
 Function to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table.
 }
 \examples{
-check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18")
+check_species_catfau_TaskVII.3.2(task_vii32, catfau_check, sex_mat, MS = "ITA", GSA = "18")
 }

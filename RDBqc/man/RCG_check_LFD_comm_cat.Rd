@@ -24,5 +24,5 @@ plot and a summary table with ranges by year and commercial category
 The function allows to check the consistency of LFDs (length frequency distributions) by year and commercial size cetegory on a given species generating a multi-frame plot. The function also returns a data frame with the length range by year and commercial size category.
 }
 \examples{
-RCG_check_LFD_comm_cat(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus")
+RCG_check_LFD_comm_cat(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 }

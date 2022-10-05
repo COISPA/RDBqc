@@ -26,8 +26,10 @@ The function returns the number of rows with 0 values in weights having length c
 The function checks landings or discards in weight equal to 0 having length classes filled in
 }
 \examples{
-MEDBS_weight_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
-MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
+MEDBS_weight_0(data = Landing_tab_example, type = "l",
+SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE)
+MEDBS_weight_0(data = Discard_tab_example, type = "d", SP = "DPS",
+MS = "ITA", GSA = "GSA 9", verbose = TRUE)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

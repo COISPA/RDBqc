@@ -13,7 +13,7 @@ FDI_prices_cov(data, MS, SP = "COMBINED", GSA = "COMBINED", verbose = TRUE)
 
 \item{SP}{species reference code in the three alpha code format ("COMBINED" values perform the analysis for all species present in data)}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code ("COMBINED" values perform the analysis for all GSAs present in data).}
 
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
@@ -21,7 +21,7 @@ FDI_prices_cov(data, MS, SP = "COMBINED", GSA = "COMBINED", verbose = TRUE)
 The function returns a list. The first element gives the summary table of records number. From the second to the fourth element gives 3 plots for each variables among: of total live weight landed, total value of landings (euro), and total discards (ton)).
 }
 \description{
-The function checks the trend prices in the given table grouped by year, GSA, MS, and species. According to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}. If SP are not specified by the user the function combines those by default.
+The function checks the trend prices in the given table grouped by year, GSA, MS, and species. If SP are not specified by the user the function combines those by default.
 }
 \examples{
 FDI_prices_cov(data = fdi_a_catch, SP = c("MUT", "HKE"), MS = "PSP", GSA = "GSA99")

@@ -24,5 +24,5 @@ a list containing a summary table and coverage plot is provided
 the function allows to check the coverage in landing table providing a summary table and a plot of landing
 }
 \examples{
-MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","GSA 9")
+MEDBS_Landing_coverage(Landing_tab_example, "DPS", "ITA", "GSA 9")
 }

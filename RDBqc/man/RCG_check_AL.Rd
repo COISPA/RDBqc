@@ -28,5 +28,5 @@ summary table length-age and error (if any)
 Check consistency of age-length relationship
 }
 \examples{
-RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=30)
+RCG_check_AL(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus", min_age = 0, max_age = 30)
 }

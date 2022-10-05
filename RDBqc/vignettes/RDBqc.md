@@ -11,6 +11,7 @@ vignette: >
 
 
 
+
 RDBqc allows to carry out a set of _a priori_ quality checks on detailed sampling data and on aggregated landing data, and _a posteriori_ quality check on MEDBS, FDI and GFCM data call formats.
 
 The supported quality checks in version 0.0.11 are:
@@ -4384,7 +4385,7 @@ head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[2]])
 #> 10   14.00000 37.81000      FALSE
 ```
 
-### Check empty fields in FDI J table
+### Check number of record in FDI J table
 
 The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, and fishing techniques for the following 4 variables: total trips; total kW; total GT; total vessels.
 The function returns a list. The first element gives the summary table of records number. From the second to the fifth element gives 4 plots for each variables among:
@@ -4396,7 +4397,7 @@ The function returns a list. The first element gives the summary table of record
 
 
 ```r
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=TRUE)[[1]]
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=TRUE)[[1]]
 #>   year principal_sub_region country vessel_length fishing_tech total_trips
 #> 1 2014                GSA99     PSP      COMBINED     COMBINED         420
 #> 2 2015                GSA99     PSP      COMBINED     COMBINED         250
@@ -4417,7 +4418,7 @@ FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=TRUE)[[1]]
 
 
 ```r
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[2]]
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[2]]
 #>   year principal_sub_region country vessel_length fishing_tech total_trips
 #> 1 2014                GSA99     PSP      COMBINED     COMBINED    455248.3
 #> 2 2015                GSA99     PSP      COMBINED     COMBINED    183594.9
@@ -4438,28 +4439,28 @@ FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[2]]
 
 
 ```r
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[3]]
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[3]]
 ```
 
-![plot of chunk FDI_ts_tableJ_3](figure/FDI_ts_tableJ_3-1.png)
+![plot of chunk FDI_cov_tableJ_3](figure/FDI_cov_tableJ_3-1.png)
 
 ```r
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[4]]
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[4]]
 ```
 
-![plot of chunk FDI_ts_tableJ_3](figure/FDI_ts_tableJ_3-2.png)
+![plot of chunk FDI_cov_tableJ_3](figure/FDI_cov_tableJ_3-2.png)
 
 ```r
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[5]]
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[5]]
 ```
 
-![plot of chunk FDI_ts_tableJ_3](figure/FDI_ts_tableJ_3-3.png)
+![plot of chunk FDI_cov_tableJ_3](figure/FDI_cov_tableJ_3-3.png)
 
 ```r
-FDI_ts_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[6]]
+FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=FALSE)[[6]]
 ```
 
-![plot of chunk FDI_ts_tableJ_3](figure/FDI_ts_tableJ_3-4.png)
+![plot of chunk FDI_cov_tableJ_3](figure/FDI_cov_tableJ_3-4.png)
 
 ## Cross-checks
 

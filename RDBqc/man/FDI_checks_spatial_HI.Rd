@@ -26,6 +26,6 @@ The function checks the incorrect combination of NA in the spatial columns in bo
 Furthermore the function identifies the records without any sub-region assignment.
 }
 \examples{
-FDI_checks_spatial_HI(data=fdi_h_spatial_landings,MS="PSP", verbose=TRUE)
-FDI_checks_spatial_HI(data=fdi_i_spatial_effort,MS="PSP", verbose=TRUE)
+FDI_checks_spatial_HI(data = fdi_h_spatial_landings, MS = "PSP", verbose = TRUE)
+FDI_checks_spatial_HI(data = fdi_i_spatial_effort, MS = "PSP", verbose = TRUE)
 }

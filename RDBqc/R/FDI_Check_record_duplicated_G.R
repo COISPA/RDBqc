@@ -8,30 +8,25 @@
 #' @export
 #'
 #' @examples check_RD_FDI_G(fdi_g_effort)
-
-check_RD_FDI_G <- function(data, verbose=TRUE){
-
+check_RD_FDI_G <- function(data, verbose = TRUE) {
   if (FALSE) {
     # data=read.csv("dc_fdi_g_effort.csv", sep=";",dec=".",head=T,na.strings="NA")
     # #str(data)
     # check_RD_FDI_G(data, tab="tabFDI_G", verbose=TRUE)
   }
 
-  df <- data[ , c(1:15)]
+  df <- data[, c(1:15)]
 
-  #Identify the line number of duplicate
-  duplicated_line=which(duplicated(df))
+  # Identify the line number of duplicate
+  duplicated_line <- which(duplicated(df))
 
-if (verbose){
- if (length(duplicated_line)==0) {
-       message("no duplicated lines in the data frame")
+  if (verbose) {
+    if (length(duplicated_line) == 0) {
+      message("no duplicated lines in the data frame")
     } else {
-       message(paste0(length(duplicated_line)," record/s duplicated"))
+      message(paste0(length(duplicated_line), " record/s duplicated"))
     }
+  }
+
+  return(duplicated_line)
 }
-
-return(duplicated_line)
-
-}
-
-

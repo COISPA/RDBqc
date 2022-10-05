@@ -47,6 +47,6 @@ The function checks and count the numbers of records data in the given table gro
 according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1} If Vessel length, fishing technique, and metier are not specified by the user the function combines those by default.
 }
 \examples{
-FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")
-FDI_cov_tableG(fdi_g_effort, MS="PSP", GSA="GSA99", fishtech="DTS", met="OTB_MDD_>=40_0_0")
+FDI_cov_tableG(data = fdi_g_effort, MS = "PSP", GSA = "GSA99")
+FDI_cov_tableG(fdi_g_effort, MS = "PSP", GSA = "GSA99", fishtech = "DTS", met = "OTB_MDD_>=40_0_0")
 }

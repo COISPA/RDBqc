@@ -24,5 +24,5 @@ a list containing a summary of measurements by trip for each biological variable
 Number of individual by trip for which biological data have been collected (length, sex, maturity, weight and age)
 }
 \examples{
-RCG_summarize_ind_meas(data=data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
+RCG_summarize_ind_meas(data = data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 }

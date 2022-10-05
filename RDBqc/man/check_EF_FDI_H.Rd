@@ -15,9 +15,8 @@ check_EF_FDI_H(data, verbose = TRUE)
 Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
 }
 \description{
-The function checks the presence of not allowed empty data in the given table, according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}
+The function checks the presence of not allowed empty data in the given table.
 }
 \examples{
 check_EF_FDI_H(fdi_h_spatial_landings)
-
 }

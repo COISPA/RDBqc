@@ -7,18 +7,18 @@
 FDI_check_coord(data, MS, verbose = FALSE)
 }
 \arguments{
-\item{data}{data frame of one between FDI table H (Landings by rectangle) and table I (Effort by rectangle)}
+\item{data}{data frame of one  FDI table between H (Landings by rectangle) and table I (Effort by rectangle)}
 
 \item{MS}{Country code}
 
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
-The data frame of the input table is returned retaining the only records in which at least one among latitude and longitude is not compatible with the rectangle type. Two more columns (lat.check and lon.check) are added to the data frame to report the results of the check respectively for latitude and longitude.
+The input data frame is filtered and is returned retaining the only records in which at least one among latitude and longitude is not compatible with the rectangle type. Two more columns ('lat.check' and 'lon.check') are added to the data frame structure to report the results of the checks respectively for latitude and longitude.
 }
 \description{
 The function checks the compatibility of the geographical coordinates (latitude and longitude) with the value provided for the rectangle type.
 }
 \examples{
-FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
+FDI_check_coord(data = fdi_i_spatial_effort, MS = "PSP", verbose = TRUE)
 }

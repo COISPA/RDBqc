@@ -22,5 +22,5 @@ a list of objects containing a summary table and different plots of the growth c
 The function allows to check the growth parameters by sex and year for a selected species
 }
 \examples{
-MEDBS_GP_check(GP_tab_example,"MUT","ITA","GSA 18")
+MEDBS_GP_check(GP_tab_example, "MUT", "ITA", "GSA 18")
 }

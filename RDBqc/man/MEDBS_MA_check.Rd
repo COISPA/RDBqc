@@ -24,5 +24,5 @@ a summary table and plots
 The function allows to check the maturity at age (MA) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
 }
 \examples{
-MEDBS_MA_check(MA_tab_example,"DPS","ITA","GSA 99")
+MEDBS_MA_check(MA_tab_example, "DPS", "ITA", "GSA 99")
 }

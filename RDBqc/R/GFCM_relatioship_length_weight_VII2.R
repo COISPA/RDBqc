@@ -11,7 +11,6 @@
 #' @import ggplot2
 #'
 #' @examples check_lw_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP = "BOG")
-#'
 check_lw_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
   if (FALSE) {
     data <- task_vii2
@@ -28,13 +27,12 @@ check_lw_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
       message(paste0("No landing data available for the selected species (", SP, ")"))
     }
   } else {
-
-      data$Length <- as.numeric(data$Length)
-      data$WeightIndividualsSampled <- as.numeric(data$WeightIndividualsSampled)
-      data$Reference_Year <- as.factor(data$Reference_Year)
-    plot <- ggplot(data, aes(x = Length, y = WeightIndividualsSampled, color=Reference_Year)) +
+    data$Length <- as.numeric(data$Length)
+    data$WeightIndividualsSampled <- as.numeric(data$WeightIndividualsSampled)
+    data$Reference_Year <- as.factor(data$Reference_Year)
+    plot <- ggplot(data, aes(x = Length, y = WeightIndividualsSampled, color = Reference_Year)) +
       geom_point(size = 1) +
-      facet_wrap(Reference_Year~., ncol = 5, scales = "free") +
+      facet_wrap(Reference_Year ~ ., ncol = 5, scales = "free") +
       theme(
         strip.text = element_text(size = 7, lineheight = 1.0),
         strip.background = element_rect(
@@ -44,8 +42,8 @@ check_lw_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
       ) +
       xlab("Length") +
       ylab("Weight (kg)") +
-      guides(color=guide_legend(title="Year")) +
-        ggtitle(SP)
+      guides(color = guide_legend(title = "Year")) +
+      ggtitle(SP)
 
     return(plot)
   }

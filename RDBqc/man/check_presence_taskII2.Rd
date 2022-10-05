@@ -22,5 +22,5 @@ The function returns a list of missing combinations GSA/Fleet segment per year.
 Function to verify the completeness of the GSA/Fleet segments in Task II.2 table, as reported in the combination_taskII2 table.
 }
 \examples{
-check_presence_taskII2(task_ii2,combination_taskII2,MS="ITA",GSA="18")
+check_presence_taskII2(task_ii2, combination_taskII2, MS = "ITA", GSA = "18")
 }

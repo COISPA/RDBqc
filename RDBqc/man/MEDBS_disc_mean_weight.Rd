@@ -24,7 +24,7 @@ The function returns a plot of the mean discards weight by year, gear and fisher
 The function allows to check consistency of  mean discard of a selected species plotting the discards' weight by year, gear and fishery
 }
 \examples{
-MEDBS_disc_mean_weight(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+MEDBS_disc_mean_weight(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

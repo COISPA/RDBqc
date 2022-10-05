@@ -19,240 +19,260 @@
 #' * hrsea,
 #' * kwhrsea
 #' @export
-#' @examples FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")
-#' FDI_cov_tableG(fdi_g_effort, MS="PSP", GSA="GSA99", fishtech="DTS", met="OTB_MDD_>=40_0_0")
+#' @examples FDI_cov_tableG(data = fdi_g_effort, MS = "PSP", GSA = "GSA99")
+#' FDI_cov_tableG(fdi_g_effort, MS = "PSP", GSA = "GSA99", fishtech = "DTS", met = "OTB_MDD_>=40_0_0")
 #' @import tidyverse
 
-FDI_cov_tableG <- function(data, MS, GSA, vessel_len="COMBINED", fishtech="COMBINED", met="COMBINED", verbose=TRUE) {
-
-    country <- fishing_tech <- hrsea <- kwhrsea <- metier <- sub_region <- totfishdays <-
+FDI_cov_tableG <- function(data, MS, GSA, vessel_len = "COMBINED", fishtech = "COMBINED", met = "COMBINED", verbose = TRUE) {
+  country <- fishing_tech <- hrsea <- kwhrsea <- metier <- sub_region <- totfishdays <-
     totgtdaysatsea <- totgtfishdays <- totkwdaysatsea <- totkwfishdays <- totseadays <-
     vessel_length <- year <- NULL
 
-    if (nrow(data)==0) {
-            stop(paste0("No data available") )
-        }
+  if (nrow(data) == 0) {
+    stop(paste0("No data available"))
+  }
 
-    # check of the vessel_length, all vs specific vessel length defined by the user
-    if (length(vessel_len )==1 & vessel_len [1]=="COMBINED" ){
-        data$vessel_length<-"COMBINED"
-    }  else{
-        data<-data[data$vessel_length%in%vessel_len,]
+  # check of the vessel_length, all vs specific vessel length defined by the user
+  if (length(vessel_len) == 1 & vessel_len[1] == "COMBINED") {
+    data$vessel_length <- "COMBINED"
+  } else {
+    data <- data[data$vessel_length %in% vessel_len, ]
+  }
+
+  # check of the metier, all vs specific metier defined by the user
+  if (length(met) == 1 & met[1] == "COMBINED") {
+    data$metier <- "COMBINED"
+  } else {
+    data <- data[data$metier %in% met, ]
+  }
+
+  # check of the fishtech, all vs specific fishtech defined by the user
+
+  if (length(fishtech) == 1 & fishtech[1] == "COMBINED") {
+    data$fishing_tech <- "COMBINED"
+  } else {
+    data <- data[data$fishing_tech %in% fishtech, ]
+  }
+
+
+  if (nrow(data) == 0) {
+    if (verbose) {
+      message(paste0("No data available for selected vessel length, metiers, and fishing techniques"))
     }
+  } else {
+    data[data == "NK"] <- NA
+    data[data == "NA"] <- NA
+    suppressMessages(data <- data %>% filter(country != 0 & year != 0))
 
-    # check of the metier, all vs specific metier defined by the user
-    if (length(met)==1 & met[1]=="COMBINED" ){
-        data$metier<-"COMBINED"
-    }  else{
-        data<-data[data$metier%in%met,]
-        }
+    # Summary Table of records number
+    suppressMessages(data1 <- data %>%
+      drop_na(year, sub_region, country, vessel_length, fishing_tech, metier) %>%
+      select(
+        year, sub_region, country, vessel_length, fishing_tech, metier,
+        totseadays,
+        totfishdays,
+        totkwdaysatsea,
+        totgtdaysatsea,
+        totkwfishdays,
+        totgtfishdays,
+        hrsea,
+        kwhrsea
+      ) %>%
+      filter(sub_region == GSA & country == MS) %>%
+      group_by(year, sub_region, country, vessel_length, fishing_tech, metier) %>%
+      summarise(
+        totseadays = sum(!is.na(totseadays)),
+        totfishdays = sum(!is.na(totfishdays)),
+        totkwdaysatsea = sum(!is.na(totkwdaysatsea)),
+        totgtdaysatsea = sum(!is.na(totgtdaysatsea)),
+        totkwfishdays = sum(!is.na(totkwfishdays)),
+        totgtfishdays = sum(!is.na(totgtfishdays)),
+        hrsea = sum(!is.na(hrsea)),
+        kwhrsea = sum(!is.na(kwhrsea))
+      ))
 
-    # check of the fishtech, all vs specific fishtech defined by the user
-
-    if (length(fishtech)==1 & fishtech[1]=="COMBINED" ){
-        data$fishing_tech<-"COMBINED"
-    }  else{
-        data<-data[data$fishing_tech%in%fishtech,]
-    }
-
-
-    if (nrow(data)==0) {
-        if (verbose){
-            message(paste0("No data available for selected vessel length, metiers, and fishing techniques") )
-        }
+    if (nrow(data1) == 0) {
+      if (verbose) {
+        message(paste0("No data available for the selected (", MS, ") and or (", GSA, ") "))
+      }
     } else {
+      data2 <- data
+      data2[is.na(data2)] <- 0
+      suppressMessages(data3 <- data2 %>%
+        drop_na(year, sub_region, country, vessel_length, fishing_tech, metier) %>%
+        select(
+          year, sub_region, country, vessel_length, fishing_tech, metier,
+          totseadays,
+          totfishdays,
+          totkwdaysatsea,
+          totgtdaysatsea,
+          totkwfishdays,
+          totgtfishdays,
+          hrsea,
+          kwhrsea
+        ) %>%
+        filter(sub_region == GSA & country == MS) %>%
+        group_by(year, sub_region, country, vessel_length, fishing_tech, metier) %>%
+        summarise(
+          totseadays = sum(as.numeric(totseadays)),
+          totfishdays = sum(as.numeric(totfishdays)),
+          totkwdaysatsea = sum(as.numeric(totkwdaysatsea)),
+          totgtdaysatsea = sum(as.numeric(totgtdaysatsea)),
+          totkwfishdays = sum(as.numeric(totkwfishdays)),
+          totgtfishdays = sum(as.numeric(totgtfishdays)),
+          hrsea = sum(as.numeric(hrsea)),
+          kwhrsea = sum(as.numeric(kwhrsea))
+        ))
 
-        data[data=="NK"]<-NA
-        data[data=="NA"]<-NA
-        suppressMessages(data<-data%>%filter(country !=0 & year!=0))
+      # Plot of 1 totseadays,
 
-        # Summary Table of records number
-        suppressMessages(data1<-data%>%
-                             drop_na(year, sub_region, country, vessel_length, fishing_tech, metier)%>%
-                             select(year, sub_region, country, vessel_length, fishing_tech, metier,
-                                    totseadays,
-                                    totfishdays,
-                                    totkwdaysatsea,
-                                    totgtdaysatsea,
-                                    totkwfishdays,
-                                    totgtfishdays,
-                                    hrsea,
-                                    kwhrsea )%>%
-                             filter(sub_region==GSA & country==MS )%>%
-                             group_by(year, sub_region, country, vessel_length, fishing_tech, metier)%>%
-                             summarise( totseadays=sum(!is.na(totseadays)) ,
-                                        totfishdays=sum(!is.na(totfishdays)) ,
-                                        totkwdaysatsea=sum(!is.na(totkwdaysatsea)),
-                                        totgtdaysatsea=sum(!is.na(totgtdaysatsea)),
-                                        totkwfishdays=sum(!is.na(totkwfishdays)),
-                                        totgtfishdays=sum(!is.na(totgtfishdays)),
-                                        hrsea=sum(!is.na(hrsea)),
-                                        kwhrsea=sum(!is.na(kwhrsea))
-                                        ))
+      suppressMessages(plot1 <- data3 %>% ggplot(aes(x = year, y = totseadays, col = metier, linetype = fishing_tech)) +
+        geom_point() +
+        geom_line() +
+        scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
+        theme(
+          axis.text.x = element_text(size = 15, angle = 0, colour = "black"),
+          axis.text.y = element_text(size = 15, colour = "black"),
+          axis.title = element_text(size = 15),
+          plot.title = element_text(hjust = 0.5, size = 15)
+        ) +
+        ggtitle(paste(MS, "total sea days in", GSA)) +
+        ylab("Total sea days") +
+        xlab("year") +
+        facet_wrap(~vessel_length))
 
-        if (nrow(data1)==0) {
-            if (verbose){
-                message(paste0("No data available for the selected (",MS,") and or (",GSA,") ") )
-            }
-        } else {
+      # Plot of 2 totfishdays,
 
-            data2<-data
-            data2[is.na(data2)] <- 0
-            suppressMessages(data3<-data2%>%
-                                 drop_na(year, sub_region, country, vessel_length, fishing_tech, metier)%>%
-                                 select(year, sub_region, country, vessel_length, fishing_tech, metier,
-                                        totseadays,
-                                        totfishdays,
-                                        totkwdaysatsea,
-                                        totgtdaysatsea,
-                                        totkwfishdays,
-                                        totgtfishdays,
-                                        hrsea,
-                                        kwhrsea)%>%
-                                 filter(sub_region==GSA & country==MS )%>%
-                                 group_by(year, sub_region, country, vessel_length, fishing_tech, metier)%>%
-                                 summarise(totseadays=sum(as.numeric(totseadays)),
-                                           totfishdays=sum(as.numeric(totfishdays)),
-                                           totkwdaysatsea=sum(as.numeric(totkwdaysatsea)),
-                                           totgtdaysatsea=sum(as.numeric(totgtdaysatsea)),
-                                           totkwfishdays=sum(as.numeric(totkwfishdays)),
-                                           totgtfishdays=sum(as.numeric(totgtfishdays)),
-                                           hrsea=sum(as.numeric(hrsea)),
-                                           kwhrsea=sum(as.numeric(kwhrsea))
-                                           ))
+      suppressMessages(plot2 <- data3 %>% ggplot(aes(x = year, y = totfishdays, col = metier, linetype = fishing_tech)) +
+        geom_point() +
+        geom_line() +
+        scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
+        theme(
+          axis.text.x = element_text(size = 15, angle = 0, colour = "black"),
+          axis.text.y = element_text(size = 15, colour = "black"),
+          axis.title = element_text(size = 15),
+          plot.title = element_text(hjust = 0.5, size = 15)
+        ) +
+        ggtitle(paste(MS, "total fishing days in", GSA)) +
+        ylab("Total fishing days") +
+        xlab("year") +
+        facet_wrap(~vessel_length))
 
-            # Plot of 1 totseadays,
+      # Plot of 3 totkwdaysatsea,
 
-            suppressMessages(plot1<-data3%>%ggplot( aes(x=year, y=totseadays, col=metier , linetype =fishing_tech  )) +
-                                 geom_point()+
-                                 geom_line()+
-                                 scale_x_continuous(breaks=seq(min(data3$year),max(data3$year),4)) +
-                                 theme(axis.text.x = element_text(size  = 15,angle = 0,colour="black"),
-                                       axis.text.y = element_text(size  = 15,colour="black"),
-                                       axis.title=element_text(size=15),
-                                       plot.title = element_text(hjust = 0.5, size = 15))+
-                                 ggtitle(paste(MS, "total sea days in" , GSA))+
-                                 ylab("Total sea days")+
-                                 xlab("year")+
-                                 facet_wrap(~ vessel_length ))
+      suppressMessages(plot3 <- data3 %>% ggplot(aes(x = year, y = totkwdaysatsea, col = metier, linetype = fishing_tech)) +
+        scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
+        geom_point() +
+        geom_line() +
+        theme(
+          axis.text.x = element_text(size = 15, angle = 0, colour = "black"),
+          axis.text.y = element_text(size = 15, colour = "black"),
+          axis.title = element_text(size = 15),
+          plot.title = element_text(hjust = 0.5, size = 15)
+        ) +
+        ggtitle(paste(MS, "total KW days at sea in", GSA)) +
+        ylab("Total KW days at sea") +
+        xlab("year") +
+        facet_wrap(~vessel_length))
 
-            # Plot of 2 totfishdays,
+      # Plot of 4 totgtdaysatsea,
 
-            suppressMessages(plot2<-data3%>%ggplot( aes(x=year, y=totfishdays, col=metier , linetype =fishing_tech  )) +
-                                 geom_point()+
-                                 geom_line()+
-                                 scale_x_continuous(breaks=seq(min(data3$year),max(data3$year),4)) +
-                                 theme(axis.text.x = element_text(size  = 15,angle = 0,colour="black"),
-                                       axis.text.y = element_text(size  = 15,colour="black"),
-                                       axis.title=element_text(size=15),
-                                       plot.title = element_text(hjust = 0.5, size = 15))+
-                                 ggtitle(paste(MS, "total fishing days in" , GSA))+
-                                 ylab("Total fishing days")+
-                                 xlab("year")+
-                                 facet_wrap(~ vessel_length ))
-
-            # Plot of 3 totkwdaysatsea,
-
-            suppressMessages(plot3<-data3%>%ggplot( aes(x=year, y=totkwdaysatsea, col=metier , linetype =fishing_tech  )) +
-                                 scale_x_continuous(breaks=seq(min(data3$year),max(data3$year),4)) +
-                                 geom_point()+
-                                 geom_line()+
-                                 theme(axis.text.x = element_text(size  = 15,angle = 0,colour="black"),
-                                       axis.text.y = element_text(size  = 15,colour="black"),
-                                       axis.title=element_text(size=15),
-                                       plot.title = element_text(hjust = 0.5, size = 15))+
-                                 ggtitle(paste(MS,  "total KW days at sea in" , GSA))+
-                                 ylab("Total KW days at sea")+
-                                 xlab("year")+
-                                 facet_wrap(~ vessel_length ))
-
-            # Plot of 4 totgtdaysatsea,
-
-            suppressMessages(plot4<-data3%>%ggplot( aes(x=year, y=totgtdaysatsea, col=metier , linetype =fishing_tech  )) +
-                                 scale_x_continuous(breaks=seq(min(data3$year),max(data3$year),4)) +
-                                 geom_point()+
-                                 geom_line()+
-                                 theme(axis.text.x = element_text(size  = 15,angle = 0,colour="black"),
-                                       axis.text.y = element_text(size  = 15,colour="black"),
-                                       axis.title=element_text(size=15),
-                                       plot.title = element_text(hjust = 0.5, size = 15))+
-                                 ggtitle(paste(MS,  "total GT days at sea in" , GSA))+
-                                 ylab("Total GT days at sea")+
-                                 xlab("year")+
-                                 facet_wrap(~ vessel_length ))
+      suppressMessages(plot4 <- data3 %>% ggplot(aes(x = year, y = totgtdaysatsea, col = metier, linetype = fishing_tech)) +
+        scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
+        geom_point() +
+        geom_line() +
+        theme(
+          axis.text.x = element_text(size = 15, angle = 0, colour = "black"),
+          axis.text.y = element_text(size = 15, colour = "black"),
+          axis.title = element_text(size = 15),
+          plot.title = element_text(hjust = 0.5, size = 15)
+        ) +
+        ggtitle(paste(MS, "total GT days at sea in", GSA)) +
+        ylab("Total GT days at sea") +
+        xlab("year") +
+        facet_wrap(~vessel_length))
 
 
-            # Plot of 5 totkwfishdays,
+      # Plot of 5 totkwfishdays,
 
-            suppressMessages(plot5<-data3%>%ggplot( aes(x=year, y=totkwfishdays, col=metier , linetype =fishing_tech  )) +
-                                 scale_x_continuous(breaks=seq(min(data3$year),max(data3$year),4)) +
-                                 geom_point()+
-                                 geom_line()+
-                                 theme(axis.text.x = element_text(size  = 15,angle = 0,colour="black"),
-                                       axis.text.y = element_text(size  = 15,colour="black"),
-                                       axis.title=element_text(size=15),
-                                       plot.title = element_text(hjust = 0.5, size = 15))+
-                                 ggtitle(paste(MS,  "total KW fishing days in", GSA))+
-                                 ylab("Total KW fishing days")+
-                                 xlab("year")+
-                                 facet_wrap(~ vessel_length ))
+      suppressMessages(plot5 <- data3 %>% ggplot(aes(x = year, y = totkwfishdays, col = metier, linetype = fishing_tech)) +
+        scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
+        geom_point() +
+        geom_line() +
+        theme(
+          axis.text.x = element_text(size = 15, angle = 0, colour = "black"),
+          axis.text.y = element_text(size = 15, colour = "black"),
+          axis.title = element_text(size = 15),
+          plot.title = element_text(hjust = 0.5, size = 15)
+        ) +
+        ggtitle(paste(MS, "total KW fishing days in", GSA)) +
+        ylab("Total KW fishing days") +
+        xlab("year") +
+        facet_wrap(~vessel_length))
 
-            # Plot of 6 totgtfishdays,
-            suppressMessages(plot6<-data3%>%ggplot( aes(x=year, y=totgtfishdays, col=metier , linetype =fishing_tech  )) +
-                                 scale_x_continuous(breaks=seq(min(data3$year),max(data3$year),4)) +
-                                 geom_point()+
-                                 geom_line()+
-                                 theme(axis.text.x = element_text(size  = 15,angle = 0,colour="black"),
-                                       axis.text.y = element_text(size  = 15,colour="black"),
-                                       axis.title=element_text(size=15),
-                                       plot.title = element_text(hjust = 0.5, size = 15))+
-                                 ggtitle(paste(MS,  "total GT fishing days in" , GSA))+
-                                 ylab("Total GT fishing days")+
-                                 xlab("year")+
-                                 facet_wrap(~ vessel_length ))
-            # Plot of 7 hrsea,
-            suppressMessages(plot7<-data3%>%ggplot( aes(x=year, y=hrsea, col=metier , linetype =fishing_tech  )) +
-                                 scale_x_continuous(breaks=seq(min(data3$year),max(data3$year),4)) +
-                                 geom_point()+
-                                 geom_line()+
-                                 theme(axis.text.x = element_text(size  = 15,angle = 0,colour="black"),
-                                       axis.text.y = element_text(size  = 15,colour="black"),
-                                       axis.title=element_text(size=15),
-                                       plot.title = element_text(hjust = 0.5, size = 15))+
-                                 ggtitle(paste(MS,  "hr at sea in" , GSA))+
-                                 ylab("Total hr at sea")+
-                                 xlab("year")+
-                                 facet_wrap(~ vessel_length ))
-
-
-            # Plot of 8 kwhrsea
-            suppressMessages(plot8<-data3%>%ggplot( aes(x=year, y=kwhrsea, col=metier , linetype =fishing_tech  )) +
-                                 scale_x_continuous(breaks=seq(min(data3$year),max(data3$year),4)) +
-                                 geom_point()+
-                                 geom_line()+
-                                 theme(axis.text.x = element_text(size  = 15,angle = 0,colour="black"),
-                                       axis.text.y = element_text(size  = 15,colour="black"),
-                                       axis.title=element_text(size=15),
-                                       plot.title = element_text(hjust = 0.5, size = 15))+
-                                 ggtitle(paste(MS,  "KW hr at sea in" , GSA))+
-                                 ylab("Total KW hr at sea")+
-                                 xlab("year")+
-                                 facet_wrap(~ vessel_length ))
+      # Plot of 6 totgtfishdays,
+      suppressMessages(plot6 <- data3 %>% ggplot(aes(x = year, y = totgtfishdays, col = metier, linetype = fishing_tech)) +
+        scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
+        geom_point() +
+        geom_line() +
+        theme(
+          axis.text.x = element_text(size = 15, angle = 0, colour = "black"),
+          axis.text.y = element_text(size = 15, colour = "black"),
+          axis.title = element_text(size = 15),
+          plot.title = element_text(hjust = 0.5, size = 15)
+        ) +
+        ggtitle(paste(MS, "total GT fishing days in", GSA)) +
+        ylab("Total GT fishing days") +
+        xlab("year") +
+        facet_wrap(~vessel_length))
+      # Plot of 7 hrsea,
+      suppressMessages(plot7 <- data3 %>% ggplot(aes(x = year, y = hrsea, col = metier, linetype = fishing_tech)) +
+        scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
+        geom_point() +
+        geom_line() +
+        theme(
+          axis.text.x = element_text(size = 15, angle = 0, colour = "black"),
+          axis.text.y = element_text(size = 15, colour = "black"),
+          axis.title = element_text(size = 15),
+          plot.title = element_text(hjust = 0.5, size = 15)
+        ) +
+        ggtitle(paste(MS, "hr at sea in", GSA)) +
+        ylab("Total hr at sea") +
+        xlab("year") +
+        facet_wrap(~vessel_length))
 
 
-            output=list(as.data.frame(data1),as.data.frame(data3),plot1,plot2,plot3,plot4,plot5,plot6,plot7,plot8)
-            names(output)<-c("number_of_records",
-                             "summary_table",
-                             "tot_sea_days",
-                             "tot_fishing_days",
-                             "tot_KW_days_at_sea",
-                             "tot_GT_days_at_sea",
-                             "tot_KW_fishing_days",
-                             "tot_GT_fishing_days",
-                             "hr_at_sea",
-                             "KW_hr_at_sea")
-            return(output)
+      # Plot of 8 kwhrsea
+      suppressMessages(plot8 <- data3 %>% ggplot(aes(x = year, y = kwhrsea, col = metier, linetype = fishing_tech)) +
+        scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
+        geom_point() +
+        geom_line() +
+        theme(
+          axis.text.x = element_text(size = 15, angle = 0, colour = "black"),
+          axis.text.y = element_text(size = 15, colour = "black"),
+          axis.title = element_text(size = 15),
+          plot.title = element_text(hjust = 0.5, size = 15)
+        ) +
+        ggtitle(paste(MS, "KW hr at sea in", GSA)) +
+        ylab("Total KW hr at sea") +
+        xlab("year") +
+        facet_wrap(~vessel_length))
 
-        }}
+
+      output <- list(as.data.frame(data1), as.data.frame(data3), plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8)
+      names(output) <- c(
+        "number_of_records",
+        "summary_table",
+        "tot_sea_days",
+        "tot_fishing_days",
+        "tot_KW_days_at_sea",
+        "tot_GT_days_at_sea",
+        "tot_KW_fishing_days",
+        "tot_GT_fishing_days",
+        "hr_at_sea",
+        "KW_hr_at_sea"
+      )
+      return(output)
+    }
+  }
 }
-

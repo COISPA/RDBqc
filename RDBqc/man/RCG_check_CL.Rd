@@ -32,5 +32,5 @@ The output is a list of 6 data frames:
 }
 }
 \examples{
-RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")
+RCG_check_CL(data_exampleCL, MS = "COUNTRY1", GSA = "GSA99", SP = "Parapenaeus longirostris")
 }

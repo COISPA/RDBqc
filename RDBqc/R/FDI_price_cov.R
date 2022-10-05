@@ -1,10 +1,10 @@
 #' Check prices trend in FDI A table
 #'
-#' @description The function checks the trend prices in the given table grouped by year, GSA, MS, and species. According to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}. If SP are not specified by the user the function combines those by default.
+#' @description The function checks the trend prices in the given table grouped by year, GSA, MS, and species. If SP are not specified by the user the function combines those by default.
 #' @param data FDI table A catch
 #' @param MS member state code
 #' @param SP species reference code in the three alpha code format ("COMBINED" values perform the analysis for all species present in data)
-#' @param GSA GSA code
+#' @param GSA GSA code ("COMBINED" values perform the analysis for all GSAs present in data).
 #' @param verbose boolean. If TRUE a message is printed.
 #' @return The function returns a list. The first element gives the summary table of records number. From the second to the fourth element gives 3 plots for each variables among: of total live weight landed, total value of landings (euro), and total discards (ton)).
 #' @export
@@ -44,7 +44,7 @@ FDI_prices_cov <- function(data, MS, SP = "COMBINED", GSA = "COMBINED", verbose 
 
     # Summary Table of records number by country, GSA, and specie
     suppressMessages(data1 <- data %>%
-                       tidyr::drop_na(year, country, sub_region, species) %>%
+      tidyr::drop_na(year, country, sub_region, species) %>%
       select(year, country, sub_region, species, totwghtlandg, totvallandg) %>%
       filter(sub_region %in% GSA & country %in% MS & species %in% SP) %>%
       group_by(year, country, sub_region, species) %>%
@@ -70,7 +70,7 @@ FDI_prices_cov <- function(data, MS, SP = "COMBINED", GSA = "COMBINED", verbose 
 
 
     data2$sub_region <- "COMBINED"
-    data2 = data2 %>% select(year,	country,	sub_region,	species,	totwghtlandg,	totvallandg,	mean_price)
+    data2 <- data2 %>% select(year, country, sub_region, species, totwghtlandg, totvallandg, mean_price)
     data3 <- rbind(data1, data2)
 
     Nspecies <- unique(data3$species)
@@ -94,6 +94,6 @@ FDI_prices_cov <- function(data, MS, SP = "COMBINED", GSA = "COMBINED", verbose 
     }
 
     output <- plot_list
-    return(list(Summary_Table_by_GSA=as.data.frame(data1), Summary_Table_by_Country=as.data.frame(data2), plots=output))
+    return(list(Summary_Table_by_GSA = as.data.frame(data1), Summary_Table_by_Country = as.data.frame(data2), plots = output))
   }
 }

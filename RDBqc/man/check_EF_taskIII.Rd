@@ -19,5 +19,4 @@ The function checks the presence of not allowed empty data in the given table, a
 }
 \examples{
 check_EF_taskIII(task_iii)
-
 }

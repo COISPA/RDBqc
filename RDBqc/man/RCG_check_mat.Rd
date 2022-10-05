@@ -24,5 +24,5 @@ The function the returns the plot of the maturity stages by length class
 The function allows to perform a visual check of the maturity stage composition by length class, sex and year.
 }
 \examples{
-RCG_check_mat(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
+RCG_check_mat(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 }

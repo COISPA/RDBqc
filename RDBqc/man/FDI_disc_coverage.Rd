@@ -17,8 +17,8 @@ FDI_disc_coverage(data, MS, verbose = TRUE)
 The function returns a list of data frames by GSA reporting the landing volumes (with discard >0, =0 and =NK and total landing) by year
 }
 \description{
-The functions checks the discard coverage in table A (table 2.2.1) for the selected MS by GSAs
+The functions checks the discard coverage in table A for the selected MS by GSAs.
 }
 \examples{
-FDI_disc_coverage(fdi_a_catch, MS="PSP", verbose=TRUE)
+FDI_disc_coverage(fdi_a_catch, MS = "PSP", verbose = TRUE)
 }

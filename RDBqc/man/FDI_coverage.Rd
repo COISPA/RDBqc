@@ -14,14 +14,13 @@ FDI_coverage(data, MS, verbose = TRUE)
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
-the function returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year
+the function returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year.
 }
 \description{
 Coverage of data by GSA and year (reporting the number of records)
 }
 \examples{
-FDI_coverage(data=fdi_a_catch,MS="PSP", verbose = FALSE)
-FDI_coverage(data=fdi_h_spatial_landings,MS="PSP", verbose = FALSE)
-FDI_coverage(data=fdi_g_effort,MS="PSP", verbose = FALSE)
-
+FDI_coverage(data = fdi_a_catch, MS = "PSP", verbose = FALSE)
+FDI_coverage(data = fdi_h_spatial_landings, MS = "PSP", verbose = FALSE)
+FDI_coverage(data = fdi_g_effort, MS = "PSP", verbose = FALSE)
 }

@@ -26,5 +26,5 @@ the function returns a data frame of the record with values of percentage differ
 um of products
 }
 \examples{
-MEDBS_SOP(data=Catch_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",threshold = 5)
+MEDBS_SOP(data = Catch_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9", threshold = 5)
 }

@@ -24,5 +24,5 @@ a summary table and plots of the LW params
 The function allows to check the length-weight parameters included in the GP table for a selected species
 }
 \examples{
-MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
+MEDBS_LW_check(GP_tab_example, "MUT", "ITA", "GSA 18")
 }

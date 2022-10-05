@@ -33,11 +33,13 @@ FDI_cov_tableA(
 The function returns a list. The first element gives the summary table of records number. From the second to the fourth element gives 3 plots for each variables among: of total live weight landed, total value of landings (euro), and total discards (ton)).
 }
 \description{
-The function checks and count the numbers of records data in the given table A grouped by year, GSA, MS, species, vessels length, and fishing techniques for three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)) according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1}. If SP, Vessel length, and fishing technique are not specified by the user the function combines those by default.
+The function checks and count the numbers of records data in the given table A grouped by year, GSA, MS, species, vessels length, and fishing techniques for three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)). If SP, Vessel length, and fishing technique are not specified by the user the function combines those by default.
 }
 \examples{
-FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
-FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",
-fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")
-FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP", GSA="GSA99")
+FDI_cov_tableA(data = fdi_a_catch, SP = "MUT", MS = "PSP", GSA = "GSA99")
+FDI_cov_tableA(
+  data = fdi_a_catch, SP = "MUT", MS = "PSP",
+  fishtech = unique(fdi_a_catch$fishing_tech), GSA = "GSA99"
+)
+FDI_cov_tableA(data = fdi_a_catch, SP = "MUT", MS = "PSP", GSA = "GSA99")
 }

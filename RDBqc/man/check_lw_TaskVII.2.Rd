@@ -25,5 +25,4 @@ Function to check the consistency of length-weight relationship in the GFCM Task
 }
 \examples{
 check_lw_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP = "BOG")
-
 }

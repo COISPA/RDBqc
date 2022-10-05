@@ -24,5 +24,5 @@ Number of trips by area, year, port, metier and sampling method
 summarizing the number of trips/hauls monitored by year by port, metier, sampling method;
 }
 \examples{
-RCG_summarize_trips(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
+RCG_summarize_trips(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 }

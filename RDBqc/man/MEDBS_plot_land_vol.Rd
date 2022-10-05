@@ -24,7 +24,7 @@ The function returns a plot of the total landing time series by fishery and gear
 The function allows to visual check the time series of landing volumes by fishery of a selected species
 }
 \examples{
-MEDBS_plot_land_vol(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+MEDBS_plot_land_vol(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

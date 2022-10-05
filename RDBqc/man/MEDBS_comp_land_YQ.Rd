@@ -24,7 +24,7 @@ The function returns a data frame  for the comparison of landings aggregated by 
 The function allows to perform the comparison of landings of a selected species aggregated by quarters and by year
 }
 \examples{
-MEDBS_comp_land_YQ(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
+MEDBS_comp_land_YQ(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
