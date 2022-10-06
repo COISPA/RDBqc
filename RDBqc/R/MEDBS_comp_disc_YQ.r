@@ -1,11 +1,11 @@
 #' Comparison between discards in weight by quarter and -1
 #'
 #' @param data data frame containing discards data
-#' @param SP species reference code in the three alpha code format
-#' @param MS member state code as it is reported in the discards data
-#' @param GSA GSA code
-#' @description The function allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level.
-#' @return The function returns a data frame  for the comparison of discards aggregated by quarters and by year
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @description The function compares the discards weights aggregated by quarter and by year for a selected species at gear level.
+#' @return The function returns a data frame with the comparison of discards aggregated by quarters and by year
 #' @export MEDBS_comp_disc_YQ
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>

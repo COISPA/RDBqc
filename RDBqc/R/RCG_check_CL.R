@@ -1,25 +1,24 @@
-
 #' Quality checks on CL RCG table
 #'
 #' @param data Landing table in RCG CL format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @param SP reference species for the analysis
-#' @param verbose boolean. If it is TRUE messages are reported with the outputs
-#' @description The output is a list of 6 data frames:
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
+#' @description The function checks CL tables for temporal, spatial, species and metier coverage
+#' @return The output is a list of 6 data frames:
 #' 1) Sum of Landings by year, quarter and month;
 #' 2) Sum of Landing value by year, quarter and month;
 #' 3) Sum of landings by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
 #' 4) Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
 #' 5) Sum of landings by Year, Species, foCatEu5, foCatEu6;
 #' 6) Sum of landing value by Year, Species, foCatEu5, foCatEu6.
-#' @return Checks_CL list of tables for temporal, spatial, species and metier coverage
 #' @export
-#'
 #' @examples RCG_check_CL(data_exampleCL, MS = "COUNTRY1", GSA = "GSA99", SP = "Parapenaeus longirostris")
 #' @importFrom utils globalVariables
 #' @importFrom ggplot2 aes ggplot geom_line geom_point facet_grid
 #' @importFrom stats aggregate
+
 RCG_check_CL <- function(data, MS, GSA, SP, verbose = TRUE) {
   if (FALSE) {
     data <- data_exampleCL

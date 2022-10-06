@@ -1,12 +1,12 @@
-#' Check for duplicated data rows
+#' Check for duplicated data rows in landings, discards and catch tables
 #'
-#' @param data data frame containing landing data
+#' @param data data frame containing either landings, discards or catch data
 #' @param type string vector indicating the type of table to be checked. "l" for landing; "d" for discards; "c" for catch table.
-#' @param SP vector of the species reference codes in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA vector of the GSA codes to be included in the chack
-#' @param verbose Boolean value to obtain further explanation messages from the function
-#' @description The function checks the presence of duplicated rows in both landings and discards data.
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
+#' @description The function checks the presence of duplicated rows in landings, discards or catch data.
 #' @return The function returns a data frame containing the duplicated rows to be likely deleted from the data.
 #' @examples
 #' MEDBS_check_duplicates(data = Discard_tab_example, type = "d", SP = "DPS",

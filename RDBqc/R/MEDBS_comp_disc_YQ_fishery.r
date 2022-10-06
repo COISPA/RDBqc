@@ -1,17 +1,17 @@
 #' Comparison between discards in weight by quarter, quarter -1 and by fishery
 #'
 #' @param data data frame containing discards data
-#' @param MS member state code as it is reported in the discards data
-#' @param GSA GSA code
-#' @param SP species reference code in the three alpha code format
-#' @param verbose boolean value to obtain further explanation messages from the function
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function allow to estimates the discards in weight for a selected species by quarter and fishery
-#' @return The function returns a data frame  for the comparison of discards aggregated by quarters and by year and fishery
+#' @return The function returns a data frame with the comparison of discards aggregated by quarters and by year and fishery
 #' @export MEDBS_comp_disc_YQ_fishery
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
-#' @examples MEDBS_comp_disc_YQ_fishery(data = Discard_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
+#' @examples MEDBS_comp_disc_YQ_fishery(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 #' @importFrom dplyr full_join
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by
@@ -21,7 +21,7 @@
 #' @importFrom dplyr filter
 #' @importFrom dplyr full_join
 
-MEDBS_comp_disc_YQ_fishery <- function(data, MS, GSA, SP, verbose = TRUE) {
+MEDBS_comp_disc_YQ_fishery <- function(data, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
     MS <- "ITA"
     GSA <- "GSA 9"

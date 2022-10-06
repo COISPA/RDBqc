@@ -1,12 +1,12 @@
-#' Landing_cov: function to check the coverage in Landing table
+#' Check the coverage of Landing table
 #'
 #' @param data Landing table in MED&BS format
-#' @param SP species (three alpha code)
-#' @param MS Country
-#' @param GSA GSA (Geographical sub-area (GFCM sensu))
-#' @param verbose boolean value to obtain further explanation messages from the function
-#' @description the function allows to check the coverage in landing table providing a summary table and a plot of landing
-#' @return a list containing a summary table and coverage plot is provided
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
+#' @description The function allows to check the coverage in landing table providing a summary table and a plot of landing.
+#' @return A list containing a summary table and coverage plot is provided.
 #' @export
 
 #' @examples MEDBS_Landing_coverage(Landing_tab_example, "DPS", "ITA", "GSA 9")
@@ -49,17 +49,17 @@ MEDBS_Landing_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
     names(output)[[l]] <- "summary table"
 
     Landing_tab$Landing_tab[Landing_tab$LANDINGS == -1] <- 0
-    land_wt <- Landing_tab %>%
+    suppressMessages(land_wt <- Landing_tab %>%
       group_by(COUNTRY, AREA, YEAR, QUARTER, VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE, FISHERY) %>%
-      summarize(LANDINGS = sum(LANDINGS, na.rm = TRUE))
+      summarize(LANDINGS = sum(LANDINGS, na.rm = TRUE)))
 
-    data <- Landing_tab %>%
+    suppressMessages(data <- Landing_tab %>%
       group_by(YEAR, GEAR) %>%
-      summarise(LANDINGS = sum(LANDINGS, na.rm = TRUE))
+      summarise(LANDINGS = sum(LANDINGS, na.rm = TRUE)))
 
     gr <- data.frame("YEAR" = seq(min(data$YEAR), max(data$YEAR), 1), "GEAR" = rep(unique(data$GEAR), each = max(data$YEAR) - min(data$YEAR) + 1), "LAND" = 0)
 
-    data <- full_join(gr, data)
+    suppressMessages(data <- full_join(gr, data))
 
     data[is.na(data)] <- 0
 

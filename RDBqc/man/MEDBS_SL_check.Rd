@@ -2,20 +2,20 @@
 % Please edit documentation in R/MEDBS_SL_check.R
 \name{MEDBS_SL_check}
 \alias{MEDBS_SL_check}
-\title{SL_tab (sex ratio at length) table check}
+\title{Check of SL_tab (sex ratio at length) table}
 \usage{
 MEDBS_SL_check(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{data}{sex ratio at length table in MED&BS datacall format}
+\item{data}{sex ratio at length table in MED&BS data call format}
 
-\item{SP}{species (three alpha code)}
+\item{SP}{species code}
 
-\item{MS}{Country}
+\item{MS}{member state code}
 
-\item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 a summary table and plots

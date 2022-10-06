@@ -1,12 +1,11 @@
-#' um of products
+#' check of the sum of products
 #'
 #' @param data Catch table in MED&BS datacall format
-#' @param SP species (three alpha code)
-#' @param MS Country
-#' @param GSA GSA (Geographical sub-area (GFCM sensu))
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
 #' @param threshold threshold value in percentage to check the percentage difference between SOP and both volumes of landing and discard. Default value is 5%
-#' @param verbose boolean value to obtain further explanation messages from the function
-#'
+#' @param verbose boolean. If TRUE messages are returned
 #' @return the function returns a data frame of the record with values of percentage difference between SOP and both volumes of landing and discard greater then threshold value.
 #' @export
 #'

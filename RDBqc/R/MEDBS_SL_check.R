@@ -1,9 +1,9 @@
-#' SL_tab (sex ratio at length) table check
-#' @param data sex ratio at length table in MED&BS datacall format
-#' @param SP species (three alpha code)
-#' @param MS Country
-#' @param GSA GSA (Geographical sub-area (GFCM sensu))
-#' @param verbose boolean value to obtain further explanation messages from the function
+#' Check of SL_tab (sex ratio at length) table
+#' @param data sex ratio at length table in MED&BS data call format
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to check the sex ratio at length (SL) table providing a summary table of the data coverage and plots for the selected species of the proportion of sex ratio for length class by year.
 #' @return a summary table and plots
 #' @export

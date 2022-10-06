@@ -11,17 +11,17 @@ MEDBS_yr_missing_length(data, type, SP, MS, GSA)
 
 \item{type}{type of data frame. "l" for landing and "d" for discard}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 }
 \value{
-the function returns a data frame containing the reference combination of year, gear and fishery missing length distributions
+The function returns a data frame containing the reference combination of year, gear and fishery missing length distributions.
 }
 \description{
-The function checks the presence of years with missing length distributions in both landings and discards for a selected species
+The function checks the presence of years with missing length distributions in both landings and discards for a selected species.
 }
 \examples{
 MEDBS_yr_missing_length(data = Discard_tab_example, type = "d",

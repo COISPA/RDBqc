@@ -2,7 +2,7 @@
 % Please edit documentation in R/MEDBS_lengthclass_0.R
 \name{MEDBS_lengthclass_0}
 \alias{MEDBS_lengthclass_0}
-\title{Length classes number 0 in landings and discards}
+\title{Checks length classes numbers with zeros in landings and discards}
 \usage{
 MEDBS_lengthclass_0(data, type = "l", SP, MS, GSA, verbose = TRUE)
 }
@@ -11,13 +11,13 @@ MEDBS_lengthclass_0(data, type = "l", SP, MS, GSA, verbose = TRUE)
 
 \item{type}{string vector indicating the type of table to be checked. "l" for landing; "d" for discards.}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{Boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 The function returns a data frame with the rows with 0 values length class having weigth > 0.

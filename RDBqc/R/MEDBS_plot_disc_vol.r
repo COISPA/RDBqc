@@ -1,9 +1,9 @@
 #' Plot of total discards by gear and fishery
 #'
 #' @param data data frame containing discard data
-#' @param SP species reference code in the three alpha code format
-#' @param MS member state code as it is reported in the discard data
-#' @param GSA GSA code
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
 #' @description The function allows to visual check the time series of discard volumes by fishery of a selected species
 #' @return The function returns a plot of the total discards time series by fishery and gear
 #' @export MEDBS_plot_disc_vol
@@ -30,14 +30,6 @@
 
 
 MEDBS_plot_disc_vol <- function(data, SP, MS, GSA) {
-  if (FALSE) {
-    MS <- "ITA"
-    GSA <- "GSA 9"
-    SP <- "DPS"
-    data <- Discard_tab_example
-
-    MEDBS_plot_disc_vol(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
-  }
 
   year <- gear <- fishery <- discards <- sumLand <- NULL
 

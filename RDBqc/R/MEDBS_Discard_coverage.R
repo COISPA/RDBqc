@@ -1,12 +1,12 @@
-#' Discard_cov: function to check the coverage in discard table
+#' Check the coverage of discard data
 #'
 #' @param Discard_tab Discard table in MED&BS format
-#' @param SP species (three alpha code)
-#' @param MS Country
-#' @param GSA GSA (Geographical sub-area (GFCM sensu))
-#' @param verbose boolean value to obtain further explanation messages from the function
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to check the coverage of the time series in discard table for a selected species.
-#' @return summary table and plots of discard time series by year and gear
+#' @return A summary table and a plot of discard time series by year and gear are returned.
 #' @export
 #' @examples MEDBS_discard_coverage(Discard_tab_example, "DPS", "ITA", "GSA 9")
 #' @import ggplot2 dplyr
@@ -47,13 +47,13 @@ MEDBS_discard_coverage <- function(Discard_tab, SP, MS, GSA, verbose = TRUE) {
     names(output)[[l]] <- "summary table"
 
     Discard_tab$Discard_tab[Discard_tab$discards == -1] <- 0
-    land_wt <- Discard_tab %>%
+    suppressMessages(land_wt <- Discard_tab %>%
       group_by(country, area, year, quarter, vessel_length, gear, mesh_size_range, fishery) %>%
-      summarize(discards = sum(discards, na.rm = TRUE))
+      summarize(discards = sum(discards, na.rm = TRUE)))
 
-    data <- Discard_tab %>%
+    suppressMessages(data <- Discard_tab %>%
       group_by(year, gear) %>%
-      summarise(discards = sum(discards, na.rm = TRUE))
+      summarise(discards = sum(discards, na.rm = TRUE)))
 
     gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1), "disc" = 0)
 

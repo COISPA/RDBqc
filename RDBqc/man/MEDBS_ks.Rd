@@ -7,19 +7,19 @@
 MEDBS_ks(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE)
 }
 \arguments{
-\item{data}{data frame of landings or discards data}
+\item{data}{data frame of either landings or discards data}
 
 \item{type}{type of data frame. "l" for landing and "d" for discard}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
 \item{Rt}{ratio to be applied to subsample data to reduce the risk of rejection of H0 Hypothesis}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 the function returns a list of data frames and cumulatine distribution plots

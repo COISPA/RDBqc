@@ -1,22 +1,15 @@
-#' ML_tab (maturity at length) table check
+#' Check of ML_tab (maturity at length) table
 #' @param data maturity at length table in MED&BS datacall format
-#' @param SP species (three alpha code)
-#' @param MS Country
-#' @param GSA GSA (Geographical sub-area (GFCM sensu))
-#' @param verbose boolean value to obtain further explanation messages from the function
-#' @description The function allows to check the maturity at length (ML) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
+#' @description The function checks the maturity at length (ML) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
 #' @return a summary table and plots
 #' @export
 #' @import ggplot2 dplyr
 #' @examples MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 MEDBS_ML_check <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    data <- ML_tab_example
-    verbose <- TRUE
-    SP <- "DPS"
-    MS <- "ITA"
-    GSA <- "GSA 99"
-  }
 
   colnames(data) <- toupper(colnames(data))
   ML_tab <- data

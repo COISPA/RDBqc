@@ -1,10 +1,10 @@
-#' GP_tab (growth params) table check
-#' @param data growth params table in MED&BS datacall format
-#' @param SP species (three alpha code)
-#' @param MS Country
-#' @param GSA GSA (Geographical sub-area (GFCM sensu))
-#' @description The function allows to check the growth parameters by sex and year for a selected species
-#' @return a list of objects containing a summary table and different plots of the growth curves by sex and year.
+#' Check of growth parameters table
+#' @param data growth parameters table in MED&BS data call format
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @description The function checks the growth parameters by sex and year for a selected species
+#' @return A list of objects containing a summary table and different plots of the growth curves by sex and year is returned by the function.
 #' @export
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off

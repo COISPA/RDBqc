@@ -2,20 +2,20 @@
 % Please edit documentation in R/MEDBS_SA_check.R
 \name{MEDBS_SA_check}
 \alias{MEDBS_SA_check}
-\title{SA_tab (sex ratio at age) table check}
+\title{Check of SA_tab (sex ratio at age) table}
 \usage{
 MEDBS_SA_check(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{sex ratio at age table in MED&BS datacall format}
 
-\item{SP}{species (three alpha code)}
+\item{SP}{species code}
 
-\item{MS}{Country}
+\item{MS}{member state code}
 
-\item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 a summary table and plots

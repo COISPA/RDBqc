@@ -12,12 +12,10 @@ RCG_check_loc(data, ports = circabc)
 \item{ports}{ports codification file}
 }
 \value{
-map of trip locations
+A map of trip locations is generated.
 }
 \description{
-The function allows to check the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data.
-
-If Initial and/or Final coordinates are included in the data, maps of them are produced. If not the locations of the harbours are mapped.
+The function allows to check the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data in case coordinates are not available.
 }
 \examples{
 RCG_check_loc(data_ex)

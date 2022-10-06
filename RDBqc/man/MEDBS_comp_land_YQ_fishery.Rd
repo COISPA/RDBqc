@@ -9,19 +9,19 @@ MEDBS_comp_land_YQ_fishery(data, SP, MS, GSA, verbose = TRUE)
 \arguments{
 \item{data}{data frame containing landing data}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-The function returns a data frame  for the comparison of landings aggregated by quarters and by year and fishery
+The function returns a data frame for the comparison of landings aggregated by quarters, and by year and fishery
 }
 \description{
-The function allows to perform the comparison of landings of a selected species aggregated by quarters and by year and fishery
+The function allows to perform the comparison of landings of a selected species aggregated by quarters, and by year and fishery
 }
 \examples{
 MEDBS_comp_land_YQ_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")

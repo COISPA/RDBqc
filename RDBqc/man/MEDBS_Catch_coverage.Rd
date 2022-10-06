@@ -2,26 +2,26 @@
 % Please edit documentation in R/MEDBS_Catch_coverage.R
 \name{MEDBS_Catch_coverage}
 \alias{MEDBS_Catch_coverage}
-\title{Catch_cov: function to check the coverage in Catch table}
+\title{Check the coverage of Catch table}
 \usage{
 MEDBS_Catch_coverage(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{Catch table in MEDBS format}
 
-\item{SP}{species (three alpha code)}
+\item{SP}{species code}
 
-\item{MS}{Country}
+\item{MS}{member state code}
 
-\item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-summary table and plots
+The function returns two summary tables: one for landing coverage and the other for discard coverage. Furthermore, plots of landings and discards by gear are also returned
 }
 \description{
-The function allows to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
+The function allows to check the coverage of Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
 }
 \examples{
 MEDBS_Catch_coverage(Catch_tab_example, "DPS", "ITA", "GSA 9")

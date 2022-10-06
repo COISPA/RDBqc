@@ -1,12 +1,12 @@
 #' Comparison between landings in weight by quarter and -1
 #'
 #' @param data data frame containing landing data
-#' @param SP species reference code in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @param verbose boolean value to obtain further explanation messages from the function
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to perform the comparison of landings of a selected species aggregated by quarters and by year
-#' @return The function returns a data frame  for the comparison of landings aggregated by quarters and by year
+#' @return The function returns a data frame for the comparison of landings aggregated by quarters and by year
 #' @export MEDBS_comp_land_YQ
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>

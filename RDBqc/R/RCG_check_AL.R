@@ -1,13 +1,13 @@
 #' Check consistency of age-length relationship
 #'
 #' @param data table of detailed data in RCG format
-#' @param SP reference species for the analysis
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
+#' @param GSA GSA code (Geographical sub-area)
 #' @param min_age minimum age expected
 #' @param max_age maximum age expected
-#' @param verbose boolean. If it is TRUE messages are reported with the outputs
-#' @return summary table length-age and error (if any)
+#' @param verbose boolean. If TRUE messages are returned
+#' @return The function returns a list of object containing a summary table, an age-length plot and a table of the outlayers, if any.
 #' @export
 #' @examples RCG_check_AL(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus", min_age = 0, max_age = 30)
 #' @import ggplot2
@@ -16,14 +16,7 @@
 RCG_check_AL <- function(data, MS, GSA, SP, min_age = 0, max_age = 30, verbose = TRUE) {
   Age <- Length_class <- Sex <- NULL
 
-  if (FALSE) {
-    data <- data_ex
-    SP <- "Mullus barbatus"
-    min_age <- 0
-    max_age <- 30
-    verbose <- TRUE
-    data$Age <- NA
-  }
+
 
   AGE_na <- data[is.na(data$Age) & data$Species %in% SP & data$Flag_country %in% MS & data$Area %in% GSA, ]
   if (verbose) {

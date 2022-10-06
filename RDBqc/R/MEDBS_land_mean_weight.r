@@ -1,12 +1,12 @@
-#' Mean weight by year,gear and fishery aggregation
+#' Mean weight by year, gear and fishery aggregation
 #'
 #' @param data data frame containing landing data
-#' @param SP species reference code in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @param verbose boolean value to obtain further explanation messages from the function
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery
-#' @return The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and return the data frame as well.
+#' @return The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and returns the data frame as well.
 #' @export MEDBS_land_mean_weight
 #'
 #' @examples MEDBS_land_mean_weight(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")

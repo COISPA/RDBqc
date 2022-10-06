@@ -1,11 +1,11 @@
-#' LW params in GP_tab in table check
+#' Check LW parameters in GP table
 #' @param data growth params table in MED&BS datacall format
-#' @param SP species (three alpha code)
-#' @param MS Country
-#' @param GSA GSA (Geographical sub-area (GFCM sensu))
-#' @param verbose boolean value to obtain further explanation messages from the function
-#' @description The function allows to check the length-weight parameters included in the GP table for a selected species
-#' @return a summary table and plots of the LW params
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
+#' @description The function checks the length-weight parameters included in the GP table for a selected species.
+#' @return A summary table and plots of the LW parameters are returned by the function.
 #' @export
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off

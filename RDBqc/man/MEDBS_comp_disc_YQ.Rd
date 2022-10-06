@@ -9,17 +9,17 @@ MEDBS_comp_disc_YQ(data, MS, GSA, SP)
 \arguments{
 \item{data}{data frame containing discards data}
 
-\item{MS}{member state code as it is reported in the discards data}
+\item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 }
 \value{
-The function returns a data frame  for the comparison of discards aggregated by quarters and by year
+The function returns a data frame with the comparison of discards aggregated by quarters and by year
 }
 \description{
-The function allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level.
+The function compares the discards weights aggregated by quarter and by year for a selected species at gear level.
 }
 \examples{
 MEDBS_comp_disc_YQ(data = Discard_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")

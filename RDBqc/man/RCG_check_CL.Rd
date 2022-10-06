@@ -11,16 +11,13 @@ RCG_check_CL(data, MS, GSA, SP, verbose = TRUE)
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{SP}{reference species for the analysis}
+\item{SP}{species code}
 
-\item{verbose}{boolean. If it is TRUE messages are reported with the outputs}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-Checks_CL list of tables for temporal, spatial, species and metier coverage
-}
-\description{
 The output is a list of 6 data frames:
 \enumerate{
 \item Sum of Landings by year, quarter and month;
@@ -30,6 +27,9 @@ The output is a list of 6 data frames:
 \item Sum of landings by Year, Species, foCatEu5, foCatEu6;
 \item Sum of landing value by Year, Species, foCatEu5, foCatEu6.
 }
+}
+\description{
+The function checks CL tables for temporal, spatial, species and metier coverage
 }
 \examples{
 RCG_check_CL(data_exampleCL, MS = "COUNTRY1", GSA = "GSA99", SP = "Parapenaeus longirostris")

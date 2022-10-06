@@ -2,26 +2,26 @@
 % Please edit documentation in R/MEDBS_Landing_coverage.R
 \name{MEDBS_Landing_coverage}
 \alias{MEDBS_Landing_coverage}
-\title{Landing_cov: function to check the coverage in Landing table}
+\title{Check the coverage of Landing table}
 \usage{
 MEDBS_Landing_coverage(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{Landing table in MED&BS format}
 
-\item{SP}{species (three alpha code)}
+\item{SP}{species code}
 
-\item{MS}{Country}
+\item{MS}{member state code}
 
-\item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-a list containing a summary table and coverage plot is provided
+A list containing a summary table and coverage plot is provided.
 }
 \description{
-the function allows to check the coverage in landing table providing a summary table and a plot of landing
+The function allows to check the coverage in landing table providing a summary table and a plot of landing.
 }
 \examples{
 MEDBS_Landing_coverage(Landing_tab_example, "DPS", "ITA", "GSA 9")

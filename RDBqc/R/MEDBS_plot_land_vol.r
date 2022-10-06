@@ -1,11 +1,11 @@
 #' Plot of total landing by gear and fishery
 #'
 #' @param data data frame containing landing data
-#' @param SP species reference code in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @param verbose boolean value to obtain further explanation messages from the function
-#' @description The function allows to visual check the time series of landing volumes by fishery of a selected species
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
+#' @description The function checks the time series of landing volumes by fishery of a selected species
 #' @return The function returns a plot of the total landing time series by fishery and gear
 #' @export MEDBS_plot_land_vol
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>

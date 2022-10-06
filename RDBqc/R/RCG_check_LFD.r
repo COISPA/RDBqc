@@ -1,19 +1,19 @@
-#' RCG_check LFD
+#' Consistency check of LFDs
 #'
 #' @param data RCG CS table
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @param SP reference species for the analysis
+#' @param GSA GSA code (Geographical sub-area)
 #' @param min_len minimum length
 #' @param max_len maximum length
-#' @param verbose boolean. If it is TRUE messages are reported with the outputs
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to check the consistency of LFDs (length frequency distributions) by year on a given species generating a multi-frame plot. The function also returns the records in which the length classes are greater or lower than the expected ones (\code{min_len} and \code{max_len} parameters).
-#' @return comparison plot of LFDs among the  years and check of length range of the data using allowed range
+#' @return The function returns a comparison plot of LFDs among the years and a table reporting the length classes out of the expected range, according to the reference length provided.
 #' @export
 #' @examples RCG_check_LFD(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus", min_len = 1, max_len = 35)
 #' @importFrom ggplot2 ggplot
 #' @importFrom utils globalVariables
-RCG_check_LFD <- function(data, MS, GSA, SP, min_len = 1, max_len = 1000, verbose = TRUE) {
+RCG_check_LFD <- function(data, SP, MS, GSA, min_len = 1, max_len = 1000, verbose = TRUE) {
   data <- data[data$Species == SP & data$Area %in% GSA & data$Flag_country %in% MS, ]
 
   if (nrow(data) == 0) {

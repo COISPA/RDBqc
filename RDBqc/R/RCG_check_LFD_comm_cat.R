@@ -1,18 +1,17 @@
-
 #' Check consistency of LFD by year and commercial category
 #'
 #' @param data RCG CS table
-#' @param SP reference species for the analysis
-#' @param verbose boolean. If it is TRUE messages are reported with the outputs
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @description The function allows to check the consistency of LFDs (length frequency distributions) by year and commercial size cetegory on a given species generating a multi-frame plot. The function also returns a data frame with the length range by year and commercial size category.
-#' @return plot and a summary table with ranges by year and commercial category
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
+#' @description The function allows to check the consistency of LFDs (length frequency distributions) by year and commercial size category on a given species.
+#' @return The function returns a multi-frame plot of LFDs (length frequency distributions) by year and commercial size category for the selected species. The function also returns a data frame with the length range by year and commercial size category.
 #' @export
 #' @examples RCG_check_LFD_comm_cat(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 #' @import ggplot2
 #' @importFrom utils globalVariables
-RCG_check_LFD_comm_cat <- function(data, MS, GSA, SP, verbose = TRUE) {
+RCG_check_LFD_comm_cat <- function(data, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
     data <- data_ex
     data[1, "Length_class"] <- NA

@@ -1,14 +1,13 @@
-#' Mean weight by year,gear and fishery aggregation
+#' Check of mean discard weight aggregations by year, gear and fishery
 #'
 #' @param data data frame containing discards data
-#' @param SP species reference code in the three alpha code format
-#' @param MS member state code as it is reported in the discards data
-#' @param GSA GSA code
-#' @param verbose boolean value to obtain further explanation messages from the function
-#' @description The function allows to check consistency of  mean discard of a selected species plotting the discards' weight by year, gear and fishery
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
+#' @description The function allows to check consistency of mean discard of a selected species plotting the discards' weight by year, gear and fishery
 #' @return The function returns a plot of the mean discards weight by year, gear and fishery aggregation
 #' @export MEDBS_disc_mean_weight
-#'
 #' @examples MEDBS_disc_mean_weight(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>

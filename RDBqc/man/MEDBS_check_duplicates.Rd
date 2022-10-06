@@ -2,28 +2,28 @@
 % Please edit documentation in R/MEDBS_check_duplicates.r
 \name{MEDBS_check_duplicates}
 \alias{MEDBS_check_duplicates}
-\title{Check for duplicated data rows}
+\title{Check for duplicated data rows in landings, discards and catch tables}
 \usage{
 MEDBS_check_duplicates(data, type = "l", SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{data}{data frame containing landing data}
+\item{data}{data frame containing either landings, discards or catch data}
 
 \item{type}{string vector indicating the type of table to be checked. "l" for landing; "d" for discards; "c" for catch table.}
 
-\item{SP}{vector of the species reference codes in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{vector of the GSA codes to be included in the chack}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{Boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 The function returns a data frame containing the duplicated rows to be likely deleted from the data.
 }
 \description{
-The function checks the presence of duplicated rows in both landings and discards data.
+The function checks the presence of duplicated rows in landings, discards or catch data.
 }
 \examples{
 MEDBS_check_duplicates(data = Discard_tab_example, type = "d", SP = "DPS",

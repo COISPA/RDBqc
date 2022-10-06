@@ -2,26 +2,26 @@
 % Please edit documentation in R/MEDBS_comp_land_Q_VL_fishery.R
 \name{MEDBS_comp_land_Q_VL_fishery}
 \alias{MEDBS_comp_land_Q_VL_fishery}
-\title{Comparison between landings in weight by quarter and fishery accounting for vessel length}
+\title{Comparison between landings in weight by quarter and fishery, accounting for vessel length}
 \usage{
 MEDBS_comp_land_Q_VL_fishery(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{data frame containing landing data}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 The function returns a data frame for the comparison of landings aggregated by quarters and fishery accounting for the presence of vessel length information.
 }
 \description{
-The function allows to perform the comparison of landings of a selected species aggregated by quarters and fishery accounting for the presence of vessel length
+The function performs the comparison of landings of a selected species aggregated by quarters and fishery, accounting for the presence of vessel length
 }
 \examples{
 MEDBS_comp_land_Q_VL_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")

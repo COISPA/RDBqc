@@ -1,12 +1,12 @@
 #' Kolmogorov-Smirnov test
 #'
-#' @param data data frame of landings or discards data
+#' @param data data frame of either landings or discards data
 #' @param type type of data frame. "l" for landing and "d" for discard
-#' @param SP species reference code in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
+#' @param GSA GSA code (Geographical sub-area)
 #' @param Rt ratio to be applied to subsample data to reduce the risk of rejection of H0 Hypothesis
-#' @param verbose boolean value to obtain further explanation messages from the function
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to perform the Kolmogorov-Smirnov test on both landings and discards for a selected species providing cumulative length distribution plots by fishery and year. The function performs Kolmogorov-Smirnov tests on couples of years to assess if they belong to the same population.
 #' @return the function returns a list of data frames and cumulatine distribution plots
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
@@ -109,37 +109,37 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
 
       db <- do.call(rbind, tempcum)
 
-      NUMBERb <- LFL %>%
+      suppressMessages(NUMBERb <- LFL %>%
         group_by(year, gear, fishery) %>%
-        summarize(total_number = sum(value))
+        summarize(total_number = sum(value)))
 
-      MEANdb <- LFL %>%
+      suppressMessages(MEANdb <- LFL %>%
         group_by(year, gear, fishery) %>%
-        summarize(mean_size = (sum(start_length * value, na.rm = T)) / sum(value, na.rm = T))
+        summarize(mean_size = (sum(start_length * value, na.rm = T)) / sum(value, na.rm = T)))
 
-      LFL_mutate <- inner_join(LFL, MEANdb)
+      suppressMessages(LFL_mutate <- inner_join(LFL, MEANdb))
       LFL_mutate$square <- (LFL_mutate$start_length - LFL_mutate$mean_size)^2
       LFL_mutate$fsquare <- LFL_mutate$square * LFL_mutate$value
 
-      SDdb <- LFL_mutate %>%
+      suppressMessages(SDdb <- LFL_mutate %>%
         group_by(year, gear, fishery) %>%
-        summarize(sd_size = sqrt(sum(fsquare) / (sum(value) - 1)))
+        summarize(sd_size = sqrt(sum(fsquare) / (sum(value) - 1))))
 
-      MINdb <- LFL %>%
-        group_by(year, gear, fishery) %>%
-        filter(value > 0, na.rm = TRUE) %>%
-        summarize(min_size = min(start_length, na.rm = T))
-
-      MAXdb <- LFL %>%
+      suppressMessages(MINdb <- LFL %>%
         group_by(year, gear, fishery) %>%
         filter(value > 0, na.rm = TRUE) %>%
-        summarize(max_size = max(start_length, na.rm = T))
+        summarize(min_size = min(start_length, na.rm = T)))
 
-      final_DB <- left_join(MINdb, MEANdb)
-      final_DB <- inner_join(final_DB, MAXdb)
-      final_DB <- left_join(final_DB, SDdb)
-      final_DB <- left_join(NUMBERb, final_DB)
-      final_DB <- as.data.frame(final_DB)
+      suppressMessages(MAXdb <- LFL %>%
+        group_by(year, gear, fishery) %>%
+        filter(value > 0, na.rm = TRUE) %>%
+        summarize(max_size = max(start_length, na.rm = T)))
+
+      suppressMessages(final_DB <- left_join(MINdb, MEANdb))
+      suppressMessages(final_DB <- inner_join(final_DB, MAXdb))
+      suppressMessages(final_DB <- left_join(final_DB, SDdb))
+      suppressMessages(final_DB <- left_join(NUMBERb, final_DB))
+      suppressMessages(final_DB <- as.data.frame(final_DB))
 
       ###########
 
@@ -272,41 +272,41 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       db <- do.call(rbind, tempcum)
 
 
-      NUMBERb <- LFL %>%
+      suppressMessages(NUMBERb <- LFL %>%
         group_by(year, gear, fishery) %>%
-        summarize(total_number = sum(value))
+        summarize(total_number = sum(value)))
 
-      MEANdb <- LFL %>%
+      suppressMessages(MEANdb <- LFL %>%
         group_by(year, gear, fishery) %>%
-        summarize(mean_size = (sum(start_length * value, na.rm = T)) / sum(value, na.rm = T))
+        summarize(mean_size = (sum(start_length * value, na.rm = T)) / sum(value, na.rm = T)))
 
-      LFL_mutate <- inner_join(LFL, MEANdb)
+      suppressMessages(LFL_mutate <- inner_join(LFL, MEANdb))
       LFL_mutate$square <- (LFL_mutate$start_length - LFL_mutate$mean_size)^2
       LFL_mutate$fsquare <- LFL_mutate$square * LFL_mutate$value
 
-      SDdb <- LFL_mutate %>%
+      suppressMessages(SDdb <- LFL_mutate %>%
         group_by(year, gear, fishery) %>%
-        summarize(sd_size = sqrt(sum(fsquare) / (sum(value) - 1)))
+        summarize(sd_size = sqrt(sum(fsquare) / (sum(value) - 1))))
 
 
-      MINdb <- LFL %>%
-        group_by(year, gear, fishery) %>%
-        filter(value > 0, na.rm = TRUE) %>%
-        summarize(min_size = min(start_length, na.rm = T))
-
-
-      MAXdb <- LFL %>%
+      suppressMessages(MINdb <- LFL %>%
         group_by(year, gear, fishery) %>%
         filter(value > 0, na.rm = TRUE) %>%
-        summarize(max_size = max(start_length, na.rm = T))
+        summarize(min_size = min(start_length, na.rm = T)))
+
+
+      suppressMessages(MAXdb <- LFL %>%
+        group_by(year, gear, fishery) %>%
+        filter(value > 0, na.rm = TRUE) %>%
+        summarize(max_size = max(start_length, na.rm = T)))
 
 
 
-      final_DB <- left_join(MINdb, MEANdb)
-      final_DB <- inner_join(final_DB, MAXdb)
-      final_DB <- left_join(final_DB, SDdb)
+      suppressMessages(final_DB <- left_join(MINdb, MEANdb))
+      suppressMessages(final_DB <- inner_join(final_DB, MAXdb))
+      suppressMessages(final_DB <- left_join(final_DB, SDdb))
 
-      final_DB <- left_join(NUMBERb, final_DB)
+      suppressMessages(final_DB <- left_join(NUMBERb, final_DB))
       final_DB <- as.data.frame(final_DB)
       # tail(final_DB)
 

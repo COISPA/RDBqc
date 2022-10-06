@@ -1,12 +1,12 @@
 #' Plot of Age-Length Keys
 #'
 #' @param data ALK table in MED&BS datacall format
-#' @param SP species (three alpha code)
-#' @param MS Country
-#' @param GSA GSA (Geographical sub-area (GFCM sensu))
-#' @param verbose boolean value to obtain further explanation messages from the function
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned.
 #' @description The function allows to check the data in the ALK table providing plots by sex for a selected species
-#' @return a list of ALK plots by sex is returne
+#' @return a list of ALK plots by sex is return.
 #' @export
 #' @importFrom data.table melt
 #'

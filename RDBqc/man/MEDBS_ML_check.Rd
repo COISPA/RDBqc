@@ -2,26 +2,26 @@
 % Please edit documentation in R/MEDBS_ML_check.R
 \name{MEDBS_ML_check}
 \alias{MEDBS_ML_check}
-\title{ML_tab (maturity at length) table check}
+\title{Check of ML_tab (maturity at length) table}
 \usage{
 MEDBS_ML_check(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{maturity at length table in MED&BS datacall format}
 
-\item{SP}{species (three alpha code)}
+\item{SP}{species code}
 
-\item{MS}{Country}
+\item{MS}{member state code}
 
-\item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 a summary table and plots
 }
 \description{
-The function allows to check the maturity at length (ML) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
+The function checks the maturity at length (ML) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
 }
 \examples{
 MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")

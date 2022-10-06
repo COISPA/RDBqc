@@ -2,11 +2,11 @@
 #'
 #' @param data data frame of landings or discards data
 #' @param type type of data frame. "l" for landing and "d" for discard
-#' @param SP species reference code in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @description The function checks the presence of years with missing length distributions in both landings and discards for a selected species
-#' @return the function returns a data frame containing the reference combination of year, gear and fishery missing length distributions
+#' @param GSA GSA code (Geographical sub-area)
+#' @description The function checks the presence of years with missing length distributions in both landings and discards for a selected species.
+#' @return The function returns a data frame containing the reference combination of year, gear and fishery missing length distributions.
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>

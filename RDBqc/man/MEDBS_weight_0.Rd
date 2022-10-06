@@ -2,7 +2,7 @@
 % Please edit documentation in R/MEDBS_weight_0.R
 \name{MEDBS_weight_0}
 \alias{MEDBS_weight_0}
-\title{weight 0 in landings and discards}
+\title{Check of weights 0 in landings and discards}
 \usage{
 MEDBS_weight_0(data, type = "l", SP, MS, GSA, verbose = TRUE)
 }
@@ -11,13 +11,13 @@ MEDBS_weight_0(data, type = "l", SP, MS, GSA, verbose = TRUE)
 
 \item{type}{type of table: "l" for landings; "d" for discards}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
-\item{MS}{member state code as it is reported in both landing and discard data}
+\item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 The function returns the number of rows with 0 values in weights having length classes filled in.

@@ -2,23 +2,23 @@
 % Please edit documentation in R/MEDBS_Discard_coverage.R
 \name{MEDBS_discard_coverage}
 \alias{MEDBS_discard_coverage}
-\title{Discard_cov: function to check the coverage in discard table}
+\title{Check the coverage of discard data}
 \usage{
 MEDBS_discard_coverage(Discard_tab, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{Discard_tab}{Discard table in MED&BS format}
 
-\item{SP}{species (three alpha code)}
+\item{SP}{species code}
 
-\item{MS}{Country}
+\item{MS}{member state code}
 
-\item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-summary table and plots of discard time series by year and gear
+A summary table and a plot of discard time series by year and gear are returned.
 }
 \description{
 The function allows to check the coverage of the time series in discard table for a selected species.

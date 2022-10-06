@@ -9,19 +9,19 @@ MEDBS_plot_land_vol(data, SP, MS, GSA, verbose = TRUE)
 \arguments{
 \item{data}{data frame containing landing data}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 The function returns a plot of the total landing time series by fishery and gear
 }
 \description{
-The function allows to visual check the time series of landing volumes by fishery of a selected species
+The function checks the time series of landing volumes by fishery of a selected species
 }
 \examples{
 MEDBS_plot_land_vol(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")

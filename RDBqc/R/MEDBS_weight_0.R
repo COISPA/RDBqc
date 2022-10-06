@@ -1,11 +1,11 @@
-#' weight 0 in landings and discards
+#' Check of weights 0 in landings and discards
 #'
 #' @param data data.table object containing landing or discard data
 #' @param type type of table: "l" for landings; "d" for discards
-#' @param SP species reference code in the three alpha code format
-#' @param MS member state code as it is reported in both landing and discard data
-#' @param GSA GSA code
-#' @param verbose boolean value to obtain further explanation messages from the function
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function checks landings or discards in weight equal to 0 having length classes filled in
 #' @return The function returns the number of rows with 0 values in weights having length classes filled in.
 #' @examples MEDBS_weight_0(data = Landing_tab_example, type = "l",

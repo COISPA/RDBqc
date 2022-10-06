@@ -2,26 +2,26 @@
 % Please edit documentation in R/MEDBS_LW_check.R
 \name{MEDBS_LW_check}
 \alias{MEDBS_LW_check}
-\title{LW params in GP_tab in table check}
+\title{Check LW parameters in GP table}
 \usage{
 MEDBS_LW_check(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{growth params table in MED&BS datacall format}
 
-\item{SP}{species (three alpha code)}
+\item{SP}{species code}
 
-\item{MS}{Country}
+\item{MS}{member state code}
 
-\item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-a summary table and plots of the LW params
+A summary table and plots of the LW parameters are returned by the function.
 }
 \description{
-The function allows to check the length-weight parameters included in the GP table for a selected species
+The function checks the length-weight parameters included in the GP table for a selected species.
 }
 \examples{
 MEDBS_LW_check(GP_tab_example, "MUT", "ITA", "GSA 18")

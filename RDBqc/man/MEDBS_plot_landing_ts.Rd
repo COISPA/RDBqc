@@ -2,22 +2,22 @@
 % Please edit documentation in R/MEDBS_plot_landing_ts.R
 \name{MEDBS_plot_landing_ts}
 \alias{MEDBS_plot_landing_ts}
-\title{Plot of total landing}
+\title{Plot of total landing time series}
 \usage{
 MEDBS_plot_landing_ts(data, SP, MS, GSA, by = "year", verbose = TRUE)
 }
 \arguments{
 \item{data}{data frame containing landing data}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
 \item{by}{string defining the temporal aggregation level of landing data to be plotted. Allowed values are: "year" and "quarter}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 The function returns a plot of the total landing time series by year or by quarters. The plot by year also reports the landing by gear.

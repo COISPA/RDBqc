@@ -1,11 +1,11 @@
-#' Length classes number 0 in landings and discards
+#' Checks length classes numbers with zeros in landings and discards
 #'
 #' @param data data frame containing landing data
 #' @param type string vector indicating the type of table to be checked. "l" for landing; "d" for discards.
-#' @param SP species reference code in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @param verbose Boolean value to obtain further explanation messages from the function
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function checks landings and discards for the presence of length class filled in having weigth > 0.
 #' @return The function returns a data frame with the rows with 0 values length class having weigth > 0.
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>

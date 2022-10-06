@@ -1,12 +1,12 @@
-#' Catch_cov: function to check the coverage in Catch table
+#' Check the coverage of Catch table
 #'
 #' @param data Catch table in MEDBS format
-#' @param SP species (three alpha code)
-#' @param MS Country
-#' @param GSA GSA (Geographical sub-area (GFCM sensu))
-#' @param verbose boolean value to obtain further explanation messages from the function
-#' @description The function allows to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
-#' @return summary table and plots
+#' @param SP species code
+#' @param MS member state code
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
+#' @description The function allows to check the coverage of Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
+#' @return The function returns two summary tables: one for landing coverage and the other for discard coverage. Furthermore, plots of landings and discards by gear are also returned
 #' @export
 #' @examples MEDBS_Catch_coverage(Catch_tab_example, "DPS", "ITA", "GSA 9")
 #' @import ggplot2 dplyr
@@ -61,7 +61,7 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
     names(output)[[l]] <- "summary_discard_table"
 
     # Plot 1
-    ## LANDINGS AT AGE ####
+    ## LANDINGS ##
     catch$LANDINGS[catch$LANDINGS == -1] <- 0
     catch_land_wt <- catch %>%
       group_by(COUNTRY, AREA, YEAR, QUARTER, VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE, FISHERY) %>%
@@ -88,12 +88,12 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
 
     l <- length(output) + 1
     output[[l]] <- p
-    names(output)[[l]] <- "landings_at_age"
+    names(output)[[l]] <- "landings"
 
 
 
     # Plot 2
-    ## DISCARDS AT AGE ####
+    ## DISCARDS ##
     catch$DISCARDS[catch$DISCARDS == -1] <- 0
     catch_disc_wt <- catch %>%
       group_by(COUNTRY, AREA, YEAR, QUARTER, VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE, FISHERY) %>%
@@ -119,7 +119,7 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
       scale_x_continuous(breaks = seq(min(data$YEAR), max(data$YEAR), 2))
     l <- length(output) + 1
     output[[l]] <- p
-    names(output)[[l]] <- "discards_at_age"
+    names(output)[[l]] <- "discards"
     return(output) # list(Summary_land_wt,Summary_disc_wt)
   }
 }

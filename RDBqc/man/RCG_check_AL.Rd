@@ -11,18 +11,18 @@ RCG_check_AL(data, MS, GSA, SP, min_age = 0, max_age = 30, verbose = TRUE)
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{SP}{reference species for the analysis}
+\item{SP}{species code}
 
 \item{min_age}{minimum age expected}
 
 \item{max_age}{maximum age expected}
 
-\item{verbose}{boolean. If it is TRUE messages are reported with the outputs}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-summary table length-age and error (if any)
+The function returns a list of object containing a summary table, an age-length plot and a table of the outlayers, if any.
 }
 \description{
 Check consistency of age-length relationship

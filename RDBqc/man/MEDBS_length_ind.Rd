@@ -16,21 +16,21 @@ MEDBS_length_ind(
 )
 }
 \arguments{
-\item{data}{data frame of landings or discards data}
+\item{data}{data frame of either landings or discards data}
 
 \item{type}{type of data frame. "l" for landing and "d" for discard}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
 \item{splines}{spline values assignment to fit cumulative distributions}
 
 \item{Xtresholds}{threshold value}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 The function returns a plot of the Main length size indicators time series by fishery

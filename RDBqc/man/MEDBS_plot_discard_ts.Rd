@@ -9,11 +9,11 @@ MEDBS_plot_discard_ts(data, SP, MS, GSA, by = "year")
 \arguments{
 \item{data}{data frame containing discard data}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
-\item{MS}{member state code as it is reported in the discard data}
+\item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
 \item{by}{string defining the temporal aggregation level of discard data to be plotted. Allowed values are: "year" and "quarter}
 }

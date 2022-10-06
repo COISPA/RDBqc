@@ -2,7 +2,7 @@
 % Please edit documentation in R/MEDBS_weight_minus1.R
 \name{MEDBS_weight_minus1}
 \alias{MEDBS_weight_minus1}
-\title{weight -1 in landings}
+\title{Check weights -1 in landings}
 \usage{
 MEDBS_weight_minus1(data, type = "l", SP, MS, GSA, verbose = TRUE)
 }
@@ -11,13 +11,13 @@ MEDBS_weight_minus1(data, type = "l", SP, MS, GSA, verbose = TRUE)
 
 \item{type}{type of table: "l" for landings; "d" for discards}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{Boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned.}
 }
 \value{
 The function returns the number of rows with -1 values in landing weights having length class filled in.

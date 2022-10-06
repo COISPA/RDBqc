@@ -1,11 +1,11 @@
-#' weight -1 in landings
+#' Check weights -1 in landings
 #'
 #' @param data data.table object containing landing or discards data
 #' @param type type of table: "l" for landings; "d" for discards
-#' @param SP species reference code in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @param verbose Boolean value to obtain further explanation messages from the function
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned.
 #' @description The function checks landings in weight equal to -1 having length class filled in
 #' @return The function returns the number of rows with -1 values in landing weights having length class filled in.
 #' @examples MEDBS_weight_minus1(data = Landing_tab_example, type = "l",

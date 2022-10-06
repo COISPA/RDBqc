@@ -1,13 +1,13 @@
 #' Main length size indicators
 #'
-#' @param data data frame of landings or discards data
+#' @param data data frame of either landings or discards data
 #' @param type type of data frame. "l" for landing and "d" for discard
-#' @param SP species reference code in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
+#' @param GSA GSA code (Geographical sub-area)
 #' @param splines spline values assignment to fit cumulative distributions
 #' @param Xtresholds threshold value
-#' @param verbose boolean value to obtain further explanation messages from the function
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to check the consistency of length data for a selected species on both landings and discards: Main length size indicators
 #' @return The function returns a plot of the Main length size indicators time series by fishery
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>

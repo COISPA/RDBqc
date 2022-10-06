@@ -2,26 +2,26 @@
 % Please edit documentation in R/MEDBS_disc_mean_weight.r
 \name{MEDBS_disc_mean_weight}
 \alias{MEDBS_disc_mean_weight}
-\title{Mean weight by year,gear and fishery aggregation}
+\title{Check of mean discard weight aggregations by year, gear and fishery}
 \usage{
 MEDBS_disc_mean_weight(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{data frame containing discards data}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
-\item{MS}{member state code as it is reported in the discards data}
+\item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 The function returns a plot of the mean discards weight by year, gear and fishery aggregation
 }
 \description{
-The function allows to check consistency of  mean discard of a selected species plotting the discards' weight by year, gear and fishery
+The function allows to check consistency of mean discard of a selected species plotting the discards' weight by year, gear and fishery
 }
 \examples{
 MEDBS_disc_mean_weight(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")

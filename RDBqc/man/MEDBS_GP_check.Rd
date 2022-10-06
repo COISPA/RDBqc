@@ -2,24 +2,24 @@
 % Please edit documentation in R/MEDBS_GP_check.R
 \name{MEDBS_GP_check}
 \alias{MEDBS_GP_check}
-\title{GP_tab (growth params) table check}
+\title{Check of growth parameters table}
 \usage{
 MEDBS_GP_check(data, SP, MS, GSA)
 }
 \arguments{
-\item{data}{growth params table in MED&BS datacall format}
+\item{data}{growth parameters table in MED&BS data call format}
 
-\item{SP}{species (three alpha code)}
+\item{SP}{species code}
 
-\item{MS}{Country}
+\item{MS}{member state code}
 
-\item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+\item{GSA}{GSA code (Geographical sub-area)}
 }
 \value{
-a list of objects containing a summary table and different plots of the growth curves by sex and year.
+A list of objects containing a summary table and different plots of the growth curves by sex and year is returned by the function.
 }
 \description{
-The function allows to check the growth parameters by sex and year for a selected species
+The function checks the growth parameters by sex and year for a selected species
 }
 \examples{
 MEDBS_GP_check(GP_tab_example, "MUT", "ITA", "GSA 18")

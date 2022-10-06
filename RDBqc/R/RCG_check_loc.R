@@ -1,9 +1,8 @@
-
 #' Check trip location
 #' @param data detailed data in RCG CS format
 #' @param ports ports codification file
-#' @description The function allows to check the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data.
-#' @return map of trip locations
+#' @description The function allows to check the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data in case coordinates are not available.
+#' @return A map of trip locations is generated.
 #' @export RCG_check_loc
 #' @examples RCG_check_loc(data_ex)
 #' @importFrom graphics par points text
@@ -11,7 +10,6 @@
 #' @import rworldmap
 #' @import rworldxtra
 #' @import sp
-#' @description If Initial and/or Final coordinates are included in the data, maps of them are produced. If not the locations of the harbours are mapped.
 
 RCG_check_loc <- function(data, ports = circabc) {
   if (FALSE) {

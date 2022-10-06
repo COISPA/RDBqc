@@ -1,12 +1,12 @@
 #' Comparison between landings in weight by quarter accounting for vessel length
 #'
 #' @param data data frame containing landing data
-#' @param SP species reference code in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @param verbose boolean value to obtain further explanation messages from the function
-#' @description The function allows to perform the comparison of landings of a selected species aggregated by quarters accounting for the presence of vessel length
-#' @return The function returns a dataframe for the comparison of landings aggregated by quarters accounting for the presence of vessel length information.
+#' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
+#' @description The function allows to perform the comparison of landings of a selected species aggregated by quarters, accounting for the presence of vessel length
+#' @return The function returns a data frame for the comparison of landings aggregated by quarters, accounting for the presence of vessel length information.
 #' @export MEDBS_comp_land_Q_VL
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
@@ -58,16 +58,16 @@ MEDBS_comp_land_Q_VL <- function(data, SP, MS, GSA, verbose = TRUE) {
     c1 <- 1
     for (i in unique(land$YEAR)) {
       tmp1 <- land[land$YEAR %in% i, ]
-      VL <- tmp1 %>%
+      suppressMessages(VL <- tmp1 %>%
         filter(!VESSEL_LENGTH %in% "NA") %>%
         group_by(YEAR, GEAR, QUARTER) %>%
-        summarize(tot_VL = sum(LANDINGS))
-      NoVL <- tmp1 %>%
+        summarize(tot_VL = sum(LANDINGS)))
+      suppressMessages(NoVL <- tmp1 %>%
         filter(VESSEL_LENGTH %in% "NA") %>%
         group_by(YEAR, GEAR, QUARTER) %>%
-        summarize(tot_NoVL = sum(LANDINGS))
-      final_check1 <- full_join(VL, NoVL)
-      final_check1 <- final_check1 %>% mutate(ratio = tot_VL / tot_NoVL)
+        summarize(tot_NoVL = sum(LANDINGS)))
+      suppressMessages(final_check1 <- full_join(VL, NoVL))
+      suppressMessages(final_check1 <- final_check1 %>% mutate(ratio = tot_VL / tot_NoVL))
       compLand1[[c1]] <- final_check1
       c1 <- c1 + 1
     }

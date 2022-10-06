@@ -1,11 +1,11 @@
-#' Plot of total landing
+#' Plot of total landing time series
 #'
 #' @param data data frame containing landing data
-#' @param SP species reference code in the three alpha code format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
+#' @param GSA GSA code (Geographical sub-area)
 #' @param by string defining the temporal aggregation level of landing data to be plotted. Allowed values are: "year" and "quarter
-#' @param verbose boolean value to obtain further explanation messages from the function
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function estimates the total landings time series by both year and quarters for a selected combination of member state, GSA and species.
 #' @return The function returns a plot of the total landing time series by year or by quarters. The plot by year also reports the landing by gear.
 #' @export MEDBS_plot_landing_ts

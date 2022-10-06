@@ -9,11 +9,11 @@ MEDBS_plot_disc_vol(data, SP, MS, GSA)
 \arguments{
 \item{data}{data frame containing discard data}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
-\item{MS}{member state code as it is reported in the discard data}
+\item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 }
 \value{
 The function returns a plot of the total discards time series by fishery and gear

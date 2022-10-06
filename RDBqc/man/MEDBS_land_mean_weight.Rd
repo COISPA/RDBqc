@@ -2,23 +2,23 @@
 % Please edit documentation in R/MEDBS_land_mean_weight.r
 \name{MEDBS_land_mean_weight}
 \alias{MEDBS_land_mean_weight}
-\title{Mean weight by year,gear and fishery aggregation}
+\title{Mean weight by year, gear and fishery aggregation}
 \usage{
 MEDBS_land_mean_weight(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{data frame containing landing data}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{SP}{species code}
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and return the data frame as well.
+The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and returns the data frame as well.
 }
 \description{
 The function allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery

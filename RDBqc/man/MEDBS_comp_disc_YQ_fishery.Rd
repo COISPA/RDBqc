@@ -4,27 +4,27 @@
 \alias{MEDBS_comp_disc_YQ_fishery}
 \title{Comparison between discards in weight by quarter, quarter -1 and by fishery}
 \usage{
-MEDBS_comp_disc_YQ_fishery(data, MS, GSA, SP, verbose = TRUE)
+MEDBS_comp_disc_YQ_fishery(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{data frame containing discards data}
 
-\item{MS}{member state code as it is reported in the discards data}
+\item{SP}{species code}
 
-\item{GSA}{GSA code}
+\item{MS}{member state code}
 
-\item{SP}{species reference code in the three alpha code format}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-The function returns a data frame  for the comparison of discards aggregated by quarters and by year and fishery
+The function returns a data frame with the comparison of discards aggregated by quarters and by year and fishery
 }
 \description{
 The function allow to estimates the discards in weight for a selected species by quarter and fishery
 }
 \examples{
-MEDBS_comp_disc_YQ_fishery(data = Discard_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
+MEDBS_comp_disc_YQ_fishery(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

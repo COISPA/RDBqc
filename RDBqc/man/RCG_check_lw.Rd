@@ -2,18 +2,18 @@
 % Please edit documentation in R/RCG_check_lw.R
 \name{RCG_check_lw}
 \alias{RCG_check_lw}
-\title{Consistency of length-weight relationship and consistency with allowed ranges}
+\title{Consistency check of length-weight relationship}
 \usage{
-RCG_check_lw(data, MS, GSA, SP, Min = 0, Max = 1000, verbose = TRUE)
+RCG_check_lw(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE)
 }
 \arguments{
 \item{data}{table of detailed data in RCG format}
 
+\item{SP}{species code}
+
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
-
-\item{SP}{reference species for the analysis}
+\item{GSA}{GSA code (Geographical sub-area)}
 
 \item{Min}{min weight expected in the data}
 
@@ -25,8 +25,11 @@ RCG_check_lw(data, MS, GSA, SP, Min = 0, Max = 1000, verbose = TRUE)
 Plot and error message
 }
 \description{
-The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the records in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters).
+The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the records in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters). In case the \code{Min} and \code{Max} parameters are not provided, the function test the lowest and the higher values of individual weights as outliers by mean of the Grubbs’s test (from package \code{outliers})
 }
 \examples{
 RCG_check_lw(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus", Min = 0, Max = 1000)
+}
+\references{
+Grubbs, F.E. (1950). Sample Criteria for testing outlying observations. Ann. Math. Stat. 21, 1, 27-58
 }

@@ -9,16 +9,16 @@ MEDBS_ALK(data, SP, MS, GSA, verbose = TRUE)
 \arguments{
 \item{data}{ALK table in MED&BS datacall format}
 
-\item{SP}{species (three alpha code)}
+\item{SP}{species code}
 
-\item{MS}{Country}
+\item{MS}{member state code}
 
-\item{GSA}{GSA (Geographical sub-area (GFCM sensu))}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned.}
 }
 \value{
-a list of ALK plots by sex is returne
+a list of ALK plots by sex is return.
 }
 \description{
 The function allows to check the data in the ALK table providing plots by sex for a selected species
