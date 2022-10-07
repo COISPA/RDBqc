@@ -4,7 +4,7 @@
 \alias{RCG_check_LFD}
 \title{Consistency check of LFDs}
 \usage{
-RCG_check_LFD(data, SP, MS, GSA, min_len = 1, max_len = 1000, verbose = TRUE)
+RCG_check_LFD(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose = TRUE)
 }
 \arguments{
 \item{data}{RCG CS table}
@@ -28,5 +28,8 @@ The function returns a comparison plot of LFDs among the years and a table repor
 The function allows to check the consistency of LFDs (length frequency distributions) by year on a given species generating a multi-frame plot. The function also returns the records in which the length classes are greater or lower than the expected ones (\code{min_len} and \code{max_len} parameters).
 }
 \examples{
-RCG_check_LFD(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus", min_len = 1, max_len = 35)
+RCG_check_LFD(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",
+min_len = 30, max_len = 300)
+RCG_check_LFD(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",
+min_len = NA, max_len = NA)
 }

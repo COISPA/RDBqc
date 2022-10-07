@@ -19,15 +19,15 @@ RCG_check_mat_ogive(
 
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{SP}{reference species for the analysis}
+\item{SP}{species code}
 
 \item{sex}{defines the sex of the individuals selected for the analysis ('F' for females, 'M' for males)}
 
-\item{immature_stages}{maturity stages considered immature}
+\item{immature_stages}{vector of maturity stages considered immature}
 
-\item{verbose}{boolean. If it is TRUE messages are reported with the outputs}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 Plot ogive by sex

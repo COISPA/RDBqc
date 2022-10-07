@@ -1,12 +1,12 @@
 #' Maturity ogives by sex
 #'
 #' @param data table of detailed data in RCG format
+#' @param SP species code
 #' @param MS member state code
-#' @param GSA GSA code
-#' @param SP reference species for the analysis
+#' @param GSA GSA code (Geographical sub-area)
 #' @param sex defines the sex of the individuals selected for the analysis ('F' for females, 'M' for males)
-#' @param immature_stages maturity stages considered immature
-#' @param verbose boolean. If it is TRUE messages are reported with the outputs
+#' @param immature_stages vector of maturity stages considered immature
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to check the maturity stages composition estimating the maturity ogives by sex for the selected species, using a selected pool of stages to classify the immature stages in the sample.
 #' @return Plot ogive by sex
 #' @export

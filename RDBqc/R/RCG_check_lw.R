@@ -7,14 +7,17 @@
 #' @param Min min weight expected in the data
 #' @param Max max weight expected in the data
 #' @param verbose boolean. If it is TRUE messages are reported with the outputs
-#' @description The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the records in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters). In case the \code{Min} and \code{Max} parameters are not provided, the function test the lowest and the higher values of individual weights as outliers by mean of the Grubbs’s test (from package \code{outliers})
+#' @description The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the records in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters). In case the \code{Min} and \code{Max} parameters are not provided, the function tests the lowest and the higher values of individual weights as outliers by mean of the Grubbs' test (from package \code{outliers})
 #' @return Plot and error message
 #' @references Grubbs, F.E. (1950). Sample Criteria for testing outlying observations. Ann. Math. Stat. 21, 1, 27-58
 #' @export
 #' @examples RCG_check_lw(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus", Min = 0, Max = 1000)
+#' RCG_check_lw(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 #' @import ggplot2
 #' @importFrom utils globalVariables
+#' @importFrom outliers grubbs.test
 RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) {
+
   Length_class <- Individual_weight <- NULL
 
   d <- data[!is.na(data$Length_class) & !is.na(data$Individual_weight) & data$Species %in% SP & data$Area %in% GSA & data$Flag_country %in% MS, ]
@@ -33,7 +36,7 @@ RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) 
         d$outliers[which(d$Individual_weight == max(d$Individual_weight))] <- "outlier"
         id_max <- which(d$Individual_weight == max(d$Individual_weight))
         if (verbose) {
-          message(paste("The Grubbs’s test identifies the maximum value of individual weights distribution (",round(max(d$Individual_weight),3),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
+          message(paste("The Grubbs' test identifies the maximum value of individual weights distribution (",round(max(d$Individual_weight),3),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
         }
       } else {
         id_max <- 0
@@ -43,7 +46,7 @@ RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) 
         d$outliers[which(d$Individual_weight == min(d$Individual_weight))] <- "outlier"
         id_min <- which(d$Individual_weight == min(d$Individual_weight))
         if (verbose) {
-          message(paste("The Grubbs’s test identifies the minimum value of individual weights distribution (",round(min(d$Individual_weight),3),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
+          message(paste("The Grubbs' test identifies the minimum value of individual weights distribution (",round(min(d$Individual_weight),3),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
         }
       } else {
         id_min=0

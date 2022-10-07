@@ -4,7 +4,7 @@
 \alias{RCG_check_AL}
 \title{Check consistency of age-length relationship}
 \usage{
-RCG_check_AL(data, MS, GSA, SP, min_age = 0, max_age = 30, verbose = TRUE)
+RCG_check_AL(data, MS, GSA, SP, min_age = NA, max_age = NA, verbose = TRUE)
 }
 \arguments{
 \item{data}{table of detailed data in RCG format}
@@ -25,8 +25,13 @@ RCG_check_AL(data, MS, GSA, SP, min_age = 0, max_age = 30, verbose = TRUE)
 The function returns a list of object containing a summary table, an age-length plot and a table of the outlayers, if any.
 }
 \description{
-Check consistency of age-length relationship
+The function checks the consistency of the age-length data included in the table of RCG detailed data. Furthermore, the function identifies the age data outside a reference range of values provided by the user for the species. In case the \code{min_age} and \code{max_age} parameters are not provided, the function tests the lowest and the higher values of Age as outliers by mean of the Grubbs' test (from package \code{outliers})
 }
 \examples{
-RCG_check_AL(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus", min_age = 0, max_age = 30)
+RCG_check_AL(data=data_ex, MS = "ITA", GSA = "GSA99",
+SP = "Mullus barbatus", min_age = 0, max_age = 9)
+RCG_check_AL(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
+}
+\references{
+Grubbs, F.E. (1950). Sample Criteria for testing outlying observations. Ann. Math. Stat. 21, 1, 27-58
 }

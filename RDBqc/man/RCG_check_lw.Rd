@@ -25,10 +25,11 @@ RCG_check_lw(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE)
 Plot and error message
 }
 \description{
-The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the records in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters). In case the \code{Min} and \code{Max} parameters are not provided, the function test the lowest and the higher values of individual weights as outliers by mean of the Grubbs’s test (from package \code{outliers})
+The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the records in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters). In case the \code{Min} and \code{Max} parameters are not provided, the function tests the lowest and the higher values of individual weights as outliers by mean of the Grubbs' test (from package \code{outliers})
 }
 \examples{
 RCG_check_lw(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus", Min = 0, Max = 1000)
+RCG_check_lw(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 }
 \references{
 Grubbs, F.E. (1950). Sample Criteria for testing outlying observations. Ann. Math. Stat. 21, 1, 27-58

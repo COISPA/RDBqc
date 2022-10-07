@@ -4,24 +4,24 @@
 \alias{RCG_summarize_trips}
 \title{summarizing the number of trips/hauls monitored by year by port, metier, sampling method;}
 \usage{
-RCG_summarize_trips(data, MS, GSA, SP, verbose = TRUE)
+RCG_summarize_trips(data, SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
 \item{data}{RCG CS table}
 
+\item{SP}{species code}
+
 \item{MS}{member state code}
 
-\item{GSA}{GSA code}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{SP}{species reference code in the three alpha code format}
-
-\item{verbose}{boolean value to obtain further explanation messages from the function}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 Number of trips by area, year, port, metier and sampling method
 }
 \description{
-summarizing the number of trips/hauls monitored by year by port, metier, sampling method;
+The function allows to summarise the number of trips/hauls monitored by year, port, metier and sampling method.
 }
 \examples{
 RCG_summarize_trips(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
