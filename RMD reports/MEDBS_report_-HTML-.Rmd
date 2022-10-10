@@ -17,6 +17,7 @@ output:
 params:
   term: MEDBS datacall
 ---
+<!-- INITIALIZATION -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
@@ -33,6 +34,8 @@ SOP_threshold <- 5
 Rt <- 1
 
 Catch = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\catch.csv", sep=";",header=TRUE) # Catch_tab_example
+
+
 # Catch <- rbind(Catch,Catch[1,])
 Land = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\landings.csv", sep=",",header=TRUE)
 # Land <- rbind(Land,Land[199566,])
@@ -48,19 +51,61 @@ SPs <- c("HKE")
 MS <- "ITA"
 GSAs <- c("GSA 18","GSA 19")
 
+if(length(SPs)==1 & is.na(SPs[1])) {
+  user_SP = FALSE
+} else {
+  user_SP = TRUE
+}
+
+if(length(MS)==1 & is.na(MS[1])) {
+  user_MS = FALSE
+} else {
+  user_MS = TRUE
+}
+
+if(length(GSAs)==1 & is.na(GSAs[1])) {
+  user_GSA = FALSE
+} else {
+  user_GSA = TRUE
+}
+
 ```
 
 \newpage
+<!-- CATCH -->
+
+```{r check_catch_data, results = 'asis'}
+
+if (exists("Catch")) {
+  if (class(Catch)=="data.frame") {
+    if(nrow(Catch)>0){
+      check_Catch <- TRUE
+      cat(paste0("\n# Catch table\n"))
+      if(!user_SP){
+        SPs <- unique(Catch$species)
+      }
+      if(!user_MS){
+        MS  <- unique(Catch$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(Catch$area)
+      }
+    }
+  }
+} else {
+  check_Catch <- FALSE
+  cat("\n No catch data available \n")
+}
 
 
-
-# Catch table
-
-## Presence of duplicated records
-
-Data included in the catch table were checked for the presence of duplicated records. The result of the check is here reported:
+```
 
 ```{r catch_duplicated_records, results = 'asis'}
+if (check_Catch) {
+  
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the catch table were checked for the presence of duplicated records. The result of the check is here reported:\n")
+  
 duplicates <- Catch[0,]
 
 g=1
@@ -85,16 +130,17 @@ if (nrow(duplicates)>0) {
     cat("\n", paste0("- No replicated records in Catch data"), "\n")
 }
 
+cat("\n*Attention*: eventual duplicated records will be removed from catch data for the following analysis \n")
+
+} # check_Catch
 ```
-
-*Attention*: eventual duplicated records will be removed from catch data for the following analysis
-
-
-## Coverage of catch data
 
 ```{r catch_coverage, results = 'asis',fig.height=6,fig.width=9}
 
+if (check_Catch) {
 
+    cat("\n## Coverage of catch data\n")
+  
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -139,15 +185,16 @@ for (g in 1:length(GSAs)) {
       }
 }
 
+} # check_Catch
+
 ```
 
 
-## Check of Sum of Products (SOP)
-
-The result of the percentage difference of SOP and both landing and discard volumes are reported in the following table in case the value is greater then `r SOP_threshold`% (selected threshold value):
-
 ```{r catch_SOP, results = 'asis',fig.height=6,fig.width=9}
-
+if (check_Catch) {
+  
+  cat("\n## Check of Sum of Products (SOP)\n")
+  cat("\nThe result of the percentage difference of SOP and both landing and discard volumes are reported in the following table in case the value is greater then `r SOP_threshold`% (selected threshold value):\n")  
 
 g=1
 for (g in 1:length(GSAs)) {
@@ -164,18 +211,43 @@ for (g in 1:length(GSAs)) {
       }
 }
 
-        
+} # check_Catch
+
 ```
 
+<!-- LANDING -->
+
+```{r check_landing_data, results = 'asis'}
+
+if (exists("Land")) {
+  if (class(Land)=="data.frame") {
+    if(nrow(Land)>0){
+      check_Land <- TRUE
+      cat(paste0("\n# Landing table\n"))
+      if(!user_SP){
+        SPs <- unique(Land$species)
+      }
+      if(!user_MS){
+        MS  <- unique(Land$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(Land$area)
+      }
+    }
+  }
+} else {
+  check_Land <- FALSE
+  cat("\n No Landing data available \n")
+}
 
 
-# Landing table
-
-## Presence of duplicated records
-
-Data included in the landing table were checked for the presence of duplicated records. The result of the check is here reported:
+```
 
 ```{r landings_duplicated_records, results = 'asis'}
+if (check_Land) {
+    cat("\n## Presence of duplicated records \n")
+    cat("\nData included in the landing table were checked for the presence of duplicated records. The result of the check is here reported:\n")
+
 duplicates <- Land[0,]
 
 g=1
@@ -200,12 +272,14 @@ if (nrow(duplicates)>0) {
     cat("\n", paste0("- No replicated records in Landings data"), "\n")
 }
 
+
+} # check_Land
+
 ```
 
-## Coverage of landings data
-
 ```{r landing_coverage, results = 'asis',fig.height=6,fig.width=9}
-
+if (check_Land) {
+    cat("\n## Coverage of landings data\n")
 
 g=1
 for (g in 1:length(GSAs)) {
@@ -238,14 +312,16 @@ for (g in 1:length(GSAs)) {
       }
 }
 
+} # check_Land
 ```
 
 
-## Checks on landing volumes
-
-### Comparison of landing volumes aggregated by quarter and fishery accounting for vessel length
-
 ```{r comp_Q_VL_fishery, results = 'asis', fig.height=6, fig.width=9}
+
+if (check_Land) {
+    cat("\n## Checks on landing volumes\n")
+    cat("\n### Comparison of landing volumes aggregated by quarter and fishery accounting for vessel length\n")
+
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n#### ", GSAs[g], "\n"))
@@ -262,12 +338,14 @@ for (g in 1:length(GSAs)) {
         }
       }
 }
+
+} # check_Land
 ```
 
-
-### Comparison of landing volumes aggregated by fishery accounting for time frame
-
 ```{r comp_YQ_fishery, results = 'asis', fig.height=6, fig.width=9}
+if (check_Land) {
+    cat("\n### Comparison of landing volumes aggregated by fishery accounting for time frame\n")
+
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -284,14 +362,15 @@ for (g in 1:length(GSAs)) {
         }
       }
 }
+} # check_Land
 ```
 
-
-## Kolmogorov-Smirnov test
-
-The Kolmogorov-Smirnov test provides cumulative length distribution plots by fishery and year. The test is performed on couples of years to assess if their distributions belong to the same population.
-
 ```{r KS_test, results = 'asis', fig.height=6, fig.width=9}
+
+if (check_Land) {
+    cat("\n## Kolmogorov-Smirnov test\n")
+    cat("\nThe Kolmogorov-Smirnov test provides cumulative length distribution plots by fishery and year. The test is performed on couples of years to assess if their distributions belong to the same population.\n")
+
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -316,16 +395,116 @@ for (g in 1:length(GSAs)) {
         }
       }
 }
+
+} # check_Land
+```
+
+```{r lengthclass_0, results = 'asis', fig.height=6, fig.width=9}
+if (check_Land) {
+    cat("\n### Checks the presence of length classes numbers with zeros in landings\n")
+    cat("\n### The presence of length classes numbers zero with having weigth > 0 in landings are reported in the following table:\n")
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_lengthclass_0(data = Land, type="l", MS = MS, GSA = GSAs[g], SP = SPs[s]))
+        if (nrow(res)>0){
+            cat(paste0("\n_Landing records with 0  length class values having weigth > 0 for ",SPs[s]," in ",GSAs[g],"_"))
+        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        } else {
+            cat(paste0("\n- No landing records with 0 length class values having weigth > 0 for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+        }
+      }
+}
+} # check_Land
+```
+
+```{r length_ind, results = 'asis', fig.height=6, fig.width=9}
+if (check_Land) {
+    cat("\n### Checks the presence of length classes numbers with zeros in landings\n")
+    cat(paste0("\nThe time series of the main length size indicators (mean and median length) by fishery were estimated and hereafter reported: \n"))
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_length_ind(data = Land, type="l", MS = MS, GSA = GSAs[g], SP = SPs[s], splines = c(0.2, 0.4, 0.6, 0.8), Xtresholds = c(0.25, 0.5, 0.75)))
+        
+        if (class(res)== "list" & length(res)>0){
+            cat(paste0("\n_Summary table of Main length size indicators for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+           name <- names(res) 
+           list_name <- strsplit(name," _ ")
+           short_list <- NULL
+           n=1
+           for (n in 1:length(list_name)) {
+               short_list[n] <-  list_name[[n]][1]
+           }
+           index <- which(short_list %in% c("MeanLength","MedianLength"))
+           
+           x=3
+           for (x in index){
+               text <- strsplit(name[[x]]," _ ")[[1]][1]
+               cat(paste0("\nPlot of ",short_list[x]," for ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+               print(res[[x]])
+               cat("\n\n\n")
+           }
+           
+        } else{
+             cat(paste0("\n- No main length size indicators estimated for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+        
+      }
+}
+} # check_Land
 ```
 
 
-# Growth parameters (GP) table
 
-## plots of the growth parameter
 
-Date related to growth parameter are used to produce a summary table (counting available VBGF parameters by YEAR and SEX) and plots of growth curves for the selected combination of species and GSAs by sexes.
+
+
+<!-- GROWTH PARAMETERS -->
+
+```{r check_GP_data, results = 'asis'}
+
+if (exists("GP")) {
+  if (class(GP)=="data.frame") {
+    if(nrow(GP)>0){
+      check_GP <- TRUE
+      cat(paste0("\n# Growth parameters (GP) table\n"))
+      if(!user_SP){
+        SPs <- unique(GP$species)
+      }
+      if(!user_MS){
+        MS  <- unique(GP$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(GP$area)
+      }
+    }
+  }
+} else {
+  check_GP <- FALSE
+  cat("\n No growth parameters (GP) data available \n")
+}
+
+
+```
 
 ```{r GP_checks, results = 'asis', fig.height=6, fig.width=9}
+
+if (check_GP) {
+    cat("\n## plots of the growth parameter\n")
+    cat("\nData related to growth parameter are used to produce a summary table (counting available VBGF parameters by YEAR and SEX) and plots of growth curves for the selected combination of species and GSAs by sexes.\n")
+
+
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -359,11 +538,14 @@ for (g in 1:length(GSAs)) {
         
       }
 }
+
+} # check_GP
 ```
 
-## Plots of length-weight (LW) functions
-
 ```{r LW_checks, results = 'asis', fig.height=6, fig.width=9}
+if (check_GP) {
+    cat("\n## Plots of length-weight (LW) functions\n")
+    
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -403,11 +585,41 @@ for (g in 1:length(GSAs)) {
         
       }
 }
+} # check_GP
 ```
 
-## Plots of Maturity at Age (MA) data
+<!-- MA -->
+
+```{r check_MA_data, results = 'asis'}
+
+if (exists("MA")) {
+  if (class(MA)=="data.frame") {
+    if(nrow(MA)>0){
+      check_MA <- TRUE
+      cat(paste0("\n# Maturity at Age (MA) table\n"))
+      if(!user_SP){
+        SPs <- unique(MA$species)
+      }
+      if(!user_MS){
+        MS  <- unique(MA$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(MA$area)
+      }
+    }
+  }
+} else {
+  check_MA <- FALSE
+  cat("\n No Maturity at Age (MA) data available \n")
+}
+
+```
 
 ```{r MA_checks, results = 'asis', fig.height=6, fig.width=9}
+
+if (check_MA) {
+    cat("\n## Plots of Maturity at Age (MA) data\n")
+    cat("\n## Plots of Maturity at Age (MA) data\n")
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -447,11 +659,41 @@ for (g in 1:length(GSAs)) {
         
       }
 }
+} # check_MA
 ```
 
-## Plots of Maturity at Length (ML) data
+<!-- ML -->
+
+```{r check_ML_data, results = 'asis'}
+
+if (exists("ML")) {
+  if (class(ML)=="data.frame") {
+    if(nrow(ML)>0){
+      check_ML <- TRUE
+      cat(paste0("\n# Maturity at Length (ML) table\n"))
+      if(!user_SP){
+        SPs <- unique(ML$species)
+      }
+      if(!user_MS){
+        MS  <- unique(ML$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(ML$area)
+      }
+    }
+  }
+} else {
+  check_ML <- FALSE
+  cat("\n No Maturity at Length (ML) data available \n")
+}
+
+```
 
 ```{r ML_checks, results = 'asis', fig.height=6, fig.width=9}
+
+if (check_ML) {
+    cat("\n## Plots of Maturity at Length (ML) data\n")
+  
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -492,11 +734,41 @@ for (g in 1:length(GSAs)) {
         
       }
 }
+} # check_ML
 ```
 
-## Plots of Sex Ratio at age (SRA) data
+<!-- SRA -->
+
+```{r check_SRA_data, results = 'asis'}
+
+if (exists("SA")) {
+  if (class(SA)=="data.frame") {
+    if(nrow(SA)>0){
+      check_SA <- TRUE
+      cat(paste0("\n# Sex Ratio at age (SRA) table\n"))
+      if(!user_SP){
+        SPs <- unique(SA$species)
+      }
+      if(!user_MS){
+        MS  <- unique(SA$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(SA$area)
+      }
+    }
+  }
+} else {
+  check_SA <- FALSE
+  cat("\n No Sex Ratio at age (SRA) data available \n")
+}
+
+```
+
 
 ```{r SA_checks, results = 'asis', fig.height=6, fig.width=9}
+if (check_SA) {
+    cat("\n## Plots of Sex Ratio at age (SRA) data\n")
+
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -524,12 +796,41 @@ for (g in 1:length(GSAs)) {
         
       }
 }
+} # check_SA
 ```
 
+<!-- SL -->
 
-## Plots of Sex Ratio at length (SRL) data
+```{r check_SL_data, results = 'asis'}
+
+if (exists("SL")) {
+  if (class(SL)=="data.frame") {
+    if(nrow(SL)>0){
+      check_SL <- TRUE
+      cat(paste0("\n# Sex Ratio at length (SRL) table\n"))
+      if(!user_SP){
+        SPs <- unique(SL$species)
+      }
+      if(!user_MS){
+        MS  <- unique(SL$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(SL$area)
+      }
+    }
+  }
+} else {
+  check_SL <- FALSE
+  cat("\n No Sex Ratio at length (SRL) data available \n")
+}
+
+```
 
 ```{r SL_checks, results = 'asis', fig.height=6, fig.width=9}
+
+if (check_SL) {
+    cat("\n## Plots of Sex Ratio at length (SRL) data\n")
+  
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -557,11 +858,40 @@ for (g in 1:length(GSAs)) {
         
       }
 }
+} # check_SRL
 ```
 
-## Plots of Age-Length Keys (ALK) data
+<!-- ALK -->
+
+```{r check_ALK_data, results = 'asis'}
+
+if (exists("ALK")) {
+  if (class(ALK)=="data.frame") {
+    if(nrow(ALK)>0){
+      check_ALK <- TRUE
+      cat(paste0("\n# Age-Length Keys (ALK) table\n"))
+      if(!user_SP){
+        SPs <- unique(ALK$species)
+      }
+      if(!user_MS){
+        MS  <- unique(ALK$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(ALK$area)
+      }
+    }
+  }
+} else {
+  check_ALK <- FALSE
+  cat("\n No Age-Length Keys (ALK) data available \n")
+}
+
+```
 
 ```{r ALK_checks, results = 'asis', fig.height=6, fig.width=9}
+
+if (check_ALK) {
+    cat("\n## Plots of Age-Length Keys (ALK) data\n")
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -584,4 +914,6 @@ for (g in 1:length(GSAs)) {
         
       }
 }
+
+} # check_SRL
 ```

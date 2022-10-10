@@ -50,8 +50,10 @@ MEDBS_weight_minus1 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       ck_nbl_1a <- rowSums(poi1)
       land_vs_length_minus1 <- cbind(land_vs_length_minus1[, c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)], ck_nbl_1a)
       land_vs_length_minus1$diff <- (land_vs_length_minus1$landings - land_vs_length_minus1$ck_nbl_1a)
-      n_minus1 <- which(land_vs_length_minus1$diff != 0, arr.ind = T)
-      # print(paste0(length(which(land$landings==-1)),"_cases_in_which_landings_-1"))
+      n_minus1 <- length(which(land_vs_length_minus1$diff != -1))
+      df <- land_vs_length_minus1[which(land_vs_length_minus1$diff != -1),c(1:13)]
+      colnames(df)[13] <- "sum_individuals"
+
       if (verbose) {
         message(paste0(n_minus1, " cases in which length class number differ from zero and landing = -1"))
       }
@@ -59,7 +61,8 @@ MEDBS_weight_minus1 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       if (verbose) {
         message("There aren\'t -1 landings")
       }
-      n_minus1 <- 0
+      # n_minus1 <- 0
+      df <- data[0, c(1:13)]
     }
   }
 
@@ -78,8 +81,9 @@ MEDBS_weight_minus1 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       ck_nbl_1a <- rowSums(poi1)
       land_vs_length_minus1 <- cbind(land_vs_length_minus1[, c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)], ck_nbl_1a)
       land_vs_length_minus1$diff <- (land_vs_length_minus1$discards - land_vs_length_minus1$ck_nbl_1a)
-      n_minus1 <- which(land_vs_length_minus1$diff != 0, arr.ind = T)
-      # print(paste0(length(which(land$landings==-1)),"_cases_in_which_landings_-1"))
+      n_minus1 <- length(which(land_vs_length_minus1$diff != -1))
+      df <- land_vs_length_minus1[which(land_vs_length_minus1$diff != -1),c(1:13)]
+      colnames(df)[13] <- "sum_individuals"
       if (verbose) {
         message(paste0(n_minus1, " cases in which length class number differ from zero and discard = -1"))
       }
@@ -87,9 +91,10 @@ MEDBS_weight_minus1 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       if (verbose) {
         message("There aren\'t -1 discards")
       }
-      n_minus1 <- 0
+      # n_minus1 <- 0
+      df <- data[0, c(1:13)]
     }
   }
 
-  return(n_minus1)
+  return(df)
 }

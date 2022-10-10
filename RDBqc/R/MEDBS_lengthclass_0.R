@@ -1,6 +1,6 @@
 #' Checks length classes numbers with zeros in landings and discards
 #'
-#' @param data data frame containing landing data
+#' @param data data frame containing landing  or discards data
 #' @param type string vector indicating the type of table to be checked. "l" for landing; "d" for discards.
 #' @param SP species code
 #' @param MS member state code

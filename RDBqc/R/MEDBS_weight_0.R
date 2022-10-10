@@ -22,8 +22,8 @@
 
 MEDBS_weight_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
-    MS <- "GRC"
-    GSA <- "GSA 22"
+    MS <- "ITA"
+    GSA <- "GSA 19"
     SP <- "HKE"
     verbose <- TRUE
     data <- landings # Landing_tab_example
@@ -49,10 +49,12 @@ MEDBS_weight_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       poi[poi == -1] <- 0
       poi[poi == ""] <- 0
       poi[poi == "-"] <- 0
-      ck_nbl_1 <- rowSums(poi)
+      ck_nbl_1 <- rowSums(poi,na.rm=TRUE)
       land_vs_length <- cbind(land_vs_length[, c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)], ck_nbl_1)
       land_vs_length$diff <- (land_vs_length$landings - land_vs_length$ck_nbl_1)
-      n_0 <- which(land_vs_length$diff != 0, arr.ind = T)
+      n_0 <- length(which(land_vs_length$diff != 0))
+      df <- land_vs_length[which(land_vs_length$diff != 0),c(1:14)]
+      colnames(df)[14] <- "sum_individuals"
       if (verbose) {
         message(paste0(n_0, " cases in which length class number differ from zero if landing = 0"))
       }
@@ -60,7 +62,8 @@ MEDBS_weight_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       if (verbose) {
         message("There aren\'t 0 landings")
       }
-      n_0 <- 0
+      df <- data[0, c(1:13)]
+      # n_0 <- 0
     }
   }
 
@@ -76,10 +79,12 @@ MEDBS_weight_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       poi[poi == -1] <- 0
       poi[poi == ""] <- 0
       poi[poi == "-"] <- 0
-      ck_nbl_1 <- rowSums(poi)
+      ck_nbl_1 <- rowSums(poi,na.rm=TRUE)
       land_vs_length <- cbind(land_vs_length[, c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)], ck_nbl_1)
       land_vs_length$diff <- (land_vs_length$discards - land_vs_length$ck_nbl_1)
-      n_0 <- which(land_vs_length$diff != 0, arr.ind = T)
+      n_0 <- length(which(land_vs_length$diff != 0))
+      df <- land_vs_length[which(land_vs_length$diff != 0),c(1:14)]
+      colnames(df)[14] <- "sum_individuals"
       if (verbose) {
         message(paste0(n_0, " cases in which length class number differ from zero if discard = 0"))
       }
@@ -87,9 +92,10 @@ MEDBS_weight_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       if (verbose) {
         message("There aren\'t 0 discards")
       }
-      n_0 <- 0
+      df <- data[0, c(1:13)]
+      # n_0 <- 0
     }
   }
 
-  return(n_0)
+  return(df)
 }
