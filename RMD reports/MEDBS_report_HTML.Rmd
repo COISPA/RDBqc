@@ -51,6 +51,10 @@ SPs <- c("HKE")
 MS <- "ITA"
 GSAs <- c("GSA 18","GSA 19")
 
+# SPs <- c("DPS")
+# MS <- "ITA"
+# GSAs <- c("GSA 9")
+
 if(length(SPs)==1 & is.na(SPs[1])) {
   user_SP = FALSE
 } else {
@@ -144,7 +148,7 @@ if (check_Catch) {
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
-      s=3
+      s=1
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         res <- suppressMessages(MEDBS_Catch_coverage(Catch,SP=SPs[s],MS=MS,GSA=GSAs[g]))
@@ -152,30 +156,36 @@ for (g in 1:length(GSAs)) {
         tab2 <- res[[2]]
       
         if (!is.null(res)){
-        tab1 <- aggregate(tab1$LANDINGS, by=list(tab1$COUNTRY, tab1$YEAR,tab1$AREA,tab1$SPECIES),FUN="sum")  
-        colnames(tab1) <- c("COUNTRY","YEAR","AREA","SPECIES","LANDINGS")
+          
+        suppressMessages(tab1 <- data.frame(tab1 %>% group_by(country,year, area, species) %>% summarise(landings=sum(landings, na.rm=TRUE))))
+          
         if (nrow(tab1)>0){
         cat(paste0("\n_Coverage of landing data for ",SPs[s]," in ",GSAs[g],"_"))
         print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
         cat("\n\n\n")
-        } else {
-            cat("\n\n\n- No data for landings")
-        }
+        
         print(res[[3]])
         cat("\n\n\n")
         
+        } else {
+            cat("\n\n\n- No data for landings")
+        }
+
         
-          tab2 <- aggregate(tab2$DISCARDS, by=list(tab2$COUNTRY, tab2$YEAR,tab2$AREA,tab2$SPECIES),FUN="sum")  
-        colnames(tab2) <- c("COUNTRY","YEAR","AREA","SPECIES","DISCARDS")
+        
+        suppressMessages(tab2 <- data.frame(tab2 %>% group_by(country,year, area, species) %>% summarise(discards=sum(discards, na.rm=TRUE))))
         if (nrow(tab2)>0){
         cat(paste0("\n_Coverage of discard data for ",SPs[s]," in ",GSAs[g],"_"))
         print(tab2 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
         cat("\n\n\n")
+        
+        print(res[[4]])
+        cat("\n\n\n")
+        
         } else {
             cat("\n\n\n- No data for discards")
         }
-        print(res[[4]])
-        cat("\n\n\n")
+
 
         } else {
             cat(paste0("\n- No Catch data for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
@@ -291,8 +301,8 @@ for (g in 1:length(GSAs)) {
         tab1 <- res[[1]]
         
         if (!is.null(res)){
-        tab1 <- aggregate(tab1$LANDINGS, by=list(tab1$COUNTRY, tab1$YEAR,tab1$AREA,tab1$SPECIES),FUN="sum")  
-        colnames(tab1) <- c("COUNTRY","YEAR","AREA","SPECIES","LANDINGS")
+        tab1 <- aggregate(tab1$landings, by=list(tab1$country, tab1$year,tab1$area,tab1$gear,tab1$species),FUN="sum")  
+        colnames(tab1) <- c("country","year","area","gear","species","landings")
         if (nrow(tab1)>0){
         cat(paste0("\n_Coverage of landing data for ",SPs[s]," in ",GSAs[g],"_"))
         print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
@@ -534,6 +544,216 @@ for (g in 1:length(GSAs)) {
 }
 } # check_Land
 ```
+
+
+```{r land_mean_weight, results = 'asis', fig.height=6, fig.width=9}
+if (check_Land) {
+    cat("\n## Mean weight by year, gear and fishery aggregation\n")
+    cat(paste0("\n Landing data were checked to assess the consistency of mean species landing weight by year, gear and fishery.\n"))
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_land_mean_weight(data = Land, MS = MS, GSA = GSAs[g], SP = SPs[s]))
+        
+        if (class(res)== "list" & length(res)>0){
+            cat(paste0("\n_Summary table of Main landing weights for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+               cat(paste0("\nPlot of landing mean weights for ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+               suppressMessages(print(res[[2]]))
+               cat("\n\n\n")
+        } else{
+             cat(paste0("\n- No main weights estimated for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+        
+      }
+}
+} # check_Land
+```
+
+```{r plot_landing_ts, results = 'asis', fig.height=6, fig.width=9}
+if (check_Land) {
+    cat("\n## Total landing time series by quarter\n")
+    cat(paste0("\nTo identify possible inconsistencies in landing data, the species time series of landing volumes is here plottet by quarter.\n"))
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_plot_landing_ts(data = Land, MS = MS, GSA = GSAs[g], SP = SPs[s], by = "quarter"))
+        
+        if (length(res)>0){
+               cat(paste0("\nPlot of total landings for ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+               print(res)
+               cat("\n\n\n")
+        } else{
+             cat(paste0("\n- No total landing time series estimated for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+        
+      }
+}
+} # check_Land
+```
+
+```{r plot_land_vol, results = 'asis', fig.height=6, fig.width=9}
+if (check_Land) {
+    cat("\n## Total landing time series by gear and fishery\n")
+    cat(paste0("\nTo identify possible inconsistencies in landing data, the species time series of landing volumes is here plottet by fishery and gear.\n"))
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_plot_land_vol(data = Land, MS = MS, GSA = GSAs[g], SP = SPs[s]))
+        
+        if (length(res)>0){
+               cat(paste0("\nPlot of total landings for ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+               suppressMessages(print(res))
+               cat("\n\n\n")
+        } else{
+             cat(paste0("\n- No total landing time series estimated for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+        
+      }
+}
+} # check_Land
+```
+
+<!-- DISCARD -->
+
+```{r check_discard_data, results = 'asis'}
+
+if (exists("Disc")) {
+  if (class(Disc)=="data.frame") {
+    if(nrow(Disc)>0){
+      check_Disc <- TRUE
+      cat(paste0("\n# Discard table\n"))
+      if(!user_SP){
+        SPs <- unique(Disc$species)
+      }
+      if(!user_MS){
+        MS  <- unique(Disc$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(Disc$area)
+      }
+    }
+  }
+} else {
+  check_Disc <- FALSE
+  cat("\n No Discard data available \n")
+}
+
+
+```
+
+```{r discards_duplicated_records, results = 'asis'}
+if (check_Land) {
+    cat("\n## Presence of duplicated records \n")
+    cat("\nData included in the discard table were checked for the presence of duplicated records. The result of the check is here reported:\n")
+
+duplicates <- Disc[0,]
+
+g=1
+for (g in 1:length(GSAs)) {
+      s=1
+      for (s in 1:length(SPs)) {
+        res <- MEDBS_check_duplicates(data=Disc,type="d",SP=SPs[s],MS="ITA",GSA=GSAs[g],verbose=FALSE)
+        if (!is.null(res)) {
+            duplicates <- rbind(duplicates,res)
+        }
+      }
+}
+
+if (nrow(duplicates)>0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+    duplic <- data.frame(id=duplicates[,1])
+    print(duplic %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+    Disc <- Disc[-which(rownames(Disc) %in% as.numeric(rownames(duplicates))),]
+} else {
+    cat("\n", paste0("- No replicated records in Discard data"), "\n")
+}
+
+
+} # check_Disc
+
+```
+
+
+```{r discard_coverage, results = 'asis',fig.height=6,fig.width=9}
+if (check_Disc) {
+    cat("\n## Coverage of discards data\n")
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(MEDBS_discard_coverage(Disc,SP=SPs[s],MS=MS,GSA=GSAs[g]))
+        tab1 <- res[[1]]
+        
+        if (!is.null(res)){
+        tab1 <- aggregate(tab1$discards, by=list(tab1$country, tab1$year,tab1$area,tab1$gear,tab1$species),FUN="sum")  
+        colnames(tab1) <- c("COUNTRY","YEAR","AREA","GEAR","SPECIES","LANDINGS")
+        if (nrow(tab1)>0){
+        cat(paste0("\n_Coverage of landing data for ",SPs[s]," in ",GSAs[g],"_"))
+        print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        cat("\n\n\n")
+        } else {
+            cat("\n\n\n- No data for landings")
+        }
+        print(res[[2]])
+        cat("\n\n\n")
+        
+
+        } else {
+            cat(paste0("\n- No Landings data for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+        }
+
+
+      }
+}
+
+} # check_Land
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- GROWTH PARAMETERS -->

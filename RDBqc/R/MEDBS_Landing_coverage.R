@@ -21,25 +21,35 @@ MEDBS_Landing_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
     verbose <- TRUE
   }
 
-  colnames(data) <- toupper(colnames(data))
-  data[is.na(data$VESSEL_LENGTH), "VESSEL_LENGTH"] <- "NA"
-  data[is.na(data$GEAR), "GEAR"] <- "NA"
-  data[is.na(data$MESH_SIZE_RANGE), "MESH_SIZE_RANGE"] <- "NA"
-  data[is.na(data$FISHERY), "FISHERY"] <- "NA"
+  colnames(data) <- tolower(colnames(data))
+  data[is.na(data$vessel_length), "vessel_length"] <- "NA"
+  data[is.na(data$gear), "gear"] <- "NA"
+  data[is.na(data$mesh_size_range), "mesh_size_range"] <- "NA"
+  data[is.na(data$fishery), "fishery"] <- "NA"
 
   Landing_tab <- data
 
-  DISCARDS <- LANDINGS <- COUNTRY <- AREA <- YEAR <- QUARTER <- VESSEL_LENGTH <- GEAR <- MESH_SIZE_RANGE <- FISHERY <- NULL
+  discards <- landings <- country <- area <- year <- quarter <- vessel_length <- gear <- mesh_size_range <- fishery <- NULL
 
-  Landing_tab <- Landing_tab[Landing_tab$SPECIES == SP & Landing_tab$COUNTRY == MS & Landing_tab$AREA == GSA, ]
+  Landing_tab <- Landing_tab[Landing_tab$species == SP & Landing_tab$country == MS & Landing_tab$area == GSA, ]
+
+
 
   if (nrow(Landing_tab) == 0) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
   } else {
-    Summary_land_wt <- aggregate(Landing_tab$LANDINGS, by = list(Landing_tab$COUNTRY, Landing_tab$YEAR, Landing_tab$QUARTER, Landing_tab$VESSEL_LENGTH, Landing_tab$GEAR, Landing_tab$MESH_SIZE_RANGE, Landing_tab$FISHERY, Landing_tab$AREA, Landing_tab$SPECIES), FUN = "sum") # [,2:12]
-    colnames(Summary_land_wt) <- c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY", "AREA", "SPECIES", "LANDINGS")
+    if (length(Landing_tab$Landing_tab[Landing_tab$landings == -1,""])>0){
+      Landing_tab[Landing_tab$landings == -1,"landings"] <- 0
+    }
+
+    Summary_land_wt <- data.frame(Landing_tab %>%  group_by(country, year, quarter, vessel_length, gear,
+                                                            mesh_size_range, fishery, area, species) %>% summarise(landings = sum(landings, na.rm=TRUE)))
+
+
+    # Summary_land_wt <- aggregate(Landing_tab$LANDINGS, by = list(Landing_tab$COUNTRY, Landing_tab$YEAR, Landing_tab$QUARTER, Landing_tab$VESSEL_LENGTH, Landing_tab$GEAR, Landing_tab$MESH_SIZE_RANGE, Landing_tab$FISHERY, Landing_tab$AREA, Landing_tab$SPECIES), FUN = "sum") # [,2:12]
+    # colnames(Summary_land_wt) <- c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY", "AREA", "SPECIES", "LANDINGS")
 
     # Summary_land_wt[1:nrow(Summary_land_wt),1:ncol(Summary_land_wt)]
 
@@ -48,16 +58,16 @@ MEDBS_Landing_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
     output[[l]] <- Summary_land_wt
     names(output)[[l]] <- "summary table"
 
-    Landing_tab$Landing_tab[Landing_tab$LANDINGS == -1] <- 0
+    Landing_tab$Landing_tab[Landing_tab$landings == -1] <- 0
     suppressMessages(land_wt <- Landing_tab %>%
-      group_by(COUNTRY, AREA, YEAR, QUARTER, VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE, FISHERY) %>%
-      summarize(LANDINGS = sum(LANDINGS, na.rm = TRUE)))
+      group_by(country, area, year, quarter, vessel_length, gear, mesh_size_range, fishery) %>%
+      summarize(landings = sum(landings, na.rm = TRUE)))
 
     suppressMessages(data <- Landing_tab %>%
-      group_by(YEAR, GEAR) %>%
-      summarise(LANDINGS = sum(LANDINGS, na.rm = TRUE)))
+      group_by(year, gear) %>%
+      summarise(landings = sum(landings, na.rm = TRUE)))
 
-    gr <- data.frame("YEAR" = seq(min(data$YEAR), max(data$YEAR), 1), "GEAR" = rep(unique(data$GEAR), each = max(data$YEAR) - min(data$YEAR) + 1), "LAND" = 0)
+    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1)) # , "LAND" = 0
 
     suppressMessages(data <- full_join(gr, data))
 
@@ -66,14 +76,14 @@ MEDBS_Landing_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
     # data <-  data[data$Landing_tab>0,]
 
 
-    p <- ggplot(data, aes(x = YEAR, y = LANDINGS, fill = GEAR)) +
+    p <- ggplot(data, aes(x = year, y = landings, fill = gear)) +
       geom_area(size = 0.5, colour = "black") +
       theme_bw() +
       ggtitle(paste0("Landings of ", SP, " in ", MS, " - ", GSA)) +
       xlab("") +
       ylab("tonnes") +
       theme(legend.position = "bottom") +
-      scale_x_continuous(breaks = seq(min(data$YEAR), max(data$YEAR), 2))
+      scale_x_continuous(breaks = seq(min(data$year), max(data$year), 2))
 
     l <- length(output) + 1
     output[[l]] <- p

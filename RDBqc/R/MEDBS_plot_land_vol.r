@@ -65,6 +65,6 @@ MEDBS_plot_land_vol <- function(data, SP, MS, GSA, verbose = TRUE) {
       xlab("") +
       ylab("Landings (t)")
 
-    print(plot)
+    return(suppressMessages(plot))
   }
 }

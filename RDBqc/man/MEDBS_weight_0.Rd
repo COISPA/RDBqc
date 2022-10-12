@@ -20,7 +20,7 @@ MEDBS_weight_0(data, type = "l", SP, MS, GSA, verbose = TRUE)
 \item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-The function returns the number of rows with 0 values in weights having length classes filled in.
+The function returns a table of rows with 0 values in weights having length classes filled in.
 }
 \description{
 The function checks landings or discards in weight equal to 0 having length classes filled in

@@ -15,7 +15,7 @@ MEDBS_plot_landing_ts(data, SP, MS, GSA, by = "year", verbose = TRUE)
 
 \item{GSA}{GSA code (Geographical sub-area)}
 
-\item{by}{string defining the temporal aggregation level of landing data to be plotted. Allowed values are: "year" and "quarter}
+\item{by}{string defining the temporal aggregation level of landing data to be plotted. Allowed values are: "year" and "quarter"}
 
 \item{verbose}{boolean. If TRUE messages are returned}
 }

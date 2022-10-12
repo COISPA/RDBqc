@@ -4,7 +4,7 @@
 #' @param SP species code
 #' @param MS member state code
 #' @param GSA GSA code (Geographical sub-area)
-#' @param by string defining the temporal aggregation level of landing data to be plotted. Allowed values are: "year" and "quarter
+#' @param by string defining the temporal aggregation level of landing data to be plotted. Allowed values are: "year" and "quarter"
 #' @param verbose boolean. If TRUE messages are returned
 #' @description The function estimates the total landings time series by both year and quarters for a selected combination of member state, GSA and species.
 #' @return The function returns a plot of the total landing time series by year or by quarters. The plot by year also reports the landing by gear.
@@ -74,6 +74,6 @@ MEDBS_plot_landing_ts <- function(data, SP, MS, GSA, by = "year", verbose = TRUE
         labs(x = "", y = "Tonnes", fill = "Gear")
     }
 
-    print(plot)
+    return(suppressMessages(plot))
   }
 }

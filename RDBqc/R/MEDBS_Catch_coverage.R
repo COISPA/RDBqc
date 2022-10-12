@@ -15,46 +15,46 @@
 MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
     data <- Catch # Catch_tab_example
-    SP <- "DPS"
+    SP <- "HKE"
     MS <- "ITA"
     GSA <- "GSA 18"
     verbose <- TRUE
   }
 
 
-  DISCARDS <- LANDINGS <- COUNTRY <- AREA <- YEAR <- QUARTER <- VESSEL_LENGTH <- GEAR <- MESH_SIZE_RANGE <- FISHERY <- NULL
+  colnames(data) <- tolower(colnames(data))
+  data[is.na(data$vessel_length), "vessel_length"] <- "NA"
+  data[is.na(data$gear), "gear"] <- "NA"
+  data[is.na(data$mesh_size_range), "mesh_size_range"] <- "NA"
+  data[is.na(data$fishery), "fishery"] <- "NA"
 
+  discards <- landings <- country <- area <- year <- quarter <- vessel_length <- gear <- mesh_size_range <- fishery <- NULL
   catch <- data
-  colnames(catch) <- toupper(colnames(catch))
+  # colnames(catch) <- toupper(colnames(catch))
 
-  catch <- catch[catch$SPECIES == SP & catch$COUNTRY == MS & catch$AREA == GSA, ]
+  catch <- catch[catch$species == SP & catch$country == MS & catch$area == GSA, ]
 
   if (nrow(catch) == 0) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
   } else if (nrow(catch) > 0) {
-    catch[is.na(catch$VESSEL_LENGTH), "VESSEL_LENGTH"] <- "NA"
-    catch[is.na(catch$GEAR), "GEAR"] <- "NA"
-    catch[is.na(catch$MESH_SIZE_RANGE), "MESH_SIZE_RANGE"] <- "NA"
-    catch[is.na(catch$FISHERY), "FISHERY"] <- "NA"
-
-    Summary_land_wt <- aggregate(catch$LANDINGS, by = list(catch$COUNTRY, catch$YEAR, catch$QUARTER, catch$VESSEL_LENGTH, catch$GEAR, catch$MESH_SIZE_RANGE, catch$FISHERY, catch$AREA, catch$SPECIES), FUN = "sum") # [,2:13]
-    colnames(Summary_land_wt) <- c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY", "AREA", "SPECIES", "LANDINGS")
-
-    # Summary_land_wt[1:nrow(Summary_land_wt),1:ncol(Summary_land_wt)]
+    Summary_land_wt <- data.frame(catch[catch$landings != -1, ] %>%  group_by(country, year, quarter, vessel_length, gear,
+                       mesh_size_range, fishery, area, species) %>% summarise(landings = sum(landings, na.rm=TRUE)))
 
     output <- list()
     l <- length(output) + 1
     output[[l]] <- Summary_land_wt
     names(output)[[l]] <- "summary_landing_table"
 
+    ##########
 
-    Summary_disc_wt <- aggregate(catch[, 2:13]$DISCARDS, by = list(catch$COUNTRY, catch$YEAR, catch$QUARTER, catch$VESSEL_LENGTH, catch$GEAR, catch$MESH_SIZE_RANGE, catch$FISHERY, catch$AREA, catch$SPECIES), FUN = "sum")
-    colnames(Summary_disc_wt) <- c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY", "AREA", "SPECIES", "DISCARDS")
+    Summary_disc_wt <- data.frame(catch[catch$discards != -1, ] %>%  group_by(country, year, quarter, vessel_length, gear,
+                          mesh_size_range, fishery, area, species) %>% summarise(discards = sum(discards, na.rm=TRUE)))
 
-    Summary_disc_wt <- Summary_disc_wt[-which(round(Summary_disc_wt$DISCARDS, 2) == -1), ]
-    # Summary_disc_wt[1:nrow(Summary_disc_wt),1:ncol(Summary_disc_wt)]
+    if (length(which(round(Summary_disc_wt$discards, 2) == -1))>0){
+         Summary_disc_wt <- Summary_disc_wt[-which(round(Summary_disc_wt$discards, 2) == -1), ]
+    }
 
     l <- length(output) + 1
     output[[l]] <- Summary_disc_wt
@@ -62,29 +62,29 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
 
     # Plot 1
     ## LANDINGS ##
-    catch$LANDINGS[catch$LANDINGS == -1] <- 0
+    catch$landings[catch$landings == -1] <- 0
     catch_land_wt <- catch %>%
-      group_by(COUNTRY, AREA, YEAR, QUARTER, VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE, FISHERY) %>%
-      summarize(LANDINGS = sum(LANDINGS, na.rm = TRUE))
+      group_by(country, area, year, quarter, vessel_length, gear, mesh_size_range, fishery) %>%
+      summarize(landings = sum(landings, na.rm = TRUE))
 
     data <- catch %>%
-      group_by(YEAR, GEAR) %>%
-      summarise(LANDINGS = sum(LANDINGS, na.rm = TRUE))
+      group_by(year, gear) %>%
+      summarise(landings = sum(landings, na.rm = TRUE))
 
-    gr <- data.frame("YEAR" = seq(min(data$YEAR), max(data$YEAR), 1), "GEAR" = rep(unique(data$GEAR), each = max(data$YEAR) - min(data$YEAR) + 1), "LAND" = 0)
+    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1)) # , "LAND" = 0
 
     data <- full_join(gr, data)
 
     data[is.na(data)] <- 0
 
 
-    p <- ggplot(data, aes(x = YEAR, y = LANDINGS, fill = GEAR)) +
+    p <- ggplot(data, aes(x = year, y = landings, fill = gear)) +
       geom_area(size = 0.5, colour = "black") +
       ggtitle(paste0("Landings in catch of ", SP, " in ", MS, " - ", GSA)) +
       xlab("") +
       ylab("tonnes") +
       theme(legend.position = "bottom") +
-      scale_x_continuous(breaks = seq(min(data$YEAR), max(data$YEAR), 2))
+      scale_x_continuous(breaks = seq(min(data$year), max(data$year), 2))
 
     l <- length(output) + 1
     output[[l]] <- p
@@ -94,29 +94,29 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
 
     # Plot 2
     ## DISCARDS ##
-    catch$DISCARDS[catch$DISCARDS == -1] <- 0
+    catch$discards[catch$discards == -1] <- 0
     catch_disc_wt <- catch %>%
-      group_by(COUNTRY, AREA, YEAR, QUARTER, VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE, FISHERY) %>%
-      summarize(DISCARDS = sum(DISCARDS, na.rm = TRUE))
+      group_by(country, area, year, quarter, vessel_length, gear, mesh_size_range, fishery) %>%
+      summarize(discards = sum(discards, na.rm = TRUE))
 
     data <- catch %>%
-      group_by(YEAR, GEAR) %>%
-      summarise(DISCARDS = sum(DISCARDS))
+      group_by(year, gear) %>%
+      summarise(discards = sum(discards))
 
-    gr <- data.frame("YEAR" = seq(min(data$YEAR), max(data$YEAR), 1), "GEAR" = rep(unique(data$GEAR), each = max(data$YEAR) - min(data$YEAR) + 1), "LAND" = 0)
+    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1)) # , "LAND" = 0
 
     data <- full_join(gr, data)
 
     data[is.na(data)] <- 0
 
-    p <- ggplot(data, aes(x = YEAR, y = DISCARDS, fill = GEAR)) +
+    p <- ggplot(data, aes(x = year, y = discards, fill = gear)) +
       geom_area(size = 0.5, colour = "black") +
       theme_bw() +
       ggtitle(paste0("Discards in catch of ", SP, " in ", MS, " - ", GSA)) +
       xlab("") +
       ylab("tonnes") +
       theme(legend.position = "bottom") +
-      scale_x_continuous(breaks = seq(min(data$YEAR), max(data$YEAR), 2))
+      scale_x_continuous(breaks = seq(min(data$year), max(data$year), 2))
     l <- length(output) + 1
     output[[l]] <- p
     names(output)[[l]] <- "discards"

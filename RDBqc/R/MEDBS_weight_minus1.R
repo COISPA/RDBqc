@@ -7,7 +7,7 @@
 #' @param GSA GSA code (Geographical sub-area)
 #' @param verbose boolean. If TRUE messages are returned.
 #' @description The function checks landings in weight equal to -1 having length class filled in
-#' @return The function returns the number of rows with -1 values in landing weights having length class filled in.
+#' @return The function returns a table of rows with -1 values in landing weights having length class filled in.
 #' @examples MEDBS_weight_minus1(data = Landing_tab_example, type = "l",
 #' SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE)
 #' MEDBS_weight_minus1(data = Discard_tab_example, type = "d", SP = "DPS",

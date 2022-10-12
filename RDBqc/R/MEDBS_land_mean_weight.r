@@ -5,7 +5,7 @@
 #' @param MS member state code
 #' @param GSA GSA code (Geographical sub-area)
 #' @param verbose boolean. If TRUE messages are returned
-#' @description The function allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery
+#' @description The function allows to check consistency of mean landing of a selected species plotting the landings' weight by year, gear and fishery
 #' @return The function returns a plot of the mean landing weight by year, gear and fishery aggregation, and returns the data frame as well.
 #' @export MEDBS_land_mean_weight
 #'
@@ -69,6 +69,7 @@ MEDBS_land_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     output[[l]] <- as.data.frame(MWdb)
     names(output)[[l]] <- "summary table"
 
+    suppressMessages(
     plot <- ggplot(MWdbpositive, aes(x = year, y = MW)) +
       geom_point(col = "red") +
       geom_line() +
@@ -79,6 +80,7 @@ MEDBS_land_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
       ggtitle(paste0(SP, " ", MS, " ", GSA, " Landing Mean weight")) +
       xlab("") +
       ylab("MW (g)")
+      )
 
     l <- length(output) + 1
     output[[l]] <- plot

@@ -7,7 +7,7 @@
 MEDBS_lengthclass_0(data, type = "l", SP, MS, GSA, verbose = TRUE)
 }
 \arguments{
-\item{data}{data frame containing landing data}
+\item{data}{data frame containing landing  or discards data}
 
 \item{type}{string vector indicating the type of table to be checked. "l" for landing; "d" for discards.}
 

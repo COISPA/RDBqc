@@ -20,7 +20,7 @@ MEDBS_weight_minus1(data, type = "l", SP, MS, GSA, verbose = TRUE)
 \item{verbose}{boolean. If TRUE messages are returned.}
 }
 \value{
-The function returns the number of rows with -1 values in landing weights having length class filled in.
+The function returns a table of rows with -1 values in landing weights having length class filled in.
 }
 \description{
 The function checks landings in weight equal to -1 having length class filled in

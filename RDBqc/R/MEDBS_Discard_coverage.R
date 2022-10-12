@@ -13,33 +13,40 @@
 #' @importFrom utils globalVariables
 MEDBS_discard_coverage <- function(Discard_tab, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
-    Discard_tab <- Discard_tab_example
-    SP <- "DPS"
+    Discard_tab <- Disc
+    SP <- "HKE"
     MS <- "ITA"
-    GSA <- "GSA 9"
+    GSA <- "GSA 18"
   }
 
   discards <- landings <- country <- area <- year <- quarter <- vessel_length <- gear <- mesh_size_range <- fishery <- NULL
 
+
+  colnames(Discard_tab) <- tolower(colnames(Discard_tab))
   Discard_tab <- Discard_tab[Discard_tab$species == SP & Discard_tab$country == MS & Discard_tab$area == GSA, ]
+
+  Discard_tab[is.na(Discard_tab$vessel_length), "vessel_length"] <- "NA"
+  Discard_tab[is.na(Discard_tab$gear), "gear"] <- "NA"
+  Discard_tab[is.na(Discard_tab$mesh_size_range), "mesh_size_range"] <- "NA"
+  Discard_tab[is.na(Discard_tab$fishery), "fishery"] <- "NA"
 
   if (nrow(Discard_tab) == 0) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
-  } else {
-    Summary_land_wt <- aggregate(Discard_tab[, 2:12]$discards, by = list(
-      Discard_tab$country,
-      Discard_tab$year, Discard_tab$quarter, Discard_tab$vessel_length,
-      Discard_tab$gear, Discard_tab$mesh_size_range, Discard_tab$fishery,
-      Discard_tab$area, Discard_tab$species
-    ), FUN = "sum")
-    colnames(Summary_land_wt) <- c(
-      "country", "year", "quarter", "vessel_length", "gear",
-      "mesh_size_range", "fishery", "area", "species", "discards"
-    )
 
-    # Summary_land_wt[1:nrow(Summary_land_wt),1:ncol(Summary_land_wt)]
+  } else {
+    if (length(Discard_tab$Discard_tab[Discard_tab$discards == -1,"discards"])>0){
+         Discard_tab$Discard_tab[Discard_tab$discards == -1,"discards"] <- 0
+    }
+    Summary_land_wt <- data.frame(Discard_tab %>%  group_by(country, year, quarter, vessel_length, gear,
+                                 mesh_size_range, fishery, area, species) %>% summarise(discards = sum(discards, na.rm=TRUE)))
+
+
+    if (length(which(round(Summary_land_wt$discards, 2) == -1))>0){
+      Summary_land_wt <- Summary_land_wt[-which(round(Summary_land_wt$discards, 2) == -1), ]
+    }
+
 
     output <- list()
     l <- length(output) + 1
@@ -55,9 +62,9 @@ MEDBS_discard_coverage <- function(Discard_tab, SP, MS, GSA, verbose = TRUE) {
       group_by(year, gear) %>%
       summarise(discards = sum(discards, na.rm = TRUE)))
 
-    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1), "disc" = 0)
+    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1))  # , "disc" = 0
 
-    data <- full_join(gr, data)
+    suppressMessages(data <- full_join(gr, data))
 
     data[is.na(data)] <- 0
 

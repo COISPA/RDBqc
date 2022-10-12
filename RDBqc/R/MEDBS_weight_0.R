@@ -7,7 +7,7 @@
 #' @param GSA GSA code (Geographical sub-area)
 #' @param verbose boolean. If TRUE messages are returned
 #' @description The function checks landings or discards in weight equal to 0 having length classes filled in
-#' @return The function returns the number of rows with 0 values in weights having length classes filled in.
+#' @return The function returns a table of rows with 0 values in weights having length classes filled in.
 #' @examples MEDBS_weight_0(data = Landing_tab_example, type = "l",
 #' SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE)
 #' MEDBS_weight_0(data = Discard_tab_example, type = "d", SP = "DPS",
