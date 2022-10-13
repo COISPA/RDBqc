@@ -28,7 +28,7 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
   data[is.na(data$mesh_size_range), "mesh_size_range"] <- "NA"
   data[is.na(data$fishery), "fishery"] <- "NA"
 
-  discards <- landings <- country <- area <- year <- quarter <- vessel_length <- gear <- mesh_size_range <- fishery <- NULL
+  discards <- landings <- country <- area <- year <- quarter <- vessel_length <- gear <- mesh_size_range <- fishery <- species <- NULL
   catch <- data
   # colnames(catch) <- toupper(colnames(catch))
 

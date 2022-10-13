@@ -4,7 +4,7 @@
 \alias{MEDBS_comp_disc_YQ}
 \title{Comparison between discards in weight by quarter and -1}
 \usage{
-MEDBS_comp_disc_YQ(data, MS, GSA, SP)
+MEDBS_comp_disc_YQ(data, MS, GSA, SP, verbose = FALSE)
 }
 \arguments{
 \item{data}{data frame containing discards data}
@@ -14,6 +14,8 @@ MEDBS_comp_disc_YQ(data, MS, GSA, SP)
 \item{GSA}{GSA code (Geographical sub-area)}
 
 \item{SP}{species code}
+
+\item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
 The function returns a data frame with the comparison of discards aggregated by quarters and by year

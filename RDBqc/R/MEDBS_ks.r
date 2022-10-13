@@ -8,7 +8,7 @@
 #' @param Rt ratio to be applied to subsample data to reduce the risk of rejection of H0 Hypothesis
 #' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to perform the Kolmogorov-Smirnov test on both landings and discards for a selected species providing cumulative length distribution plots by fishery and year. The function performs Kolmogorov-Smirnov tests on couples of years to assess if they belong to the same population.
-#' @return the function returns a list of data frames and cumulatine distribution plots
+#' @return the function returns a list of data frames and cumulative distribution plots
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
@@ -25,19 +25,19 @@
 
 MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
   if (FALSE) {
-    data <- Land # landing # Landing_tab_example
+    data <- Disc # landing # Landing_tab_example
     # splines <- c(0.2,0.4,0.6,0.8)
     # Xtresholds = c(0.25,0.5,0.75)
-    type <- "l"
+    type <- "d"
     # out = "mean" # "mean"
     MS <- c("ITA")
     GSA <- c("GSA 18")
-    SP <- "DPS"
+    SP <- "HKE"
     Rt <- 1
     # tic()
     data <- Landing_tab_example <- as.data.table(Landing_tab_example)
 
-    MEDBS_ks(data = Landing_tab_example, type = "l", SP = "DPS", MS = "ITA", GSA = 9, Rt = 1)
+    MEDBS_ks(data = Disc, type = "d", SP = "HKE", MS = "ITA", GSA = "GSA 18", Rt = 1)
   }
 
   . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- NULL
@@ -84,8 +84,10 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       ldat$start_length <- as.integer(ldat$start_length)
       ldat[(ldat$value < 0) | is.na(ldat$value), "value"] <- 0
 
-      LFL <- aggregate(ldat$value, by = list(ldat$year, ldat$gear, ldat$fishery, ldat$start_length), sum)
-      names(LFL) <- c("year", "gear", "fishery", "start_length", "value")
+      LFL <- ldat %>% group_by(year,gear,fishery,start_length) %>% summarise(value=sum(value,na.rm=TRUE))
+      #   aggregate(ldat$value, by = list(ldat$year, ldat$gear, ldat$fishery, ldat$start_length), sum)
+      # names(LFL) <- c("year", "gear", "fishery", "start_length", "value")
+
       LFL$ID <- paste0(LFL$gear, "_", LFL$fishery, sep = "")
       LFL$start_length <- LFL$start_length - 1
 
@@ -219,8 +221,10 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
 
   if (type == "d") {
     discarded <- data # fread("../data/discards.csv")
-    discarded$area <- as.numeric(gsub("[^0-9]", "", discarded$area))
+    # discarded$area <- as.numeric(gsub("[^0-9]", "", discarded$area))
     discarded$upload_id <- NA
+    id_discards <- NA
+    discarded <- cbind(id_discards, discarded)
     discarded$discards[discarded$discards == -1] <- 0
 
     disc <- discarded[which(discarded$area == GSA & discarded$country == MS & discarded$species == SP), ]
@@ -244,8 +248,11 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
     ddat$start_length <- as.integer(ddat$start_length)
     ddat[(ddat$value < 0) | is.na(ddat$value), "value"] <- 0
 
-    LFD <- aggregate(ddat$value, by = list(ddat$year, ddat$gear, ddat$fishery, ddat$start_length), sum)
-    names(LFD) <- c("year", "gear", "fishery", "start_length", "value")
+
+    LFD <- ddat %>% group_by(year,gear,fishery,start_length) %>% summarise(value=sum(value,na.rm=TRUE))
+    # LFD <- aggregate(ddat$value, by = list(ddat$year, ddat$gear, ddat$fishery, ddat$start_length), sum)
+    # names(LFD) <- c("year", "gear", "fishery", "start_length", "value")
+
     LFD$ID <- paste0(LFD$gear, "_", LFD$fishery, sep = "")
     LFD$start_length <- LFD$start_length - 1
 
@@ -284,9 +291,9 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       LFL_mutate$square <- (LFL_mutate$start_length - LFL_mutate$mean_size)^2
       LFL_mutate$fsquare <- LFL_mutate$square * LFL_mutate$value
 
-      suppressMessages(SDdb <- LFL_mutate %>%
+      suppressMessages(suppressWarnings(SDdb <- LFL_mutate %>%
         group_by(year, gear, fishery) %>%
-        summarize(sd_size = sqrt(sum(fsquare) / (sum(value) - 1))))
+        summarize(sd_size = sqrt(sum(fsquare) / (sum(value) - 1)))))
 
 
       suppressMessages(MINdb <- LFL %>%
@@ -315,9 +322,9 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       LFLandings <- LFL
 
       LFLandings$ID1 <- paste0(LFLandings$year, LFLandings$gear, LFLandings$fishery)
-      LFLandings_tot <- LFLandings %>%
+      suppressMessages(LFLandings_tot <- LFLandings %>%
         group_by(year, gear, fishery) %>%
-        summarize(tot = sum(value))
+        summarize(tot = sum(value)))
       LFLandings_tot$ID1 <- paste0(LFLandings_tot$year, LFLandings_tot$gear, LFLandings_tot$fishery)
       toremove <- LFLandings_tot[LFLandings_tot$tot %in% 0, ]
       LFLandingssub <- LFLandings[!LFLandings$ID1 %in% toremove$ID1, ]
@@ -328,7 +335,7 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       counter1 <- 1
 
       plots <- list()
-      i <- "OTB_DEMF"
+      i <- "OTB_DEF"
       for (i in unique(LFLandingssub$ID)) {
         LFLandingsred <- LFLandingssub[LFLandingssub$ID %in% i, ]
         LFLandingsred$value <- LFLandingsred$value / Rt
@@ -377,7 +384,6 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       nCol <- floor(sqrt(n))
       cols <- max(nsq, nCol)
       plots <- do.call("grid.arrange", c(plots, ncol = cols))
-
       KS_final_discards <- do.call(rbind, tmpdb)
       KS_noTest_discards <- do.call(rbind, tmpdb1)
 

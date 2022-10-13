@@ -195,6 +195,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
 
 
       result <- LFLandingsDB
+      result <- result[!is.na(result$percentile_value),]
 
       output <- list()
       l <- length(output) + 1
@@ -375,6 +376,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
       suppressMessages(LFDiscardsDB <- left_join(final_DB, db27))
 
       result <- LFDiscardsDB
+      result <- result[!is.na(result$percentile_value),]
 
       output <- list()
       l <- length(output) + 1

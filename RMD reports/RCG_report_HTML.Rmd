@@ -1,0 +1,146 @@
+---
+title: "| ![](logo.png){width=6in} \\vspace{1in} \n\n\n\n`r format(params$term)` Report\n\n\n\n
+  \\vspace{0.1in} "
+
+date: "Compiled on `r format(Sys.time(), '%d/%m/%Y, %H:%M')`"
+subtitle: ''
+
+output:
+  html_document:
+    template: RDBFIS_report_template.html
+    toc: true
+    toc-title: "Table of contents"
+    toc_depth: 5
+    number_sections: true
+    collapsed: true
+    df_print: paged
+params:
+  term: RCG datacall
+---
+<!-- INITIALIZATION -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE
+)
+
+lib <- c("RDBqc","knitr","kableExtra","dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc","tidyverse", "fishmethods","tidyr","gridExtra")
+lapply(lib, require, character.only = TRUE)
+
+DD <- RDBqc::data_ex # detailed data
+
+SPs <- c("Mullus barbatus")
+MS <- "ITA"
+GSAs <- c("GSA99")
+
+# check the presence of user defined filter for species (SPs)
+if (exists("SPs")) {
+  if (length(SPs) == 1 & is.na(SPs[1])) {
+    user_SP <- FALSE
+  } else {
+    user_SP <- TRUE
+  }
+} else {
+  user_SP <- FALSE
+}
+
+# check the presence of user defined filter for member state (MS)
+if (exists("MS")) {
+if(length(MS)==1 & is.na(MS[1])) {
+  user_MS = FALSE
+} else {
+  user_MS = TRUE
+}
+} else {
+  user_MS <- FALSE
+}
+
+# check the presence of user defined filter for sub-area (GSAs)
+if (exists("GSAs")) {
+if(length(GSAs)==1 & is.na(GSAs[1])) {
+  user_GSA = FALSE
+} else {
+  user_GSA = TRUE
+} 
+} else {
+  user_GSA <- FALSE
+}
+
+```
+
+\newpage
+<!-- AL -->
+
+```{r check_DD, results = 'asis'}
+
+if (exists("DD")) {
+  if (class(DD)=="data.frame") {
+    if(nrow(DD)>0){
+      check_DD <- TRUE
+      cat(paste0("\n# Detailed data table\n"))
+      if(!user_SP){
+        SPs <- unique(DD$species)
+      }
+      if(!user_MS){
+        MS  <- unique(DD$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(DD$area)
+      }
+    }
+  }
+} else {
+  check_DD <- FALSE
+  cat("\n No detailed data available \n")
+}
+
+
+```
+
+```{r catch_duplicated_records, results = 'asis'}
+if (check_DD) {
+  
+  cat("\n## Consistency of age-length relationship\n")
+  cat("\nRCG detailed data were checked for the consistency of the age-length data. The lowest and the higher values of age distribution were checked as outliers by mean of the Grubbs' test'\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      s=1
+      for (s in 1:length(SPs)) {
+        suppressMessages(res <- RCG_check_AL(data=DD, MS = MS, GSA = GSAs[g],SP = SPs[s], min_age = NA, max_age = NA))
+        if (!is.null(res)) {
+
+        if (nrow(res[[1]])>0){
+        cat(paste0("\n_Summary table of length observations by lenght class for ",SPs[s]," in ",GSAs[g],"_\n"))
+          
+        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of age-length relationship by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res[[3]])
+        cat("\n\n\n")
+        
+        } else {
+            cat(paste0("\n\n\n- No datailed data for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+
+          if (nrow(res[[2]])>0) {
+  cat("\n\n\n")
+   print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        
+        cat("\n\n\n")
+} else {
+    cat("\n", paste0("- No outliers detected records in age data"), "\n")
+}
+          
+        }
+      }
+}
+
+
+
+} # check_Catch
+```

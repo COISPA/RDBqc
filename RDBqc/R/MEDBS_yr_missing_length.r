@@ -29,17 +29,17 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
     # library(data.table)
     # library(tidyverse)
     # library(fishmethods)
-    data <- Discard_tab_example # Discard_tab_example # Landing_tab_example
+    data <- Disc # Discard_tab_example # Landing_tab_example
     # splines <- c(0.2,0.4,0.6,0.8)
     # Xtresholds = c(0.25,0.5,0.75)
     type <- "d"
     # out = "mean" # "mean"
     MS <- c("ITA")
-    GSA <- c("GSA 9")
-    SP <- "DPS"
+    GSA <- c("GSA 19")
+    SP <- "HKE"
     # tic()
 
-    MEDBS_yr_missing_length(data = Landing_tab_example, type = "l", SP = "DPS", MS = "ITA", GSA = "GSA 9")
+    MEDBS_yr_missing_length(data = Disc, type = "d", SP = "HKE", MS = "ITA", GSA = "GSA 18")
   }
 
   . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- NULL
@@ -184,7 +184,7 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
       if (nrow(yr_missing_disc) > 0) {
         return(yr_missing_disc)
       } else {
-        return(NULL)
+        return(yr_missing_disc)
       }
     } else {
       print("No discards data available for this stock")

@@ -24,40 +24,44 @@
 MEDBS_comp_disc_YQ_fishery <- function(data, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
     MS <- "ITA"
-    GSA <- "GSA 9"
-    SP <- "DPS"
+    GSA <- "GSA 18"
+    SP <- "HKE"
     # verbose=TRUE
-    data <- Discard_tab_example
+    data <- Disc
     MEDBS_comp_disc_YQ_fishery(data, MS = "ITA", GSA = "GSA 9", SP = "DPS")
   }
 
-  GEAR <- DISCARDS <- QUARTER <- tot_q <- tot_yr <- YEAR <- FISHERY <- NULL
+  gear <- discards <- quarter <- tot_q <- tot_yr <- year <- fishery <- NULL
 
-  colnames(data) <- toupper(colnames(data))
-  land <- data
+  colnames(data) <- tolower(colnames(data))
+  disc <- data
 
-  # land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
-  land <- land[which(land$AREA == as.character(GSA) & land$COUNTRY == MS & land$SPECIES == SP), ]
-  if (nrow(land) == 0) {
+  # disc$area <- as.numeric(gsub("[^0-9.-]+","\\1",disc$area))
+  disc <- disc[which(disc$area == as.character(GSA) & disc$country == MS & disc$species == SP), ]
+  if (nrow(disc) == 0) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
+    empty <- data.frame(matrix(ncol=6,nrow=0))
+    colnames(empty) <- c("YEAR", "GEAR",  "FISHERY", "TOT_Q",  "TOT_YR", "RATIO")
+    return(empty)
   } else {
-    land$DISCARDS[land$DISCARDS == -1] <- 0
+    disc$discards[disc$discards == -1] <- 0
 
-    compLand0 <- list()
+    compdisc0 <- list()
     c0 <- 1
-    for (i in unique(land$YEAR)) {
-      tmp0 <- land[land$YEAR %in% i, ]
-      suppressMessages(quarters <- tmp0 %>% filter(QUARTER > 0) %>% group_by(YEAR, GEAR, FISHERY) %>% summarize(tot_q = sum(DISCARDS)))
-      suppressMessages(annual <- tmp0 %>% filter(QUARTER < 0) %>% group_by(YEAR, GEAR, FISHERY) %>% summarize(tot_yr = sum(DISCARDS)))
+    for (i in unique(disc$year)) {
+      tmp0 <- disc[disc$year %in% i, ]
+      suppressMessages(quarters <- tmp0 %>% filter(quarter > 0) %>% group_by(year, gear, fishery) %>% summarize(tot_q = sum(discards)))
+      suppressMessages(annual <- tmp0 %>% filter(quarter < 0) %>% group_by(year, gear, fishery) %>% summarize(tot_yr = sum(discards)))
       suppressMessages(final_check0 <- full_join(quarters, annual))
       suppressMessages(final_check0 <- final_check0 %>% mutate(ratio = tot_q / tot_yr))
-      compLand0[[c0]] <- final_check0
+      compdisc0[[c0]] <- final_check0
       c0 <- c0 + 1
     }
-    compLandings0 <- do.call(rbind, compLand0)
+    compdiscards0 <- do.call(rbind, compdisc0)
 
-    return(as.data.frame(compLandings0))
+    colnames(compdiscards0) <- toupper(colnames(compdiscards0))
+    return(as.data.frame(compdiscards0))
   }
 }

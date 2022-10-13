@@ -29,7 +29,7 @@ MEDBS_Landing_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
 
   Landing_tab <- data
 
-  discards <- landings <- country <- area <- year <- quarter <- vessel_length <- gear <- mesh_size_range <- fishery <- NULL
+  discards <- landings <- country <- area <- year <- quarter <- vessel_length <- gear <- mesh_size_range <- fishery <- species <- NULL
 
   Landing_tab <- Landing_tab[Landing_tab$species == SP & Landing_tab$country == MS & Landing_tab$area == GSA, ]
 

@@ -66,6 +66,9 @@ MEDBS_land_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
 
     output <- list()
     l <- length(output) + 1
+    MWdb <- as.data.frame(MWdb)
+    colnames(MWdb)[9] <- "MW(g)"
+    MWdb[is.infinite(MWdb$`MW(g)`),"MW(g)"] <- NA
     output[[l]] <- as.data.frame(MWdb)
     names(output)[[l]] <- "summary table"
 

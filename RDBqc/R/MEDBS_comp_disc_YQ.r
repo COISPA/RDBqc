@@ -4,6 +4,7 @@
 #' @param SP species code
 #' @param MS member state code
 #' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE a message is printed.
 #' @description The function compares the discards weights aggregated by quarter and by year for a selected species at gear level.
 #' @return The function returns a data frame with the comparison of discards aggregated by quarters and by year
 #' @export MEDBS_comp_disc_YQ
@@ -20,44 +21,50 @@
 #' @importFrom dplyr filter
 #' @importFrom dplyr full_join
 
-MEDBS_comp_disc_YQ <- function(data, MS, GSA, SP) {
+MEDBS_comp_disc_YQ <- function(data, MS, GSA, SP,verbose=FALSE) {
   if (FALSE) {
     MS <- "ITA"
-    GSA <- "GSA 9"
-    SP <- "DPS"
-    # verbose=TRUE
-    data <- Discard_tab_example
-    MEDBS_comp_disc_YQ(data, MS = "ITA", GSA = GSA, SP = SP)
+    GSA <- "GSA 18"
+    SP <- "HPS"
+    verbose=TRUE
+    data <- Disc
+    MEDBS_comp_disc_YQ(data=Disc, MS = "ITA", GSA = "GSA 18", SP = "HKE")
   }
 
-  GEAR <- DISCARDS <- QUARTER <- tot_q <- tot_yr <- YEAR <- NULL
+  gear <- discards <- quarter <- tot_q <- tot_yr <- year <- NULL
 
-  colnames(data) <- toupper(colnames(data))
+  colnames(data) <- tolower(colnames(data))
   disc <- data
   # disc$area <- as.numeric(gsub("[^0-9.-]+","\\1",disc$area))
-  disc <- disc[which(disc$AREA == as.character(GSA) & disc$COUNTRY == MS & disc$SPECIES == SP), ]
-  disc$DISCARDS[disc$DISCARDS == -1] <- 0
+  disc <- disc[which(disc$area == as.character(GSA) & disc$country == MS & disc$species == SP), ]
+  disc$discards[disc$discards == -1] <- 0
 
   if (nrow(disc) > 0) {
-    compLand <- list()
+    compDisc <- list()
     c <- 1
     i <- 2009
 
-    for (i in unique(disc$YEAR)) {
-      tmp <- disc[disc$YEAR %in% i, ]
+    for (i in unique(disc$year)) {
+      tmp <- disc[disc$year %in% i, ]
       suppressMessages(quarters <- tmp %>%
-        filter(QUARTER > 0) %>% group_by(YEAR, GEAR) %>% summarize(tot_q = sum(DISCARDS)))
+        filter(quarter > 0) %>% group_by(year, gear) %>% summarize(tot_q = sum(discards)))
       suppressMessages(annual <- tmp %>%
-        filter(QUARTER < 0) %>% group_by(YEAR, GEAR) %>% summarize(tot_yr = sum(DISCARDS)))
+        filter(quarter < 0) %>% group_by(year, gear) %>% summarize(tot_yr = sum(discards)))
       suppressMessages(final_check <- full_join(quarters, annual))
       suppressMessages(final_check <- final_check %>% mutate(ratio = tot_q / tot_yr))
-      compLand[[c]] <- final_check
+      compDisc[[c]] <- final_check
       c <- c + 1
     }
 
-    compLandings <- do.call(rbind, compLand)
-    return(as.data.frame(compLandings))
+    compDiscards <- do.call(rbind, compDisc)
+    colnames(compDiscards) <- toupper(colnames(compDiscards))
+    return(as.data.frame(compDiscards))
   } else {
-    message("No discard data in the subset.\n")
+    if (verbose){
+         message("No discard data in the subset.\n")
+    }
+    empty <- data.frame(matrix(ncol=5, nrow=0))
+    colnames(empty) <- c("YEAR",	"GEAR",	"TOT_Q",	"TOT_YR",	"RATIO")
+    return(empty)
   }
 }

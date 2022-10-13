@@ -19,7 +19,7 @@ MEDBS_discard_coverage <- function(Discard_tab, SP, MS, GSA, verbose = TRUE) {
     GSA <- "GSA 18"
   }
 
-  discards <- landings <- country <- area <- year <- quarter <- vessel_length <- gear <- mesh_size_range <- fishery <- NULL
+  discards <- landings <- country <- area <- year <- quarter <- vessel_length <- gear <- mesh_size_range <- species <- fishery <- NULL
 
 
   colnames(Discard_tab) <- tolower(colnames(Discard_tab))

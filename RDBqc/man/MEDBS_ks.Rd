@@ -22,7 +22,7 @@ MEDBS_ks(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE)
 \item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-the function returns a list of data frames and cumulatine distribution plots
+the function returns a list of data frames and cumulative distribution plots
 }
 \description{
 The function allows to perform the Kolmogorov-Smirnov test on both landings and discards for a selected species providing cumulative length distribution plots by fishery and year. The function performs Kolmogorov-Smirnov tests on couples of years to assess if they belong to the same population.
