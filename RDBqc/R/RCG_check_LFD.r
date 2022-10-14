@@ -19,7 +19,8 @@
 #' @importFrom outliers grubbs.test
 RCG_check_LFD <- function(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose = TRUE) {
 
-  Length_class <- Number_at_length <- NULL
+  Age <- Area <- Commercial_size_category <- Date <-  Flag_country <-
+  Number_at_length <-  Sex <-  Trip_code <-  Year <-  fish_ID <- Length_class <- Number_at_length <- NULL
 
   data <- data[data$Species == SP & data$Area %in% GSA & data$Flag_country %in% MS, ]
 
@@ -70,7 +71,7 @@ RCG_check_LFD <- function(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose
     }
 
     error <- rbind(error_min_length, error_max_length)
-    error <- error %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category_scale, Age,Sex,Length_class,fish_ID	)
+    error <- error %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category, Age,Sex,Length_class,fish_ID	)
 
 
     output <- list()

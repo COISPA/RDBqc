@@ -20,7 +20,8 @@
 #' @importFrom outliers grubbs.test
 RCG_check_AL <- function(data, MS, GSA, SP, min_age = NA, max_age = NA, verbose = TRUE) {
 
-  Age <- Length_class <- Sex <- NULL
+  Age <- Area <- Commercial_size_category <- Date <-  Flag_country <-
+  Number_at_length <- Trip_code <- Year <- fish_ID  <- Length_class <- Sex <- NULL
 
   AGE_na <- data[is.na(data$Age) & data$Species %in% SP & data$Flag_country %in% MS & data$Area %in% GSA, ]
   if (nrow(AGE_na)>0){
@@ -98,11 +99,11 @@ RCG_check_AL <- function(data, MS, GSA, SP, min_age = NA, max_age = NA, verbose 
 
     if ( nrow(error_max_age) != 0) {   # nrow(error_min_age) != 0 |
       err <-  error_max_age # rbind(error_min_age, error_max_age)
-      err <- err %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category_scale, Age,Sex,Length_class,fish_ID	)
+      err <- err %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category, Age,Sex,Length_class,fish_ID	)
 
     } else {
       err <- data[0,]
-      err <- err %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category_scale, Age,Sex,Length_class,fish_ID	)
+      err <- err %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category, Age,Sex,Length_class,fish_ID	)
 
     }
 
