@@ -51,20 +51,23 @@ RCG_check_AL <- function(data, MS, GSA, SP, min_age = NA, max_age = NA, verbose 
     # summary table of number of individuals by length class by year
     data_age <- data[!is.na(data$Age), ]
 
-    tab_age <- aggregate(data_age$Number_at_length, by = list(data_age$Year, data_age$Length_class), FUN = "length")
-    colnames(tab_age) <- c("Year", "Length_class", "nb_age_measurements")
+    tab_age <- data.frame(data_age %>% group_by(Year,Length_class) %>% summarize(nb_age_measurements=sum(Number_at_length,na.rm=TRUE)))
+
+
+    #   aggregate(data_age$Number_at_length, by = list(data_age$Year, data_age$Length_class), FUN = "length")
+    # colnames(tab_age) <- c("Year", "Length_class", "nb_age_measurements")
 
     output <- list()
     l <- length(output) + 1
     output[[l]] <- tab_age
-    names(output)[[l]] <- "Length summary table"
+    names(output)[[l]] <- "Age-Length summary table"
 
 
     # Check age consistent with allowed range
 
     if (is.na(min_age) | is.na(max_age)) {
       test_max <- grubbs.test(data$Age)$p.value
-      test_min <- grubbs.test(data$Age, opposite = TRUE)$p.value
+      # test_min <- grubbs.test(data$Age, opposite = TRUE)$p.value
 
       if (test_max < 0.05) {
         id_max <- which(data$Age == max(data$Age))
@@ -75,29 +78,32 @@ RCG_check_AL <- function(data, MS, GSA, SP, min_age = NA, max_age = NA, verbose 
         id_max <- 0
       }
 
-      if (test_min < 0.05) {
-        id_min <- which(data$Age == min(data$Age))
-        if (verbose) {
-          message(paste("The Grubbs' test identifies the minimum value of Age distribution (",round(min(data$Age),1),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
-        }
-      } else {
-        id_min=0
-      }
+      # if (test_min < 0.05) {
+      #   id_min <- which(data$Age == min(data$Age))
+      #   if (verbose) {
+      #     message(paste("The Grubbs' test identifies the minimum value of Age distribution (",round(min(data$Age),1),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
+      #   }
+      # } else {
+      #   id_min=0
+      # }
 
-      error_min_age <- data[id_min, ]
+      # error_min_age <- data[id_min, ]
       error_max_age <- data[id_max, ]
 
     } else{
-    error_min_age <- data_age[data_age$Age < min_age, ]
+    # error_min_age <- data_age[data_age$Age < min_age, ]
     error_max_age <- data_age[data_age$Age > max_age, ]
     }
 
 
-    if (nrow(error_min_age) != 0 | nrow(error_max_age) != 0) {
-      err <-  rbind(error_min_age, error_max_age)
+    if ( nrow(error_max_age) != 0) {   # nrow(error_min_age) != 0 |
+      err <-  error_max_age # rbind(error_min_age, error_max_age)
+      err <- err %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category_scale, Age,Sex,Length_class,fish_ID	)
 
     } else {
       err <- data[0,]
+      err <- err %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category_scale, Age,Sex,Length_class,fish_ID	)
+
     }
 
     l <- length(output) + 1
@@ -107,7 +113,6 @@ RCG_check_AL <- function(data, MS, GSA, SP, min_age = NA, max_age = NA, verbose 
     l <- length(output) + 1
     output[[l]] <- p
     names(output)[[l]] <- paste("AL", SP, MS, GSA, sep = " _ ")
-
     return(output) # list(tab_age,err,p)
   }
 }

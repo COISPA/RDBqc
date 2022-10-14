@@ -23,6 +23,7 @@ RCG_check_LFD <- function(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose
 
   data <- data[data$Species == SP & data$Area %in% GSA & data$Flag_country %in% MS, ]
 
+
   if (nrow(data) == 0) {
     if (verbose) {
       message(paste0("No landing data available for the selected species (", SP, ")"))
@@ -69,6 +70,8 @@ RCG_check_LFD <- function(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose
     }
 
     error <- rbind(error_min_length, error_max_length)
+    error <- error %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category_scale, Age,Sex,Length_class,fish_ID	)
+
 
     output <- list()
     l <- length(output) + 1

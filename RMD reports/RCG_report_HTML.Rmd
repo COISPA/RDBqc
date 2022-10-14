@@ -26,14 +26,15 @@ knitr::opts_chunk$set(
     warning = FALSE
 )
 
-lib <- c("RDBqc","knitr","kableExtra","dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc","tidyverse", "fishmethods","tidyr","gridExtra")
+lib <- c("RDBqc","knitr","kableExtra","dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc","tidyverse", "fishmethods","tidyr","gridExtra","outliers")
 lapply(lib, require, character.only = TRUE)
 
-DD <- RDBqc::data_ex # detailed data
+CS <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CS_GSA17.csv", sep=";")
+CL <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
 
-SPs <- c("Mullus barbatus")
+SPs <- c("Merluccius merluccius")
 MS <- "ITA"
-GSAs <- c("GSA99")
+GSAs <- c("GSA17")
 
 # check the presence of user defined filter for species (SPs)
 if (exists("SPs")) {
@@ -73,74 +74,211 @@ if(length(GSAs)==1 & is.na(GSAs[1])) {
 \newpage
 <!-- AL -->
 
-```{r check_DD, results = 'asis'}
+```{r check_CS, results = 'asis'}
 
-if (exists("DD")) {
-  if (class(DD)=="data.frame") {
-    if(nrow(DD)>0){
-      check_DD <- TRUE
+if (exists("CS")) {
+  if (class(CS)=="data.frame") {
+    if(nrow(CS)>0){
+      check_CS <- TRUE
       cat(paste0("\n# Detailed data table\n"))
       if(!user_SP){
-        SPs <- unique(DD$species)
+        SPs <- unique(CS$Species)
       }
       if(!user_MS){
-        MS  <- unique(DD$country)
+        MS  <- unique(CS$Flag_country)
       }
       if(!user_GSA){
-        GSAs <- unique(DD$area)
+        GSAs <- unique(CS$Area)
       }
     }
   }
 } else {
-  check_DD <- FALSE
+  check_CS <- FALSE
   cat("\n No detailed data available \n")
 }
 
 
 ```
 
-```{r catch_duplicated_records, results = 'asis'}
-if (check_DD) {
+```{r RCG_CS_AL, results = 'asis'}
+if (check_CS) {
   
   cat("\n## Consistency of age-length relationship\n")
-  cat("\nRCG detailed data were checked for the consistency of the age-length data. The lowest and the higher values of age distribution were checked as outliers by mean of the Grubbs' test'\n")
+  cat("\nRCG detailed data were checked for the consistency of the age-length data. The Grubbs’ test was performed to evaluate whether the maximum value of age distribution could be considered as outliers. In case, a table reporting the outliers is returned.'\n")
   
 
 g=1
 for (g in 1:length(GSAs)) {
       s=1
       for (s in 1:length(SPs)) {
-        suppressMessages(res <- RCG_check_AL(data=DD, MS = MS, GSA = GSAs[g],SP = SPs[s], min_age = NA, max_age = NA))
+        suppressMessages(res <- RCG_check_AL(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], min_age = NA, max_age = NA))
         if (!is.null(res)) {
 
-        if (nrow(res[[1]])>0){
-        cat(paste0("\n_Summary table of length observations by lenght class for ",SPs[s]," in ",GSAs[g],"_\n"))
-          
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        # cat(paste0("\n_Summary table of length observations by lenght class for ",SPs[s]," in ",GSAs[g],"_\n"))
+        #   
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
         
         cat("\n\n\n")
         cat(paste0("\nPlot of age-length relationship by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
         print(res[[3]])
         cat("\n\n\n")
         
-        } else {
-            cat(paste0("\n\n\n- No datailed data for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
-        }
-
-          if (nrow(res[[2]])>0) {
+if (nrow(res[[2]])>0) {
   cat("\n\n\n")
+  cat(paste0("\n_Table of the age class outliers for ",SPs[s]," in ",GSAs[g],"_\n"))
    print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
         
         cat("\n\n\n")
 } else {
     cat("\n", paste0("- No outliers detected records in age data"), "\n")
 }
-          
+        } else {
+          cat(paste0("\n\n\n- No age data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
         }
       }
 }
 
 
 
-} # check_Catch
+} # check_CS
+```
+
+```{r RCG_check_LFD, results = 'asis'}
+if (check_CS) {
+  
+  cat("\n## Consistency of LFD by year\n")
+  cat("\nThe consistency of length frequency distributions (LFD) was checked generating a multi-frame plot of the LFD by year. The Grubbs' test was performed to evaluate whether the minimum and the maximum values of Length class distribution could be considered as outliers. In case, a table reporting the outliers is returned.\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      s=1
+      for (s in 1:length(SPs)) {
+        suppressMessages(res <- RCG_check_LFD(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], min_len = NA, max_len = NA, verbose = FALSE))
+        if (!is.null(res)) {
+
+        cat("\n\n\n")
+        cat(paste0("\nPlot of LFDs by year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res[[2]])
+        cat("\n\n\n")
+        
+        if (nrow(res[[1]])>0) {
+        cat(paste0("\n_Outliers of the length distribution for ",SPs[s]," in ",GSAs[g],"_\n"))
+        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) 
+              )
+                cat("\n\n\n")
+     } else {
+         cat("\n", paste0("- No outliers detected in length data"), "\n")
+     }
+        } else {
+          cat(paste0("\n\n\n- No length data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_CS
+```
+
+```{r RCG_check_LFD_comm_cat, results = 'asis'}
+if (check_CS) {
+  
+  cat("\n## Consistency of LFD by year and commercial category\n")
+  cat("\nThe consistency of length frequency distributions (LFD) was checked generating a multi-frame plot of the LFD by year and commercial size categories.\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      s=1
+      for (s in 1:length(SPs)) {
+        suppressMessages(res <- RCG_check_LFD_comm_cat(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s]))
+        if (!is.null(res)) {
+
+        # cat(paste0("\n_Summary table of the length range by year and commercial size category for ",SPs[s]," in ",GSAs[g],"_\n"))
+        #   
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of LFDs by year and commercial size category for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res[[2]])
+        cat("\n\n\n")
+        
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_CS
+```
+
+```{r RCG_check_lw, results = 'asis'}
+if (check_CS) {
+  
+  cat("\n## Consistency of length-weight relationship\n")
+  cat("\nThe consistency of length-weight relationship was checked generating a multi-frame plot of the LFD by year and sex.\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      s=1
+      for (s in 1:length(SPs)) {
+        suppressMessages(res <- RCG_check_lw(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], Min = NA, Max = NA, verbose = FALSE))
+        if (!is.null(res)) {
+
+        cat("\n\n\n")
+        cat(paste0("\nPlot of length-weight by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res[[2]])
+        cat("\n\n\n")
+        
+        if (nrow(res[[1]])>0) {
+        cat(paste0("\n_Outliers of the lengths distribution for ",SPs[s]," in ",GSAs[g],"_\n"))
+        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+                   cat("\n\n\n")
+     } else {
+         cat("\n", paste0("- No outliers detected in length data"), "\n")
+     }
+        
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_CS
+```
+
+```{r RCG_check_mat, results = 'asis'}
+if (check_CS) {
+  
+  cat("\n## Consistency of sex and maturity stage\n")
+  cat("\nThe consistency of maturity stages by sex and year was qualitatively checked accordingly to the length class.\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      s=1
+      for (s in 1:length(SPs)) {
+        suppressMessages(res <- RCG_check_mat(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], verbose = FALSE))
+        if (!is.null(res)) {
+
+        cat("\n\n\n")
+        cat(paste0("\nPlot of length-weight by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res)
+        cat("\n\n\n")
+        
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_CS
 ```

@@ -68,7 +68,7 @@ RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) 
       xlab("Length class") +
       ylab("Individual weight") +
       ggtitle(SP)
-    print(p)
+    # print(p)
 
 
 
@@ -76,6 +76,7 @@ RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) 
 
 
     error <- rbind(error_min_weight, error_max_weight)
+    error <- error %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category_scale, Age,Sex,Length_class,fish_ID	)
 
     output <- list()
     l <- length(output) + 1
@@ -105,8 +106,8 @@ RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) 
     } else {
       if (verbose) {
         print("No individual weights out of the expected range", quote = F)
-        return(output)
       }
+      return(output)
     }
   }
 }

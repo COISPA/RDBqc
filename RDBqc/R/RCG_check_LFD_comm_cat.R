@@ -13,10 +13,10 @@
 #' @importFrom utils globalVariables
 RCG_check_LFD_comm_cat <- function(data, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
-    data <- data_ex
-    data[1, "Length_class"] <- NA
-    GSA <- "GSA99"
-    RCG_check_LFD_comm_cat(data, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
+    data <- CS
+    SP = "Merluccius merluccius"
+    GSA <- "GSA17"
+    RCG_check_LFD_comm_cat(CS, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
   }
 
   Length_class <- Number_at_length <- NULL
@@ -27,6 +27,7 @@ RCG_check_LFD_comm_cat <- function(data, SP, MS, GSA, verbose = TRUE) {
     if (verbose) {
       message(paste0("The selected species (", SP, ") is not included in the data"))
     }
+    output <- NULL
   } else {
     length_na <- data[is.na(data$Length_class), ]
     number_na <- data[is.na(data$Number_at_length), ]

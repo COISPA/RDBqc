@@ -39,6 +39,7 @@ RCG_check_mat <- function(data, MS, GSA, SP, verbose = TRUE) {
     if (verbose) {
       message(paste0("No data for the selected species (", SP, ")"))
     }
+    return(NULL)
   } else if (nrow(data) > 0) {
     p1 <- ggplot(data = data, aes(x = Length_class, y = Maturity_Stage, col = Sex)) +
       geom_point(stat = "identity", fill = "darkorchid4") +
@@ -46,6 +47,6 @@ RCG_check_mat <- function(data, MS, GSA, SP, verbose = TRUE) {
       xlab("Length Class") +
       ylab("Maturity Stage") +
       ggtitle(SP)
-    print(p1)
+    return(p1)
   }
 }
