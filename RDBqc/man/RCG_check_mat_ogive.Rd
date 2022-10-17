@@ -2,7 +2,7 @@
 % Please edit documentation in R/RCG_check_mat_ogive.R
 \name{RCG_check_mat_ogive}
 \alias{RCG_check_mat_ogive}
-\title{Maturity ogives by sex}
+\title{check_mat_ogive}
 \usage{
 RCG_check_mat_ogive(
   data,

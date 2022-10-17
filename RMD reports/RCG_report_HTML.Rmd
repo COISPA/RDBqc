@@ -26,15 +26,19 @@ knitr::opts_chunk$set(
     warning = FALSE
 )
 
+# loading needed libraries
 lib <- c("RDBqc","knitr","kableExtra","dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc","tidyverse", "fishmethods","tidyr","gridExtra","outliers")
 lapply(lib, require, character.only = TRUE)
 
+# reading files
 CS <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CS_GSA17.csv", sep=";")
 CL <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
+
 
 SPs <- c("Merluccius merluccius")
 MS <- "ITA"
 GSAs <- c("GSA17")
+stages_for_immatures <- c("0", "1", "2a")
 
 # check the presence of user defined filter for species (SPs)
 if (exists("SPs")) {
@@ -69,6 +73,18 @@ if(length(GSAs)==1 & is.na(GSAs[1])) {
   user_GSA <- FALSE
 }
 
+# check the presence of user defined filter for maturity stages for 
+# immature individuals (stages_for_immatures)
+if (exists("stages_for_immatures")) {
+  if (length(stages_for_immatures) == 1 & is.na(stages_for_immatures[1])) {
+    user_stages_for_immatures <- FALSE
+  } else {
+    user_stages_for_immatures <- TRUE
+  }
+} else {
+  user_stages_for_immatures <- FALSE
+}
+
 ```
 
 \newpage
@@ -90,12 +106,16 @@ if (exists("CS")) {
       if(!user_GSA){
         GSAs <- unique(CS$Area)
       }
+      if(!user_stages_for_immatures){
+        stages_for_immatures <- c("0", "1", "2a")
+      }
     }
   }
 } else {
   check_CS <- FALSE
   cat("\n No detailed data available \n")
 }
+
 
 
 ```
@@ -282,3 +302,46 @@ for (g in 1:length(GSAs)) {
 
 } # check_CS
 ```
+
+
+stages_for_immatures
+
+```{r RCG_check_mat_ogive, results = 'asis'}
+if (check_CS) {
+  cat("\n## check_mat_ogive\n")
+  cat(paste0("\nThe maturity stages composition was checked estimating the maturity ogives by sex for: ", paste(SPs, collapse = ", "), ".\n", sep = ""))
+
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      # maturity ogive for males individuals
+      suppressMessages(res_M <- RCG_check_mat_ogive(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s], sex = "M", immature_stages = stages_for_immatures, verbose = FALSE))
+      # maturity ogive for females individuals
+      suppressMessages(res_F <- RCG_check_mat_ogive(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s], sex = "F", immature_stages = stages_for_immatures, verbose = FALSE))
+
+      # MALES
+      if (!is.null(res_M)) {
+        cat("\n\n\n")
+        cat(paste0("\nPlot of maturity ogive of males individuals for: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        print(res_M)
+        cat("\n\n\n")
+      } else {
+        cat(paste0("\n\n\n- No males' data available for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+      }
+
+      # FEMALES
+      if (!is.null(res_F)) {
+        cat("\n\n\n")
+        cat(paste0("\nPlot of maturity ogive of males individuals for: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        print(res_F)
+        cat("\n\n\n")
+      } else {
+        cat(paste0("\n\n\n- No females' data available for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+      }
+    }
+  }
+} # check_CS
+```
+

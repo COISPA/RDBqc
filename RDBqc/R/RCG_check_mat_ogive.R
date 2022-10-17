@@ -1,4 +1,4 @@
-#' Maturity ogives by sex
+#' check_mat_ogive
 #'
 #' @param data table of detailed data in RCG format
 #' @param SP species code
@@ -19,8 +19,8 @@
 
 RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0", "1", "2a"), verbose = TRUE) {
   if (FALSE) {
-    data <- data_ex
-    SP <- "Mullus barbatus"
+    data <- CS
+    SP <- "Merluccius merluccius"
     immature_stages <- c("0", "1", "2a")
     sex <- "M"
   }
@@ -114,9 +114,25 @@ RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0",
       SE_MR <- 2 * log(3, exp(1)) / ((coeff[2])^2) * sqrt(I22)
 
 
-      plot(merge_temp$Length_class, merge_temp$Mature / merge_temp$Total, cex = 1.5, xlab = "length(mm)", ylab = "proportion of matures", main = paste(SP, " - Females - ", years, sep = ""))
-      lines(merge_temp$Length_class, predict(mod, new.data = merge_temp$Length_class, type = "response"), col = "deeppink3", lty = 1, lwd = 3)
-      legend("bottomright", paste(c("L50= ", "MR= "), c(round(L50, 3), round(MR, 3)), "+/-", c(round(SE_L50, 3), round(SE_MR, 3))))
+      # plot(merge_temp$Length_class, merge_temp$Mature / merge_temp$Total, cex = 1.5, xlab = "length(mm)", ylab = "proportion of matures", main = paste(SP, " - Females - ", years, sep = ""))
+      # lines(merge_temp$Length_class, predict(mod, new.data = merge_temp$Length_class, type = "response"), col = "deeppink3", lty = 1, lwd = 3)
+      # legend("bottomright", paste(c("L50= ", "MR= "), c(round(L50, 3), round(MR, 3)), "+/-", c(round(SE_L50, 3), round(SE_MR, 3))))
+
+      merge_temp$proportion <- (merge_temp$Mature/merge_temp$Total)
+      merge_temp$pred <- predict(mod, new.data = merge_temp$Length_class, type = "response")
+      title=paste(SP, " - Females - ", years, sep = "")
+      lab <- paste("L50= ",round(L50, 2),"+/-",round(SE_L50, 2),"\n", "MR= ",round(MR, 3),"+/-",round(SE_MR, 3))
+      p <- ggplot(data=merge_temp, aes(x=Length_class,y=proportion)) +
+        geom_point(shape=1,size=3.5)+
+        geom_line(aes(x=Length_class,y=pred),inherit.aes = FALSE,data=merge_temp,col="deeppink3",size=1.5)+
+        ggtitle(title)+
+        xlab("Length (mm)")+
+        ylab("Proportion of matures")+
+        geom_text(data=data.frame(), aes(label = lab, x = Inf, y = -Inf),
+                  hjust = 1, vjust = 0,size=4)+
+        theme(axis.text=element_text(size=12),
+              axis.title=element_text(size=14,face="bold"))
+
     } # sex F
 
     if (sex == "M") {
@@ -147,9 +163,29 @@ RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0",
       MR <- L75 - L25
       SE_MR <- 2 * log(3, exp(1)) / ((coeff[2])^2) * sqrt(I22)
 
-      plot(merge_temp$Length_class, merge_temp$Mature / merge_temp$Total, cex = 1.5, xlab = "length(mm)", ylab = "proportion of matures", main = paste(SP, " - Males - ", years, sep = ""))
-      lines(merge_temp$Length_class, predict(mod, new.data = merge_temp$Length_class, type = "response"), col = "deepskyblue3", lty = 1, lwd = 3)
-      legend("bottomright", paste(c("L50= ", "MR= "), c(round(L50, 3), round(MR, 3)), "+/-", c(round(SE_L50, 3), round(SE_MR, 3))))
+      # plot(merge_temp$Length_class, merge_temp$Mature / merge_temp$Total, cex = 1.5, xlab = "length(mm)", ylab = "proportion of matures", main = paste(SP, " - Males - ", years, sep = ""))
+      # lines(merge_temp$Length_class, predict(mod, new.data = merge_temp$Length_class, type = "response"), col = "deepskyblue3", lty = 1, lwd = 3)
+      # legend("bottomright", paste(c("L50= ", "MR= "), c(round(L50, 3), round(MR, 3)), "+/-", c(round(SE_L50, 3), round(SE_MR, 3))))
+
+
+      merge_temp$proportion <- (merge_temp$Mature/merge_temp$Total)
+      merge_temp$pred <- predict(mod, new.data = merge_temp$Length_class, type = "response")
+      title=paste(SP, " - Males - ", years, sep = "")
+      lab <- paste("L50= ",round(L50, 2),"+/-",round(SE_L50, 2),"\n", "MR= ",round(MR, 3),"+/-",round(SE_MR, 3))
+      p <- ggplot(data=merge_temp, aes(x=Length_class,y=proportion)) +
+        geom_point(shape=1,size=3.5)+
+        geom_line(aes(x=Length_class,y=pred),inherit.aes = FALSE,data=merge_temp,col="deepskyblue3",size=1.5)+
+        ggtitle(title)+
+        xlab("Length (mm)")+
+        ylab("Proportion of matures")+
+        geom_text(data=data.frame(), aes(label = lab, x = Inf, y = -Inf),
+                  hjust = 1, vjust = 0,size=4)+
+        theme(axis.text=element_text(size=12),
+              axis.title=element_text(size=14,face="bold"))
+
+
+
     } # sex M
+    return(p)
   } # (nrow(data)>0)
 }
