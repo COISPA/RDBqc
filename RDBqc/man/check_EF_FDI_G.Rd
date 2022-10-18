@@ -20,3 +20,10 @@ The function checks the presence of not allowed empty data in the given table.
 \examples{
 check_EF_FDI_G(fdi_g_effort)
 }
+\author{
+Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}
+
+Sebastien Alfonso \href{mailto:salfonso@coispa.eu}{salfonso@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

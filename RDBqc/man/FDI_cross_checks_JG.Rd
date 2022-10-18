@@ -23,3 +23,8 @@ The function checks the possible data inconsistency between the amount of vessel
 FDI_cross_checks_JG(data1 = fdi_j_capacity, data2 = fdi_g_effort, verbose = TRUE)
 FDI_cross_checks_JG(fdi_j_capacity, fdi_g_effort)
 }
+\author{
+Andrea Pierucci \href{mailto:pierucci@coispa.eu}{pierucci@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

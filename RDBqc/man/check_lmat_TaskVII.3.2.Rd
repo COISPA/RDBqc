@@ -24,3 +24,10 @@ Function to plot the lengths at maturity stages by species and sex to easily ide
 \examples{
 check_lmat_TaskVII.3.2(task_vii32)
 }
+\author{
+Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}
+
+Sebastien Alfonso \href{mailto:salfonso@coispa.eu}{salfonso@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

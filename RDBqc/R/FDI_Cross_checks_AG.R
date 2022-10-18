@@ -6,6 +6,8 @@
 #' @param verbose boolean. If TRUE a message is printed.
 #' @return The function returns a table where all the miss matches between landings and effort are shown.
 #' @export
+#' @author Andrea Pierucci <pierucci@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_cross_checks_AG(data1 = fdi_a_catch, data2 = fdi_g_effort)
 #' FDI_cross_checks_AG(fdi_a_catch, fdi_g_effort)
 #' @import tidyverse

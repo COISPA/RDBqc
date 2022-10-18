@@ -20,3 +20,10 @@ The function check the presence of duplicated records. In particular, it checks 
 \examples{
 check_RD_TaskVII32(task_vii32)
 }
+\author{
+Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}
+
+Sebastien Alfonso \href{mailto:salfonso@coispa.eu}{salfonso@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

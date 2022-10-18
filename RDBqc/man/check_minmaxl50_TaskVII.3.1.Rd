@@ -24,3 +24,10 @@ Function to verify the consistency of L50 reported in the TaskVII.3.1 table with
 \examples{
 check_minmaxl50_TaskVII.3.1(task_vii31, minmaxLtaskVII31, MS = "ITA", GSA = "19")
 }
+\author{
+Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}
+
+Sebastien Alfonso \href{mailto:salfonso@coispa.eu}{salfonso@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

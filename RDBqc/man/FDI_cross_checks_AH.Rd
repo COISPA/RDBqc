@@ -22,3 +22,8 @@ The function checks the possible data inconsistency between landings in table A 
 \examples{
 FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings)
 }
+\author{
+Andrea Pierucci \href{mailto:pierucci@coispa.eu}{pierucci@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

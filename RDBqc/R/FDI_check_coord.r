@@ -6,7 +6,7 @@
 #' @description The function checks the compatibility of the geographical coordinates (latitude and longitude) with the value provided for the rectangle type.
 #' @return The input data frame is filtered and is returned retaining the only records in which at least one among latitude and longitude is not compatible with the rectangle type. Two more columns ('lat.check' and 'lon.check') are added to the data frame structure to report the results of the checks respectively for latitude and longitude.
 #' @export
-#'
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_check_coord(data = fdi_i_spatial_effort, MS = "PSP", verbose = TRUE)
 FDI_check_coord <- function(data, MS, verbose = FALSE) {
 

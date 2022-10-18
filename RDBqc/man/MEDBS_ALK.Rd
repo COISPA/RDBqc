@@ -26,3 +26,8 @@ The function allows to check the data in the ALK table providing plots by sex fo
 \examples{
 MEDBS_ALK(data = ALK_tab_example, SP = "MUT", MS = "ITA", GSA = "GSA 99")
 }
+\author{
+Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

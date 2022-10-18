@@ -7,7 +7,9 @@
 #' @param GSA GSA code
 #' @return The function returns a list of missing combinations GSA/Fleet segment per year.
 #' @export
-#'
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_presence_taskII2(task_ii2, combination_taskII2, MS = "ITA", GSA = "18")
 check_presence_taskII2 <- function(data1, data2, MS, GSA) {
   if (FALSE) {

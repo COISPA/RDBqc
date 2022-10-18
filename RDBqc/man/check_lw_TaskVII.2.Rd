@@ -26,3 +26,10 @@ Function to check the consistency of length-weight relationship in the GFCM Task
 \examples{
 check_lw_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP = "BOG")
 }
+\author{
+Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}
+
+Sebastien Alfonso \href{mailto:salfonso@coispa.eu}{salfonso@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

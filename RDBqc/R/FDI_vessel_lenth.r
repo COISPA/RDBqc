@@ -6,7 +6,8 @@
 #' @description The function checks the average length vessels with the vessel length category (table J)
 #' @return The function returns a list of two data frames. The first reports the records with NAs in either vessel length or vessel category or both, while the second table reports the cases in which vessel length does not match vessel length category.
 #' @export
-#'
+#' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_vessel_lenth(data = fdi_j_capacity, MS = "PSP", verbose = TRUE)
 FDI_vessel_lenth <- function(data, MS, verbose = TRUE) {
   country <- NULL

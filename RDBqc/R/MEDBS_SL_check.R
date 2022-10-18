@@ -17,9 +17,12 @@ MEDBS_SL_check <- function(data, SP, MS, GSA, verbose = TRUE) {
     GSA <- "GSA 18"
     MEDBS_SL_check(SL, "DPS", "ITA", "GSA 19")
   }
+
+  AREA <- SEXRATIO <- Summary_SL <- LENGTHCLASS <- cOUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX_RATIO <- NULL
+
   colnames(data) <- toupper(colnames(data))
   SL_tab <- data
-  SEXRATIO <- Summary_SL <- LENGTHCLASS <- cOUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX_RATIO <- NULL
+
 
   SL_tab <- SL_tab[SL_tab$SPECIES == SP & SL_tab$COUNTRY == MS & SL_tab$AREA == GSA, ]
 

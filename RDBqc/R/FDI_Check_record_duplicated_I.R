@@ -6,7 +6,9 @@
 #'
 #' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 19 columns of the FDI G table.
 #' @export
-#'
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_FDI_I(fdi_i_spatial_effort)
 check_RD_FDI_I <- function(data, verbose = TRUE) {
   if (FALSE) {

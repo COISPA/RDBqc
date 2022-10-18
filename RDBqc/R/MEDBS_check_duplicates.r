@@ -18,7 +18,6 @@
 #' @export MEDBS_check_duplicates
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 
 MEDBS_check_duplicates <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {

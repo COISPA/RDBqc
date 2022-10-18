@@ -27,3 +27,8 @@ The function checks the trend prices in the given table grouped by year, GSA, MS
 FDI_prices_cov(data = fdi_a_catch, SP = c("MUT", "HKE"), MS = "PSP", GSA = "GSA99")
 FDI_prices_cov(data = fdi_a_catch, SP = "MUT", MS = "PSP", GSA = "GSA99")
 }
+\author{
+Andrea Pierucci \href{mailto:pierucci@coispa.eu}{pierucci@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

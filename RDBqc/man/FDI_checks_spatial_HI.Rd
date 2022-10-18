@@ -29,3 +29,6 @@ Furthermore the function identifies the records without any sub-region assignmen
 FDI_checks_spatial_HI(data = fdi_h_spatial_landings, MS = "PSP", verbose = TRUE)
 FDI_checks_spatial_HI(data = fdi_i_spatial_effort, MS = "PSP", verbose = TRUE)
 }
+\author{
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

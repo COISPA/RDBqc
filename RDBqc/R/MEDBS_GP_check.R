@@ -3,56 +3,58 @@
 #' @param SP species code
 #' @param MS member state code
 #' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function checks the growth parameters by sex and year for a selected species
 #' @return A list of objects containing a summary table and different plots of the growth curves by sex and year is returned by the function.
 #' @export
+#' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
+#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
 #' @examples MEDBS_GP_check(GP_tab_example, "MUT", "ITA", "GSA 18")
-MEDBS_GP_check <- function(data, SP, MS, GSA) {
+MEDBS_GP_check <- function(data, SP, MS, GSA, verbose=FALSE) {
   if (FALSE) {
-    data <- GP # GP_tab_example
-    SP <- "CTC"
+    data <- GP_tab_example # GP_tab_example
+    SP <- "MUT"
     MS <- "ITA"
     GSA <- "GSA 18"
     MEDBS_GP_check(GP, "CTC", "ITA", "GSA 18")
   }
-  AGE <- LENGTH <- ID <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
+  AREA <- VB_LINF <- AGE <- LENGTH <- ID <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
 
   colnames(data) <- toupper(colnames(data))
   GP_tab <- data
-
-  ck_sp <- c("HKE", "MUT", "MUR", "SOL", "CTC", "PIL", "ANE")
 
   # GP_tab$AREA <- as.numeric(gsub("[^0-9]", "", GP_tab$AREA))
   GP_tab <- GP_tab[GP_tab$SPECIES %in% SP & GP_tab$COUNTRY == MS & GP_tab$AREA == GSA, ]
   GP_tab <- GP_tab[!is.na(GP_tab$VB_LINF) & GP_tab$VB_LINF != -1, ]
   if (nrow(GP_tab) > 0) {
-    Summary_GP <- aggregate(GP_tab$VB_LINF, by = list(GP_tab$COUNTRY, GP_tab$AREA, GP_tab$START_YEAR, GP_tab$END_YEAR, GP_tab$SPECIES, GP_tab$SEX), FUN = "length")
-    colnames(Summary_GP) <- c("COUNTRY", "YEAR", "START_YEAR", "END_YEAR", "SPECIES", "SEX", "COUNT")
-    Summary_table_GP <- Summary_GP
+      Summary_GP <- suppressMessages(data.frame(GP_tab %>% group_by(COUNTRY,AREA,START_YEAR,END_YEAR,SPECIES,SEX)
+                                              %>% summarize(COUNT=length(VB_LINF))))
+      Summary_table_GP <- Summary_GP
 
-    # Summary_GP=   Summary_GP[1:nrow(Summary_GP),1:(ncol(Summary_GP)-1)]
-
-
+      i=1
     for (i in 1:nrow(GP_tab)) {
-      if (GP_tab$SPECIES[i] %in% ck_sp) { # ck_sp
-        if (GP_tab$VB_UNITS[i] %in% c("cm", "NA")) {
+        # if (GP_tab$SPECIES[i] %in% ck_sp) { # ck_sp
+        # if (GP_tab$VB_UNITS[i] %in% c("cm", "NA")) {
           GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ", GP_tab$VB_LINF[i], ", k = ", GP_tab$VB_K[i], " t0 = ", GP_tab$VB_T0[i])
-          GP_tab$VB_LINF[i] <- GP_tab$VB_LINF[i]
-        } else {
-          GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ", GP_tab$VB_LINF[i] / 10, ", k = ", GP_tab$VB_K[i], " t0 = ", GP_tab$VB_T0[i])
-          GP_tab$VB_LINF[i] <- GP_tab$VB_LINF[i] / 10
-        }
-      } else {
-        if (GP_tab$VB_UNITS[i] %in% c("cm", "NA")) {
-          GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ", GP_tab$VB_LINF[i] * 10, ", k = ", GP_tab$VB_K[i], " t0 = ", GP_tab$VB_T0[i])
-          GP_tab$VB_LINF[i] <- GP_tab$VB_LINF[i] * 10
-        } else {
-          GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ", GP_tab$VB_LINF[i], ", k = ", GP_tab$VB_K[i], " t0 = ", GP_tab$VB_T0[i])
-          GP_tab$VB_LINF[i] <- GP_tab$VB_LINF[i]
-        }
-      }
+          # GP_tab$VB_LINF[i] <- GP_tab$VB_LINF[i]
+        # }
+      # else {
+      #     GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ", GP_tab$VB_LINF[i] / 10, ", k = ", GP_tab$VB_K[i], " t0 = ", GP_tab$VB_T0[i])
+      #     GP_tab$VB_LINF[i] <- GP_tab$VB_LINF[i] / 10
+      #   }
+      # }
+      # else {
+      #   if (GP_tab$VB_UNITS[i] %in% c("cm", "NA")) {
+      #     GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ", GP_tab$VB_LINF[i] * 10, ", k = ", GP_tab$VB_K[i], " t0 = ", GP_tab$VB_T0[i])
+      #     GP_tab$VB_LINF[i] <- GP_tab$VB_LINF[i] * 10
+      #   } else {
+      #     GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ", GP_tab$VB_LINF[i], ", k = ", GP_tab$VB_K[i], " t0 = ", GP_tab$VB_T0[i])
+      #     GP_tab$VB_LINF[i] <- GP_tab$VB_LINF[i]
+      #   }
+      # }
     }
 
     Age <- seq(0.5, 20, 0.5)
@@ -60,18 +62,28 @@ MEDBS_GP_check <- function(data, SP, MS, GSA) {
     ## VBGF####
     F_age <- list()
     counter <- 1
-    i <- 1
+    i <- "M"
     for (i in unique(GP_tab$SEX)) {
-      GP_tab2 <- GP_tab[!GP_tab$VB_LINF %in% -999 & !GP_tab$VB_LINF %in% -1 & !GP_tab$VB_LINF %in% 999 & !GP_tab$VB_K %in% -999 & !GP_tab$VB_K %in% -1 & !GP_tab$VB_K %in% 999 & !GP_tab$VB_T0 %in% -999 & !GP_tab$VB_T0 %in% 999 & GP_tab$SEX %in% i, ]
+      GP_tab2 <- GP_tab[
+                         # !GP_tab$VB_LINF %in% -999 &
+                         !GP_tab$VB_LINF %in% -1 &
+                         # !GP_tab$VB_LINF %in% 999 &
+                         # !GP_tab$VB_K %in% -999 &
+                         !GP_tab$VB_K %in% -1 &
+                         # !GP_tab$VB_K %in% 999 &
+                         !GP_tab$VB_T0 %in% -999 &
+                         # !GP_tab$VB_T0 %in% 999 &
+                         GP_tab$SEX %in% i, ]
       GP_tab2$LENGTH <- NA
+      j=1
       for (j in 1:nrow(GP_tab2)) {
-        F_age[[counter]] <- data.frame("ID" = GP_tab2$ID[j], "COUNTRY" = GP_tab2$COUNTRY[j], "AREA" = GP_tab2$AREA[j], "START_YEAR" = GP_tab2$START_YEAR[j], "SPECIES" = GP_tab2$SPECIES[j], "SEX" = GP_tab2$SEX[j], "AGE" = Age, "LENGTH" = GP_tab2$VB_LINF[j] * (1 - exp(-GP_tab2$VB_K[j] * (Age - GP_tab2$VB_T0[j]))))
+        F_age[[counter]] <- data.frame("ID" = GP_tab2$ID[j], "COUNTRY" = GP_tab2$COUNTRY[j], "AREA" = GP_tab2$AREA[j], "START_YEAR" = GP_tab2$START_YEAR[j], "SPECIES" = GP_tab2$SPECIES[j], "SEX" = GP_tab2$SEX[j], "AGE" = Age, "LENGTH" = GP_tab2$VB_LINF[j] * (1 - exp(-GP_tab2$VB_K[j] * (Age - GP_tab2$VB_T0[j]))),"UNIT" = GP_tab2$VB_UNITS[j])
         counter <- counter + 1
       }
     }
     VBGF <- do.call("rbind", F_age)
 
-    VBGF <- VBGF[!VBGF$LENGTH %in% NA, ]
+    VBGF <- VBGF[!is.na(VBGF$LENGTH), ]
 
     plots <- list()
 
@@ -86,7 +98,9 @@ MEDBS_GP_check <- function(data, SP, MS, GSA) {
       ggtitle(paste0("VBGF curve of ", SP, " in ", MS, " - ", GSA)) +
       # theme(legend.position = "bottom")+
       scale_x_continuous(breaks = seq(0, 20, 2)) +
-      expand_limits(x = 0, y = 0)
+      expand_limits(x = 0, y = 0)+
+      xlab("Age (years)")+
+      ylab(paste0("Length (",unique(VBGF$UNIT)[1],")"))
     # print(p)
 
     l <- length(plots) + 1
@@ -94,6 +108,7 @@ MEDBS_GP_check <- function(data, SP, MS, GSA) {
     names(plots)[[l]] <- paste("VBGF", SP, MS, GSA, sep = " _ ")
 
     ## PLOT 2
+    i <- "M"
     for (i in unique(VBGF$SEX)) {
       p <- ggplot(VBGF[VBGF$SEX %in% i, ], aes(x = AGE, y = LENGTH, col = ID)) +
         geom_point() +
@@ -102,7 +117,9 @@ MEDBS_GP_check <- function(data, SP, MS, GSA) {
         ggtitle(paste0("VBGF curve of ", i, " ", SP, " in ", MS, " - ", GSA)) +
         # theme(legend.position = "bottom")+
         theme(legend.text = element_text(color = "blue", size = 6)) +
-        guides(col = guide_legend(title = ""))
+        guides(col = guide_legend(title = ""))+
+        xlab("Age (years)")+
+        ylab(paste0("Length (",unique(VBGF[VBGF$SEX %in% i,"UNIT"])[1],")"))
       # print(p)
 
       l <- length(plots) + 1
@@ -118,7 +135,9 @@ MEDBS_GP_check <- function(data, SP, MS, GSA) {
         ggtitle(paste0("VBGF curve of ", i, " ", SP, " in ", MS, " - ", GSA)) +
         # theme(legend.position = "bottom", legend.box = "vertical")+
         theme(legend.text = element_text(color = "blue", size = 6)) +
-        guides(col = guide_legend(title = ""))
+        guides(col = guide_legend(title = ""))+
+        xlab("Age (years)")+
+        ylab(paste0("Length (",unique(VBGF[VBGF$SEX %in% i,"UNIT"])[1],")"))
       # print(p)
 
       l <- length(plots) + 1

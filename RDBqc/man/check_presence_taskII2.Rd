@@ -24,3 +24,10 @@ Function to verify the completeness of the GSA/Fleet segments in Task II.2 table
 \examples{
 check_presence_taskII2(task_ii2, combination_taskII2, MS = "ITA", GSA = "18")
 }
+\author{
+Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}
+
+Sebastien Alfonso \href{mailto:salfonso@coispa.eu}{salfonso@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

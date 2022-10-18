@@ -10,7 +10,6 @@
 #' @export MEDBS_comp_disc_YQ
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @examples MEDBS_comp_disc_YQ(data = Discard_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
 #' @importFrom dplyr full_join
 #' @importFrom magrittr %>%

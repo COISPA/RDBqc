@@ -42,3 +42,8 @@ The function checks and count the numbers of records data in the given table gro
 FDI_cov_tableJ(data = fdi_j_capacity, MS = "PSP", GSA = "GSA99")
 FDI_cov_tableJ(data = fdi_j_capacity, MS = "PSP", GSA = "GSA99", fishtech = c("DTS", "PGP"))
 }
+\author{
+Andrea Pierucci \href{mailto:pierucci@coispa.eu}{pierucci@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

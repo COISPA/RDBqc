@@ -10,7 +10,6 @@
 #' @export MEDBS_comp_land_Q_VL
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @examples MEDBS_comp_land_Q_VL(data = Landing_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
 #' @importFrom dplyr full_join
 #' @importFrom magrittr %>%

@@ -8,7 +8,9 @@
 #' @return The function return a plot of the maturity stages per length and sex per species.
 #' @export
 #' @import ggplot2
-#'
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_lmat_TaskVII.3.2(task_vii32)
 check_lmat_TaskVII.3.2 <- function(data, MS, GSA, SP) {
   FAU_stage <- Length <- Sex <- NULL

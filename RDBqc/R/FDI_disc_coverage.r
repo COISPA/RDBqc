@@ -6,7 +6,8 @@
 #' @description The functions checks the discard coverage in table A for the selected MS by GSAs.
 #' @return The function returns a list of data frames by GSA reporting the landing volumes (with discard >0, =0 and =NK and total landing) by year
 #' @export
-#'
+#' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_disc_coverage(fdi_a_catch, MS = "PSP", verbose = TRUE)
 #' @importFrom scales label_percent
 

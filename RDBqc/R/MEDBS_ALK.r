@@ -9,7 +9,8 @@
 #' @return a list of ALK plots by sex is return.
 #' @export
 #' @importFrom data.table melt
-#'
+#' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples MEDBS_ALK(data = ALK_tab_example, SP = "MUT", MS = "ITA", GSA = "GSA 99")
 MEDBS_ALK <- function(data, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {

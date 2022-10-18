@@ -7,6 +7,8 @@
 #' @description The function cross-checks the number of vessels in table J in comparison with the number reported in table G.
 #' @return The function returns a list of data frames. The first element reports the number of vessel in table J in comparison with table G and the relative difference percentage, while the second one reports the vessels not present in table G.
 #' @export
+#' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_vessel_numbers(dataJ = fdi_j_capacity, dataG = fdi_g_effort, MS = "PSP", verbose = TRUE)
 FDI_vessel_numbers <- function(dataJ, dataG, MS, verbose = TRUE) {
   country <- NULL

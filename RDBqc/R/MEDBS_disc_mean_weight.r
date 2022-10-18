@@ -11,7 +11,6 @@
 #' @examples MEDBS_disc_mean_weight(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @importFrom dplyr full_join
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by

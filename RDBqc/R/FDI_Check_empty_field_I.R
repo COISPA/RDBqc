@@ -6,7 +6,9 @@
 #'
 #' @return Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
 #' @export
-#'
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_EF_FDI_I(fdi_i_spatial_effort)
 check_EF_FDI_I <- function(data, verbose = TRUE) {
   # Declaration of variables and suppression of empty columns for dataframe1

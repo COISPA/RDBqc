@@ -7,7 +7,9 @@
 #' @param GSA GSA code
 #' @return The function returns a table with the comparison between min/max L50 observed for each species and sex with theoretical values.
 #' @export
-#'
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_minmaxl50_TaskVII.3.1(task_vii31, minmaxLtaskVII31, MS = "ITA", GSA = "19")
 check_minmaxl50_TaskVII.3.1 <- function(data, tab_L50, MS, GSA) {
   if (FALSE) {
@@ -72,11 +74,6 @@ check_minmaxl50_TaskVII.3.1 <- function(data, tab_L50, MS, GSA) {
           dataframe_check$check_max[i] <- ""
         }
       }
-
-      # Extraction of data in excell file
-      # write.table(dataframe_check, file="C:\\Users\\Loredana Casciaro\\Desktop\\controlli GFCM-FDI\\TEST SA\\checkminmaxL50.csv", quote=TRUE,
-      #             dec=".", row.names=FALSE, col.names=TRUE, sep =";")
-
       return(dataframe_check)
     }
   }

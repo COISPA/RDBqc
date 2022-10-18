@@ -8,6 +8,9 @@
 #' @param GSA GSA code
 #' @return Two vectors are returned by the function. The first provides the list of mismatching combination of species/faunistic categories. The second vector provides the list of mismatching combination of sex/maturity stages.
 #' @export
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_species_catfau_TaskVII.3.2(task_vii32, catfau_check, sex_mat, MS = "ITA", GSA = "18")
 check_species_catfau_TaskVII.3.2 <- function(data, species, matsex, MS, GSA) {
   if (FALSE) {

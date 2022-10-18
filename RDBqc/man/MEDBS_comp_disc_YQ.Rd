@@ -30,6 +30,4 @@ MEDBS_comp_disc_YQ(data = Discard_tab_example, MS = "ITA", GSA = "GSA 9", SP = "
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
 
 Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
-
-Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
 }

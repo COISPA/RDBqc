@@ -22,3 +22,6 @@ The function checks the compatibility of the geographical coordinates (latitude 
 \examples{
 FDI_check_coord(data = fdi_i_spatial_effort, MS = "PSP", verbose = TRUE)
 }
+\author{
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

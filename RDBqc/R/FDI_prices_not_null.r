@@ -7,7 +7,8 @@
 #' @description The function estimates from the FDI table A an average price per species and year and compares it with average price calculated per country (by species). Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings > 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
 #' @return the function returns a list of two data frames. The first one reports the prices comparison by species, while the second one reports the cases in which total landings > 0 but landings value = 0.
 #' @export
-#'
+#' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_prices_not_null(
 #'   data = fdi_a_catch, MS = "PSP",
 #'   SP = c("ARA", "BOG", "HKE"), verbose = TRUE

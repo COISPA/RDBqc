@@ -6,6 +6,8 @@
 #' @param verbose boolean. If TRUE a message is printed.
 #' @return The function returns a list with two tables. In the first table all the miss matches between landings in table A and spatial landings in table H are shown, in the second table the comparison between total landings of table A and total spatial landings in table H is shown.
 #' @export
+#' @author Andrea Pierucci <pierucci@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings)
 #' @import tidyverse
 

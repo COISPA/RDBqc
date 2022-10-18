@@ -7,6 +7,8 @@
 #' @description The function checks the comparison of totfishdays in FDI tables G and I
 #' @return The function returns a data frame of the comparison of totfishdays between FDI tables G and I
 #' @export
+#' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_fishdays_cov(dataG = fdi_g_effort, dataI = fdi_i_spatial_effort, MS = "PSP", verbose = TRUE)
 FDI_fishdays_cov <- function(dataG, dataI, MS, verbose = TRUE) {
   colnames(dataG) <- tolower(colnames(dataG))

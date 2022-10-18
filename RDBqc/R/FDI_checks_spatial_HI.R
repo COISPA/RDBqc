@@ -12,6 +12,7 @@
 #' @param verbose boolean. If TRUE a message is printed.
 #' @return The function returns a list of 2 tables. The first (NA_inconsistencies) reports the records with the inconsistencies detected in spatial of the selected table, while the second one reports the record without any sub_region assignment.
 #' @export
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_checks_spatial_HI(data = fdi_h_spatial_landings, MS = "PSP", verbose = TRUE)
 #' FDI_checks_spatial_HI(data = fdi_i_spatial_effort, MS = "PSP", verbose = TRUE)
 #' @import tidyverse

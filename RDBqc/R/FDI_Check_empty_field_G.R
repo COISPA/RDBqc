@@ -2,7 +2,9 @@
 #' @description The function checks the presence of not allowed empty data in the given table.
 #' @param data GFCM Task G table
 #' @param verbose boolean. If TRUE a message is printed.
-#'
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @return Two lists are returned by the function. The first list returns the number of NA for each reference column. The second list provides the index of each NA in the reference column.
 #' @export
 #'

@@ -26,3 +26,10 @@ Function to check the correct codification of faunistic category according to sp
 \examples{
 check_species_catfau_TaskVII.3.2(task_vii32, catfau_check, sex_mat, MS = "ITA", GSA = "18")
 }
+\author{
+Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}
+
+Sebastien Alfonso \href{mailto:salfonso@coispa.eu}{salfonso@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

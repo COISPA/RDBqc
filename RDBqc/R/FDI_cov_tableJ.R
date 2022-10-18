@@ -13,6 +13,8 @@
 #' * total GT;
 #' * total vessels;
 #' @export
+#' @author Andrea Pierucci <pierucci@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_cov_tableJ(data = fdi_j_capacity, MS = "PSP", GSA = "GSA99")
 #' FDI_cov_tableJ(data = fdi_j_capacity, MS = "PSP", GSA = "GSA99", fishtech = c("DTS", "PGP"))
 #' @import tidyverse

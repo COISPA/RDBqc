@@ -10,7 +10,6 @@
 #' @export MEDBS_comp_disc_YQ_fishery
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @examples MEDBS_comp_disc_YQ_fishery(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 #' @importFrom dplyr full_join
 #' @importFrom magrittr %>%

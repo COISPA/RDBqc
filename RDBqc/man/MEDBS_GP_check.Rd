@@ -4,7 +4,7 @@
 \alias{MEDBS_GP_check}
 \title{Check of growth parameters table}
 \usage{
-MEDBS_GP_check(data, SP, MS, GSA)
+MEDBS_GP_check(data, SP, MS, GSA, verbose = FALSE)
 }
 \arguments{
 \item{data}{growth parameters table in MED&BS data call format}
@@ -14,6 +14,8 @@ MEDBS_GP_check(data, SP, MS, GSA)
 \item{MS}{member state code}
 
 \item{GSA}{GSA code (Geographical sub-area)}
+
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 A list of objects containing a summary table and different plots of the growth curves by sex and year is returned by the function.
@@ -23,4 +25,11 @@ The function checks the growth parameters by sex and year for a selected species
 }
 \examples{
 MEDBS_GP_check(GP_tab_example, "MUT", "ITA", "GSA 18")
+}
+\author{
+Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
 }

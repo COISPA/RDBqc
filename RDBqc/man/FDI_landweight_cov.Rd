@@ -24,3 +24,8 @@ The functions checks the coverage of weight of landings comparing data reported 
 \examples{
 FDI_landweight_cov(dataA = fdi_a_catch, dataH = fdi_h_spatial_landings, MS = "PSP", verbose = TRUE)
 }
+\author{
+Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

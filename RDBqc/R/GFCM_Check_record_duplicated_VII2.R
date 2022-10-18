@@ -6,7 +6,9 @@
 #' @description The function check the presence of duplicated records. In particular, it checks whether the combination of the first 9 columns generates duplicate records.
 #' @return The function returns the indices of the duplicated rows, checking the unique combinations of the first 9 columns of the Task Task VII.2 table.
 #' @export
-#'
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_taskVII2(task_vii2)
 check_RD_taskVII2 <- function(data, verbose = TRUE) {
   if (FALSE) {

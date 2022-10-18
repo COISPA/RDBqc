@@ -5,7 +5,9 @@
 #' @description The function checks the presence of not allowed empty data in the given table, according to the \href{https://gfcm.sharepoint.com/sites/DCRF/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FDCRF%2FShared%20Documents%2FGFCM%2DDCRF%2Dmanual%2D2018%2Dv%2E21%2E2%2Epdf&parent=%2Fsites%2FDCRF%2FShared%20Documents&p=true&ga=1}{GFCM, 2018. GFCM Data Collection Reference Framework (DCRF). Version: 20.1}
 #' @return Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.
 #' @export
-#'
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_EF_TaskVII31(task_vii31)
 #'
 ####

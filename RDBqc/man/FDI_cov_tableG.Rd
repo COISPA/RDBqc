@@ -50,3 +50,8 @@ according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1
 FDI_cov_tableG(data = fdi_g_effort, MS = "PSP", GSA = "GSA99")
 FDI_cov_tableG(fdi_g_effort, MS = "PSP", GSA = "GSA99", fishtech = "DTS", met = "OTB_MDD_>=40_0_0")
 }
+\author{
+Andrea Pierucci \href{mailto:pierucci@coispa.eu}{pierucci@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

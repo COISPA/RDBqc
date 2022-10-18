@@ -5,6 +5,8 @@
 #' @param verbose boolean. If TRUE a message is printed.
 #' @return The function returns a list with all the mismatches between number of vessels in table J and G.
 #' @export
+#' @author Andrea Pierucci <pierucci@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_cross_checks_JG(data1 = fdi_j_capacity, data2 = fdi_g_effort, verbose = TRUE)
 #' FDI_cross_checks_JG(fdi_j_capacity, fdi_g_effort)
 #' @import tidyverse

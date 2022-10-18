@@ -27,3 +27,8 @@ FDI_prices_not_null(
   SP = c("ARA", "BOG", "HKE"), verbose = TRUE
 )
 }
+\author{
+Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

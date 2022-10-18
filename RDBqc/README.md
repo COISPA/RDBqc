@@ -1,13 +1,13 @@
 RDBqc: Quality checks on RDBFIS data formats
 ================
 Walter Zupa
-2022-10-07
+2022-10-18
 
 RDBqc allows to carry out a set of *a priori* quality checks on detailed
 sampling data and on aggregated landing data, and *a posteriori* quality
 check on MEDBS, FDI and GFCM data call formats.
 
-The supported quality checks in version 0.0.11 are:
+The supported quality checks in version 0.0.12 are:
 
 ### *A priori* quality checks
 
@@ -48,7 +48,7 @@ head(data_ex)
 #> 4             S          ITA 2016 01_18_2016   ITMOL
 #> 5             S          ITA 2016 01_18_2016   ITMOL
 #> 6             S          ITA 2016 01_18_2016   ITMOL
-#>   Number_of_sets_hauls_on_trip Days_at_sea Sampling.method Aggregation_level
+#>   Number_of_sets_hauls_on_trip Days_at_sea Sampling_method Aggregation_level
 #> 1                            4           1    SelfSampling              TRUE
 #> 2                            4           1    SelfSampling              TRUE
 #> 3                            4           1    SelfSampling              TRUE
@@ -158,39 +158,12 @@ as a data frame.
 
 ``` r
 RCG_check_LFD(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",min_len=6,max_len=250)[[1]]
-#>      Sampling_type Flag_country Year  Trip_code Harbour
-#> 1                S          ITA 2016 01_18_2016   ITMOL
-#> 5544             S          ITA 2014  4_18_2014   ITBDS
-#>      Number_of_sets_hauls_on_trip Days_at_sea Sampling.method Aggregation_level
-#> 1                               4           1    SelfSampling              TRUE
-#> 5544                            7           2    SelfSampling              TRUE
-#>      Station_number Duration_of_fishing_operation Initial_latitude
-#> 1               999                           960         42.04033
-#> 5544            999                          1770         41.90100
-#>      Initial_longitude Final_latitude Final_longitude
-#> 1             18.48217       42.09067        18.48483
-#> 5544          16.76867       41.92400        16.75783
-#>      Depth_of_fishing_operation Water_depth Catch_registration
-#> 1                           113          NA                Lan
-#> 5544                        183          NA                Lan
-#>      Species_registration       Date  Area Fishing_activity_category_National
-#> 1                     All 18/02/2016 GSA99                          OTB_shelf
-#> 5544                  All 04/07/2014 GSA99                          OTB_shelf
-#>      Fishing_activity_category_European_lvl_6         Species Catch_category
-#> 1                            OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 5544                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#>      Weight Subsample_weight Sex Maturity_method Maturity_scale Maturity_Stage
-#> 1     18000             6000   F            Macr   Medits scale             2b
-#> 5544   4760             4760   F            Macr   Medits scale              3
-#>      Ageing.method Age Length_code Length_class Number_at_length
-#> 1              OWR  NA         scm          500                2
-#> 5544           OWR   7         scm          270                1
-#>      Commercial_size_category_scale Commercial_size_category fish_ID
-#> 1                               ITA                        1      NA
-#> 5544                            ITA                        1      NA
-#>      Individual_weight
-#> 1            1424.3446
-#> 5544          202.9782
+#>      Flag_country Year  Trip_code       Date  Area Commercial_size_category Age
+#> 1             ITA 2016 01_18_2016 18/02/2016 GSA99                        1  NA
+#> 5544          ITA 2014  4_18_2014 04/07/2014 GSA99                        1   7
+#>      Sex Length_class fish_ID
+#> 1      F          500      NA
+#> 5544   F          270      NA
 ```
 
 A plot of the frequency distribution is also returned:
@@ -247,12 +220,12 @@ results <- RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_ag
 #> NA included in the 'Age' field have been removed from the analysis.
 head(results)
 #>   Year Length_class nb_age_measurements
-#> 1 2015           45                   1
-#> 2 2014           50                   1
-#> 3 2015           50                   1
-#> 4 2016           50                   1
-#> 5 2015           55                   3
-#> 6 2016           55                   1
+#> 1 2014           50                   1
+#> 2 2014           60                  11
+#> 3 2014           65                  20
+#> 4 2014           70                  20
+#> 5 2014           75                  18
+#> 6 2014           80                  18
 ```
 
 Moreover, the function detects if the age data are in the range
@@ -262,204 +235,42 @@ outliers.
 ``` r
 RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=5)[[2]]
 #> NA included in the 'Age' field have been removed from the analysis.
-#>      Sampling_type Flag_country Year  Trip_code Harbour
-#> 6                S          ITA 2016 01_18_2016   ITMOL
-#> 25               S          ITA 2016 01_18_2016   ITMOL
-#> 75               S          ITA 2016 02_18_2016   ITMOL
-#> 78               S          ITA 2016 02_18_2016   ITMOL
-#> 394              S          ITA 2015 05_18_2015   ITMOL
-#> 396              S          ITA 2015 05_18_2015   ITMOL
-#> 397              S          ITA 2015 05_18_2015   ITMOL
-#> 529              S          ITA 2016 07_18_2016   ITMOL
-#> 705              S          ITA 2016 08_18_2016   ITMOL
-#> 2455             S          ITA 2015 12_18_2015   ITBDS
-#> 4267             S          ITA 2014 17_18_2014   ITMOL
-#> 4269             S          ITA 2014 17_18_2014   ITMOL
-#> 5210             S          ITA 2017 31_18_2017   ITBCE
-#> 5399             S          ITA 2016 34_18_2016   ITMOL
-#> 5544             S          ITA 2014  4_18_2014   ITBDS
-#> 6786             S          ITA 2017 57_18_2017   ITMFR
-#> 7129             S          ITA 2017 66_18_2017   ITMOL
-#>      Number_of_sets_hauls_on_trip Days_at_sea Sampling.method Aggregation_level
-#> 6                               4           1    SelfSampling              TRUE
-#> 25                              4           1    SelfSampling              TRUE
-#> 75                              8           2        Observer              TRUE
-#> 78                              8           2        Observer              TRUE
-#> 394                             8           2    SelfSampling              TRUE
-#> 396                             8           2    SelfSampling              TRUE
-#> 397                             8           2    SelfSampling              TRUE
-#> 529                             3           1    SelfSampling              TRUE
-#> 705                            12           2        Observer              TRUE
-#> 2455                            4           1        Observer              TRUE
-#> 4267                            4           1    SelfSampling              TRUE
-#> 4269                            4           1    SelfSampling              TRUE
-#> 5210                            5           1    SelfSampling              TRUE
-#> 5399                            5           1        Observer              TRUE
-#> 5544                            7           2    SelfSampling              TRUE
-#> 6786                            7           2    SelfSampling              TRUE
-#> 7129                            8           2        Observer              TRUE
-#>      Station_number Duration_of_fishing_operation Initial_latitude
-#> 6               999                           960         42.04033
-#> 25              999                           960         42.04033
-#> 75              999                          2052         40.58517
-#> 78              999                          2052         40.58517
-#> 394             999                          1965         41.54967
-#> 396             999                          1965         41.54967
-#> 397             999                          1965         41.54967
-#> 529             999                           840         41.12050
-#> 705             999                          2250         40.96567
-#> 2455            999                           915         41.23967
-#> 4267            999                           960         41.82983
-#> 4269            999                           960         41.82983
-#> 5210            999                          1170         41.32150
-#> 5399            999                          1080         41.71500
-#> 5544            999                          1770         41.90100
-#> 6786            999                          1800         42.04967
-#> 7129            999                          1920         40.78783
-#>      Initial_longitude Final_latitude Final_longitude
-#> 6             18.48217       42.09067        18.48483
-#> 25            18.48217       42.09067        18.48483
-#> 75            18.27417       40.60467        18.25550
-#> 78            18.27417       40.60467        18.25550
-#> 394           17.07800       41.50283        17.10167
-#> 396           17.07800       41.50283        17.10167
-#> 397           17.07800       41.50283        17.10167
-#> 529           18.86200       41.07100        18.87167
-#> 705           18.78183       41.01250        18.77067
-#> 2455          16.98833       41.25433        16.96200
-#> 4267          16.72167       41.80650        16.73167
-#> 4269          16.72167       41.80650        16.73167
-#> 5210          18.97433       41.29917        18.96083
-#> 5399          16.16000       41.73117        16.18733
-#> 5544          16.76867       41.92400        16.75783
-#> 6786          18.48300       42.09600        18.48700
-#> 7129          17.99617       40.77200        18.02200
-#>      Depth_of_fishing_operation Water_depth Catch_registration
-#> 6                           113          NA                Lan
-#> 25                          113          NA                Lan
-#> 75                          165          NA                All
-#> 78                          165          NA                All
-#> 394                         193          NA                Lan
-#> 396                         193          NA                Lan
-#> 397                         193          NA                Lan
-#> 529                         115          NA                Lan
-#> 705                         116          NA                All
-#> 2455                        107          NA                All
-#> 4267                        206          NA                Lan
-#> 4269                        206          NA                Lan
-#> 5210                         55          NA                Lan
-#> 5399                         94          NA                All
-#> 5544                        183          NA                Lan
-#> 6786                        165          NA                Lan
-#> 7129                        204          NA                All
-#>      Species_registration       Date  Area Fishing_activity_category_National
-#> 6                     All 18/02/2016 GSA99                          OTB_shelf
-#> 25                    All 18/02/2016 GSA99                          OTB_shelf
-#> 75                    All 21/03/2016 GSA99                          OTB_shelf
-#> 78                    All 21/03/2016 GSA99                          OTB_shelf
-#> 394                   All 22/04/2015 GSA99                          OTB_shelf
-#> 396                   All 22/04/2015 GSA99                          OTB_shelf
-#> 397                   All 22/04/2015 GSA99                          OTB_shelf
-#> 529                   All 17/03/2016 GSA99                          OTB_shelf
-#> 705                   All 29/03/2016 GSA99                          OTB_shelf
-#> 2455                  All 24/05/2015 GSA99                          OTB_shelf
-#> 4267                  All 08/08/2014 GSA99                          OTB_shelf
-#> 4269                  All 08/08/2014 GSA99                          OTB_shelf
-#> 5210                  All 11/05/2017 GSA99                          OTB_shelf
-#> 5399                  All 20/06/2016 GSA99                          OTB_shelf
-#> 5544                  All 04/07/2014 GSA99                          OTB_shelf
-#> 6786                  All 24/05/2017 GSA99                          OTB_shelf
-#> 7129                  All 29/05/2017 GSA99                          OTB_shelf
-#>      Fishing_activity_category_European_lvl_6         Species Catch_category
-#> 6                            OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 25                           OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 75                           OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 78                           OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 394                          OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 396                          OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 397                          OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 529                          OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 705                          OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 2455                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 4267                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 4269                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 5210                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 5399                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 5544                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 6786                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 7129                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#>      Weight Subsample_weight Sex Maturity_method Maturity_scale Maturity_Stage
-#> 6     18000             6000   F            Macr   Medits scale             2b
-#> 25    18000             6000   F            Macr   Medits scale             2c
-#> 75    19200             6400   F            Macr   Medits scale             2c
-#> 78    19200             6400   F            Macr   Medits scale             2c
-#> 394    4000             4000   F            Macr   Medits scale             2c
-#> 396    4000             4000   F            Macr   Medits scale              3
-#> 397    4000             4000   F            Macr   Medits scale              3
-#> 529   11720             5860   F            Macr   Medits scale             2b
-#> 705   41400             6900   F            Macr   Medits scale             2c
-#> 2455   3000             3000   F            Macr   Medits scale              3
-#> 4267  10140             5070   F            Macr   Medits scale             4b
-#> 4269  10140             5070   F            Macr   Medits scale             4a
-#> 5210   1640             1640   F            Macr   Medits scale             2c
-#> 5399   9800             4900   F            Macr   Medits scale              3
-#> 5544   4760             4760   F            Macr   Medits scale              3
-#> 6786  26500             5300   F            Macr   Medits scale              3
-#> 7129  36000             6000   F            Macr   Medits scale              3
-#>      Ageing.method  Age Length_code Length_class Number_at_length
-#> 6              OWR 10.0         scm          185                2
-#> 25             OWR  5.5         scm          230                1
-#> 75             OWR  5.5         scm          220                1
-#> 78             OWR  5.5         scm          235                1
-#> 394            OWR  5.5         scm          225                1
-#> 396            OWR  5.5         scm          235                1
-#> 397            OWR  5.5         scm          250                1
-#> 529            OWR  5.5         scm          235                1
-#> 705            OWR  5.5         scm          235                1
-#> 2455           OWR  5.5         scm          245                1
-#> 4267           OWR  6.0         scm          225                1
-#> 4269           OWR  6.0         scm          245                1
-#> 5210           OWR  5.5         scm          210                1
-#> 5399           OWR  5.5         scm          235                1
-#> 5544           OWR  7.0         scm          270                1
-#> 6786           OWR  5.5         scm          210                1
-#> 7129           OWR  5.5         scm          225                1
-#>      Commercial_size_category_scale Commercial_size_category fish_ID
-#> 6                               ITA                        1      NA
-#> 25                              ITA                        1      NA
-#> 75                              ITA                        1      NA
-#> 78                              ITA                        1      NA
-#> 394                             ITA                        1      NA
-#> 396                             ITA                        1      NA
-#> 397                             ITA                        1      NA
-#> 529                             ITA                        1      NA
-#> 705                             ITA                        1      NA
-#> 2455                            ITA                        1      NA
-#> 4267                            ITA                        1      NA
-#> 4269                            ITA                        1      NA
-#> 5210                            ITA                        1      NA
-#> 5399                            ITA                        1      NA
-#> 5544                            ITA                        1      NA
-#> 6786                            ITA                        1      NA
-#> 7129                            ITA                        1      NA
-#>      Individual_weight
-#> 6             74.61447
-#> 25           150.20039
-#> 75           163.45379
-#> 78           112.81049
-#> 394          156.73202
-#> 396          172.59024
-#> 397          178.83380
-#> 529          130.58770
-#> 705           76.61704
-#> 2455         106.44146
-#> 4267         179.06112
-#> 4269         117.33269
-#> 5210          62.81752
-#> 5399         191.22567
-#> 5544         202.97818
-#> 6786         131.63984
-#> 7129         140.98821
+#>      Flag_country Year  Trip_code       Date  Area Commercial_size_category
+#> 6             ITA 2016 01_18_2016 18/02/2016 GSA99                        1
+#> 25            ITA 2016 01_18_2016 18/02/2016 GSA99                        1
+#> 75            ITA 2016 02_18_2016 21/03/2016 GSA99                        1
+#> 78            ITA 2016 02_18_2016 21/03/2016 GSA99                        1
+#> 394           ITA 2015 05_18_2015 22/04/2015 GSA99                        1
+#> 396           ITA 2015 05_18_2015 22/04/2015 GSA99                        1
+#> 397           ITA 2015 05_18_2015 22/04/2015 GSA99                        1
+#> 529           ITA 2016 07_18_2016 17/03/2016 GSA99                        1
+#> 705           ITA 2016 08_18_2016 29/03/2016 GSA99                        1
+#> 2455          ITA 2015 12_18_2015 24/05/2015 GSA99                        1
+#> 4267          ITA 2014 17_18_2014 08/08/2014 GSA99                        1
+#> 4269          ITA 2014 17_18_2014 08/08/2014 GSA99                        1
+#> 5210          ITA 2017 31_18_2017 11/05/2017 GSA99                        1
+#> 5399          ITA 2016 34_18_2016 20/06/2016 GSA99                        1
+#> 5544          ITA 2014  4_18_2014 04/07/2014 GSA99                        1
+#> 6786          ITA 2017 57_18_2017 24/05/2017 GSA99                        1
+#> 7129          ITA 2017 66_18_2017 29/05/2017 GSA99                        1
+#>       Age Sex Length_class fish_ID
+#> 6    10.0   F          185      NA
+#> 25    5.5   F          230      NA
+#> 75    5.5   F          220      NA
+#> 78    5.5   F          235      NA
+#> 394   5.5   F          225      NA
+#> 396   5.5   F          235      NA
+#> 397   5.5   F          250      NA
+#> 529   5.5   F          235      NA
+#> 705   5.5   F          235      NA
+#> 2455  5.5   F          245      NA
+#> 4267  6.0   F          225      NA
+#> 4269  6.0   F          245      NA
+#> 5210  5.5   F          210      NA
+#> 5399  5.5   F          235      NA
+#> 5544  7.0   F          270      NA
+#> 6786  5.5   F          210      NA
+#> 7129  5.5   F          225      NA
 ```
 
 A plot of the age/length relationship by sex and year is outputted for
@@ -481,105 +292,30 @@ length-weight scatter plot
 RCG_check_lw(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",Min=0,Max=200)[[2]]
 ```
 
-![](README_files/figure-gfm/RCG_check_lw2-1.png)<!-- -->![](README_files/figure-gfm/RCG_check_lw2-2.png)<!-- -->
+![](README_files/figure-gfm/RCG_check_lw2-1.png)<!-- -->
 
 Furthermore, it checks if the weight data are within the boundaries in
 input, providing the data frame of the records with the outliers
 
 ``` r
 RCG_check_lw(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",Min=0,Max=200)[[1]]
+#>      Flag_country Year  Trip_code       Date  Area Commercial_size_category Age
+#> 1             ITA 2016 01_18_2016 18/02/2016 GSA99                        1  NA
+#> 77            ITA 2016 02_18_2016 21/03/2016 GSA99                        1 4.5
+#> 2430          ITA 2014 12_18_2014 24/07/2014 GSA99                        1 5.0
+#> 5544          ITA 2014  4_18_2014 04/07/2014 GSA99                        1 7.0
+#> 5777          ITA 2015 43_18_2015 31/07/2015 GSA99                        1 4.0
+#> 7946          ITA 2014 87_18_2014 05/12/2014 GSA99                        1 4.0
+#> 7949          ITA 2014 87_18_2014 05/12/2014 GSA99                        1 5.0
+#>      Sex Length_class fish_ID
+#> 1      F          500      NA
+#> 77     F          225      NA
+#> 2430   F          220      NA
+#> 5544   F          270      NA
+#> 5777   F          205      NA
+#> 7946   F          215      NA
+#> 7949   F          245      NA
 ```
-
-![](README_files/figure-gfm/RCG_check_lw1-1.png)<!-- -->
-
-    #>      Sampling_type Flag_country Year  Trip_code Harbour
-    #> 1                S          ITA 2016 01_18_2016   ITMOL
-    #> 77               S          ITA 2016 02_18_2016   ITMOL
-    #> 2430             S          ITA 2014 12_18_2014   ITMOL
-    #> 5544             S          ITA 2014  4_18_2014   ITBDS
-    #> 5777             S          ITA 2015 43_18_2015   ITMOL
-    #> 7946             S          ITA 2014 87_18_2014   ITBDS
-    #> 7949             S          ITA 2014 87_18_2014   ITBDS
-    #>      Number_of_sets_hauls_on_trip Days_at_sea Sampling.method Aggregation_level
-    #> 1                               4           1    SelfSampling              TRUE
-    #> 77                              8           2        Observer              TRUE
-    #> 2430                            5           1    SelfSampling              TRUE
-    #> 5544                            7           2    SelfSampling              TRUE
-    #> 5777                            4           1        Observer              TRUE
-    #> 7946                            5           1        Observer              TRUE
-    #> 7949                            5           1        Observer              TRUE
-    #>      Station_number Duration_of_fishing_operation Initial_latitude
-    #> 1               999                           960         42.04033
-    #> 77              999                          2052         40.58517
-    #> 2430            999                          1035         41.18683
-    #> 5544            999                          1770         41.90100
-    #> 5777            999                           990         41.38517
-    #> 7946            999                          1209         42.12050
-    #> 7949            999                          1209         42.12050
-    #>      Initial_longitude Final_latitude Final_longitude
-    #> 1             18.48217       42.09067        18.48483
-    #> 77            18.27417       40.60467        18.25550
-    #> 2430          16.81317       41.17550        16.84333
-    #> 5544          16.76867       41.92400        16.75783
-    #> 5777          16.41050       41.40850        16.39733
-    #> 7946          17.02167       42.07350        17.02017
-    #> 7949          17.02167       42.07350        17.02017
-    #>      Depth_of_fishing_operation Water_depth Catch_registration
-    #> 1                           113          NA                Lan
-    #> 77                          165          NA                All
-    #> 2430                        210          NA                Lan
-    #> 5544                        183          NA                Lan
-    #> 5777                         98          NA                All
-    #> 7946                        120          NA                All
-    #> 7949                        120          NA                All
-    #>      Species_registration       Date  Area Fishing_activity_category_National
-    #> 1                     All 18/02/2016 GSA99                          OTB_shelf
-    #> 77                    All 21/03/2016 GSA99                          OTB_shelf
-    #> 2430                  All 24/07/2014 GSA99                          OTB_shelf
-    #> 5544                  All 04/07/2014 GSA99                          OTB_shelf
-    #> 5777                  All 31/07/2015 GSA99                          OTB_shelf
-    #> 7946                  All 05/12/2014 GSA99                          OTB_shelf
-    #> 7949                  All 05/12/2014 GSA99                          OTB_shelf
-    #>      Fishing_activity_category_European_lvl_6         Species Catch_category
-    #> 1                            OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-    #> 77                           OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-    #> 2430                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-    #> 5544                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-    #> 5777                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-    #> 7946                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-    #> 7949                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-    #>      Weight Subsample_weight Sex Maturity_method Maturity_scale Maturity_Stage
-    #> 1     18000             6000   F            Macr   Medits scale             2b
-    #> 77    19200             6400   F            Macr   Medits scale              3
-    #> 2430   6200             6200   F            Macr   Medits scale             4a
-    #> 5544   4760             4760   F            Macr   Medits scale              3
-    #> 5777   4600             4600   F            Macr   Medits scale             4b
-    #> 7946   5130             5130   F            Macr   Medits scale             2b
-    #> 7949   5130             5130   F            Macr   Medits scale             2b
-    #>      Ageing.method Age Length_code Length_class Number_at_length
-    #> 1              OWR  NA         scm          500                2
-    #> 77             OWR 4.5         scm          225                1
-    #> 2430           OWR 5.0         scm          220                1
-    #> 5544           OWR 7.0         scm          270                1
-    #> 5777           OWR 4.0         scm          205                1
-    #> 7946           OWR 4.0         scm          215                1
-    #> 7949           OWR 5.0         scm          245                1
-    #>      Commercial_size_category_scale Commercial_size_category fish_ID
-    #> 1                               ITA                        1      NA
-    #> 77                              ITA                        1      NA
-    #> 2430                            ITA                        1      NA
-    #> 5544                            ITA                        1      NA
-    #> 5777                            ITA                        1      NA
-    #> 7946                            ITA                        1      NA
-    #> 7949                            ITA                        1      NA
-    #>      Individual_weight
-    #> 1            1424.3446
-    #> 77            209.2891
-    #> 2430          201.8513
-    #> 5544          202.9782
-    #> 5777          220.3938
-    #> 7946          231.6174
-    #> 7949          206.2320
 
 ### check maturity stages
 
@@ -599,7 +335,6 @@ derived from the dataset:
 
 ``` r
 RCG_check_mat_ogive(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus", sex="F",immature_stages=c("0","1","2a"))
-#> Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 ```
 
 ![](README_files/figure-gfm/RCG_check_mat_ogive-1.png)<!-- -->
@@ -613,13 +348,20 @@ selected species.
 ``` r
 results <- RCG_summarize_ind_meas(data=data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
 head(results)
-#>   Year  Area         Species  Trip_code number_of_data            variable
-#> 1 2014 GSA99 Mullus barbatus 12_18_2014            120 length_measurements
-#> 2 2014 GSA99 Mullus barbatus 14_18_2014            163 length_measurements
-#> 3 2014 GSA99 Mullus barbatus 15_18_2014            252 length_measurements
-#> 4 2014 GSA99 Mullus barbatus 17_18_2014            239 length_measurements
-#> 5 2014 GSA99 Mullus barbatus 19_18_2014           1657 length_measurements
-#> 6 2014 GSA99 Mullus barbatus 20_18_2014            752 length_measurements
+#>   Year  Area         Species  Trip_code age_data length_measurements
+#> 1 2014 GSA99 Mullus barbatus 12_18_2014       54                 120
+#> 2 2014 GSA99 Mullus barbatus 14_18_2014       52                 163
+#> 3 2014 GSA99 Mullus barbatus 15_18_2014       68                 252
+#> 4 2014 GSA99 Mullus barbatus 17_18_2014       27                 239
+#> 5 2014 GSA99 Mullus barbatus 19_18_2014       84                1657
+#> 6 2014 GSA99 Mullus barbatus 20_18_2014       32                 752
+#>   maturity_data sex_data weight_data
+#> 1           120      120         120
+#> 2           163      163         163
+#> 3           252      252         252
+#> 4           239      239         239
+#> 5          1657     1657        1657
+#> 6           752      752         752
 ```
 
 ### Summarize trips
@@ -638,7 +380,7 @@ head(results)
 #> 4 2014          ITA GSA99   ITMFR Mullus barbatus
 #> 5 2014          ITA GSA99   ITMFR Mullus barbatus
 #> 6 2014          ITA GSA99   ITMNP Mullus barbatus
-#>   Fishing_activity_category_European_lvl_6 Sampling.method Nb_trips
+#>   Fishing_activity_category_European_lvl_6 Sampling_method Nb_trips
 #> 1                         OTB_DEF_>=40_0_0        Observer        2
 #> 2                         OTB_DEF_>=40_0_0        Observer        2
 #> 3                         OTB_DEF_>=40_0_0    SelfSampling        2
@@ -655,6 +397,7 @@ ports position included in the data.
 
 ``` r
 RCG_check_loc(data_ex)
+#> Regions defined for each Polygons
 ```
 
 ![](README_files/figure-gfm/RCG_check_loc-1.png)<!-- -->
@@ -708,7 +451,7 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[3]]
 #>   LandCtry VslFlgCtry  Area Rect SubRect Harbour Sum_Landings
-#> 1      999   COUNTRY1 GSA99  999     999    Port      1120455
+#> 1       NA   COUNTRY1 GSA99   NA      NA    Port      1120455
 ```
 
 4.  Sum of landing value by LandCtry, VslFlgCtry, Area, Rect, SubRect,
@@ -717,7 +460,7 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[4]]
 #>   LandCtry VslFlgCtry  Area Rect SubRect Harbour Sum_LandingsValue
-#> 1      999   COUNTRY1 GSA99  999     999    Port           5596437
+#> 1       NA   COUNTRY1 GSA99   NA      NA    Port           5596437
 ```
 
 5.  Sum of landings by Year, Species, foCatEu5, foCatEu6;
@@ -725,9 +468,9 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[5]]
 #>   Year                  Species foCatEu5         foCatEu6 Sum_Landings
-#> 1 1900 Parapenaeus longirostris      999 OTB_DEF_>=40_0_0  1018083.081
-#> 2 1900 Parapenaeus longirostris      999 OTB_DWS_>=40_0_0     1453.471
-#> 3 1900 Parapenaeus longirostris      999 OTB_MDD_>=40_0_0   100918.089
+#> 1 1900 Parapenaeus longirostris       NA OTB_DEF_>=40_0_0  1018083.081
+#> 2 1900 Parapenaeus longirostris       NA OTB_DWS_>=40_0_0     1453.471
+#> 3 1900 Parapenaeus longirostris       NA OTB_MDD_>=40_0_0   100918.089
 ```
 
 6.  Sum of landing value by Year, Species, foCatEu5, foCatEu6.
@@ -735,9 +478,9 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[6]]
 #>   Year                  Species foCatEu5         foCatEu6 Sum_LandingsValue
-#> 1 1900 Parapenaeus longirostris      999 OTB_DEF_>=40_0_0       5050728.907
-#> 2 1900 Parapenaeus longirostris      999 OTB_DWS_>=40_0_0          7721.884
-#> 3 1900 Parapenaeus longirostris      999 OTB_MDD_>=40_0_0        537986.519
+#> 1 1900 Parapenaeus longirostris       NA OTB_DEF_>=40_0_0       5050728.907
+#> 2 1900 Parapenaeus longirostris       NA OTB_DWS_>=40_0_0          7721.884
+#> 3 1900 Parapenaeus longirostris       NA OTB_MDD_>=40_0_0        537986.519
 ```
 
 7.  Plot of the landings by year and foCatEu6
@@ -1458,40 +1201,40 @@ In particular:
 ``` r
 results <- suppressMessages(MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
-#>   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA SPECIES
-#> 1     ITA 2004      -1            -1  OTB          50D100      -1 GSA 9     DPS
-#> 2     ITA 2004      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 3     ITA 2007      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 4     ITA 2008      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 5     ITA 2014      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 6     ITA 2017       2            -1  GNS              -1    DEMF GSA 9     DPS
-#>    LANDINGS
-#> 1 367.43191
-#> 2   3.62883
-#> 3   2.26308
-#> 4   0.50829
-#> 5   0.02736
-#> 6   0.02688
+#>   country year quarter vessel_length gear mesh_size_range fishery  area species
+#> 1     ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#> 2     ITA 2003      -1            -1  OTB              -1   DEMSP GSA 9     DPS
+#> 3     ITA 2004      -1            -1  GNS              -1    DEMF GSA 9     DPS
+#> 4     ITA 2004      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#> 5     ITA 2004      -1            -1  OTB          50D100      -1 GSA 9     DPS
+#> 6     ITA 2005      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#>     landings
+#> 1   5.933227
+#> 2 316.615971
+#> 3   3.628830
+#> 4   4.177760
+#> 5 367.431910
+#> 6   0.517960
 ```
 
 2.  summary table of discards
 
 ``` r
 head(results[[2]])
-#>    COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA
-#> 5      ITA 2014      -1            -1  GNS              -1    DEMF GSA 9
-#> 6      ITA 2017       2            -1  GNS              -1    DEMF GSA 9
-#> 7      ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9
-#> 10     ITA 2012      -1            -1  GTR              -1   DEMSP GSA 9
-#> 11     ITA 2003      -1            -1  OTB              -1   DEMSP GSA 9
-#> 13     ITA 2006      -1            -1  OTB          50D100   DEMSP GSA 9
-#>    SPECIES DISCARDS
-#> 5      DPS        0
-#> 6      DPS        0
-#> 7      DPS        0
-#> 10     DPS        0
-#> 11     DPS        0
-#> 13     DPS        0
+#>   country year quarter vessel_length gear mesh_size_range fishery  area species
+#> 1     ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#> 2     ITA 2003      -1            -1  OTB              -1   DEMSP GSA 9     DPS
+#> 3     ITA 2006      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
+#> 4     ITA 2006      -1            -1  OTB          50D100  MDDWSP GSA 9     DPS
+#> 5     ITA 2009      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
+#> 6     ITA 2009      -1            -1  OTB          50D100  MDDWSP GSA 9     DPS
+#>   discards
+#> 1  0.00000
+#> 2  0.00000
+#> 3  0.00000
+#> 4  0.00000
+#> 5 38.35542
+#> 6  0.00000
 ```
 
 3.  Plot of landing volumes in catch table
@@ -1703,7 +1446,11 @@ with 0 values in weights having length classes filled in.
 ``` r
 MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
 #> There aren't 0 discards
-#> [1] 0
+#>  [1] id              country         year            quarter        
+#>  [5] vessel_length   gear            mesh_size_range fishery        
+#>  [9] area            specon          species         discards       
+#> [13] unit           
+#> <0 righe> (o 0-length row.names)
 ```
 
 ### weight -1 in landings and discards
@@ -1715,7 +1462,11 @@ values in landing weights having length class filled in.
 ``` r
 MEDBS_weight_minus1(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 #> There aren't -1 discards
-#> [1] 0
+#>  [1] id              country         year            quarter        
+#>  [5] vessel_length   gear            mesh_size_range fishery        
+#>  [9] area            specon          species         discards       
+#> [13] unit           
+#> <0 righe> (o 0-length row.names)
 ```
 
 ### Years with missing length distributions
@@ -1853,13 +1604,13 @@ head(results)
 #> 4 2004      -1            -1  GTR              -1   DEMSP   4177760        0
 #> 5 2004      -1            -1  OTB          50D100      -1 367431910 22257632
 #> 6 2005      -1            -1  GTR              -1   DEMSP    517960        0
-#>         MW
-#> 1      Inf
+#>      MW(g)
+#> 1       NA
 #> 2 17.09920
-#> 3      Inf
-#> 4      Inf
+#> 3       NA
+#> 4       NA
 #> 5 16.50813
-#> 6      Inf
+#> 6       NA
 ```
 
 The function returns a plot of the mean landing weight by year, gear and
@@ -1905,20 +1656,20 @@ landing table providing a summary table
 ``` r
 results <- suppressMessages(MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
-#>   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA SPECIES
-#> 1     ITA 2003      -1            -1  OTB          50D100      -1 GSA 9     DPS
-#> 2     ITA 2004      -1            -1  OTB          50D100      -1 GSA 9     DPS
+#>   country year quarter vessel_length gear mesh_size_range fishery  area species
+#> 1     ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#> 2     ITA 2003      -1            -1  OTB          50D100      -1 GSA 9     DPS
 #> 3     ITA 2004      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 4     ITA 2007      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 5     ITA 2008      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 6     ITA 2014      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#>    LANDINGS
-#> 1 316.61597
-#> 2 367.43191
+#> 4     ITA 2004      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#> 5     ITA 2004      -1            -1  OTB          50D100      -1 GSA 9     DPS
+#> 6     ITA 2005      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#>    landings
+#> 1  11.86645
+#> 2 316.61597
 #> 3   3.62883
-#> 4   2.26308
-#> 5   0.50829
-#> 6   0.02736
+#> 4   4.17776
+#> 5 367.43191
+#> 6   0.51796
 ```
 
 a plot of the landing coverage is also provided.
@@ -1943,17 +1694,17 @@ head(results[[1]])
 #>   country year quarter vessel_length gear mesh_size_range fishery  area species
 #> 1     ITA 2009      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
 #> 2     ITA 2010      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
-#> 3     ITA 2011      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
-#> 4     ITA 2012      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
-#> 5     ITA 2013      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
-#> 6     ITA 2014      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
+#> 3     ITA 2010      -1            -1  OTB          50D100  MDDWSP GSA 9     DPS
+#> 4     ITA 2011      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
+#> 5     ITA 2011      -1            -1  OTB          50D100  MDDWSP GSA 9     DPS
+#> 6     ITA 2012      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
 #>    discards
 #> 1 76.710840
 #> 2 24.396528
-#> 3 60.519315
-#> 4  6.571266
-#> 5 26.761695
-#> 6 44.978926
+#> 3  2.703603
+#> 4 60.519315
+#> 5  2.743526
+#> 6  6.571266
 ```
 
 A plots of discard time series by year and gear is also provided.
@@ -1973,7 +1724,7 @@ aggregated by quarters and by year
 
 ``` r
 MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
-#>   YEAR GEAR    tot_q    tot_yr ratio
+#>   YEAR GEAR    TOT_Q    TOT_YR RATIO
 #> 1 2009  OTB       NA 76.710840    NA
 #> 2 2010  OTB       NA 27.100131    NA
 #> 3 2011  OTB       NA 63.262841    NA
@@ -1995,7 +1746,7 @@ by quarters and by year and fishery
 ``` r
 results <- MEDBS_comp_disc_YQ_fishery(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
 head(results)
-#>   YEAR GEAR FISHERY tot_q    tot_yr ratio
+#>   YEAR GEAR FISHERY TOT_Q    TOT_YR RATIO
 #> 1 2009  OTB   DEMSP    NA 76.710840    NA
 #> 2 2010  OTB   DEMSP    NA 24.396528    NA
 #> 3 2010  OTB  MDDWSP    NA  2.703603    NA
@@ -2020,7 +1771,7 @@ head(results[[1]])
 #> 4 2011      -1            -1  OTB          50D100   DEMSP 60519315 29133415.7
 #> 5 2011      -1            -1  OTB          50D100  MDDWSP  2743526   744126.7
 #> 6 2012      -1            -1  OTB          50D100   DEMSP  6571266   998156.0
-#>         MW
+#>      MW(g)
 #> 1 3.389243
 #> 2 4.058424
 #> 3 7.831493
@@ -2080,18 +1831,18 @@ sex
 ``` r
 results <- MEDBS_GP_check(GP_tab_example,"MUT","ITA","GSA 18")
 results[[1]]
-#>    COUNTRY   YEAR START_YEAR END_YEAR SPECIES SEX COUNT
+#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX COUNT
 #> 1      ITA GSA 18       2014     2014     MUT   C     1
-#> 2      ITA GSA 18       2015     2015     MUT   C     1
-#> 3      ITA GSA 18       2016     2016     MUT   C     1
-#> 4      ITA GSA 18       2017     2017     MUT   C     1
-#> 5      ITA GSA 18       2014     2014     MUT   F     1
-#> 6      ITA GSA 18       2015     2015     MUT   F     1
-#> 7      ITA GSA 18       2016     2016     MUT   F     1
-#> 8      ITA GSA 18       2017     2017     MUT   F     1
-#> 9      ITA GSA 18       2014     2014     MUT   M     1
-#> 10     ITA GSA 18       2015     2015     MUT   M     1
-#> 11     ITA GSA 18       2016     2016     MUT   M     1
+#> 2      ITA GSA 18       2014     2014     MUT   F     1
+#> 3      ITA GSA 18       2014     2014     MUT   M     1
+#> 4      ITA GSA 18       2015     2015     MUT   C     1
+#> 5      ITA GSA 18       2015     2015     MUT   F     1
+#> 6      ITA GSA 18       2015     2015     MUT   M     1
+#> 7      ITA GSA 18       2016     2016     MUT   C     1
+#> 8      ITA GSA 18       2016     2016     MUT   F     1
+#> 9      ITA GSA 18       2016     2016     MUT   M     1
+#> 10     ITA GSA 18       2017     2017     MUT   C     1
+#> 11     ITA GSA 18       2017     2017     MUT   F     1
 #> 12     ITA GSA 18       2017     2017     MUT   M     1
 print(names(results)[1])
 #> [1] "summary table"
@@ -2162,19 +1913,19 @@ returns a summary table.
 ``` r
 results <- MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
 results[[1]]
-#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX NA
-#> 1      ITA GSA 18       2014     2014     MUT   C  1
-#> 2      ITA GSA 18       2015     2015     MUT   C  1
-#> 3      ITA GSA 18       2016     2016     MUT   C  1
-#> 4      ITA GSA 18       2017     2017     MUT   C  1
-#> 5      ITA GSA 18       2014     2014     MUT   F  1
-#> 6      ITA GSA 18       2015     2015     MUT   F  1
-#> 7      ITA GSA 18       2016     2016     MUT   F  1
-#> 8      ITA GSA 18       2017     2017     MUT   F  1
-#> 9      ITA GSA 18       2014     2014     MUT   M  1
-#> 10     ITA GSA 18       2015     2015     MUT   M  1
-#> 11     ITA GSA 18       2016     2016     MUT   M  1
-#> 12     ITA GSA 18       2017     2017     MUT   M  1
+#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX CUNT
+#> 1      ITA GSA 18       2014     2014     MUT   C    1
+#> 2      ITA GSA 18       2014     2014     MUT   F    1
+#> 3      ITA GSA 18       2014     2014     MUT   M    1
+#> 4      ITA GSA 18       2015     2015     MUT   C    1
+#> 5      ITA GSA 18       2015     2015     MUT   F    1
+#> 6      ITA GSA 18       2015     2015     MUT   M    1
+#> 7      ITA GSA 18       2016     2016     MUT   C    1
+#> 8      ITA GSA 18       2016     2016     MUT   F    1
+#> 9      ITA GSA 18       2016     2016     MUT   M    1
+#> 10     ITA GSA 18       2017     2017     MUT   C    1
+#> 11     ITA GSA 18       2017     2017     MUT   F    1
+#> 12     ITA GSA 18       2017     2017     MUT   M    1
 ```
 
 plots of the length-weigth relationships for the selected species by
@@ -2230,7 +1981,7 @@ table providing a summary table of the data coverage.
 ``` r
 results <- MEDBS_MA_check(MA_tab_example,"DPS","ITA","GSA 99")
 results[[1]]
-#>    COUNTRY   YEAR START_YEAR END_YEAR SPECIES SEX COUNT
+#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX COUNT
 #> 1      ITA GSA 99       2006     2006     DPS   F     6
 #> 2      ITA GSA 99       2007     2007     DPS   F     6
 #> 3      ITA GSA 99       2008     2008     DPS   F     6
@@ -2275,7 +2026,7 @@ results <- MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 
 ``` r
 results[[1]]
-#>    COUNTRY   YEAR START_YEAR END_YEAR SPECIES SEX COUNT
+#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX COUNT
 #> 1      ITA GSA 99       2006     2006     DPS   F    31
 #> 2      ITA GSA 99       2007     2007     DPS   F    32
 #> 3      ITA GSA 99       2008     2008     DPS   F    33
@@ -2308,7 +2059,7 @@ species of the proportion of sex ratio for age class by year.
 ``` r
 results <- MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
 results[[1]]
-#>    COUNTRY   YEAR START_YEAR END_YEAR SPECIES
+#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES
 #> 1      ITA GSA 99       2003     2005     DPS
 #> 2      ITA GSA 99       2006     2006     DPS
 #> 3      ITA GSA 99       2007     2007     DPS

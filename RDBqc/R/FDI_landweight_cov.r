@@ -7,6 +7,8 @@
 #' @description The functions checks the coverage of weight of landings comparing data reported in table A and H.
 #' @return The function returns a data frame reporting the weight of landings by GSA and by year.
 #' @export
+#' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_landweight_cov(dataA = fdi_a_catch, dataH = fdi_h_spatial_landings, MS = "PSP", verbose = TRUE)
 FDI_landweight_cov <- function(dataA, dataH, MS, verbose = FALSE) {
   country <- NULL

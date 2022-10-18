@@ -24,3 +24,8 @@ The function cross-checks the number of vessels in table J in comparison with th
 \examples{
 FDI_vessel_numbers(dataJ = fdi_j_capacity, dataG = fdi_g_effort, MS = "PSP", verbose = TRUE)
 }
+\author{
+Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

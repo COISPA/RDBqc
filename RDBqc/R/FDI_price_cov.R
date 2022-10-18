@@ -8,6 +8,8 @@
 #' @param verbose boolean. If TRUE a message is printed.
 #' @return The function returns a list. The first element gives the summary table of records number. From the second to the fourth element gives 3 plots for each variables among: of total live weight landed, total value of landings (euro), and total discards (ton)).
 #' @export
+#' @author Andrea Pierucci <pierucci@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_prices_cov(data = fdi_a_catch, SP = c("MUT", "HKE"), MS = "PSP", GSA = "GSA99")
 #' FDI_prices_cov(data = fdi_a_catch, SP = "MUT", MS = "PSP", GSA = "GSA99")
 #' @import tidyverse

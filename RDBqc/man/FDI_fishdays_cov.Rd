@@ -24,3 +24,8 @@ The function checks the comparison of totfishdays in FDI tables G and I
 \examples{
 FDI_fishdays_cov(dataG = fdi_g_effort, dataI = fdi_i_spatial_effort, MS = "PSP", verbose = TRUE)
 }
+\author{
+Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

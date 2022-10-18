@@ -11,6 +11,15 @@
 #' @examples MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 MEDBS_ML_check <- function(data, SP, MS, GSA, verbose = TRUE) {
 
+  if (FALSE) {
+    data = ML_tab_example
+    SP <- "DPS"
+    MS <- "ITA"
+    GSA <- "GSA 99"
+  }
+
+  AREA <- Summary_ML_tab <- LENGTHCLASS <- PRM <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
+
   colnames(data) <- toupper(colnames(data))
   ML_tab <- data
   ML_tab <- ML_tab[ML_tab$SPECIES == SP & ML_tab$COUNTRY == MS & ML_tab$AREA == GSA, ]
@@ -22,9 +31,11 @@ MEDBS_ML_check <- function(data, SP, MS, GSA, verbose = TRUE) {
   } else if (nrow(ML_tab) > 0) {
     ML_tab$SEX <- as.character(ML_tab$SEX)
     ML_tab[ML_tab$SEX == FALSE, "SEX"] <- "F"
-    Summary_ML_tab <- LENGTHCLASS <- PRM <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
-    Summary_ML_tab <- aggregate(ML_tab$SEX, by = list(ML_tab$COUNTRY, ML_tab$AREA, ML_tab$START_YEAR, ML_tab$END_YEAR, ML_tab$SPECIES, ML_tab$SEX), FUN = "length")
-    colnames(Summary_ML_tab) <- c("COUNTRY", "YEAR", "START_YEAR", "END_YEAR", "SPECIES", "SEX", "COUNT")
+
+    Summary_ML_tab <- suppressMessages(data.frame(ML_tab %>% group_by(COUNTRY,AREA, START_YEAR, END_YEAR, SPECIES, SEX) %>% summarise(COUNT = length(SEX))))
+
+    # Summary_ML_tab <- aggregate(ML_tab$SEX, by = list(ML_tab$COUNTRY, ML_tab$AREA, ML_tab$START_YEAR, ML_tab$END_YEAR, ML_tab$SPECIES, ML_tab$SEX), FUN = "length")
+    # colnames(Summary_ML_tab) <- c("COUNTRY", "YEAR", "START_YEAR", "END_YEAR", "SPECIES", "SEX", "COUNT")
 
     Summary_table_ML <- Summary_ML_tab
     Summary_ML_tab <- Summary_ML_tab[1:nrow(Summary_ML_tab), 1:(ncol(Summary_ML_tab) - 1)]

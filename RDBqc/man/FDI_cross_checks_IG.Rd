@@ -22,3 +22,8 @@ The function checks the possible data inconsistency between spatial effort in ta
 \examples{
 FDI_cross_checks_IG(data1 = fdi_i_spatial_effort, data2 = fdi_g_effort)
 }
+\author{
+Andrea Pierucci \href{mailto:pierucci@coispa.eu}{pierucci@coispa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

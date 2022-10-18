@@ -19,6 +19,8 @@
 #' * hrsea,
 #' * kwhrsea
 #' @export
+#' @author Andrea Pierucci <pierucci@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_cov_tableG(data = fdi_g_effort, MS = "PSP", GSA = "GSA99")
 #' FDI_cov_tableG(fdi_g_effort, MS = "PSP", GSA = "GSA99", fishtech = "DTS", met = "OTB_MDD_>=40_0_0")
 #' @import tidyverse

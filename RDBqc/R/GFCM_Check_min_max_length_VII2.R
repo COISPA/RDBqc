@@ -7,7 +7,9 @@
 #' @param GSA GSA code
 #' @return The function returns a table with the comparison between min/max lengths observed for each species with theoretical values.
 #' @export
-#'
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_minmaxl_TaskVII.2(task_vii2, minmaxLtaskVII2, MS = "ITA", GSA = "18")
 check_minmaxl_TaskVII.2 <- function(data, tab_length, MS, GSA) {
   data <- data[data$CPC %in% MS & data$GSA %in% GSA, ]

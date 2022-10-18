@@ -26,3 +26,10 @@ The function checks the maturity at age (MA) table providing a summary table of 
 \examples{
 MEDBS_MA_check(MA_tab_example, "DPS", "ITA", "GSA 99")
 }
+\author{
+Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
+}

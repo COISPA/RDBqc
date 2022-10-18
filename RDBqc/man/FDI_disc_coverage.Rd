@@ -22,3 +22,8 @@ The functions checks the discard coverage in table A for the selected MS by GSAs
 \examples{
 FDI_disc_coverage(fdi_a_catch, MS = "PSP", verbose = TRUE)
 }
+\author{
+Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

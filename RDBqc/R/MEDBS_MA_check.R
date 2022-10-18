@@ -7,17 +7,22 @@
 #' @description The function checks the maturity at age (MA) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
 #' @return A summary table and plots are returned by the function.
 #' @export
+#' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
+#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @import ggplot2 dplyr
 #' @examples MEDBS_MA_check(MA_tab_example, "DPS", "ITA", "GSA 99")
 MEDBS_MA_check <- function(data, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
-    data <- MA # MA_tab_example
+    data <- MA_tab_example
     # data$SEX[1] <- FALSE
     SP <- "DPS"
     MS <- "ITA"
-    GSA <- "GSA 19"
-    MEDBS_MA_check(data, "DPS", "ITA", "GSA 19")
+    GSA <- "GSA 99"
+    MEDBS_MA_check(data, "DPS", "ITA", "GSA 99")
   }
+
+  AREA <- Summary_MA_tab <- AGECLASS <- PRM <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
 
   colnames(data) <- toupper(colnames(data))
   MA_tab <- data
@@ -30,27 +35,30 @@ MEDBS_MA_check <- function(data, SP, MS, GSA, verbose = TRUE) {
   } else if (nrow(MA_tab) > 0) {
     MA_tab$SEX <- as.character(MA_tab$SEX)
     MA_tab[MA_tab$SEX == "FALSE", "SEX"] <- "F"
-    Summary_MA_tab <- AGECLASS <- PRM <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
-    Summary_MA_tab <- aggregate(
-      MA_tab$SEX,
-      by = list(
-        MA_tab$COUNTRY,
-        MA_tab$AREA,
-        MA_tab$START_YEAR,
-        MA_tab$END_YEAR,
-        MA_tab$SPECIES,
-        MA_tab$SEX
-      ),
-      FUN = "length"
-    )
-    colnames(Summary_MA_tab) <- c(
-      "COUNTRY",
-      "YEAR",
-      "START_YEAR",
-      "END_YEAR",
-      "SPECIES",
-      "SEX", "COUNT"
-    )
+
+    Summary_MA_tab <- suppressMessages(data.frame(MA_tab %>% group_by(COUNTRY,AREA,START_YEAR,END_YEAR,SPECIES,SEX) %>% summarise(COUNT=length(SEX))))
+
+    # Summary_MA_tab <- aggregate(
+    #   MA_tab$SEX,
+    #   by = list(
+    #     MA_tab$COUNTRY,
+    #     MA_tab$AREA,
+    #     MA_tab$START_YEAR,
+    #     MA_tab$END_YEAR,
+    #     MA_tab$SPECIES,
+    #     MA_tab$SEX
+    #   ),
+    #   FUN = "length"
+    # )
+    # colnames(Summary_MA_tab) <- c(
+    #   "COUNTRY",
+    #   "YEAR",
+    #   "START_YEAR",
+    #   "END_YEAR",
+    #   "SPECIES",
+    #   "SEX", "COUNT"
+    # )
+
     Summary_table_MA <- Summary_MA_tab
     Summary_MA_tab <- Summary_MA_tab[1:nrow(Summary_MA_tab), 1:(ncol(Summary_MA_tab) - 1)]
 

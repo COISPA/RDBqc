@@ -9,7 +9,9 @@
 #' @return The function return a plot of the length weight relationship per species.
 #' @export
 #' @import ggplot2
-#'
+#' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @author Sebastien Alfonso <salfonso@@coispa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_lw_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP = "BOG")
 check_lw_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
   if (FALSE) {

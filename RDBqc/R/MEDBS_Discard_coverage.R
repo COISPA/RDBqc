@@ -8,6 +8,8 @@
 #' @description The function allows to check the coverage of the time series in discard table for a selected species.
 #' @return A summary table and a plot of discard time series by year and gear are returned.
 #' @export
+#' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples MEDBS_discard_coverage(Discard_tab_example, "DPS", "ITA", "GSA 9")
 #' @import ggplot2 dplyr
 #' @importFrom utils globalVariables
