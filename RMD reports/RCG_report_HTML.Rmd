@@ -88,7 +88,7 @@ if (exists("stages_for_immatures")) {
 ```
 
 \newpage
-<!-- AL -->
+<!-- CS -->
 
 ```{r check_CS, results = 'asis'}
 
@@ -345,3 +345,165 @@ if (check_CS) {
 } # check_CS
 ```
 
+```{r RCG_summarize_trips, results = 'asis', fig.height=6, fig.width=9}
+if (check_CS) {
+    cat("\n## Summary of trips\n")
+    cat("\nBiological data were analysed to provide a summary table reporting the number of trips/hauls monitored by year, port, metier and sampling method.\n")
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(RCG_summarize_trips(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s],verbose=FALSE))
+        if (nrow(res)>0){
+            cat(paste0("\n_Summary table reporting the number of trips/hauls monitored by year by port, metier, sampling method for ",SPs[s]," in ",GSAs[g],"_"))
+        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        } else {
+            cat(paste0("\n- No data available for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+        }
+      }
+}
+} # check_Land
+```
+
+```{r RCG_check_loc, results = 'asis', fig.height=6, fig.width=9}
+if (check_CS) {
+  
+  cat("\n## Consistency of trip location\n")
+  cat("\nThe consistency of trip location was checked plotting the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data in case coordinates are not available..\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      s=1
+      for (s in 1:length(SPs)) {
+        suppressMessages(res <- RCG_check_loc(data=CS, MS = MS, GSA = GSAs[g]))
+        if (!is.null(res)) {
+
+        cat("\n\n\n")
+        cat(paste0("\nPlot of length-weight by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res)
+        cat("\n\n\n")
+        
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_CS
+```
+
+
+```{r RCG_summarize_ind_meas, results = 'asis', fig.height=6, fig.width=9}
+if (check_CS) {
+    cat("\n## Summary of individual measurements\n")
+    cat("\nBiological data were analysed to provide a summary table reporting the number of individual by trip for which biological data have been collected (length, sex, maturity, weight and age)\n")
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(RCG_summarize_ind_meas(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s],verbose=FALSE))
+        if (nrow(res)>0){
+            cat(paste0("\n_Summary table reporting the number of measurements by trip for each biological variable for ",SPs[s]," in ",GSAs[g],"_"))
+        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        } else {
+            cat(paste0("\n- No data available for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+        }
+      }
+}
+} # check_Land
+```
+
+<!-- CL -->
+
+```{r check_CL, results = 'asis'}
+
+if (exists("CL")) {
+  if (class(CL)=="data.frame") {
+    if(nrow(CL)>0){
+      check_CL <- TRUE
+      cat(paste0("\n# Landing data table\n"))
+      if(!user_SP){
+        SPs <- unique(CL$Species)
+      }
+      if(!user_MS){
+        MS  <- unique(CL$Flag_country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(CL$Area)
+      }
+      
+    }
+  }
+} else {
+  check_CL <- FALSE
+  cat("\n No Landing data available \n")
+}
+
+
+
+```
+
+```{r RCG_check_CL, results = 'asis', fig.height=6, fig.width=9}
+if (check_CL) {
+  
+  cat("\n## Consistency of data in CL table\n")
+  cat("\nThe consistency of CL table was checked plotting data for temporal, spatial and metier coverage for the given species:\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      s=1
+      for (s in 1:length(SPs)) {
+        suppressMessages(res <- RCG_check_CL(data=CL, MS = MS, GSA = GSAs[g], SP=SPs[s]))
+        if (class(res)== "list" & length(res)>0){
+          # temp_covL
+            cat(paste0("\n_Sum of Landings by year, quarter and month for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+          # temp_covLV
+            cat(paste0("\n_Sum of Landing value by year, quarter and month for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+          # spat_covL
+            cat(paste0("\n_Sum of landings by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[3]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+          # spat_covLV
+            cat(paste0("\n_Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[4]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        
+          # spe_cov_L
+            cat(paste0("\n_Sum of landings by Year, Species, foCatEu5, foCatEu6 for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[5]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )           
+            
+          # spe_cov_LV
+            cat(paste0("\n_Sum of landing value by Year, Species, foCatEu5, foCatEu6 for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[6]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )  
+            
+          # p
+          cat("\n\n\n")
+          cat(paste0("\nPlot of Sum of landings by Year, Species, foCatEu6 for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+          print(res[[7]])
+          cat("\n\n\n")  
+            
+            
+            
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_CL
+```

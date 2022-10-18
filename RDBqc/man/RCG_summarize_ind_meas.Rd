@@ -18,7 +18,7 @@ RCG_summarize_ind_meas(data, MS, GSA, SP, verbose = TRUE)
 \item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
-a list containing a summary of measurements by trip for each biological variable
+The function returns a table containing a summary of measurements by trip for each biological variable
 }
 \description{
 Number of individual by trip for which biological data have been collected (length, sex, maturity, weight and age)

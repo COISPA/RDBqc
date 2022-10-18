@@ -4,7 +4,7 @@
 #' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format
 #' @param verbose boolean value to obtain further explanation messages from the function
-#' @return a list containing a summary of measurements by trip for each biological variable
+#' @return The function returns a table containing a summary of measurements by trip for each biological variable
 #' @export
 #' @examples RCG_summarize_ind_meas(data = data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 #' @import dplyr
@@ -27,37 +27,39 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
   } else {
     lengths <- data %>%
       group_by(Year, Area, Species, Trip_code) %>%
-      summarize(length_measurements = sum(Number_at_length))
+      summarize(length_measurements = sum(Number_at_length,na.rm=TRUE))
     lengths <- as.data.frame(lengths)
 
     mat <- data %>%
       filter(!is.na(Maturity_Stage)) %>%
       group_by(Year, Area, Species, Trip_code) %>%
-      summarize(maturity_data = sum(Number_at_length))
+      summarize(maturity_data = sum(Number_at_length,na.rm=TRUE))
     mat <- as.data.frame(mat)
 
     sex <- data %>%
       filter(!is.na(Sex) & Sex != "U" & Sex != "C") %>%
       group_by(Year, Area, Species, Trip_code) %>%
-      summarize(sex_data = sum(Number_at_length))
+      summarize(sex_data = sum(Number_at_length,na.rm=TRUE))
     sex <- as.data.frame(sex)
 
     age <- data %>%
       filter(!is.na(Age)) %>%
       group_by(Year, Area, Species, Trip_code) %>%
-      summarize(age_data = sum(Number_at_length))
+      summarize(age_data = sum(Number_at_length,na.rm=TRUE))
     age <- as.data.frame(age)
 
     weight <- data %>%
       filter(!is.na(Individual_weight)) %>%
       group_by(Year, Area, Species, Trip_code) %>%
-      summarize(weight_data = sum(Number_at_length))
+      summarize(weight_data = sum(Number_at_length,na.rm=TRUE))
     weight <- as.data.frame(weight)
     ####################
     if (nrow(sex) == 0) {
       if (verbose) {
         print("No sex data", quote = F)
       }
+      sex$variable <- colnames(sex)[ncol(sex)]
+      colnames(sex)[ncol(sex) - 1] <- "number_of_data"
     } else {
       sex$variable <- colnames(sex)[ncol(sex)]
       colnames(sex)[ncol(sex) - 1] <- "number_of_data"
@@ -69,6 +71,8 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       if (verbose) {
         print("No maturity data", quote = F)
       }
+      mat$variable <- colnames(mat)[ncol(mat)]
+      colnames(mat)[ncol(mat) - 1] <- "number_of_data"
     } else {
       mat$variable <- colnames(mat)[ncol(mat)]
       colnames(mat)[ncol(mat) - 1] <- "number_of_data"
@@ -80,6 +84,8 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       if (verbose) {
         print("No age data", quote = F)
       }
+      age$variable <- colnames(age)[ncol(age)]
+      colnames(age)[ncol(age) - 1] <- "number_of_data"
     } else {
       age$variable <- colnames(age)[ncol(age)]
       colnames(age)[ncol(age) - 1] <- "number_of_data"
@@ -91,6 +97,8 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       if (verbose) {
         print("No weight data", quote = F)
       }
+      weight$variable <- colnames(weight)[ncol(weight)]
+      colnames(weight)[ncol(weight) - 1] <- "number_of_data"
     } else {
       weight$variable <- colnames(weight)[ncol(weight)]
       colnames(weight)[ncol(weight) - 1] <- "number_of_data"
@@ -102,12 +110,18 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       if (verbose) {
         print("No weight data", quote = F)
       }
+      lengths$variable <- colnames(lengths)[ncol(lengths)]
+      colnames(lengths)[ncol(lengths) - 1] <- "number_of_data"
     } else {
       lengths$variable <- colnames(lengths)[ncol(lengths)]
       colnames(lengths)[ncol(lengths) - 1] <- "number_of_data"
     }
 
     result_table <- do.call(rbind, list(lengths, mat, sex, age, weight))
+    result_table[is.na(result_table$number_of_data),"number_of_data"] <- 0
+    result_table <- as.data.table(result_table)
+    result_table <- data.table::dcast(result_table,Year+Area+Species+Trip_code~variable,value.var="number_of_data")
+    result_table <- data.frame(result_table)
 
     return(result_table)
   }

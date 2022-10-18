@@ -4,7 +4,7 @@
 #' @param MS member state code
 #' @param GSA GSA code (Geographical sub-area)
 #' @param verbose boolean. If TRUE messages are returned
-#' @description The function allows to summarise the number of trips/hauls monitored by year, port, metier and sampling method.
+#' @description The function allows to summarise monitored by year by port, metier, sampling method
 #' @return Number of trips by area, year, port, metier and sampling method
 #' @export
 #' @examples RCG_summarize_trips(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
@@ -13,13 +13,13 @@
 
 RCG_summarize_trips <- function(data, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
-    data <- data_ex
+    data <- CS
     MS <- "ITA"
-    GSA <- "GSA99"
-    SP <- "Mullus barbatus"
+    GSA <- "GSA17"
+    SP <- "Merluccius merluccius"
   }
 
-  Year <- Area <- Harbour <- Fishing_activity_category_European_lvl_6 <- Sampling.method <- Trip_code <- trips <- Flag_country <- Species <- NULL
+  Year <- Area <- Harbour <- Fishing_activity_category_European_lvl_6 <- Sampling_method <- Trip_code <- trips <- Flag_country <- Species <- NULL
 
   data <- data[data$Flag_country %in% MS & data$Area %in% GSA & data$Species %in% SP, ]
   if (nrow(data) == 0) {
@@ -27,7 +27,7 @@ RCG_summarize_trips <- function(data, SP, MS, GSA, verbose = TRUE) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
   } else {
-    suppressMessages(trips <- data %>% group_by(Year, Flag_country, Area, Harbour, Species, Fishing_activity_category_European_lvl_6, Sampling.method, Trip_code) %>% summarize(Nb_trips = n()))
+    suppressMessages(trips <- data %>% group_by(Year, Flag_country, Area, Harbour, Species, Fishing_activity_category_European_lvl_6, Sampling_method, Trip_code) %>% summarize(Nb_trips = n()))
     suppressMessages(trips <- trips %>% summarize(Nb_trips = n()))
 
     return(as.data.frame(trips))

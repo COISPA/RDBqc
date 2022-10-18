@@ -4,10 +4,14 @@
 \alias{RCG_check_loc}
 \title{Check trip location}
 \usage{
-RCG_check_loc(data, ports = circabc)
+RCG_check_loc(data, MS = NA, GSA = NA, ports = circabc)
 }
 \arguments{
 \item{data}{detailed data in RCG CS format}
+
+\item{MS}{member state code}
+
+\item{GSA}{GSA code}
 
 \item{ports}{ports codification file}
 }

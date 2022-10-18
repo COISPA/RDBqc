@@ -22,10 +22,10 @@ RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0",
     data <- CS
     SP <- "Merluccius merluccius"
     immature_stages <- c("0", "1", "2a")
-    sex <- "M"
+    sex <- "F"
   }
 
-  Length_class <- Number_at_length <- Maturity_Stage <- Sex <- Stage <- NULL
+  pred <- proportion <- Length_class <- Number_at_length <- Maturity_Stage <- Sex <- Stage <- NULL
 
   data <- data[data$Species %in% SP & data$Area %in% GSA & data$Flag_country %in% MS, ]
 
@@ -98,7 +98,7 @@ RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0",
       merge_temp$Total <- rowSums(data.frame(merge_temp$Mature, merge_temp$Immature))
 
 
-      mod <- glm(cbind(merge_temp$Mature, merge_temp$Immature) ~ merge_temp$Length_class, family = binomial("logit"))
+      suppressWarnings(mod <- glm(cbind(merge_temp$Mature, merge_temp$Immature) ~ merge_temp$Length_class, family = binomial("logit")))
 
       coeff <- coefficients(mod)
       L50 <- -coeff[1] / coeff[2]
@@ -148,7 +148,7 @@ RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0",
       colnames(merge_temp) <- c("Length_class", "Mature", "Immature")
       merge_temp$Total <- rowSums(data.frame(merge_temp$Mature, merge_temp$Immature))
 
-      mod <- glm(cbind(merge_temp$Mature, merge_temp$Immature) ~ merge_temp$Length_class, family = binomial("logit"))
+      suppressWarnings( mod <- glm(cbind(merge_temp$Mature, merge_temp$Immature) ~ merge_temp$Length_class, family = binomial("logit")))
 
       coeff <- coefficients(mod)
       L50 <- -coeff[1] / coeff[2]

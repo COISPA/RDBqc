@@ -21,7 +21,7 @@ RCG_summarize_trips(data, SP, MS, GSA, verbose = TRUE)
 Number of trips by area, year, port, metier and sampling method
 }
 \description{
-The function allows to summarise the number of trips/hauls monitored by year, port, metier and sampling method.
+The function allows to summarise monitored by year by port, metier, sampling method
 }
 \examples{
 RCG_summarize_trips(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
