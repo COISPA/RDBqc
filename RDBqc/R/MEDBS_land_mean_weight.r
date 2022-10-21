@@ -10,9 +10,8 @@
 #' @export MEDBS_land_mean_weight
 #'
 #' @examples MEDBS_land_mean_weight(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
-#' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
-#' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @importFrom dplyr full_join
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by

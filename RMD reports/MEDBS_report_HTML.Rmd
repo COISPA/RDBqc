@@ -26,27 +26,40 @@ knitr::opts_chunk$set(
     warning = FALSE
 )
 
+# loading needed libraries
 lib <- c("RDBqc","knitr","kableExtra","dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc","tidyverse", "fishmethods","tidyr","gridExtra")
 lapply(lib, require, character.only = TRUE)
+```
+
+<!-- USER DEFINED SOURCE FILES -->
+
+```{r setup, include=FALSE}
+
+# # reading files
+# # UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
+# # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
+# 
+# SOP_threshold <- 5
+# Rt <- 1
+# 
+# Catch = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\catch.csv", sep=";",header=TRUE) # Catch_tab_example
+# Land = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\landings.csv", sep=",",header=TRUE)
+# Disc = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\discards.csv", sep=",",header=TRUE) # Discard_tab_example
+# ML = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\ml.csv", sep=",",header=TRUE) # ML_tab_example
+# MA = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\ma.csv", sep=",",header=TRUE) # MA_tab_example
+# SL = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\srl.csv", sep=",",header=TRUE) # SL_tab_example
+# SA = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\sra.csv", sep=",",header=TRUE) # SA_tab_example
+# GP = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\gp.csv", sep=",",header=TRUE) # GP_tab_example
+# ALK = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\alk.csv", sep=",",header=TRUE) # ALK_tab_example
+# 
+# SPs <- c("HKE")
+# MS <- "ITA"
+# GSAs <- c("GSA 18","GSA 19")
+
+```
 
 
-SOP_threshold <- 5
-Rt <- 1
-
-Catch = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\catch.csv", sep=";",header=TRUE) # Catch_tab_example
-Land = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\landings.csv", sep=",",header=TRUE)
-Disc = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\discards.csv", sep=",",header=TRUE) # Discard_tab_example
-ML = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\ml.csv", sep=",",header=TRUE) # ML_tab_example
-MA = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\ma.csv", sep=",",header=TRUE) # MA_tab_example
-SL = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\srl.csv", sep=",",header=TRUE) # SL_tab_example
-SA = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\sra.csv", sep=",",header=TRUE) # SA_tab_example
-GP = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\gp.csv", sep=",",header=TRUE) # GP_tab_example
-ALK = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\alk.csv", sep=",",header=TRUE) # ALK_tab_example
-
-SPs <- c("HKE")
-MS <- "ITA"
-GSAs <- c("GSA 18","GSA 19")
-
+```{r setup, include=FALSE}
 # check the presence of user defined filter for species (SPs)
 if (exists("SPs")) {
   if (length(SPs) == 1 & is.na(SPs[1])) {
@@ -78,6 +91,24 @@ if(length(GSAs)==1 & is.na(GSAs[1])) {
 } 
 } else {
   user_GSA <- FALSE
+}
+
+# check the presence of user defined value for 'SOP_threshold'
+if (exists("SOP_threshold")) {
+  if (length(SOP_threshold) == 1 & is.na(SOP_threshold[1])) {
+    SOP_threshold <- 5
+  }
+} else {
+  SOP_threshold <- 5
+}
+
+# check the presence of user defined value for 'Rt'
+if (exists("Rt")) {
+  if (length(Rt) == 1 & is.na(Rt[1])) {
+    Rt <- 1
+  }
+} else {
+  Rt <- 1
 }
 
 ```

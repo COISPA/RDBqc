@@ -24,3 +24,8 @@ FDI_coverage(data = fdi_a_catch, MS = "PSP", verbose = FALSE)
 FDI_coverage(data = fdi_h_spatial_landings, MS = "PSP", verbose = FALSE)
 FDI_coverage(data = fdi_g_effort, MS = "PSP", verbose = FALSE)
 }
+\author{
+Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

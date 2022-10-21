@@ -9,6 +9,8 @@
 #' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to check the maturity stages composition estimating the maturity ogives by sex for the selected species, using a selected pool of stages to classify the immature stages in the sample.
 #' @return Plot ogive by sex
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @export
 #' @examples RCG_check_mat_ogive(data_ex,
 #'   MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",

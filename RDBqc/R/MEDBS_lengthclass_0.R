@@ -10,7 +10,6 @@
 #' @return The function returns a data frame with the rows with 0 values length class having weigth > 0.
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @examples MEDBS_lengthclass_0(data = Landing_tab_example, type = "l",
 #' SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE)
 #' MEDBS_lengthclass_0(data = Discard_tab_example, type = "d", SP = "DPS",

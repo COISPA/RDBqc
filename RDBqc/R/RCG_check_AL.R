@@ -11,6 +11,8 @@
 #' @return The function returns a list of object containing a summary table, an age-length plot and a table of the outlayers, if any.
 #' @references Grubbs, F.E. (1950). Sample Criteria for testing outlying observations. Ann. Math. Stat. 21, 1, 27-58
 #' @export
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples RCG_check_AL(data=data_ex, MS = "ITA", GSA = "GSA99",
 #' SP = "Mullus barbatus", min_age = 0, max_age = 9)
 #' RCG_check_AL(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")

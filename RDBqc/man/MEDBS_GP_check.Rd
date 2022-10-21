@@ -27,9 +27,7 @@ The function checks the growth parameters by sex and year for a selected species
 MEDBS_GP_check(GP_tab_example, "MUT", "ITA", "GSA 18")
 }
 \author{
-Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
 
 Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
-
-Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
 }

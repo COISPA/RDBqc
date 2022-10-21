@@ -28,3 +28,6 @@ check of the sum of products
 \examples{
 MEDBS_SOP(data = Catch_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9", threshold = 5)
 }
+\author{
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

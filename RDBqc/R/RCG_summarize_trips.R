@@ -7,6 +7,8 @@
 #' @description The function allows to summarise monitored by year by port, metier, sampling method
 #' @return Number of trips by area, year, port, metier and sampling method
 #' @export
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples RCG_summarize_trips(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 #' @import dplyr
 #' @importFrom utils globalVariables

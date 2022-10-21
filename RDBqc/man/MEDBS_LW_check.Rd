@@ -26,3 +26,8 @@ The function checks the length-weight parameters included in the GP table for a 
 \examples{
 MEDBS_LW_check(GP_tab_example, "MUT", "ITA", "GSA 18")
 }
+\author{
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

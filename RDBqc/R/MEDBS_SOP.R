@@ -8,7 +8,7 @@
 #' @param verbose boolean. If TRUE messages are returned
 #' @return the function returns a data frame of the record with values of percentage difference between SOP and both volumes of landing and discard greater then threshold value.
 #' @export
-#'
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples MEDBS_SOP(data = Catch_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9", threshold = 5)
 MEDBS_SOP <- function(data, SP, MS, GSA, threshold = 5, verbose = TRUE) { # data,SP,MS,GSA,verbose=TRUE
   if (FALSE) {

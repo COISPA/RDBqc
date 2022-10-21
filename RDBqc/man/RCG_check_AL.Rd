@@ -35,3 +35,8 @@ RCG_check_AL(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 \references{
 Grubbs, F.E. (1950). Sample Criteria for testing outlying observations. Ann. Math. Stat. 21, 1, 27-58
 }
+\author{
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

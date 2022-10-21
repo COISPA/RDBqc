@@ -26,3 +26,8 @@ Number of individual by trip for which biological data have been collected (leng
 \examples{
 RCG_summarize_ind_meas(data = data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 }
+\author{
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

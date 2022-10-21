@@ -29,8 +29,14 @@ knitr::opts_chunk$set(
 # loading needed libraries
 lib <- c("RDBqc","knitr","kableExtra","dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc","tidyverse", "fishmethods","tidyr","gridExtra","outliers")
 lapply(lib, require, character.only = TRUE)
+```
 
+<!-- USER DEFINED SOURCE FILES -->
+
+```{r setup2, include=FALSE}
 # reading files
+# UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
+# SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 CS <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CS_GSA17.csv", sep=";")
 CL <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
 
@@ -39,7 +45,11 @@ SPs <- c("Merluccius merluccius")
 MS <- "ITA"
 GSAs <- c("GSA17")
 stages_for_immatures <- c("0", "1", "2a")
+```
 
+<!-- DO NOT MODIFY THE FOLLOWING PART OF THE CODE -->
+
+```{r setup3, include=FALSE}
 # check the presence of user defined filter for species (SPs)
 if (exists("SPs")) {
   if (length(SPs) == 1 & is.na(SPs[1])) {
@@ -129,8 +139,10 @@ if (check_CS) {
 
 g=1
 for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
       for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
         suppressMessages(res <- RCG_check_AL(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], min_age = NA, max_age = NA))
         if (!is.null(res)) {
 
@@ -172,8 +184,10 @@ if (check_CS) {
 
 g=1
 for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
       for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
         suppressMessages(res <- RCG_check_LFD(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], min_len = NA, max_len = NA, verbose = FALSE))
         if (!is.null(res)) {
 
@@ -210,8 +224,10 @@ if (check_CS) {
 
 g=1
 for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
       for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
         suppressMessages(res <- RCG_check_LFD_comm_cat(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s]))
         if (!is.null(res)) {
 
@@ -244,8 +260,10 @@ if (check_CS) {
 
 g=1
 for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
       for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
         suppressMessages(res <- RCG_check_lw(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], Min = NA, Max = NA, verbose = FALSE))
         if (!is.null(res)) {
 
@@ -282,8 +300,10 @@ if (check_CS) {
 
 g=1
 for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
       for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
         suppressMessages(res <- RCG_check_mat(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], verbose = FALSE))
         if (!is.null(res)) {
 
@@ -314,8 +334,10 @@ if (check_CS) {
 
   g <- 1
   for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
     s <- 1
     for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
       # maturity ogive for males individuals
       suppressMessages(res_M <- RCG_check_mat_ogive(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s], sex = "M", immature_stages = stages_for_immatures, verbose = FALSE))
       # maturity ogive for females individuals
@@ -461,8 +483,10 @@ if (check_CL) {
 
 g=1
 for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
       for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
         suppressMessages(res <- RCG_check_CL(data=CL, MS = MS, GSA = GSAs[g], SP=SPs[s]))
         if (class(res)== "list" & length(res)>0){
           # temp_covL

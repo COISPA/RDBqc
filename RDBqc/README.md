@@ -1,7 +1,7 @@
 RDBqc: Quality checks on RDBFIS data formats
 ================
 Walter Zupa
-2022-10-18
+2022-10-20
 
 RDBqc allows to carry out a set of *a priori* quality checks on detailed
 sampling data and on aggregated landing data, and *a posteriori* quality
@@ -2472,26 +2472,23 @@ The functions checks the discard coverage in table A for the selected MS
 by GSAs
 
 ``` r
-FDI_disc_coverage(fdi_a_catch, MS="PSP", verbose=TRUE)
-#> [1] "Discard coverage per GSA for PSP data"
-#> [1] "Discard coverage in GSA99"
-#> $GSA99
+FDI_disc_coverage(fdi_a_catch, MS="PSP",GSA="GSA99",SP="HKE", verbose=TRUE)
 #>   year   gsa Total_lands Lands_(disc > 0) % Lands_(disc >0) Lands_(disc = 0)
-#> 1 2014 GSA99     265.910            2.656             1.00%            7.729
-#> 2 2015 GSA99     131.154            2.359             1.80%            3.476
-#> 3 2016 GSA99      41.679            0.659             1.58%            3.814
-#> 4 2017 GSA99      72.392            0.065             0.09%            1.986
-#> 5 2018 GSA99     125.115            3.432             2.74%            5.601
-#> 6 2019 GSA99     179.482            5.177             2.88%            7.906
-#> 7 2020 GSA99     225.216            6.209             2.76%            5.663
+#> 1 2014 GSA99       1.099            0.305            27.75%            0.192
+#> 2 2015 GSA99       0.249            0.000                 0            0.000
+#> 3 2016 GSA99       0.152            0.110            72.37%            0.000
+#> 4 2017 GSA99       0.088            0.000                 0            0.032
+#> 5 2018 GSA99      33.917            0.000                 0            0.046
+#> 6 2019 GSA99      33.907            0.044             0.13%            0.000
+#> 7 2020 GSA99       0.485            0.000                 0            0.000
 #>   % Lands_(disc = 0) Lands_(disc = NK) % Lands_(disc = NK)
-#> 1              2.91%           255.525              96.09%
-#> 2              2.65%           125.319              95.55%
-#> 3              9.15%            37.206              89.27%
-#> 4              2.74%            70.341              97.17%
-#> 5              4.48%           116.082              92.78%
-#> 6              4.40%           166.399              92.71%
-#> 7              2.51%           213.344              94.73%
+#> 1             17.47%             0.602              54.78%
+#> 2                  0             0.249             100.00%
+#> 3                  0             0.042              27.63%
+#> 4             36.36%             0.056              63.64%
+#> 5              0.14%            33.871              99.86%
+#> 6                  0            33.863              99.87%
+#> 7                  0             0.485             100.00%
 ```
 
 ### Check number of record in FDI A table

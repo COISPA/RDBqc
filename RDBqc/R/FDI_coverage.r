@@ -6,7 +6,8 @@
 #'
 #' @return the function returns a data frame reporting the coverage of the selected table in terms of number of records by country, GSA and year.
 #' @export
-#'
+#' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_coverage(data = fdi_a_catch, MS = "PSP", verbose = FALSE)
 #' FDI_coverage(data = fdi_h_spatial_landings, MS = "PSP", verbose = FALSE)
 #' FDI_coverage(data = fdi_g_effort, MS = "PSP", verbose = FALSE)

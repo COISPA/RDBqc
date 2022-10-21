@@ -26,3 +26,8 @@ The function allows to check the coverage of Catch table by mean of summary tabl
 \examples{
 MEDBS_Catch_coverage(Catch_tab_example, "DPS", "ITA", "GSA 9")
 }
+\author{
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

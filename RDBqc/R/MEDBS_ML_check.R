@@ -7,6 +7,8 @@
 #' @description The function checks the maturity at length (ML) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
 #' @return a summary table and plots
 #' @export
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @import ggplot2 dplyr
 #' @examples MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 MEDBS_ML_check <- function(data, SP, MS, GSA, verbose = TRUE) {

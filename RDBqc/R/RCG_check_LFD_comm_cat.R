@@ -8,6 +8,8 @@
 #' @description The function allows to check the consistency of LFDs (length frequency distributions) by year and commercial size category on a given species.
 #' @return The function returns a multi-frame plot of LFDs (length frequency distributions) by year and commercial size category for the selected species. The function also returns a data frame with the length range by year and commercial size category.
 #' @export
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples RCG_check_LFD_comm_cat(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 #' @import ggplot2
 #' @importFrom utils globalVariables

@@ -2,6 +2,7 @@
 #'
 #' @param data data frame of FDA table A catch.
 #' @param MS country code
+#' @param GSA GSA code
 #' @param SP vector of the species code for which the check should be performed
 #' @param verbose boolean. If TRUE a message is printed.
 #' @description The function estimates from the FDI table A an average price per species and year and compares it with average price calculated per country (by species). Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings > 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
@@ -10,11 +11,11 @@
 #' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_prices_not_null(
-#'   data = fdi_a_catch, MS = "PSP",
+#'   data = fdi_a_catch, MS = "PSP",GSA="GSA99",
 #'   SP = c("ARA", "BOG", "HKE"), verbose = TRUE
 #' )
-FDI_prices_not_null <- function(data, MS, SP = NA, verbose = FALSE) {
-  country <- price <- year <- NULL
+FDI_prices_not_null <- function(data, MS, GSA, SP = NA, verbose = FALSE) {
+  sub_region <- country <- price <- year <- NULL
 
   colnames(data) <- tolower(colnames(data))
 
@@ -27,7 +28,7 @@ FDI_prices_not_null <- function(data, MS, SP = NA, verbose = FALSE) {
 
     # subset for MS
     data1 <- subset(data, country == MS)
-
+    data1 <- subset(data1, sub_region %in% GSA)
 
     if (length(SP) == 1) {
       if (is.na(SP)) {
@@ -120,6 +121,9 @@ FDI_prices_not_null <- function(data, MS, SP = NA, verbose = FALSE) {
       #         facet_wrap(~ species)
       #     print(p)
       # }
+
+
+
     } else {
       if (verbose) {
         message(paste("Species ", paste(SP, collapse = ", "), " not existing in provided data"))

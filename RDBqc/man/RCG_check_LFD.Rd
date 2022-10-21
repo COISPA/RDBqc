@@ -33,3 +33,8 @@ min_len = 30, max_len = 300)
 RCG_check_LFD(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",
 min_len = NA, max_len = NA)
 }
+\author{
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

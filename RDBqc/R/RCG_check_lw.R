@@ -9,6 +9,8 @@
 #' @param verbose boolean. If it is TRUE messages are reported with the outputs
 #' @description The function allows to check the consistency of length-weight relationship by sex and year on a given species generating a multi-frame plot. The function also returns the records in which the individual weights are greater or lower than the expected ones (\code{Min} and \code{Max} parameters). In case the \code{Min} and \code{Max} parameters are not provided, the function tests the lowest and the higher values of individual weights as outliers by mean of the Grubbs' test (from package \code{outliers})
 #' @return Plot and error message
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @references Grubbs, F.E. (1950). Sample Criteria for testing outlying observations. Ann. Math. Stat. 21, 1, 27-58
 #' @export
 #' @examples RCG_check_lw(data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus", Min = 0, Max = 1000)

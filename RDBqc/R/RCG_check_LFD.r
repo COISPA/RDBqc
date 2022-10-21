@@ -10,6 +10,8 @@
 #' @description The function allows to check the consistency of LFDs (length frequency distributions) by year on a given species generating a multi-frame plot. The function also returns the records in which the length classes are greater or lower than the expected ones (\code{min_len} and \code{max_len} parameters).
 #' @return The function returns a comparison plot of LFDs among the years and a table reporting the length classes out of the expected range, according to the reference length provided.
 #' @export
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples RCG_check_LFD(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",
 #' min_len = 30, max_len = 300)
 #' RCG_check_LFD(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",

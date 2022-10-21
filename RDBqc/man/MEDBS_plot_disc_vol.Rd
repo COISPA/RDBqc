@@ -28,6 +28,4 @@ MEDBS_plot_disc_vol(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "G
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
 
 Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
-
-Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
 }

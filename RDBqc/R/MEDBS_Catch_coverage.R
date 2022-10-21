@@ -8,6 +8,8 @@
 #' @description The function allows to check the coverage of Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species.
 #' @return The function returns two summary tables: one for landing coverage and the other for discard coverage. Furthermore, plots of landings and discards by gear are also returned
 #' @export
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples MEDBS_Catch_coverage(Catch_tab_example, "DPS", "ITA", "GSA 9")
 #' @import ggplot2 dplyr
 #' @importFrom utils globalVariables

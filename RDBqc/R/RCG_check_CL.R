@@ -14,6 +14,8 @@
 #' 5) Sum of landings by Year, Species, foCatEu5, foCatEu6;
 #' 6) Sum of landing value by Year, Species, foCatEu5, foCatEu6.
 #' @export
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples RCG_check_CL(data_exampleCL, MS = "COUNTRY1", GSA = "GSA99", SP = "Parapenaeus longirostris")
 #' @importFrom utils globalVariables
 #' @importFrom ggplot2 aes ggplot geom_line geom_point facet_grid

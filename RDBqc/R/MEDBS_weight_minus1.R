@@ -14,7 +14,6 @@
 #' MS = "ITA", GSA = "GSA 9", verbose = TRUE)
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @importFrom utils globalVariables
 #' @export MEDBS_weight_minus1
 MEDBS_weight_minus1 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {

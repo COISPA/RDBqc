@@ -699,7 +699,7 @@ FDI_coverage(data=fdi_a_catch, MS="PSP", verbose = FALSE)
 The functions checks the discard coverage in table A for the selected MS by GSAs
 
 ```{r FDI_disc_coverage_table_A}
-FDI_disc_coverage(fdi_a_catch, MS="PSP", verbose=TRUE)
+FDI_disc_coverage(fdi_a_catch, MS="PSP",GSA="GSA99",SP="HKE", verbose=TRUE)
 ```
 
 ### Check number of record in FDI A table
@@ -729,13 +729,13 @@ FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$
 The function estimates from the FDI table A an average price per species and year and compares it with average price calculated per country and species. Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings > 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
 
 ```{r FDI_prices_not_null_1}
-FDI_prices_not_null(data = fdi_a_catch, MS = "PSP",SP = c("HKE"), verbose = FALSE)[[1]]
+FDI_prices_not_null(data = fdi_a_catch, MS = "PSP", GSA = "GSA99",SP = c("HKE"), verbose = FALSE)[[1]]
 ```
 
 Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings > 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
 
 ```{r FDI_prices_not_null_2}
-FDI_prices_not_null(data = fdi_a_catch, MS = "PSP",SP = c("HKE"), verbose = TRUE)[[2]]
+FDI_prices_not_null(data = fdi_a_catch, MS = "PSP", GSA = "GSA99",SP = c("HKE"), verbose = TRUE)[[2]]
 ```
 
 

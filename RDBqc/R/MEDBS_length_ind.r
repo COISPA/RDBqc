@@ -12,7 +12,6 @@
 #' @return The function returns a plot of the Main length size indicators time series by fishery
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @examples MEDBS_length_ind(Landing_tab_example,
 #'   type = "l", SP = "DPS", MS = c("ITA"),
 #'   GSA = c("GSA 9"), splines = c(0.2, 0.4, 0.6, 0.8),

@@ -9,7 +9,6 @@
 #' @export MEDBS_plot_disc_vol
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @examples MEDBS_plot_disc_vol(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes

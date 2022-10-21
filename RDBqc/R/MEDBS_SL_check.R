@@ -6,6 +6,8 @@
 #' @param verbose boolean. If TRUE messages are returned
 #' @description The function allows to check the sex ratio at length (SL) table providing a summary table of the data coverage and plots for the selected species of the proportion of sex ratio for length class by year.
 #' @return a summary table and plots
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @export
 #' @import ggplot2 dplyr
 #' @examples MEDBS_SL_check(SL_tab_example, "DPS", "ITA", "GSA 99")

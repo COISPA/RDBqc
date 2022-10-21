@@ -7,9 +7,8 @@
 #' @description The function checks the growth parameters by sex and year for a selected species
 #' @return A list of objects containing a summary table and different plots of the growth curves by sex and year is returned by the function.
 #' @export
-#' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
-#' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
 #' @examples MEDBS_GP_check(GP_tab_example, "MUT", "ITA", "GSA 18")

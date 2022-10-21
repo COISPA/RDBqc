@@ -6,6 +6,8 @@
 #' @param verbose boolean value to obtain further explanation messages from the function
 #' @return The function returns a table containing a summary of measurements by trip for each biological variable
 #' @export
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples RCG_summarize_ind_meas(data = data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 #' @import dplyr
 #' @importFrom utils globalVariables

@@ -27,9 +27,7 @@ The function allows to check consistency of mean landing of a selected species p
 MEDBS_land_mean_weight(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
 }
 \author{
-Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
 
 Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
-
-Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
 }

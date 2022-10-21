@@ -41,3 +41,8 @@ RCG_check_mat_ogive(data_ex,
   sex = "F", immature_stages = c("0", "1", "2a")
 )
 }
+\author{
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

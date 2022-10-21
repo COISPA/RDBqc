@@ -2,30 +2,33 @@
 #'
 #' @param data data frame of the FDI table A
 #' @param MS Country
+#' @param GSA GSA code
+#' @param SP species reference code in the three alpha code format.
 #' @param verbose boolean. If TRUE a message is printed.
 #' @description The functions checks the discard coverage in table A for the selected MS by GSAs.
 #' @return The function returns a list of data frames by GSA reporting the landing volumes (with discard >0, =0 and =NK and total landing) by year
 #' @export
 #' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @examples FDI_disc_coverage(fdi_a_catch, MS = "PSP", verbose = TRUE)
+#' @examples FDI_disc_coverage(fdi_a_catch, MS = "PSP", GSA="GSA99", SP="HKE", verbose = TRUE)
 #' @importFrom scales label_percent
 
-FDI_disc_coverage <- function(data, MS, verbose = TRUE) {
+FDI_disc_coverage <- function(data, MS, GSA, SP, verbose = TRUE) {
   country <- NULL
 
   colnames(data) <- tolower(colnames(data))
   # check if MS is existing
   mslist <- unique(data$country)
   if (MS %in% mslist) {
-    if (verbose) {
-      print(paste("Discard coverage per GSA for", MS, "data", sep = " "))
-    }
+    # if (verbose) {
+    #   print(paste("Discard coverage per GSA for", MS, "data", sep = " "))
+    # }
 
     # subset for MS
-    data1 <- subset(data, country == MS)
+    # data1 <- subset(data, country == MS)
+    data1 <- data[which(data$sub_region %in% as.character(GSA) & data$country == MS & data$species %in% SP), ]
     # data1$id <- seq(1,nrow(data1), 1)
-
+if (nrow(data1)>0){
     ngsas <- unique(data1$sub_region)
     nyrs <- unique(data1$year)
 
@@ -75,49 +78,77 @@ FDI_disc_coverage <- function(data, MS, verbose = TRUE) {
     discov <- aggregate(list(landings = data1$totwghtlandg), by = list(year = data1$year, gsa = data1$sub_region, disccat = data1$DISCcat), FUN = sum, na.rm = T)
     TL <- aggregate(list(landings = data1$totwghtlandg), by = list(year = data1$year, gsa = data1$sub_region), FUN = sum, na.rm = T)
 
-    gsals <- vector("list", length = length(ngsas))
-    i <- 1
-    for (i in 1:length(ngsas)) {
-      d <- discov[which(discov$gsa == ngsas[i]), ]
-      l <- TL[which(TL$gsa == ngsas[i]), ]
-      ind1 <- which(d$disccat == 1)
-      ind2 <- which(d$disccat == 0)
-      ind3 <- which(d$disccat == "NK")
-      if (length(ind1) != 0) {
-        l$disc1 <- d$landings[ind1]
-        l$disc1per <- scales::label_percent(1, accuracy = 0.01)((d$landings[ind1] / l$landings) * 100)
-      } else {
-        l$disc1 <- rep(0, nrow(l))
-        l$disc1per <- scales::label_percent(1)(rep(0, nrow(l)))
-      }
-      if (length(ind2) != 0) {
-        l$disc0 <- d$landings[ind2]
-        l$disc0per <- scales::label_percent(1, accuracy = 0.01)((d$landings[ind2] / l$landings) * 100)
-      } else {
-        l$disc0 <- rep(0, nrow(l))
-        l$disc0per <- scales::label_percent(1, accuracy = 0.01)(rep(0, nrow(l)))
-      }
-      if (length(ind3) != 0) {
-        l$discNK <- d$landings[ind3]
-        l$discNKper <- scales::label_percent(1, accuracy = 0.01)((d$landings[ind3] / l$landings) * 100)
-      } else {
-        l$discNK <- rep(0, nrow(l))
-        l$discNKper <- scales::label_percent(1, accuracy = 0.01)(rep(0, nrow(l)))
-      }
-      colnames(l) <- c(
-        "year", "gsa", "Total_lands", "Lands_(disc > 0)",
-        "% Lands_(disc >0)", "Lands_(disc = 0)",
-        "% Lands_(disc = 0)", "Lands_(disc = NK)",
-        "% Lands_(disc = NK)"
-      )
-      if (verbose) {
-        print(paste("Discard coverage in", ngsas[i], sep = " "))
-      }
-      # print(l)
-      gsals[[i]] <- l
+    colnames(TL)[which(colnames(TL)=="landings")] = "Total_lands"
+    dd1 <- suppressMessages(full_join(TL,discov[discov$disccat==1,]))
+    dd1 <- dd1[,-(which(colnames(dd1)=="disccat"))]
+    dd1$disc1per <- scales::label_percent(1, accuracy = 0.01)((dd1$landings / dd1$Total_lands) * 100)
+
+    colnames(discov)[which(colnames(discov)=="landings")] = "disc0"
+    dd2 <- suppressMessages(full_join(dd1,discov[discov$disccat==0,-3]))
+    dd2$disc0per <- scales::label_percent(1, accuracy = 0.01)((dd2$disc0 / dd2$Total_lands) * 100)
+
+    colnames(discov)[which(colnames(discov)=="disc0")] = "discNK"
+    dd3 <- suppressMessages(full_join(dd2,discov[discov$disccat=="NK",-3]))
+    dd3$discNKper <- scales::label_percent(1, accuracy = 0.01)((dd3$discNK / dd3$Total_lands) * 100)
+
+    colnames(dd3) <- c(
+      "year", "gsa", "Total_lands", "Lands_(disc > 0)",
+      "% Lands_(disc >0)", "Lands_(disc = 0)",
+      "% Lands_(disc = 0)", "Lands_(disc = NK)",
+      "% Lands_(disc = NK)")
+    gsals <- dd3
+
+    gsals[is.na(gsals)] <- 0
+
+    # gsals <- vector("list", length = length(ngsas))
+    # i <- 1
+    # for (i in 1:length(ngsas)) {
+    #   d <- discov[which(discov$gsa == ngsas[i]), ]
+    #   l <- TL[which(TL$gsa == ngsas[i]), ]
+    #   ind1 <- which(d$disccat == 1)
+    #   ind2 <- which(d$disccat == 0)
+    #   ind3 <- which(d$disccat == "NK")
+    #   if (length(ind1) != 0) {
+    #     l$disc1 <- d$landings[ind1]
+    #     l$disc1per <- scales::label_percent(1, accuracy = 0.01)((d$landings[ind1] / l$landings) * 100)
+    #   } else {
+    #     l$disc1 <- rep(0, nrow(l))
+    #     l$disc1per <- scales::label_percent(1)(rep(0, nrow(l)))
+    #   }
+    #   if (length(ind2) != 0) {
+    #     l$disc0 <- d$landings[ind2]
+    #     l$disc0per <- scales::label_percent(1, accuracy = 0.01)((d$landings[ind2] / l$landings) * 100)
+    #   } else {
+    #     l$disc0 <- rep(0, nrow(l))
+    #     l$disc0per <- scales::label_percent(1, accuracy = 0.01)(rep(0, nrow(l)))
+    #   }
+    #   if (length(ind3) != 0) {
+    #     l$discNK <- d$landings[ind3]
+    #     l$discNKper <- scales::label_percent(1, accuracy = 0.01)((d$landings[ind3] / l$landings) * 100)
+    #   } else {
+    #     l$discNK <- rep(0, nrow(l))
+    #     l$discNKper <- scales::label_percent(1, accuracy = 0.01)(rep(0, nrow(l)))
+    #   }
+      # colnames(l) <- c(
+      #   "year", "gsa", "Total_lands", "Lands_(disc > 0)",
+      #   "% Lands_(disc >0)", "Lands_(disc = 0)",
+      #   "% Lands_(disc = 0)", "Lands_(disc = NK)",
+      #   "% Lands_(disc = NK)"
+    #   )
+    #   if (verbose) {
+    #     print(paste("Discard coverage in", ngsas[i], sep = " "))
+    #   }
+    #   # print(l)
+    #   gsals[[i]] <- l
+    # }
+    # names(gsals) <- ngsas
+} else {
+  if (verbose) {
+    message(paste("No data availble"))
+  }
+  gsals <- NULL
     }
 
-    names(gsals) <- ngsas
   } else {
     message(paste("MS ", MS, " not existing in provided data"))
     gsals <- NULL

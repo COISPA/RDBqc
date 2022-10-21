@@ -26,3 +26,8 @@ The function allows to check the sex ratio at age (SA) table providing a summary
 \examples{
 MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
 }
+\author{
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

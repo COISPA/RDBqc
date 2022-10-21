@@ -3,10 +3,11 @@
 #' @description The function checks and count the numbers of records data in the given table A grouped by year, GSA, MS, species, vessels length, and fishing techniques for three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)). If SP, Vessel length, and fishing technique are not specified by the user the function combines those by default.
 #' @param data FDI table A catch
 #' @param MS member state code
+#' @param GSA GSA code
 #' @param SP species reference code in the three alpha code format ("COMBINED" values perform the analysis for all species present in data)
 #' @param vessel_len vessels length code ("COMBINED" values perform the analysis for all vessels length present in data)
 #' @param fishtech selected fishing techniques ("COMBINED" values perform the analysis for all fishing techniques present in data)
-#' @param GSA GSA code
+
 #' @param verbose boolean. If TRUE a message is printed.
 #' @return The function returns a list. The first element gives the summary table of records number. From the second to the fourth element gives 3 plots for each variables among: of total live weight landed, total value of landings (euro), and total discards (ton)).
 #' @export
@@ -72,6 +73,7 @@ FDI_cov_tableA <- function(data, MS, SP = "COMBINED", vessel_len = "COMBINED", f
       if (verbose) {
         message(paste0("No data available for the selected species (", SP, ")"))
       }
+      return(NULL)
     } else {
       data2 <- data
       data2[is.na(data2)] <- 0

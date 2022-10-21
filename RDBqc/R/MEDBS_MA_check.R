@@ -7,9 +7,8 @@
 #' @description The function checks the maturity at age (MA) table providing a summary table of the data coverage and plots for the selected species of the proportion of matures for age class by sex and year.
 #' @return A summary table and plots are returned by the function.
 #' @export
-#' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
-#' @author Walter Zupa <zupa@@coispa.it>
 #' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @import ggplot2 dplyr
 #' @examples MEDBS_MA_check(MA_tab_example, "DPS", "ITA", "GSA 99")
 MEDBS_MA_check <- function(data, SP, MS, GSA, verbose = TRUE) {

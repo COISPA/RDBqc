@@ -14,7 +14,6 @@
 #' MS = "ITA", GSA = "GSA 9", by = "year")
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @importFrom ggplot2 ggplot aes geom_area theme_bw scale_x_continuous ggtitle labs
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by summarize

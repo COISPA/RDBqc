@@ -27,7 +27,7 @@ The function allows to check the coverage of the time series in discard table fo
 MEDBS_discard_coverage(Discard_tab_example, "DPS", "ITA", "GSA 9")
 }
 \author{
-Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
 
 Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
 }

@@ -26,3 +26,8 @@ The function checks the maturity at length (ML) table providing a summary table 
 \examples{
 MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 }
+\author{
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

@@ -9,7 +9,6 @@
 #' @return The function returns a data frame containing the reference combination of year, gear and fishery missing length distributions.
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @examples MEDBS_yr_missing_length(data = Discard_tab_example, type = "d",
 #' SP = "DPS", MS = "ITA", GSA = "GSA 9")
 #' MEDBS_yr_missing_length(data = Landing_tab_example, type = "l", SP = "DPS",

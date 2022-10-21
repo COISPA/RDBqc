@@ -4,12 +4,14 @@
 \alias{FDI_prices_not_null}
 \title{Check of species value}
 \usage{
-FDI_prices_not_null(data, MS, SP = NA, verbose = FALSE)
+FDI_prices_not_null(data, MS, GSA, SP = NA, verbose = FALSE)
 }
 \arguments{
 \item{data}{data frame of FDA table A catch.}
 
 \item{MS}{country code}
+
+\item{GSA}{GSA code}
 
 \item{SP}{vector of the species code for which the check should be performed}
 
@@ -23,7 +25,7 @@ The function estimates from the FDI table A an average price per species and yea
 }
 \examples{
 FDI_prices_not_null(
-  data = fdi_a_catch, MS = "PSP",
+  data = fdi_a_catch, MS = "PSP",GSA="GSA99",
   SP = c("ARA", "BOG", "HKE"), verbose = TRUE
 )
 }

@@ -11,7 +11,6 @@
 #' @return the function returns a list of data frames and cumulative distribution plots
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @examples MEDBS_ks(data = Landing_tab_example, type = "l", SP = "DPS", MS = "ITA", GSA = "GSA 9", Rt = 1)
 #' @import tidyverse
 #' @importFrom dplyr full_join group_by inner_join left_join summarize mutate filter

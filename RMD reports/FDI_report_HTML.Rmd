@@ -1,0 +1,383 @@
+---
+title: "| ![](logo.png){width=6in} \\vspace{1in} \n\n\n\n`r format(params$term)` Report\n\n\n\n
+  \\vspace{0.1in} "
+
+date: "Compiled on `r format(Sys.time(), '%d/%m/%Y, %H:%M')`"
+subtitle: ''
+
+output:
+  html_document:
+    template: RDBFIS_report_template.html
+    toc: true
+    toc-title: "Table of contents"
+    toc_depth: 5
+    number_sections: true
+    collapsed: true
+    df_print: paged
+params:
+  term: FDI datacall
+---
+<!-- INITIALIZATION -->
+
+```{r initialization, include=FALSE}
+knitr::opts_chunk$set(
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE
+)
+
+# loading needed libraries
+lib <- c("RDBqc","knitr","kableExtra","dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc","tidyverse", "fishmethods","tidyr","gridExtra","outliers")
+lapply(lib, require, character.only = TRUE)
+```
+
+<!-- USER DEFINED SOURCE FILES -->
+
+```{r setup, include=FALSE}
+
+# reading files
+# UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
+# SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
+
+# tableA <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CS_GSA17.csv", sep=";")
+# tableG <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
+# tableH <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
+# tableI <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
+# tableJ <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
+
+tableA <- fdi_a_catch
+tableG <- fdi_g_effort
+tableH <- fdi_h_spatial_landings
+tableI <- fdi_i_spatial_effort
+tableJ <- fdi_j_capacity
+
+MS <- "PSP"
+SPs = c("HKE","DPS") # "COMBINED"
+GSAs <- c("GSA99")
+vessel_len = "COMBINED"
+fishtech = "COMBINED" 
+
+# check the presence of user defined filter for member state (MS)
+if (exists("MS")) {
+if(length(MS)==1 & is.na(MS[1])) {
+  user_MS = FALSE
+} else {
+  user_MS = TRUE
+}
+} else {
+  user_MS <- FALSE
+}
+
+# check the presence of user defined filter for sub-area (GSAs)
+if (exists("GSAs")) {
+if(length(GSAs)==1 & is.na(GSAs[1])) {
+  user_GSA = FALSE
+} else {
+  user_GSA = TRUE
+}
+} else {
+  user_GSA <- FALSE
+}
+
+# check the presence of user defined filter for species (SPs)
+if (exists("SPs")) {
+  if (length(SPs) == 1 & is.na(SPs[1])) {
+    user_SP <- FALSE
+  } else {
+    user_SP <- TRUE
+  }
+} else {
+  user_SP <- FALSE
+}
+
+# check the presence of user defined filter for vessel length (vessel_len)
+if (exists("vessel_len")) {
+  if (length(vessel_len) == 1 & is.na(vessel_len[1])) {
+    user_vessel_len <- FALSE
+  } else {
+    user_vessel_len <- TRUE
+  }
+} else {
+  user_vessel_len <- FALSE
+}
+
+# check the presence of user defined filter for fishing technique (fishtech)
+if (exists("fishtech")) {
+  if (length(fishtech) == 1 & is.na(fishtech[1])) {
+    user_fishtech <- FALSE
+  } else {
+    user_fishtech <- TRUE
+  }
+} else {
+  user_fishtech <- FALSE
+}
+
+```
+
+\newpage
+<!-- Table A catch -->
+
+```{r check_tableA, results = 'asis'}
+
+if (exists("tableA")) {
+  if (class(tableA)=="data.frame") {
+    if(nrow(tableA)>0){
+      check_tableA <- TRUE
+      cat(paste0("\n# FDI catch data (Table A)\n"))
+      
+      
+      if(!user_SP){
+        SPs <- unique(tableA$species)
+      }
+      if(!user_MS){
+        MS  <- unique(tableA$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(tableA$sub_region)
+      }
+      if(!user_vessel_len){
+        vessel_len <- unique(tableA$vessel_length)
+      }
+      if(!user_fishtech){
+        fishtech <- unique(tableA$fishing_tech)
+      }
+      
+    }
+  }
+} else {
+  check_tableA <- FALSE
+  cat("\n No FDI catch data available \n")
+}
+
+
+
+```
+
+```{r FDI_EF_A, results = 'asis'}
+if (check_tableA) {
+  cat("\n## Check the presence of empty fiels\n")
+  cat("\nFDI catch data (table A) were checked for the presence of not allowed empty data. In case empty fields are detected, a list of fields with the number of emty records is reported.'\n")
+
+  res <- suppressMessages(check_EF_FDI_A(data = tableA, verbose = FALSE))
+
+  if (!is.null(res)) {
+    res <- res[[1]][which(res[[1]] > 0)]
+    if (length(res) > 0) {
+      res <- data.frame(Empty_records = res)
+      cat("\n\n\n")
+      cat(paste0("\n_Table of empty records in FDI catch table (Table A)_\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    }
+  } else {
+    cat(paste0("\n\n\n- No data available in FDI catch table A\n"))
+  }
+} # check_TableA
+```
+
+```{r FDI_RD_A, results = 'asis'}
+if (check_tableA) {
+  cat("\n## Check the presence of duplicated records\n")
+  cat("\nFDI catch data (table A) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 19 columns generates duplicate records.'\n")
+
+  res <- suppressMessages(check_RD_FDI_A(data = tableA, verbose = FALSE))
+
+    if (length(res) > 0) {
+      l <- length(res)
+      cat(paste0("\n\n\n- ",l," duplicated record/s was/were detected in the FDI catch table A\n\n\n"))
+      df <- tableA[res,which(colnames(tableA)%in% c("country",                                                    "year","quarter","vessel_length","fishing_tech","gear_type",
+            "target_assemblage","mesh_size_range","metier",
+            "domain_discards","domain_landings","sub_region",
+            "species"))]
+      
+      cat("\n\n\n")
+      cat(paste0("\n_Table of duplicated records in FDI catch table (Table A)_\n"))
+      print(df %>% kable("html") %>% kable_styling(font_size = 11) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No duplicated records were detected in the FDI catch table A\n\n\n"))
+    }
+} # check_TableA
+```
+
+```{r FDI_coverage_A, results = 'asis'}
+if (check_tableA) {
+  cat("\n## Coverage of FDI catch data by GSA and year\n")
+  cat("\nFDI catch data (table A) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.'\n")
+
+  res <- suppressMessages(FDI_coverage(data = tableA, MS, verbose = FALSE))
+
+  if (!is.null(res)) {
+
+    if (nrow(res)>0) {
+      cat("\n\n\n")
+      cat(paste0("\n_Summary table of number of records by country, GSA and year (Table A)._\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No data available in FDI catch table A\n"))
+    }
+  } else {
+    cat(paste0("\n\n\n- No data available in FDI catch table A\n"))
+  }
+} # check_TableA
+```
+
+
+
+```{r FDI_cov_tableA, results = 'asis'}
+if (check_tableA) {
+  
+  cat("\n## Cross-coverage of landing and discard data in FDI catch table\n")
+  cat("\nThe FDI catch table was analyzed to return plots for three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)) grouped by year, vessels length, and fishing techniques.\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        suppressMessages(res <- FDI_cov_tableA(data=tableA, MS = MS, GSA = GSAs[g],SP = SPs[s], vessel_len = vessel_len, fishtech = fishtech, verbose = FALSE))
+        
+        if (!is.null(res)) {
+        cat("\n\n\n")
+        cat(paste0("\nPlot of total landing by year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res[[3]])
+        cat("\n\n\n")
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of total value by year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res[[4]])
+        cat("\n\n\n")
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of total discard by year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res[[5]])
+        cat("\n\n\n")
+        
+        } else {
+          cat(paste0("\n\n\n- No length data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_tableA
+```
+
+```{r FDI_disc_coverage, results = 'asis'}
+if (check_tableA) {
+  
+  cat("\n## Cross-coverage of landing and discard data in FDI catch table A\n")
+  cat("\nThe FDI catch table was analyzed to return a summary table reporting the amount and relative percentage of landings taking into account the availability of discard data by year (discard >0, =0 and =NK).\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        suppressMessages(res <- FDI_disc_coverage(data=tableA, MS = MS, GSA = GSAs[g],SP = SPs[s], verbose = FALSE))
+        
+        if (!is.null(res)) {
+        if (nrow(res)>0){
+        cat(paste0("\n_Summary table landing amount and relative percentage accounting for discard availability for ",SPs[s]," in ",GSAs[g],"_\n"))
+          
+        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        cat("\n\n\n")
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+        
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_tableA
+```
+
+```{r FDI_price_not_null, results = 'asis'}
+if (check_tableA) {
+  
+  cat("\n## Species value\n")
+  cat("\nThe FDI catch table was analyzed to return the estimates of the average price per species and year, that is further compared with the average price calculated per country (by species). Furthermore, in order to compare total weight landings and total value landings, the cases with total landings > 0 but landings value = 0 were identified and reported in a table, were available.\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        suppressMessages(res <- FDI_prices_not_null(data=tableA, MS = MS, GSA = GSAs[g],SP = SPs[s], verbose = FALSE))
+        
+        if (!is.null(res)) {
+        if (nrow(res[[2]])>0){
+        cat(paste0("\n_Summary table of landings > 0 and landings value = 0 for ",SPs[s]," in ",GSAs[g],"_\n"))
+        print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        cat("\n\n\n")
+        } else {
+          cat(paste0("\n\n\n- No data available with landings > 0 and landings value = 0 for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+          
+        if (nrow(res[[1]])>0){
+        cat(paste0("\n_Summary table of avarage prices by year in ",SPs[s]," in ",GSAs[g],"_\n"))
+        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        cat("\n\n\n")
+        } else {
+          cat(paste0("\n\n\n- No avarage prices available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+        
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_tableA
+```
+
+```{r FDI_prices_cov, results = 'asis'}
+if (check_tableA) {
+  
+  cat("\n## Species' prices trend\n")
+  cat("\nPlots by species and sub-region were generated to check the trends of the prices time series.\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        suppressMessages(res <- FDI_prices_cov(data=tableA, MS = MS, GSA = GSAs[g],SP = SPs[s], verbose = FALSE))
+        
+        if (!is.null(res)) {
+          
+        cat("\n\n\n")
+        cat(paste0("\nPlot of total landing by year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res[[3]])
+        cat("\n\n\n")
+        
+        cat(paste0("\n_Summary table of species' prices by year for ",SPs[s]," in ",GSAs[g],"_\n"))
+        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_tableA
+```

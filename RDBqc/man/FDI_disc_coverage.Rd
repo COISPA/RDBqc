@@ -4,12 +4,16 @@
 \alias{FDI_disc_coverage}
 \title{Coverage of FDI discard data}
 \usage{
-FDI_disc_coverage(data, MS, verbose = TRUE)
+FDI_disc_coverage(data, MS, GSA, SP, verbose = TRUE)
 }
 \arguments{
 \item{data}{data frame of the FDI table A}
 
 \item{MS}{Country}
+
+\item{GSA}{GSA code}
+
+\item{SP}{species reference code in the three alpha code format.}
 
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
@@ -20,7 +24,7 @@ The function returns a list of data frames by GSA reporting the landing volumes 
 The functions checks the discard coverage in table A for the selected MS by GSAs.
 }
 \examples{
-FDI_disc_coverage(fdi_a_catch, MS = "PSP", verbose = TRUE)
+FDI_disc_coverage(fdi_a_catch, MS = "PSP", GSA="GSA99", SP="HKE", verbose = TRUE)
 }
 \author{
 Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}

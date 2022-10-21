@@ -1,7 +1,7 @@
 ---
 title: "RDBqc: Quality checks on RDBFIS data formats" 
 author: "Walter Zupa"
-date: "2022-10-05"
+date: "2022-10-20"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::knitr}
@@ -14,7 +14,7 @@ vignette: >
 
 RDBqc allows to carry out a set of _a priori_ quality checks on detailed sampling data and on aggregated landing data, and _a posteriori_ quality check on MEDBS, FDI and GFCM data call formats.
 
-The supported quality checks in version 0.0.11 are:
+The supported quality checks in version 0.0.12 are:
 
 ### _A priori_ quality checks
 * RCG CS - biological sampling data
@@ -53,7 +53,7 @@ head(data_ex)
 #> 4             S          ITA 2016 01_18_2016   ITMOL
 #> 5             S          ITA 2016 01_18_2016   ITMOL
 #> 6             S          ITA 2016 01_18_2016   ITMOL
-#>   Number_of_sets_hauls_on_trip Days_at_sea Sampling.method Aggregation_level
+#>   Number_of_sets_hauls_on_trip Days_at_sea Sampling_method Aggregation_level
 #> 1                            4           1    SelfSampling              TRUE
 #> 2                            4           1    SelfSampling              TRUE
 #> 3                            4           1    SelfSampling              TRUE
@@ -162,48 +162,12 @@ This function `RCG_check_LFD` returns an empty data frame if all the lengths col
 
 ```r
 RCG_check_LFD(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",min_len=6,max_len=250)[[1]]
-#> [1] No individual length classes out of the expected range
-#>  [1] Sampling_type                           
-#>  [2] Flag_country                            
-#>  [3] Year                                    
-#>  [4] Trip_code                               
-#>  [5] Harbour                                 
-#>  [6] Number_of_sets_hauls_on_trip            
-#>  [7] Days_at_sea                             
-#>  [8] Sampling.method                         
-#>  [9] Aggregation_level                       
-#> [10] Station_number                          
-#> [11] Duration_of_fishing_operation           
-#> [12] Initial_latitude                        
-#> [13] Initial_longitude                       
-#> [14] Final_latitude                          
-#> [15] Final_longitude                         
-#> [16] Depth_of_fishing_operation              
-#> [17] Water_depth                             
-#> [18] Catch_registration                      
-#> [19] Species_registration                    
-#> [20] Date                                    
-#> [21] Area                                    
-#> [22] Fishing_activity_category_National      
-#> [23] Fishing_activity_category_European_lvl_6
-#> [24] Species                                 
-#> [25] Catch_category                          
-#> [26] Weight                                  
-#> [27] Subsample_weight                        
-#> [28] Sex                                     
-#> [29] Maturity_method                         
-#> [30] Maturity_scale                          
-#> [31] Maturity_Stage                          
-#> [32] Ageing.method                           
-#> [33] Age                                     
-#> [34] Length_code                             
-#> [35] Length_class                            
-#> [36] Number_at_length                        
-#> [37] Commercial_size_category_scale          
-#> [38] Commercial_size_category                
-#> [39] fish_ID                                 
-#> [40] Individual_weight                       
-#> <0 righe> (o 0-length row.names)
+#>      Flag_country Year  Trip_code       Date  Area Commercial_size_category Age
+#> 1             ITA 2016 01_18_2016 18/02/2016 GSA99                        1  NA
+#> 5544          ITA 2014  4_18_2014 04/07/2014 GSA99                        1   7
+#>      Sex Length_class fish_ID
+#> 1      F          500      NA
+#> 5544   F          270      NA
 ```
 
 A plot of the frequency distribution is also returned:
@@ -211,7 +175,6 @@ A plot of the frequency distribution is also returned:
 
 ```r
 RCG_check_LFD(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",min_len=6,max_len=250)[[2]]
-#> [1] No individual length classes out of the expected range
 ```
 
 ![plot of chunk RCG_check_LFD2](figure/RCG_check_LFD2-1.png)
@@ -259,15 +222,14 @@ This function `RCG_check_AL` reports for each year and length class the number o
 ```r
 results <- RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=5)[[1]]
 #> NA included in the 'Age' field have been removed from the analysis.
-#> NA included in the 'Length_class' field have been removed from the analysis.
 head(results)
 #>   Year Length_class nb_age_measurements
-#> 1 2015           45                   1
-#> 2 2014           50                   1
-#> 3 2015           50                   1
-#> 4 2016           50                   1
-#> 5 2015           55                   3
-#> 6 2016           55                   1
+#> 1 2014           50                   1
+#> 2 2014           60                  11
+#> 3 2014           65                  20
+#> 4 2014           70                  20
+#> 5 2014           75                  18
+#> 6 2014           80                  18
 ```
 
 Moreover, the function detects if the age data are in the range min_age-max_age, reporting the list of the trip codes including outliers. 
@@ -276,10 +238,42 @@ Moreover, the function detects if the age data are in the range min_age-max_age,
 ```r
 RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=5)[[2]]
 #> NA included in the 'Age' field have been removed from the analysis.
-#> NA included in the 'Length_class' field have been removed from the analysis.
-#>  [1] "01_18_2016" "02_18_2016" "05_18_2015" "07_18_2016" "08_18_2016"
-#>  [6] "12_18_2015" "17_18_2014" "31_18_2017" "34_18_2016" "4_18_2014" 
-#> [11] "57_18_2017" "66_18_2017"
+#>      Flag_country Year  Trip_code       Date  Area Commercial_size_category
+#> 6             ITA 2016 01_18_2016 18/02/2016 GSA99                        1
+#> 25            ITA 2016 01_18_2016 18/02/2016 GSA99                        1
+#> 75            ITA 2016 02_18_2016 21/03/2016 GSA99                        1
+#> 78            ITA 2016 02_18_2016 21/03/2016 GSA99                        1
+#> 394           ITA 2015 05_18_2015 22/04/2015 GSA99                        1
+#> 396           ITA 2015 05_18_2015 22/04/2015 GSA99                        1
+#> 397           ITA 2015 05_18_2015 22/04/2015 GSA99                        1
+#> 529           ITA 2016 07_18_2016 17/03/2016 GSA99                        1
+#> 705           ITA 2016 08_18_2016 29/03/2016 GSA99                        1
+#> 2455          ITA 2015 12_18_2015 24/05/2015 GSA99                        1
+#> 4267          ITA 2014 17_18_2014 08/08/2014 GSA99                        1
+#> 4269          ITA 2014 17_18_2014 08/08/2014 GSA99                        1
+#> 5210          ITA 2017 31_18_2017 11/05/2017 GSA99                        1
+#> 5399          ITA 2016 34_18_2016 20/06/2016 GSA99                        1
+#> 5544          ITA 2014  4_18_2014 04/07/2014 GSA99                        1
+#> 6786          ITA 2017 57_18_2017 24/05/2017 GSA99                        1
+#> 7129          ITA 2017 66_18_2017 29/05/2017 GSA99                        1
+#>       Age Sex Length_class fish_ID
+#> 6    10.0   F          185      NA
+#> 25    5.5   F          230      NA
+#> 75    5.5   F          220      NA
+#> 78    5.5   F          235      NA
+#> 394   5.5   F          225      NA
+#> 396   5.5   F          235      NA
+#> 397   5.5   F          250      NA
+#> 529   5.5   F          235      NA
+#> 705   5.5   F          235      NA
+#> 2455  5.5   F          245      NA
+#> 4267  6.0   F          225      NA
+#> 4269  6.0   F          245      NA
+#> 5210  5.5   F          210      NA
+#> 5399  5.5   F          235      NA
+#> 5544  7.0   F          270      NA
+#> 6786  5.5   F          210      NA
+#> 7129  5.5   F          225      NA
 ```
 
 A plot of the age/length relationship by sex and year is outputted for the selected species
@@ -288,7 +282,6 @@ A plot of the age/length relationship by sex and year is outputted for the selec
 ```r
 RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=5)[[3]]
 #> NA included in the 'Age' field have been removed from the analysis.
-#> NA included in the 'Length_class' field have been removed from the analysis.
 ```
 
 ![plot of chunk RCG_check_AL3](figure/RCG_check_AL3-1.png)
@@ -309,94 +302,22 @@ Furthermore, it checks if the weight data are within the boundaries in input, pr
 
 ```r
 RCG_check_lw(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",Min=0,Max=200)[[1]]
-#>      Sampling_type Flag_country Year  Trip_code Harbour
-#> 1                S          ITA 2016 01_18_2016   ITMOL
-#> 77               S          ITA 2016 02_18_2016   ITMOL
-#> 2430             S          ITA 2014 12_18_2014   ITMOL
-#> 5544             S          ITA 2014  4_18_2014   ITBDS
-#> 5777             S          ITA 2015 43_18_2015   ITMOL
-#> 7946             S          ITA 2014 87_18_2014   ITBDS
-#> 7949             S          ITA 2014 87_18_2014   ITBDS
-#>      Number_of_sets_hauls_on_trip Days_at_sea Sampling.method Aggregation_level
-#> 1                               4           1    SelfSampling              TRUE
-#> 77                              8           2        Observer              TRUE
-#> 2430                            5           1    SelfSampling              TRUE
-#> 5544                            7           2    SelfSampling              TRUE
-#> 5777                            4           1        Observer              TRUE
-#> 7946                            5           1        Observer              TRUE
-#> 7949                            5           1        Observer              TRUE
-#>      Station_number Duration_of_fishing_operation Initial_latitude
-#> 1               999                           960         42.04033
-#> 77              999                          2052         40.58517
-#> 2430            999                          1035         41.18683
-#> 5544            999                          1770         41.90100
-#> 5777            999                           990         41.38517
-#> 7946            999                          1209         42.12050
-#> 7949            999                          1209         42.12050
-#>      Initial_longitude Final_latitude Final_longitude
-#> 1             18.48217       42.09067        18.48483
-#> 77            18.27417       40.60467        18.25550
-#> 2430          16.81317       41.17550        16.84333
-#> 5544          16.76867       41.92400        16.75783
-#> 5777          16.41050       41.40850        16.39733
-#> 7946          17.02167       42.07350        17.02017
-#> 7949          17.02167       42.07350        17.02017
-#>      Depth_of_fishing_operation Water_depth Catch_registration
-#> 1                           113          NA                Lan
-#> 77                          165          NA                All
-#> 2430                        210          NA                Lan
-#> 5544                        183          NA                Lan
-#> 5777                         98          NA                All
-#> 7946                        120          NA                All
-#> 7949                        120          NA                All
-#>      Species_registration       Date  Area Fishing_activity_category_National
-#> 1                     All 18/02/2016 GSA99                          OTB_shelf
-#> 77                    All 21/03/2016 GSA99                          OTB_shelf
-#> 2430                  All 24/07/2014 GSA99                          OTB_shelf
-#> 5544                  All 04/07/2014 GSA99                          OTB_shelf
-#> 5777                  All 31/07/2015 GSA99                          OTB_shelf
-#> 7946                  All 05/12/2014 GSA99                          OTB_shelf
-#> 7949                  All 05/12/2014 GSA99                          OTB_shelf
-#>      Fishing_activity_category_European_lvl_6         Species Catch_category
-#> 1                            OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 77                           OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 2430                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 5544                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 5777                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 7946                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#> 7949                         OTB_DEF_>=40_0_0 Mullus barbatus            Lan
-#>      Weight Subsample_weight Sex Maturity_method Maturity_scale Maturity_Stage
-#> 1     18000             6000   F            Macr   Medits scale             2b
-#> 77    19200             6400   F            Macr   Medits scale              3
-#> 2430   6200             6200   F            Macr   Medits scale             4a
-#> 5544   4760             4760   F            Macr   Medits scale              3
-#> 5777   4600             4600   F            Macr   Medits scale             4b
-#> 7946   5130             5130   F            Macr   Medits scale             2b
-#> 7949   5130             5130   F            Macr   Medits scale             2b
-#>      Ageing.method Age Length_code Length_class Number_at_length
-#> 1              OWR  NA         scm          500                2
-#> 77             OWR 4.5         scm          225                1
-#> 2430           OWR 5.0         scm          220                1
-#> 5544           OWR 7.0         scm          270                1
-#> 5777           OWR 4.0         scm          205                1
-#> 7946           OWR 4.0         scm          215                1
-#> 7949           OWR 5.0         scm          245                1
-#>      Commercial_size_category_scale Commercial_size_category fish_ID
-#> 1                               ITA                        1      NA
-#> 77                              ITA                        1      NA
-#> 2430                            ITA                        1      NA
-#> 5544                            ITA                        1      NA
-#> 5777                            ITA                        1      NA
-#> 7946                            ITA                        1      NA
-#> 7949                            ITA                        1      NA
-#>      Individual_weight
-#> 1            1424.3446
-#> 77            209.2891
-#> 2430          201.8513
-#> 5544          202.9782
-#> 5777          220.3938
-#> 7946          231.6174
-#> 7949          206.2320
+#>      Flag_country Year  Trip_code       Date  Area Commercial_size_category Age
+#> 1             ITA 2016 01_18_2016 18/02/2016 GSA99                        1  NA
+#> 77            ITA 2016 02_18_2016 21/03/2016 GSA99                        1 4.5
+#> 2430          ITA 2014 12_18_2014 24/07/2014 GSA99                        1 5.0
+#> 5544          ITA 2014  4_18_2014 04/07/2014 GSA99                        1 7.0
+#> 5777          ITA 2015 43_18_2015 31/07/2015 GSA99                        1 4.0
+#> 7946          ITA 2014 87_18_2014 05/12/2014 GSA99                        1 4.0
+#> 7949          ITA 2014 87_18_2014 05/12/2014 GSA99                        1 5.0
+#>      Sex Length_class fish_ID
+#> 1      F          500      NA
+#> 77     F          225      NA
+#> 2430   F          220      NA
+#> 5544   F          270      NA
+#> 5777   F          205      NA
+#> 7946   F          215      NA
+#> 7949   F          245      NA
 ```
 
 ### check maturity stages 
@@ -417,7 +338,6 @@ This function `RCG_check_mat_ogive` plots the maturity ogive by sex derived from
 
 ```r
 RCG_check_mat_ogive(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus", sex="F",immature_stages=c("0","1","2a"))
-#> Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 ```
 
 ![plot of chunk RCG_check_mat_ogive](figure/RCG_check_mat_ogive-1.png)
@@ -430,13 +350,20 @@ This function `RCG_summarize_ind_meas` reports for each trip the number of lengt
 ```r
 results <- RCG_summarize_ind_meas(data=data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
 head(results)
-#>   Year  Area         Species  Trip_code number_of_data            variable
-#> 1 2014 GSA99 Mullus barbatus 12_18_2014            120 length_measurements
-#> 2 2014 GSA99 Mullus barbatus 14_18_2014            163 length_measurements
-#> 3 2014 GSA99 Mullus barbatus 15_18_2014            252 length_measurements
-#> 4 2014 GSA99 Mullus barbatus 17_18_2014            239 length_measurements
-#> 5 2014 GSA99 Mullus barbatus 19_18_2014           1657 length_measurements
-#> 6 2014 GSA99 Mullus barbatus 20_18_2014            752 length_measurements
+#>   Year  Area         Species  Trip_code age_data length_measurements
+#> 1 2014 GSA99 Mullus barbatus 12_18_2014       54                 120
+#> 2 2014 GSA99 Mullus barbatus 14_18_2014       52                 163
+#> 3 2014 GSA99 Mullus barbatus 15_18_2014       68                 252
+#> 4 2014 GSA99 Mullus barbatus 17_18_2014       27                 239
+#> 5 2014 GSA99 Mullus barbatus 19_18_2014       84                1657
+#> 6 2014 GSA99 Mullus barbatus 20_18_2014       32                 752
+#>   maturity_data sex_data weight_data
+#> 1           120      120         120
+#> 2           163      163         163
+#> 3           252      252         252
+#> 4           239      239         239
+#> 5          1657     1657        1657
+#> 6           752      752         752
 ```
 
 ### Summarize trips
@@ -447,20 +374,20 @@ This function `RCG_summarize_trips` reports for the selected species the number 
 ```r
 results <- RCG_summarize_trips(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
 head(results)
-#>   Year  Area Harbour Fishing_activity_category_European_lvl_6 Sampling.method
-#> 1 2014 GSA99   ITBCE                         OTB_DEF_>=40_0_0        Observer
-#> 2 2014 GSA99   ITBDS                         OTB_DEF_>=40_0_0        Observer
-#> 3 2014 GSA99   ITBDS                         OTB_DEF_>=40_0_0    SelfSampling
-#> 4 2014 GSA99   ITMFR                         OTB_DEF_>=40_0_0        Observer
-#> 5 2014 GSA99   ITMFR                         OTB_DEF_>=40_0_0    SelfSampling
-#> 6 2014 GSA99   ITMNP                         OTB_DEF_>=40_0_0        Observer
-#>   Nb_trips
-#> 1        2
-#> 2        2
-#> 3        2
-#> 4        1
-#> 5        7
-#> 6        2
+#>   Year Flag_country  Area Harbour         Species
+#> 1 2014          ITA GSA99   ITBCE Mullus barbatus
+#> 2 2014          ITA GSA99   ITBDS Mullus barbatus
+#> 3 2014          ITA GSA99   ITBDS Mullus barbatus
+#> 4 2014          ITA GSA99   ITMFR Mullus barbatus
+#> 5 2014          ITA GSA99   ITMFR Mullus barbatus
+#> 6 2014          ITA GSA99   ITMNP Mullus barbatus
+#>   Fishing_activity_category_European_lvl_6 Sampling_method Nb_trips
+#> 1                         OTB_DEF_>=40_0_0        Observer        2
+#> 2                         OTB_DEF_>=40_0_0        Observer        2
+#> 3                         OTB_DEF_>=40_0_0    SelfSampling        2
+#> 4                         OTB_DEF_>=40_0_0        Observer        1
+#> 5                         OTB_DEF_>=40_0_0    SelfSampling        7
+#> 6                         OTB_DEF_>=40_0_0        Observer        2
 ```
 
 ### Check trips location
@@ -470,6 +397,7 @@ The function `RCG_check_loc` allows to check the spatial distribution of data us
 
 ```r
 RCG_check_loc(data_ex)
+#> Regions defined for each Polygons
 ```
 
 ![plot of chunk RCG_check_loc](figure/RCG_check_loc-1.png)
@@ -524,7 +452,7 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[3]]
 #>   LandCtry VslFlgCtry  Area Rect SubRect Harbour Sum_Landings
-#> 1      999   COUNTRY1 GSA99  999     999    Port      1120455
+#> 1       NA   COUNTRY1 GSA99   NA      NA    Port      1120455
 ```
 
 4. Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
@@ -533,7 +461,7 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[4]]
 #>   LandCtry VslFlgCtry  Area Rect SubRect Harbour Sum_LandingsValue
-#> 1      999   COUNTRY1 GSA99  999     999    Port           5596437
+#> 1       NA   COUNTRY1 GSA99   NA      NA    Port           5596437
 ```
 
 5. Sum of landings by Year, Species, foCatEu5, foCatEu6;
@@ -542,9 +470,9 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[5]]
 #>   Year                  Species foCatEu5         foCatEu6 Sum_Landings
-#> 1 1900 Parapenaeus longirostris      999 OTB_DEF_>=40_0_0  1018083.081
-#> 2 1900 Parapenaeus longirostris      999 OTB_DWS_>=40_0_0     1453.471
-#> 3 1900 Parapenaeus longirostris      999 OTB_MDD_>=40_0_0   100918.089
+#> 1 1900 Parapenaeus longirostris       NA OTB_DEF_>=40_0_0  1018083.081
+#> 2 1900 Parapenaeus longirostris       NA OTB_DWS_>=40_0_0     1453.471
+#> 3 1900 Parapenaeus longirostris       NA OTB_MDD_>=40_0_0   100918.089
 ```
 
 6. Sum of landing value by Year, Species, foCatEu5, foCatEu6.
@@ -553,9 +481,9 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[6]]
 #>   Year                  Species foCatEu5         foCatEu6 Sum_LandingsValue
-#> 1 1900 Parapenaeus longirostris      999 OTB_DEF_>=40_0_0       5050728.907
-#> 2 1900 Parapenaeus longirostris      999 OTB_DWS_>=40_0_0          7721.884
-#> 3 1900 Parapenaeus longirostris      999 OTB_MDD_>=40_0_0        537986.519
+#> 1 1900 Parapenaeus longirostris       NA OTB_DEF_>=40_0_0       5050728.907
+#> 2 1900 Parapenaeus longirostris       NA OTB_DWS_>=40_0_0          7721.884
+#> 3 1900 Parapenaeus longirostris       NA OTB_MDD_>=40_0_0        537986.519
 ```
 
 7. Plot of the landings by year and foCatEu6
@@ -1278,20 +1206,20 @@ The function `MEDBS_Catch_coverage` allows to check the coverage in Catch table 
 ```r
 results <- suppressMessages(MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
-#>   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA SPECIES
-#> 1     ITA 2004      -1            -1  OTB          50D100      -1 GSA 9     DPS
-#> 2     ITA 2004      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 3     ITA 2007      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 4     ITA 2008      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 5     ITA 2014      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 6     ITA 2017       2            -1  GNS              -1    DEMF GSA 9     DPS
-#>    LANDINGS
-#> 1 367.43191
-#> 2   3.62883
-#> 3   2.26308
-#> 4   0.50829
-#> 5   0.02736
-#> 6   0.02688
+#>   country year quarter vessel_length gear mesh_size_range fishery  area species
+#> 1     ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#> 2     ITA 2003      -1            -1  OTB              -1   DEMSP GSA 9     DPS
+#> 3     ITA 2004      -1            -1  GNS              -1    DEMF GSA 9     DPS
+#> 4     ITA 2004      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#> 5     ITA 2004      -1            -1  OTB          50D100      -1 GSA 9     DPS
+#> 6     ITA 2005      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#>     landings
+#> 1   5.933227
+#> 2 316.615971
+#> 3   3.628830
+#> 4   4.177760
+#> 5 367.431910
+#> 6   0.517960
 ```
 
 2. summary table of discards
@@ -1299,20 +1227,20 @@ head(results[[1]])
 
 ```r
 head(results[[2]])
-#>    COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA
-#> 5      ITA 2014      -1            -1  GNS              -1    DEMF GSA 9
-#> 6      ITA 2017       2            -1  GNS              -1    DEMF GSA 9
-#> 7      ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9
-#> 10     ITA 2012      -1            -1  GTR              -1   DEMSP GSA 9
-#> 11     ITA 2003      -1            -1  OTB              -1   DEMSP GSA 9
-#> 13     ITA 2006      -1            -1  OTB          50D100   DEMSP GSA 9
-#>    SPECIES DISCARDS
-#> 5      DPS        0
-#> 6      DPS        0
-#> 7      DPS        0
-#> 10     DPS        0
-#> 11     DPS        0
-#> 13     DPS        0
+#>   country year quarter vessel_length gear mesh_size_range fishery  area species
+#> 1     ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#> 2     ITA 2003      -1            -1  OTB              -1   DEMSP GSA 9     DPS
+#> 3     ITA 2006      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
+#> 4     ITA 2006      -1            -1  OTB          50D100  MDDWSP GSA 9     DPS
+#> 5     ITA 2009      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
+#> 6     ITA 2009      -1            -1  OTB          50D100  MDDWSP GSA 9     DPS
+#>   discards
+#> 1  0.00000
+#> 2  0.00000
+#> 3  0.00000
+#> 4  0.00000
+#> 5 38.35542
+#> 6  0.00000
 ```
 
 3. Plot of landing volumes in catch table
@@ -1423,11 +1351,6 @@ ks <- MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9"
 #> order of hierarchy, the molten data value column will be of type 'double'. All
 #> measure variables not of type 'double' will be coerced too. Check DETAILS in ?
 #> melt.data.table for more on coercion.
-#> Joining, by = c("year", "gear", "fishery")
-#> Joining, by = c("year", "gear", "fishery")
-#> Joining, by = c("year", "gear", "fishery")
-#> Joining, by = c("year", "gear", "fishery")
-#> Joining, by = c("year", "gear", "fishery")
 ```
 
 ![plot of chunk MEDBS_ks_landing1](figure/MEDBS_ks_landing1-1.png)
@@ -1525,7 +1448,11 @@ The function `MEDBS_weight_0` checks landings or discards in weight equal to 0 h
 ```r
 MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", verbose=TRUE)
 #> There aren't 0 discards
-#> [1] 0
+#>  [1] id              country         year            quarter        
+#>  [5] vessel_length   gear            mesh_size_range fishery        
+#>  [9] area            specon          species         discards       
+#> [13] unit           
+#> <0 righe> (o 0-length row.names)
 ```
 
 ### weight -1 in landings and discards
@@ -1536,7 +1463,11 @@ The function `MEDBS_weight_minus1` checks landings in weight equal to -1 having 
 ```r
 MEDBS_weight_minus1(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
 #> There aren't -1 discards
-#> [1] 0
+#>  [1] id              country         year            quarter        
+#>  [5] vessel_length   gear            mesh_size_range fishery        
+#>  [9] area            specon          species         discards       
+#> [13] unit           
+#> <0 righe> (o 0-length row.names)
 ```
 
 ### Years with missing length distributions
@@ -1664,13 +1595,13 @@ head(results)
 #> 4 2004      -1            -1  GTR              -1   DEMSP   4177760        0
 #> 5 2004      -1            -1  OTB          50D100      -1 367431910 22257632
 #> 6 2005      -1            -1  GTR              -1   DEMSP    517960        0
-#>         MW
-#> 1      Inf
+#>      MW(g)
+#> 1       NA
 #> 2 17.09920
-#> 3      Inf
-#> 4      Inf
+#> 3       NA
+#> 4       NA
 #> 5 16.50813
-#> 6      Inf
+#> 6       NA
 ```
 
 The function returns a plot of the mean landing weight by year, gear and fishery aggregation as well.
@@ -1712,20 +1643,20 @@ The function `MEDBS_Landing_coverage` allows to check the coverage in landing ta
 ```r
 results <- suppressMessages(MEDBS_Landing_coverage(Landing_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
-#>   COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR MESH_SIZE_RANGE FISHERY  AREA SPECIES
-#> 1     ITA 2003      -1            -1  OTB          50D100      -1 GSA 9     DPS
-#> 2     ITA 2004      -1            -1  OTB          50D100      -1 GSA 9     DPS
+#>   country year quarter vessel_length gear mesh_size_range fishery  area species
+#> 1     ITA 2003      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#> 2     ITA 2003      -1            -1  OTB          50D100      -1 GSA 9     DPS
 #> 3     ITA 2004      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 4     ITA 2007      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 5     ITA 2008      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#> 6     ITA 2014      -1            -1  GNS              -1    DEMF GSA 9     DPS
-#>    LANDINGS
-#> 1 316.61597
-#> 2 367.43191
+#> 4     ITA 2004      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#> 5     ITA 2004      -1            -1  OTB          50D100      -1 GSA 9     DPS
+#> 6     ITA 2005      -1            -1  GTR              -1   DEMSP GSA 9     DPS
+#>    landings
+#> 1  11.86645
+#> 2 316.61597
 #> 3   3.62883
-#> 4   2.26308
-#> 5   0.50829
-#> 6   0.02736
+#> 4   4.17776
+#> 5 367.43191
+#> 6   0.51796
 ```
 
 a plot of the landing coverage is also provided.
@@ -1750,17 +1681,17 @@ head(results[[1]])
 #>   country year quarter vessel_length gear mesh_size_range fishery  area species
 #> 1     ITA 2009      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
 #> 2     ITA 2010      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
-#> 3     ITA 2011      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
-#> 4     ITA 2012      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
-#> 5     ITA 2013      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
-#> 6     ITA 2014      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
+#> 3     ITA 2010      -1            -1  OTB          50D100  MDDWSP GSA 9     DPS
+#> 4     ITA 2011      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
+#> 5     ITA 2011      -1            -1  OTB          50D100  MDDWSP GSA 9     DPS
+#> 6     ITA 2012      -1            -1  OTB          50D100   DEMSP GSA 9     DPS
 #>    discards
 #> 1 76.710840
 #> 2 24.396528
-#> 3 60.519315
-#> 4  6.571266
-#> 5 26.761695
-#> 6 44.978926
+#> 3  2.703603
+#> 4 60.519315
+#> 5  2.743526
+#> 6  6.571266
 ```
 
 A plots of discard time series by year and gear is also provided.
@@ -1779,7 +1710,7 @@ The function `MEDBS_comp_disc_YQ` allows to compare the discards weights aggrega
 
 ```r
 MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
-#>   YEAR GEAR    tot_q    tot_yr ratio
+#>   YEAR GEAR    TOT_Q    TOT_YR RATIO
 #> 1 2009  OTB       NA 76.710840    NA
 #> 2 2010  OTB       NA 27.100131    NA
 #> 3 2011  OTB       NA 63.262841    NA
@@ -1799,7 +1730,7 @@ The function `MEDBS_comp_disc_YQ_fishery` allow to estimates the discards in wei
 ```r
 results <- MEDBS_comp_disc_YQ_fishery(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
 head(results)
-#>   YEAR GEAR FISHERY tot_q    tot_yr ratio
+#>   YEAR GEAR FISHERY TOT_Q    TOT_YR RATIO
 #> 1 2009  OTB   DEMSP    NA 76.710840    NA
 #> 2 2010  OTB   DEMSP    NA 24.396528    NA
 #> 3 2010  OTB  MDDWSP    NA  2.703603    NA
@@ -1823,7 +1754,7 @@ head(results[[1]])
 #> 4 2011      -1            -1  OTB          50D100   DEMSP 60519315 29133415.7
 #> 5 2011      -1            -1  OTB          50D100  MDDWSP  2743526   744126.7
 #> 6 2012      -1            -1  OTB          50D100   DEMSP  6571266   998156.0
-#>         MW
+#>      MW(g)
 #> 1 3.389243
 #> 2 4.058424
 #> 3 7.831493
@@ -1877,18 +1808,18 @@ The function `GP_check` allows to check the growth parameters by sex and year fo
 ```r
 results <- MEDBS_GP_check(GP_tab_example,"MUT","ITA","GSA 18")
 results[[1]]
-#>    COUNTRY   YEAR START_YEAR END_YEAR SPECIES SEX COUNT
+#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX COUNT
 #> 1      ITA GSA 18       2014     2014     MUT   C     1
-#> 2      ITA GSA 18       2015     2015     MUT   C     1
-#> 3      ITA GSA 18       2016     2016     MUT   C     1
-#> 4      ITA GSA 18       2017     2017     MUT   C     1
-#> 5      ITA GSA 18       2014     2014     MUT   F     1
-#> 6      ITA GSA 18       2015     2015     MUT   F     1
-#> 7      ITA GSA 18       2016     2016     MUT   F     1
-#> 8      ITA GSA 18       2017     2017     MUT   F     1
-#> 9      ITA GSA 18       2014     2014     MUT   M     1
-#> 10     ITA GSA 18       2015     2015     MUT   M     1
-#> 11     ITA GSA 18       2016     2016     MUT   M     1
+#> 2      ITA GSA 18       2014     2014     MUT   F     1
+#> 3      ITA GSA 18       2014     2014     MUT   M     1
+#> 4      ITA GSA 18       2015     2015     MUT   C     1
+#> 5      ITA GSA 18       2015     2015     MUT   F     1
+#> 6      ITA GSA 18       2015     2015     MUT   M     1
+#> 7      ITA GSA 18       2016     2016     MUT   C     1
+#> 8      ITA GSA 18       2016     2016     MUT   F     1
+#> 9      ITA GSA 18       2016     2016     MUT   M     1
+#> 10     ITA GSA 18       2017     2017     MUT   C     1
+#> 11     ITA GSA 18       2017     2017     MUT   F     1
 #> 12     ITA GSA 18       2017     2017     MUT   M     1
 print(names(results)[1])
 #> [1] "summary table"
@@ -1965,19 +1896,19 @@ The function `MEDBS_LW_check` allows to check the length-weight parameters inclu
 ```r
 results <- MEDBS_LW_check(GP_tab_example,"MUT","ITA","GSA 18")
 results[[1]]
-#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX NA
-#> 1      ITA GSA 18       2014     2014     MUT   C  1
-#> 2      ITA GSA 18       2015     2015     MUT   C  1
-#> 3      ITA GSA 18       2016     2016     MUT   C  1
-#> 4      ITA GSA 18       2017     2017     MUT   C  1
-#> 5      ITA GSA 18       2014     2014     MUT   F  1
-#> 6      ITA GSA 18       2015     2015     MUT   F  1
-#> 7      ITA GSA 18       2016     2016     MUT   F  1
-#> 8      ITA GSA 18       2017     2017     MUT   F  1
-#> 9      ITA GSA 18       2014     2014     MUT   M  1
-#> 10     ITA GSA 18       2015     2015     MUT   M  1
-#> 11     ITA GSA 18       2016     2016     MUT   M  1
-#> 12     ITA GSA 18       2017     2017     MUT   M  1
+#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX CUNT
+#> 1      ITA GSA 18       2014     2014     MUT   C    1
+#> 2      ITA GSA 18       2014     2014     MUT   F    1
+#> 3      ITA GSA 18       2014     2014     MUT   M    1
+#> 4      ITA GSA 18       2015     2015     MUT   C    1
+#> 5      ITA GSA 18       2015     2015     MUT   F    1
+#> 6      ITA GSA 18       2015     2015     MUT   M    1
+#> 7      ITA GSA 18       2016     2016     MUT   C    1
+#> 8      ITA GSA 18       2016     2016     MUT   F    1
+#> 9      ITA GSA 18       2016     2016     MUT   M    1
+#> 10     ITA GSA 18       2017     2017     MUT   C    1
+#> 11     ITA GSA 18       2017     2017     MUT   F    1
+#> 12     ITA GSA 18       2017     2017     MUT   M    1
 ```
 
 plots of the length-weigth relationships for the selected species by year and sex are also returned.
@@ -2033,7 +1964,7 @@ The function `MEDBS_MA_check` allows to check the maturity at age (MA) table pro
 ```r
 results <- MEDBS_MA_check(MA_tab_example,"DPS","ITA","GSA 99")
 results[[1]]
-#>    COUNTRY   YEAR START_YEAR END_YEAR SPECIES SEX COUNT
+#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX COUNT
 #> 1      ITA GSA 99       2006     2006     DPS   F     6
 #> 2      ITA GSA 99       2007     2007     DPS   F     6
 #> 3      ITA GSA 99       2008     2008     DPS   F     6
@@ -2076,7 +2007,7 @@ results <- MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 
 ```r
 results[[1]]
-#>    COUNTRY   YEAR START_YEAR END_YEAR SPECIES SEX COUNT
+#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES SEX COUNT
 #> 1      ITA GSA 99       2006     2006     DPS   F    31
 #> 2      ITA GSA 99       2007     2007     DPS   F    32
 #> 3      ITA GSA 99       2008     2008     DPS   F    33
@@ -2108,7 +2039,7 @@ The function `MEDBS_SA_check` allows to check the sex ratio at age (SA) table pr
 ```r
 results <- MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
 results[[1]]
-#>    COUNTRY   YEAR START_YEAR END_YEAR SPECIES
+#>    COUNTRY   AREA START_YEAR END_YEAR SPECIES
 #> 1      ITA GSA 99       2003     2005     DPS
 #> 2      ITA GSA 99       2006     2006     DPS
 #> 3      ITA GSA 99       2007     2007     DPS
@@ -2513,26 +2444,23 @@ The functions checks the discard coverage in table A for the selected MS by GSAs
 
 
 ```r
-FDI_disc_coverage(fdi_a_catch, MS="PSP", verbose=TRUE)
-#> [1] "Discard coverage per GSA for PSP data"
-#> [1] "Discard coverage in GSA99"
-#> $GSA99
+FDI_disc_coverage(fdi_a_catch, MS="PSP",GSA="GSA99",SP="HKE", verbose=TRUE)
 #>   year   gsa Total_lands Lands_(disc > 0) % Lands_(disc >0) Lands_(disc = 0)
-#> 1 2014 GSA99     265.910            2.656             1.00%            7.729
-#> 2 2015 GSA99     131.154            2.359             1.80%            3.476
-#> 3 2016 GSA99      41.679            0.659             1.58%            3.814
-#> 4 2017 GSA99      72.392            0.065             0.09%            1.986
-#> 5 2018 GSA99     125.115            3.432             2.74%            5.601
-#> 6 2019 GSA99     179.482            5.177             2.88%            7.906
-#> 7 2020 GSA99     225.216            6.209             2.76%            5.663
+#> 1 2014 GSA99       1.099            0.305            27.75%            0.192
+#> 2 2015 GSA99       0.249            0.000                 0            0.000
+#> 3 2016 GSA99       0.152            0.110            72.37%            0.000
+#> 4 2017 GSA99       0.088            0.000                 0            0.032
+#> 5 2018 GSA99      33.917            0.000                 0            0.046
+#> 6 2019 GSA99      33.907            0.044             0.13%            0.000
+#> 7 2020 GSA99       0.485            0.000                 0            0.000
 #>   % Lands_(disc = 0) Lands_(disc = NK) % Lands_(disc = NK)
-#> 1              2.91%           255.525              96.09%
-#> 2              2.65%           125.319              95.55%
-#> 3              9.15%            37.206              89.27%
-#> 4              2.74%            70.341              97.17%
-#> 5              4.48%           116.082              92.78%
-#> 6              4.40%           166.399              92.71%
-#> 7              2.51%           213.344              94.73%
+#> 1             17.47%             0.602              54.78%
+#> 2                  0             0.249             100.00%
+#> 3                  0             0.042              27.63%
+#> 4             36.36%             0.056              63.64%
+#> 5              0.14%            33.871              99.86%
+#> 6                  0            33.863              99.87%
+#> 7                  0             0.485             100.00%
 ```
 
 ### Check number of record in FDI A table
@@ -2606,7 +2534,7 @@ The function estimates from the FDI table A an average price per species and yea
 
 
 ```r
-FDI_prices_not_null(data = fdi_a_catch, MS = "PSP",SP = c("HKE"), verbose = FALSE)[[1]]
+FDI_prices_not_null(data = fdi_a_catch, MS = "PSP", GSA = "GSA99",SP = c("HKE"), verbose = FALSE)[[1]]
 #>   species year land weight land value    price av_price
 #> 1     HKE 2014       1.099  7607.1731 6.921905 4.596886
 #> 2     HKE 2015       0.249  1944.6006 7.809641 4.596886
@@ -2621,7 +2549,7 @@ Furthermore, the function performs comparisons between total weight landings and
 
 
 ```r
-FDI_prices_not_null(data = fdi_a_catch, MS = "PSP",SP = c("HKE"), verbose = TRUE)[[2]]
+FDI_prices_not_null(data = fdi_a_catch, MS = "PSP", GSA = "GSA99",SP = c("HKE"), verbose = TRUE)[[2]]
 #> [1] "Average price per species in PSP"
 #> No cases with total landings > 0 but landings value = 0
 #> [1] year        species     land weight land value  price      

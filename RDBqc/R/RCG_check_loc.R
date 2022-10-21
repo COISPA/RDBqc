@@ -6,6 +6,8 @@
 #' @description The function allows to check the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data in case coordinates are not available.
 #' @return A map of trip locations is generated.
 #' @export RCG_check_loc
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @examples RCG_check_loc(data_ex)
 #' @importFrom graphics par points text
 #' @importFrom utils globalVariables

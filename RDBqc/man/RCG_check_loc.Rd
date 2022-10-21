@@ -24,3 +24,8 @@ The function allows to check the spatial distribution of data using the initial 
 \examples{
 RCG_check_loc(data_ex)
 }
+\author{
+Isabella Bitetto \href{mailto:bitetto@coispa.it}{bitetto@coispa.it}
+
+Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
+}

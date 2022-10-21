@@ -7,6 +7,8 @@
 #' @description The function checks the length-weight parameters included in the GP table for a selected species.
 #' @return A summary table and plots of the LW parameters are returned by the function.
 #' @export
+#' @author Isabella Bitetto <bitetto@@coispa.it>
+#' @author Walter Zupa <zupa@@coispa.it>
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
 #' @examples MEDBS_LW_check(GP_tab_example, "MUT", "ITA", "GSA 18")
