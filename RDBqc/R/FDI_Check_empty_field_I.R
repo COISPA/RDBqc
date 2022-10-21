@@ -11,7 +11,7 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_EF_FDI_I(fdi_i_spatial_effort)
 check_EF_FDI_I <- function(data, verbose = TRUE) {
-  # Declaration of variables and suppression of empty columns for dataframe1
+  # Declaration of variables and suppression of empty columns for dataframe
   data <- data[, 1:21]
 
   if (all(is.na(data$specon_tech))) data$specon_tech <- "NA"

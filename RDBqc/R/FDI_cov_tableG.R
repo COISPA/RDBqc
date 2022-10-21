@@ -1,6 +1,6 @@
-#' Check number of record in FDI G table
+#' Check FDI G table coverage
 #'
-#' @description The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, fishing techniques, and metier for the following 8 variables: Total days at sea; Total Fishing Days; Total kW days at Sea; total GT days at sea; Total kW fishing days; totgtfishdays; Hours at Sea; kW hours at sea;
+#' @description The function counts the numbers of records and summarise data in the given table grouped by year, GSA, MS, vessels length, fishing techniques, and metier for the following 8 variables: Total days at sea; Total Fishing Days; Total kW days at Sea; total GT days at sea; Total kW fishing days; totgtfishdays; Hours at Sea; kW hours at sea;
 #' according to the \href{https://datacollection.jrc.ec.europa.eu/documents/10213/1385040/FDI2021-annex.pdf/6bb0a9b7-166c-48c8-ad12-48ea59a29ffe}{Fisheries Dependent Information data call 2021 - Annex 1} If Vessel length, fishing technique, and metier are not specified by the user the function combines those by default.
 #' @param data FDI table G effort
 #' @param verbose boolean. If TRUE a message is printed.

@@ -1,6 +1,6 @@
 #' check NA values in spatial columns of both table H and I
 #'
-#' @description The function checks the incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included:
+#' @description The function checks the  incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included:
 #' \enumerate{
 #' \item{presence of NA values in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA;}
 #' \item{the presence any data in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported;}
@@ -93,7 +93,7 @@ FDI_checks_spatial_HI <- function(data, MS, verbose = FALSE) {
     d2 <- data[ids2, c(1:11)]
   } else {
     if (verbose) {
-      message(paste0("Nodata available in selected table for the selected MS"))
+      message(paste0("No data available in selected table for the selected MS"))
     }
     d <- NULL
     d2 <- NULL

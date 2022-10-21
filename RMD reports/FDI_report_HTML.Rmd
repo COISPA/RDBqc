@@ -56,6 +56,7 @@ SPs = c("HKE","DPS") # "COMBINED"
 GSAs <- c("GSA99")
 vessel_len = "COMBINED"
 fishtech = "COMBINED" 
+metier <- "COMBINED"
 
 # check the presence of user defined filter for member state (MS)
 if (exists("MS")) {
@@ -112,6 +113,17 @@ if (exists("fishtech")) {
   user_fishtech <- FALSE
 }
 
+# check the presence of user defined filter for metier (metier)
+if (exists("metier")) {
+  if (length(metier) == 1 & is.na(metier[1])) {
+    user_metier <- FALSE
+  } else {
+    user_metier <- TRUE
+  }
+} else {
+  user_metier <- FALSE
+}
+
 ```
 
 \newpage
@@ -141,6 +153,10 @@ if (exists("tableA")) {
       if(!user_fishtech){
         fishtech <- unique(tableA$fishing_tech)
       }
+      
+      tableA <- tableA[tableA$species %in% SPs & 
+                       tableA$country == MS & 
+                       tableA$sub_region %in% GSAs, ]
       
     }
   }
@@ -380,4 +396,426 @@ for (g in 1:length(GSAs)) {
 
 
 } # check_tableA
+```
+
+\newpage
+<!-- Table G catch -->
+
+```{r check_tableG, results = 'asis'}
+
+if (exists("tableG")) {
+  if (class(tableG)=="data.frame") {
+    if(nrow(tableG)>0){
+      check_tableG <- TRUE
+      cat(paste0("\n# FDI effort data (table G)\n"))
+      
+      
+      # if(!user_SP){
+      #   SPs <- unique(tableG$species)
+      # }
+      if(!user_MS){
+        MS  <- unique(tableG$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(tableG$sub_region)
+      }
+      # if(!user_vessel_len){
+      #   vessel_len <- unique(tableG$vessel_length)
+      # }
+      if(!user_fishtech){
+        fishtech <- unique(tableG$fishing_tech)
+      }
+      if(!user_metier){
+        metier <- unique(tableG$metier)
+      }
+      
+            tableG <- tableG[tableG$country == MS & 
+                             tableG$sub_region %in% GSAs , ]
+      
+    }
+  }
+} else {
+  check_tableG <- FALSE
+  cat("\n No FDI catch data available \n")
+}
+
+
+
+```
+
+```{r FDI_EF_G, results = 'asis'}
+if (check_tableG) {
+  cat("\n## Check the presence of empty fields\n")
+  cat("\nFDI effort data (table G) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.'\n")
+
+  res <- suppressMessages(check_EF_FDI_G(data = tableG, verbose = FALSE))
+
+  if (!is.null(res)) {
+    res <- res[[1]][which(res[[1]] > 0)]
+    if (length(res) > 0) {
+      res <- data.frame(Empty_records = res)
+      cat("\n\n\n")
+      cat(paste0("\n_Table of empty records in FDI effort table (Table G)_\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    }
+  } else {
+    cat(paste0("\n\n\n- No data available in FDI effort table G\n"))
+  }
+} # check_TableG
+```
+
+```{r FDI_RD_G, results = 'asis'}
+if (check_tableG) {
+  cat("\n## Check the presence of duplicated records\n")
+  cat("\nFDI effort data (table G) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 15 columns generates duplicate records.'\n")
+
+  res <- suppressMessages(check_RD_FDI_G(data = tableG, verbose = FALSE))
+
+    if (length(res) > 0) {
+      l <- length(res)
+      cat(paste0("\n\n\n- ",l," duplicated record/s was/were detected in the FDI effort table G\n\n\n"))
+      df <- tableG[res,which(colnames(tableG)%in% c("country",                                                    "year","quarter","vessel_length","fishing_tech","gear_type",
+            "target_assemblage","mesh_size_range","metier",
+            "sub_region", "specon_tech", "deep"))]
+      
+      cat("\n\n\n")
+      cat(paste0("\n_Table of duplicated records in FDI effort table (Table G)_\n"))
+      print(df %>% kable("html") %>% kable_styling(font_size = 11) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No duplicated records were detected in the FDI effort table G\n\n\n"))
+    }
+} # check_TableA
+```
+
+```{r FDI_coverage_G, results = 'asis'}
+if (check_tableG) {
+  cat("\n## Coverage of FDI effort data by GSA and year\n")
+  cat("\nFDI effort data (table G) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.'\n")
+
+  res <- suppressMessages(FDI_coverage(data = tableG, MS, verbose = FALSE))
+
+  if (!is.null(res)) {
+
+    if (nrow(res)>0) {
+      cat("\n\n\n")
+      cat(paste0("\n_Summary table of number of records by country, GSA and year (Table G)._\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No data available in FDI effort table G\n"))
+    }
+  } else {
+    cat(paste0("\n\n\n- No data available in FDI effort table G\n"))
+  }
+} # check_TableG
+```
+
+```{r FDI_cov_tableG, results = 'asis'}
+if (check_tableG) {
+  
+  cat("\n## Coverage of Fishing effort in FDI table G\n")
+  cat("\nThe FDI effort table G was analyzed to return plots for the following 8 variables: 
+      \n1. Total days at sea; 
+      \n2. Total Fishing Days; 
+      \n3. Total kW * days at Sea; 
+      \n4. total GT * days at sea; 
+      \n5. Total kW * fishing days; 
+      \n6. Total GT * fishing days; 
+      \n7. Hours at Sea; 
+      \n8. Total kW * hours at sea.\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
+      
+        suppressMessages(res <- FDI_cov_tableG(data=tableG, MS = MS, GSA = GSAs[g], fishtech = fishtech, met = metier, verbose = FALSE))
+        
+        if (!is.null(res)) {
+        cat("\n\n\n")
+        cat(paste0("\nPlot of Total days at sea for ",MS," - ",GSAs[g],"\n"))
+        suppressWarnings(print(res[[3]]))
+        cat("\n\n\n")
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of Total Fishing Days for ",MS," - ",GSAs[g],"\n"))
+        suppressWarnings(print(res[[4]]))
+        cat("\n\n\n")
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of Fishing effort in Total kW times days at Sea for ",MS," - ",GSAs[g],"\n"))
+        suppressWarnings(print(res[[5]]))
+        cat("\n\n\n")
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of Fishing effort in total GT times days at sea for ",MS," - ",GSAs[g],"\n"))
+        suppressWarnings(print(res[[6]]))
+        cat("\n\n\n")
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of Fishing effort in kW times fishing days for ",MS," - ",GSAs[g],"\n"))
+        suppressWarnings(print(res[[7]]))
+        cat("\n\n\n")
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of Fishing effort in gross tonnage times fishing days for ",MS," - ",GSAs[g],"\n"))
+        suppressWarnings(print(res[[8]]))
+        cat("\n\n\n")
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of Hours at Sea for ",MS," - ",GSAs[g],"\n"))
+        suppressWarnings(print(res[[9]]))
+        cat("\n\n\n")
+        
+        cat("\n\n\n")
+        cat(paste0("\nPlot of kW times hours at sea for ",MS," - ",GSAs[g],"\n"))
+        suppressWarnings(print(res[[10]]))
+        cat("\n\n\n")
+        
+        } else {
+          cat(paste0("\n\n\n- No data available for ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+} # check_tableG
+```
+
+\newpage
+<!-- Table H catch -->
+
+```{r check_tableH, results = 'asis'}
+if (exists("tableH")) {
+  if (class(tableH)=="data.frame") {
+    if(nrow(tableH)>0){
+      check_tableH <- TRUE
+      cat(paste0("\n# FDI Landings by rectangle data (table H)\n"))
+      
+      
+      if(!user_SP){
+        SPs <- unique(tableH$species)
+      }
+      if(!user_MS){
+        MS  <- unique(tableH$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(tableH$sub_region)
+      }
+      tableH <- tableH[tableH$species %in% SPs & 
+                       tableH$country == MS & 
+                       tableH$sub_region %in% GSAs, ]
+      
+    }
+  }
+} else {
+  check_tableH <- FALSE
+  cat("\n No FDI Landings by rectangle data available \n")
+}
+
+```
+
+
+```{r FDI_EF_H, results = 'asis'}
+if (check_tableH) {
+  cat("\n## Check the presence of empty fiels\n")
+  cat("\nFDI Landings by rectangle data (table H) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.'\n")
+
+  res <- suppressMessages(check_EF_FDI_H(data = tableH, verbose = FALSE))
+
+  if (!is.null(res)) {
+    res <- res[[1]][which(res[[1]] > 0)]
+    if (length(res) > 0) {
+      res <- data.frame(Empty_records = res)
+      cat("\n\n\n")
+      cat(paste0("\n_Table of empty records in FDI Landings by rectangle table (Table H)_\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    }
+  } else {
+    cat(paste0("\n\n\n- No data available in FDI Landings by rectangle table H\n"))
+  }
+} # check_TableH
+```
+
+
+```{r FDI_RD_H, results = 'asis'}
+if (check_tableH) {
+  cat("\n## Check the presence of duplicated records\n")
+  cat("\nFDI Landings by rectangle data (table H) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 20 columns generates duplicate records.'\n")
+
+  res <- suppressMessages(check_RD_FDI_H(data = tableH, verbose = FALSE))
+
+    if (length(res) > 0) {
+      l <- length(res)
+      cat(paste0("\n\n\n- ",l," duplicated record/s was/were detected in the FDI Landings by rectangle table H\n\n\n"))
+      df <- tableH[res,which(colnames(tableH)%in% c("country",                                                    "year","quarter","vessel_length","fishing_tech","gear_type",
+            "target_assemblage","mesh_size_range","metier",
+            "sub_region","rectangle_type","rectangle_lat","rectangle_lon",
+            "c_square","species"))]
+      
+      cat("\n\n\n")
+      cat(paste0("\n_Table of duplicated records in FDI Landings by rectangle table (Table H)_\n"))
+      print(df %>% kable("html") %>% kable_styling(font_size = 11) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No duplicated records were detected in the FDI Landings by rectangle table H\n\n\n"))
+    }
+} # check_TableH
+```
+
+```{r FDI_coverage_H, results = 'asis'}
+if (check_tableH) {
+  cat("\n## Coverage of FDI Landings by rectangle data by GSA and year\n")
+  cat("\nFDI Landings by rectangle data (table H) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.'\n")
+
+  res <- suppressMessages(FDI_coverage(data = tableH, MS, verbose = FALSE))
+
+  if (!is.null(res)) {
+
+    if (nrow(res)>0) {
+      cat("\n\n\n")
+      cat(paste0("\n_Summary table of number of records by country, GSA and year (Table H)._\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No data available in FDI Landings by rectangle table H\n"))
+    }
+  } else {
+    cat(paste0("\n\n\n- No data available in FDI Landings by rectangle table H\n"))
+  }
+} # check_TableH
+```
+
+```{r FDI_checks_spatial_HI, results = 'asis'}
+if (check_tableH) {
+  cat("\n## Consistency of spatial  data in FDI Landings by rectangle table H\n")
+  cat("\nFDI Landings by rectangle data (table H) were analysed to report, where available:
+      \n1. the records with incorrect combination of NA in the spatial columns 'rectangle_type', 'rectangle_lat', and 'rectangle_lon'
+      \n2. the records without any sub_region assignment.\n")
+
+  res <- suppressMessages(FDI_checks_spatial_HI(data = tableH, MS, verbose = FALSE))
+
+  if (!is.null(res)) {
+    if (!is.null(res[[1]])) {
+      if (nrow(res[[1]])) {
+        cat("\n\n\n")
+        cat(paste0("\n_Table of incorrect combination of NA in the spatial columns_\n"))
+        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        cat("\n\n\n")
+      } else {
+        cat(paste0("\n\n\n- No incorrect combination of NA in the spatial columns\n"))
+      }
+    } # !is.null(res[[1]])
+
+
+    if (!is.null(res[[2]])) {
+      if (nrow(res[[2]])) {
+        cat("\n\n\n")
+        cat(paste0("\n_Table of records without sub_region assignment_\n"))
+        print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        cat("\n\n\n")
+      } else {
+        cat(paste0("\n\n\n- No records without sub_region assignment\n"))
+      }
+    } # !is.null(res[[2]])
+  } # !is.null(res)
+} # check_TableH
+```
+
+```{r FDI_check_coord, results = 'asis'}
+if (check_tableH) {
+  cat("\n## Compatibility of the geographical coordinates with rectangle type\n")
+  cat("\nFDI Landings by rectangle data (table H) were analysed to report, where available, in which at least one among latitude and longitude is not compatible with the rectangle type.\n")
+
+  res <- suppressMessages(FDI_check_coord(data = tableH, MS, verbose = FALSE))
+
+  if (!is.null(res)) {
+      if (nrow(res[[1]])) {
+        cat("\n\n\n")
+        cat(paste0("\n_Table of incorrect combination of NA in the spatial columns_\n"))
+        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        cat("\n\n\n")
+      } else {
+        cat(paste0("\n\n\n- No incorrect combination of NA in the spatial columns\n"))
+      }
+  } else {
+    cat(paste0("\n\n\n- No data available in FDI Landings by rectangle table H\n"))
+  }
+} # check_TableH
+```
+
+\newpage
+<!-- Table I catch -->
+
+```{r check_tableI, results = 'asis'}
+if (exists("tableI")) {
+  if (class(tableI)=="data.frame") {
+    if(nrow(tableI)>0){
+      check_tableI <- TRUE
+      cat(paste0("\n# FDI Effort by rectangle data (table I)\n"))
+      
+      if(!user_MS){
+        MS  <- unique(tableI$country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(tableI$sub_region)
+      }
+      tableI <- tableI[tableI$country == MS & 
+                       tableI$sub_region %in% GSAs, ]
+      
+    }
+  }
+} else {
+  check_tableI <- FALSE
+  cat("\n No FDI Landings by rectangle data available \n")
+}
+
+```
+
+```{r FDI_EF_I, results = 'asis'}
+if (check_tableI) {
+  cat("\n## Check the presence of empty fiels\n")
+  cat("\nFDI Effort by rectangle data (table I) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.'\n")
+
+  res <- suppressMessages(check_EF_FDI_I(data = tableI, verbose = FALSE))
+
+  if (!is.null(res)) {
+    res <- res[[1]][which(res[[1]] > 0)]
+    if (length(res) > 0) {
+      res <- data.frame(Empty_records = res)
+      cat("\n\n\n")
+      cat(paste0("\n_Table of empty records in FDI Effort by rectangle table (Table I)_\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    }
+  } else {
+    cat(paste0("\n\n\n- No data available in FDI Effort by rectangle table I\n"))
+  }
+} # check_TableI
+```
+
+
+```{r FDI_RD_I, results = 'asis'}
+if (check_tableH) {
+  cat("\n## Check the presence of duplicated records\n")
+  cat("\nFDI Landings by rectangle data (table H) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 20 columns generates duplicate records.'\n")
+
+  res <- suppressMessages(check_RD_FDI_H(data = tableH, verbose = FALSE))
+
+    if (length(res) > 0) {
+      l <- length(res)
+      cat(paste0("\n\n\n- ",l," duplicated record/s was/were detected in the FDI Landings by rectangle table H\n\n\n"))
+      df <- tableH[res,which(colnames(tableH)%in% c("country",                                                    "year","quarter","vessel_length","fishing_tech","gear_type",
+            "target_assemblage","mesh_size_range","metier",
+            "sub_region","rectangle_type","rectangle_lat","rectangle_lon",
+            "c_square","species"))]
+      
+      cat("\n\n\n")
+      cat(paste0("\n_Table of duplicated records in FDI Landings by rectangle table (Table H)_\n"))
+      print(df %>% kable("html") %>% kable_styling(font_size = 11) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No duplicated records were detected in the FDI Landings by rectangle table H\n\n\n"))
+    }
+} # check_TableH
 ```
