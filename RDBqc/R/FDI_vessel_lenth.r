@@ -39,7 +39,7 @@ FDI_vessel_lenth <- function(data, MS, verbose = TRUE) {
     ind1 <- which(is.na(x1) | is.na(x2)) # check for NAs in either vessel length or category (or both)
 
     if (length(ind1) != 0) {
-      print(paste("found", length(ind1), "cases with NAs in either vessel length or vessel category or both. Check output table", sep = " "))
+      message(paste("found", length(ind1), "cases with NAs in either vessel length or vessel category or both. Check output table", sep = " "))
       data$consistent[ind1] <- NA
       data_NAs <- as.data.frame(data[ind1, -c(4, 5, 6, 8, 14)])
     } else {
@@ -47,7 +47,7 @@ FDI_vessel_lenth <- function(data, MS, verbose = TRUE) {
     }
     if (length(ind) != 0) {
       data$consistent[ind] <- FALSE
-      print(paste("found", length(ind), "cases where vessel length does not match vessel length category", sep = " "))
+      message(paste("found", length(ind), "cases where vessel length does not match vessel length category", sep = " "))
       data_FALSE <- as.data.frame(data[ind, -c(4, 5, 6, 8, 14)])
     } else {
       print("Vessel length within vessel length category for all records")

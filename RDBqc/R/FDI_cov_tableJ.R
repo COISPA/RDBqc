@@ -1,6 +1,6 @@
 #' Check number of record in FDI J table
 #'
-#' @description The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, and fishing techniques for the following 4 variables: total trips; total kW; total GT; total vessels.
+#' @description The function provides counts the numbers of records and generate summary of data in the given table grouped by year, GSA, MS, vessels length, and fishing techniques for the following 4 variables: total trips; total kW; total GT; total vessels.
 #' @param data FDI table J capacity
 #' @param GSA GSA code
 #' @param MS member state code

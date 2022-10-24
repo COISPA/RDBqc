@@ -80,7 +80,7 @@ FDI_check_coord <- function(data, MS, verbose = FALSE) {
       ddd <- ddd[, which(colnames(ddd) %in% c(columns, "lat.check", "lon.check"))]
     } else {
       if (verbose) {
-        message(paste("no data available with rectangle coordinates in the selected table"))
+        message(paste("no data with rectangle coordinates available in the selected table"))
       }
       ddd <- NULL
     }
