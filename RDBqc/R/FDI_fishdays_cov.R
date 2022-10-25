@@ -102,7 +102,7 @@ FDI_fishdays_cov <- function(dataG, dataI, MS, verbose = TRUE) {
     # }
   } else if (!(MS %in% mslistG) | !(MS %in% mslistI)) {
     if (verbose) {
-      message(paste("MS", MS, "not existing in table G"))
+      message(paste("MS", MS, "not existing in table G or in table I"))
     }
     cov <- NULL
   }

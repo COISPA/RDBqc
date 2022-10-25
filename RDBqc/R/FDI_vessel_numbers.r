@@ -83,7 +83,6 @@ FDI_vessel_numbers <- function(dataJ, dataG, MS, verbose = TRUE) {
     # find nas in table G and report
     ind <- which(is.na(cov$vesselsG) & cov$vesselsJ != 0 & !is.na(cov$vesselsJ))
 
-
     if (length(ind) != 0) {
       print(paste("Found", length(ind), "cases where no. vessels > 0 in table J but not existing in table G"), sep = " ")
       cov3 <- cov[ind, ]
@@ -97,6 +96,5 @@ FDI_vessel_numbers <- function(dataJ, dataG, MS, verbose = TRUE) {
     cov <- NULL
     cov3 <- NULL
   }
-
   return(list(comparison_table_J_G = cov, vessels_not_present_in_table_G = cov3))
 }

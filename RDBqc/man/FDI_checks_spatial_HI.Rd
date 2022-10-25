@@ -17,7 +17,7 @@ FDI_checks_spatial_HI(data, MS, verbose = FALSE)
 The function returns a list of 2 tables. The first (NA_inconsistencies) reports the records with the inconsistencies detected in spatial of the selected table, while the second one reports the record without any sub_region assignment.
 }
 \description{
-The function checks the incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included:
+The function checks the  incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included:
 \enumerate{
 \item{presence of NA values in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA;}
 \item{the presence any data in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported;}

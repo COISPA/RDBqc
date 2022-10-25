@@ -4,7 +4,7 @@
 #' @param data1 FDI table A catch
 #' @param data2 FDI table G effort
 #' @param verbose boolean. If TRUE a message is printed.
-#' @return The function returns a table where all the miss matches between landings and effort are shown.
+#' @return The function returns a table where all the mismatches between landings and effort are shown.
 #' @export
 #' @author Andrea Pierucci <pierucci@@coispa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
@@ -79,14 +79,18 @@ FDI_cross_checks_AG <- function(data1, data2, verbose = FALSE) {
     data <- data[data$Data != "no mismatch", ]
 
     output <- as.data.frame(data)
+    colnames(output)[ncol(output)] <- "Check results"
     if (verbose) {
       message("summary_table")
     }
+
   } else {
     if (verbose) {
       message(paste("Missing data in at least one of the two tables provided"))
     }
     output <- NULL
   }
+
+
   return(output)
 }

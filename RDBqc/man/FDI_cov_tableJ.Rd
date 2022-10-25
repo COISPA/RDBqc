@@ -36,7 +36,7 @@ The function returns a list. The first element gives the summary table of record
 }
 }
 \description{
-The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, and fishing techniques for the following 4 variables: total trips; total kW; total GT; total vessels.
+The function provides counts the numbers of records and generate summary of data in the given table grouped by year, GSA, MS, vessels length, and fishing techniques for the following 4 variables: total trips; total kW; total GT; total vessels.
 }
 \examples{
 FDI_cov_tableJ(data = fdi_j_capacity, MS = "PSP", GSA = "GSA99")

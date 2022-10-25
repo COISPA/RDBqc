@@ -14,7 +14,7 @@ FDI_cross_checks_AG(data1, data2, verbose = FALSE)
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
-The function returns a table where all the miss matches between landings and effort are shown.
+The function returns a table where all the mismatches between landings and effort are shown.
 }
 \description{
 The function checks the possible data inconsistency between landings and effort.
