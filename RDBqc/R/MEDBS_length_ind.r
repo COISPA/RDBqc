@@ -76,6 +76,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
       if (verbose) {
         message(paste0("No landing data available for the selected species (", SP, ")"))
       }
+      output=NULL
     } else {
       var_no_landed <- grep("lengthclass", names(land), value = TRUE)
       max_no_landed <- land[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_landed]
@@ -422,6 +423,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
       names(output)[[l]] <- paste("MedianLength", SP, MS, GSA, sep = " _ ")
     } else {
       print("No discards data available for this stock")
+      output=NULL
     }
   }
 

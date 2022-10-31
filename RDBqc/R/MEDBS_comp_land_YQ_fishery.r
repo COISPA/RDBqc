@@ -46,6 +46,8 @@ MEDBS_comp_land_YQ_fishery <- function(data, SP, MS, GSA, verbose = TRUE) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
+    compLandings0 <- data.frame(matrix(ncol=6,nrow=0))
+    colnames(compLandings0) <- c("YEAR", "GEAR", "FISHERY","tot_q","tot_yr","ratio")
   } else {
     land$LANDINGS[land$LANDINGS == -1] <- 0
 
@@ -69,6 +71,7 @@ MEDBS_comp_land_YQ_fishery <- function(data, SP, MS, GSA, verbose = TRUE) {
     compLandings0 <- do.call(rbind, compLand0)
     compLandings0 <- as.data.frame(compLandings0)
 
-    return(as.data.frame(compLandings0))
+
   }
+  return(as.data.frame(compLandings0))
 }

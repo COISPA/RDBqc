@@ -28,14 +28,14 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
     # library(data.table)
     # library(tidyverse)
     # library(fishmethods)
-    data <- Disc # Discard_tab_example # Landing_tab_example
+    data <- Landing_tab_example # Disc # Discard_tab_example #
     # splines <- c(0.2,0.4,0.6,0.8)
     # Xtresholds = c(0.25,0.5,0.75)
-    type <- "d"
+    type <- "l"
     # out = "mean" # "mean"
     MS <- c("ITA")
-    GSA <- c("GSA 19")
-    SP <- "HKE"
+    GSA <- c("GSA 9")
+    SP <- "DPS"
     # tic()
 
     MEDBS_yr_missing_length(data = Disc, type = "d", SP = "HKE", MS = "ITA", GSA = "GSA 18")
@@ -58,6 +58,9 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
 
     ## Subsetting DataFrame, preparing data for further elaboration and setting output directory ####
     land <- landed[which(landed$area == GSA & landed$country == MS & landed$species == SP), ]
+
+    if (nrow(land) >0) {
+
     var_no_landed <- grep("lengthclass", names(land), value = TRUE)
     land <- as.data.table(land)
     max_no_landed <- land[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_landed]
@@ -68,7 +71,7 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
     p <- as.data.frame(colSums(max_no_landed2, na.rm = TRUE))
     p$Length <- c(0:100)
     names(p) <- c("Sum", "Length")
-    maxlength <- max(p[which(p$Sum > 0), "Length"])
+    maxlength <- suppressWarnings(max(p[which(p$Sum > 0), "Length"]))
     unit <- unique(land$unit)
 
     ###### LANDINGS #######
@@ -114,6 +117,12 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
     } else {
       return(NULL)
     }
+
+    } else {
+      return(NULL)
+    }
+
+
   }
 
   ############################################################
@@ -127,6 +136,9 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
     discarded$discards[discarded$discards == -1] <- 0
 
     disc <- discarded[which(discarded$area == GSA & discarded$country == MS & discarded$species == SP), ]
+
+    if (nrow(disc)>0) {
+
     var_no_discard <- grep("lengthclass", names(disc), value = TRUE)
     max_no_discard <- disc[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_discard]
     max_no_discard[max_no_discard == -1] <- 0
@@ -188,5 +200,11 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
     } else {
       print("No discards data available for this stock")
     }
+
+    } else {
+      return(NULL)
+    }
+
+
   }
 }

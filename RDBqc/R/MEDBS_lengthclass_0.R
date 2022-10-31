@@ -53,13 +53,16 @@ MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       n_LC_0 <- length(which(land_vs_length_minus2$ck_0_length == 0, arr.ind = T))
       if (verbose) {
         message(paste0(n_LC_0, " cases in which length class number are zero and landings > 0"))
-        result <- land_vs_length_minus2[which(land_vs_length_minus2$ck_0_length == 0, arr.ind = T), ]
-        return(result)
       }
+      result <- land_vs_length_minus2[which(land_vs_length_minus2$ck_0_length == 0, arr.ind = T), ]
+      return(result)
     } else {
       if (verbose) {
         message(paste0("No landings data > 0"))
       }
+      result <- data.frame(matrix(ncol=13,nrow=0))
+      colnames(result) <- c("id", "country", "year", "quarter", "vessel_length", "gear", "mesh_size_range",  "fishery",  "area", "specon", "species",   "landings", "ck_0_length")
+      return(result)
     }
   }
 
@@ -83,13 +86,16 @@ MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       n_LC_0 <- length(which(land_vs_length_minus2$ck_0_length == 0, arr.ind = T))
       if (verbose) {
         message(paste0(n_LC_0, " cases in which length class number are zero and discards > 0"))
-        result <- land_vs_length_minus2[which(land_vs_length_minus2$ck_0_length == 0, arr.ind = T), ]
-        return(result)
       }
+      result <- land_vs_length_minus2[which(land_vs_length_minus2$ck_0_length == 0, arr.ind = T), ]
+      return(result)
     } else {
       if (verbose) {
         message(paste0("No discards data > 0"))
       }
+      result <- data.frame(matrix(ncol=13,nrow=0))
+      colnames(result) <- c("id", "country", "year", "quarter", "vessel_length", "gear", "mesh_size_range",  "fishery",  "area", "specon", "species",   "discards", "ck_0_length")
+      return(result)
     }
   }
 }
