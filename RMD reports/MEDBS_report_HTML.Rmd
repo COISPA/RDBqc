@@ -19,7 +19,7 @@ params:
 ---
 <!-- INITIALIZATION -->
 
-```{r setup, include=FALSE}
+```{r libraries, include=FALSE}
 knitr::opts_chunk$set(
     echo = FALSE,
     message = FALSE,
@@ -35,31 +35,31 @@ lapply(lib, require, character.only = TRUE)
 
 ```{r setup, include=FALSE}
 
-# # reading files
-# # UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
-# # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
-# 
-# SOP_threshold <- 5
-# Rt <- 1
-# 
-# Catch = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\catch.csv", sep=";",header=TRUE) # Catch_tab_example
-# Land = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\landings.csv", sep=",",header=TRUE)
-# Disc = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\discards.csv", sep=",",header=TRUE) # Discard_tab_example
-# ML = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\ml.csv", sep=",",header=TRUE) # ML_tab_example
-# MA = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\ma.csv", sep=",",header=TRUE) # MA_tab_example
-# SL = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\srl.csv", sep=",",header=TRUE) # SL_tab_example
-# SA = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\sra.csv", sep=",",header=TRUE) # SA_tab_example
-# GP = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\gp.csv", sep=",",header=TRUE) # GP_tab_example
-# ALK = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\RDBqc\\testfiles\\alk.csv", sep=",",header=TRUE) # ALK_tab_example
-# 
-# SPs <- c("HKE")
-# MS <- "ITA"
-# GSAs <- c("GSA 18","GSA 19")
+# reading files
+# UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
+# SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
+
+SOP_threshold <- 5
+Rt <- 1
+
+Catch = Catch_tab_example 
+Land = Landing_tab_example
+Disc = Discard_tab_example
+ML = ML_tab_example
+MA = MA_tab_example
+SL = SL_tab_example
+SA = SA_tab_example
+GP = GP_tab_example
+ALK = ALK_tab_example
+
+SPs <- c("HKE")
+MS <- "ITA"
+GSAs <- c("GSA 18","GSA 19")
 
 ```
 
 
-```{r setup, include=FALSE}
+```{r filters, include=FALSE}
 # check the presence of user defined filter for species (SPs)
 if (exists("SPs")) {
   if (length(SPs) == 1 & is.na(SPs[1])) {
@@ -132,6 +132,9 @@ if (exists("Catch")) {
       if(!user_GSA){
         GSAs <- unique(Catch$area)
       }
+    } else {
+      check_Catch <- FALSE
+      cat("\n No catch data available \n")
     }
   }
 } else {
@@ -282,6 +285,9 @@ if (exists("Land")) {
       if(!user_GSA){
         GSAs <- unique(Land$area)
       }
+    } else {
+        check_Land <- FALSE
+        cat("\n No Landing data available \n")
     }
   }
 } else {
