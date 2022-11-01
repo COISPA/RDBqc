@@ -42,18 +42,18 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-SOP_threshold <- 5
-Rt <- 1
-
-Catch = Catch_tab_example 
-Land = Landing_tab_example
-Disc = Discard_tab_example
-ML = ML_tab_example
-MA = MA_tab_example
-SL = SL_tab_example
-SA = SA_tab_example
-GP = GP_tab_example
-ALK = ALK_tab_example
+# SOP_threshold <- 5
+# Rt <- 1
+# 
+# Catch = Catch_tab_example 
+# Land = Landing_tab_example
+# Disc = Discard_tab_example
+# ML = ML_tab_example
+# MA = MA_tab_example
+# SL = SL_tab_example
+# SA = SA_tab_example
+# GP = GP_tab_example
+# ALK = ALK_tab_example
 
 # SPs <- c("HKE")
 # MS <- "ITA"
