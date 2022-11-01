@@ -42,10 +42,8 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-# SOP_threshold <- 5
-# Rt <- 1
-# 
-# Catch = Catch_tab_example 
+
+Catch =  read.csv("~/GitHub/RDBqc/APPOGGIO/Ioannis/GRC_CATCH_semicolumn_lower_GRC.csv", sep=";") # Catch_tab_example
 # Land = Landing_tab_example
 # Disc = Discard_tab_example
 # ML = ML_tab_example
