@@ -21,6 +21,8 @@ task_vii31 in GFCM DCRF datacall format
 }
 \author{
 Isabella Bitetto \email{bitetto@coispa.it}
+
+Isabella Bitetto \email{bitetto@coispa.it}
 }
 \keyword{DCRF}
 \keyword{GFCM}

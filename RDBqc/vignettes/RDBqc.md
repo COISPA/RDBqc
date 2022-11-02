@@ -1,7 +1,7 @@
 ---
 title: "RDBqc: Quality checks on RDBFIS data formats" 
 author: "Walter Zupa"
-date: "2022-10-20"
+date: "2022-11-02"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::knitr}
@@ -504,343 +504,343 @@ _catch table_
 
 ```r
 head(Catch_tab_example)
-#>                              ID COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR
+#>                              id country year quarter vessel_length gear
 #> 1       ITA 2008-1GNS-1DEMFSA 9     ITA 2008      -1            -1  GNS
 #> 2   ITA 2010-1OTB50D100DWSPSA 9     ITA 2010      -1            -1  OTB
 #> 3   ITA 2014-1OTB50D100DWSPSA 9     ITA 2014      -1            -1  OTB
 #> 4  ITA 2008-1OTB50D100DEMSPSA 9     ITA 2008      -1            -1  OTB
 #> 5 ITA 2008-1OTB50D100MDDWSPSA 9     ITA 2008      -1            -1  OTB
 #> 6  ITA 2007-1OTB50D100DEMSPSA 9     ITA 2007      -1            -1  OTB
-#>   MESH_SIZE_RANGE FISHERY  AREA SPECON SPECIES  LANDINGS DISCARDS
+#>   mesh_size_range fishery  area specon species  landings discards
 #> 1              -1    DEMF GSA 9     -1     DPS   0.50829       -1
 #> 2          50D100    DWSP GSA 9     -1     DPS   9.69116       -1
 #> 3          50D100    DWSP GSA 9     -1     DPS   2.11283       -1
 #> 4          50D100   DEMSP GSA 9     -1     DPS 187.26219       -1
 #> 5          50D100  MDDWSP GSA 9     -1     DPS  66.06531       -1
 #> 6          50D100   DEMSP GSA 9     -1     DPS  89.84975       -1
-#>   NO_SAMPLES_LANDINGS NO_LENGTH_MEASUREMENTS_LANDINGS
+#>   no_samples_landings no_length_measurements_landings
 #> 1                  30                               0
 #> 2                   6                               0
 #> 3                   2                               0
 #> 4                  67                            3038
 #> 5                  12                            1461
 #> 6                  50                            2452
-#>   NO_AGE_MEASUREMENTS_LANDINGS NO_SAMPLES_DISCARDS
+#>   no_age_measurements_landings no_samples_discards
 #> 1                            0                   0
 #> 2                            0                   0
 #> 3                            0                   0
 #> 4                            0                   0
 #> 5                            0                   0
 #> 6                            0                   0
-#>   NO_LENGTH_MEASUREMENTS_DISCARDS NO_AGE_MEASUREMENTS_DISCARDS NO_SAMPLES_CATCH
+#>   no_length_measurements_discards no_age_measurements_discards no_samples_catch
 #> 1                              -1                           -1               -1
 #> 2                              -1                           -1               -1
 #> 3                              -1                           -1               -1
 #> 4                              -1                           -1               -1
 #> 5                              -1                           -1               -1
 #> 6                              -1                           -1               -1
-#>   NO_LENGTH_MEASUREMENTS_CATCH NO_AGE_MEASUREMENTS_CATCH MIN_AGE MAX_AGE AGE_0
+#>   no_length_measurements_catch no_age_measurements_catch min_age max_age age_0
 #> 1                           -1                        -1      -1      -1     0
 #> 2                           -1                        -1      -1      -1     0
 #> 3                           -1                        -1      -1      -1     0
 #> 4                           -1                        -1       0       4     0
 #> 5                           -1                        -1       0       4     0
 #> 6                           -1                        -1       0       4     0
-#>   AGE_0_NO_LANDED AGE_0_MEAN_WEIGHT_LANDED AGE_0_MEAN_LENGTH_LANDED
+#>   age_0_no_landed age_0_mean_weight_landed age_0_mean_length_landed
 #> 1           0.000                    0.000                     0.00
 #> 2           0.000                    0.000                     0.00
 #> 3           0.000                    0.000                     0.00
 #> 4        8859.650                    0.005                     1.97
 #> 5         489.758                    0.006                     2.02
 #> 6        1430.784                    0.006                     2.06
-#>   AGE_0_NO_DISCARD AGE_0_MEAN_WEIGHT_DISCARD AGE_0_MEAN_LENGTH_DISCARD AGE_1
+#>   age_0_no_discard age_0_mean_weight_discard age_0_mean_length_discard age_1
 #> 1               -1                        -1                        -1     1
 #> 2               -1                        -1                        -1     1
 #> 3               -1                        -1                        -1     1
 #> 4               -1                        -1                         0     1
 #> 5               -1                        -1                         0     1
 #> 6               -1                        -1                         0     1
-#>   AGE_1_NO_LANDED AGE_1_MEAN_WEIGHT_LANDED AGE_1_MEAN_LENGTH_LANDED
+#>   age_1_no_landed age_1_mean_weight_landed age_1_mean_length_landed
 #> 1           0.000                    0.000                     0.00
 #> 2           0.000                    0.000                     0.00
 #> 3           0.000                    0.000                     0.00
 #> 4        8431.094                    0.012                     2.68
 #> 5        2721.682                    0.013                     2.80
 #> 6        4638.951                    0.013                     2.77
-#>   AGE_1_NO_DISCARD AGE_1_MEAN_WEIGHT_DISCARD AGE_1_MEAN_LENGTH_DISCARD AGE_2
+#>   age_1_no_discard age_1_mean_weight_discard age_1_mean_length_discard age_2
 #> 1               -1                        -1                        -1     2
 #> 2               -1                        -1                        -1     2
 #> 3               -1                        -1                        -1     2
 #> 4               -1                        -1                         0     2
 #> 5               -1                        -1                         0     2
 #> 6               -1                        -1                         0     2
-#>   AGE_2_NO_LANDED AGE_2_MEAN_WEIGHT_LANDED AGE_2_MEAN_LENGTH_LANDED
+#>   age_2_no_landed age_2_mean_weight_landed age_2_mean_length_landed
 #> 1           0.000                    0.000                     0.00
 #> 2           0.000                    0.000                     0.00
 #> 3           0.000                    0.000                     0.00
 #> 4        1395.641                    0.020                     3.28
 #> 5         638.159                    0.020                     3.31
 #> 6         935.121                    0.021                     3.35
-#>   AGE_2_NO_DISCARD AGE_2_MEAN_WEIGHT_DISCARD AGE_2_MEAN_LENGTH_DISCARD AGE_3
+#>   age_2_no_discard age_2_mean_weight_discard age_2_mean_length_discard age_3
 #> 1               -1                        -1                        -1     3
 #> 2               -1                        -1                        -1     3
 #> 3               -1                        -1                        -1     3
 #> 4               -1                        -1                         0     3
 #> 5               -1                        -1                         0     3
 #> 6               -1                        -1                         0     3
-#>   AGE_3_NO_LANDED AGE_3_MEAN_WEIGHT_LANDED AGE_3_MEAN_LENGTH_LANDED
+#>   age_3_no_landed age_3_mean_weight_landed age_3_mean_length_landed
 #> 1           0.000                    0.000                     0.00
 #> 2           0.000                    0.000                     0.00
 #> 3           0.000                    0.000                     0.00
 #> 4         213.802                    0.024                     3.54
 #> 5         197.337                    0.026                     3.63
 #> 6          64.480                    0.022                     3.39
-#>   AGE_3_NO_DISCARD AGE_3_MEAN_WEIGHT_DISCARD AGE_3_MEAN_LENGTH_DISCARD AGE_4
+#>   age_3_no_discard age_3_mean_weight_discard age_3_mean_length_discard age_4
 #> 1               -1                        -1                        -1     4
 #> 2               -1                        -1                        -1     4
 #> 3               -1                        -1                        -1     4
 #> 4               -1                        -1                         0     4
 #> 5               -1                        -1                         0     4
 #> 6               -1                        -1                         0     4
-#>   AGE_4_NO_LANDED AGE_4_MEAN_WEIGHT_LANDED AGE_4_MEAN_LENGTH_LANDED
+#>   age_4_no_landed age_4_mean_weight_landed age_4_mean_length_landed
 #> 1           0.000                    0.000                     0.00
 #> 2           0.000                    0.000                     0.00
 #> 3           0.000                    0.000                     0.00
 #> 4         414.040                    0.023                     3.50
 #> 5         388.771                    0.024                     3.55
 #> 6          29.945                    0.023                     3.49
-#>   AGE_4_NO_DISCARD AGE_4_MEAN_WEIGHT_DISCARD AGE_4_MEAN_LENGTH_DISCARD AGE_5
+#>   age_4_no_discard age_4_mean_weight_discard age_4_mean_length_discard age_5
 #> 1               -1                        -1                        -1     5
 #> 2               -1                        -1                        -1     5
 #> 3               -1                        -1                        -1     5
 #> 4               -1                        -1                         0     5
 #> 5               -1                        -1                         0     5
 #> 6               -1                        -1                         0     5
-#>   AGE_5_NO_LANDED AGE_5_MEAN_WEIGHT_LANDED AGE_5_MEAN_LENGTH_LANDED
+#>   age_5_no_landed age_5_mean_weight_landed age_5_mean_length_landed
 #> 1               0                        0                        0
 #> 2               0                        0                        0
 #> 3               0                        0                        0
 #> 4               0                        0                        0
 #> 5               0                        0                        0
 #> 6               0                        0                        0
-#>   AGE_5_NO_DISCARD AGE_5_MEAN_WEIGHT_DISCARD AGE_5_MEAN_LENGTH_DISCARD AGE_6
+#>   age_5_no_discard age_5_mean_weight_discard age_5_mean_length_discard age_6
 #> 1               -1                        -1                        -1     6
 #> 2               -1                        -1                        -1     6
 #> 3               -1                        -1                        -1     6
 #> 4               -1                        -1                         0     6
 #> 5               -1                        -1                         0     6
 #> 6               -1                        -1                         0     6
-#>   AGE_6_NO_LANDED AGE_6_MEAN_WEIGHT_LANDED AGE_6_MEAN_LENGTH_LANDED
+#>   age_6_no_landed age_6_mean_weight_landed age_6_mean_length_landed
 #> 1               0                        0                        0
 #> 2               0                        0                        0
 #> 3               0                        0                        0
 #> 4               0                        0                        0
 #> 5               0                        0                        0
 #> 6               0                        0                        0
-#>   AGE_6_NO_DISCARD AGE_6_MEAN_WEIGHT_DISCARD AGE_6_MEAN_LENGTH_DISCARD AGE_7
+#>   age_6_no_discard age_6_mean_weight_discard age_6_mean_length_discard age_7
 #> 1               -1                        -1                        -1     7
 #> 2               -1                        -1                        -1     7
 #> 3               -1                        -1                        -1     7
 #> 4               -1                        -1                         0     7
 #> 5               -1                        -1                         0     7
 #> 6               -1                        -1                         0     7
-#>   AGE_7_NO_LANDED AGE_7_MEAN_WEIGHT_LANDED AGE_7_MEAN_LENGTH_LANDED
+#>   age_7_no_landed age_7_mean_weight_landed age_7_mean_length_landed
 #> 1               0                        0                        0
 #> 2               0                        0                        0
 #> 3               0                        0                        0
 #> 4               0                        0                        0
 #> 5               0                        0                        0
 #> 6               0                        0                        0
-#>   AGE_7_NO_DISCARD AGE_7_MEAN_WEIGHT_DISCARD AGE_7_MEAN_LENGTH_DISCARD AGE_8
+#>   age_7_no_discard age_7_mean_weight_discard age_7_mean_length_discard age_8
 #> 1               -1                        -1                        -1     8
 #> 2               -1                        -1                        -1     8
 #> 3               -1                        -1                        -1     8
 #> 4               -1                        -1                         0     8
 #> 5               -1                        -1                         0     8
 #> 6               -1                        -1                         0     8
-#>   AGE_8_NO_LANDED AGE_8_MEAN_WEIGHT_LANDED AGE_8_MEAN_LENGTH_LANDED
+#>   age_8_no_landed age_8_mean_weight_landed age_8_mean_length_landed
 #> 1               0                        0                        0
 #> 2               0                        0                        0
 #> 3               0                        0                        0
 #> 4               0                        0                        0
 #> 5               0                        0                        0
 #> 6               0                        0                        0
-#>   AGE_8_NO_DISCARD AGE_8_MEAN_WEIGHT_DISCARD AGE_8_MEAN_LENGTH_DISCARD AGE_9
+#>   age_8_no_discard age_8_mean_weight_discard age_8_mean_length_discard age_9
 #> 1               -1                        -1                        -1     9
 #> 2               -1                        -1                        -1     9
 #> 3               -1                        -1                        -1     9
 #> 4               -1                        -1                         0     9
 #> 5               -1                        -1                         0     9
 #> 6               -1                        -1                         0     9
-#>   AGE_9_NO_LANDED AGE_9_MEAN_WEIGHT_LANDED AGE_9_MEAN_LENGTH_LANDED
+#>   age_9_no_landed age_9_mean_weight_landed age_9_mean_length_landed
 #> 1               0                        0                        0
 #> 2               0                        0                        0
 #> 3               0                        0                        0
 #> 4               0                        0                        0
 #> 5               0                        0                        0
 #> 6               0                        0                        0
-#>   AGE_9_NO_DISCARD AGE_9_MEAN_WEIGHT_DISCARD AGE_9_MEAN_LENGTH_DISCARD AGE_10
+#>   age_9_no_discard age_9_mean_weight_discard age_9_mean_length_discard age_10
 #> 1               -1                        -1                        -1     10
 #> 2               -1                        -1                        -1     10
 #> 3               -1                        -1                        -1     10
 #> 4               -1                        -1                         0     10
 #> 5               -1                        -1                         0     10
 #> 6               -1                        -1                         0     10
-#>   AGE_10_NO_LANDED AGE_10_MEAN_WEIGHT_LANDED AGE_10_MEAN_LENGTH_LANDED
+#>   age_10_no_landed age_10_mean_weight_landed age_10_mean_length_landed
 #> 1                0                         0                         0
 #> 2                0                         0                         0
 #> 3                0                         0                         0
 #> 4                0                         0                         0
 #> 5                0                         0                         0
 #> 6                0                         0                         0
-#>   AGE_10_NO_DISCARD AGE_10_MEAN_WEIGHT_DISCARD AGE_10_MEAN_LENGTH_DISCARD
+#>   age_10_no_discard age_10_mean_weight_discard age_10_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_11 AGE_11_NO_LANDED AGE_11_MEAN_WEIGHT_LANDED AGE_11_MEAN_LENGTH_LANDED
+#>   age_11 age_11_no_landed age_11_mean_weight_landed age_11_mean_length_landed
 #> 1     11                0                         0                         0
 #> 2     11                0                         0                         0
 #> 3     11                0                         0                         0
 #> 4     11                0                         0                         0
 #> 5     11                0                         0                         0
 #> 6     11                0                         0                         0
-#>   AGE_11_NO_DISCARD AGE_11_MEAN_WEIGHT_DISCARD AGE_11_MEAN_LENGTH_DISCARD
+#>   age_11_no_discard age_11_mean_weight_discard age_11_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_12 AGE_12_NO_LANDED AGE_12_MEAN_WEIGHT_LANDED AGE_12_MEAN_LENGTH_LANDED
+#>   age_12 age_12_no_landed age_12_mean_weight_landed age_12_mean_length_landed
 #> 1     12                0                         0                         0
 #> 2     12                0                         0                         0
 #> 3     12                0                         0                         0
 #> 4     12                0                         0                         0
 #> 5     12                0                         0                         0
 #> 6     12                0                         0                         0
-#>   AGE_12_NO_DISCARD AGE_12_MEAN_WEIGHT_DISCARD AGE_12_MEAN_LENGTH_DISCARD
+#>   age_12_no_discard age_12_mean_weight_discard age_12_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_13 AGE_13_NO_LANDED AGE_13_MEAN_WEIGHT_LANDED AGE_13_MEAN_LENGTH_LANDED
+#>   age_13 age_13_no_landed age_13_mean_weight_landed age_13_mean_length_landed
 #> 1     13                0                         0                         0
 #> 2     13                0                         0                         0
 #> 3     13                0                         0                         0
 #> 4     13                0                         0                         0
 #> 5     13                0                         0                         0
 #> 6     13                0                         0                         0
-#>   AGE_13_NO_DISCARD AGE_13_MEAN_WEIGHT_DISCARD AGE_13_MEAN_LENGTH_DISCARD
+#>   age_13_no_discard age_13_mean_weight_discard age_13_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_14 AGE_14_NO_LANDED AGE_14_MEAN_WEIGHT_LANDED AGE_14_MEAN_LENGTH_LANDED
+#>   age_14 age_14_no_landed age_14_mean_weight_landed age_14_mean_length_landed
 #> 1     14                0                         0                         0
 #> 2     14                0                         0                         0
 #> 3     14                0                         0                         0
 #> 4     14                0                         0                         0
 #> 5     14                0                         0                         0
 #> 6     14                0                         0                         0
-#>   AGE_14_NO_DISCARD AGE_14_MEAN_WEIGHT_DISCARD AGE_14_MEAN_LENGTH_DISCARD
+#>   age_14_no_discard age_14_mean_weight_discard age_14_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_15 AGE_15_NO_LANDED AGE_15_MEAN_WEIGHT_LANDED AGE_15_MEAN_LENGTH_LANDED
+#>   age_15 age_15_no_landed age_15_mean_weight_landed age_15_mean_length_landed
 #> 1     15                0                         0                         0
 #> 2     15                0                         0                         0
 #> 3     15                0                         0                         0
 #> 4     15                0                         0                         0
 #> 5     15                0                         0                         0
 #> 6     15                0                         0                         0
-#>   AGE_15_NO_DISCARD AGE_15_MEAN_WEIGHT_DISCARD AGE_15_MEAN_LENGTH_DISCARD
+#>   age_15_no_discard age_15_mean_weight_discard age_15_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_16 AGE_16_NO_LANDED AGE_16_MEAN_WEIGHT_LANDED AGE_16_MEAN_LENGTH_LANDED
+#>   age_16 age_16_no_landed age_16_mean_weight_landed age_16_mean_length_landed
 #> 1     16                0                         0                         0
 #> 2     16                0                         0                         0
 #> 3     16                0                         0                         0
 #> 4     16                0                         0                         0
 #> 5     16                0                         0                         0
 #> 6     16                0                         0                         0
-#>   AGE_16_NO_DISCARD AGE_16_MEAN_WEIGHT_DISCARD AGE_16_MEAN_LENGTH_DISCARD
+#>   age_16_no_discard age_16_mean_weight_discard age_16_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_17 AGE_17_NO_LANDED AGE_17_MEAN_WEIGHT_LANDED AGE_17_MEAN_LENGTH_LANDED
+#>   age_17 age_17_no_landed age_17_mean_weight_landed age_17_mean_length_landed
 #> 1     17                0                         0                         0
 #> 2     17                0                         0                         0
 #> 3     17                0                         0                         0
 #> 4     17                0                         0                         0
 #> 5     17                0                         0                         0
 #> 6     17                0                         0                         0
-#>   AGE_17_NO_DISCARD AGE_17_MEAN_WEIGHT_DISCARD AGE_17_MEAN_LENGTH_DISCARD
+#>   age_17_no_discard age_17_mean_weight_discard age_17_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_18 AGE_18_NO_LANDED AGE_18_MEAN_WEIGHT_LANDED AGE_18_MEAN_LENGTH_LANDED
+#>   age_18 age_18_no_landed age_18_mean_weight_landed age_18_mean_length_landed
 #> 1     18                0                         0                         0
 #> 2     18                0                         0                         0
 #> 3     18                0                         0                         0
 #> 4     18                0                         0                         0
 #> 5     18                0                         0                         0
 #> 6     18                0                         0                         0
-#>   AGE_18_NO_DISCARD AGE_18_MEAN_WEIGHT_DISCARD AGE_18_MEAN_LENGTH_DISCARD
+#>   age_18_no_discard age_18_mean_weight_discard age_18_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_19 AGE_19_NO_LANDED AGE_19_MEAN_WEIGHT_LANDED AGE_19_MEAN_LENGTH_LANDED
+#>   age_19 age_19_no_landed age_19_mean_weight_landed age_19_mean_length_landed
 #> 1     19                0                         0                         0
 #> 2     19                0                         0                         0
 #> 3     19                0                         0                         0
 #> 4     19                0                         0                         0
 #> 5     19                0                         0                         0
 #> 6     19                0                         0                         0
-#>   AGE_19_NO_DISCARD AGE_19_MEAN_WEIGHT_DISCARD AGE_19_MEAN_LENGTH_DISCARD
+#>   age_19_no_discard age_19_mean_weight_discard age_19_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_20_PLUS AGE_20_PLUS_NO_LANDED AGE_20_PLUS_MEAN_WEIGHT_LANDED
+#>   age_20_plus age_20_plus_no_landed age_20_plus_mean_weight_landed
 #> 1          20                     0                              0
 #> 2          20                     0                              0
 #> 3          20                     0                              0
 #> 4          20                     0                              0
 #> 5          20                     0                              0
 #> 6          20                     0                              0
-#>   AGE_20_PLUS_MEAN_LENGTH_LANDED AGE_20_PLUS_NO_DISCARD
+#>   age_20_plus_mean_length_landed age_20_plus_no_discard
 #> 1                              0                     -1
 #> 2                              0                     -1
 #> 3                              0                     -1
 #> 4                              0                     -1
 #> 5                              0                     -1
 #> 6                              0                     -1
-#>   AGE_20_PLUS_MEAN_WEIGHT_DISCARD AGE_20_PLUS_MEAN_LENGTH_DISCARD
+#>   age_20_plus_mean_weight_discard age_20_plus_mean_length_discard
 #> 1                              -1                              -1
 #> 2                              -1                              -1
 #> 3                              -1                              -1
@@ -3698,7 +3698,7 @@ The function checks in both tables H and I the compatibility of the geographical
 
 ```r
 FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
-#> no data available with rectangle coordinates in the selected table
+#> no data with rectangle coordinates available in the selected table
 #> NULL
 ```
 
@@ -4162,7 +4162,7 @@ The function checks in both tables H and I the compatibility of the geographical
 
 ```r
 FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
-#> no data available with rectangle coordinates in the selected table
+#> no data with rectangle coordinates available in the selected table
 #> NULL
 ```
 
@@ -4273,8 +4273,8 @@ The function checks the average vessels length with the vessel length category (
 ```r
 head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[1]])
 #> [1] "Check consistency of vessel length with vessel category in table J for PSP data"
-#> [1] "found 30 cases with NAs in either vessel length or vessel category or both. Check output table"
-#> [1] "found 1991 cases where vessel length does not match vessel length category"
+#> found 30 cases with NAs in either vessel length or vessel category or both. Check output table
+#> found 1991 cases where vessel length does not match vessel length category
 #>    country year vessel_length principal_sub_region totkw totgt totves    avgage
 #> 1      PSP 2014            NK                GSA99   221    21      1   7.00000
 #> 2      PSP 2014            NK                GSA99   471    18      1 444.00000
@@ -4295,8 +4295,8 @@ head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[1]])
 ```r
 head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[2]])
 #> [1] "Check consistency of vessel length with vessel category in table J for PSP data"
-#> [1] "found 30 cases with NAs in either vessel length or vessel category or both. Check output table"
-#> [1] "found 1991 cases where vessel length does not match vessel length category"
+#> found 30 cases with NAs in either vessel length or vessel category or both. Check output table
+#> found 1991 cases where vessel length does not match vessel length category
 #>    country year vessel_length principal_sub_region totkw totgt totves
 #> 4      PSP 2014        VL0006                GSA99   444   108      3
 #> 5      PSP 2014        VL0612                GSA99   598    44     44
@@ -4508,7 +4508,7 @@ head(FDI_cross_checks_AG(data1=fdi_a_catch, data2=fdi_g_effort))
 #> 78            20D40             <NA>      GSA99        0.000       56.84
 #> 138            <NA> GNS_SLP_>=16_0_0      GSA99        0.000      317.41
 #> 158            <NA> OTB_DEF_>=40_0_0      GSA99        0.000       22.04
-#>     totseadays                                                            Data
+#>     totseadays                                                   Check results
 #> 18          82 no landings, only effort in fishing days and sea days available
 #> 33          28                                 landings and sea days available
 #> 48           1 no landings, only effort in fishing days and sea days available
