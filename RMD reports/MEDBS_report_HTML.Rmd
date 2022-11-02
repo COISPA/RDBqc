@@ -43,7 +43,7 @@ lapply(lib, require, character.only = TRUE)
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
 
-Catch =  read.csv("~/GitHub/RDBqc/APPOGGIO/Ioannis/GRC_CATCH_semicolumn_lower_GRC.csv", sep=";") # Catch_tab_example
+# Catch = Catch_tab_example
 # Land = Landing_tab_example
 # Disc = Discard_tab_example
 # ML = ML_tab_example
@@ -258,8 +258,10 @@ for (g in 1:length(GSAs)) {
         res <- suppressMessages(MEDBS_SOP(Catch,SP=SPs[s],MS=MS,GSA=GSAs[g],threshold = SOP_threshold,verbose=FALSE))
         
         if (nrow(res)>0){
-            cat(paste0("\n_Critical values of SOP for ",SPs[s]," in ",GSAs[g],"_"))
+            cat(paste0("\n_Critical values of SOP for ",SPs[s]," in ",GSAs[g],"_\n\n"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        } else {
+            cat(paste0("\n_No critical values of SOP detected for ",SPs[s]," in ",GSAs[g],"_\n\n"))
         }
       }
 }

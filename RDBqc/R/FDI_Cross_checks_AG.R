@@ -36,6 +36,10 @@ FDI_cross_checks_AG <- function(data1, data2, verbose = FALSE) {
 
     suppressMessages(data <- full_join(data1, data2))
     data <- as.data.frame(data)
+    data[is.na(data$totwghtlandg),"totwghtlandg"] <- 0
+    data[is.na(data$totfishdays),"totfishdays"] <- 0
+    data[is.na(data$totseadays),"totseadays"] <- 0
+
     data$Data <- NA
     summary(data)
 

@@ -4,7 +4,7 @@
 #' @param data1 FDI catch table A
 #' @param data2 FDI spatial landings table H
 #' @param verbose boolean. If TRUE a message is printed.
-#' @return The function returns a list with two tables. In the first table all the miss matches between landings in table A and spatial landings in table H are shown, in the second table the comparison between total landings of table A and total spatial landings in table H is shown.
+#' @return The function returns a list with two tables. In the first table all the mismatches between landings in table A and spatial landings in table H are shown, in the second table the comparison between total landings of table A and total spatial landings in table H is shown.
 #' @export
 #' @author Andrea Pierucci <pierucci@@coispa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
@@ -40,6 +40,8 @@ FDI_cross_checks_AH <- function(data1, data2, verbose = FALSE) {
 
     suppressMessages(data <- full_join(data1, data2))
     data$Data <- NA
+    data[is.na(data$totwghtlandg), "totwghtlandg"] <- 0
+    data[is.na(data$ttwghtl), "ttwghtl"] <- 0
 
     for (i in 1:nrow(data)) {
       if (data$totwghtlandg[i] > 0 & data$ttwghtl[i] > 0) {
@@ -48,7 +50,7 @@ FDI_cross_checks_AH <- function(data1, data2, verbose = FALSE) {
         if (data$totwghtlandg[i] == 0 & data$ttwghtl[i] > 0) {
           data$Data[i] <- "landings in tabel A not avalilable and landings in table H available"
         } else {
-          if (data$totwghtlandg[i] > 0 & data$totfishdays[i] == 0) {
+          if (data$totwghtlandg[i] > 0 & data$ttwghtl[i] == 0) {
             data$Data[i] <- "landings in table A are available and landings in table H are not available"
           }
         }
