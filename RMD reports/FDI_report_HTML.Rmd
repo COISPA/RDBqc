@@ -39,13 +39,6 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-tableA <- read.csv("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_dataFDI_CATCH.csv", sep=",") # fdi_a_catch
-# tableG <- fdi_g_effort
-tableH <- read.csv("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_dataSPATIAL_LAND.csv", sep=",") # fdi_h_spatial_landings
-tableI <- read.csv("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_dataSPATIAL_FE.csv", sep=",")# fdi_i_spatial_effort
-# tableJ <- fdi_j_capacity
-
-
 # tableA <- fdi_a_catch
 # tableG <- fdi_g_effort
 # tableH <- fdi_h_spatial_landings
@@ -1263,40 +1256,40 @@ if (check_tableA & check_tableH) {
 ```
 
 ```{r FDI_cross_checks_IG, results = 'asis'}
-# if (check_tableI & check_tableG) {
-#   cat("\n## Consistency of effort and spatial effort in tables G and I\n")
-#   cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to report the mutual consistency of both effort and spatial effort data in table G and I.'\n")
-# 
-#   res <- suppressMessages(FDI_cross_checks_AH(data1 = tableA, data2 = tableH, verbose = FALSE))
-# 
-#   if (!is.null(res)) {
-#     if (!is.null(res[[1]])) {
-#     if (nrow(res[[1]])>0) {
-#       cat("\n\n\n")
-#       cat(paste0("\n_Summary table of inconsistencies detected between table A and table H. Data are reported by GSA, year, vessel length, fishing technique and gear type._\n"))
-#       print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
-#       cat("\n\n\n")
-#     } else {
-#       cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
-#     }
-#   }  #  if (!is.null(res[[1]])) 
-#       
-#     if (!is.null(res[[2]])) {
-#     if (nrow(res[[2]])>0) {
-#       cat("\n\n\n")
-#       cat(paste0("\n_Summary table of total landings of table A and total spatial landings in table H by year anc GSA_\n"))
-#       print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
-#       cat("\n\n\n")
-#     } else {
-#       cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
-#     }
-#   }  #  if (!is.null(res[[1]])) 
-#       
-#   } else {
-#     cat(paste0("\n\n\n- No data available in FDI table A or H for ",MS,"\n"))
-#   }
-# } else {
-#    cat("\nOne or both of tables A and H are missing to perform the comparison on landings data\n")
-#   } # check_Table G and I
+if (check_tableI & check_tableG) {
+  cat("\n## Consistency of effort and spatial effort in tables G and I\n")
+  cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to report the mutual consistency of both effort and spatial effort data in table G and I.'\n")
+
+  res <- suppressMessages(FDI_cross_checks_AH(data1 = tableA, data2 = tableH, verbose = FALSE))
+
+  if (!is.null(res)) {
+    if (!is.null(res[[1]])) {
+    if (nrow(res[[1]])>0) {
+      cat("\n\n\n")
+      cat(paste0("\n_Summary table of inconsistencies detected between table A and table H. Data are reported by GSA, year, vessel length, fishing technique and gear type._\n"))
+      print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
+    }
+  }  #  if (!is.null(res[[1]]))
+
+    if (!is.null(res[[2]])) {
+    if (nrow(res[[2]])>0) {
+      cat("\n\n\n")
+      cat(paste0("\n_Summary table of total landings of table A and total spatial landings in table H by year anc GSA_\n"))
+      print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
+    }
+  }  #  if (!is.null(res[[1]]))
+
+  } else {
+    cat(paste0("\n\n\n- No data available in FDI table A or H for ",MS,"\n"))
+  }
+} else {
+   cat("\nOne or both of tables A and H are missing to perform the comparison on landings data\n")
+  } # check_Table G and I
 ```
 
