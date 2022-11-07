@@ -98,7 +98,7 @@ FDI_cov_tableJ <- function(data, MS, GSA, vessel_len = "COMBINED", fishtech = "C
 
       # Plot of 1 total_trips,
 
-      suppressMessages(plot1 <- data3 %>% ggplot(aes(x = year, y = total_trips, linetype = fishing_tech)) +
+      suppressMessages(plot1 <- data3 %>% ggplot(aes(x = year, y = total_trips, colour = fishing_tech)) +
         geom_point() +
         geom_line() +
         scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
@@ -115,7 +115,7 @@ FDI_cov_tableJ <- function(data, MS, GSA, vessel_len = "COMBINED", fishtech = "C
 
       # Plot of 2 total_total_kW,
 
-      suppressMessages(plot2 <- data3 %>% ggplot(aes(x = year, y = total_total_kW, linetype = fishing_tech)) +
+      suppressMessages(plot2 <- data3 %>% ggplot(aes(x = year, y = total_total_kW, colour = fishing_tech)) +
         geom_point() +
         geom_line() +
         scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
@@ -132,7 +132,7 @@ FDI_cov_tableJ <- function(data, MS, GSA, vessel_len = "COMBINED", fishtech = "C
 
       # Plot of 3 total_GT,
 
-      suppressMessages(plot3 <- data3 %>% ggplot(aes(x = year, y = total_GT, linetype = fishing_tech)) +
+      suppressMessages(plot3 <- data3 %>% ggplot(aes(x = year, y = total_GT, colour = fishing_tech)) +
         scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
         geom_point() +
         geom_line() +
@@ -149,7 +149,7 @@ FDI_cov_tableJ <- function(data, MS, GSA, vessel_len = "COMBINED", fishtech = "C
 
       # Plot of 4 total_vessels,
 
-      suppressMessages(plot4 <- data3 %>% ggplot(aes(x = year, y = total_vessels, linetype = fishing_tech)) +
+      suppressMessages(plot4 <- data3 %>% ggplot(aes(x = year, y = total_vessels, colour = fishing_tech)) +
         scale_x_continuous(breaks = seq(min(data3$year), max(data3$year), 4)) +
         geom_point() +
         geom_line() +

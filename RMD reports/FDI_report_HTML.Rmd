@@ -39,11 +39,11 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-# tableA <- fdi_a_catch
-# tableG <- fdi_g_effort
-# tableH <- fdi_h_spatial_landings
-# tableI <- fdi_i_spatial_effort
-# tableJ <- fdi_j_capacity
+tableA <- fdi_a_catch
+tableG <- fdi_g_effort
+tableH <- fdi_h_spatial_landings
+tableI <- fdi_i_spatial_effort
+tableJ <- fdi_j_capacity
 
 # MS <- "PSP"
 # SPs = c("HKE","DPS") # "COMBINED"
@@ -56,10 +56,9 @@ lapply(lib, require, character.only = TRUE)
 
 ```
 
+<!-- DO NOT MODIFY THE FOLLOWING CODE -->
 
 ```{r setup, include=FALSE}
-# DO NOT MODIFY THE FOLLOWING CODE
-
 # check the presence of user defined filter for member state (MS)
 if (exists("MS")) {
 if(length(MS)==1 & is.na(MS[1])) {
@@ -1022,7 +1021,7 @@ if (check_tableJ) {
 if (check_tableJ) {
   
   cat("\n## Coverage of FDI Capacity and fleet segment effort table\n")
-  cat("\nThe FDI catch table was analyzed to return plots for four variables (total trips; total kW; total GT; total vessels) grouped by year, vessels length, and fishing techniques.\n")
+  cat("\nThe FDI Capacity table was analyzed to return plots for four variables (total trips; total kW; total GT; total vessels) grouped by year, vessels length, and fishing techniques.\n")
   
 
 g=1
@@ -1190,10 +1189,11 @@ if (check_tableG & check_tableJ) {
   } # check_Table G and I
 ```
 
+
 ```{r FDI_cross_checks_AG, results = 'asis'}
 if (check_tableA & check_tableG) {
   cat("\n## Consistency of landings and effort in tables A and G\n")
-  cat("\nBoth FDI table A (Catch) and G (Effort) were analysed to report the mutual consistency of both landings and effort data in table A and G.'\n")
+  cat("\nBoth FDI table A (Catch) and G (Effort) were analysed to summarise the mutual consistency of the reported landings and effort data.'\n")
 
   res <- suppressMessages(FDI_cross_checks_AG(data1 = tableA, data2 = tableG, verbose = FALSE))
 
@@ -1201,17 +1201,17 @@ if (check_tableA & check_tableG) {
 
     if (nrow(res)>0) {
       cat("\n\n\n")
-      cat(paste0("\n_Summary table of total fishing days by country, GSA and year (Table G and I)._\n"))
+      cat(paste0("\n_Summary table of the mutual inconsistency of tables A and G by country, GSA and year._\n"))
       print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
-      cat(paste0("\n\n\n- No data available in FDI table G or I\n"))
+      cat(paste0("\n\n\n- No inconsistencies detected between FDI table A and G\n"))
     }
   } else {
-    cat(paste0("\n\n\n- No data available in FDI table G or I for ",MS,"\n"))
+    cat(paste0("\n\n\n- No data available in FDI table A or G for ",MS,"\n"))
   }
 } else {
-   cat("\nOne or both of tables G and I are missing to perform the comparison on totalfishdays.\n")
+   cat("\nOne or both of tables A and G are missing to perform the comparison.\n")
   } # check_Table G and I
 ```
 
@@ -1220,7 +1220,7 @@ if (check_tableA & check_tableG) {
 ```{r FDI_cross_checks_AH, results = 'asis'}
 if (check_tableA & check_tableH) {
   cat("\n## Consistency of landings and spatial landings in table A and H\n")
-  cat("\nBoth FDI table A (Catch) and H (Landing by rectangle) were analysed to report the mutual consistency of both landings data in table A and H.'\n")
+  cat("\nBoth FDI table A (Catch) and H (Landing by rectangle) were analysed to summarise the mutual consistency of the reported landings data.'\n")
 
   res <- suppressMessages(FDI_cross_checks_AH(data1 = tableA, data2 = tableH, verbose = FALSE))
 
@@ -1232,7 +1232,7 @@ if (check_tableA & check_tableH) {
       print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
-      cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
+      cat(paste0("\n\n\n- No inconsistencies detected between FDI table A and H\n"))
     }
   }  #  if (!is.null(res[[1]])) 
       
@@ -1258,38 +1258,37 @@ if (check_tableA & check_tableH) {
 ```{r FDI_cross_checks_IG, results = 'asis'}
 if (check_tableI & check_tableG) {
   cat("\n## Consistency of effort and spatial effort in tables G and I\n")
-  cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to report the mutual consistency of both effort and spatial effort data in table G and I.'\n")
+  cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to summarise the mutual consistency of the reported effort data.'\n")
 
-  res <- suppressMessages(FDI_cross_checks_AH(data1 = tableA, data2 = tableH, verbose = FALSE))
+  res <- suppressMessages(FDI_cross_checks_IG(data1 = tableI, data2 = tableG, verbose = FALSE))
 
   if (!is.null(res)) {
     if (!is.null(res[[1]])) {
     if (nrow(res[[1]])>0) {
       cat("\n\n\n")
-      cat(paste0("\n_Summary table of inconsistencies detected between table A and table H. Data are reported by GSA, year, vessel length, fishing technique and gear type._\n"))
+      cat(paste0("\n_Summary table of inconsistencies detected between table G and table I. Data are reported by GSA, year, vessel length, fishing technique and gear type._\n"))
       print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
-      cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
+      cat(paste0("\n\n\n- No inconsistencies detected between FDI table G and I\n"))
     }
   }  #  if (!is.null(res[[1]]))
 
     if (!is.null(res[[2]])) {
     if (nrow(res[[2]])>0) {
       cat("\n\n\n")
-      cat(paste0("\n_Summary table of total landings of table A and total spatial landings in table H by year anc GSA_\n"))
+      cat(paste0("\n_Summary table of total effort of table G and total spatial effort in table I by year and GSA_\n"))
       print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
-      cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
+      cat(paste0("\n\n\n- No data available in FDI table G or I\n"))
     }
   }  #  if (!is.null(res[[1]]))
 
   } else {
-    cat(paste0("\n\n\n- No data available in FDI table A or H for ",MS,"\n"))
+    cat(paste0("\n\n\n- No data available in FDI table G or I for ",MS,"\n"))
   }
 } else {
-   cat("\nOne or both of tables A and H are missing to perform the comparison on landings data\n")
+   cat("\nOne or both of tables G and I are missing to perform the comparison on landings data\n")
   } # check_Table G and I
 ```
-
