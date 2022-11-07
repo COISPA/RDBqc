@@ -21,24 +21,9 @@ FDI_landweight_cov <- function(dataA, dataH, MS, verbose = FALSE) {
   mslistH <- unique(dataH$country)
   if (MS %in% mslistA & MS %in% mslistH) {
     if (verbose){
-    print(paste("Coverage of landings' weight for", MS, "data in tables A and H", sep = " "))
-  }
-    } else if (!(MS %in% mslistA)) {
-    if (verbose){
-          message("MS not existing in table A")
+      print(paste("Coverage of landings' weight for", MS, "data in tables A and H", sep = " "))
     }
-    cov=NULL
-  } else if (!(MS %in% mslistH)) {
-    if (verbose){
-          message("MS not existing in table H")
-    }
-    cov=NULL
-  } else {
-    if (verbose){
-      message("MS not existing in table A and H")
-    }
-    cov=NULL
-  }
+
 
   # subset for MS
   dataA <- subset(dataA, country == MS)
@@ -123,6 +108,23 @@ FDI_landweight_cov <- function(dataA, dataH, MS, verbose = FALSE) {
   #     print(paste("Landings' weight coverage in", gsa[i], sep=' '))
   #     print(l)
   # }
+
+  } else if (!(MS %in% mslistA)) {
+    if (verbose){
+      message("MS not existing in table A")
+    }
+    cov=NULL
+  } else if (!(MS %in% mslistH)) {
+    if (verbose){
+      message("MS not existing in table H")
+    }
+    cov=NULL
+  } else {
+    if (verbose){
+      message("MS not existing in table A and H")
+    }
+    cov=NULL
+  }
 
   return(cov)
 }

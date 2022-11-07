@@ -125,13 +125,13 @@ if (exists("Catch")) {
       check_Catch <- TRUE
       cat(paste0("\n# Catch table\n"))
       if(!user_SP){
-        SPs <- unique(Catch$species)
+        SPs <- sort(unique(Catch$species))
       }
       if(!user_MS){
         MS  <- unique(Catch$country)
       }
       if(!user_GSA){
-        GSAs <- unique(Catch$area)
+        GSAs <- sort(unique(Catch$area))
       }
     } else {
       check_Catch <- FALSE

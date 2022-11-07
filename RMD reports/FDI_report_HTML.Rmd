@@ -33,30 +33,39 @@ lapply(lib, require, character.only = TRUE)
 
 <!-- USER DEFINED SOURCE FILES -->
 
-```{r setup, include=FALSE}
+```{r user_setup, include=FALSE}
 
 # reading files
 # UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-# tableA <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CS_GSA17.csv", sep=";")
-# tableG <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
-# tableH <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
-# tableI <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
-# tableJ <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
+tableA <- read.csv("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_dataFDI_CATCH.csv", sep=",") # fdi_a_catch
+# tableG <- fdi_g_effort
+tableH <- read.csv("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_dataSPATIAL_LAND.csv", sep=",") # fdi_h_spatial_landings
+tableI <- read.csv("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_dataSPATIAL_FE.csv", sep=",")# fdi_i_spatial_effort
+# tableJ <- fdi_j_capacity
 
-tableA <- fdi_a_catch
-tableG <- fdi_g_effort
-tableH <- fdi_h_spatial_landings
-tableI <- fdi_i_spatial_effort
-tableJ <- fdi_j_capacity
 
-MS <- "PSP"
-SPs = c("HKE","DPS") # "COMBINED"
-GSAs <- c("GSA99")
-vessel_len = "COMBINED"
-fishtech = "COMBINED" 
-metier <- "COMBINED"
+# tableA <- fdi_a_catch
+# tableG <- fdi_g_effort
+# tableH <- fdi_h_spatial_landings
+# tableI <- fdi_i_spatial_effort
+# tableJ <- fdi_j_capacity
+
+# MS <- "PSP"
+# SPs = c("HKE","DPS") # "COMBINED"
+# GSAs <- c("GSA99")
+# vessel_len = "COMBINED"
+# fishtech = "COMBINED" 
+# metier <- "COMBINED"
+
+
+
+```
+
+
+```{r setup, include=FALSE}
+# DO NOT MODIFY THE FOLLOWING CODE
 
 # check the presence of user defined filter for member state (MS)
 if (exists("MS")) {
@@ -123,8 +132,8 @@ if (exists("metier")) {
 } else {
   user_metier <- FALSE
 }
-
 ```
+
 
 \newpage
 <!-- Table A catch -->
@@ -139,19 +148,19 @@ if (exists("tableA")) {
       
       
       if(!user_SP){
-        SPs <- unique(tableA$species)
+        SPs <- sort(unique(tableA$species))
       }
       if(!user_MS){
         MS  <- unique(tableA$country)
       }
       if(!user_GSA){
-        GSAs <- unique(tableA$sub_region)
+        GSAs <- sort(unique(tableA$sub_region))
       }
       if(!user_vessel_len){
-        vessel_len <- unique(tableA$vessel_length)
+        vessel_len <- sort(unique(tableA$vessel_length))
       }
       if(!user_fishtech){
-        fishtech <- unique(tableA$fishing_tech)
+        fishtech <- sort(unique(tableA$fishing_tech))
       }
       
       tableA <- tableA[tableA$species %in% SPs & 
@@ -253,7 +262,7 @@ if (check_tableA) {
 g=1
 for (g in 1:length(GSAs)) {
       cat(paste0("\n### ", GSAs[g], "\n"))
-      s=1
+      s=2
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         suppressMessages(res <- FDI_cov_tableA(data=tableA, MS = MS, GSA = GSAs[g],SP = SPs[s], vessel_len = vessel_len, fishtech = fishtech, verbose = FALSE))
@@ -261,17 +270,17 @@ for (g in 1:length(GSAs)) {
         if (!is.null(res)) {
         cat("\n\n\n")
         cat(paste0("\nPlot of total landing by year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
-        print(res[[3]])
+        suppressMessages(print(res[[3]]))
         cat("\n\n\n")
         
         cat("\n\n\n")
         cat(paste0("\nPlot of total value by year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
-        print(res[[4]])
+        suppressMessages(print(res[[4]]))
         cat("\n\n\n")
         
         cat("\n\n\n")
         cat(paste0("\nPlot of total discard by year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
-        print(res[[5]])
+        suppressMessages(print(res[[5]]))
         cat("\n\n\n")
         
         } else {
@@ -337,7 +346,7 @@ for (g in 1:length(GSAs)) {
         suppressMessages(res <- FDI_prices_not_null(data=tableA, MS = MS, GSA = GSAs[g],SP = SPs[s], verbose = FALSE))
         
         if (!is.null(res)) {
-        if (nrow(res[[2]])>0){
+        if (!is.null(res[[2]])){
         cat(paste0("\n_Summary table of landings > 0 and landings value = 0 for ",SPs[s]," in ",GSAs[g],"_\n"))
         print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
         cat("\n\n\n")
@@ -345,7 +354,7 @@ for (g in 1:length(GSAs)) {
           cat(paste0("\n\n\n- No data available with landings > 0 and landings value = 0 for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
         }
           
-        if (nrow(res[[1]])>0){
+        if (!is.null(res[[1]])){
         cat(paste0("\n_Summary table of avarage prices by year in ",SPs[s]," in ",GSAs[g],"_\n"))
         print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
         cat("\n\n\n")
@@ -419,7 +428,7 @@ if (exists("tableG")) {
         MS  <- unique(tableG$country)
       }
       if(!user_GSA){
-        GSAs <- unique(tableG$sub_region)
+        GSAs <- unique(unique(tableG$sub_region))
       }
       # if(!user_vessel_len){
       #   vessel_len <- unique(tableG$vessel_length)
@@ -597,13 +606,13 @@ if (exists("tableH")) {
       
       
       if(!user_SP){
-        SPs <- unique(tableH$species)
+        SPs <- sort(unique(tableH$species))
       }
       if(!user_MS){
         MS  <- unique(tableH$country)
       }
       if(!user_GSA){
-        GSAs <- unique(tableH$sub_region)
+        GSAs <- sort(unique(tableH$sub_region))
       }
       tableH <- tableH[tableH$species %in% SPs & 
                        tableH$country == MS & 
@@ -736,13 +745,13 @@ if (check_tableH) {
   res <- suppressMessages(FDI_check_coord(data = tableH, MS, verbose = FALSE))
 
   if (!is.null(res)) {
-      if (nrow(res[[1]])) {
+      if (nrow(res)>0) {
         cat("\n\n\n")
         cat(paste0("\n_Table of incorrect combination of NA in the spatial columns_\n"))
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
         cat("\n\n\n")
       } else {
-        cat(paste0("\n\n\n- No incorrect combination of NA in the spatial columns\n"))
+        cat(paste0("\n\n\n- No records in which at least one among latitude and longitude is not compatible with the rectangle type\n"))
       }
   } else {
     cat(paste0("\n\n\n- No data available in FDI Landings by rectangle table H\n"))
@@ -764,7 +773,7 @@ if (exists("tableI")) {
         MS  <- unique(tableI$country)
       }
       if(!user_GSA){
-        GSAs <- unique(tableI$sub_region)
+        GSAs <- sort(unique(tableI$sub_region))
       }
       tableI <- tableI[tableI$country == MS & 
                        tableI$sub_region %in% GSAs, ]
@@ -895,13 +904,13 @@ if (check_tableI) {
   res <- suppressMessages(FDI_check_coord(data = tableI, MS, verbose = FALSE))
 
   if (!is.null(res)) {
-      if (nrow(res[[1]])) {
+      if (nrow(res)>0) {
         cat("\n\n\n")
         cat(paste0("\n_Table of incorrect combination of NA in the spatial columns_\n"))
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
         cat("\n\n\n")
       } else {
-        cat(paste0("\n\n\n- No incorrect combination of NA in the spatial columns\n"))
+        cat(paste0("\n\n\n- No records in which at least one among latitude and longitude is not compatible with the rectangle type\n"))
       }
   } else {
     cat(paste0("\n\n\n- No data available in FDI Effort by rectangle table I\n"))
@@ -923,7 +932,7 @@ if (exists("tableJ")) {
         MS  <- unique(tableJ$country)
       }
       if(!user_GSA){
-        GSAs <- unique(tableJ$principal_sub_region)
+        GSAs <- sort(unique(tableJ$principal_sub_region))
       }
       if(!user_vessel_len){
         vessel_len <- unique(tableJ$vessel_length)
@@ -1117,9 +1126,11 @@ if (check_tableG & check_tableI) {
     cat(paste0("\n\n\n- No data available in FDI table G or I for ",MS,"\n"))
   }
 } else {
-   cat("\n## One or both of tables G and I are missing to perform the comparison on totalfishdays.\n")
+   cat("\nOne or both of tables G and I are missing to perform the comparison on totalfishdays.\n")
   } # check_Table G and I
 ```
+
+
 
 ```{r FDI_landweight_cov, results = 'asis'}
 if (check_tableA & check_tableH) {
@@ -1142,7 +1153,7 @@ if (check_tableA & check_tableH) {
     cat(paste0("\n\n\n- No data available in FDI table A or H for ",MS,"\n"))
   }
 } else {
-   cat("\n## One or both of tables A and H are missing to perform the comparison on landing volumes\n")
+   cat("\nOne or both of tables A and H are missing to perform the comparison on landing volumes\n")
   } # check_Table G and I
 ```
 
@@ -1182,7 +1193,7 @@ if (check_tableG & check_tableJ) {
     cat(paste0("\n\n\n- No data available in FDI table G or J for ",MS,"\n"))
   }
 } else {
-   cat("\n## One or both of tables G and J are missing to perform the comparison on the number of vessels\n")
+   cat("\nOne or both of tables G and J are missing to perform the comparison on the number of vessels\n")
   } # check_Table G and I
 ```
 
@@ -1207,7 +1218,7 @@ if (check_tableA & check_tableG) {
     cat(paste0("\n\n\n- No data available in FDI table G or I for ",MS,"\n"))
   }
 } else {
-   cat("\n## One or both of tables G and I are missing to perform the comparison on totalfishdays.\n")
+   cat("\nOne or both of tables G and I are missing to perform the comparison on totalfishdays.\n")
   } # check_Table G and I
 ```
 
@@ -1247,45 +1258,45 @@ if (check_tableA & check_tableH) {
     cat(paste0("\n\n\n- No data available in FDI table A or H for ",MS,"\n"))
   }
 } else {
-   cat("\n## One or both of tables A and H are missing to perform the comparison on landings data\n")
+   cat("\nOne or both of tables A and H are missing to perform the comparison on landings data\n")
   } # check_Table G and I
 ```
 
 ```{r FDI_cross_checks_IG, results = 'asis'}
-if (check_tableI & check_tableG) {
-  cat("\n## Consistency of effort and spatial effort in tables G and I\n")
-  cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to report the mutual consistency of both effort and spatial effort data in table G and I.'\n")
-
-  res <- suppressMessages(FDI_cross_checks_AH(data1 = tableA, data2 = tableH, verbose = FALSE))
-
-  if (!is.null(res)) {
-    if (!is.null(res[[1]])) {
-    if (nrow(res[[1]])>0) {
-      cat("\n\n\n")
-      cat(paste0("\n_Summary table of inconsistencies detected between table A and table H. Data are reported by GSA, year, vessel length, fishing technique and gear type._\n"))
-      print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
-      cat("\n\n\n")
-    } else {
-      cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
-    }
-  }  #  if (!is.null(res[[1]])) 
-      
-    if (!is.null(res[[2]])) {
-    if (nrow(res[[2]])>0) {
-      cat("\n\n\n")
-      cat(paste0("\n_Summary table of total landings of table A and total spatial landings in table H by year anc GSA_\n"))
-      print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
-      cat("\n\n\n")
-    } else {
-      cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
-    }
-  }  #  if (!is.null(res[[1]])) 
-      
-  } else {
-    cat(paste0("\n\n\n- No data available in FDI table A or H for ",MS,"\n"))
-  }
-} else {
-   cat("\n## One or both of tables A and H are missing to perform the comparison on landings data\n")
-  } # check_Table G and I
+# if (check_tableI & check_tableG) {
+#   cat("\n## Consistency of effort and spatial effort in tables G and I\n")
+#   cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to report the mutual consistency of both effort and spatial effort data in table G and I.'\n")
+# 
+#   res <- suppressMessages(FDI_cross_checks_AH(data1 = tableA, data2 = tableH, verbose = FALSE))
+# 
+#   if (!is.null(res)) {
+#     if (!is.null(res[[1]])) {
+#     if (nrow(res[[1]])>0) {
+#       cat("\n\n\n")
+#       cat(paste0("\n_Summary table of inconsistencies detected between table A and table H. Data are reported by GSA, year, vessel length, fishing technique and gear type._\n"))
+#       print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+#       cat("\n\n\n")
+#     } else {
+#       cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
+#     }
+#   }  #  if (!is.null(res[[1]])) 
+#       
+#     if (!is.null(res[[2]])) {
+#     if (nrow(res[[2]])>0) {
+#       cat("\n\n\n")
+#       cat(paste0("\n_Summary table of total landings of table A and total spatial landings in table H by year anc GSA_\n"))
+#       print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+#       cat("\n\n\n")
+#     } else {
+#       cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
+#     }
+#   }  #  if (!is.null(res[[1]])) 
+#       
+#   } else {
+#     cat(paste0("\n\n\n- No data available in FDI table A or H for ",MS,"\n"))
+#   }
+# } else {
+#    cat("\nOne or both of tables A and H are missing to perform the comparison on landings data\n")
+#   } # check_Table G and I
 ```
 

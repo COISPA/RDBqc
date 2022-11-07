@@ -26,8 +26,12 @@ FDI_cov_tableA <- function(data, MS, SP = "COMBINED", vessel_len = "COMBINED", f
   year <- sub_region <- country <- species <- vessel_length <- fishing_tech <- totwghtlandg <- totvallandg <- discards <- NULL
 
   if (nrow(data) == 0) {
-    stop(paste0("No data available"))
-  }
+    if (verbose) {
+      message(paste0("No data available"))
+    }
+    output <- NULL
+  } else {
+
 
   # check of the species, combined vs specific species defined by the user
   if (length(SP) == 1 & SP[1] == "COMBINED") {
@@ -73,7 +77,7 @@ FDI_cov_tableA <- function(data, MS, SP = "COMBINED", vessel_len = "COMBINED", f
       if (verbose) {
         message(paste0("No data available for the selected species (", SP, ")"))
       }
-      return(NULL)
+      output <- NULL
     } else {
       data2 <- data
       data2[is.na(data2)] <- 0
@@ -139,9 +143,13 @@ FDI_cov_tableA <- function(data, MS, SP = "COMBINED", vessel_len = "COMBINED", f
         xlab("year") +
         facet_wrap(~vessel_length))
 
-      output <- list(as.data.frame(data1), as.data.frame(data3), plot1, plot2, plot3)
+      output <- list(as.data.frame(data1), as.data.frame(data3), suppressMessages(plot1), suppressMessages(plot2), suppressMessages(plot3))
       names(output) <- c("number_of_records", "summary_table", "total_landings", "total_land_value", "total_discards")
-      return(output)
+
+
     }
   }
+  }
+
+  return(output)
 }
