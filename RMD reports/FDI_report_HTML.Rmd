@@ -1216,7 +1216,45 @@ if (check_tableA & check_tableG) {
 ```{r FDI_cross_checks_AH, results = 'asis'}
 if (check_tableA & check_tableH) {
   cat("\n## Consistency of landings and spatial landings in table A and H\n")
-  cat("\nBoth FDI table A (Catch) and H (Effort by rectangle) were analysed to report the mutual consistency of both landings and effort data in table A and H.'\n")
+  cat("\nBoth FDI table A (Catch) and H (Landing by rectangle) were analysed to report the mutual consistency of both landings data in table A and H.'\n")
+
+  res <- suppressMessages(FDI_cross_checks_AH(data1 = tableA, data2 = tableH, verbose = FALSE))
+
+  if (!is.null(res)) {
+    if (!is.null(res[[1]])) {
+    if (nrow(res[[1]])>0) {
+      cat("\n\n\n")
+      cat(paste0("\n_Summary table of inconsistencies detected between table A and table H. Data are reported by GSA, year, vessel length, fishing technique and gear type._\n"))
+      print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
+    }
+  }  #  if (!is.null(res[[1]])) 
+      
+    if (!is.null(res[[2]])) {
+    if (nrow(res[[2]])>0) {
+      cat("\n\n\n")
+      cat(paste0("\n_Summary table of total landings of table A and total spatial landings in table H by year anc GSA_\n"))
+      print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+      cat(paste0("\n\n\n- No data available in FDI table A or H\n"))
+    }
+  }  #  if (!is.null(res[[1]])) 
+      
+  } else {
+    cat(paste0("\n\n\n- No data available in FDI table A or H for ",MS,"\n"))
+  }
+} else {
+   cat("\n## One or both of tables A and H are missing to perform the comparison on landings data\n")
+  } # check_Table G and I
+```
+
+```{r FDI_cross_checks_IG, results = 'asis'}
+if (check_tableI & check_tableG) {
+  cat("\n## Consistency of effort and spatial effort in tables G and I\n")
+  cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to report the mutual consistency of both effort and spatial effort data in table G and I.'\n")
 
   res <- suppressMessages(FDI_cross_checks_AH(data1 = tableA, data2 = tableH, verbose = FALSE))
 
