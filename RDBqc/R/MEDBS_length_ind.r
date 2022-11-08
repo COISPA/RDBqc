@@ -72,9 +72,9 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
     ## Subsetting DataFrame, preparing data for further elaboration and setting output directory ####
     land <- landed[which(landed$area == GSA & landed$country == MS & landed$species == SP), ]
 
-    if (nrow(land) == 0) {
+    if (nrow(land) < 2) {
       if (verbose) {
-        message(paste0("No landing data available for the selected species (", SP, ")"))
+        message(paste0("No landing data available for the selected species (", SP, ") to perform the analysis"))
       }
       output=NULL
     } else {
@@ -255,15 +255,27 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
     discarded$discards[discarded$discards == -1] <- 0
 
     disc <- discarded[which(discarded$area == GSA & discarded$country == MS & discarded$species == SP), ]
+
+    if (nrow(disc) < 2) {
+      if (verbose) {
+        message(paste0("No discard data available for the selected species (", SP, ") to perform the analysis"))
+      }
+      output=NULL
+    } else {
     var_no_discard <- grep("lengthclass", names(disc), value = TRUE)
     max_no_discard <- disc[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_discard]
     max_no_discard[max_no_discard == -1] <- 0
     max_no_discard2 <- max_no_discard[, -(1:7)]
 
     # is.na(max_no_landed)
+
+
     p <- as.data.frame(colSums(max_no_discard2, na.rm = TRUE))
     p$Length <- c(0:100)
     names(p) <- c("Sum", "Length")
+
+    if (sum( p$Sum )> 0) {
+
     maxlength <- max(p[which(p$Sum > 0), "Length"])
     unit <- unique(disc$unit)
 
@@ -281,7 +293,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
     LFD$start_length <- LFD$start_length - 1
 
 
-    if (nrow(disc) > 0) {
+
       LFL <- LFD
       tempcum <- list()
       c <- 1
@@ -313,8 +325,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
       LFL_mutate$square <- (LFL_mutate$start_length - LFL_mutate$mean_size)^2
       LFL_mutate$fsquare <- LFL_mutate$square * LFL_mutate$value
 
-      suppressMessages(SDdb <- LFL_mutate %>% group_by(year, gear, fishery) %>%
-        summarize(sd_size = sqrt(sum(fsquare) / (sum(value) - 1))))
+      suppressMessages(SDdb <- suppressWarnings(LFL_mutate %>% group_by(year, gear, fishery) %>%
+        summarize(sd_size = sqrt(sum(fsquare) / (sum(value) - 1)))))
 
 
       suppressMessages(MINdb <- LFL %>% group_by(year, gear, fishery) %>%
@@ -387,7 +399,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
 
 
       plot <- ggplot(LFDiscardsDB[LFDiscardsDB$total_number > 0, ], aes(x = as.numeric(year), y = as.numeric(mean_size), col = fishery)) +
-        geom_point(col = "black") +
+        geom_point() +
         geom_line() +
         facet_wrap(~gear, scales = "free") +
         scale_x_continuous(breaks = seq(min(LFDiscardsDB$year), max(LFDiscardsDB$year), by = 2)) +
@@ -406,7 +418,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
       ### Plot MEDIAN
 
       plot <- ggplot(LFDiscardsDB[LFDiscardsDB$spline %in% 0.2 & LFDiscardsDB$percentile %in% 0.50 & LFDiscardsDB$total_number > 0, ], aes(x = as.numeric(year), y = as.numeric(percentile_value), col = fishery)) +
-        geom_point(col = "black") +
+        geom_point() +
         geom_line() +
         facet_wrap(~gear, scales = "free") +
         scale_x_continuous(breaks = seq(min(LFDiscardsDB$year), max(LFDiscardsDB$year), by = 2)) +
@@ -426,7 +438,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
       output=NULL
     }
   }
-
+}
 
   return(output) # result
 }

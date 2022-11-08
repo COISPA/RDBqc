@@ -20,6 +20,7 @@
 #' @importFrom tidyr pivot_longer
 #' @importFrom data.table as.data.table
 #' @importFrom gridExtra grid.arrange
+#' @importFrom methods is
 #' @export MEDBS_ks
 
 MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
@@ -39,7 +40,7 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
     MEDBS_ks(data = Disc, type = "d", SP = "HKE", MS = "ITA", GSA = "GSA 18", Rt = 1)
   }
 
-  . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- NULL
+  . <- ID <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- NULL
   len <- variable <- dbland <- NULL
   value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
 
@@ -61,6 +62,8 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       if (verbose) {
         message(paste0("No landing data available for the selected species (", SP, ")"))
       }
+      return(NULL)
+
     } else {
       var_no_landed <- grep("lengthclass", names(land), value = TRUE)
       max_no_landed <- land[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_landed]
@@ -79,7 +82,7 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       dat <- land[, cols, with = FALSE]
       lccols <- grep("lengthclass", colnames(dat))
       colnames(dat)[lccols] <- gsub("[^0-9]", "", colnames(dat)[lccols])
-      ldat <- data.table::melt(dat, id.vars = c("year", "area", "species", "unit", "country", "gear", "fishery"), variable.name = "start_length", value.name = "value")
+      ldat <- suppressWarnings(data.table::melt(dat, id.vars = c("year", "area", "species", "unit", "country", "gear", "fishery"), variable.name = "start_length", value.name = "value"))
       ldat$start_length <- as.integer(ldat$start_length)
       ldat[(ldat$value < 0) | is.na(ldat$value), "value"] <- 0
 
@@ -158,16 +161,25 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       counter <- 1
       counter1 <- 1
 
-      i <- "OTB_DEMSP"
+      i <-"OTB_DEF" # "OTB_DEMSP"
       plots <- list()
       for (i in unique(LFLandingssub$ID)) {
         # i="OTB_MDD"
         LFLandingsred <- LFLandingssub[LFLandingssub$ID %in% i, ]
         LFLandingsred$value <- LFLandingsred$value / Rt
-        if (length(unique(LFLandingsred$year)) == 1) {
+
+
+        check_num_data <- LFLandingsred[LFLandingsred$value > 0, ]
+        check_num_data <- suppressMessages(check_num_data %>% group_by(year,ID) %>% summarise(n=length(value)))
+
+        if (length(unique(LFLandingsred$year)) == 1 | any(check_num_data$n <5)) {
+
           tmpdb1[[counter1]] <- LFLandingsred
           counter1 <- counter1 + 1
         } else {
+          error_check <- try(clus.lf(group = LFLandingsred$year, haul = LFLandingsred$ID, len = LFLandingsred$start_length, number = LFLandingsred$value, binsize = 0, resamples = 100),silent=TRUE)
+
+          if (!is(error_check,"try-error")) {
           results <- clus.lf(group = LFLandingsred$year, haul = LFLandingsred$ID, len = LFLandingsred$start_length, number = LFLandingsred$value, binsize = 0, resamples = 100)
           mdata <- as.data.frame(results$obs_prop %>% pivot_longer(names_to = "variable", values_to = "value", -len)) # melt(results$obs_prop, id=c("len"))
           plot <- ggplot(mdata, aes(x = len, y = value, col = variable)) +
@@ -198,6 +210,10 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
           KS$ID <- i
           tmpdb[[counter]] <- KS
           counter <- counter + 1
+          } else {
+            tmpdb1[[counter1]] <- LFLandingsred
+            counter1 <- counter1 + 1
+          }   # try error
         }
       }
 
@@ -205,10 +221,15 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       nsq <- round(sqrt(n), 0)
       nCol <- floor(sqrt(n))
       cols <- max(nsq, nCol)
-      plots <- do.call(grid.arrange, c(plots, ncol = cols))
-      KS_final_landings <- do.call(rbind, tmpdb)
-      KS_noTest_landings <- do.call(rbind, tmpdb1)
-
+      if (length(plots)>0) {
+        plots <- do.call(grid.arrange, c(plots, ncol = cols))
+        KS_final_landings <- do.call(rbind, tmpdb)
+        KS_noTest_landings <- do.call(rbind, tmpdb1)
+      } else {
+        plots <- NULL
+        KS_final_landings <- NULL
+        KS_noTest_landings <- do.call(rbind, tmpdb1)
+      }
       results <- list(final_DB, KS_final_landings, KS_noTest_landings, plots)
       return(results)
     } # nrow(land) > 0
@@ -227,36 +248,37 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
     discarded$discards[discarded$discards == -1] <- 0
 
     disc <- discarded[which(discarded$area == GSA & discarded$country == MS & discarded$species == SP), ]
-    var_no_discard <- grep("lengthclass", names(disc), value = TRUE)
-    max_no_discard <- disc[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_discard]
-    max_no_discard[max_no_discard == -1] <- 0
-    max_no_discard2 <- max_no_discard[, -(1:7)]
-
-    # is.na(max_no_landed)
-    p <- as.data.frame(colSums(max_no_discard2, na.rm = TRUE))
-    p$Length <- c(0:100)
-    names(p) <- c("Sum", "Length")
-    maxlength <- max(p[which(p$Sum > 0), "Length"])
-    unit <- unique(disc$unit)
-
-    cols <- c(which(colnames(disc) %in% c("year", "area", "species", "unit", "gear", "fishery", "country")), grep("lengthclass", colnames(disc)))
-    dat1 <- disc[, cols, with = FALSE]
-    lccols <- grep("lengthclass", colnames(dat1))
-    colnames(dat1)[lccols] <- gsub("[^0-9]", "", colnames(dat1)[lccols])
-    ddat <- data.table::melt(dat1, id.vars = c("year", "area", "species", "unit", "country", "gear", "fishery"), variable.name = "start_length", value.name = "value")
-    ddat$start_length <- as.integer(ddat$start_length)
-    ddat[(ddat$value < 0) | is.na(ddat$value), "value"] <- 0
-
-
-    LFD <- ddat %>% group_by(year,gear,fishery,start_length) %>% summarise(value=sum(value,na.rm=TRUE))
-    # LFD <- aggregate(ddat$value, by = list(ddat$year, ddat$gear, ddat$fishery, ddat$start_length), sum)
-    # names(LFD) <- c("year", "gear", "fishery", "start_length", "value")
-
-    LFD$ID <- paste0(LFD$gear, "_", LFD$fishery, sep = "")
-    LFD$start_length <- LFD$start_length - 1
-
-
     if (nrow(disc) > 0) {
+      var_no_discard <- grep("lengthclass", names(disc), value = TRUE)
+      max_no_discard <- disc[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_discard]
+      max_no_discard[max_no_discard == -1] <- 0
+      max_no_discard2 <- max_no_discard[, -(1:7)]
+
+      # is.na(max_no_landed)
+      p <- as.data.frame(colSums(max_no_discard2, na.rm = TRUE))
+      p$Length <- c(0:100)
+      names(p) <- c("Sum", "Length")
+      maxlength <- max(p[which(p$Sum > 0), "Length"])
+      unit <- unique(disc$unit)
+
+      cols <- c(which(colnames(disc) %in% c("year", "area", "species", "unit", "gear", "fishery", "country")), grep("lengthclass", colnames(disc)))
+      dat1 <- disc[, cols, with = FALSE]
+      lccols <- grep("lengthclass", colnames(dat1))
+      colnames(dat1)[lccols] <- gsub("[^0-9]", "", colnames(dat1)[lccols])
+      ddat <- suppressWarnings(data.table::melt(dat1, id.vars = c("year", "area", "species", "unit", "country", "gear", "fishery"), variable.name = "start_length", value.name = "value"))
+      ddat$start_length <- as.integer(ddat$start_length)
+      ddat[(ddat$value < 0) | is.na(ddat$value), "value"] <- 0
+
+
+      LFD <- suppressMessages(ddat %>% group_by(year,gear,fishery,start_length) %>% summarise(value=sum(value,na.rm=TRUE)))
+      # LFD <- aggregate(ddat$value, by = list(ddat$year, ddat$gear, ddat$fishery, ddat$start_length), sum)
+      # names(LFD) <- c("year", "gear", "fishery", "start_length", "value")
+
+      LFD$ID <- paste0(LFD$gear, "_", LFD$fishery, sep = "")
+      LFD$start_length <- LFD$start_length - 1
+
+
+
       LFL <- LFD
       tempcum <- list()
       c <- 1
@@ -333,15 +355,24 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       counter <- 1
       counter1 <- 1
 
+
       plots <- list()
-      i <- "OTB_DEF"
+      i <- "GNS_DEF"
       for (i in unique(LFLandingssub$ID)) {
         LFLandingsred <- LFLandingssub[LFLandingssub$ID %in% i, ]
         LFLandingsred$value <- LFLandingsred$value / Rt
-        if (length(unique(LFLandingsred$year)) == 1) {
+
+        check_num_data <- LFLandingsred[LFLandingsred$value > 0, ]
+        check_num_data <- suppressMessages(check_num_data %>% group_by(year,ID) %>% summarise(n=length(value)))
+
+        if (length(unique(LFLandingsred$year)) == 1 | any(check_num_data$n <5)) {
           tmpdb1[[counter1]] <- LFLandingsred
           counter1 <- counter1 + 1
         } else {
+
+          error_check <- suppressWarnings(try(clus.lf(group = LFLandingsred$year, haul = LFLandingsred$ID, len = LFLandingsred$start_length, number = LFLandingsred$value, binsize = 0, resamples = 100),silent=TRUE))
+
+          if (!is(error_check,"try-error")) {
           results <- clus.lf(group = LFLandingsred$year, haul = LFLandingsred$ID, len = LFLandingsred$start_length, number = LFLandingsred$value, binsize = 0, resamples = 100)
           # results$results
           mdata <- as.data.frame(results$obs_prop %>% pivot_longer(names_to = "variable", values_to = "value", -len)) # melt(results$obs_prop, id=c("len"))
@@ -375,6 +406,10 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
           KS$ID <- i
           tmpdb[[counter]] <- KS
           counter <- counter + 1
+          } else {
+            tmpdb1[[counter1]] <- LFLandingsred
+            counter1 <- counter1 + 1
+          }   # try error
         }
       }
 
@@ -382,9 +417,15 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       nsq <- round(sqrt(n), 0)
       nCol <- floor(sqrt(n))
       cols <- max(nsq, nCol)
+      if (length(plots)>0) {
       plots <- do.call("grid.arrange", c(plots, ncol = cols))
       KS_final_discards <- do.call(rbind, tmpdb)
       KS_noTest_discards <- do.call(rbind, tmpdb1)
+      } else {
+        plots <- NULL
+        KS_final_discards <- NULL
+        KS_noTest_discards <- do.call(rbind, tmpdb1)
+      }
 
       results <- list(final_DB, KS_final_discards, KS_noTest_discards, plots)
       return(results)
@@ -392,6 +433,7 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       if (verbose) {
         message(paste0("No discard data available for the selected species (", SP, ")"))
       }
+      return(NULL)
     }
   }
 }

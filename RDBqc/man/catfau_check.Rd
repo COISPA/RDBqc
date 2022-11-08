@@ -5,7 +5,7 @@
 \alias{catfau_check}
 \title{catfau_check in GFCM datacall format}
 \format{
-An object of class \code{data.frame} with 16 rows and 4 columns.
+An object of class \code{data.frame} with 355 rows and 5 columns.
 }
 \usage{
 catfau_check

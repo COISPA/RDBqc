@@ -36,7 +36,7 @@ MEDBS_disc_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
   land <- land[which(land$AREA == as.character(GSA) & land$COUNTRY == MS & land$SPECIES == SP), ]
   land$DISCARDS[land$DISCARDS == -1] <- 0
 
-  if (nrow(land) > 0) {
+  if (nrow(land) > 1) {
     land <- as.data.frame(land)
     var_no_landed <- grep("LENGTHCLASS", names(land), value = TRUE)
     sel_nl <- c(var_no_landed)
@@ -45,9 +45,9 @@ MEDBS_disc_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     pippo[pippo == -1] <- 0
     pippo[pippo == ""] <- 0
     landRev <- cbind(land[, c(1:13)], pippo)
-    dim(landRev)
+    # dim(landRev)
     suppressMessages(ck_nbl <- landRev %>% mutate(sum = rowSums(.[14:114])))
-    names(ck_nbl)
+    # names(ck_nbl)
     suppressMessages(Wg <- ck_nbl %>% group_by(YEAR, QUARTER, VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE, FISHERY) %>% summarize(totW = sum(DISCARDS) * 1000000))
     suppressMessages(No <- ck_nbl %>% group_by(YEAR, QUARTER, VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE, FISHERY) %>% summarize(totN = sum(sum) * 1000))
     suppressMessages(MWdb <- full_join(Wg, No))
@@ -64,6 +64,7 @@ MEDBS_disc_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     output[[l]] <- as.data.frame(MWdb)
     names(output)[[l]] <- "summary table"
 
+    if (nrow(MWdbpositive) >0){
     plot <- ggplot(as.data.frame(MWdbpositive), aes(x = YEAR, y = MW)) +
       geom_point(col = "red") +
       geom_line() +
@@ -78,11 +79,16 @@ MEDBS_disc_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     l <- length(output) + 1
     output[[l]] <- plot
     names(output)[[l]] <- paste("Disc_MW", SP, MS, GSA, sep = " _ ")
+    } else {
+      l <- length(output) + 1
+      output[[l]] <- NULL
+    }
 
     return(output) #
   } else {
     if (verbose) {
       message("No discard data in the subset.\n")
     }
+    return(NULL)
   }
 }

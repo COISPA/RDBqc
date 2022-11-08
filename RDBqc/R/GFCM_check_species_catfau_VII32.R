@@ -6,13 +6,16 @@
 #' @param matsex List of combination of sex/maturity stages for Task VII.3.2 table
 #' @param MS member state code
 #' @param GSA GSA code
-#' @return Two vectors are returned by the function. The first provides the list of mismatching combination of species/faunistic categories. The second vector provides the list of mismatching combination of sex/maturity stages.
+#' @param SP species code
+#' @param verbose boolean. If TRUE messages are returned
+#' @return Two vectors are returned by the function. The first provides the list of mismatching combination of species/faunistic categories. The second vector provides the list of mismatching combination of sex/maturity stages. Furthermore, a plot of the length distribution by sex and maturity is returned for the selected species.
 #' @export
 #' @author Loredana Casciaro <casciaro@@coispa.eu>
 #' @author Sebastien Alfonso <salfonso@@coispa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @examples check_species_catfau_TaskVII.3.2(task_vii32, catfau_check, sex_mat, MS = "ITA", GSA = "18")
-check_species_catfau_TaskVII.3.2 <- function(data, species, matsex, MS, GSA) {
+#' @examples check_species_catfau_TaskVII.3.2(task_vii32, catfau_check, sex_mat,
+#' MS = "ITA", GSA = "18", SP="CTC")
+check_species_catfau_TaskVII.3.2 <- function(data, species, matsex, MS, GSA, SP,verbose=FALSE) {
   if (FALSE) {
     data <- task_vii32
     species <- catfau_check
@@ -20,6 +23,14 @@ check_species_catfau_TaskVII.3.2 <- function(data, species, matsex, MS, GSA) {
     MS <- "ITA"
     GSA <- "18"
   }
+
+  Length <- Maturity <- Sex <- NULL
+
+  data <- data[data$CPC == MS & data$GSA == GSA & data$Species == SP, ]
+  species <- species[species$GSA == GSA, ]
+
+  if (nrow(data)>0) {
+
   # Control 1 - Scientific name X CATFAU
   data$CATFAU_REV <- substr(data$Maturity, 1, 3)
   # Dataframe 1 - Concatenation species/CATFAU_rev
@@ -77,6 +88,27 @@ check_species_catfau_TaskVII.3.2 <- function(data, species, matsex, MS, GSA) {
   # data_merge1=data.frame(level_fac_dat1,level_fac_dat2)
   unexpected_codes_matsex <- m2$ID[which(is.na(m2$expected))]
 
+  # plot
+  maturity <- strsplit(data$Maturity," / ")
+  maturity <- do.call(rbind,maturity)[,2]
+  data$Maturity <- maturity
 
-  return(list(unexpected_codes_Species_catfau, unexpected_codes_matsex))
+  p <- ggplot(data = data, aes(x = Length, y = Maturity, col = Sex)) +
+    geom_point(stat = "identity", fill = "darkorchid4") +
+    facet_grid(Reference_Year ~ Sex) +
+    xlab("Length Class") +
+    ylab("Maturity Stage") +
+    ggtitle(SP)
+
+  l_res= list(unexpected_codes_Species_catfau, unexpected_codes_matsex, p)
+
+  } else {
+    if (verbose){
+    message("No data for the selected combination of MS, GSA and SP")
+    }
+    l_res <- NULL
+  }
+
+
+  return(l_res)
 }

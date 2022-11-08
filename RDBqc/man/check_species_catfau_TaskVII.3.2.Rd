@@ -4,7 +4,15 @@
 \alias{check_species_catfau_TaskVII.3.2}
 \title{Check mismatching species/Catfau and Sex per maturity stages for Task VII.3.2 table}
 \usage{
-check_species_catfau_TaskVII.3.2(data, species, matsex, MS, GSA)
+check_species_catfau_TaskVII.3.2(
+  data,
+  species,
+  matsex,
+  MS,
+  GSA,
+  SP,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{data}{GFCM Task VII.3.2 table}
@@ -16,15 +24,20 @@ check_species_catfau_TaskVII.3.2(data, species, matsex, MS, GSA)
 \item{MS}{member state code}
 
 \item{GSA}{GSA code}
+
+\item{SP}{species code}
+
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-Two vectors are returned by the function. The first provides the list of mismatching combination of species/faunistic categories. The second vector provides the list of mismatching combination of sex/maturity stages.
+Two vectors are returned by the function. The first provides the list of mismatching combination of species/faunistic categories. The second vector provides the list of mismatching combination of sex/maturity stages. Furthermore, a plot of the length distribution by sex and maturity is returned for the selected species.
 }
 \description{
 Function to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table.
 }
 \examples{
-check_species_catfau_TaskVII.3.2(task_vii32, catfau_check, sex_mat, MS = "ITA", GSA = "18")
+check_species_catfau_TaskVII.3.2(task_vii32, catfau_check, sex_mat,
+MS = "ITA", GSA = "18", SP="CTC")
 }
 \author{
 Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}

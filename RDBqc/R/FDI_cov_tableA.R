@@ -35,7 +35,7 @@ FDI_cov_tableA <- function(data, MS, SP = "COMBINED", vessel_len = "COMBINED", f
 
   # check of the species, combined vs specific species defined by the user
   if (length(SP) == 1 & SP[1] == "COMBINED") {
-    data$SP <- "COMBINED"
+    data$species <- "COMBINED"
   } else {
     data <- data[data$species %in% SP, ]
   }

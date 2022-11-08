@@ -1,7 +1,7 @@
 ---
 title: "RDBqc: Quality checks on RDBFIS data formats" 
 author: "Walter Zupa"
-date: "2022-11-02"
+date: "2022-11-07"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::knitr}
@@ -5074,11 +5074,11 @@ check_RD_TaskVII32(task_vii32)
 ### Check mismatching species/Catfau and Sex per maturity stages for Task VII.3.2 table
 
 The function `check_species_catfau_TaskVII.3.2` allows to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table.
-Two vectors are returned by the function. The first provides the list of mismatching combination of species/faunistic categories. 
+Two vectors are returned by the function. The first provides the list of mismatching combination of species/faunistic categories.  
 
 
 ```r
-check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18")[[1]]
+check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18",SP="CTC")[[1]]
 #> character(0)
 ```
 
@@ -5086,9 +5086,18 @@ The second vector provides the list of mismatching combination of sex/maturity s
 
 
 ```r
-check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18")[[2]]
+check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18",SP="CTC")[[2]]
 #> character(0)
 ```
+
+Furthermore, a plot of the length distribution by sex and maturity is returned for the selected species.
+
+
+```r
+check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18",SP="CTC")[[3]]
+```
+
+![plot of chunk check_species_catfau_TaskVII.3.2_3](figure/check_species_catfau_TaskVII.3.2_3-1.png)
 
 ### Plot of the maturity stages per length for each sex and species
 

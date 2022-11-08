@@ -37,10 +37,11 @@ MEDBS_land_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
   # land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
   land <- land[which(land$area == as.character(GSA) & land$country == MS & land$species == SP), ]
 
-  if (nrow(land) == 0) {
+  if (nrow(land) <2 ) {
     if (verbose) {
-      message(paste0("No data available for the selected species (", SP, ")"))
+      message(paste0("No data available for the selected species (", SP, ") to perform the analysis"))
     }
+    output=NULL
   } else {
     land$landings[land$landings == -1] <- 0
 
@@ -71,6 +72,7 @@ MEDBS_land_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     output[[l]] <- as.data.frame(MWdb)
     names(output)[[l]] <- "summary table"
 
+    if (nrow(MWdbpositive) >0){
     suppressMessages(
     plot <- ggplot(MWdbpositive, aes(x = year, y = MW)) +
       geom_point(col = "red") +
@@ -87,7 +89,10 @@ MEDBS_land_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     l <- length(output) + 1
     output[[l]] <- plot
     names(output)[[l]] <- paste("Land_MW", SP, MS, GSA, sep = " _ ")
-
+    } else {
+      l <- length(output) + 1
+      output[[l]] <- NULL
+    }
     return(output) # as.data.frame(MWdb)
   }
 }

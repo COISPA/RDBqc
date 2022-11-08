@@ -4,7 +4,7 @@
 \alias{MEDBS_yr_missing_length}
 \title{Years with missing length distributions}
 \usage{
-MEDBS_yr_missing_length(data, type, SP, MS, GSA)
+MEDBS_yr_missing_length(data, type, SP, MS, GSA, verbose = FALSE)
 }
 \arguments{
 \item{data}{data frame of landings or discards data}
@@ -16,6 +16,8 @@ MEDBS_yr_missing_length(data, type, SP, MS, GSA)
 \item{MS}{member state code}
 
 \item{GSA}{GSA code (Geographical sub-area)}
+
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
 The function returns a data frame containing the reference combination of year, gear and fishery missing length distributions.

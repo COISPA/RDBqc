@@ -43,15 +43,15 @@ lapply(lib, require, character.only = TRUE)
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
 
-Catch = Catch_tab_example
-Land = Landing_tab_example
-Disc = Discard_tab_example
-ML = ML_tab_example
-MA = MA_tab_example
-SL = SL_tab_example
-SA = SA_tab_example
-GP = GP_tab_example
-ALK = ALK_tab_example
+# Catch = Catch_tab_example
+Land = read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_data_GRC_landings.csv",sep=",",header=TRUE)# Landing_tab_example
+# Disc = read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_data_disc.csv",sep=",",header=TRUE)# Discard_tab_example
+# ML = ML_tab_example
+# MA = MA_tab_example
+# SL = SL_tab_example
+# SA = SA_tab_example
+# GP = GP_tab_example
+# ALK = ALK_tab_example
 
 # SPs <- c("HKE")
 # MS <- "ITA"
@@ -280,13 +280,13 @@ if (exists("Land")) {
       check_Land <- TRUE
       cat(paste0("\n# Landing table\n"))
       if(!user_SP){
-        SPs <- unique(Land$species)
+        SPs <- sort(unique(Land$species))
       }
       if(!user_MS){
-        MS  <- unique(Land$country)
+        MS  <- sort(unique(Land$country))
       }
       if(!user_GSA){
-        GSAs <- unique(Land$area)
+        GSAs <- sort(unique(Land$area))
       }
     } else {
         check_Land <- FALSE
@@ -447,7 +447,7 @@ for (g in 1:length(GSAs)) {
             cat(paste0("\n_Summary table of Kolmogorov-Smirnov test for ",SPs[s]," in ",GSAs[g],"_\n"))
             tab1 <- res[[2]]
             tab1 <- tab1[tab1$Comment =="not belong to same population",]
-            rownames(tab1) <- seq(1,nrow(tab1),1)
+            # rownames(tab1) <- seq(1,nrow(tab1),1)
             print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
             
            
@@ -513,7 +513,7 @@ for (g in 1:length(GSAs)) {
            for (x in index){
                text <- strsplit(name[[x]]," _ ")[[1]][1]
                cat(paste0("\nPlot of ",short_list[x]," for ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
-               print(res[[x]])
+               suppressMessages(print(res[[x]]))
                cat("\n\n\n")
            }
            
@@ -615,11 +615,20 @@ for (g in 1:length(GSAs)) {
         res <- suppressMessages(MEDBS_land_mean_weight(data = Land, MS = MS, GSA = GSAs[g], SP = SPs[s]))
         
         if (class(res)== "list" & length(res)>0){
+          
+          if (!is.null(res[[1]])){
             cat(paste0("\n_Summary table of Main landing weights for ",SPs[s]," in ",GSAs[g],"_"))
             print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+          } else{
+             cat(paste0("\n- No main weights estimated for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+            if (length(res)>1){
                cat(paste0("\nPlot of landing mean weights for ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
                suppressMessages(print(res[[2]]))
                cat("\n\n\n")
+            } else{
+             cat(paste0("\n- No main weights estimated for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
         } else{
              cat(paste0("\n- No main weights estimated for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
         }
@@ -710,7 +719,7 @@ if (exists("Disc")) {
 ```
 
 ```{r discards_duplicated_records, results = 'asis'}
-if (check_Land) {
+if (check_Disc) {
     cat("\n## Presence of duplicated records \n")
     cat("\nData included in the discard table were checked for the presence of duplicated records. The result of the check is here reported:\n")
 
@@ -839,15 +848,21 @@ for (g in 1:length(GSAs)) {
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         res <- suppressMessages(MEDBS_disc_mean_weight(data = Disc, MS = MS, GSA = GSAs[g], SP = SPs[s]))
-        
         if (class(res)== "list" & length(res)>0){
+          
+          if (!is.null(res[[1]])){
             cat(paste0("\n_Summary table of Main discard weights for ",SPs[s]," in ",GSAs[g],"_"))
             print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            }
+          if (length(res)>1){  
                cat(paste0("\nPlot of discard mean weights for ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
                suppressMessages(print(res[[2]]))
                cat("\n\n\n")
         } else{
              cat(paste0("\n- No main weights estimated for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
+        }
+        } else {
+          cat(paste0("\n- No main weights estimated for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
         }
         
       }
@@ -864,24 +879,27 @@ if (check_Disc) {
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
-      s=1
+      s=2
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         res <- suppressMessages(MEDBS_ks(data=Disc, type="d", SP=SPs[s],MS=MS,GSA=GSAs[g],Rt=Rt))
         
         if (class(res)== "list" & length(res)>0){
+          if (!is.null(res[[4]])){
                cat("\n\n\n")
                cat(paste0("\nPlot of cumulative length distributions by fishery and year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
-               print(res[[4]])
+               plot(res[[4]])
                cat("\n\n\n")
-          
-            cat(paste0("\n_Summary table of Kolmogorov-Smirnov test for ",SPs[s]," in ",GSAs[g],"_\n"))
-            tab1 <- res[[2]]
-            tab1 <- tab1[tab1$Comment =="not belong to same population",]
-            rownames(tab1) <- seq(1,nrow(tab1),1)
-            print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-            
-              
+           if (!is.null(res[[2]])) {
+                 cat(paste0("\n_Summary table of Kolmogorov-Smirnov test for ",SPs[s]," in ",GSAs[g],"_\n"))
+                 tab1 <- res[[2]]
+                 tab1 <- tab1[tab1$Comment =="not belong to same population",]
+                 # rownames(tab1) <- seq(1,nrow(tab1),1)
+                 print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+               }
+          } else {
+             cat(paste0("\n- No Kolmogorov-Smirnov test results are available for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n")) 
+            }
         } else{
              cat(paste0("\n- No Kolmogorov-Smirnov test results are available for the selected combination: ",SPs[s]," - ",MS," - ",GSAs[g], ".\n"))
         }
@@ -944,7 +962,7 @@ for (g in 1:length(GSAs)) {
            for (x in index){
                text <- strsplit(name[[x]]," _ ")[[1]][1]
                cat(paste0("\nPlot of ",short_list[x]," for ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
-               print(res[[x]])
+               suppressMessages(plot(res[[x]]))
                cat("\n\n\n")
            }
            
@@ -969,9 +987,13 @@ for (g in 1:length(GSAs)) {
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         res <- suppressMessages(MEDBS_yr_missing_length(data = Disc, type="d", MS = MS, GSA = GSAs[g], SP = SPs[s]))
-        if (nrow(res)>0){
+        if (!is.null(res)){
+          
+          if (nrow(res)>0){
             cat(paste0("\n_Years in which the length distribution is missing in discard data for ",SPs[s]," in ",GSAs[g],"_"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        } else {
+            cat(paste0("\n- No years in discard with missing length distribution for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))}
         } else {
             cat(paste0("\n- No years in discard with missing length distribution for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
         }

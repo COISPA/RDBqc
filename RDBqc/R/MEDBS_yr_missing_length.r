@@ -5,6 +5,7 @@
 #' @param SP species code
 #' @param MS member state code
 #' @param GSA GSA code (Geographical sub-area)
+#' @param verbose boolean. If TRUE messages are returned
 #' @description The function checks the presence of years with missing length distributions in both landings and discards for a selected species.
 #' @return The function returns a data frame containing the reference combination of year, gear and fishery missing length distributions.
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
@@ -22,7 +23,7 @@
 #' @importFrom data.table as.data.table
 #' @export MEDBS_yr_missing_length
 
-MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
+MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose=FALSE) {
   if (FALSE) {
     # library(ggplot2)
     # library(data.table)
@@ -148,6 +149,9 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
     p <- as.data.frame(colSums(max_no_discard2, na.rm = TRUE))
     p$Length <- c(0:100)
     names(p) <- c("Sum", "Length")
+
+    if (sum( p$Sum )> 0) {
+
     maxlength <- max(p[which(p$Sum > 0), "Length"])
     unit <- unique(disc$unit)
 
@@ -165,7 +169,7 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
     LFD$start_length <- LFD$start_length - 1
 
 
-    if (nrow(disc) > 0) {
+    # if (nrow(disc) > 0) {
 
 
       # tempcum <- list()
@@ -198,7 +202,10 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA) {
         return(yr_missing_disc)
       }
     } else {
-      print("No discards data available for this stock")
+      if (verbose){
+        print("No discards data available for this stock")
+      }
+      return(NULL)
     }
 
     } else {
