@@ -5,7 +5,7 @@
 \alias{task_iii}
 \title{task_iii in GFCM DCRF datacall format}
 \format{
-An object of class \code{data.frame} with 5 rows and 16 columns.
+An object of class \code{data.frame} with 43 rows and 16 columns.
 }
 \usage{
 task_iii
