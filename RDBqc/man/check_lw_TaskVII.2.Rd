@@ -2,14 +2,14 @@
 % Please edit documentation in R/GFCM_relatioship_length_weight_VII2.R
 \name{check_lw_TaskVII.2}
 \alias{check_lw_TaskVII.2}
-\title{Plot of the relationship length weight for each species}
+\title{Plot of the length-weight relationship}
 \usage{
 check_lw_TaskVII.2(data, MS, GSA, SP, verbose = TRUE)
 }
 \arguments{
 \item{data}{GFCM Task VII.2 table}
 
-\item{MS}{member state code}
+\item{MS}{country code}
 
 \item{GSA}{GSA code}
 
@@ -18,10 +18,10 @@ check_lw_TaskVII.2(data, MS, GSA, SP, verbose = TRUE)
 \item{verbose}{boolean value to obtain further explanation messages from the function}
 }
 \value{
-The function return a plot of the length weight relationship per species.
+The function return a plot of the length weight relationship for the selected species.
 }
 \description{
-Function to check the consistency of length-weight relationship in the GFCM Task VII.2 table per species.
+Function to check the consistency of length-weight relationship in the GFCM Task VII.2 table for the selected species.
 }
 \examples{
 check_lw_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP = "BOG")

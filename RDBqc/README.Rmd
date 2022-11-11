@@ -1254,5 +1254,5 @@ check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="
 Function `check_lmat_TaskVII.3.2` plots the lengths at maturity stages by species and sex to easily identify outliers. The function return a plot of the maturity stages per length and sex per species.
 
 ```{r check_lmat_TaskVII.3.2,fig.height=6,fig.width=9}
-check_lmat_TaskVII.3.2(task_vii32)
+check_lmat_TaskVII.3.2(task_vii32, MS="ITA",GSA="18",SP="CTC")
 ```

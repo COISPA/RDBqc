@@ -2,49 +2,31 @@
 % Please edit documentation in R/GFCM_cov_task3.R
 \name{GFCM_cov_task3}
 \alias{GFCM_cov_task3}
-\title{Check number of record in FDI A table}
+\title{Check number of individuals in GFCM Task III table}
 \usage{
-GFCM_cov_task3(
-  data,
-  MS,
-  SP = "COMBINED",
-  vessel_len = "COMBINED",
-  fishtech = "COMBINED",
-  GSA,
-  verbose = TRUE
-)
+GFCM_cov_task3(data, MS, GSA, SP = "COMBINED", verbose = TRUE)
 }
 \arguments{
-\item{data}{FDI table A catch}
+\item{data}{Task III table}
 
 \item{MS}{member state code}
 
-\item{SP}{species reference code in the three alpha code format ("COMBINED" values perform the analysis for all species present in data)}
-
-\item{vessel_len}{vessels length code ("COMBINED" values perform the analysis for all vessels length present in data)}
-
-\item{fishtech}{selected fishing techniques ("COMBINED" values perform the analysis for all fishing techniques present in data)}
-
 \item{GSA}{GSA code}
+
+\item{SP}{species reference code in the three alpha code format ("COMBINED" values perform the analysis for all species present in data)}
 
 \item{verbose}{boolean. If TRUE a message is printed.}
 }
 \value{
-The function returns a list. The first element gives the summary table of records number. From the second to the fourth element gives 3 plots for each variables among: of total live weight landed, total value of landings (euro), and total discards (ton)).
+The function returns a list. The first element is a table reporting the inconsistencies of the total individual caught in comparison to the sum of the individuals alive, dead and released. The second element of the list is a plot of the time series of the individuals caught by year, source, and gear.
 }
 \description{
-The function checks and count the numbers of records data in the given table A grouped by year, GSA, MS, species, vessels length, and fishing techniques for three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)). If SP, Vessel length, and fishing technique are not specified by the user the function combines those by default.
+The function checks the consistencies of the total number of individual caught in comparison with the sum of the individuals alive, dead and released reported in Task III table.
 }
 \examples{
-FDI_cov_tableA(data = fdi_a_catch, SP = "MUT", MS = "PSP", GSA = "GSA99")
-FDI_cov_tableA(
-  data = fdi_a_catch, SP = "MUT", MS = "PSP",
-  fishtech = unique(fdi_a_catch$fishing_tech), GSA = "GSA99"
-)
-FDI_cov_tableA(data = fdi_a_catch, SP = "MUT", MS = "PSP", GSA = "GSA99")
+GFCM_cov_task3(data = task_iii, SP = "Dasyatis pastinaca",
+MS = "ITA", GSA = "18")
 }
 \author{
-Andrea Pierucci \href{mailto:pierucci@coispa.eu}{pierucci@coispa.eu}
-
 Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}
 }
