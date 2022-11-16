@@ -35,18 +35,18 @@ lapply(lib, require, character.only = TRUE)
 
 ```{r user_setup, include=FALSE}
 
-# reading files
-# UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
-# SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
+## reading files
+## UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
+## SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-tableA <- fdi_a_catch
-tableG <- fdi_g_effort
-tableH <- fdi_h_spatial_landings
-tableI <- fdi_i_spatial_effort
-tableJ <- fdi_j_capacity
+# tableA <- fdi_a_catch
+# tableG <- fdi_g_effort
+# tableH <- fdi_h_spatial_landings
+# tableI <- fdi_i_spatial_effort
+# tableJ <- fdi_j_capacity
 
 # MS <- "PSP"
-# SPs = c("HKE","DPS") # "COMBINED"
+# SPs = c("DPS") # "COMBINED"
 # GSAs <- c("GSA99")
 # vessel_len = "COMBINED"
 # fishtech = "COMBINED" 
@@ -186,7 +186,7 @@ if (check_tableA) {
       print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
-    cat(paste0("\n\n\n- No data available in FDI catch table A\n"))
+    cat(paste0("\n\n\n- No empty records detected in FDI catch table A\n"))
   }
   } else {
     cat(paste0("\n\n\n- No data available in FDI catch table A\n"))
@@ -462,7 +462,7 @@ if (check_tableG) {
       print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
-    cat(paste0("\n\n\n- No data available in FDI effort table G\n"))
+    cat(paste0("\n\n\n- No empty records detected in FDI effort table G\n"))
     }
   } else {
     cat(paste0("\n\n\n- No data available in FDI effort table G\n"))
@@ -636,7 +636,7 @@ if (check_tableH) {
       print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
-    cat(paste0("\n\n\n- No data available in FDI Landings by rectangle table H\n"))
+    cat(paste0("\n\n\n- No empty records detected in FDI Landings by rectangle table H\n"))
   }
   } else {
     cat(paste0("\n\n\n- No data available in FDI Landings by rectangle table H\n"))
@@ -795,7 +795,7 @@ if (check_tableI) {
       print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
-       cat(paste0("\n\n\n- No data available in FDI Effort by rectangle table I\n"))
+       cat(paste0("\n\n\n- No empty records detected in FDI Effort by rectangle table I\n"))
     }
   } else {
     cat(paste0("\n\n\n- No data available in FDI Effort by rectangle table I\n"))
@@ -961,7 +961,7 @@ if (check_tableJ) {
       print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
-       cat(paste0("\n\n\n- No data available in FDI Capacity and fleet segment effort table J\n"))
+       cat(paste0("\n\n\n- No empty records detected in FDI Capacity and fleet segment effort table J\n"))
     }
   } else {
     cat(paste0("\n\n\n- No data available in FDI Capacity and fleet segment effort table J\n"))

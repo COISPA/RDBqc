@@ -11,7 +11,7 @@
 #' @author Loredana Casciaro <casciaro@@coispa.eu>
 #' @author Sebastien Alfonso <salfonso@@coispa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @examples check_minmaxl_TaskVII.2(task_vii2, minmaxLtaskVII2, MS = "ITA", GSA = "18")
+#' @examples check_ldf_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP="HKE")
 check_ldf_TaskVII.2 <- function(data, MS, GSA, SP, verbose=TRUE) {
 
   if (FALSE) {
@@ -40,6 +40,7 @@ check_ldf_TaskVII.2 <- function(data, MS, GSA, SP, verbose=TRUE) {
     )
 
     data_BS <- data1[data1$Source =="BS",]
+    source <- "BS"
     # Plot of tot_Caught
     suppressMessages(plot1 <- data_BS %>%
                        ggplot(aes(x = Length , y = NumberIndividuals , col = Segment)) +
@@ -52,7 +53,7 @@ check_ldf_TaskVII.2 <- function(data, MS, GSA, SP, verbose=TRUE) {
                          axis.title = element_text(size = 15),
                          plot.title = element_text(hjust = 0.5, size = 15)
                        ) +
-                       ggtitle(paste(MS, " - Total individuals caught (expanded) in GSA", GSA)) +
+                       ggtitle(paste(MS, " - Total individuals caught (expanded) in GSA", GSA, "(BS)")) +
                        ylab("Total individuals caught") +
                        xlab("Year") +
                        facet_wrap(~Reference_Year)
@@ -60,6 +61,7 @@ check_ldf_TaskVII.2 <- function(data, MS, GSA, SP, verbose=TRUE) {
 
 
     data_SU <- data1[data1$Source =="SU",]
+    source <- "SU"
     # Plot of tot_Caught
     suppressMessages(plot2 <- data_SU %>%
                        ggplot(aes(x = Length , y = NumberIndividuals , col = Segment)) +
@@ -72,7 +74,7 @@ check_ldf_TaskVII.2 <- function(data, MS, GSA, SP, verbose=TRUE) {
                          axis.title = element_text(size = 15),
                          plot.title = element_text(hjust = 0.5, size = 15)
                        ) +
-                       ggtitle(paste(MS, " - Total individuals caught (expanded) in GSA", GSA)) +
+                       ggtitle(paste(MS, " - Total individuals caught (expanded) in GSA", GSA, "(SU)")) +
                        ylab("Total individuals caught") +
                        xlab("Year") +
                        facet_wrap(~Reference_Year)

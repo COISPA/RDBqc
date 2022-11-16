@@ -43,7 +43,7 @@ CL <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_
 
 SPs <- c("Merluccius merluccius")
 MS <- "ITA"
-GSAs <- c("GSA17")
+GSAs <- c("GSA99")
 stages_for_immatures <- c("0", "1", "2a")
 ```
 
@@ -291,7 +291,7 @@ for (g in 1:length(GSAs)) {
 } # check_CS
 ```
 
-```{r RCG_check_mat, results = 'asis'}
+```{r RCG_check_mat, results = 'asis',fig.height=9,fig.width=9}
 if (check_CS) {
   
   cat("\n## Consistency of sex and maturity stage\n")
@@ -308,7 +308,7 @@ for (g in 1:length(GSAs)) {
         if (!is.null(res)) {
 
         cat("\n\n\n")
-        cat(paste0("\nPlot of length-weight by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        cat(paste0("\nPlot of length-maturity by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
         print(res)
         cat("\n\n\n")
         
@@ -405,7 +405,7 @@ for (g in 1:length(GSAs)) {
         if (!is.null(res)) {
 
         cat("\n\n\n")
-        cat(paste0("\nPlot of length-weight by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        cat(paste0("\nMap of data spatial distribution.\n"))
         print(res)
         cat("\n\n\n")
         

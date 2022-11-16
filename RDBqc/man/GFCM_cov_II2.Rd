@@ -33,7 +33,7 @@ The function returns a list. The first element gives the summary table of record
 The function checks and count the numbers of records data in the given task II.2 table grouped by year, GSA, MS, species, and segment for two variables (Total landing (ton) and total discards (ton)). If SP and segment are not specified by the user the function combines those by default.
 }
 \examples{
-GFCM_cov_II2(data = task_ii2, MS = "ITA", SP = "HKE", segment = "COMBINED", GSA = "18")
+GFCM_cov_II2(data = task_ii2, MS = "ITA", GSA = "18", SP = "HKE", segment = "COMBINED")
 }
 \author{
 Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}

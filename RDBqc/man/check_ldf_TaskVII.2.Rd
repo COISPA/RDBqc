@@ -24,7 +24,7 @@ The function returns a table with the comparison between min/max lengths observe
 Function to verify the consistency of the length frequency distributions (LFD) reported in the TaskVII.2 table. The functions generates plots of the LFD by species, source, segment and year.
 }
 \examples{
-check_minmaxl_TaskVII.2(task_vii2, minmaxLtaskVII2, MS = "ITA", GSA = "18")
+check_ldf_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP="HKE")
 }
 \author{
 Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}

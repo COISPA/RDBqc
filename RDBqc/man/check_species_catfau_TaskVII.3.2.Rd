@@ -37,7 +37,7 @@ Function to check the correct codification of faunistic category according to sp
 }
 \examples{
 check_species_catfau_TaskVII.3.2(task_vii32, catfau_check, sex_mat,
-MS = "ITA", GSA = "18", SP="CTC")
+MS = "ITA", GSA = "18", SP="HKE")
 }
 \author{
 Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}

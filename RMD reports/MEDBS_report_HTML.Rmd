@@ -43,19 +43,28 @@ lapply(lib, require, character.only = TRUE)
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
 
-# Catch = Catch_tab_example
-Land = read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_data_GRC_landings.csv",sep=",",header=TRUE)# Landing_tab_example
-# Disc = read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_data_disc.csv",sep=",",header=TRUE)# Discard_tab_example
-# ML = ML_tab_example
-# MA = MA_tab_example
-# SL = SL_tab_example
-# SA = SA_tab_example
-# GP = GP_tab_example
-# ALK = ALK_tab_example
+Catch = Catch_tab_example
+Catch$area <- "GSA 99"
+Land = Landing_tab_example # read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_data_GRC_landings.csv",sep=",",header=TRUE)# 
+Land$area <- "GSA 99"
+Disc =  Discard_tab_example # read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc\\APPOGGIO\\Ioannis\\exported_data_disc.csv",sep=",",header=TRUE)#
+Disc$area <- "GSA 99"
+ML = ML_tab_example
+ML$area <- "GSA 99"
+MA = MA_tab_example
+MA$area <- "GSA 99"
+SL = SL_tab_example
+SL$area <- "GSA 99"
+SA = SA_tab_example
+SA$area <- "GSA 99"
+GP = GP_tab_example
+GP$area <- "GSA 99"
+ALK = ALK_tab_example
+ALK$area <- "GSA 99"
 
-# SPs <- c("HKE")
-# MS <- "ITA"
-# GSAs <- c("GSA 18","GSA 19")
+SPs <- c("DPS")
+MS <- "ITA"
+GSAs <- "GSA 99" # c("GSA 18","GSA 19")
 
 ```
 

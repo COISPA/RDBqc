@@ -10,7 +10,7 @@
 #' @return The function returns a list. The first element gives the summary table of records number. From the second to the third element gives 2 plots for total live landing and total discards (ton)).
 #' @export
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @examples GFCM_cov_II2(data = task_ii2, MS = "ITA", SP = "HKE", segment = "COMBINED", GSA = "18")
+#' @examples GFCM_cov_II2(data = task_ii2, MS = "ITA", GSA = "18", SP = "HKE", segment = "COMBINED")
 #' @import tidyverse
 #' @importFrom tidyr drop_na
 
@@ -48,7 +48,7 @@ GFCM_cov_II2 <- function(data, MS, SP = "COMBINED", segment = "COMBINED", GSA, v
     }
   } else {
 
-    # data[data == "NA"] <- NA
+    data$landing <- as.numeric(data$landing)
 
     # Summary Table of records number
     suppressMessages(data1 <- data %>%
@@ -67,22 +67,28 @@ GFCM_cov_II2 <- function(data, MS, SP = "COMBINED", segment = "COMBINED", GSA, v
       data2 <- data
       data2[is.na(data2)] <- 0
       suppressMessages(data3 <- data2 %>%
-        drop_na(reference_year, gsa, cpc, species, segment) %>%
+        # drop_na(reference_year, gsa, cpc, species, segment) %>%
         select(reference_year, gsa, cpc, species, segment, landing, discards) %>%
         filter(gsa %in% GSA & cpc %in% MS & species %in% SP) %>%
         group_by(reference_year, gsa, cpc, species, segment) %>%
         summarise(
-          tot_landing = sum(as.numeric(landing)),
-          tot_discards = sum(as.numeric(discards))
+          tot_landing = sum(landing,na.rm=TRUE),
+          tot_discards = sum(discards,na.rm=TRUE)
         ))
 
-      # Plot of 1=totwghtlandg, 2=totvallandg, and 3=discards
+      # Plots
+      ny <- length(seq(min(data$reference_year),max(data$reference_year),1))
+      if (ny < 4) {
+        ny <- 1
+      } else {
+        ny <- 4
+      }
 
       suppressMessages(plot1 <- data3 %>%
         ggplot(aes(x = reference_year, y = tot_landing, col = segment)) +
         geom_point() +
         geom_line() +
-        scale_x_continuous(breaks = seq(min(data3$reference_year), max(data3$reference_year), 4)) +
+        scale_x_continuous(breaks = seq(min(data3$reference_year), max(data3$reference_year), ny)) +
         theme(
           axis.text.x = element_text(size = 15, angle = 0, colour = "black"),
           axis.text.y = element_text(size = 15, colour = "black"),
@@ -90,16 +96,17 @@ GFCM_cov_II2 <- function(data, MS, SP = "COMBINED", segment = "COMBINED", GSA, v
           plot.title = element_text(hjust = 0.5, size = 15)
         ) +
         ggtitle(paste(MS, "total landing of", SP, "in GSA", GSA)) +
-        ylab("Total landing (ton)") +
-        xlab("year") +
-        facet_wrap(~segment))
+        ylab("Total landing (tonnes)") +
+        xlab("year")
+        # + facet_wrap(~segment)
+        )
 
 
       suppressMessages(plot2 <- data3 %>%
         ggplot(aes(x = reference_year, y = tot_discards, col = segment)) +
         geom_point() +
         geom_line() +
-        scale_x_continuous(breaks = seq(min(data3$reference_year), max(data3$reference_year), 4)) +
+        scale_x_continuous(breaks = seq(min(data3$reference_year), max(data3$reference_year), ny)) +
         theme(
           axis.text.x = element_text(size = 15, angle = 0, colour = "black"),
           axis.text.y = element_text(size = 15, colour = "black"),
@@ -107,9 +114,10 @@ GFCM_cov_II2 <- function(data, MS, SP = "COMBINED", segment = "COMBINED", GSA, v
           plot.title = element_text(hjust = 0.5, size = 15)
         ) +
         ggtitle(paste(MS, "total discards of", SP, "in GSA", GSA)) +
-        ylab("Total discards (ton)") +
-        xlab("year") +
-        facet_wrap(~segment))
+        ylab("Total discards (tonnes)") +
+        xlab("year")
+        # + facet_wrap(~segment)
+        )
 
       output <- list(as.data.frame(data1), as.data.frame(data3), suppressMessages(plot1), suppressMessages(plot2))
       names(output) <- c("number_of_records", "summary_table", "total_landings", "total_discards")

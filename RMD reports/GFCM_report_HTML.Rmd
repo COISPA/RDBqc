@@ -1,0 +1,873 @@
+---
+title: "| ![](logo.png){width=6in} \\vspace{1in} \n\n\n\n`r format(params$term)` Report\n\n\n\n
+  \\vspace{0.1in} "
+
+date: "Compiled on `r format(Sys.time(), '%d/%m/%Y, %H:%M')`"
+subtitle: ''
+
+output:
+  html_document:
+    template: RDBFIS_report_template.html
+    toc: true
+    toc-title: "Table of contents"
+    toc_depth: 5
+    number_sections: true
+    collapsed: true
+    df_print: paged
+params:
+  term: GFCM datacall
+---
+<!-- INITIALIZATION -->
+
+```{r initialization, include=FALSE}
+knitr::opts_chunk$set(
+    echo = FALSE,
+    message = FALSE,
+    warning = FALSE
+)
+
+# loading needed libraries
+lib <- c("RDBqc","knitr","kableExtra","dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc","tidyverse", "fishmethods","tidyr","gridExtra","outliers")
+lapply(lib, require, character.only = TRUE)
+```
+
+<!-- USER DEFINED SOURCE FILES -->
+
+```{r user_setup, include=FALSE}
+
+# reading files
+# UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
+# SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
+
+task_ii2 <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_ii2.csv", sep=";") #
+task_ii2 <- task_ii2[task_ii2$GSA =="18",]
+# task_ii2$GSA <- "99"
+
+task_iii <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_iii.csv", sep=";")
+task_iii <- task_iii[task_iii$GSA =="18",]
+# task_iii$GSA <- "99"
+
+task_vii2 <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_vii2.csv", sep=";") 
+task_vii2 <- task_vii2[task_vii2$GSA =="18",]
+# task_vii2$GSA <- "99"
+
+task_vii31 <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_vii31.csv", sep=";") 
+task_vii31 <- task_vii31[task_vii31$GSA =="18",]
+# task_vii31$GSA <- "99"
+
+task_vii32 <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_vii32.csv", sep=";") 
+task_vii32 <- task_vii32[task_vii32$GSA =="18",]
+# task_vii32$GSA <- "99"
+
+# MS <- "ITA"
+# SPs = c("HKE","DPS") # "COMBINED"
+# GSAs <- c("18")
+# segments = "COMBINED"
+```
+
+<!-- DO NOT MODIFY THE FOLLOWING CODE -->
+
+```{r setup, include=FALSE}
+# check the presence of user defined filter for country (MS)
+if (exists("MS")) {
+if(length(MS)==1 & is.na(MS[1])) {
+  user_MS = FALSE
+} else {
+  user_MS = TRUE
+}
+} else {
+  user_MS <- FALSE
+}
+
+# check the presence of user defined filter for sub-area (GSAs)
+if (exists("GSAs")) {
+if(length(GSAs)==1 & is.na(GSAs[1])) {
+  user_GSA = FALSE
+} else {
+  user_GSA = TRUE
+}
+} else {
+  user_GSA <- FALSE
+}
+
+# check the presence of user defined filter for species (SPs)
+if (exists("SPs")) {
+  if (length(SPs) == 1 & is.na(SPs[1])) {
+    user_SP <- FALSE
+  } else {
+    user_SP <- TRUE
+  }
+} else {
+  user_SP <- FALSE
+}
+
+# check the presence of user defined filter for segments 
+if (exists("Segments")) {
+  if (length(Segments) == 1 & is.na(Segments[1])) {
+    user_segments <- FALSE
+  } else {
+    user_segments <- TRUE
+  }
+} else {
+  user_segments <- FALSE
+}
+
+```
+
+
+\newpage
+<!-- Task II.2 -->
+
+```{r check_task_ii2, results = 'asis'}
+
+if (exists("task_ii2")) {
+  if (class(task_ii2)=="data.frame") {
+    if(nrow(task_ii2)>0){
+      check_task_ii2 <- TRUE
+      cat(paste0("\n# GFCM Catch data per species (Table II.2 Catch)\n"))
+      
+      
+      if(!user_SP){
+        SPs <- sort(unique(task_ii2$Species))
+      }
+      if(!user_MS){
+        MS  <- unique(task_ii2$CPC)
+      }
+      if(!user_GSA){
+        GSAs <- sort(unique(task_ii2$GSA))
+      }
+      if(!user_segments){
+        Segments <- sort(unique(task_ii2$Segment))
+      }
+     
+      task_ii2 <- task_ii2[task_ii2$Species %in% SPs & 
+                       task_ii2$CPC == MS & 
+                       task_ii2$GSA %in% GSAs, ]
+      
+    }
+  }
+} else {
+  check_task_ii2 <- FALSE
+  cat("\n No GFCM Catch data per species (Table II.2 Catch) available \n")
+}
+
+
+
+```
+
+<!-- duplicated records - Task_II.2 -->
+
+```{r task_ii2_duplicated_records, results = 'asis'}
+if (check_task_ii2) {
+  
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the GFCM Catch table (Table II.2 Catch) were checked for the presence of duplicated records. The result of the check is here reported:\n")
+  
+  res <- check_RD_taskII2(data=task_ii2,verbose=FALSE)
+  
+  if (!is.null(res) & length(res)>0) {
+    duplicates <- task_ii2[res,]
+    if (nrow(duplicates)>0) {
+      cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+      print(task_ii2[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+      task_ii2 <- task_ii2[-res,]
+    } else {
+      cat("\n", paste0("- No replicated records detected in GFCM Catch table (Table II.2 Catch)"), "\n")
+    }
+  } else {
+      cat("\n", paste0("- No data available "), "\n")
+    }
+  cat("\n*Warning*: eventual duplicated records will be removed from data for the following analysis \n")
+  
+} # check_task_ii2
+```
+
+<!-- empty fields - Task_II.2 -->
+
+```{r task_ii2_empty_fields, results = 'asis'}
+if (check_task_ii2) {
+  
+  cat("\n## Presence of empty records\n")
+  cat("\nData included in the GFCM Catch table (Table II.2 Catch) were checked to identify the presence of not allowed empty data in the given table. In case empty fields are detected a table with the name of the field with the empty records and the number of records is reported.\n")
+
+  res <- suppressMessages(check_EF_taskII2(data = task_ii2, verbose = FALSE))
+
+  if (!is.null(res)) {
+    res <- res[[1]][which(res[[1]] > 0)]
+    if (length(res) > 0) {
+      res <- data.frame(Empty_records = res)
+      cat("\n\n\n")
+      cat(paste0("\n_Table of empty records in GFCM Catch table (Table II.2 Catch)_\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+    cat(paste0("\n\n\n- No empty records detected in GFCM Catch table (Table II.2 Catch)\n"))
+  }
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Catch table (Table II.2 Catch)\n"))
+  }
+  
+} # check_task_ii2
+```
+
+<!-- coverage - Task_II.2 -->
+
+```{r task_ii2_coverage, results = 'asis'}
+if (check_task_ii2) {
+  
+  cat("\n## Coverage of GFCM Catch table\n")
+  cat("\nData included in the GFCM Catch table (Table II.2 Catch) were checked to report a summary table of the data coverage in terms of number of records by year and segment. Plots of both total landing and discard are also provided.\n")
+  
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### GSA ", GSAs[g], "\n"))
+      s=2
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        
+         res <- suppressMessages(GFCM_cov_II2(data = task_ii2, MS = MS, SP = SPs[s], segment = Segments, GSA = GSAs[g], verbose = FALSE))
+
+  if (!is.null(res)) {
+    
+    if (nrow(res[[1]]) > 0) {
+      cat("\n\n\n") 
+      cat(paste0("\n_Summary table of the number of records per segment in GFCM Catch table (Table II.2 Catch)  for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"_\n"))
+      print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+       cat(paste0("\n\n\n- No data available\n"))
+    }
+    if (!is.null(res[[3]])) {
+     cat("\n\n\n")
+        cat(paste0("\nPlot of total landing coverage for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"\n"))
+        suppressMessages(print(res[[3]]))
+        cat("\n\n\n")
+    } else {
+       cat(paste0("\n\n\n- No data available\n"))
+    }
+    
+    if (!is.null(res[[4]])) {
+     cat("\n\n\n")
+        cat(paste0("\nPlot of total discard coverage for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"\n"))
+        suppressMessages(print(res[[4]]))
+        cat("\n\n\n")
+    } else {
+       cat(paste0("\n\n\n- No data available\n"))
+    }
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Catch table (Table II.2 Catch)\n"))
+  }
+      }
+}
+} # check_task_ii2
+```
+
+\newpage
+<!-- Task III -->
+
+```{r check_task_iii, results = 'asis'}
+
+if (exists("task_iii")) {
+  if (class(task_iii)=="data.frame") {
+    if(nrow(task_iii)>0){
+      check_task_iii <- TRUE
+      cat(paste0("\n# GFCM Incidental catch of vulnerable species (Table III)\n"))
+      
+      
+      if(!user_SP){
+        SPs <- sort(unique(task_iii$Species))
+      }
+      if(!user_MS){
+        MS  <- unique(task_iii$CPC)
+      }
+      if(!user_GSA){
+        GSAs <- sort(unique(task_iii$GSA))
+      }
+      if(!user_segments){
+        Segments <- sort(unique(task_iii$Segment))
+      }
+     
+      task_iii <- task_iii[task_iii$Species %in% SPs & 
+                       task_iii$CPC == MS & 
+                       task_iii$GSA %in% GSAs, ]
+      
+    }
+  }
+} else {
+  check_task_iii <- FALSE
+  cat("\n No dat availablea for GFCM Incidental catch of vulnerable species (Table III)\n")
+}
+
+
+
+```
+
+<!-- duplicated records - Task_III -->
+
+```{r task_iii_duplicated_records, results = 'asis'}
+if (check_task_iii) {
+  
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the GFCM Incidental catch of vulnerable species (Table III) were checked for the presence of duplicated records. The result of the check is here reported:\n")
+  
+  res <- check_RD_taskIII(data=task_iii,verbose=FALSE)
+  
+  if (!is.null(res) & length(res)>0) {
+    duplicates <- task_iii[res,]
+    if (nrow(duplicates)>0) {
+      cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+      print(task_iii[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+      task_iii <- task_iii[-res,]
+    } else {
+      cat("\n", paste0("- No replicated records detected in GFCM Incidental catch of vulnerable species (Table III)"), "\n")
+    }
+  } else {
+      cat("\n", paste0("- No data available "), "\n")
+    }
+  cat("\n*Warming*: eventual duplicated records will be removed from data for the following analysis \n")
+  
+} # check_task_iii
+```
+
+<!-- empty fields - Task_III -->
+
+```{r task_iii_empty_fields, results = 'asis'}
+if (check_task_iii) {
+  
+  cat("\n## Presence of empty records\n")
+  cat("\nData included in the GFCM Incidental catch of vulnerable species (Table III) were checked to identify the presence of not allowed empty data in the given table. In case empty fields are detected a table with the name of the field with the empty records and the number of records is reported.\n")
+
+  res <- suppressMessages(check_EF_taskIII(data = task_iii, verbose = FALSE))
+
+  if (!is.null(res)) {
+    res <- res[[1]][which(res[[1]] > 0)]
+    if (length(res) > 0) {
+      res <- data.frame(Empty_records = res)
+      cat("\n\n\n")
+      cat(paste0("\n_Table of empty records in GFCM Incidental catch of vulnerable species (Table III)_\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+    cat(paste0("\n\n\n- No empty records detected in GFCM Incidental catch of vulnerable species (Table III)\n"))
+  }
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Incidental catch of vulnerable species (Table III)\n"))
+  }
+  
+} # check_task_iii
+```
+
+<!-- coverage - Task_III -->
+
+```{r task_iii_coverage, results = 'asis'}
+if (check_task_iii) {
+  
+  cat("\n## Coverage of GFCM Incidental catch of vulnerable species (Table III)\n")
+  cat("\nData included in the GFCM Incidental catch of vulnerable species (Table III) were checked to report a summary table of the data coverage in terms of number of records by year and segment. Plots of both total landing and discard are also provided.\n")
+  
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### GSA ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        
+         res <- suppressMessages(GFCM_cov_task_iii(data = task_iii, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+
+  if (!is.null(res)) {
+    
+    if (nrow(res[[1]]) > 0) {
+      cat("\n\n\n") 
+      cat(paste0("\n_Summary table of the number of individuals caught per source and gear in GFCM Incidental catch of vulnerable species (Table III) for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"_\n"))
+      print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+       cat(paste0("\n\n\n- No inconsistencies were detected the number of individuals caught.\n"))
+    }
+    if (!is.null(res[[2]])) {
+     cat("\n\n\n")
+        cat(paste0("\nPlot of the number of individuals caught time series for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"\n"))
+        suppressMessages(print(res[[2]]))
+        cat("\n\n\n")
+    } else {
+       cat(paste0("\n\n\n- No data available\n"))
+    }
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Incidental catch of vulnerable species (Table III)\n"))
+  }
+      }
+}
+} # check_task_ii2
+```
+
+\newpage
+<!-- Task VII.2 -->
+
+```{r check_task_vii2, results = 'asis'}
+
+if (exists("task_vii2")) {
+  if (class(task_vii2)=="data.frame") {
+    if(nrow(task_vii2)>0){
+      check_task_vii2 <- TRUE
+      cat(paste0("\n# GFCM Biological information (Table VII.2, Length data)\n"))
+      
+      
+      if(!user_SP){
+        SPs <- sort(unique(task_vii2$Species))
+      }
+      if(!user_MS){
+        MS  <- unique(task_vii2$CPC)
+      }
+      if(!user_GSA){
+        GSAs <- sort(unique(task_vii2$GSA))
+      }
+      
+      task_vii2 <- task_vii2[task_vii2$Species %in% SPs & 
+                       task_vii2$CPC == MS & 
+                       task_vii2$GSA %in% GSAs, ]
+      
+    }
+  }
+} else {
+  check_task_vii2 <- FALSE
+  cat("\n No data available for GFCM Biological information (Table VII.2, Length data)\n")
+}
+
+
+
+```
+
+<!-- duplicated records - Task_VII.2 -->
+
+```{r task_vii2_duplicated_records, results = 'asis'}
+if (check_task_vii2) {
+  
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the GFCM Biological information (Table VII.2, Length data) were checked for the presence of duplicated records. The result of the check is here reported:\n")
+  
+  res <- check_RD_taskVII2(data=task_vii2,verbose=FALSE)
+  
+  if (!is.null(res)) {
+    
+    if (length(res)>0){
+    duplicates <- task_vii2[res,]
+    if (nrow(duplicates)>0) {
+      cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+      print(task_vii2[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+      task_vii2 <- task_vii2[-res,]
+    } else {
+      cat("\n", paste0("- No replicated records detected in GFCM Biological information (Table VII.2, Length data)"), "\n")
+    }
+    } else {
+      cat("\n", paste0("- No replicated records detected in GFCM Biological information (Table VII.2, Length data)"), "\n")
+    }
+  } else {
+      cat("\n", paste0("- No data available "), "\n")
+    }
+  cat("\n*Warming*: eventual duplicated records will be removed from data for the following analysis \n")
+  
+} # check_task_vii2
+```
+
+<!-- empty fields - Task_VII.2 -->
+
+```{r task_vii2_empty_fields, results = 'asis'}
+if (check_task_vii2) {
+  
+  cat("\n## Presence of empty records\n")
+  cat("\nData included in the GFCM Biological information (Table VII.2, Length data) were checked to identify the presence of not allowed empty data in the given table. In case empty fields are detected a table with the name of the field with the empty records and the number of records is reported.\n")
+
+  res <- suppressMessages(check_EF_taskVII2(data = task_vii2, verbose = FALSE))
+
+  if (!is.null(res)) {
+    res <- res[[1]][which(res[[1]] > 0)]
+    if (length(res) > 0) {
+      res <- data.frame(Empty_records = res)
+      cat("\n\n\n")
+      cat(paste0("\n_Table of empty records in GFCM Biological information (Table VII.2, Length data)_\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+    cat(paste0("\n\n\n- No empty records detected in GFCM Biological information (Table VII.2, Length data) \n"))
+  }
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Biological information (Table VII.2, Length data)\n"))
+  }
+  
+} # check_task_vii2
+```
+
+<!-- Lenght-Weight - Task_VII2 -->
+
+```{r task_vii2_LW, results = 'asis',fig.height=9,fig.width=9}
+if (check_task_vii2) {
+  
+  cat("\n## Consistency of Length-Weight relationship in GFCM Biological information (Table VII.2, Length data)\n")
+  cat("\nData included in the GFCM Biological information (Table VII.2, Length data) were checked to report the plot of the length-weight relationship of the selected species by year.\n")
+  
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### GSA ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        
+         res <- suppressMessages(check_lw_TaskVII.2(data = task_vii2, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+
+  if (!is.null(res)) {
+     cat("\n\n\n")
+        cat(paste0("\nPlot of the length-weight relationship by year for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"\n"))
+        suppressMessages(print(res))
+        cat("\n\n\n")
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Biological information (Table VII.2, Length data)\n"))
+  }
+      }
+}
+} # check_task_vii2
+```
+
+
+<!-- LFD - Task_VII2 -->
+
+```{r task_vii2_LFD, results = 'asis',fig.height=9,fig.width=9}
+if (check_task_vii2) {
+  
+  cat("\n## Consistency of Length Frequency Distribution in GFCM Biological information (Table VII.2, Length data)\n")
+  cat("\nData included in the GFCM Biological information (Table VII.2, Length data) were checked to report the plot of the Length Frequency Distribution of the selected species by year.\n")
+  
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### GSA ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        
+        
+         res <- suppressMessages(check_ldf_TaskVII.2(data = task_vii2, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+
+  if (!is.null(res)) {
+    
+    if(!is.null(res[[1]])) {
+      cat("\n\n\n")
+    cat(paste0("\nPlot of the Length Frequency Distribution by year and segment for ",SPs[s]," - ",MS," - GSA ",GSAs[g]," - Biological sumpling (BS).\n"))
+    suppressMessages(print(res[[1]]))
+    cat("\n\n\n")
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Biological information (Table VII.2, Length data)\n"))
+  }
+        
+   if(!is.null(res[[2]])) {
+      cat("\n\n\n")
+    cat(paste0("\nPlot of the Length Frequency Distribution  by year  for ",SPs[s]," - ",MS," - GSA ",GSAs[g]," - Surveys (SU).\n"))
+    suppressMessages(print(res[[2]]))
+    cat("\n\n\n")
+  } else {
+    cat(paste0("\n\n\n- No biological sampling (BU) data available in GFCM Biological information (Table VII.2, Length data)\n"))
+  }
+        
+  } else {
+    cat(paste0("\n\n\n- No biological sampling (BU) data available in GFCM Biological information (Table VII.2, Length data)\n"))
+  }
+      }
+  }    
+} # check_task_vii2
+```
+
+\newpage
+<!-- Task VII.3.1 -->
+
+```{r check_task_vii31, results = 'asis'}
+
+if (exists("task_vii31")) {
+  if (class(task_vii31)=="data.frame") {
+    if(nrow(task_vii31)>0){
+      check_task_vii31 <- TRUE
+      cat(paste0("\n# GFCM Size at first maturity (Table VII.3.1)\n"))
+      
+      
+      if(!user_SP){
+        SPs <- sort(unique(task_vii31$Species))
+      }
+      if(!user_MS){
+        MS  <- unique(task_vii31$CPC)
+      }
+      if(!user_GSA){
+        GSAs <- sort(unique(task_vii31$GSA))
+      }
+      
+      task_vii31 <- task_vii31[task_vii31$Species %in% SPs & 
+                       task_vii31$CPC == MS & 
+                       task_vii31$GSA %in% GSAs, ]
+      
+    }
+  }
+} else {
+  check_task_vii31 <- FALSE
+  cat("\n No data available for GFCM Size at first maturity (Table VII.3.1)\n")
+}
+
+
+
+```
+
+<!-- duplicated records - Task_VII.2 -->
+
+```{r task_vii31_duplicated_records, results = 'asis'}
+if (check_task_vii31) {
+  
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the GFCM Size at first maturity (Table VII.3.1) were checked for the presence of duplicated records. The result of the check is here reported:\n")
+  
+  res <- check_RD_taskVII31(data=task_vii31,verbose=FALSE)
+  
+  if (!is.null(res)) {
+    if (length(res)>0){
+    duplicates <- task_vii31[res,]
+    if (nrow(duplicates)>0) {
+      cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+      print(task_vii31[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+      task_vii31 <- task_vii31[-res,]
+    } else {
+      cat("\n", paste0("- No replicated records detected in GFCM Size at first maturity (Table VII.3.1)"), "\n")
+    }
+    } else {
+      cat("\n", paste0("- No replicated records detected in GFCM Size at first maturity (Table VII.3.1)"), "\n")
+    }
+  } else {
+      cat("\n", paste0("- No data available "), "\n")
+    }
+  cat("\n*Warming*: eventual duplicated records will be removed from data for the following analysis \n")
+  
+} # check_task_vii2
+```
+
+<!-- empty fields - Task_VII.3.1 -->
+
+```{r task_vii31_empty_fields, results = 'asis'}
+if (check_task_vii31) {
+  
+  cat("\n## Presence of empty records\n")
+  cat("\nData included in the GFCM Size at first maturity (Table VII.3.1) were checked to identify the presence of not allowed empty data in the given table. In case empty fields are detected a table with the name of the field with the empty records and the number of records is reported.\n")
+
+  res <- suppressMessages(check_EF_TaskVII31(data = task_vii31, verbose = FALSE))
+
+  if (!is.null(res)) {
+    res <- res[[1]][which(res[[1]] > 0)]
+    if (length(res) > 0) {
+      res <- data.frame(Empty_records = res)
+      cat("\n\n\n")
+      cat(paste0("\n_Table of empty records in GFCM Size at first maturity (Table VII.3.1)\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+    cat(paste0("\n\n\n- No empty records detected in GFCM Size at first maturity (Table VII.3.1) \n"))
+  }
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Size at first maturity (Table VII.3.1)\n"))
+  }
+  
+} # check_task_vii2
+```
+
+<!-- L50 - Task_VII31 -->
+
+```{r task_vii31_L50, results = 'asis'}
+if (check_task_vii31) {
+  
+  cat("\n## Consistency of size at first maturity in GFCM Size at first maturity (Table VII.3.1)\n")
+  cat("\nData included in the GFCM Size at first maturity (Table VII.3.1) were checked to report the plot of the Size at first maturity time series of the selected species by sex\n")
+  
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### GSA ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        
+         res <- suppressMessages(check_l50_TaskVII.3.1(data = task_vii31, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+
+  if (!is.null(res)) {
+     cat("\n\n\n")
+        cat(paste0("\nPlot of the size at first maturity by sex for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"\n"))
+        suppressMessages(print(res))
+        cat("\n\n\n")
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Size at first maturity (Table VII.3.1)\n"))
+  }
+      }
+}
+} # check_task_vii31
+```
+
+\newpage
+<!-- Task VII.3.2 -->
+
+```{r check_task_vii32, results = 'asis'}
+
+if (exists("task_vii32")) {
+  if (class(task_vii32)=="data.frame") {
+    if(nrow(task_vii32)>0){
+      check_task_vii32 <- TRUE
+      cat(paste0("\n# GFCM Biological information (Table VII.3.2, Maturity data)\n"))
+      
+      
+      if(!user_SP){
+        SPs <- sort(unique(task_vii32$Species))
+      }
+      if(!user_MS){
+        MS  <- unique(task_vii32$CPC)
+      }
+      if(!user_GSA){
+        GSAs <- sort(unique(task_vii32$GSA))
+      }
+      
+      task_vii32 <- task_vii32[task_vii32$Species %in% SPs & 
+                       task_vii32$CPC == MS & 
+                       task_vii32$GSA %in% GSAs, ]
+      
+    }
+  }
+} else {
+  check_task_vii32 <- FALSE
+  cat("\n No data available for GFCM Biological information (Table VII.3.2, Maturity data)\n")
+}
+
+
+
+```
+
+<!-- duplicated records - Task_VII.3.2 -->
+
+```{r task_vii32_duplicated_records, results = 'asis'}
+if (check_task_vii32) {
+  
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the GFCM Biological information (Table VII.3.2, Maturity data) were checked for the presence of duplicated records. The result of the check is here reported:\n")
+  
+  res <- check_RD_TaskVII32(data=task_vii32,verbose=FALSE)
+  
+  if (!is.null(res)) {
+    if (length(res)>0){
+    duplicates <- task_vii32[res,]
+    if (nrow(duplicates)>0) {
+      cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+      print(task_vii32[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+      task_vii32 <- task_vii32[-res,]
+    } else {
+      cat("\n", paste0("- No replicated records detected in GFCM Biological information (Table VII.3.2, Maturity data)"), "\n")
+    }
+    } else {
+      cat("\n", paste0("- No replicated records detected in GFCM Biological information (Table VII.3.2, Maturity data)"), "\n")
+    }
+  } else {
+      cat("\n", paste0("- No data available "), "\n")
+    }
+  cat("\n*Warming*: eventual duplicated records will be removed from data for the following analysis \n")
+  
+} # check_task_vii32
+```
+
+<!-- empty fields - Task_VII.3.2 -->
+
+```{r task_vii32_empty_fields, results = 'asis'}
+if (check_task_vii32) {
+  
+  cat("\n## Presence of empty records\n")
+  cat("\nData included in the GFCM Biological information (Table VII.3.2, Maturity data) were checked to identify the presence of not allowed empty data in the given table. In case empty data are detected a table with the name of the field with the empty records and the number of records is reported.\n")
+
+  res <- suppressMessages(check_EF_TaskVII32(data = task_vii32, verbose = FALSE))
+
+  if (!is.null(res)) {
+    res <- res[[1]][which(res[[1]] > 0)]
+    if (length(res) > 0) {
+      res <- data.frame(Empty_records = res)
+      cat("\n\n\n")
+      cat(paste0("\n_Table of empty records in GFCM Biological information (Table VII.3.2, Maturity data)\n"))
+      print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+    cat(paste0("\n\n\n- No empty records detected in GFCM Biological information (Table VII.3.2, Maturity data)\n"))
+  }
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Biological information (Table VII.3.2, Maturity data)\n"))
+  }
+  
+} # check_task_vii32
+```
+
+
+<!-- CatFau - Task_7.3.2 -->
+
+```{r task_vii32_catfau, results = 'asis',fig.height=9,fig.width=9}
+if (check_task_vii32) {
+
+  cat("\n## Consistency of sex and maturity stages in GFCM Biological information (Table VII.3.2, Maturity data)\n")
+  cat("\nData included in the GFCM Biological information (Table VII.3.2, Maturity data) were checked to identify the possible incorrect codifications of faunistic category according to species and sex.\n")
+
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### GSA ", GSAs[g], "\n"))
+      s=2
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+
+         res <- suppressMessages(check_species_catfau_TaskVII.3.2(data = task_vii32,species=catfau_check, matsex=sex_mat, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+
+  if (!is.null(res)) {
+
+    if (length(res[[1]]) > 0) {
+      cat("\n\n\n")
+      cat(paste0("\n_Summary table of mismatches between species and faunistic category for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"_\n"))
+      tab <- as.data.frame(res[[1]])
+      colnames(tab) <- "unexpected_codes"
+      print(tab %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      cat("\n\n\n")
+    } else {
+       cat(paste0("\n\n\n- No mismatches between species and faunistic category were detected in ",SPs[s]," - ",MS," - GSA ",GSAs[g],".\n"))
+    }
+    if (!is.null(res[[2]])) {
+     cat("\n\n\n")
+        cat(paste0("\nPlot of the length distribution by sex and maturity for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"\n"))
+        suppressMessages(print(res[[2]]))
+        cat("\n\n\n")
+    } else {
+       cat(paste0("\n\n\n- No maturity data available\n"))
+    }
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Biological information (Table VII.3.2, Maturity data)\n"))
+  }
+      }
+}
+} # check_task_vii32
+```
+
+<!-- Lenght-Weight - Task_VII32 -->
+
+```{r task_vii32_LW, results = 'asis',fig.height=6,fig.width=9}
+if (check_task_vii32) {
+  
+  cat("\n## Consistency of Length-Weight relationship in GFCM Biological information (Table VII.3.2, Maturity data)\n")
+  cat("\nData included in the GFCM Biological information (Table VII.3.2, Maturity data) were checked to report the plot of the length-weight relationship of the selected species by year.\n")
+  
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### GSA ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        
+         res <- suppressMessages(check_lw_TaskVII.3.2(data = task_vii32, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+
+  if (!is.null(res)) {
+     cat("\n\n\n")
+        cat(paste0("\nPlot of the length-weight relationship by year for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"\n"))
+        suppressMessages(print(res))
+        cat("\n\n\n")
+  } else {
+    cat(paste0("\n\n\n- No data available in GFCM Biological information (Table VII.3.2, Maturity data)\n"))
+  }
+      }
+}
+} # check_task_vii2
+```
