@@ -34,17 +34,17 @@ lapply(lib, require, character.only = TRUE)
 <!-- USER DEFINED SOURCE FILES -->
 
 ```{r setup2, include=FALSE}
-# reading files
-# UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
-# SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
-CS <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CS_GSA17.csv", sep=";")
-CL <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/CL_GSA17.csv", sep=";")
+## reading files
+## UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
+## SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
+# CS <- read.csv("D:/Documents and Settings/Utente/Downloads/MED/sampling.csv")
+# CL <- read.csv("D:/Documents and Settings/Utente/Downloads/MED/landings.csv")
 
-
-SPs <- c("Merluccius merluccius")
-MS <- "ITA"
-GSAs <- c("GSA99")
-stages_for_immatures <- c("0", "1", "2a")
+# 
+# SPs <- c("Merluccius merluccius")
+# MS <- "ITA"
+# GSAs <- c("GSA99")
+# stages_for_immatures <- c("0", "1", "2a")
 ```
 
 <!-- DO NOT MODIFY THE FOLLOWING PART OF THE CODE -->
@@ -98,6 +98,97 @@ if (exists("stages_for_immatures")) {
 ```
 
 \newpage
+
+<!-- CL -->
+
+```{r check_CL, results = 'asis'}
+
+if (exists("CL")) {
+  if (class(CL)=="data.frame") {
+    if(nrow(CL)>0){
+      check_CL <- TRUE
+      cat(paste0("\n# Landing data table\n"))
+      if(!user_SP){
+        SPs <- unique(CL$species)
+      }
+      if(!user_MS){
+        MS  <- unique(CL$flag_country)
+      }
+      if(!user_GSA){
+        GSAs <- unique(CL$area)
+      }
+      
+    }
+  }
+} else {
+  check_CL <- FALSE
+  cat("\n No Landing data available \n")
+}
+
+
+
+```
+
+```{r RCG_check_CL, results = 'asis', fig.height=6, fig.width=9}
+if (check_CL) {
+  
+  cat("\n## Consistency of data in CL table\n")
+  cat("\nThe consistency of CL table was checked plotting data for temporal, spatial and metier coverage for the given species:\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        suppressMessages(res <- RCG_check_CL(data=CL, MS = MS, GSA = GSAs[g], SP=SPs[s]))
+        if (class(res)== "list" & length(res)>0){
+          # temp_covL
+            cat(paste0("\n_Sum of Landings by year, quarter and month for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+          # temp_covLV
+            cat(paste0("\n_Sum of Landing value by year, quarter and month for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+          # spat_covL
+            cat(paste0("\n_Sum of landings by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[3]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+            
+          # spat_covLV
+            cat(paste0("\n_Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[4]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        
+          # spe_cov_L
+            cat(paste0("\n_Sum of landings by Year, Species, foCatEu5, foCatEu6 for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[5]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )           
+            
+          # spe_cov_LV
+            cat(paste0("\n_Sum of landing value by Year, Species, foCatEu5, foCatEu6 for ",SPs[s]," in ",GSAs[g],"_"))
+            print(res[[6]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )  
+            
+          # p
+          cat("\n\n\n")
+          cat(paste0("\nPlot of Sum of landings by Year, Species, foCatEu6 for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+          print(res[[7]])
+          cat("\n\n\n")  
+            
+            
+            
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_CL
+```
+
+\newpage
+
 <!-- CS -->
 
 ```{r check_CS, results = 'asis'}
@@ -107,6 +198,9 @@ if (exists("CS")) {
     if(nrow(CS)>0){
       check_CS <- TRUE
       cat(paste0("\n# Detailed data table\n"))
+      
+      CS <- check_cs_header(CS)
+      
       if(!user_SP){
         SPs <- unique(CS$Species)
       }
@@ -130,42 +224,50 @@ if (exists("CS")) {
 
 ```
 
-```{r RCG_CS_AL, results = 'asis'}
+```{r RCG_summarize_trips, results = 'asis', fig.height=6, fig.width=9}
+if (check_CS) {
+    cat("\n## Summary of trips\n")
+    cat("\nBiological data were analysed to provide a summary table reporting the number of trips/hauls monitored by year, port, metier and sampling method.\n")
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(RCG_summarize_trips(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s],verbose=FALSE))
+        if (nrow(res)>0){
+            cat(paste0("\n_Summary table reporting the number of trips/hauls monitored by year by port, metier, sampling method for ",SPs[s]," in ",GSAs[g],"_"))
+        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        } else {
+            cat(paste0("\n- No data available for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+        }
+      }
+}
+} # check_Land
+```
+
+```{r RCG_check_loc, results = 'asis', fig.height=6, fig.width=9}
 if (check_CS) {
   
-  cat("\n## Consistency of age-length relationship\n")
-  cat("\nRCG detailed data were checked for the consistency of the age-length data. The Grubbs’ test was performed to evaluate whether the maximum value of age distribution could be considered as outliers. In case, a table reporting the outliers is returned.'\n")
+  cat("\n## Consistency of trip location\n")
+  cat("\nThe consistency of trip location was checked plotting the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data in case coordinates are not available.\n")
   
 
 g=1
 for (g in 1:length(GSAs)) {
-      cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
       for (s in 1:length(SPs)) {
-        cat(paste0("\n#### ", SPs[s], "\n"))
-        suppressMessages(res <- RCG_check_AL(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], min_age = NA, max_age = NA))
+        suppressMessages(res <- RCG_check_loc(data=CS, MS = MS, GSA = GSAs[g]))
         if (!is.null(res)) {
 
-        # cat(paste0("\n_Summary table of length observations by lenght class for ",SPs[s]," in ",GSAs[g],"_\n"))
-        #   
-        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-        
         cat("\n\n\n")
-        cat(paste0("\nPlot of age-length relationship by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
-        print(res[[3]])
+        cat(paste0("\nMap of data spatial distribution.\n"))
+        print(res)
         cat("\n\n\n")
         
-if (nrow(res[[2]])>0) {
-  cat("\n\n\n")
-  cat(paste0("\n_Table of the age class outliers for ",SPs[s]," in ",GSAs[g],"_\n"))
-   print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-        
-        cat("\n\n\n")
-} else {
-    cat("\n", paste0("- No outliers detected records in age data"), "\n")
-}
         } else {
-          cat(paste0("\n\n\n- No age data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
         }
       }
 }
@@ -175,11 +277,36 @@ if (nrow(res[[2]])>0) {
 } # check_CS
 ```
 
+
+```{r RCG_summarize_ind_meas, results = 'asis', fig.height=6, fig.width=9}
+if (check_CS) {
+    cat("\n## Summary of individual measurements\n")
+    cat("\nBiological data were analysed to provide a summary table reporting the number of individual by trip for which biological data have been collected (length, sex, maturity, weight and age)\n")
+
+g=1
+for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        res <- suppressMessages(RCG_summarize_ind_meas(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s],verbose=FALSE))
+        if (nrow(res)>0){
+            cat(paste0("\n_Summary table reporting the number of measurements by trip for each biological variable for ",SPs[s]," in ",GSAs[g],"_"))
+        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        } else {
+            cat(paste0("\n- No data available for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+        }
+      }
+}
+} # check_Land
+```
+
+
 ```{r RCG_check_LFD, results = 'asis'}
 if (check_CS) {
   
   cat("\n## Consistency of LFD by year\n")
-  cat("\nThe consistency of length frequency distributions (LFD) was checked generating a multi-frame plot of the LFD by year. The Grubbs' test was performed to evaluate whether the minimum and the maximum values of Length class distribution could be considered as outliers. In case, a table reporting the outliers is returned.\n")
+  cat("\nThe consistency of length frequency distributions (LFDs) was checked generating a multi-frame plot of the LFD by year. The Grubbs' test was performed to evaluate whether the minimum and the maximum values of Length class distribution could be considered as outliers. In case, a table reporting the outliers is returned.\n")
   
 
 g=1
@@ -251,6 +378,84 @@ for (g in 1:length(GSAs)) {
 } # check_CS
 ```
 
+
+```{r RCG_check_mat, results = 'asis',fig.height=9,fig.width=9}
+if (check_CS) {
+  
+  cat("\n## Consistency of sex and maturity stage\n")
+  cat("\nThe consistency of maturity stages by sex and year was qualitatively checked accordingly to the length class.\n")
+  
+
+g=1
+for (g in 1:length(GSAs)) {
+      cat(paste0("\n### ", GSAs[g], "\n"))
+      s=1
+      for (s in 1:length(SPs)) {
+        cat(paste0("\n#### ", SPs[s], "\n"))
+        suppressMessages(res <- RCG_check_mat(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], verbose = FALSE))
+        if (!is.null(res)) {
+
+        cat("\n\n\n")
+        cat(paste0("\nPlot of length-maturity by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res)
+        cat("\n\n\n")
+        
+        } else {
+          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        }
+      }
+}
+
+
+
+} # check_CS
+```
+
+
+stages_for_immatures
+
+```{r RCG_check_mat_ogive, results = 'asis'}
+if (check_CS) {
+  cat("\n## check_mat_ogive\n")
+  cat(paste0("\nThe maturity stages composition was checked estimating the maturity ogives by sex for: ", paste(SPs, collapse = ", "), ". '0', '1' and '2a' were considered as immature stages.\n", sep = ""))
+
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+    s <- 1
+    for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
+      # maturity ogive for males individuals
+      suppressMessages(res_M <- RCG_check_mat_ogive(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s], sex = "M", immature_stages = stages_for_immatures, verbose = FALSE))
+      # maturity ogive for females individuals
+      suppressMessages(res_F <- RCG_check_mat_ogive(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s], sex = "F", immature_stages = stages_for_immatures, verbose = FALSE))
+
+      # MALES
+      if (!is.null(res_M)) {
+        cat("\n\n\n")
+        cat(paste0("\nPlot of maturity ogive of males individuals for: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        print(res_M)
+        cat("\n\n\n")
+      } else {
+        cat(paste0("\n\n\n- No males' data available for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+      }
+
+      # FEMALES
+      if (!is.null(res_F)) {
+        cat("\n\n\n")
+        cat(paste0("\nPlot of maturity ogive of males individuals for: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        print(res_F)
+        cat("\n\n\n")
+      } else {
+        cat(paste0("\n\n\n- No females' data available for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+      }
+    }
+  }
+} # check_CS
+```
+
+
 ```{r RCG_check_lw, results = 'asis'}
 if (check_CS) {
   
@@ -291,11 +496,13 @@ for (g in 1:length(GSAs)) {
 } # check_CS
 ```
 
-```{r RCG_check_mat, results = 'asis',fig.height=9,fig.width=9}
+
+
+```{r RCG_CS_AL, results = 'asis'}
 if (check_CS) {
   
-  cat("\n## Consistency of sex and maturity stage\n")
-  cat("\nThe consistency of maturity stages by sex and year was qualitatively checked accordingly to the length class.\n")
+  cat("\n## Consistency of age-length relationship\n")
+  cat("\nRCG detailed data were checked for the consistency of the age-length data. The Grubbs’ test was performed to evaluate whether the maximum value of age distribution could be considered as outliers. In case, a table reporting the outliers is returned.\n")
   
 
 g=1
@@ -304,230 +511,36 @@ for (g in 1:length(GSAs)) {
       s=1
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
-        suppressMessages(res <- RCG_check_mat(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], verbose = FALSE))
+        suppressMessages(res <- RCG_check_AL(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], min_age = NA, max_age = NA))
         if (!is.null(res)) {
 
+        # cat(paste0("\n_Summary table of length observations by lenght class for ",SPs[s]," in ",GSAs[g],"_\n"))
+        #   
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        
         cat("\n\n\n")
-        cat(paste0("\nPlot of length-maturity by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
-        print(res)
+        cat(paste0("\nPlot of age-length relationship by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        print(res[[3]])
         cat("\n\n\n")
         
-        } else {
-          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
-        }
-      }
-}
-
-
-
-} # check_CS
-```
-
-
-stages_for_immatures
-
-```{r RCG_check_mat_ogive, results = 'asis'}
-if (check_CS) {
-  cat("\n## check_mat_ogive\n")
-  cat(paste0("\nThe maturity stages composition was checked estimating the maturity ogives by sex for: ", paste(SPs, collapse = ", "), ".\n", sep = ""))
-
-
-  g <- 1
-  for (g in 1:length(GSAs)) {
-    cat(paste0("\n### ", GSAs[g], "\n"))
-    s <- 1
-    for (s in 1:length(SPs)) {
-      cat(paste0("\n#### ", SPs[s], "\n"))
-      # maturity ogive for males individuals
-      suppressMessages(res_M <- RCG_check_mat_ogive(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s], sex = "M", immature_stages = stages_for_immatures, verbose = FALSE))
-      # maturity ogive for females individuals
-      suppressMessages(res_F <- RCG_check_mat_ogive(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s], sex = "F", immature_stages = stages_for_immatures, verbose = FALSE))
-
-      # MALES
-      if (!is.null(res_M)) {
-        cat("\n\n\n")
-        cat(paste0("\nPlot of maturity ogive of males individuals for: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
-        print(res_M)
-        cat("\n\n\n")
-      } else {
-        cat(paste0("\n\n\n- No males' data available for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
-      }
-
-      # FEMALES
-      if (!is.null(res_F)) {
-        cat("\n\n\n")
-        cat(paste0("\nPlot of maturity ogive of males individuals for: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
-        print(res_F)
-        cat("\n\n\n")
-      } else {
-        cat(paste0("\n\n\n- No females' data available for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
-      }
-    }
-  }
-} # check_CS
-```
-
-```{r RCG_summarize_trips, results = 'asis', fig.height=6, fig.width=9}
-if (check_CS) {
-    cat("\n## Summary of trips\n")
-    cat("\nBiological data were analysed to provide a summary table reporting the number of trips/hauls monitored by year, port, metier and sampling method.\n")
-
-g=1
-for (g in 1:length(GSAs)) {
-    cat(paste0("\n### ", GSAs[g], "\n"))
-      s=1
-      for (s in 1:length(SPs)) {
-        cat(paste0("\n#### ", SPs[s], "\n"))
-        res <- suppressMessages(RCG_summarize_trips(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s],verbose=FALSE))
-        if (nrow(res)>0){
-            cat(paste0("\n_Summary table reporting the number of trips/hauls monitored by year by port, metier, sampling method for ",SPs[s]," in ",GSAs[g],"_"))
-        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-        } else {
-            cat(paste0("\n- No data available for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
-        }
-      }
-}
-} # check_Land
-```
-
-```{r RCG_check_loc, results = 'asis', fig.height=6, fig.width=9}
-if (check_CS) {
-  
-  cat("\n## Consistency of trip location\n")
-  cat("\nThe consistency of trip location was checked plotting the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data in case coordinates are not available..\n")
-  
-
-g=1
-for (g in 1:length(GSAs)) {
-      s=1
-      for (s in 1:length(SPs)) {
-        suppressMessages(res <- RCG_check_loc(data=CS, MS = MS, GSA = GSAs[g]))
-        if (!is.null(res)) {
-
-        cat("\n\n\n")
-        cat(paste0("\nMap of data spatial distribution.\n"))
-        print(res)
-        cat("\n\n\n")
+if (nrow(res[[2]])>0) {
+  cat("\n\n\n")
+  cat(paste0("\n_Table of the age class outliers for ",SPs[s]," in ",GSAs[g],"_\n"))
+   print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
         
-        } else {
-          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
-        }
-      }
-}
-
-
-
-} # check_CS
-```
-
-
-```{r RCG_summarize_ind_meas, results = 'asis', fig.height=6, fig.width=9}
-if (check_CS) {
-    cat("\n## Summary of individual measurements\n")
-    cat("\nBiological data were analysed to provide a summary table reporting the number of individual by trip for which biological data have been collected (length, sex, maturity, weight and age)\n")
-
-g=1
-for (g in 1:length(GSAs)) {
-    cat(paste0("\n### ", GSAs[g], "\n"))
-      s=1
-      for (s in 1:length(SPs)) {
-        cat(paste0("\n#### ", SPs[s], "\n"))
-        res <- suppressMessages(RCG_summarize_ind_meas(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s],verbose=FALSE))
-        if (nrow(res)>0){
-            cat(paste0("\n_Summary table reporting the number of measurements by trip for each biological variable for ",SPs[s]," in ",GSAs[g],"_"))
-        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-        } else {
-            cat(paste0("\n- No data available for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
-        }
-      }
-}
-} # check_Land
-```
-
-<!-- CL -->
-
-```{r check_CL, results = 'asis'}
-
-if (exists("CL")) {
-  if (class(CL)=="data.frame") {
-    if(nrow(CL)>0){
-      check_CL <- TRUE
-      cat(paste0("\n# Landing data table\n"))
-      if(!user_SP){
-        SPs <- unique(CL$Species)
-      }
-      if(!user_MS){
-        MS  <- unique(CL$Flag_country)
-      }
-      if(!user_GSA){
-        GSAs <- unique(CL$Area)
-      }
-      
-    }
-  }
+        cat("\n\n\n")
 } else {
-  check_CL <- FALSE
-  cat("\n No Landing data available \n")
+    cat("\n", paste0("- No outliers detected records in age data"), "\n")
 }
-
-
-
-```
-
-```{r RCG_check_CL, results = 'asis', fig.height=6, fig.width=9}
-if (check_CL) {
-  
-  cat("\n## Consistency of data in CL table\n")
-  cat("\nThe consistency of CL table was checked plotting data for temporal, spatial and metier coverage for the given species:\n")
-  
-
-g=1
-for (g in 1:length(GSAs)) {
-      cat(paste0("\n### ", GSAs[g], "\n"))
-      s=1
-      for (s in 1:length(SPs)) {
-        cat(paste0("\n#### ", SPs[s], "\n"))
-        suppressMessages(res <- RCG_check_CL(data=CL, MS = MS, GSA = GSAs[g], SP=SPs[s]))
-        if (class(res)== "list" & length(res)>0){
-          # temp_covL
-            cat(paste0("\n_Sum of Landings by year, quarter and month for ",SPs[s]," in ",GSAs[g],"_"))
-            print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-            
-          # temp_covLV
-            cat(paste0("\n_Sum of Landing value by year, quarter and month for ",SPs[s]," in ",GSAs[g],"_"))
-            print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-            
-          # spat_covL
-            cat(paste0("\n_Sum of landings by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour for ",SPs[s]," in ",GSAs[g],"_"))
-            print(res[[3]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-            
-          # spat_covLV
-            cat(paste0("\n_Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour for ",SPs[s]," in ",GSAs[g],"_"))
-            print(res[[4]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-        
-          # spe_cov_L
-            cat(paste0("\n_Sum of landings by Year, Species, foCatEu5, foCatEu6 for ",SPs[s]," in ",GSAs[g],"_"))
-            print(res[[5]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )           
-            
-          # spe_cov_LV
-            cat(paste0("\n_Sum of landing value by Year, Species, foCatEu5, foCatEu6 for ",SPs[s]," in ",GSAs[g],"_"))
-            print(res[[6]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )  
-            
-          # p
-          cat("\n\n\n")
-          cat(paste0("\nPlot of Sum of landings by Year, Species, foCatEu6 for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
-          print(res[[7]])
-          cat("\n\n\n")  
-            
-            
-            
         } else {
-          cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+          cat(paste0("\n\n\n- No age data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
         }
       }
 }
 
 
 
-} # check_CL
+} # check_CS
 ```
+
+

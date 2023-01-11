@@ -1,0 +1,170 @@
+ALK_tab_example         ALK table in MED&BS datacall format
+Catch_tab_example       Catch table in MED&BS datacall format
+Discard_tab_example     Discard table in MED&BS datacall format
+FDI_check_coord         Compatibility of the geographical coordinates
+                        with rectangle type
+FDI_checks_spatial_HI   check NA values in spatial columns of both
+                        table H and I
+FDI_cov_tableA          Check number of record in FDI A table
+FDI_cov_tableG          Check FDI G table coverage
+FDI_cov_tableJ          Check number of record in FDI J table
+FDI_coverage            Coverage of data by GSA and year (reporting the
+                        number of records)
+FDI_cross_checks_AG     Cross check between FDI tables A and G
+FDI_cross_checks_AH     Cross check between FDI tables A and H
+FDI_cross_checks_IG     Cross check between FDI tables I and G
+FDI_cross_checks_JG     Cross check between FDI tables J and G
+FDI_disc_coverage       Coverage of FDI discard data
+FDI_fishdays_cov        Coverage comparison of totfishdays between FDI
+                        tables G and I
+FDI_landweight_cov      Coverage of weight of landings in FDI table A
+                        and H
+FDI_prices_cov          Check prices trend in FDI A table
+FDI_prices_not_null     Check of species value
+FDI_vessel_lenth        Check of vessel lenght in FDI table J
+FDI_vessel_numbers      Check number of vessels in FDI table J and G
+GFCM_cov_II2            Check coverage of GFCM task II.2 table
+GFCM_cov_task_iii       Check number of individuals in GFCM Task III
+                        table
+GP_tab_example          GP table in MED&BS datacall format
+Landing_tab_example     Landing table in MED&BS datacall format
+MA_tab_example          MA table in MED&BS datacall format
+MEDBS_ALK               Plot of Age-Length Keys
+MEDBS_Catch_coverage    Check the coverage of Catch table
+MEDBS_GP_check          Check of growth parameters table
+MEDBS_LW_check          Check LW parameters in GP table
+MEDBS_Landing_coverage
+                        Check the coverage of Landing table
+MEDBS_MA_check          Check of MA_tab (maturity at age) table
+MEDBS_ML_check          Check of ML_tab (maturity at length) table
+MEDBS_SA_check          Check of SA_tab (sex ratio at age) table
+MEDBS_SL_check          Check of SL_tab (sex ratio at length) table
+MEDBS_SOP               check of the sum of products
+MEDBS_check_duplicates
+                        Check for duplicated data rows in landings,
+                        discards and catch tables
+MEDBS_comp_disc_YQ      Comparison between discards in weight by
+                        quarter and -1
+MEDBS_comp_disc_YQ_fishery
+                        Comparison between discards in weight by
+                        quarter, quarter -1 and by fishery
+MEDBS_comp_land_Q_VL    Comparison between landings in weight by
+                        quarter accounting for vessel length
+MEDBS_comp_land_Q_VL_fishery
+                        Comparison between landings in weight by
+                        quarter and fishery, accounting for vessel
+                        length
+MEDBS_comp_land_YQ      Comparison between landings in weight by
+                        quarter and -1
+MEDBS_comp_land_YQ_fishery
+                        Comparison between landings in weight by
+                        quarter, quarter -1 and by fishery
+MEDBS_disc_mean_weight
+                        Check of mean discard weight aggregations by
+                        year, gear and fishery
+MEDBS_discard_coverage
+                        Check the coverage of discard data
+MEDBS_ks                Kolmogorov-Smirnov test
+MEDBS_land_mean_weight
+                        Mean weight by year, gear and fishery
+                        aggregation
+MEDBS_length_ind        Main length size indicators
+MEDBS_lengthclass_0     Checks length classes numbers with zeros in
+                        landings and discards
+MEDBS_plot_disc_vol     Plot of total discards by gear and fishery
+MEDBS_plot_discard_ts   Plot of total discards
+MEDBS_plot_land_vol     Plot of total landing by gear and fishery
+MEDBS_plot_landing_ts   Plot of total landing time series
+MEDBS_weight_0          Check of weights 0 in landings and discards
+MEDBS_weight_minus1     Check weights -1 in landings
+MEDBS_yr_missing_length
+                        Years with missing length distributions
+ML_tab_example          ML table in MED&BS datacall format
+RCG_check_AL            Check consistency of age-length relationship
+RCG_check_CL            Quality checks on CL RCG table
+RCG_check_LFD           Consistency check of LFDs
+RCG_check_LFD_comm_cat
+                        Check consistency of LFD by year and commercial
+                        category
+RCG_check_loc           Check trip location
+RCG_check_lw            Consistency check of length-weight relationship
+RCG_check_mat           Check consistency sex and maturity stage
+RCG_check_mat_ogive     check_mat_ogive
+RCG_summarize_ind_meas
+                        Number of individual by trip for which
+                        biological data have been collected (length,
+                        sex, maturity, weight and age)
+RCG_summarize_trips     summarizing the number of trips/hauls monitored
+                        by year by port, metier, sampling method;
+SA_tab_example          SA table in MED&BS datacall format
+SL_tab_example          SL table in MED&BS datacall format
+catfau_check            catfau_check in GFCM datacall format
+check_EF_FDI_A          Check empty fields in FDI A table
+check_EF_FDI_G          Check empty fields in FDI G table
+check_EF_FDI_H          Check empty fields in FDI H table
+check_EF_FDI_I          Check empty fields in FDI I table
+check_EF_FDI_J          Check empty fields in FDI J table
+check_EF_TaskVII31      Check empty fields in GFCM Task VII.3.1 table
+check_EF_TaskVII32      Check empty fields in GFCM Task VII.3.2 table
+check_EF_taskII2        Check empty fields in GFCM Task II.2 table
+check_EF_taskIII        Check empty fields in GFCM Task III table
+check_EF_taskVII2       Check empty fields in GFCM Task VII.2 table
+check_RD_FDI_A          Check duplicated records in FDI A table
+check_RD_FDI_G          Check duplicated records in FDI G table
+check_RD_FDI_H          Check duplicated records in FDI H table
+check_RD_FDI_I          Check duplicated records in FDI I table
+check_RD_FDI_J          Check duplicated records in FDI J table
+check_RD_TaskVII32      Check duplicated records in GFCM Task VII.3.2
+                        table
+check_RD_taskII2        Check duplicated records in GFCM Task II.2
+                        table
+check_RD_taskIII        Check duplicated records in GFCM Task III table
+check_RD_taskVII2       Check duplicated records in GFCM Task VII.2
+                        table
+check_RD_taskVII31      Check duplicated records in GFCM Task VII.3.1
+                        table
+check_cs_header         Headers check for CS table
+check_l50_TaskVII.3.1   Consistency of L50 values in Task VII.3.1 table
+check_ldf_TaskVII.2     Consistency of length frequency distributions
+check_lmat_TaskVII.3.2
+                        Plot of the maturity stages per length for each
+                        sex and species
+check_lw_TaskVII.2      Plot of the length-weight relationship
+check_lw_TaskVII.3.2    Plot of the length-weight relationship by sex
+check_minmaxl50_TaskVII.3.1
+                        Comparison between min/max L50 observed for
+                        each species and sex with theoretical values
+check_minmaxl_TaskVII.2
+                        Comparison between min/max observed for each
+                        species with theoretical values
+check_presence_taskII2
+                        Check of missing combination GSA/Fleet segment
+                        per year
+check_species_catfau_TaskVII.3.2
+                        Check mismatching species/Catfau and Sex per
+                        maturity stages for Task VII.3.2 table
+circabc                 Ports coordinates according to codification
+                        CIRCABC
+combination_taskII2     combination_taskII2 in GFCM datacall format
+data_ex                 RCG CS example
+data_exampleCL          RCG CL example
+fdi_a_catch             fdi_a_catch in FDI DGMAREMED&BS datacall format
+fdi_g_effort            fdi_g_effort in FDI DGMAREMED&BS datacall
+                        format
+fdi_h_spatial_land      fdi_h_spatial_land in FDI DGMAREMED&BS datacall
+                        format
+fdi_h_spatial_landings
+                        fdi_h_spatial_landings in FDI DGMAREMED&BS
+                        datacall format
+fdi_i_spatial_effort    fdi_i_spatial_effort in FDI DGMAREMED&BS
+                        datacall format
+fdi_j_capacity          fdi_j_capacity in FDI DGMAREMED&BS datacall
+                        format
+minmaxLtaskVII2         minmaxLtaskVII2 in GFCM datacall format
+minmaxLtaskVII31        minmaxLtaskVII31 in GFCM datacall format
+sex_mat                 sex_mat in GFCM datacall format
+task_ii2                task_ii2 in GFCM DCRF datacall format
+task_iii                task_iii in GFCM DCRF datacall format
+task_vii2               task_vii2 in GFCM DCRF datacall format
+task_vii31              task_vii31 in GFCM datacall format
+task_vii32              task_vii32 in GFCM DCRF datacall format

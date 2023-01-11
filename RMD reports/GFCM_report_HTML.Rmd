@@ -36,7 +36,7 @@ lapply(lib, require, character.only = TRUE)
 ```{r user_setup, include=FALSE}
 
 # reading files
-# UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
+# UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
 task_ii2 <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_ii2.csv", sep=";") #

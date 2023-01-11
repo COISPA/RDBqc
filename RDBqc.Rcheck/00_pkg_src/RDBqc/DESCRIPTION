@@ -1,0 +1,36 @@
+Package: RDBqc
+Title: Quality check functions for RDBFIS
+Version: 0.0.13
+Date: 2022-11-08
+Authors@R: 
+    c(person("Isabella", "Bitetto", email="bitetto@coispa.it", role = c("cre","aut"),
+           comment = c(ORCID = "0000-0002-8497-1642")),
+    person("Walter", "Zupa", email="zupa@coispa.it", role = c("aut"),
+           comment = c(ORCID = "0000-0002-2058-8652")),
+    person("Alessandro", "Mannini", email="alessandro.mannini@ec.europa.eu", role = c("com")),
+    person("Loredana", "Casciaro", email="casciaro@coispa.eu", role = c("ctb")),
+    person("Sebastien", "Alfonso", email="salfonso@coispa.eu", role = c("ctb")),
+    person("Vasiliki", "Sgardeli", email="vsgard@hcmr.gr", role = c("ctb")),
+    person("Andrea", "Pierucci", email="pierucci@coispa.eu", role = c("ctb")) )
+Maintainer: Isabella Bitetto <bitetto@coispa.eu>
+Description: The package contains functions used to perform a priori and a posteriori quality checks on RDBFIS data.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Depends: R (>= 4.1.0)
+Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, pander, data.table,
+        grDevices, magrittr, tictoc,tidyverse,
+        fishmethods,tidyr,gridExtra, scales, outliers, sf, methods
+LazyData: true
+Suggests: rmarkdown, knitr, markdown
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2023-01-11 14:12:48 UTC; Walter
+Author: Isabella Bitetto [cre, aut] (<https://orcid.org/0000-0002-8497-1642>),
+  Walter Zupa [aut] (<https://orcid.org/0000-0002-2058-8652>),
+  Alessandro Mannini [com],
+  Loredana Casciaro [ctb],
+  Sebastien Alfonso [ctb],
+  Vasiliki Sgardeli [ctb],
+  Andrea Pierucci [ctb]
