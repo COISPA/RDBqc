@@ -39,29 +39,20 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-task_ii2 <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_ii2.csv", sep=";") #
-task_ii2 <- task_ii2[task_ii2$GSA =="18",]
-# task_ii2$GSA <- "99"
-
-task_iii <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_iii.csv", sep=";")
-task_iii <- task_iii[task_iii$GSA =="18",]
-# task_iii$GSA <- "99"
-
-task_vii2 <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_vii2.csv", sep=";") 
-task_vii2 <- task_vii2[task_vii2$GSA =="18",]
-# task_vii2$GSA <- "99"
-
-task_vii31 <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_vii31.csv", sep=";") 
-task_vii31 <- task_vii31[task_vii31$GSA =="18",]
-# task_vii31$GSA <- "99"
-
-task_vii32 <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/data/GFCM-DCRF-Tasks_2018-2019/GFCM-DCRF-Tasks_2018-2019/task_vii32.csv", sep=";") 
-task_vii32 <- task_vii32[task_vii32$GSA =="18",]
-# task_vii32$GSA <- "99"
-
+# T_ii2 <- read.csv("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\GFCM\\dc_dcrf_task_ii2_catch.csv", sep=";")
+# 
+# T_iii <- read.csv("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\GFCM\\dc_dcrf_task_iii_incidental_catch.csv", sep=";")
+# 
+# T_vii2 <- read.csv("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\GFCM\\dc_dcrf_task_vii2_length_data.csv", sep=";")
+# 
+# T_vii31 <- read.csv("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\GFCM\\dc_dcrf_task_vii31_size_1st_matur.csv", sep=";")
+# 
+# T_vii32 <- read.csv("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\GFCM\\dc_dcrf_task_vii32_maturity_data.csv", sep=";")
+# 
+# 
 # MS <- "ITA"
 # SPs = c("HKE","DPS") # "COMBINED"
-# GSAs <- c("18")
+# GSAs <- c(18)
 # segments = "COMBINED"
 ```
 
@@ -120,29 +111,30 @@ if (exists("Segments")) {
 
 ```{r check_task_ii2, results = 'asis'}
 
-if (exists("task_ii2")) {
-  if (class(task_ii2)=="data.frame") {
-    if(nrow(task_ii2)>0){
+if (exists("T_ii2")) {
+  if (class(T_ii2)=="data.frame") {
+    if(nrow(T_ii2)>0){
       check_task_ii2 <- TRUE
       cat(paste0("\n# GFCM Catch data per species (Table II.2 Catch)\n"))
       
+      T_ii2 <- check_gfcm_header(T_ii2,task="II.2")
       
       if(!user_SP){
-        SPs <- sort(unique(task_ii2$Species))
+        SPs <- sort(unique(T_ii2$Species))
       }
       if(!user_MS){
-        MS  <- unique(task_ii2$CPC)
+        MS  <- unique(T_ii2$CPC)
       }
       if(!user_GSA){
-        GSAs <- sort(unique(task_ii2$GSA))
+        GSAs <- sort(unique(T_ii2$GSA))
       }
       if(!user_segments){
-        Segments <- sort(unique(task_ii2$Segment))
+        Segments <- sort(unique(T_ii2$Segment))
       }
      
-      task_ii2 <- task_ii2[task_ii2$Species %in% SPs & 
-                       task_ii2$CPC == MS & 
-                       task_ii2$GSA %in% GSAs, ]
+      T_ii2 <- T_ii2[T_ii2$Species %in% SPs & 
+                       T_ii2$CPC == MS & 
+                       T_ii2$GSA %in% GSAs, ]
       
     }
   }
@@ -163,14 +155,14 @@ if (check_task_ii2) {
   cat("\n## Presence of duplicated records\n")
   cat("\nData included in the GFCM Catch table (Table II.2 Catch) were checked for the presence of duplicated records. The result of the check is here reported:\n")
   
-  res <- check_RD_taskII2(data=task_ii2,verbose=FALSE)
+  res <- check_RD_taskII2(data=T_ii2,verbose=FALSE)
   
   if (!is.null(res) & length(res)>0) {
-    duplicates <- task_ii2[res,]
+    duplicates <- T_ii2[res,]
     if (nrow(duplicates)>0) {
       cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
-      print(task_ii2[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-      task_ii2 <- task_ii2[-res,]
+      print(T_ii2[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+      T_ii2 <- T_ii2[-res,]
     } else {
       cat("\n", paste0("- No replicated records detected in GFCM Catch table (Table II.2 Catch)"), "\n")
     }
@@ -190,7 +182,7 @@ if (check_task_ii2) {
   cat("\n## Presence of empty records\n")
   cat("\nData included in the GFCM Catch table (Table II.2 Catch) were checked to identify the presence of not allowed empty data in the given table. In case empty fields are detected a table with the name of the field with the empty records and the number of records is reported.\n")
 
-  res <- suppressMessages(check_EF_taskII2(data = task_ii2, verbose = FALSE))
+  res <- suppressMessages(check_EF_taskII2(data = T_ii2, verbose = FALSE))
 
   if (!is.null(res)) {
     res <- res[[1]][which(res[[1]] > 0)]
@@ -225,7 +217,7 @@ for (g in 1:length(GSAs)) {
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         
-         res <- suppressMessages(GFCM_cov_II2(data = task_ii2, MS = MS, SP = SPs[s], segment = Segments, GSA = GSAs[g], verbose = FALSE))
+         res <- suppressMessages(GFCM_cov_II2(data = T_ii2, MS = MS, SP = SPs[s], segment = Segments, GSA = GSAs[g], verbose = FALSE))
 
   if (!is.null(res)) {
     
@@ -267,29 +259,30 @@ for (g in 1:length(GSAs)) {
 
 ```{r check_task_iii, results = 'asis'}
 
-if (exists("task_iii")) {
-  if (class(task_iii)=="data.frame") {
-    if(nrow(task_iii)>0){
+if (exists("T_iii")) {
+  if (class(T_iii)=="data.frame") {
+    if(nrow(T_iii)>0){
       check_task_iii <- TRUE
       cat(paste0("\n# GFCM Incidental catch of vulnerable species (Table III)\n"))
       
+      T_iii <- check_gfcm_header(T_iii,task="III")
       
       if(!user_SP){
-        SPs <- sort(unique(task_iii$Species))
+        SPs <- sort(unique(T_iii$Species))
       }
       if(!user_MS){
-        MS  <- unique(task_iii$CPC)
+        MS  <- unique(T_iii$CPC)
       }
       if(!user_GSA){
-        GSAs <- sort(unique(task_iii$GSA))
+        GSAs <- sort(unique(T_iii$GSA))
       }
       if(!user_segments){
-        Segments <- sort(unique(task_iii$Segment))
+        Segments <- sort(unique(T_iii$Segment))
       }
      
-      task_iii <- task_iii[task_iii$Species %in% SPs & 
-                       task_iii$CPC == MS & 
-                       task_iii$GSA %in% GSAs, ]
+      T_iii <- T_iii[T_iii$Species %in% SPs & 
+                       T_iii$CPC == MS & 
+                       T_iii$GSA %in% GSAs, ]
       
     }
   }
@@ -310,14 +303,14 @@ if (check_task_iii) {
   cat("\n## Presence of duplicated records\n")
   cat("\nData included in the GFCM Incidental catch of vulnerable species (Table III) were checked for the presence of duplicated records. The result of the check is here reported:\n")
   
-  res <- check_RD_taskIII(data=task_iii,verbose=FALSE)
+  res <- check_RD_taskIII(data=T_iii,verbose=FALSE)
   
   if (!is.null(res) & length(res)>0) {
-    duplicates <- task_iii[res,]
+    duplicates <- T_iii[res,]
     if (nrow(duplicates)>0) {
       cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
-      print(task_iii[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-      task_iii <- task_iii[-res,]
+      print(T_iii[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+      T_iii <- T_iii[-res,]
     } else {
       cat("\n", paste0("- No replicated records detected in GFCM Incidental catch of vulnerable species (Table III)"), "\n")
     }
@@ -337,7 +330,7 @@ if (check_task_iii) {
   cat("\n## Presence of empty records\n")
   cat("\nData included in the GFCM Incidental catch of vulnerable species (Table III) were checked to identify the presence of not allowed empty data in the given table. In case empty fields are detected a table with the name of the field with the empty records and the number of records is reported.\n")
 
-  res <- suppressMessages(check_EF_taskIII(data = task_iii, verbose = FALSE))
+  res <- suppressMessages(check_EF_taskIII(data = T_iii, verbose = FALSE))
 
   if (!is.null(res)) {
     res <- res[[1]][which(res[[1]] > 0)]
@@ -372,7 +365,7 @@ for (g in 1:length(GSAs)) {
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         
-         res <- suppressMessages(GFCM_cov_task_iii(data = task_iii, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+         res <- suppressMessages(GFCM_cov_task_iii(data = T_iii, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
 
   if (!is.null(res)) {
     
@@ -405,26 +398,27 @@ for (g in 1:length(GSAs)) {
 
 ```{r check_task_vii2, results = 'asis'}
 
-if (exists("task_vii2")) {
-  if (class(task_vii2)=="data.frame") {
-    if(nrow(task_vii2)>0){
+if (exists("T_vii2")) {
+  if (class(T_vii2)=="data.frame") {
+    if(nrow(T_vii2)>0){
       check_task_vii2 <- TRUE
       cat(paste0("\n# GFCM Biological information (Table VII.2, Length data)\n"))
       
+      T_vii2 <- check_gfcm_header(T_vii2,task="VII.2")
       
       if(!user_SP){
-        SPs <- sort(unique(task_vii2$Species))
+        SPs <- sort(unique(T_vii2$Species))
       }
       if(!user_MS){
-        MS  <- unique(task_vii2$CPC)
+        MS  <- unique(T_vii2$CPC)
       }
       if(!user_GSA){
-        GSAs <- sort(unique(task_vii2$GSA))
+        GSAs <- sort(unique(T_vii2$GSA))
       }
       
-      task_vii2 <- task_vii2[task_vii2$Species %in% SPs & 
-                       task_vii2$CPC == MS & 
-                       task_vii2$GSA %in% GSAs, ]
+      T_vii2 <- T_vii2[T_vii2$Species %in% SPs & 
+                       T_vii2$CPC == MS & 
+                       T_vii2$GSA %in% GSAs, ]
       
     }
   }
@@ -445,16 +439,16 @@ if (check_task_vii2) {
   cat("\n## Presence of duplicated records\n")
   cat("\nData included in the GFCM Biological information (Table VII.2, Length data) were checked for the presence of duplicated records. The result of the check is here reported:\n")
   
-  res <- check_RD_taskVII2(data=task_vii2,verbose=FALSE)
+  res <- check_RD_taskVII2(data=T_vii2,verbose=FALSE)
   
   if (!is.null(res)) {
     
     if (length(res)>0){
-    duplicates <- task_vii2[res,]
+    duplicates <- T_vii2[res,]
     if (nrow(duplicates)>0) {
       cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
-      print(task_vii2[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-      task_vii2 <- task_vii2[-res,]
+      print(T_vii2[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+      T_vii2 <- T_vii2[-res,]
     } else {
       cat("\n", paste0("- No replicated records detected in GFCM Biological information (Table VII.2, Length data)"), "\n")
     }
@@ -477,7 +471,7 @@ if (check_task_vii2) {
   cat("\n## Presence of empty records\n")
   cat("\nData included in the GFCM Biological information (Table VII.2, Length data) were checked to identify the presence of not allowed empty data in the given table. In case empty fields are detected a table with the name of the field with the empty records and the number of records is reported.\n")
 
-  res <- suppressMessages(check_EF_taskVII2(data = task_vii2, verbose = FALSE))
+  res <- suppressMessages(check_EF_taskVII2(data = T_vii2, verbose = FALSE))
 
   if (!is.null(res)) {
     res <- res[[1]][which(res[[1]] > 0)]
@@ -512,7 +506,7 @@ for (g in 1:length(GSAs)) {
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         
-         res <- suppressMessages(check_lw_TaskVII.2(data = task_vii2, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+         res <- suppressMessages(check_lw_TaskVII.2(data = T_vii2, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
 
   if (!is.null(res)) {
      cat("\n\n\n")
@@ -544,7 +538,7 @@ for (g in 1:length(GSAs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         
         
-         res <- suppressMessages(check_ldf_TaskVII.2(data = task_vii2, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+         res <- suppressMessages(check_ldf_TaskVII.2(data = T_vii2, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
 
   if (!is.null(res)) {
     
@@ -579,26 +573,27 @@ for (g in 1:length(GSAs)) {
 
 ```{r check_task_vii31, results = 'asis'}
 
-if (exists("task_vii31")) {
-  if (class(task_vii31)=="data.frame") {
-    if(nrow(task_vii31)>0){
+if (exists("T_vii31")) {
+  if (class(T_vii31)=="data.frame") {
+    if(nrow(T_vii31)>0){
       check_task_vii31 <- TRUE
       cat(paste0("\n# GFCM Size at first maturity (Table VII.3.1)\n"))
       
+      T_vii31 <- check_gfcm_header(T_vii31,task="VII.3.1")
       
       if(!user_SP){
-        SPs <- sort(unique(task_vii31$Species))
+        SPs <- sort(unique(T_vii31$Species))
       }
       if(!user_MS){
-        MS  <- unique(task_vii31$CPC)
+        MS  <- unique(T_vii31$CPC)
       }
       if(!user_GSA){
-        GSAs <- sort(unique(task_vii31$GSA))
+        GSAs <- sort(unique(T_vii31$GSA))
       }
       
-      task_vii31 <- task_vii31[task_vii31$Species %in% SPs & 
-                       task_vii31$CPC == MS & 
-                       task_vii31$GSA %in% GSAs, ]
+      T_vii31 <- T_vii31[T_vii31$Species %in% SPs & 
+                       T_vii31$CPC == MS & 
+                       T_vii31$GSA %in% GSAs, ]
       
     }
   }
@@ -619,15 +614,15 @@ if (check_task_vii31) {
   cat("\n## Presence of duplicated records\n")
   cat("\nData included in the GFCM Size at first maturity (Table VII.3.1) were checked for the presence of duplicated records. The result of the check is here reported:\n")
   
-  res <- check_RD_taskVII31(data=task_vii31,verbose=FALSE)
+  res <- check_RD_taskVII31(data=T_vii31,verbose=FALSE)
   
   if (!is.null(res)) {
     if (length(res)>0){
-    duplicates <- task_vii31[res,]
+    duplicates <- T_vii31[res,]
     if (nrow(duplicates)>0) {
       cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
-      print(task_vii31[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-      task_vii31 <- task_vii31[-res,]
+      print(T_vii31[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+      T_vii31 <- T_vii31[-res,]
     } else {
       cat("\n", paste0("- No replicated records detected in GFCM Size at first maturity (Table VII.3.1)"), "\n")
     }
@@ -650,7 +645,7 @@ if (check_task_vii31) {
   cat("\n## Presence of empty records\n")
   cat("\nData included in the GFCM Size at first maturity (Table VII.3.1) were checked to identify the presence of not allowed empty data in the given table. In case empty fields are detected a table with the name of the field with the empty records and the number of records is reported.\n")
 
-  res <- suppressMessages(check_EF_TaskVII31(data = task_vii31, verbose = FALSE))
+  res <- suppressMessages(check_EF_TaskVII31(data = T_vii31, verbose = FALSE))
 
   if (!is.null(res)) {
     res <- res[[1]][which(res[[1]] > 0)]
@@ -685,7 +680,7 @@ for (g in 1:length(GSAs)) {
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         
-         res <- suppressMessages(check_l50_TaskVII.3.1(data = task_vii31, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+         res <- suppressMessages(check_l50_TaskVII.3.1(data = T_vii31, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
 
   if (!is.null(res)) {
      cat("\n\n\n")
@@ -705,26 +700,27 @@ for (g in 1:length(GSAs)) {
 
 ```{r check_task_vii32, results = 'asis'}
 
-if (exists("task_vii32")) {
-  if (class(task_vii32)=="data.frame") {
-    if(nrow(task_vii32)>0){
+if (exists("T_vii32")) {
+  if (class(T_vii32)=="data.frame") {
+    if(nrow(T_vii32)>0){
       check_task_vii32 <- TRUE
       cat(paste0("\n# GFCM Biological information (Table VII.3.2, Maturity data)\n"))
       
-      
+      T_vii32 <- check_gfcm_header(T_vii32,task="VII.3.2")
+            
       if(!user_SP){
-        SPs <- sort(unique(task_vii32$Species))
+        SPs <- sort(unique(T_vii32$Species))
       }
       if(!user_MS){
-        MS  <- unique(task_vii32$CPC)
+        MS  <- unique(T_vii32$CPC)
       }
       if(!user_GSA){
-        GSAs <- sort(unique(task_vii32$GSA))
+        GSAs <- sort(unique(T_vii32$GSA))
       }
       
-      task_vii32 <- task_vii32[task_vii32$Species %in% SPs & 
-                       task_vii32$CPC == MS & 
-                       task_vii32$GSA %in% GSAs, ]
+      T_vii32 <- T_vii32[T_vii32$Species %in% SPs & 
+                       T_vii32$CPC == MS & 
+                       T_vii32$GSA %in% GSAs, ]
       
     }
   }
@@ -745,15 +741,15 @@ if (check_task_vii32) {
   cat("\n## Presence of duplicated records\n")
   cat("\nData included in the GFCM Biological information (Table VII.3.2, Maturity data) were checked for the presence of duplicated records. The result of the check is here reported:\n")
   
-  res <- check_RD_TaskVII32(data=task_vii32,verbose=FALSE)
+  res <- check_RD_TaskVII32(data=T_vii32,verbose=FALSE)
   
   if (!is.null(res)) {
     if (length(res)>0){
-    duplicates <- task_vii32[res,]
+    duplicates <- T_vii32[res,]
     if (nrow(duplicates)>0) {
       cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
-      print(task_vii32[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-      task_vii32 <- task_vii32[-res,]
+      print(T_vii32[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+      T_vii32 <- T_vii32[-res,]
     } else {
       cat("\n", paste0("- No replicated records detected in GFCM Biological information (Table VII.3.2, Maturity data)"), "\n")
     }
@@ -776,7 +772,7 @@ if (check_task_vii32) {
   cat("\n## Presence of empty records\n")
   cat("\nData included in the GFCM Biological information (Table VII.3.2, Maturity data) were checked to identify the presence of not allowed empty data in the given table. In case empty data are detected a table with the name of the field with the empty records and the number of records is reported.\n")
 
-  res <- suppressMessages(check_EF_TaskVII32(data = task_vii32, verbose = FALSE))
+  res <- suppressMessages(check_EF_TaskVII32(data = T_vii32, verbose = FALSE))
 
   if (!is.null(res)) {
     res <- res[[1]][which(res[[1]] > 0)]
@@ -812,7 +808,7 @@ for (g in 1:length(GSAs)) {
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
 
-         res <- suppressMessages(check_species_catfau_TaskVII.3.2(data = task_vii32,species=catfau_check, matsex=sex_mat, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+         res <- suppressMessages(check_species_catfau_TaskVII.3.2(data = T_vii32,species=catfau_check, matsex=sex_mat, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
 
   if (!is.null(res)) {
 
@@ -857,7 +853,7 @@ for (g in 1:length(GSAs)) {
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         
-         res <- suppressMessages(check_lw_TaskVII.3.2(data = task_vii32, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
+         res <- suppressMessages(check_lw_TaskVII.3.2(data = T_vii32, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
 
   if (!is.null(res)) {
      cat("\n\n\n")

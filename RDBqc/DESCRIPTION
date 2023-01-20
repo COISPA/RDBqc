@@ -1,6 +1,6 @@
 Package: RDBqc
 Title: Quality check functions for RDBFIS
-Version: 0.0.13
+Version: 0.0.14
 Date: 2022-11-08
 Authors@R: 
     c(person("Isabella", "Bitetto", email="bitetto@coispa.it", role = c("cre","aut"),
