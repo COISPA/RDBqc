@@ -12,10 +12,11 @@
 #' @examples check_RD_taskIII(task_iii)
 check_RD_taskIII <- function(data, verbose = TRUE) {
   if (FALSE) {
-    data <- read.csv("dc_dcrf_task_iii_incidental_catch.csv", sep = ";", dec = ".", head = T, na.strings = "NA")
+    data <- read.csv("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\GFCM\\NEW\\dc_dcrf_task_iii_incidental_catch.csv", sep=";")
+    data = check_gfcm_header(data,task="III")
     # str(data_TaskIII)
 
-    check_RD_taskIII(data, tab = "tabIII", verbose = TRUE)
+    check_RD_taskIII(data, verbose = TRUE)
   }
 
 

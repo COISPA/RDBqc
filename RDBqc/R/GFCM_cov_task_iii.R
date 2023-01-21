@@ -18,11 +18,13 @@
 GFCM_cov_task_iii <- function(data, MS, GSA, SP = "COMBINED", verbose = TRUE) {
 
   if (FALSE) {
-    data = task_iii
+    data = read.csv("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\GFCM\\NEW\\dc_dcrf_task_iii_incidental_catch.csv", sep=";")
+    data = check_gfcm_header(data,task="III")
     MS = "ITA"
-    SP = "Dasyatis pastinaca" # SP = "COMBINED"
+    SP = "Dasyatis centroura" # unique(data$Species)#"Dasyatis pastinaca" # SP = "COMBINED"
     GSA = "18"
     verbose = TRUE
+    GFCM_cov_task_iii(data = data, SP = SP, MS = "ITA", GSA = "18",verbose=FALSE)
   }
 
   CPC <- Gear <- L50 <- Length <- NumberAlive <- NumberCaught <- NumberDead <-
