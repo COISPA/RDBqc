@@ -232,13 +232,17 @@ if (check_CS) {
 g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
-      s=1
+      s=2
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         res <- suppressMessages(RCG_summarize_trips(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s],verbose=FALSE))
+        if (!is.null(res)){
         if (nrow(res)>0){
             cat(paste0("\n_Summary table reporting the number of trips/hauls monitored by year by port, metier, sampling method for ",SPs[s]," in ",GSAs[g],"_"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        } else {
+            cat(paste0("\n- No data available for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+        }
         } else {
             cat(paste0("\n- No data available for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
         }
@@ -246,6 +250,7 @@ for (g in 1:length(GSAs)) {
 }
 } # check_Land
 ```
+
 
 ```{r RCG_check_loc, results = 'asis', fig.height=6, fig.width=9}
 if (check_CS) {
@@ -290,9 +295,13 @@ for (g in 1:length(GSAs)) {
       for (s in 1:length(SPs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         res <- suppressMessages(RCG_summarize_ind_meas(data = CS, MS = MS, GSA = GSAs[g], SP = SPs[s],verbose=FALSE))
+        if (!is.null(res)){
         if (nrow(res)>0){
             cat(paste0("\n_Summary table reporting the number of measurements by trip for each biological variable for ",SPs[s]," in ",GSAs[g],"_"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
+        } else {
+            cat(paste0("\n- No data available for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
+        }
         } else {
             cat(paste0("\n- No data available for : ",SPs[s]," - ",MS," - ",GSAs[g], "\n"))
         }

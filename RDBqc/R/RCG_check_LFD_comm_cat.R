@@ -15,10 +15,16 @@
 #' @importFrom utils globalVariables
 RCG_check_LFD_comm_cat <- function(data, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
-    data <- CS
-    SP = "Merluccius merluccius"
-    GSA <- "GSA17"
-    RCG_check_LFD_comm_cat(CS, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
+    # data <- CS
+    # SP = "Merluccius merluccius"
+    # GSA <- "GSA17"
+    data <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/Workshop 2/dati/RCG/exported_dataRCG_rev.csv", sep=";")
+    data <- check_cs_header(data)
+    GSA = "GSA19"
+    MS = "ITA"
+    SP = "Mullus barbatus"
+    RCG_check_LFD_comm_cat(data, MS = "ITA", GSA = "GSA19", SP = "Mullus barbatus")
+    # RCG_check_LFD_comm_cat(CS, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
   }
 
   data <- check_cs_header(data)
@@ -61,13 +67,14 @@ RCG_check_LFD_comm_cat <- function(data, SP, MS, GSA, verbose = TRUE) {
     names(output)[[l]] <- paste("LFD", SP, MS, GSA, sep = " _ ")
   }
   if (verbose) {
+    if (!is.null(output)){
     if (nrow(length_na) > 0) {
       message("Na included in 'Length_class' were eliminated from the analysis")
     }
     if (nrow(number_na) > 0) {
       message("Na included in 'Number_at_length' were eliminated from the analysis")
     }
-
+   }
     return(output)
   } else {
     return(output)

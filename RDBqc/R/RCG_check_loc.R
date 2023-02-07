@@ -19,11 +19,17 @@
 
 RCG_check_loc <- function(data, MS=NA, GSA=NA, ports = circabc) {
   if (FALSE) {
-    data <- data_ex
-    data$Initial_latitude[1] <- 41.4
-    data$Initial_longitude[1] <- 17
-    data$Final_latitude[1] <- 41.5
-    data$Final_longitude[1] <- 17.1
+    data <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/Workshop 2/dati/RCG/exported_dataRCG_rev.csv", sep=";")
+    data <- check_cs_header(data)
+    GSA = "GSA18"
+    MS = "ITA"
+    ports = circabc
+    RCG_check_loc(data)
+    # data <- data_ex
+    # data$Initial_latitude[1] <- 41.4
+    # data$Initial_longitude[1] <- 17
+    # data$Final_latitude[1] <- 41.5
+    # data$Final_longitude[1] <- 17.1
   }
 
   data <- check_cs_header(data)
@@ -122,6 +128,16 @@ RCG_check_loc <- function(data, MS=NA, GSA=NA, ports = circabc) {
     xl <- c(range[1] - dlon, range[2] + dlon)
     yl <- c(range[3] - dlat, range[4] + dlat)
 
+    if (xl[1]==xl[2]) {
+      xl[1]=xl[1]-1
+      xl[2]=xl[2]+1
+    }
+
+    if (yl[1]==yl[2]) {
+      yl[1]=yl[1]-1
+      yl[2]=yl[2]+1
+    }
+
     x_breaks <- c(round(range[1], 0), round(range[1], 0) + round((range[2] - range[1]) / 2, 0), round(range[1], 0) + 2 * round((range[2] - range[1]) / 2, 0))
     y_breaks <- c(round(range[3], 0), round(range[3], 0) + round((range[4] - range[3]) / 2, 0), round(range[3], 0) + 2 * round((range[4] - range[3]) / 2, 0))
 
@@ -139,42 +155,6 @@ RCG_check_loc <- function(data, MS=NA, GSA=NA, ports = circabc) {
       xlab("Longitude (E)") +
       ylab("Latitude (N)")
     p <- p + geom_text(data=labels,aes(Longitude,Latitude,label =Name,check_overlap = TRUE,nudge_y=1,inherit.aes =FALSE))
-
-
-#
-#
-#     # empty plot with the map extension
-#     plot(1, 1,
-#       type = "n", xlim = c(range[1] - dlon, range[2] + dlon), ylim = c(range[3] - dlat, range[4] + dlat),
-#       xlab = expression(paste("Longitude (", degree, "E)")),
-#       ylab = expression(paste("Latitude (", degree, "N)")),
-#       asp = 1 / cos(45 * pi / 180)
-#     )
-#
-#     # plot the world shape in the map extension
-#     plot(world, border = "grey", col = "light grey", add = TRUE)
-#     if (nrow(DF1) > 0) {
-#       coordinates(DF1) <- ~ Longitude + Latitude
-#       plot(DF1, col = "green", add = TRUE, pch = 16, cex = 0.8)
-#     }
-#     if (nrow(DF2) > 0) {
-#       coordinates(DF2) <- ~ Longitude + Latitude
-#       plot(DF2, col = "red", add = TRUE, pch = 16, cex = 0.8)
-#     }
-#     if (nrow(DF3) > 0) {
-#       coordinates(DF3) <- ~ Longitude + Latitude
-#       plot(DF3, col = "blue", add = TRUE, pch = 16, cex = 1.1)
-#     }
-#
-#     text(
-#       x = labels$Longitude,
-#       y = labels$Latitude,
-#       labels = labels$Name,
-#       cex = 0.8,
-#       pos = 4
-#     )
-#
-#     legend("topright", c("initial positions", "final positions", "ports"), col = c("green", "red", "blue"), pch = 16, cex = 1)
   } # coordinate
 
   return(p)
