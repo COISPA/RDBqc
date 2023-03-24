@@ -521,7 +521,6 @@ for (g in 1:length(GSAs)) {
 } # check_task_vii2
 ```
 
-
 <!-- LFD - Task_VII2 -->
 
 ```{r task_vii2_LFD, results = 'asis',fig.height=9,fig.width=9}

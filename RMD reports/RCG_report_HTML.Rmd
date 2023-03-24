@@ -34,12 +34,12 @@ lapply(lib, require, character.only = TRUE)
 <!-- USER DEFINED SOURCE FILES -->
 
 ```{r setup2, include=FALSE}
-## reading files
-## UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
-## SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
+# # reading files
+# # UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
+# # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 # CS <- read.csv("D:/Documents and Settings/Utente/Downloads/MED/sampling.csv")
 # CL <- read.csv("D:/Documents and Settings/Utente/Downloads/MED/landings.csv")
-
+# 
 # 
 # SPs <- c("Merluccius merluccius")
 # MS <- "ITA"
@@ -421,11 +421,9 @@ for (g in 1:length(GSAs)) {
 ```
 
 
-stages_for_immatures
-
 ```{r RCG_check_mat_ogive, results = 'asis'}
 if (check_CS) {
-  cat("\n## check_mat_ogive\n")
+  cat("\n## Check of maturity ogive\n")
   cat(paste0("\nThe maturity stages composition was checked estimating the maturity ogives by sex for: ", paste(SPs, collapse = ", "), ". '0', '1' and '2a' were considered as immature stages.\n", sep = ""))
 
 

@@ -470,7 +470,7 @@ for (g in 1:length(GSAs)) {
 
 ```{r lengthclass_0_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
-    cat("\n## Checks the presence of length classes numbers with zeros in landings\n")
+    cat("\n## Check the presence of length classes numbers with zeros in landings\n")
     cat("\nThe presence of length classes numbers zero with having weigth > 0 in landings are reported in the following table:\n")
 
 g=1
@@ -537,7 +537,7 @@ for (g in 1:length(GSAs)) {
 
 ```{r yr_missing_length_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
-    cat("\n## Checks the presence of years with missing length distribution\n")
+    cat("\n## Check the presence of years with missing length distribution\n")
     cat("\nLanding data were checked to identify the presence of years with missing length distributions. The years with the missing length distribution are reported in the following table (if any):\n")
 
 g=1
@@ -564,7 +564,7 @@ for (g in 1:length(GSAs)) {
 
 ```{r weight_0_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
-    cat("\n## Checks the presence of landing weights with zeros in landings\n")
+    cat("\n## Check the presence of landing weights with zeros in landings\n")
     cat("\nThe presence of rows in landing with 0 values in weights having length classes filled in is reported in the following table:\n")
 
 g=2
@@ -587,7 +587,7 @@ for (g in 1:length(GSAs)) {
 
 ```{r weight_minus1_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
-    cat("\n## Checks the presence of landing weights with -1 in landings\n")
+    cat("\n## Check the presence of landing weights with -1 in landings\n")
     cat("\nThe presence of rows in landing with -1 values in weights having length classes filled in is reported in the following table:\n")
 
 g=2
@@ -919,7 +919,7 @@ for (g in 1:length(GSAs)) {
 
 ```{r lengthclass_0_disc, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {
-    cat("\n## Checks the presence of length classes numbers with zeros in discards\n")
+    cat("\n## Check the presence of length classes numbers with zeros in discards\n")
     cat("\nThe presence of length classes numbers zero with having weigth > 0 in discards are reported in the following table:\n")
 
 g=1
@@ -985,7 +985,7 @@ for (g in 1:length(GSAs)) {
 
 ```{r yr_missing_length_disc, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {
-    cat("\n## Checks the presence of years with missing length distribution\n")
+    cat("\n## Check the presence of years with missing length distribution\n")
     cat("\nDiscard data were checked to identify the presence of years with missing length distributions. The years with the missing length distribution are reported in the following table (if any):\n")
 
 g=1
@@ -1013,7 +1013,7 @@ for (g in 1:length(GSAs)) {
 
 ```{r weight_0_disc, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {
-    cat("\n## Checks the presence of discard weights with zeros in discards\n")
+    cat("\n## Check the presence of discard weights with zeros in discards\n")
     cat("\nThe presence of rows in discards with 0 values in weights having length classes filled in is reported in the following table:\n")
 
 g=2
@@ -1036,7 +1036,7 @@ for (g in 1:length(GSAs)) {
 
 ```{r weight_minus1_disc, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {
-    cat("\n## Checks the presence of discard weights with -1 in discards\n")
+    cat("\n## Check the presence of discard weights with -1 in discards\n")
     cat("\nThe presence of rows in discards with -1 values in weights having length classes filled in is reported in the following table:\n")
 
 g=2
