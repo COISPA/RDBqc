@@ -39,18 +39,18 @@ lapply(lib, require, character.only = TRUE)
 ## UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
 ## SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-# tableA <- fdi_a_catch
-# tableG <- fdi_g_effort
-# tableH <- fdi_h_spatial_landings
-# tableI <- fdi_i_spatial_effort
-# tableJ <- fdi_j_capacity
+tableA <- read.table("./fdi_a_catch.csv",sep=";",header=TRUE)
+tableG <- read.table("./fdi_g_effort.csv",sep=";",header=TRUE)
+tableH <- read.table("./fdi_h_spatial_landings.csv",sep=";",header=TRUE)
+tableI <- read.table("./fdi_i_spatial_effort.csv",sep=";",header=TRUE)
+tableJ <- read.table("./fdi_j_capacity.csv",sep=";",header=TRUE)
 
-# MS <- "PSP"
-# SPs = c("DPS") # "COMBINED"
-# GSAs <- c("GSA99")
-# vessel_len = "COMBINED"
-# fishtech = "COMBINED" 
-# metier <- "COMBINED"
+MS <- "ITA"
+SPs = c("DPS")
+GSAs <- c("GSA99")
+vessel_len = "COMBINED"
+fishtech = "COMBINED"
+metier <- "COMBINED"
 
 
 

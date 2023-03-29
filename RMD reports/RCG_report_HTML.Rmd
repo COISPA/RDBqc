@@ -19,7 +19,7 @@ params:
 ---
 <!-- INITIALIZATION -->
 
-```{r setup, include=FALSE}
+```{r inizialization, include=FALSE}
 knitr::opts_chunk$set(
     echo = FALSE,
     message = FALSE,
@@ -33,23 +33,23 @@ lapply(lib, require, character.only = TRUE)
 
 <!-- USER DEFINED SOURCE FILES -->
 
-```{r setup2, include=FALSE}
-# # reading files
-# # UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
-# # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
-# CS <- read.csv("D:/Documents and Settings/Utente/Downloads/MED/sampling.csv")
-# CL <- read.csv("D:/Documents and Settings/Utente/Downloads/MED/landings.csv")
-# 
-# 
-# SPs <- c("Merluccius merluccius")
-# MS <- "ITA"
-# GSAs <- c("GSA99")
-# stages_for_immatures <- c("0", "1", "2a")
+```{r setup, include=FALSE}
+# reading files
+# UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
+# SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
+CS <- read.csv("./sampling.csv")
+CL <- read.csv("./landings.csv")
+
+
+SPs <- c("Merluccius merluccius")
+MS <- "ITA"
+GSAs <- c("GSA99")
+stages_for_immatures <- c("0", "1", "2a")
 ```
 
 <!-- DO NOT MODIFY THE FOLLOWING PART OF THE CODE -->
 
-```{r setup3, include=FALSE}
+```{r setup2, include=FALSE}
 # check the presence of user defined filter for species (SPs)
 if (exists("SPs")) {
   if (length(SPs) == 1 & is.na(SPs[1])) {

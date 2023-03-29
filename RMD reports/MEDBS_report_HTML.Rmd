@@ -43,23 +43,23 @@ lapply(lib, require, character.only = TRUE)
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
 
-Catch = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\MEDBS\\GSA18\\catch.csv",sep=";",header=TRUE)
+Catch = read.table("./catch.csv",sep=";",header=TRUE)
 
-Land = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\MEDBS\\GSA18\\landings_gsa18.csv",sep=";",header=TRUE)
-#
-Disc =  read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\MEDBS\\GSA18\\discards_gsa18.csv",sep=";",header=TRUE)
+Land = read.table("./landings_gsa18.csv",sep=";",header=TRUE)
 
-ML = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\MEDBS\\GSA18\\ml.csv",sep=";",header=TRUE)
+Disc =  read.table("./discards_gsa18.csv",sep=";",header=TRUE)
 
-MA = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\MEDBS\\GSA18\\ma.csv",sep=";",header=TRUE)
+ML = read.table("./ml.csv",sep=";",header=TRUE)
+
+MA = read.table("./ma.csv",sep=";",header=TRUE)
  
-SL = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\MEDBS\\GSA18\\srl.csv",sep=";",header=TRUE)
+SL = read.table("./srl.csv",sep=";",header=TRUE)
 
-SA = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\MEDBS\\GSA18\\sra.csv",sep=";",header=TRUE)
+SA = read.table("./sra.csv",sep=";",header=TRUE)
 
-GP = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\MEDBS\\GSA18\\gp.csv",sep=";",header=TRUE)
+GP = read.table("./gp.csv",sep=";",header=TRUE)
 
-ALK = read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\MEDBS\\GSA18\\alk.csv",sep=";",header=TRUE)
+ALK = read.table("./alk.csv",sep=";",header=TRUE)
 
 SPs <- c("HKE","MUT","DPS")
 MS <- "ITA"
