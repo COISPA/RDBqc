@@ -126,7 +126,6 @@ if (exists("metier")) {
 }
 ```
 
-
 \newpage
 <!-- Table A catch -->
 
@@ -173,7 +172,7 @@ if (exists("tableA")) {
 ```{r FDI_EF_A, results = 'asis'}
 if (check_tableA) {
   cat("\n## Check the presence of empty fiels\n")
-  cat("\nFDI catch data (table A) were checked for the presence of not allowed empty data. In case empty fields are detected, a list of fields with the number of emty records is reported.'\n")
+  cat("\nFDI catch data (table A) were checked for the presence of not allowed empty data. In case empty fields are detected, a list of fields with the number of empty records is reported.\n")
 
   res <- suppressMessages(check_EF_FDI_A(data = tableA, verbose = FALSE))
 
@@ -197,7 +196,7 @@ if (check_tableA) {
 ```{r FDI_RD_A, results = 'asis'}
 if (check_tableA) {
   cat("\n## Check the presence of duplicated records\n")
-  cat("\nFDI catch data (table A) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 19 columns generates duplicate records.'\n")
+  cat("\nFDI catch data (table A) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 19 columns generates duplicate records.\n")
 
   res <- suppressMessages(check_RD_FDI_A(data = tableA, verbose = FALSE))
 
@@ -222,7 +221,7 @@ if (check_tableA) {
 ```{r FDI_coverage_A, results = 'asis'}
 if (check_tableA) {
   cat("\n## Coverage of FDI catch data by GSA and year\n")
-  cat("\nFDI catch data (table A) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.'\n")
+  cat("\nFDI catch data (table A) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.\n")
 
   res <- suppressMessages(FDI_coverage(data = tableA, MS, verbose = FALSE))
 
@@ -242,12 +241,10 @@ if (check_tableA) {
 } # check_TableA
 ```
 
-
-
 ```{r FDI_cov_tableA, results = 'asis'}
 if (check_tableA) {
   
-  cat("\n## Cross-coverage of landing and discard data in FDI catch table\n")
+  cat("\n## Cross-coverage plots of landing and discard data in FDI catch table A\n")
   cat("\nThe FDI catch table was analyzed to return plots for three variables (Total live weight landed (ton), total value of landings (euro), and total discards (ton)) grouped by year, vessels length, and fishing techniques.\n")
   
 
@@ -289,7 +286,7 @@ for (g in 1:length(GSAs)) {
 ```{r FDI_disc_coverage, results = 'asis'}
 if (check_tableA) {
   
-  cat("\n## Cross-coverage of landing and discard data in FDI catch table A\n")
+  cat("\n## Cross-coverage summary table of landing and discard data in FDI catch table A\n")
   cat("\nThe FDI catch table was analyzed to return a summary table reporting the amount and relative percentage of landings taking into account the availability of discard data by year (discard >0, =0 and =NK).\n")
   
 
@@ -383,7 +380,7 @@ for (g in 1:length(GSAs)) {
         if (!is.null(res)) {
           
         cat("\n\n\n")
-        cat(paste0("\nPlot of total landing by year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
+        cat(paste0("\nPlot of average price by year for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
         suppressMessages(print(res[[3]]))
         cat("\n\n\n")
         
@@ -449,7 +446,7 @@ if (exists("tableG")) {
 ```{r FDI_EF_G, results = 'asis'}
 if (check_tableG) {
   cat("\n## Check the presence of empty fields\n")
-  cat("\nFDI effort data (table G) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.'\n")
+  cat("\nFDI effort data (table G) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.\n")
 
   res <- suppressMessages(check_EF_FDI_G(data = tableG, verbose = FALSE))
 
@@ -473,7 +470,7 @@ if (check_tableG) {
 ```{r FDI_RD_G, results = 'asis'}
 if (check_tableG) {
   cat("\n## Check the presence of duplicated records\n")
-  cat("\nFDI effort data (table G) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 15 columns generates duplicate records.'\n")
+  cat("\nFDI effort data (table G) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 15 columns generates duplicate records.\n")
 
   res <- suppressMessages(check_RD_FDI_G(data = tableG, verbose = FALSE))
 
@@ -497,7 +494,7 @@ if (check_tableG) {
 ```{r FDI_coverage_G, results = 'asis'}
 if (check_tableG) {
   cat("\n## Coverage of FDI effort data by GSA and year\n")
-  cat("\nFDI effort data (table G) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.'\n")
+  cat("\nFDI effort data (table G) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.\n")
 
   res <- suppressMessages(FDI_coverage(data = tableG, MS, verbose = FALSE))
 
@@ -619,11 +616,10 @@ if (exists("tableH")) {
 
 ```
 
-
 ```{r FDI_EF_H, results = 'asis'}
 if (check_tableH) {
-  cat("\n## Check the presence of empty fiels\n")
-  cat("\nFDI Landings by rectangle data (table H) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.'\n")
+  cat("\n## Check the presence of empty fields\n")
+  cat("\nFDI Landings by rectangle data (table H) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.\n")
 
   res <- suppressMessages(check_EF_FDI_H(data = tableH, verbose = FALSE))
 
@@ -644,11 +640,10 @@ if (check_tableH) {
 } # check_TableH
 ```
 
-
 ```{r FDI_RD_H, results = 'asis'}
 if (check_tableH) {
   cat("\n## Check the presence of duplicated records\n")
-  cat("\nFDI Landings by rectangle data (table H) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 20 columns generates duplicate records.'\n")
+  cat("\nFDI Landings by rectangle data (table H) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 20 columns generates duplicate records.\n")
 
   res <- suppressMessages(check_RD_FDI_H(data = tableH, verbose = FALSE))
 
@@ -673,7 +668,7 @@ if (check_tableH) {
 ```{r FDI_coverage_H, results = 'asis'}
 if (check_tableH) {
   cat("\n## Coverage of FDI Landings by rectangle data by GSA and year\n")
-  cat("\nFDI Landings by rectangle data (table H) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.'\n")
+  cat("\nFDI Landings by rectangle data (table H) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.\n")
 
   res <- suppressMessages(FDI_coverage(data = tableH, MS, verbose = FALSE))
 
@@ -781,8 +776,8 @@ if (exists("tableI")) {
 
 ```{r FDI_EF_I, results = 'asis'}
 if (check_tableI) {
-  cat("\n## Check the presence of empty fiels\n")
-  cat("\nFDI Effort by rectangle data (table I) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.'\n")
+  cat("\n## Check the presence of empty fields\n")
+  cat("\nFDI Effort by rectangle data (table I) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.\n")
 
   res <- suppressMessages(check_EF_FDI_I(data = tableI, verbose = FALSE))
 
@@ -803,11 +798,10 @@ if (check_tableI) {
 } # check_TableI
 ```
 
-
 ```{r FDI_RD_I, results = 'asis'}
 if (check_tableI) {
   cat("\n## Check the presence of duplicated records\n")
-  cat("\nFDI Effort by rectangle data (table I) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 19 columns generates duplicate records.'\n")
+  cat("\nFDI Effort by rectangle data (table I) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 19 columns generates duplicate records.\n")
 
   res <- suppressMessages(check_RD_FDI_I(data = tableI, verbose = FALSE))
 
@@ -832,7 +826,7 @@ if (check_tableI) {
 ```{r FDI_coverage_I, results = 'asis'}
 if (check_tableI) {
   cat("\n## Coverage of FDI Effort by rectangle data by GSA and year\n")
-  cat("\nFDI Effort by rectangle data (table I) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.'\n")
+  cat("\nFDI Effort by rectangle data (table I) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.\n")
 
   res <- suppressMessages(FDI_coverage(data = tableI, MS, verbose = FALSE))
 
@@ -947,8 +941,8 @@ if (exists("tableJ")) {
 
 ```{r FDI_EF_J, results = 'asis'}
 if (check_tableJ) {
-  cat("\n## Check the presence of empty fiels\n")
-  cat("\nFDI Capacity and fleet segment effort data (table J) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.'\n")
+  cat("\n## Check the presence of empty fields\n")
+  cat("\nFDI Capacity and fleet segment effort data (table J) were checked for the presence of not allowed empty records. In case empty data are detected, a list of fields with the number of empty records is reported.\n")
 
   res <- suppressMessages(check_EF_FDI_J(data = tableJ, verbose = FALSE))
   if (!is.null(res)) {
@@ -969,11 +963,10 @@ if (check_tableJ) {
 } # check_TableJ
 ```
 
-
 ```{r FDI_RD_J, results = 'asis'}
 if (check_tableJ) {
   cat("\n## Check the presence of duplicated records\n")
-  cat("\nFDI Capacity and fleet segment effort data (table J) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 19 columns generates duplicate records.'\n")
+  cat("\nFDI Capacity and fleet segment effort data (table J) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 19 columns generates duplicate records.\n")
 
   res <- suppressMessages(check_RD_FDI_J(data = tableJ, verbose = FALSE))
 
@@ -996,7 +989,7 @@ if (check_tableJ) {
 ```{r FDI_coverage_J, results = 'asis'}
 if (check_tableJ) {
   cat("\n## Coverage of FDI Capacity and fleet segment effort data by GSA and year\n")
-  cat("\nFDI Capacity and fleet segment effort data (table J) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.'\n")
+  cat("\nFDI Capacity and fleet segment effort data (table J) were analysed to report a summary table of the data coverage in terms of number of records by country, GSA and year.\n")
 
   res <- suppressMessages(FDI_coverage(data = tableJ, MS, verbose = FALSE))
 
@@ -1098,9 +1091,12 @@ if (check_tableJ) {
 <!-- CROSS-CHECKS -->
 
 ```{r FDI_fishdays_cov, results = 'asis'}
+
+cat(paste0("\n# Cross-tables checks\n"))
+
 if (check_tableG & check_tableI) {
   cat("\n## Comparison of total fishing days in tables G and I\n")
-  cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to report the mutual consistency of the total fishing days and the percentage difference between the two tables.'\n")
+  cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to report the mutual consistency of the total fishing days and the percentage difference between the two tables.\n")
 
   res <- suppressMessages(FDI_fishdays_cov(dataG = tableG, dataI = tableI, MS, verbose = FALSE))
 
@@ -1122,12 +1118,10 @@ if (check_tableG & check_tableI) {
   } # check_Table G and I
 ```
 
-
-
 ```{r FDI_landweight_cov, results = 'asis'}
 if (check_tableA & check_tableH) {
   cat("\n## Comparison of landing volumes in tables A and H\n")
-  cat("\nBoth FDI table A (Catch) and H (Landings by rectangle) were analysed to report the mutual consistency of the landing volumes and the percentage difference between the two tables.'\n")
+  cat("\nBoth FDI table A (Catch) and H (Landings by rectangle) were analysed to report the mutual consistency of the landing volumes and the percentage difference between the two tables.\n")
 
   res <- suppressMessages(FDI_landweight_cov(dataA = tableA, dataH = tableH, MS, verbose = FALSE))
 
@@ -1149,11 +1143,10 @@ if (check_tableA & check_tableH) {
   } # check_Table G and I
 ```
 
-
 ```{r FDI_vessel_numbers, results = 'asis'}
 if (check_tableG & check_tableJ) {
   cat("\n## Consistency of number of vessels in FDI table G and J\n")
-  cat("\nBoth FDI table G (Effort) and J (Capacity and fleet segment effort) were analysed to report the mutual consistency of the number of vessels and the percentage difference between the two tables.'\n")
+  cat("\nBoth FDI table G (Effort) and J (Capacity and fleet segment effort) were analysed to report the mutual consistency of the number of vessels and the percentage difference between the two tables.\n")
 
   res <- suppressMessages(FDI_vessel_numbers(dataJ = tableJ, dataG = tableG, MS, verbose = FALSE))
 
@@ -1189,11 +1182,10 @@ if (check_tableG & check_tableJ) {
   } # check_Table G and I
 ```
 
-
 ```{r FDI_cross_checks_AG, results = 'asis'}
 if (check_tableA & check_tableG) {
   cat("\n## Consistency of landings and effort in tables A and G\n")
-  cat("\nBoth FDI table A (Catch) and G (Effort) were analysed to summarise the mutual consistency of the reported landings and effort data.'\n")
+  cat("\nBoth FDI table A (Catch) and G (Effort) were analysed to summarise the mutual consistency of the reported landings and effort data.\n")
 
   res <- suppressMessages(FDI_cross_checks_AG(data1 = tableA, data2 = tableG, verbose = FALSE))
 
@@ -1215,12 +1207,10 @@ if (check_tableA & check_tableG) {
   } # check_Table G and I
 ```
 
-
-
 ```{r FDI_cross_checks_AH, results = 'asis'}
 if (check_tableA & check_tableH) {
   cat("\n## Consistency of landings and spatial landings in table A and H\n")
-  cat("\nBoth FDI table A (Catch) and H (Landing by rectangle) were analysed to summarise the mutual consistency of the reported landings data.'\n")
+  cat("\nBoth FDI table A (Catch) and H (Landing by rectangle) were analysed to summarise the mutual consistency of the reported landings data.\n")
 
   res <- suppressMessages(FDI_cross_checks_AH(data1 = tableA, data2 = tableH, verbose = FALSE))
 
@@ -1258,7 +1248,7 @@ if (check_tableA & check_tableH) {
 ```{r FDI_cross_checks_IG, results = 'asis'}
 if (check_tableI & check_tableG) {
   cat("\n## Consistency of effort and spatial effort in tables G and I\n")
-  cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to summarise the mutual consistency of the reported effort data.'\n")
+  cat("\nBoth FDI table G (Effort) and I (Effort by rectangle) were analysed to summarise the mutual consistency of the reported effort data.\n")
 
   res <- suppressMessages(FDI_cross_checks_IG(data1 = tableI, data2 = tableG, verbose = FALSE))
 

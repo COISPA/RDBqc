@@ -115,7 +115,7 @@ if (exists("T_ii2")) {
   if (class(T_ii2)=="data.frame") {
     if(nrow(T_ii2)>0){
       check_task_ii2 <- TRUE
-      cat(paste0("\n# GFCM Catch data per species (Table II.2 Catch)\n"))
+      cat(paste0("\n# GFCM Catch data per species (Table II.2)\n"))
       
       T_ii2 <- check_gfcm_header(T_ii2,task="II.2")
       
@@ -140,7 +140,7 @@ if (exists("T_ii2")) {
   }
 } else {
   check_task_ii2 <- FALSE
-  cat("\n No GFCM Catch data per species (Table II.2 Catch) available \n")
+  cat("\n No GFCM Catch data per species available (Table II.2)\n")
 }
 
 
@@ -153,7 +153,7 @@ if (exists("T_ii2")) {
 if (check_task_ii2) {
   
   cat("\n## Presence of duplicated records\n")
-  cat("\nData included in the GFCM Catch table (Table II.2 Catch) were checked for the presence of duplicated records. The result of the check is here reported:\n")
+  cat("\nData included in the GFCM Catch table II.2 were checked for the presence of duplicated records. The result of the check is here reported:\n")
   
   res <- check_RD_taskII2(data=T_ii2,verbose=FALSE)
   
@@ -164,7 +164,7 @@ if (check_task_ii2) {
       print(T_ii2[res,] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
       T_ii2 <- T_ii2[-res,]
     } else {
-      cat("\n", paste0("- No replicated records detected in GFCM Catch table (Table II.2 Catch)"), "\n")
+      cat("\n", paste0("- No replicated records detected in GFCM Catch table II.2"), "\n")
     }
   } else {
       cat("\n", paste0("- No data available "), "\n")
@@ -180,7 +180,7 @@ if (check_task_ii2) {
 if (check_task_ii2) {
   
   cat("\n## Presence of empty records\n")
-  cat("\nData included in the GFCM Catch table (Table II.2 Catch) were checked to identify the presence of not allowed empty data in the given table. In case empty fields are detected a table with the name of the field with the empty records and the number of records is reported.\n")
+  cat("\nData included in the GFCM Catch table II.2 were checked to identify the presence of not allowed empty data in the given table. In case empty fields are detected a table with the name of the field with the empty records and the number of records is reported.\n")
 
   res <- suppressMessages(check_EF_taskII2(data = T_ii2, verbose = FALSE))
 
@@ -189,14 +189,14 @@ if (check_task_ii2) {
     if (length(res) > 0) {
       res <- data.frame(Empty_records = res)
       cat("\n\n\n")
-      cat(paste0("\n_Table of empty records in GFCM Catch table (Table II.2 Catch)_\n"))
+      cat(paste0("\n_Table of empty records in GFCM Catch table II.2_\n"))
       print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
-    cat(paste0("\n\n\n- No empty records detected in GFCM Catch table (Table II.2 Catch)\n"))
+    cat(paste0("\n\n\n- No empty records detected in GFCM Catch table II.2\n"))
   }
   } else {
-    cat(paste0("\n\n\n- No data available in GFCM Catch table (Table II.2 Catch)\n"))
+    cat(paste0("\n\n\n- No data available in GFCM Catch tableII.2)\n"))
   }
   
 } # check_task_ii2
@@ -208,7 +208,7 @@ if (check_task_ii2) {
 if (check_task_ii2) {
   
   cat("\n## Coverage of GFCM Catch table\n")
-  cat("\nData included in the GFCM Catch table (Table II.2 Catch) were checked to report a summary table of the data coverage in terms of number of records by year and segment. Plots of both total landing and discard are also provided.\n")
+  cat("\nData included in the GFCM Catch table II.2 were checked to report a summary table of the data coverage in terms of number of records by year and segment. Plots of both total landing and discard are also provided.\n")
   
 g=1
 for (g in 1:length(GSAs)) {
@@ -223,7 +223,7 @@ for (g in 1:length(GSAs)) {
     
     if (nrow(res[[1]]) > 0) {
       cat("\n\n\n") 
-      cat(paste0("\n_Summary table of the number of records per segment in GFCM Catch table (Table II.2 Catch)  for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"_\n"))
+      cat(paste0("\n_Summary table of the number of records per segment in GFCM Catch table  II.2 for ",SPs[s]," - ",MS," - GSA ",GSAs[g],"_\n"))
       print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
@@ -247,7 +247,7 @@ for (g in 1:length(GSAs)) {
        cat(paste0("\n\n\n- No data available\n"))
     }
   } else {
-    cat(paste0("\n\n\n- No data available in GFCM Catch table (Table II.2 Catch)\n"))
+    cat(paste0("\n\n\n- No data available in GFCM Catch tableII.2\n"))
   }
       }
 }
@@ -669,7 +669,7 @@ if (check_task_vii31) {
 ```{r task_vii31_L50, results = 'asis'}
 if (check_task_vii31) {
   
-  cat("\n## Consistency of size at first maturity in GFCM Size at first maturity (Table VII.3.1)\n")
+  cat("\n## Consistency of size at first maturity in GFCM Table VII.3.1\n")
   cat("\nData included in the GFCM Size at first maturity (Table VII.3.1) were checked to report the plot of the Size at first maturity time series of the selected species by sex\n")
   
 g=1
@@ -778,7 +778,7 @@ if (check_task_vii32) {
     if (length(res) > 0) {
       res <- data.frame(Empty_records = res)
       cat("\n\n\n")
-      cat(paste0("\n_Table of empty records in GFCM Biological information (Table VII.3.2, Maturity data)\n"))
+      cat(paste0("\n_Table of empty records in GFCM Biological information (Table VII.3.2, Maturity data)_\n"))
       print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       cat("\n\n\n")
     } else {
