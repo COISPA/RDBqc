@@ -381,7 +381,6 @@ for (g in 1:length(GSAs)) {
 } # check_Land
 ```
 
-
 ```{r comp_Q_VL_fishery, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
     cat("\n## Checks on landing volumes\n")
@@ -534,7 +533,6 @@ for (g in 1:length(GSAs)) {
 } # check_Land
 ```
 
-
 ```{r yr_missing_length_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
     cat("\n## Check the presence of years with missing length distribution\n")
@@ -607,7 +605,6 @@ for (g in 1:length(GSAs)) {
 }
 } # check_Land
 ```
-
 
 ```{r land_mean_weight_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
@@ -758,7 +755,6 @@ if (nrow(duplicates)>0) {
 
 ```
 
-
 ```{r discard_coverage, results = 'asis',fig.height=6,fig.width=9}
 if (check_Disc) {
     cat("\n## Coverage of discards data\n")
@@ -842,7 +838,6 @@ for (g in 1:length(GSAs)) {
 }
 } # check_Disc
 ```
-
 
 ```{r disc_mean_weight, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {
@@ -1010,7 +1005,6 @@ for (g in 1:length(GSAs)) {
 } # check_Disc
 ```
 
-
 ```{r weight_0_disc, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {
     cat("\n## Check the presence of discard weights with zeros in discards\n")
@@ -1110,9 +1104,6 @@ for (g in 1:length(GSAs)) {
 }
 } # check_Disc
 ```
-
-
-
 
 <!-- GROWTH PARAMETERS -->
 
@@ -1406,7 +1397,6 @@ if (exists("SA")) {
 }
 
 ```
-
 
 ```{r SA_checks, results = 'asis', fig.height=6, fig.width=9}
 if (check_SA) {
