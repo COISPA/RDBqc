@@ -44,7 +44,7 @@ CL <- read.csv("./landings.csv")
 SPs <- c("Merluccius merluccius")
 MS <- "ITA"
 GSAs <- c("GSA99")
-stages_for_immatures <- c("0", "1", "2a")
+stages_for_immatures <- c("1", "2a")
 ```
 
 <!-- DO NOT MODIFY THE FOLLOWING PART OF THE CODE -->
@@ -134,9 +134,7 @@ if (check_CL) {
   
   cat("\n## Consistency of data in CL table\n")
   cat("\nThe consistency of CL table was checked plotting data for temporal, spatial and metier coverage for the given species:\n")
-  
 
-g=1
 for (g in 1:length(GSAs)) {
       cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
@@ -174,16 +172,11 @@ for (g in 1:length(GSAs)) {
           print(res[[7]])
           cat("\n\n\n")  
             
-            
-            
         } else {
           cat(paste0("\n\n\n- No data available for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
         }
       }
 }
-
-
-
 } # check_CL
 ```
 
@@ -219,9 +212,6 @@ if (exists("CS")) {
   check_CS <- FALSE
   cat("\n No detailed data available \n")
 }
-
-
-
 ```
 
 ```{r RCG_summarize_trips, results = 'asis', fig.height=6, fig.width=9}
@@ -229,7 +219,6 @@ if (check_CS) {
     cat("\n## Summary of trips\n")
     cat("\nBiological data were analysed to provide a summary table reporting the number of trips/hauls monitored by year, port, metier and sampling method.\n")
 
-g=1
 for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
       s=2
@@ -251,15 +240,12 @@ for (g in 1:length(GSAs)) {
 } # check_Land
 ```
 
-
 ```{r RCG_check_loc, results = 'asis', fig.height=6, fig.width=9}
 if (check_CS) {
   
   cat("\n## Consistency of trip location\n")
   cat("\nThe consistency of trip location was checked plotting the spatial distribution of data using the initial and final coordinates, where available, and the ports position included in the data in case coordinates are not available.\n")
   
-
-g=1
 for (g in 1:length(GSAs)) {
       s=1
       for (s in 1:length(SPs)) {
@@ -277,11 +263,8 @@ for (g in 1:length(GSAs)) {
       }
 }
 
-
-
 } # check_CS
 ```
-
 
 ```{r RCG_summarize_ind_meas, results = 'asis', fig.height=6, fig.width=9}
 if (check_CS) {
@@ -310,15 +293,12 @@ for (g in 1:length(GSAs)) {
 } # check_Land
 ```
 
-
 ```{r RCG_check_LFD, results = 'asis'}
 if (check_CS) {
   
   cat("\n## Consistency of LFD by year\n")
   cat("\nThe consistency of length frequency distributions (LFDs) was checked generating a multi-frame plot of the LFD by year. The Grubbs' test was performed to evaluate whether the minimum and the maximum values of Length class distribution could be considered as outliers. In case, a table reporting the outliers is returned.\n")
   
-
-g=1
 for (g in 1:length(GSAs)) {
       cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
@@ -346,8 +326,6 @@ for (g in 1:length(GSAs)) {
       }
 }
 
-
-
 } # check_CS
 ```
 
@@ -356,9 +334,7 @@ if (check_CS) {
   
   cat("\n## Consistency of LFD by year and commercial category\n")
   cat("\nThe consistency of length frequency distributions (LFD) was checked generating a multi-frame plot of the LFD by year and commercial size categories.\n")
-  
 
-g=1
 for (g in 1:length(GSAs)) {
       cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
@@ -382,11 +358,8 @@ for (g in 1:length(GSAs)) {
       }
 }
 
-
-
 } # check_CS
 ```
-
 
 ```{r RCG_check_mat, results = 'asis',fig.height=9,fig.width=9}
 if (check_CS) {
@@ -394,8 +367,6 @@ if (check_CS) {
   cat("\n## Consistency of sex and maturity stage\n")
   cat("\nThe consistency of maturity stages by sex and year was qualitatively checked accordingly to the length class.\n")
   
-
-g=1
 for (g in 1:length(GSAs)) {
       cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
@@ -415,19 +386,14 @@ for (g in 1:length(GSAs)) {
       }
 }
 
-
-
 } # check_CS
 ```
-
 
 ```{r RCG_check_mat_ogive, results = 'asis'}
 if (check_CS) {
   cat("\n## Check of maturity ogive\n")
   cat(paste0("\nThe maturity stages composition was checked estimating the maturity ogives by sex for: ", paste(SPs, collapse = ", "), ". '0', '1' and '2a' were considered as immature stages.\n", sep = ""))
 
-
-  g <- 1
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
     s <- 1
@@ -461,7 +427,6 @@ if (check_CS) {
   }
 } # check_CS
 ```
-
 
 ```{r RCG_check_lw, results = 'asis'}
 if (check_CS) {
@@ -498,12 +463,8 @@ for (g in 1:length(GSAs)) {
       }
 }
 
-
-
 } # check_CS
 ```
-
-
 
 ```{r RCG_CS_AL, results = 'asis'}
 if (check_CS) {
@@ -511,8 +472,6 @@ if (check_CS) {
   cat("\n## Consistency of age-length relationship\n")
   cat("\nRCG detailed data were checked for the consistency of the age-length data. The Grubbs’ test was performed to evaluate whether the maximum value of age distribution could be considered as outliers. In case, a table reporting the outliers is returned.\n")
   
-
-g=1
 for (g in 1:length(GSAs)) {
       cat(paste0("\n### ", GSAs[g], "\n"))
       s=1
@@ -520,11 +479,6 @@ for (g in 1:length(GSAs)) {
         cat(paste0("\n#### ", SPs[s], "\n"))
         suppressMessages(res <- RCG_check_AL(data=CS, MS = MS, GSA = GSAs[g],SP = SPs[s], min_age = NA, max_age = NA))
         if (!is.null(res)) {
-
-        # cat(paste0("\n_Summary table of length observations by lenght class for ",SPs[s]," in ",GSAs[g],"_\n"))
-        #   
-        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width=TRUE) )
-        
         cat("\n\n\n")
         cat(paste0("\nPlot of age-length relationship by year and sex for ",SPs[s]," - ",MS," - ",GSAs[g],"\n"))
         print(res[[3]])
@@ -544,8 +498,6 @@ if (nrow(res[[2]])>0) {
         }
       }
 }
-
-
 
 } # check_CS
 ```
