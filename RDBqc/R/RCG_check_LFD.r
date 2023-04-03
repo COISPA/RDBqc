@@ -12,22 +12,22 @@
 #' @export
 #' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @examples RCG_check_LFD(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",
-#' min_len = 30, max_len = 300)
-#' RCG_check_LFD(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",
-#' min_len = NA, max_len = NA)
+#' @examples RCG_check_LFD(
+#'   data = data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",
+#'   min_len = 30, max_len = 300
+#' )
+#' RCG_check_LFD(
+#'   data = data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus",
+#'   min_len = NA, max_len = NA
+#' )
 #' @importFrom ggplot2 ggplot
 #' @importFrom utils globalVariables
 #' @importFrom outliers grubbs.test
 RCG_check_LFD <- function(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose = TRUE) {
-
   data <- check_cs_header(data)
-
-  Age <- Area <- Commercial_size_category <- Date <-  Flag_country <-
-  Number_at_length <-  Sex <-  Trip_code <-  Year <-  fish_ID <- Length_class <- Number_at_length <- NULL
-
+  Age <- Area <- Commercial_size_category <- Date <- Flag_country <-
+    Number_at_length <- Sex <- Trip_code <- Year <- fish_ID <- Length_class <- Number_at_length <- NULL
   data <- data[data$Species == SP & data$Area %in% GSA & data$Flag_country %in% MS, ]
-
 
   if (nrow(data) == 0) {
     if (verbose) {
@@ -42,16 +42,13 @@ RCG_check_LFD <- function(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose
         facet_grid(Year ~ .)
     )
 
-
     if (is.na(min_len) | is.na(max_len)) {
-
       test_max <- grubbs.test(data$Length_class)$p.value
       test_min <- grubbs.test(data$Length_class, opposite = TRUE)$p.value
-
       if (test_max < 0.05) {
         id_max <- which(data$Length_class == max(data$Length_class))
         if (verbose) {
-          message(paste("The Grubbs' test identifies the maximum value of Length class distribution (",round(max(data$Length_class),1),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
+          message(paste("The Grubbs' test identifies the maximum value of Length class distribution (", round(max(data$Length_class), 1), ") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers", sep = ""))
         }
       } else {
         id_max <- 0
@@ -60,23 +57,19 @@ RCG_check_LFD <- function(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose
       if (test_min < 0.05) {
         id_min <- which(data$Length_class == min(data$Length_class))
         if (verbose) {
-          message(paste("The Grubbs' test identifies the minimum value of Length class distribution (",round(min(data$Length_class),1),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
+          message(paste("The Grubbs' test identifies the minimum value of Length class distribution (", round(min(data$Length_class), 1), ") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers", sep = ""))
         }
       } else {
-        id_min=0
+        id_min <- 0
       }
-
       error_min_length <- data[id_min, ]
       error_max_length <- data[id_max, ]
-
     } else {
       error_min_length <- data[data$Length_class < min_len, ]
       error_max_length <- data[data$Length_class > max_len, ]
     }
-
     error <- rbind(error_min_length, error_max_length)
-    error <- error %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category, Age,Sex,Length_class,fish_ID	)
-
+    error <- error %>% select(Flag_country, Year, Trip_code, Date, Area, Commercial_size_category, Age, Sex, Length_class, fish_ID)
 
     output <- list()
     l <- length(output) + 1
@@ -87,9 +80,8 @@ RCG_check_LFD <- function(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose
     output[[l]] <- p
     names(output)[[l]] <- paste("LFD", SP, MS, GSA, sep = " _ ")
 
-
     if (nrow(error) > 0) {
-         return(output)
+      return(output)
     } else {
       if (verbose) {
         print("No individual length classes out of the expected range", quote = F)

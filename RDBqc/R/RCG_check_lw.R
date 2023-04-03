@@ -19,11 +19,9 @@
 #' @importFrom utils globalVariables
 #' @importFrom outliers grubbs.test
 RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) {
-
   data <- check_cs_header(data)
-
-  Age <- Area <- Commercial_size_category <- Date <-  Flag_country <-
-    Number_at_length <-  Sex <-  Trip_code <-  Year <-  fish_ID <- Length_class <- Individual_weight <- NULL
+  Age <- Area <- Commercial_size_category <- Date <- Flag_country <-
+    Number_at_length <- Sex <- Trip_code <- Year <- fish_ID <- Length_class <- Individual_weight <- NULL
 
   d <- data[!is.na(data$Length_class) & !is.na(data$Individual_weight) & data$Species %in% SP & data$Area %in% GSA & data$Flag_country %in% MS, ]
   if (nrow(d) == 0) {
@@ -31,8 +29,7 @@ RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) 
       message(paste0("No landing data available for the selected species (", SP, ")"))
     }
   } else {
-
-    if (is.na(Min) | is.na(Max)){
+    if (is.na(Min) | is.na(Max)) {
       d$outliers <- "Individual weight"
       d_test <- data[!is.na(data$Individual_weight) & data$Species %in% SP, ]
       test_max <- grubbs.test(d_test$Individual_weight)$p.value
@@ -41,7 +38,7 @@ RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) 
         d$outliers[which(d$Individual_weight == max(d$Individual_weight))] <- "outlier"
         id_max <- which(d$Individual_weight == max(d$Individual_weight))
         if (verbose) {
-          message(paste("The Grubbs' test identifies the maximum value of individual weights distribution (",round(max(d$Individual_weight),3),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
+          message(paste("The Grubbs' test identifies the maximum value of individual weights distribution (", round(max(d$Individual_weight), 3), ") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers", sep = ""))
         }
       } else {
         id_max <- 0
@@ -51,20 +48,16 @@ RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) 
         d$outliers[which(d$Individual_weight == min(d$Individual_weight))] <- "outlier"
         id_min <- which(d$Individual_weight == min(d$Individual_weight))
         if (verbose) {
-          message(paste("The Grubbs' test identifies the minimum value of individual weights distribution (",round(min(d$Individual_weight),3),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
+          message(paste("The Grubbs' test identifies the minimum value of individual weights distribution (", round(min(d$Individual_weight), 3), ") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers", sep = ""))
         }
       } else {
-        id_min=0
+        id_min <- 0
       }
-
       error_min_weight <- data[id_max, ]
       error_max_weight <- data[id_min, ]
-
     } else {
-
       error_min_weight <- data[!is.na(data$Individual_weight) & data$Individual_weight < Min & data$Species %in% SP, ]
       error_max_weight <- data[!is.na(data$Individual_weight) & data$Individual_weight > Max & data$Species %in% SP, ]
-
     }
 
     p <- ggplot(data = d, aes(x = Length_class, y = Individual_weight)) +
@@ -73,15 +66,9 @@ RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) 
       xlab("Length class") +
       ylab("Individual weight") +
       ggtitle(SP)
-    # print(p)
-
-
-
-
-
 
     error <- rbind(error_min_weight, error_max_weight)
-    error <- error %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category, Age,Sex,Length_class,fish_ID	)
+    error <- error %>% select(Flag_country, Year, Trip_code, Date, Area, Commercial_size_category, Age, Sex, Length_class, fish_ID)
 
     output <- list()
     l <- length(output) + 1
@@ -91,20 +78,6 @@ RCG_check_lw <- function(data, SP, MS, GSA, Min = NA, Max = NA, verbose = TRUE) 
     l <- length(output) + 1
     output[[l]] <- p
     names(output)[[l]] <- paste("LW", SP, MS, GSA, sep = " _ ")
-
-    # if (nrow(error_min_weight)!=0){
-    #     err.min <-unique(as.character(error_min_weight$Trip_code))
-    # } else {
-    #     err.min <- NULL
-    # }
-    # if (nrow(error_max_weight)!=0){
-    #    err.max <-unique(as.character(error_max_weight$Trip_code))
-    # } else {
-    #    err.max <- NULL
-    # }
-    # err <- sort(unique(c(err.min,err.max)))
-    # err<-0
-
 
     if (nrow(error) > 0) {
       return(output)

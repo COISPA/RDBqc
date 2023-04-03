@@ -11,14 +11,6 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_taskVII31(task_vii31)
 check_RD_taskVII31 <- function(data, verbose = TRUE) {
-
-  # if (FALSE) {
-  #   data=read.csv("dc_dcrf_task_vii31_size_1st_matur.csv", sep=";",dec=".",head=T,na.strings="NA")
-  #   # str(data)
-  #
-  #   check_RD_taskVII31(data, tab="tabVII31", verbose=TRUE)
-  # }
-
   df <- data[, which(colnames(data) %in% c(
     "Reference_Year",
     "CPC",

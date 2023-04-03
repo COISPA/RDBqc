@@ -26,7 +26,6 @@ FDI_vessel_numbers <- function(dataJ, dataG, MS, verbose = TRUE) {
       print(paste("Comparing number of vessels in tables J and G for", MS, sep = " "))
     }
 
-
     # subset for MS
     data1 <- subset(data1, country == MS)
     data2 <- subset(data2, country == MS)
@@ -50,7 +49,6 @@ FDI_vessel_numbers <- function(dataJ, dataG, MS, verbose = TRUE) {
 
     na1 <- which(is.na(yrs1))
     na2 <- which(is.na(yrs2))
-
 
     if (verbose) {
       if (length(na1) != 0) {

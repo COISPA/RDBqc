@@ -19,20 +19,10 @@
 
 
 MEDBS_disc_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    MS <- "ITA"
-    GSA <- "GSA 9"
-    SP <- "DPS"
-    # verbose=TRUE
-    data <- Discard_tab_example
-    MEDBS_disc_mean_weight(data = Discard_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
-  }
-
   . <- GEAR <- VESSEL_LENGTH <- MESH_SIZE_RANGE <- DISCARDS <- QUARTER <- MW <- YEAR <- tmp1 <- totW <- totN <- FISHERY <- NULL
 
   colnames(data) <- toupper(colnames(data))
   land <- data
-  # land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
   land <- land[which(land$AREA == as.character(GSA) & land$COUNTRY == MS & land$SPECIES == SP), ]
   land$DISCARDS[land$DISCARDS == -1] <- 0
 
@@ -45,9 +35,7 @@ MEDBS_disc_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     pippo[pippo == -1] <- 0
     pippo[pippo == ""] <- 0
     landRev <- cbind(land[, c(1:13)], pippo)
-    # dim(landRev)
     suppressMessages(ck_nbl <- landRev %>% mutate(sum = rowSums(.[14:114])))
-    # names(ck_nbl)
     suppressMessages(Wg <- ck_nbl %>% group_by(YEAR, QUARTER, VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE, FISHERY) %>% summarize(totW = sum(DISCARDS) * 1000000))
     suppressMessages(No <- ck_nbl %>% group_by(YEAR, QUARTER, VESSEL_LENGTH, GEAR, MESH_SIZE_RANGE, FISHERY) %>% summarize(totN = sum(sum) * 1000))
     suppressMessages(MWdb <- full_join(Wg, No))
@@ -60,31 +48,30 @@ MEDBS_disc_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     l <- length(output) + 1
     MWdb <- as.data.frame(MWdb)
     colnames(MWdb)[9] <- "MW(g)"
-    MWdb[is.infinite(MWdb$`MW(g)`),"MW(g)"] <- NA
+    MWdb[is.infinite(MWdb$`MW(g)`), "MW(g)"] <- NA
     output[[l]] <- as.data.frame(MWdb)
     names(output)[[l]] <- "summary table"
 
-    if (nrow(MWdbpositive) >0){
-    plot <- ggplot(as.data.frame(MWdbpositive), aes(x = YEAR, y = MW)) +
-      geom_point(col = "red") +
-      geom_line() +
-      facet_grid(FISHERY ~ GEAR + QUARTER, scales = "free_y") +
-      theme(strip.background = element_rect(fill = "white")) +
-      scale_x_continuous(breaks = seq(min(MWdbpositive$YEAR), max(MWdbpositive$YEAR), by = 4)) +
-      theme(axis.text.x = element_text(angle = 45, size = 8)) +
-      ggtitle(paste0(SP, " ", MS, " ", GSA, " Discard Mean weight")) +
-      xlab("") +
-      ylab("MW (g)")
+    if (nrow(MWdbpositive) > 0) {
+      plot <- ggplot(as.data.frame(MWdbpositive), aes(x = YEAR, y = MW)) +
+        geom_point(col = "red") +
+        geom_line() +
+        facet_grid(FISHERY ~ GEAR + QUARTER, scales = "free_y") +
+        theme(strip.background = element_rect(fill = "white")) +
+        scale_x_continuous(breaks = seq(min(MWdbpositive$YEAR), max(MWdbpositive$YEAR), by = 4)) +
+        theme(axis.text.x = element_text(angle = 45, size = 8)) +
+        ggtitle(paste0(SP, " ", MS, " ", GSA, " Discard Mean weight")) +
+        xlab("") +
+        ylab("MW (g)")
 
-    l <- length(output) + 1
-    output[[l]] <- plot
-    names(output)[[l]] <- paste("Disc_MW", SP, MS, GSA, sep = " _ ")
+      l <- length(output) + 1
+      output[[l]] <- plot
+      names(output)[[l]] <- paste("Disc_MW", SP, MS, GSA, sep = " _ ")
     } else {
       l <- length(output) + 1
       output[[l]] <- NULL
     }
-
-    return(output) #
+    return(output)
   } else {
     if (verbose) {
       message("No discard data in the subset.\n")

@@ -11,7 +11,7 @@
 #' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples FDI_prices_not_null(
-#'   data = fdi_a_catch, MS = "PSP",GSA="GSA99",
+#'   data = fdi_a_catch, MS = "PSP", GSA = "GSA99",
 #'   SP = c("ARA", "BOG", "HKE"), verbose = TRUE
 #' )
 FDI_prices_not_null <- function(data, MS, GSA, SP = NA, verbose = FALSE) {
@@ -59,7 +59,6 @@ FDI_prices_not_null <- function(data, MS, GSA, SP = NA, verbose = FALSE) {
         }
       }
 
-
       # converting totvallandg in numeric field
       data1[data1$totvallandg == "NK" & !is.na(data1$totvallandg), "totvallandg"] <- NA
       data1$totvallandg <- as.numeric(data1$totvallandg)
@@ -88,13 +87,10 @@ FDI_prices_not_null <- function(data, MS, GSA, SP = NA, verbose = FALSE) {
         colnames(l1) <- c("year", "species", "land weight", "land value", "price")
       }
 
-
-
       # compute average price per species across all years to append to tables l and l1
       av_price <- aggregate(list(av_price = l$price), by = list(species = l$species), FUN = mean, na.rm = T)
       l2 <- merge(l, av_price, all.x = T, all.Y = T)
       l2$av_price[which(is.nan(l2$av_price))] <- NA # change NaN to NA
-      # l1      <- l2[which(is.na(l2$price)), ]
       colnames(l2) <- c("species", "year", "land weight", "land value", "price", "av_price")
 
       if (length(ind) != 0) {
@@ -104,26 +100,11 @@ FDI_prices_not_null <- function(data, MS, GSA, SP = NA, verbose = FALSE) {
             sep = " "
           ))
         }
-        # print(l1)
       } else {
         if (verbose) {
           message("No cases with total landings > 0 but landings value = 0")
         }
       }
-
-      # # plot of price per species and year
-      # if (make_plot==T){
-      #     p <- ggplot(l, aes(x=year, y=price))+
-      #         geom_point(color="steelblue") +
-      #         geom_line(color="steelblue") +
-      #         labs(title = "Price per species and year",
-      #              y = "price (Euro/kg)", x = "year")+
-      #         facet_wrap(~ species)
-      #     print(p)
-      # }
-
-
-
     } else {
       if (verbose) {
         message(paste("Species ", paste(SP, collapse = ", "), " not existing in provided data"))
@@ -138,6 +119,5 @@ FDI_prices_not_null <- function(data, MS, GSA, SP = NA, verbose = FALSE) {
     l1 <- NULL
     l2 <- NULL
   }
-
   return(list(price_per_species = l2, cases_with_zero_land_value = l1))
 }

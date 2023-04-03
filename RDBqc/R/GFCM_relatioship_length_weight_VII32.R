@@ -14,14 +14,7 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_lw_TaskVII.3.2(task_vii32, MS = "ITA", GSA = "18", SP = "CTC")
 check_lw_TaskVII.3.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
-  if (FALSE) {
-    data <- task_vii32
-    MS <- "ITA"
-    GSA <- "18"
-    SP <- "CTC"
-  }
-  Length <- Reference_Year <- WeightIndividualsSampled <- Sex<- NULL
-
+  Length <- Reference_Year <- WeightIndividualsSampled <- Sex <- NULL
   data <- data[data$CPC %in% MS & data$GSA %in% GSA & data$Species %in% SP, ]
 
   if (nrow(data) == 0) {

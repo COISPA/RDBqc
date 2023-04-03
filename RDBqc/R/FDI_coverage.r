@@ -77,8 +77,5 @@ FDI_coverage <- function(data, MS, verbose = TRUE) {
     message("MS not existing in provided data")
     cov <- NULL
   }
-
-
-
   return(cov)
 }

@@ -20,8 +20,6 @@
 #' @importFrom dplyr filter
 #' @importFrom dplyr full_join
 
-
-
 MEDBS_comp_land_Q_VL <- function(data, SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
     MS <- "ITA"
@@ -33,16 +31,13 @@ MEDBS_comp_land_Q_VL <- function(data, SP, MS, GSA, verbose = TRUE) {
   }
 
   GEAR <- LANDINGS <- QUARTER <- VESSEL_LENGTH <- YEAR <- tmp1 <- tot_VL <- tot_NoVL <- NULL
-
   colnames(data) <- toupper(colnames(data))
   data[is.na(data$VESSEL_LENGTH), "VESSEL_LENGTH"] <- "NA"
   data[is.na(data$GEAR), "GEAR"] <- "NA"
   data[is.na(data$MESH_SIZE_RANGE), "MESH_SIZE_RANGE"] <- "NA"
   data[is.na(data$FISHERY), "FISHERY"] <- "NA"
 
-
   land <- data
-  # land$area <- as.numeric(gsub("[^0-9.-]+", "\\1", land$area))
   land <- land[which(land$AREA == as.character(GSA) & land$COUNTRY == MS & land$SPECIES == SP), ]
 
   if (nrow(land) == 0) {
@@ -53,7 +48,6 @@ MEDBS_comp_land_Q_VL <- function(data, SP, MS, GSA, verbose = TRUE) {
     land$LANDINGS[land$LANDINGS == -1] <- 0
 
     compLand1 <- list()
-    # i=2019
     c1 <- 1
     for (i in unique(land$YEAR)) {
       tmp1 <- land[land$YEAR %in% i, ]

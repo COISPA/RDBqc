@@ -30,19 +30,9 @@
 #' @importFrom utils globalVariables
 #'
 MEDBS_plot_land_vol <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    MS <- "ITA"
-    GSA <- "GSA 9"
-    SP <- "DPS"
-    verbose <- TRUE
-    land <- Landing_tab_example
-    MEDBS_plot_land_vol(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
-  }
-
   year <- gear <- fishery <- landings <- sumLand <- NULL
 
   colnames(data) <- tolower(colnames(data))
-  # data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
   data <- data[which(data$area == as.character(GSA) & data$country == MS & data$species == SP), ]
 
   if (nrow(data) == 0) {

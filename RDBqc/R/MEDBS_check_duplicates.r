@@ -9,12 +9,18 @@
 #' @description The function checks the presence of duplicated rows in landings, discards or catch data.
 #' @return The function returns a data frame containing the duplicated rows to be likely deleted from the data.
 #' @examples
-#' MEDBS_check_duplicates(data = Discard_tab_example, type = "d", SP = "DPS",
-#' MS = "ITA", GSA = "GSA 9", verbose = TRUE)
-#' MEDBS_check_duplicates(data = Landing_tab_example, type = "l", SP = "DPS",
-#' MS = "ITA", GSA = "GSA 9", verbose = TRUE)
-#' MEDBS_check_duplicates(data = Catch_tab_example, type = "c", SP = "DPS",
-#' MS = "ITA", GSA = "GSA 9", verbose = TRUE)
+#' MEDBS_check_duplicates(
+#'   data = Discard_tab_example, type = "d", SP = "DPS",
+#'   MS = "ITA", GSA = "GSA 9", verbose = TRUE
+#' )
+#' MEDBS_check_duplicates(
+#'   data = Landing_tab_example, type = "l", SP = "DPS",
+#'   MS = "ITA", GSA = "GSA 9", verbose = TRUE
+#' )
+#' MEDBS_check_duplicates(
+#'   data = Catch_tab_example, type = "c", SP = "DPS",
+#'   MS = "ITA", GSA = "GSA 9", verbose = TRUE
+#' )
 #' @export MEDBS_check_duplicates
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
@@ -27,17 +33,12 @@ MEDBS_check_duplicates <- function(data, type = "l", SP, MS, GSA, verbose = TRUE
     GSA <- "GSA 9"
     SP <- "DPS"
     verbose <- TRUE
-    #       library(data.table)
-
-
-    # data <- rbind(data,data[1,])
 
     MEDBS_check_duplicates(data = data, type = "l", MS = "ITA", GSA = "GSA 18", SP = "NEP", verbose = FALSE)
   }
 
   data <- as.data.frame(data)
   colnames(data) <- toupper(colnames(data))
-  # data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
   data <- data[data$AREA %in% as.character(GSA) & data$COUNTRY == MS & data$SPECIES %in% SP, ]
 
   if (type == "l") {

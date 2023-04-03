@@ -14,26 +14,7 @@
 FDI_cross_checks_JG <- function(data1, data2, verbose = FALSE) {
   country <- principal_sub_region <- totves <- vessel_length <- year <- info <- NULL
 
-  # if (nrow(data1)==0) {
-  #     stop(paste0("No catch data available") )
-  # }
-  #
-  # if (nrow(data2)==0) {
-  #     stop(paste0("No effort data available") )
-  # }
-
   if (nrow(data1) != 0 & nrow(data2) != 0) {
-
-    # data1[data1=="NK"]<-0
-    # data1[data1=="NA"]<-0
-    # data1[is.na(data1)] <- 0
-    # data2[data2=="NK"]<-0
-    # data2[data2=="NA"]<-0
-    # data2[data2=="DEEP"]<-0
-    # data2[is.na(data2)] <- 0
-    # suppressMessages(data1<-data1 %>% filter(country!=0 & year!=0))
-    # suppressMessages(data2<-data2 %>% filter(country!=0 & year!=0))
-
     data1[1:7][data1[1:7] == "NK" | data1[1:7] == "NA" | is.na(data1[1:7])] <- NA
     data1[11][is.na(data1[11])] <- 0
 
@@ -44,9 +25,7 @@ FDI_cross_checks_JG <- function(data1, data2, verbose = FALSE) {
     suppressMessages(data2 <- data2 %>% filter(!is.na(country) & !is.na(year)))
 
     (data1 <- data1[, c(1, 2, 3, 7, 11)])
-    # (data1[,c(2,5)]<-as.data.frame(lapply(data1[,c(2,5)], as.numeric)))
     (data2 <- data2[, c(1, 2, 4, 11, 25)])
-    # (data2[,c(2,5)]<-as.data.frame(lapply(data2[,c(2,5)], as.numeric)))
     colnames(data2) <- colnames(data1)
 
     suppressMessages(data1 <- data1 %>%
@@ -61,7 +40,6 @@ FDI_cross_checks_JG <- function(data1, data2, verbose = FALSE) {
     data$total_vessels_tab_J <- round(data$total_vessels_tab_J, digits = 0)
     data$total_vessels_tab_G <- round(data$total_vessels_tab_G, digits = 0)
     data$info <- NA
-
 
     for (i in 1:nrow(data)) {
       if (data$total_vessels_tab_J[i] == data$total_vessels_tab_G[i]) {
@@ -79,7 +57,6 @@ FDI_cross_checks_JG <- function(data1, data2, verbose = FALSE) {
 
     suppressMessages(data_miss <- data %>%
       filter(info != "Table J and tabel G have the same amount of vessels"))
-
 
     output <- data.frame(data_miss)
     if (verbose) {

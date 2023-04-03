@@ -11,13 +11,6 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_FDI_H(fdi_h_spatial_landings)
 check_RD_FDI_H <- function(data, verbose = TRUE) {
-  if (FALSE) {
-    # data=read.csv("dc_fdi_h_spatial_land.csv", sep=";",dec=".",head=T,na.strings="NA")
-    # #str(data)
-    #
-    # check_RD_FDI_G(data, tab="tabFDI_H", verbose=TRUE)
-  }
-
   df <- data[, c(1:20)]
 
   # Identify the line number of duplicate

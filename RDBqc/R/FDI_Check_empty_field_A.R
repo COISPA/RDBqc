@@ -14,17 +14,12 @@ check_EF_FDI_A <- function(data, verbose = TRUE) {
   data <- data[, c(1:15, 17:23)]
 
   if (all(is.na(data$specon_tech))) data$specon_tech <- "NA"
-  # data$specon_tech=as.character(data$specon_tech)
   if (all(is.na(data$deep))) data$deep <- "NA"
-  # data$deep=as.character(data$deep)
   data$totwghtlandg <- as.character(data$totwghtlandg)
   data$totvallandg <- as.character(data$totvallandg)
   data$discards <- as.character(data$discards)
 
-
-  # str(data)
   # selection of fields of interest and definition of NA
-
   data$country[data$country == ""] <- NA
   data$year[data$year == ""] <- NA
   data$quarter[data$quarter == ""] <- NA
@@ -40,18 +35,13 @@ check_EF_FDI_A <- function(data, verbose = TRUE) {
   data$sub_region[data$sub_region == ""] <- NA
   data$eez_indicator[data$eez_indicator == ""] <- NA
   data$geo_indicator[data$geo_indicator == ""] <- NA
-  # data$nep_sub_region[data$nep_sub_region==""]=NA
   data$specon_tech[data$specon_tech == ""] <- NA
   data$deep[data$deep == ""] <- NA
-  # data$specon_tech[is.na(data$specon_tech) | data$specon_tech==""]="NA"
-  # data$deep[is.na(data$deep) | data$deep==""]="NA"
   data$species[data$species == ""] <- NA
   data$totwghtlandg[data$totwghtlandg == ""] <- NA
   data$totvallandg[data$totvallandg == ""] <- NA
   data$discards[data$discards == ""] <- NA
   data$confidential[data$confidential == ""] <- NA
-
-  # data
 
   # Localisation of the NA
   results <- sapply(data, function(x) sum(is.na(x)))
@@ -77,10 +67,6 @@ check_EF_FDI_A <- function(data, verbose = TRUE) {
   NA_finder_col20 <- which(is.na(data[, 20]), arr.ind = TRUE)
   NA_finder_col21 <- which(is.na(data[, 21]), arr.ind = TRUE)
   NA_finder_col22 <- which(is.na(data[, 22]), arr.ind = TRUE)
-  # NA_finder_col23=which(is.na(data[,22]),arr.ind=TRUE)
-
-
-  #
 
   results2 <- list(NA_finder_col1, NA_finder_col2, NA_finder_col3, NA_finder_col4, NA_finder_col5, NA_finder_col6, NA_finder_col7, NA_finder_col8, NA_finder_col9, NA_finder_col10, NA_finder_col11, NA_finder_col12, NA_finder_col13, NA_finder_col14, NA_finder_col15, NA_finder_col16, NA_finder_col17, NA_finder_col18, NA_finder_col19, NA_finder_col20, NA_finder_col21, NA_finder_col22)
   names(results2) <- colnames(data)
@@ -275,18 +261,6 @@ check_EF_FDI_A <- function(data, verbose = TRUE) {
       message(paste("There are ", length(NA_finder_col22), " NA in ", colnames(data)[22]))
     }
   }
-
-  # #col 23
-  # if (verbose){
-  #   if (length(NA_finder_col23)==0) {
-  #     message(paste("no NA in the",colnames(data)[23], "column"))
-  #   } else {
-  #     message(paste("There are ",length(NA_finder_col23)," NA in ",colnames(data)[23]))
-  #   }
-  # }
-
-
-
 
   output <- list(results, results2)
   output

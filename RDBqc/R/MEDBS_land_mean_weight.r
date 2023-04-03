@@ -20,28 +20,18 @@
 
 
 MEDBS_land_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    MS <- "ITA"
-    GSA <- "GSA 9"
-    SP <- "DPS"
-    # verbose=TRUE
-    data <- Landing_tab_example
-    MEDBS_land_mean_weight(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
-  }
-
   . <- gear <- vessel_length <- mesh_size_range <- landings <- quarter <- MW <- year <- tmp1 <- totW <- totN <- fishery <- NULL
 
   colnames(data) <- tolower(colnames(data))
   land <- data
 
-  # land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
   land <- land[which(land$area == as.character(GSA) & land$country == MS & land$species == SP), ]
 
-  if (nrow(land) <2 ) {
+  if (nrow(land) < 2) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ") to perform the analysis"))
     }
-    output=NULL
+    output <- NULL
   } else {
     land$landings[land$landings == -1] <- 0
 
@@ -59,7 +49,6 @@ MEDBS_land_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     suppressMessages(Wg <- ck_nbl %>% group_by(year, quarter, vessel_length, gear, mesh_size_range, fishery) %>% summarize(totW = sum(landings) * 1000000))
     suppressMessages(No <- ck_nbl %>% group_by(year, quarter, vessel_length, gear, mesh_size_range, fishery) %>% summarize(totN = sum(sum) * 1000))
     suppressMessages(MWdb <- full_join(Wg, No))
-
     suppressMessages(MWdb <- MWdb %>% mutate(MW = totW / totN))
     suppressMessages(MWdbpositive <- MWdb %>% filter(MW > 0))
     suppressMessages(MWdbpositive <- MWdbpositive %>% filter(MW != Inf))
@@ -68,31 +57,31 @@ MEDBS_land_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     l <- length(output) + 1
     MWdb <- as.data.frame(MWdb)
     colnames(MWdb)[9] <- "MW(g)"
-    MWdb[is.infinite(MWdb$`MW(g)`),"MW(g)"] <- NA
+    MWdb[is.infinite(MWdb$`MW(g)`), "MW(g)"] <- NA
     output[[l]] <- as.data.frame(MWdb)
     names(output)[[l]] <- "summary table"
 
-    if (nrow(MWdbpositive) >0){
-    suppressMessages(
-    plot <- ggplot(MWdbpositive, aes(x = year, y = MW)) +
-      geom_point(col = "red") +
-      geom_line() +
-      facet_grid(fishery ~ gear + quarter, scales = "free_y") +
-      theme(strip.background = element_rect(fill = "white")) +
-      scale_x_continuous(breaks = seq(min(MWdbpositive$year), max(MWdbpositive$year), by = 4)) +
-      theme(axis.text.x = element_text(angle = 45, size = 8)) +
-      ggtitle(paste0(SP, " ", MS, " ", GSA, " Landing Mean weight")) +
-      xlab("") +
-      ylab("MW (g)")
+    if (nrow(MWdbpositive) > 0) {
+      suppressMessages(
+        plot <- ggplot(MWdbpositive, aes(x = year, y = MW)) +
+          geom_point(col = "red") +
+          geom_line() +
+          facet_grid(fishery ~ gear + quarter, scales = "free_y") +
+          theme(strip.background = element_rect(fill = "white")) +
+          scale_x_continuous(breaks = seq(min(MWdbpositive$year), max(MWdbpositive$year), by = 4)) +
+          theme(axis.text.x = element_text(angle = 45, size = 8)) +
+          ggtitle(paste0(SP, " ", MS, " ", GSA, " Landing Mean weight")) +
+          xlab("") +
+          ylab("MW (g)")
       )
 
-    l <- length(output) + 1
-    output[[l]] <- plot
-    names(output)[[l]] <- paste("Land_MW", SP, MS, GSA, sep = " _ ")
+      l <- length(output) + 1
+      output[[l]] <- plot
+      names(output)[[l]] <- paste("Land_MW", SP, MS, GSA, sep = " _ ")
     } else {
       l <- length(output) + 1
       output[[l]] <- NULL
     }
-    return(output) # as.data.frame(MWdb)
+    return(output)
   }
 }

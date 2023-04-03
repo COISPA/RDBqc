@@ -15,13 +15,8 @@
 
 
 RCG_check_mat <- function(data, MS, GSA, SP, verbose = TRUE) {
-  if (FALSE) {
-    data <- data_ex
-  }
-
   data <- check_cs_header(data)
   Length_class <- Number_at_length <- Maturity_Stage <- Sex <- NULL
-
   data <- data[data$Species %in% SP & data$Area %in% GSA & data$Flag_country %in% MS, ]
 
   if (any(is.na(data$Length_class))) {

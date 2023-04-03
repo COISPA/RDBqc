@@ -36,23 +36,13 @@ FDI_cross_checks_AG <- function(data1, data2, verbose = FALSE) {
 
     suppressMessages(data <- full_join(data1, data2))
     data <- as.data.frame(data)
-    data[is.na(data$totwghtlandg),"totwghtlandg"] <- 0
-    data[is.na(data$totfishdays),"totfishdays"] <- 0
-    data[is.na(data$totseadays),"totseadays"] <- 0
+    data[is.na(data$totwghtlandg), "totwghtlandg"] <- 0
+    data[is.na(data$totfishdays), "totfishdays"] <- 0
+    data[is.na(data$totseadays), "totseadays"] <- 0
 
     data$Data <- NA
     summary(data)
 
-    # check <- function(data){
-    #     data[data[11]>0 & data[12]>0 & data[13]>0, 14] <- "no mismatch"
-    #     data[data[11]==0 & data[12]>0 & data[13]>0, 14] <- "no landings, only effort in fishing days and sea days available"
-    #     data[data[11]==0 & data[12]==0 & data[13]>0, 14] <- "no landings, only effort in sea days available"
-    #     data[data[11]==0 & data[12]>0 & data[13]==0, 14] <- "no landings, only effort in fishing days available"
-    #     data[data[11]==0 & data[12]==0 & data[13]==0, 14]  "landings and effort data not available"
-    #     return (data)
-    # }
-
-    i <- 33
     for (i in 1:nrow(data)) {
       if (data$totwghtlandg[i] > 0 & data$totfishdays[i] > 0 & data$totseadays[i] > 0) {
         data$Data[i] <- "no mismatch"
@@ -87,14 +77,12 @@ FDI_cross_checks_AG <- function(data1, data2, verbose = FALSE) {
     if (verbose) {
       message("summary_table")
     }
-
   } else {
     if (verbose) {
       message(paste("Missing data in at least one of the two tables provided"))
     }
     output <- NULL
   }
-
 
   return(output)
 }

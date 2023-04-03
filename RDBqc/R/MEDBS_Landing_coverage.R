@@ -13,14 +13,6 @@
 #' @import ggplot2 dplyr
 #' @importFrom utils globalVariables
 MEDBS_Landing_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    data <- Land # Landing_tab_example
-    SP <- "DPS"
-    MS <- "ITA"
-    GSA <- "GSA 18"
-    verbose <- TRUE
-  }
-
   colnames(data) <- tolower(colnames(data))
   data[is.na(data$vessel_length), "vessel_length"] <- "NA"
   data[is.na(data$gear), "gear"] <- "NA"
@@ -33,25 +25,16 @@ MEDBS_Landing_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
 
   Landing_tab <- Landing_tab[Landing_tab$species == SP & Landing_tab$country == MS & Landing_tab$area == GSA, ]
 
-
-
   if (nrow(Landing_tab) == 0) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
   } else {
-    if (length(Landing_tab$Landing_tab[Landing_tab$landings == -1,""])>0){
-      Landing_tab[Landing_tab$landings == -1,"landings"] <- 0
+    if (length(Landing_tab$Landing_tab[Landing_tab$landings == -1, ""]) > 0) {
+      Landing_tab[Landing_tab$landings == -1, "landings"] <- 0
     }
 
-    Summary_land_wt <- data.frame(Landing_tab %>%  group_by(country, year, quarter, vessel_length, gear,
-                                                            mesh_size_range, fishery, area, species) %>% summarise(landings = sum(landings, na.rm=TRUE)))
-
-
-    # Summary_land_wt <- aggregate(Landing_tab$LANDINGS, by = list(Landing_tab$COUNTRY, Landing_tab$YEAR, Landing_tab$QUARTER, Landing_tab$VESSEL_LENGTH, Landing_tab$GEAR, Landing_tab$MESH_SIZE_RANGE, Landing_tab$FISHERY, Landing_tab$AREA, Landing_tab$SPECIES), FUN = "sum") # [,2:12]
-    # colnames(Summary_land_wt) <- c("COUNTRY", "YEAR", "QUARTER", "VESSEL_LENGTH", "GEAR", "MESH_SIZE_RANGE", "FISHERY", "AREA", "SPECIES", "LANDINGS")
-
-    # Summary_land_wt[1:nrow(Summary_land_wt),1:ncol(Summary_land_wt)]
+    Summary_land_wt <- data.frame(Landing_tab %>% group_by(country, year, quarter, vessel_length, gear, mesh_size_range, fishery, area, species) %>% summarise(landings = sum(landings, na.rm = TRUE)))
 
     output <- list()
     l <- length(output) + 1
@@ -60,21 +43,15 @@ MEDBS_Landing_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
 
     Landing_tab$Landing_tab[Landing_tab$landings == -1] <- 0
     suppressMessages(land_wt <- Landing_tab %>%
-      group_by(country, area, year, quarter, vessel_length, gear, mesh_size_range, fishery) %>%
-      summarize(landings = sum(landings, na.rm = TRUE)))
+      group_by(country, area, year, quarter, vessel_length, gear, mesh_size_range, fishery) %>% summarize(landings = sum(landings, na.rm = TRUE)))
 
     suppressMessages(data <- Landing_tab %>%
       group_by(year, gear) %>%
       summarise(landings = sum(landings, na.rm = TRUE)))
 
-    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1)) # , "LAND" = 0
-
+    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1))
     suppressMessages(data <- full_join(gr, data))
-
     data[is.na(data)] <- 0
-
-    # data <-  data[data$Landing_tab>0,]
-
 
     p <- ggplot(data, aes(x = year, y = landings, fill = gear)) +
       geom_area(size = 0.5, colour = "black") +

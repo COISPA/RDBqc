@@ -20,21 +20,10 @@
 #' @importFrom dplyr filter
 #' @importFrom dplyr full_join
 
-MEDBS_comp_disc_YQ <- function(data, MS, GSA, SP,verbose=FALSE) {
-  if (FALSE) {
-    MS <- "ITA"
-    GSA <- "GSA 18"
-    SP <- "HPS"
-    verbose=TRUE
-    data <- Disc
-    MEDBS_comp_disc_YQ(data=Disc, MS = "ITA", GSA = "GSA 18", SP = "HKE")
-  }
-
+MEDBS_comp_disc_YQ <- function(data, MS, GSA, SP, verbose = FALSE) {
   gear <- discards <- quarter <- tot_q <- tot_yr <- year <- NULL
-
   colnames(data) <- tolower(colnames(data))
   disc <- data
-  # disc$area <- as.numeric(gsub("[^0-9.-]+","\\1",disc$area))
   disc <- disc[which(disc$area == as.character(GSA) & disc$country == MS & disc$species == SP), ]
   disc$discards[disc$discards == -1] <- 0
 
@@ -59,11 +48,11 @@ MEDBS_comp_disc_YQ <- function(data, MS, GSA, SP,verbose=FALSE) {
     colnames(compDiscards) <- toupper(colnames(compDiscards))
     return(as.data.frame(compDiscards))
   } else {
-    if (verbose){
-         message("No discard data in the subset.\n")
+    if (verbose) {
+      message("No discard data in the subset.\n")
     }
-    empty <- data.frame(matrix(ncol=5, nrow=0))
-    colnames(empty) <- c("YEAR",	"GEAR",	"TOT_Q",	"TOT_YR",	"RATIO")
+    empty <- data.frame(matrix(ncol = 5, nrow = 0))
+    colnames(empty) <- c("YEAR", "GEAR", "TOT_Q", "TOT_YR", "RATIO")
     return(empty)
   }
 }

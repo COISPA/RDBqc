@@ -50,7 +50,7 @@ FDI_check_coord <- function(data, MS, verbose = FALSE) {
       data$lat.check <- FALSE
       data$lon.check <- FALSE
 
-      df <- data[, c("rectangle_lat","rectangle_lon","t1","t2","lat.dec","lon.dec")]    # 17, 18, 22, 23, 24, 25
+      df <- data[, c("rectangle_lat", "rectangle_lon", "t1", "t2", "lat.dec", "lon.dec")]
 
       check.lat <- function(d) {
         d[5] <- abs(d[1]) - abs(as.integer(d[1]))

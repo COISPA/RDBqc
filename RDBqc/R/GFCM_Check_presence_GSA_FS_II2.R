@@ -18,7 +18,6 @@ check_presence_taskII2 <- function(data1, data2, MS, GSA) {
   }
 
   # Declaration of variables and suppression of empty columns for dataframe1
-  # str(data1)
   data1$Reference_Year <- as.numeric(data1$Reference_Year)
   data1$CPC <- as.character(data1$CPC)
   data1$GSA <- as.numeric(data1$GSA)
@@ -27,7 +26,6 @@ check_presence_taskII2 <- function(data1, data2, MS, GSA) {
   data1$Landing <- as.numeric(data1$Landing)
   data1$Discards <- as.numeric(data1$Discards)
   data1$Catch <- as.numeric(data1$Catch)
-
   data1 <- data1[data1$CPC %in% MS & data1$GSA %in% GSA, ]
   yrs <- unique(data1$Reference_Year)
 
@@ -36,9 +34,6 @@ check_presence_taskII2 <- function(data1, data2, MS, GSA) {
   data2$Fleet.segment <- as.character(data2$Fleet.segment)
 
   data2 <- data2[data2$CPC %in% MS & data2$GSA %in% GSA & data2$Reference.year %in% yrs, ]
-  # Data visualization
-  # str(data1)
-  # str(data2)
 
   if (nrow(data2) == 0) {
     message(paste0("No reference values for the following years: ", paste(yrs, collapse = ", "), "."))
@@ -49,11 +44,9 @@ check_presence_taskII2 <- function(data1, data2, MS, GSA) {
       # creation of variable ID by concatenating GSA and Fleet.segment and year for data frame 1 and dataframe 2
       # creation of variable ID for data frame1
       data1$ID <- paste(data1$GSA, "_", data1$Segment, "_", data1$Reference_Year)
-      # data1$ID=as.factor(data1$ID)
 
       # creation of variable ID for data frame2
       data2$ID <- paste(data2$GSA, "_", data2$Fleet.segment, "_", data2$Reference.year)
-      # data2$ID=as.factor(data2$ID)
 
       # Creation of data frame mixing the information from the two dataframes
 

@@ -12,10 +12,7 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_minmaxl50_TaskVII.3.1(task_vii31, minmaxLtaskVII31, MS = "ITA", GSA = "19")
 check_minmaxl50_TaskVII.3.1 <- function(data, tab_L50, MS, GSA) {
-  if (FALSE) {
-    data <- vii31
-    tab_L50 <- minmaxLtaskVII31
-  }
+
   # Creation of Pivot for calculation of min/max depending of species
 
   data <- data[data$CPC %in% MS & data$GSA %in% GSA, ]
@@ -23,9 +20,7 @@ check_minmaxl50_TaskVII.3.1 <- function(data, tab_L50, MS, GSA) {
   if (nrow(data) > 0) {
     data$SpeciesXSex <- paste(data$Species, data$Sex)
     pivot_min <- with(data, tapply(L50, SpeciesXSex, min))
-    # pivot_min #pivot min
     pivot_max <- with(data, tapply(L50, SpeciesXSex, max))
-    # pivot_max #pivot max
 
     # Creation of the final data frame
     Check_species_min <- as.data.frame(pivot_min)
@@ -34,7 +29,6 @@ check_minmaxl50_TaskVII.3.1 <- function(data, tab_L50, MS, GSA) {
     Check_species_final$pivot_max <- Check_species_max$pivot_max
     names(Check_species_final) <- c("min", "max")
     Check_species_final$SpeciesXSex <- as.factor(names(pivot_min))
-    # str(Check_species_final)
     # Creation of colum for merging and merging
     tab_L50$SpeciesXSex <- paste(tab_L50$Species, tab_L50$Sex)
     data_merge <- merge(Check_species_final, tab_L50, by = "SpeciesXSex", all.x = TRUE)
@@ -46,16 +40,12 @@ check_minmaxl50_TaskVII.3.1 <- function(data, tab_L50, MS, GSA) {
     }
 
     if (nrow(data_merge) > 0) {
-
-      # str(data_merge)
-
       # Creation of dataframe
       dataframe_check <- data.frame(
         data_merge$Species, data_merge$Sex,
         data_merge$min, data_merge$max, data_merge$minL50, data_merge$maxL50
       )
       names(dataframe_check) <- c("Species", "Sex", "min_observed", "max_observed", "min_theoretical", "max_theoretical")
-      # str(dataframe_check)
 
       # Creation of warning for min
       for (i in 1:length(dataframe_check$min_observed)) {

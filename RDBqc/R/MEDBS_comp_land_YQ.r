@@ -21,17 +21,7 @@
 #' @importFrom dplyr full_join
 
 MEDBS_comp_land_YQ <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    MS <- "ITA"
-    GSA <- "GSA 9"
-    SP <- "DPS"
-    # verbose=TRUE
-    data <- Landing_tab_example
-    MEDBS_comp_land_YQ(data = Landing_tab_example, MS = "ITA", GSA = "GSA 9", SP = "DPS")
-  }
-
   GEAR <- LANDINGS <- QUARTER <- tot_q <- tot_yr <- YEAR <- NULL
-
   colnames(data) <- toupper(colnames(data))
   data[is.na(data$VESSEL_LENGTH), "VESSEL_LENGTH"] <- "NA"
   data[is.na(data$GEAR), "GEAR"] <- "NA"
@@ -39,7 +29,6 @@ MEDBS_comp_land_YQ <- function(data, SP, MS, GSA, verbose = TRUE) {
   data[is.na(data$FISHERY), "FISHERY"] <- "NA"
 
   land <- data
-  # land$area <- as.numeric(gsub("[^0-9.-]+","\\1",land$area))
   land <- land[which(land$AREA == as.character(GSA) & land$COUNTRY == MS & land$SPECIES == SP), ]
 
   if (nrow(land) == 0) {

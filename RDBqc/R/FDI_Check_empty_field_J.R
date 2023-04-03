@@ -59,8 +59,6 @@ check_EF_FDI_J <- function(data, verbose = TRUE) {
   NA_finder_col13 <- which(is.na(data[, 13]), arr.ind = TRUE)
   NA_finder_col14 <- which(is.na(data[, 14]), arr.ind = TRUE)
 
-  #
-
   results2 <- list(NA_finder_col1, NA_finder_col2, NA_finder_col3, NA_finder_col4, NA_finder_col5, NA_finder_col6, NA_finder_col7, NA_finder_col8, NA_finder_col9, NA_finder_col10, NA_finder_col11, NA_finder_col12, NA_finder_col13, NA_finder_col14)
   names(results2) <- colnames(data)
 
@@ -188,9 +186,6 @@ check_EF_FDI_J <- function(data, verbose = TRUE) {
       message(paste("There are ", length(NA_finder_col14), " NA in ", colnames(data)[14]))
     }
   }
-
-
-
 
   output <- list(results, results2)
   output

@@ -11,12 +11,6 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_FDI_A(fdi_a_catch)
 check_RD_FDI_A <- function(data, verbose = TRUE) {
-  if (FALSE) {
-    # data=read.csv("dc_fdi_g_effort.csv", sep=";",dec=".",head=T,na.strings="NA")
-    # #str(data)
-    # check_RD_FDI_G(data, tab="tabFDI_G", verbose=TRUE)
-  }
-
   df <- data[, c(1:19)]
 
   # Identify the line number of duplicate

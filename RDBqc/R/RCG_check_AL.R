@@ -13,34 +13,31 @@
 #' @export
 #' @author Isabella Bitetto <bitetto@@coispa.it>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @examples RCG_check_AL(data=data_ex, MS = "ITA", GSA = "GSA99",
-#' SP = "Mullus barbatus", min_age = 0, max_age = 9)
-#' RCG_check_AL(data=data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
+#' @examples RCG_check_AL(
+#'   data = data_ex, MS = "ITA", GSA = "GSA99",
+#'   SP = "Mullus barbatus", min_age = 0, max_age = 9
+#' )
+#' RCG_check_AL(data = data_ex, MS = "ITA", GSA = "GSA99", SP = "Mullus barbatus")
 #' @import ggplot2
 #' @importFrom stats aggregate
 #' @importFrom utils globalVariables
 #' @importFrom outliers grubbs.test
 RCG_check_AL <- function(data, MS, GSA, SP, min_age = NA, max_age = NA, verbose = TRUE) {
-
   data <- check_cs_header(data)
-
-  Age <- Area <- Commercial_size_category <- Date <-  Flag_country <-
-  Number_at_length <- Trip_code <- Year <- fish_ID  <- Length_class <- Sex <- NULL
-
+  Age <- Area <- Commercial_size_category <- Date <- Flag_country <-
+    Number_at_length <- Trip_code <- Year <- fish_ID <- Length_class <- Sex <- NULL
   AGE_na <- data[is.na(data$Age) & data$Species %in% SP & data$Flag_country %in% MS & data$Area %in% GSA, ]
-  if (nrow(AGE_na)>0){
-  if (verbose) {
-    message("NA included in the 'Age' field have been removed from the analysis.")
+  if (nrow(AGE_na) > 0) {
+    if (verbose) {
+      message("NA included in the 'Age' field have been removed from the analysis.")
+    }
   }
-  }
-
   length_na <- data[is.na(data$Length_class) & data$Species %in% SP, ]
-  if (nrow(length_na)>0) {
-  if (verbose) {
-    message("NA included in the 'Length_class' field have been removed from the analysis.")
+  if (nrow(length_na) > 0) {
+    if (verbose) {
+      message("NA included in the 'Length_class' field have been removed from the analysis.")
+    }
   }
-  }
-
   data <- data[!is.na(data$Age) & !is.na(data$Length_class) & data$Species %in% SP & data$Flag_country %in% MS & data$Area %in% GSA, ]
 
   if (nrow(data) == 0) {
@@ -55,69 +52,41 @@ RCG_check_AL <- function(data, MS, GSA, SP, min_age = NA, max_age = NA, verbose 
 
     # summary table of number of individuals by length class by year
     data_age <- data[!is.na(data$Age), ]
-
-    tab_age <- data.frame(data_age %>% group_by(Year,Length_class) %>% summarize(nb_age_measurements=sum(Number_at_length,na.rm=TRUE)))
-
-
-    #   aggregate(data_age$Number_at_length, by = list(data_age$Year, data_age$Length_class), FUN = "length")
-    # colnames(tab_age) <- c("Year", "Length_class", "nb_age_measurements")
+    tab_age <- data.frame(data_age %>% group_by(Year, Length_class) %>% summarize(nb_age_measurements = sum(Number_at_length, na.rm = TRUE)))
 
     output <- list()
     l <- length(output) + 1
     output[[l]] <- tab_age
     names(output)[[l]] <- "Age-Length summary table"
 
-
     # Check age consistent with allowed range
-
     if (is.na(min_age) | is.na(max_age)) {
       test_max <- grubbs.test(data$Age)$p.value
-      # test_min <- grubbs.test(data$Age, opposite = TRUE)$p.value
-
       if (test_max < 0.05) {
         id_max <- which(data$Age == max(data$Age))
         if (verbose) {
-          message(paste("The Grubbs' test identifies the maximum value of Age distribution (",round(max(data$Age),1),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
+          message(paste("The Grubbs' test identifies the maximum value of Age distribution (", round(max(data$Age), 1), ") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers", sep = ""))
         }
       } else {
         id_max <- 0
       }
-
-      # if (test_min < 0.05) {
-      #   id_min <- which(data$Age == min(data$Age))
-      #   if (verbose) {
-      #     message(paste("The Grubbs' test identifies the minimum value of Age distribution (",round(min(data$Age),1),") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers",sep=""))
-      #   }
-      # } else {
-      #   id_min=0
-      # }
-
-      # error_min_age <- data[id_min, ]
       error_max_age <- data[id_max, ]
-
-    } else{
-    # error_min_age <- data_age[data_age$Age < min_age, ]
-    error_max_age <- data_age[data_age$Age > max_age, ]
-    }
-
-
-    if ( nrow(error_max_age) != 0) {   # nrow(error_min_age) != 0 |
-      err <-  error_max_age # rbind(error_min_age, error_max_age)
-      err <- err %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category, Age,Sex,Length_class,fish_ID	)
-
     } else {
-      err <- data[0,]
-      err <- err %>% select(Flag_country,Year,Trip_code, Date, Area, Commercial_size_category, Age,Sex,Length_class,fish_ID	)
-
+      error_max_age <- data_age[data_age$Age > max_age, ]
     }
-
+    if (nrow(error_max_age) != 0) {
+      err <- error_max_age
+      err <- err %>% select(Flag_country, Year, Trip_code, Date, Area, Commercial_size_category, Age, Sex, Length_class, fish_ID)
+    } else {
+      err <- data[0, ]
+      err <- err %>% select(Flag_country, Year, Trip_code, Date, Area, Commercial_size_category, Age, Sex, Length_class, fish_ID)
+    }
     l <- length(output) + 1
     output[[l]] <- err
     names(output)[[l]] <- "Outlayers"
-
     l <- length(output) + 1
     output[[l]] <- p
     names(output)[[l]] <- paste("AL", SP, MS, GSA, sep = " _ ")
-    return(output) # list(tab_age,err,p)
+    return(output)
   }
 }

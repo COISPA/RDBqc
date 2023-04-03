@@ -51,7 +51,6 @@ FDI_fishdays_cov <- function(dataG, dataI, MS, verbose = TRUE) {
     }
 
     # check for NAs in gsas or years reported
-
     gsasG <- dataG$sub_region
     gsasI <- dataI$sub_region
     yrsG <- dataG$year
@@ -61,7 +60,6 @@ FDI_fishdays_cov <- function(dataG, dataI, MS, verbose = TRUE) {
     naG2 <- which(is.na(yrsG))
     naI1 <- which(is.na(gsasI))
     naI2 <- which(is.na(yrsI))
-
 
     if (verbose) {
       if (length(naG1) != 0) {
@@ -94,18 +92,11 @@ FDI_fishdays_cov <- function(dataG, dataI, MS, verbose = TRUE) {
     # report results by year and gsa
     gsa <- unique(cov$gsa)
     ngsa <- length(gsa)
-
-    # for (i in 1:ngsa){
-    #     l <- subset(cov, gsa==gsa[i])
-    #     print(paste("Total fish days coverage in", gsa[i], sep=' '))
-    #     print(l)
-    # }
   } else if (!(MS %in% mslistG) | !(MS %in% mslistI)) {
     if (verbose) {
       message(paste("MS", MS, "not existing in table G or in table I"))
     }
     cov <- NULL
   }
-
   return(cov)
 }

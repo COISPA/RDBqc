@@ -12,15 +12,7 @@
 #' @import dplyr
 #' @importFrom utils globalVariables
 RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
-  if (FALSE) {
-    data <- data_ex
-    MS <- "ITA"
-    GSA <- "GSA99"
-    SP <- "Mullus barbatus"
-  }
-
   data <- check_cs_header(data)
-
   presence <- Number_at_length <- Maturity_Stage <- Sex <- Age <- Individual_weight <- Species <- Year <- Area <- Harbour <- fishing_activity_category_national <- Fishing_activity_category_European_lvl_6 <- Sampling.method <- Trip_code <- trips <- NULL
 
   data <- data[data$Flag_country == MS & data$Area == GSA & data$Species == SP, ]
@@ -31,49 +23,45 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
     }
   } else {
     data$presence <- 1
-    data[is.na(data$Length_class),"presence"] <- 0
+    data[is.na(data$Length_class), "presence"] <- 0
     data$presence <- data$presence * data$Number_at_length
     lengths <- data %>%
       group_by(Year, Area, Species, Trip_code) %>%
-      summarize(length_measurements = sum(presence,na.rm=TRUE))
+      summarize(length_measurements = sum(presence, na.rm = TRUE))
     lengths <- as.data.frame(lengths)
-
     data$presence <- 1
-    data[is.na(data$Maturity_Stage),"presence"] <- 0
+    data[is.na(data$Maturity_Stage), "presence"] <- 0
     data$presence <- data$presence * data$Number_at_length
     mat <- data %>%
-      # filter(!is.na(Maturity_Stage)) %>%
       group_by(Year, Area, Species, Trip_code) %>%
-      summarize(maturity_data = sum(presence,na.rm=TRUE))
+      summarize(maturity_data = sum(presence, na.rm = TRUE))
     mat <- as.data.frame(mat)
 
     data$presence <- 1
-    data[is.na(data$Sex),"presence"] <- 0
+    data[is.na(data$Sex), "presence"] <- 0
     data$presence <- data$presence * data$Number_at_length
     sex <- data %>%
-      filter(Sex != "U" & Sex != "C") %>%  #!is.na(Sex) &
+      filter(Sex != "U" & Sex != "C") %>%
       group_by(Year, Area, Species, Trip_code) %>%
-      summarize(sex_data = sum(presence,na.rm=TRUE))
+      summarize(sex_data = sum(presence, na.rm = TRUE))
     sex <- as.data.frame(sex)
 
     data$presence <- 1
-    data[is.na(data$Age),"presence"] <- 0
+    data[is.na(data$Age), "presence"] <- 0
     data$presence <- data$presence * data$Number_at_length
     age <- data %>%
-      # filter(!is.na(Age)) %>%
       group_by(Year, Area, Species, Trip_code) %>%
-      summarize(age_data = sum(presence,na.rm=TRUE))
+      summarize(age_data = sum(presence, na.rm = TRUE))
     age <- as.data.frame(age)
 
     data$presence <- 1
-    data[is.na(data$Individual_weight),"presence"] <- 0
+    data[is.na(data$Individual_weight), "presence"] <- 0
     data$presence <- data$presence * data$Number_at_length
     weight <- data %>%
-      # filter(!is.na(Individual_weight)) %>%
       group_by(Year, Area, Species, Trip_code) %>%
-      summarize(weight_data = sum(presence,na.rm=TRUE))
+      summarize(weight_data = sum(presence, na.rm = TRUE))
     weight <- as.data.frame(weight)
-    ####################
+
     if (nrow(sex) == 0) {
       if (verbose) {
         print("No sex data", quote = F)
@@ -84,8 +72,6 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       sex$variable <- colnames(sex)[ncol(sex)]
       colnames(sex)[ncol(sex) - 1] <- "number_of_data"
     }
-
-    #########
 
     if (nrow(mat) == 0) {
       if (verbose) {
@@ -98,8 +84,6 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       colnames(mat)[ncol(mat) - 1] <- "number_of_data"
     }
 
-    #########
-
     if (nrow(age) == 0) {
       if (verbose) {
         print("No age data", quote = F)
@@ -111,8 +95,6 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       colnames(age)[ncol(age) - 1] <- "number_of_data"
     }
 
-    #########
-
     if (nrow(weight) == 0) {
       if (verbose) {
         print("No weight data", quote = F)
@@ -123,8 +105,6 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       weight$variable <- colnames(weight)[ncol(weight)]
       colnames(weight)[ncol(weight) - 1] <- "number_of_data"
     }
-
-    #########
 
     if (nrow(lengths) == 0) {
       if (verbose) {
@@ -138,11 +118,10 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
     }
 
     result_table <- do.call(rbind, list(lengths, mat, sex, age, weight))
-    result_table[is.na(result_table$number_of_data),"number_of_data"] <- 0
+    result_table[is.na(result_table$number_of_data), "number_of_data"] <- 0
     result_table <- as.data.table(result_table)
-    result_table <- data.table::dcast(result_table,Year+Area+Species+Trip_code~variable,value.var="number_of_data")
+    result_table <- data.table::dcast(result_table, Year + Area + Species + Trip_code ~ variable, value.var = "number_of_data")
     result_table <- data.frame(result_table)
-
     return(result_table)
   }
 }

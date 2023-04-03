@@ -12,13 +12,6 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_FDI_J(fdi_j_capacity)
 check_RD_FDI_J <- function(data, verbose = TRUE) {
-  if (FALSE) {
-    # data=read.csv("dc_fdi_j_capacity.csv", sep=";",dec=".",head=T,na.strings="NA")
-    # #str(data)
-    #
-    # check_RD_FDI_J(data, tab="tabFDI_J", verbose=TRUE)
-  }
-
   df <- data[, c(1:7)]
 
   # Identify the line number of duplicate

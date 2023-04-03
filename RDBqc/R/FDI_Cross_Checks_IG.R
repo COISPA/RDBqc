@@ -14,14 +14,6 @@
 FDI_cross_checks_IG <- function(data1, data2, verbose = FALSE) {
   Data <- country <- fishing_tech <- gear_type <- sub_region <- totfishdays <- totfishdays_data1 <- totfishdays_data2 <- vessel_length <- year <- NULL
 
-  # if (nrow(data1)==0) {
-  #     stop(paste0("No catch data available") )
-  # }
-  #
-  # if (nrow(data2)==0) {
-  #     stop(paste0("No effort data available") )
-  # }
-
   if (nrow(data1) != 0 & nrow(data2) != 0) {
     data1[1:19][data1[1:19] == "NK" | data1[1:19] == "NA" | is.na(data1[1:19])] <- NA
     data1[20][is.na(data1[20])] <- 0
@@ -32,19 +24,7 @@ FDI_cross_checks_IG <- function(data1, data2, verbose = FALSE) {
     suppressMessages(data1 <- data1 %>% filter(!is.na(country) & !is.na(year)))
     suppressMessages(data2 <- data2 %>% filter(!is.na(country) & !is.na(year)))
 
-    # data1[data1=="NK"]<-0
-    # data1[data1=="NA"]<-0
-    # data1[is.na(data1)] <- 0
-    # data2[data2=="NK"]<-0
-    # data2[data2=="NA"]<-0
-    # data2[data2=="DEEP"]<-0
-    # data2[is.na(data2)] <- 0
-    # suppressMessages(data1<-data1%>%filter(country!=0 & year!=0))
-    # suppressMessages(data2<-data2%>%filter(country!=0 & year!=0))
-
-    # (data1[,c(2,3,20)]<-as.data.frame(lapply(data1[,c(2,3,20)], as.numeric)))
     (data1 <- data1[, c(2, 3:11, 14, 15, 20)])
-    # (data2[,c(2,14,16,17,18)]<-as.data.frame(lapply(data2[,c(2,14,16,17,18)], as.numeric)))
     (data2 <- data2[, c(2:11, 14, 15, 19)])
     colnames(data1) <- colnames(data2)
 

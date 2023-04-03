@@ -12,14 +12,6 @@
 #' @import ggplot2 dplyr
 #' @examples MEDBS_ML_check(ML_tab_example, "DPS", "ITA", "GSA 99")
 MEDBS_ML_check <- function(data, SP, MS, GSA, verbose = TRUE) {
-
-  if (FALSE) {
-    data = ML_tab_example
-    SP <- "DPS"
-    MS <- "ITA"
-    GSA <- "GSA 99"
-  }
-
   AREA <- Summary_ML_tab <- LENGTHCLASS <- PRM <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
 
   colnames(data) <- toupper(colnames(data))
@@ -34,10 +26,7 @@ MEDBS_ML_check <- function(data, SP, MS, GSA, verbose = TRUE) {
     ML_tab$SEX <- as.character(ML_tab$SEX)
     ML_tab[ML_tab$SEX == FALSE, "SEX"] <- "F"
 
-    Summary_ML_tab <- suppressMessages(data.frame(ML_tab %>% group_by(COUNTRY,AREA, START_YEAR, END_YEAR, SPECIES, SEX) %>% summarise(COUNT = length(SEX))))
-
-    # Summary_ML_tab <- aggregate(ML_tab$SEX, by = list(ML_tab$COUNTRY, ML_tab$AREA, ML_tab$START_YEAR, ML_tab$END_YEAR, ML_tab$SPECIES, ML_tab$SEX), FUN = "length")
-    # colnames(Summary_ML_tab) <- c("COUNTRY", "YEAR", "START_YEAR", "END_YEAR", "SPECIES", "SEX", "COUNT")
+    Summary_ML_tab <- suppressMessages(data.frame(ML_tab %>% group_by(COUNTRY, AREA, START_YEAR, END_YEAR, SPECIES, SEX) %>% summarise(COUNT = length(SEX))))
 
     Summary_table_ML <- Summary_ML_tab
     Summary_ML_tab <- Summary_ML_tab[1:nrow(Summary_ML_tab), 1:(ncol(Summary_ML_tab) - 1)]
@@ -46,17 +35,6 @@ MEDBS_ML_check <- function(data, SP, MS, GSA, verbose = TRUE) {
     l <- length(output) + 1
     output[[l]] <- Summary_table_ML
     names(output)[[l]] <- "summary table"
-
-    # p <- ggplot(data = ML_tab, aes(x = LENGTHCLASS, y = PRM, col = factor(START_YEAR))) +
-    #   geom_line(stat = "identity") +
-    #   facet_grid(AREA + COUNTRY ~ SEX) +
-    #   labs(color='Years') +
-    #     ggtitle(SP)
-    # print(p)
-    #
-    # l <- length(output)+1
-    # output[[l]] <- p
-    # names(output)[[l]] <- paste("ML",SP,MS,GSA,sep=" _ ")
 
     for (i in unique(as.character(ML_tab$SEX))) {
       p <- ggplot(data = ML_tab[ML_tab$SEX %in% i, ], aes(x = LENGTHCLASS, y = PRM, col = factor(START_YEAR))) +

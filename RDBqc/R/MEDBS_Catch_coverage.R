@@ -15,15 +15,6 @@
 #' @importFrom utils globalVariables
 
 MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    data <- Catch # Catch_tab_example
-    SP <- "HKE"
-    MS <- "ITA"
-    GSA <- "GSA 18"
-    verbose <- TRUE
-  }
-
-
   colnames(data) <- tolower(colnames(data))
   data[is.na(data$vessel_length), "vessel_length"] <- "NA"
   data[is.na(data$gear), "gear"] <- "NA"
@@ -32,8 +23,6 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
 
   discards <- landings <- country <- area <- year <- quarter <- vessel_length <- gear <- mesh_size_range <- fishery <- species <- NULL
   catch <- data
-  # colnames(catch) <- toupper(colnames(catch))
-
   catch <- catch[catch$species == SP & catch$country == MS & catch$area == GSA, ]
 
   if (nrow(catch) == 0) {
@@ -41,21 +30,20 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
   } else if (nrow(catch) > 0) {
-    Summary_land_wt <- data.frame(catch[catch$landings != -1, ] %>%  group_by(country, year, quarter, vessel_length, gear,
-                       mesh_size_range, fishery, area, species) %>% summarise(landings = sum(landings, na.rm=TRUE)))
+    Summary_land_wt <- data.frame(catch[catch$landings != -1, ] %>% group_by(
+      country, year, quarter, vessel_length, gear,
+      mesh_size_range, fishery, area, species
+    ) %>% summarise(landings = sum(landings, na.rm = TRUE)))
 
     output <- list()
     l <- length(output) + 1
     output[[l]] <- Summary_land_wt
     names(output)[[l]] <- "summary_landing_table"
 
-    ##########
+    Summary_disc_wt <- data.frame(catch[catch$discards != -1, ] %>% group_by(country, year, quarter, vessel_length, gear, mesh_size_range, fishery, area, species) %>% summarise(discards = sum(discards, na.rm = TRUE)))
 
-    Summary_disc_wt <- data.frame(catch[catch$discards != -1, ] %>%  group_by(country, year, quarter, vessel_length, gear,
-                          mesh_size_range, fishery, area, species) %>% summarise(discards = sum(discards, na.rm=TRUE)))
-
-    if (length(which(round(Summary_disc_wt$discards, 2) == -1))>0){
-         Summary_disc_wt <- Summary_disc_wt[-which(round(Summary_disc_wt$discards, 2) == -1), ]
+    if (length(which(round(Summary_disc_wt$discards, 2) == -1)) > 0) {
+      Summary_disc_wt <- Summary_disc_wt[-which(round(Summary_disc_wt$discards, 2) == -1), ]
     }
 
     l <- length(output) + 1
@@ -73,7 +61,7 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
       group_by(year, gear) %>%
       summarise(landings = sum(landings, na.rm = TRUE))
 
-    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1)) # , "LAND" = 0
+    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1))
 
     data <- full_join(gr, data)
 
@@ -105,7 +93,7 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
       group_by(year, gear) %>%
       summarise(discards = sum(discards))
 
-    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1)) # , "LAND" = 0
+    gr <- data.frame("year" = seq(min(data$year), max(data$year), 1), "gear" = rep(unique(data$gear), each = max(data$year) - min(data$year) + 1))
 
     data <- full_join(gr, data)
 
@@ -122,6 +110,6 @@ MEDBS_Catch_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
     l <- length(output) + 1
     output[[l]] <- p
     names(output)[[l]] <- "discards"
-    return(output) # list(Summary_land_wt,Summary_disc_wt)
+    return(output)
   }
 }

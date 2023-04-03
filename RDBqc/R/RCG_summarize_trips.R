@@ -14,12 +14,6 @@
 #' @importFrom utils globalVariables
 
 RCG_summarize_trips <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    data <- CS
-    MS <- "ITA"
-    GSA <- "GSA17"
-    SP <- "Merluccius merluccius"
-  }
   data <- check_cs_header(data)
   Year <- Area <- Harbour <- Fishing_activity_category_European_lvl_6 <- Sampling_method <- Trip_code <- trips <- Flag_country <- Species <- NULL
 
@@ -31,7 +25,6 @@ RCG_summarize_trips <- function(data, SP, MS, GSA, verbose = TRUE) {
   } else {
     suppressMessages(trips <- data %>% group_by(Year, Flag_country, Area, Harbour, Species, Fishing_activity_category_European_lvl_6, Sampling_method, Trip_code) %>% summarize(Nb_trips = n()))
     suppressMessages(trips <- trips %>% summarize(Nb_trips = n()))
-
     return(as.data.frame(trips))
   }
 }

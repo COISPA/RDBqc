@@ -15,20 +15,12 @@ check_EF_FDI_I <- function(data, verbose = TRUE) {
   data <- data[, 1:21]
 
   if (all(is.na(data$specon_tech))) data$specon_tech <- "NA"
-  # data$specon_tech=as.character(data$specon_tech)
   if (all(is.na(data$deep))) data$deep <- "NA"
-  # data$deep=as.character(data$deep)
   if (all(is.na(data$rectangle_type))) data$rectangle_type <- "NA"
   if (all(is.na(data$rectangle_lat))) data$rectangle_lat <- "NA"
   if (all(is.na(data$rectangle_lon))) data$rectangle_lon <- "NA"
   if (all(is.na(data$c_square))) data$c_square <- "NA"
   data$totfishdays <- as.character(data$totfishdays)
-
-
-
-  # str(data)
-  # selection of fields of interest and definition of NA
-
   data$country[data$country == ""] <- NA
   data$year[data$year == ""] <- NA
   data$quarter[data$quarter == ""] <- NA
@@ -44,8 +36,6 @@ check_EF_FDI_I <- function(data, verbose = TRUE) {
   data$geo_indicator[data$geo_indicator == ""] <- NA
   data$specon_tech[data$specon_tech == ""] <- NA
   data$deep[data$deep == ""] <- NA
-  # data$specon_tech[is.na(data$specon_tech) | data$specon_tech==""]="NA"
-  # data$deep[is.na(data$deep) | data$deep==""]="NA"
   data$rectangle_type[data$rectangle_type == ""] <- NA
   data$rectangle_lat[data$rectangle_lat == ""] <- NA
   data$rectangle_lon[data$rectangle_lon == ""] <- NA
@@ -76,9 +66,6 @@ check_EF_FDI_I <- function(data, verbose = TRUE) {
   NA_finder_col19 <- which(is.na(data[, 19]), arr.ind = TRUE)
   NA_finder_col20 <- which(is.na(data[, 20]), arr.ind = TRUE)
   NA_finder_col21 <- which(is.na(data[, 21]), arr.ind = TRUE)
-
-
-  #
 
   results2 <- list(NA_finder_col1, NA_finder_col2, NA_finder_col3, NA_finder_col4, NA_finder_col5, NA_finder_col6, NA_finder_col7, NA_finder_col8, NA_finder_col9, NA_finder_col10, NA_finder_col11, NA_finder_col12, NA_finder_col13, NA_finder_col14, NA_finder_col15, NA_finder_col16, NA_finder_col17, NA_finder_col18, NA_finder_col19, NA_finder_col20, NA_finder_col21)
   names(results2) <- colnames(data)
@@ -264,7 +251,6 @@ check_EF_FDI_I <- function(data, verbose = TRUE) {
       message(paste("There are ", length(NA_finder_col21), " NA in ", colnames(data)[21]))
     }
   }
-
 
   output <- list(results, results2)
   # output

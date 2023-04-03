@@ -20,111 +20,87 @@ FDI_landweight_cov <- function(dataA, dataH, MS, verbose = FALSE) {
   mslistA <- unique(dataA$country)
   mslistH <- unique(dataH$country)
   if (MS %in% mslistA & MS %in% mslistH) {
-    if (verbose){
+    if (verbose) {
       print(paste("Coverage of landings' weight for", MS, "data in tables A and H", sep = " "))
     }
 
+    # subset for MS
+    dataA <- subset(dataA, country == MS)
+    dataH <- subset(dataH, country == MS)
+    dataA$id <- seq(1, nrow(dataA), 1)
+    dataH$id <- seq(1, nrow(dataH), 1)
 
-  # subset for MS
-  dataA <- subset(dataA, country == MS)
-  dataH <- subset(dataH, country == MS)
-  dataA$id <- seq(1, nrow(dataA), 1)
-  dataH$id <- seq(1, nrow(dataH), 1)
+    gsasA <- unique(dataA$sub_region)
+    gsasH <- unique(dataH$sub_region)
+    yrsA <- unique(dataA$year)
+    yrsH <- unique(dataH$year)
 
-  gsasA <- unique(dataA$sub_region)
-  gsasH <- unique(dataH$sub_region)
-  yrsA <- unique(dataA$year)
-  yrsH <- unique(dataH$year)
+    # check for NAs in gsas or years reported
 
-  # # check there are gsas and years reported
-  # if (is.null(gsasA)) {
-  #   stop("No SUB_REGIONS existing in table A")
-  # }
-  # if (is.null(yrsA)) {
-  #   stop("No YEARS existing in table A")
-  # }
-  # if (is.null(gsasH)) {
-  #   stop("No SUB_REGIONS existing in table H")
-  # }
-  # if (is.null(yrsH)) {
-  #   stop("No YEARS existing in table H")
-  # }
+    gsasA <- dataA$sub_region
+    gsasH <- dataH$sub_region
+    yrsA <- dataA$year
+    yrsH <- dataH$year
 
-  # check for NAs in gsas or years reported
+    naA1 <- which(is.na(gsasA))
+    naA2 <- which(is.na(yrsA))
+    naH1 <- which(is.na(gsasH))
+    naH2 <- which(is.na(yrsH))
 
-  gsasA <- dataA$sub_region
-  gsasH <- dataH$sub_region
-  yrsA <- dataA$year
-  yrsH <- dataH$year
-
-  naA1 <- which(is.na(gsasA))
-  naA2 <- which(is.na(yrsA))
-  naH1 <- which(is.na(gsasH))
-  naH2 <- which(is.na(yrsH))
-
-
-  if (verbose) {
-    if (length(naA1) != 0) {
-      if (verbose){
-        message(paste("Found NAs in SUB_REGIONS in", length(naA1), "rows in table A"))
+    if (verbose) {
+      if (length(naA1) != 0) {
+        if (verbose) {
+          message(paste("Found NAs in SUB_REGIONS in", length(naA1), "rows in table A"))
+        }
+      }
+      if (length(naA2) != 0) {
+        if (verbose) {
+          message(paste("Found NAs in Years in", length(naA2), "rows, in table A"))
+        }
+      }
+      if (length(naH1) != 0) {
+        if (verbose) {
+          message(paste("Found NAs in SUB_REGIONS in", length(naH1), "rows in table H"))
+        }
+      }
+      if (length(naH2) != 0) {
+        if (verbose) {
+          message(paste("Found NAs in Years in", length(naH2), "rows, in table H"))
+        }
       }
     }
-    if (length(naA2) != 0) {
-      if(verbose){
-        message(paste("Found NAs in Years in", length(naA2), "rows, in table A"))
-      }
-    }
-    if (length(naH1) != 0) {
-      if(verbose){
-         message(paste("Found NAs in SUB_REGIONS in", length(naH1), "rows in table H"))
-      }
-    }
-    if (length(naH2) != 0) {
-      if(verbose){
-        message(paste("Found NAs in Years in", length(naH2), "rows, in table H"))
-      }
-    }
-  }
 
-  # Landings weight coverage in tables A and H by gsa (comparison)
-  covA <- aggregate(list(landingsA = dataA$totwghtlandg), by = list(year = dataA$year, country = dataA$country, gsa = dataA$sub_region), FUN = sum, na.rm = T)
-  covH <- aggregate(list(landingsH = dataH$totwghtlandg), by = list(year = dataH$year, country = dataH$country, gsa = dataH$sub_region), FUN = sum, na.rm = T)
+    # Landings weight coverage in tables A and H by gsa (comparison)
+    covA <- aggregate(list(landingsA = dataA$totwghtlandg), by = list(year = dataA$year, country = dataA$country, gsa = dataA$sub_region), FUN = sum, na.rm = T)
+    covH <- aggregate(list(landingsH = dataH$totwghtlandg), by = list(year = dataH$year, country = dataH$country, gsa = dataH$sub_region), FUN = sum, na.rm = T)
 
-  # merge tables by year and gsa
-  cov <- merge(covA, covH, all.x = T, all.Y = T)
-  cov$diff1 <- scales::label_percent(1, accuracy = 0.01, big.mark = "")(((cov$landingsH - cov$landingsA) / cov$landingsA) * 100)
+    # merge tables by year and gsa
+    cov <- merge(covA, covH, all.x = T, all.Y = T)
+    cov$diff1 <- scales::label_percent(1, accuracy = 0.01, big.mark = "")(((cov$landingsH - cov$landingsA) / cov$landingsA) * 100)
 
-  colnames(cov) <- c(
-    "year", "country", "gsa", "Lands table A", "Lands table H",
-    "% diff"
-  )
+    colnames(cov) <- c(
+      "year", "country", "gsa", "Lands table A", "Lands table H",
+      "% diff"
+    )
 
-  # report results by year and gsa
-  gsa <- unique(cov$gsa)
-  ngsa <- length(gsa)
-
-  # for (i in 1:ngsa){
-  #     l <- subset(cov, gsa==gsa[i])
-  #     print(paste("Landings' weight coverage in", gsa[i], sep=' '))
-  #     print(l)
-  # }
-
+    # report results by year and gsa
+    gsa <- unique(cov$gsa)
+    ngsa <- length(gsa)
   } else if (!(MS %in% mslistA)) {
-    if (verbose){
+    if (verbose) {
       message("MS not existing in table A")
     }
-    cov=NULL
+    cov <- NULL
   } else if (!(MS %in% mslistH)) {
-    if (verbose){
+    if (verbose) {
       message("MS not existing in table H")
     }
-    cov=NULL
+    cov <- NULL
   } else {
-    if (verbose){
+    if (verbose) {
       message("MS not existing in table A and H")
     }
-    cov=NULL
+    cov <- NULL
   }
-
   return(cov)
 }

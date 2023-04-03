@@ -6,11 +6,10 @@
 #' @export
 #' @examples check_cs_header(data_ex)
 check_cs_header <- function(cs, verbose = FALSE) {
-
-    if (FALSE) {
-        cs <- data_ex
-        cs <- read.csv("D:/Documents and Settings/Utente/Downloads/MED/sampling.csv")
-    }
+  if (FALSE) {
+    cs <- data_ex
+    cs <- read.csv("D:/Documents and Settings/Utente/Downloads/MED/sampling.csv")
+  }
 
   tab <- structure(list(CS_RDBFIS = c(
     "sampling_type", "flag_country",
@@ -43,13 +42,13 @@ check_cs_header <- function(cs, verbose = FALSE) {
 
   names <- colnames(cs)
   if (all(names %in% tab$CS_RDBFIS) & length(names) == length(tab$CS_RDBFIS)) {
-     colnames(cs) <- tab$CS_RDBqc
+    colnames(cs) <- tab$CS_RDBqc
   } else if (all(names %in% tab$CS_RDBqc) & length(names) == length(tab$CS_RDBFIS)) {
-     colnames(cs) <- tab$CS_RDBqc
+    colnames(cs) <- tab$CS_RDBqc
   } else {
-      if (verbose) {
-          message("Error: Unexpected format for RCG CS sampling table")
-      }
+    if (verbose) {
+      message("Error: Unexpected format for RCG CS sampling table")
+    }
   }
   return(cs)
 }

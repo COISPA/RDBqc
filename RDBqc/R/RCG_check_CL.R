@@ -22,17 +22,7 @@
 #' @importFrom stats aggregate
 
 RCG_check_CL <- function(data, MS, GSA, SP, verbose = TRUE) {
-  if (FALSE) {
-    data <- read.csv("D:/Documents and Settings/Utente/Downloads/MED/landings.csv") # data_exampleCL
-    SP <- "DPS"
-    MS <- "ITA"
-    GSA <- "GSA10"
-    verbose = TRUE
-    RCG_check_CL(data_exampleCL, MS, GSA, SP)
-  }
-
   area <- harbour <- flag_country <- official_landings_value <- official_landings_weight <- month <- quarter <- year <- Year <- fishing_activity_category_national <- fishing_activity_category_eu_l6 <- Sum_Landings <- species <- NULL
-
   data <- data[as.character(data$species) %in% SP & data$flag_country %in% MS & data$area %in% GSA, ]
 
   if (nrow(data) == 0) {
@@ -47,54 +37,31 @@ RCG_check_CL <- function(data, MS, GSA, SP, verbose = TRUE) {
       data <- data[!is.na(data$official_landings_weight), ]
     }
 
-    # temp_covL <- aggregate(data$official_landings_weight, by = list(data$year, data$quarter, data$month), FUN = "sum")
-    # colnames(temp_covL) <- c("Year", "Quarter", "Month", "Sum_Landings")
-    suppressMessages(temp_covL <-  data.frame(data %>% group_by(year,quarter,month) %>% summarise(Sum_Landings=sum(official_landings_weight,na.rm=TRUE))))
+    suppressMessages(temp_covL <- data.frame(data %>% group_by(year, quarter, month) %>% summarise(Sum_Landings = sum(official_landings_weight, na.rm = TRUE))))
     colnames(temp_covL) <- c("Year", "Quarter", "Month", "Sum_Landings")
 
-
-    # temp_covLV <- aggregate(data$official_landings_value, by = list(data$year, data$quarter, data$month), FUN = "sum")
-    # colnames(temp_covLV) <- c("Year", "Quarter", "Month", "Sum_LandingsValue")
-    suppressMessages(temp_covLV <- data.frame(data %>% group_by(year,quarter,month) %>% summarise(Sum_LandingsValue=sum(official_landings_value, na.rm=TRUE))))
+    suppressMessages(temp_covLV <- data.frame(data %>% group_by(year, quarter, month) %>% summarise(Sum_LandingsValue = sum(official_landings_value, na.rm = TRUE))))
     colnames(temp_covLV) <- c("Year", "Quarter", "Month", "Sum_LandingsValue")
 
-
-
     if (length(which(is.na(data$flag_country))) > 0) data[which(is.na(data$flag_country)), ]$flag_country <- NA
-    # if (length(which(is.na(data$vslFlgCtry))) > 0) data[which(is.na(data$vslFlgCtry)), ]$vslFlgCtry <- NA
-    # if (length(which(is.na(data$rect))) > 0) data[which(is.na(data$rect)), ]$rect <- NA
-    # if (length(which(is.na(data$subRect))) > 0) data[which(is.na(data$subRect)), ]$subRect <- NA
 
-    # spat_covLV <- aggregate(data$official_landings_value, by = list(data$landCtry, data$vslFlgCtry, data$area, data$rect, data$subRect, data$harbour), FUN = "sum")
-    # colnames(spat_covLV) <- c("LandCtry", "VslFlgCtry", "Area", "Rect", "SubRect", "Harbour", "Sum_LandingsValue")
-
-    spat_covLV <- suppressMessages( data.frame(data %>% group_by(flag_country,area,harbour) %>% summarise(Sum_LandingsValue=sum(official_landings_value ,na.rm=TRUE))))
+    spat_covLV <- suppressMessages(data.frame(data %>% group_by(flag_country, area, harbour) %>% summarise(Sum_LandingsValue = sum(official_landings_value, na.rm = TRUE))))
     colnames(spat_covLV) <- c("Country", "Area", "Harbour", "Sum_LandingsValue")
 
-
-
-
-    # spat_covL <- aggregate(data$official_landings_weight, by = list(data$landCtry, data$vslFlgCtry, data$area, data$rect, data$subRect, data$harbour), FUN = "sum")
-    # colnames(spat_covL) <- c("LandCtry", "VslFlgCtry", "Area", "Rect", "SubRect", "Harbour", "Sum_Landings")
-    spat_covL <- suppressMessages(spat_covL <- data.frame(data %>% group_by(flag_country,area,harbour) %>% summarise(Sum_Landings=sum(official_landings_weight,na.rm=TRUE))))
+    spat_covL <- suppressMessages(spat_covL <- data.frame(data %>% group_by(flag_country, area, harbour) %>% summarise(Sum_Landings = sum(official_landings_weight, na.rm = TRUE))))
     colnames(spat_covL) <- c("Country", "Area", "Harbour", "Sum_Landings")
 
     if (length(which(is.na(data$fishing_activity_category_national))) > 0) data[which(is.na(data$fishing_activity_category_national)), ]$fishing_activity_category_national <- NA
     if (length(which(is.na(data$fishing_activity_category_eu_l6))) > 0) data[which(is.na(data$fishing_activity_category_eu_l6)), ]$fishing_activity_category_eu_l6 <- NA
 
-    # spe_cov_L <- aggregate(data$official_landings_weight, by = list(data$year, data$species, data$fishing_activity_category_national, data$fishing_activity_category_eu_l6), FUN = "sum")
-    # colnames(spe_cov_L) <- c("Year", "Species", "fishing_activity_category_national", "fishing_activity_category_eu_l6", "Sum_Landings")
-    suppressMessages(spe_cov_L <- data.frame(data %>% group_by(year,species ,fishing_activity_category_national,fishing_activity_category_eu_l6) %>% summarise(Sum_Landings=sum(official_landings_weight,na.rm=TRUE))))
+    suppressMessages(spe_cov_L <- data.frame(data %>% group_by(year, species, fishing_activity_category_national, fishing_activity_category_eu_l6) %>% summarise(Sum_Landings = sum(official_landings_weight, na.rm = TRUE))))
     colnames(spe_cov_L) <- c("Year", "Species", "fishing_activity_category_national", "fishing_activity_category_eu_l6", "Sum_Landings")
-
 
     spe_cov_LV <- aggregate(data$official_landings_value, by = list(data$year, data$species, data$fishing_activity_category_national, data$fishing_activity_category_eu_l6), FUN = "sum")
     colnames(spe_cov_LV) <- c("Year", "Species", "fishing_activity_category_national", "fishing_activity_category_eu_l6", "Sum_LandingsValue")
 
-    suppressMessages(spe_cov_LV <- data.frame(data %>% group_by(year,species,fishing_activity_category_national,fishing_activity_category_eu_l6) %>% summarise(Sum_LandingsValue = sum(official_landings_value, na.rm=TRUE))))
+    suppressMessages(spe_cov_LV <- data.frame(data %>% group_by(year, species, fishing_activity_category_national, fishing_activity_category_eu_l6) %>% summarise(Sum_LandingsValue = sum(official_landings_value, na.rm = TRUE))))
     colnames(spe_cov_LV) <- c("Year", "Species", "fishing_activity_category_national", "fishing_activity_category_eu_l6", "Sum_LandingsValue")
-
-    # Checks_CL=list()
 
     p <- ggplot(data = spe_cov_L, aes(x = Year, y = Sum_Landings, color = fishing_activity_category_eu_l6)) +
       geom_line(stat = "identity") +
@@ -102,8 +69,6 @@ RCG_check_CL <- function(data, MS, GSA, SP, verbose = TRUE) {
       facet_grid(scales = "free_y") +
       ggtitle(SP) +
       ylab("Sum Landings")
-    # print(p)
-
 
     return(list(
       temp_covL,

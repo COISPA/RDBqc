@@ -8,31 +8,21 @@
 #' @param verbose boolean. If TRUE messages are returned.
 #' @description The function checks landings in weight equal to -1 having length class filled in
 #' @return The function returns a table of rows with -1 values in landing weights having length class filled in.
-#' @examples MEDBS_weight_minus1(data = Landing_tab_example, type = "l",
-#' SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE)
-#' MEDBS_weight_minus1(data = Discard_tab_example, type = "d", SP = "DPS",
-#' MS = "ITA", GSA = "GSA 9", verbose = TRUE)
+#' @examples MEDBS_weight_minus1(
+#'   data = Landing_tab_example, type = "l",
+#'   SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE
+#' )
+#' MEDBS_weight_minus1(
+#'   data = Discard_tab_example, type = "d", SP = "DPS",
+#'   MS = "ITA", GSA = "GSA 9", verbose = TRUE
+#' )
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @importFrom utils globalVariables
 #' @export MEDBS_weight_minus1
 MEDBS_weight_minus1 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    MS <- "ITA"
-    GSA <- "GSA 18"
-    SP <- "HKE"
-    by <- "year" # "quarter"
-    verbose <- TRUE
-    data <- landing
-    # data[1,"landings"] <- 0
-    # data[2,"landings"] <- -1
-    MEDBS_weight_minus1(data = landing, SP = "HKE", MS = "ITA", GSA = "GSA 18", verbose = TRUE)
-  }
-
-  poi <- NULL # in combination with @importFrom utils globalVariables
-
+  poi <- NULL
   colnames(data) <- tolower(colnames(data))
-  # data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
   data <- data[which(data$area == as.character(GSA) & data$country == MS & data$species == SP), ]
 
   if (type == "l") {
@@ -50,7 +40,7 @@ MEDBS_weight_minus1 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       land_vs_length_minus1 <- cbind(land_vs_length_minus1[, c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)], ck_nbl_1a)
       land_vs_length_minus1$diff <- (land_vs_length_minus1$landings - land_vs_length_minus1$ck_nbl_1a)
       n_minus1 <- length(which(land_vs_length_minus1$diff != -1))
-      df <- land_vs_length_minus1[which(land_vs_length_minus1$diff != -1),c(1:13)]
+      df <- land_vs_length_minus1[which(land_vs_length_minus1$diff != -1), c(1:13)]
       colnames(df)[13] <- "sum_individuals"
 
       if (verbose) {
@@ -60,11 +50,9 @@ MEDBS_weight_minus1 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       if (verbose) {
         message("There aren\'t -1 landings")
       }
-      # n_minus1 <- 0
       df <- data[0, c(1:13)]
     }
   }
-
 
   if (type == "d") {
     if (length(which(data$discards == -1)) > 0) {
@@ -81,7 +69,7 @@ MEDBS_weight_minus1 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       land_vs_length_minus1 <- cbind(land_vs_length_minus1[, c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)], ck_nbl_1a)
       land_vs_length_minus1$diff <- (land_vs_length_minus1$discards - land_vs_length_minus1$ck_nbl_1a)
       n_minus1 <- length(which(land_vs_length_minus1$diff != -1))
-      df <- land_vs_length_minus1[which(land_vs_length_minus1$diff != -1),c(1:13)]
+      df <- land_vs_length_minus1[which(land_vs_length_minus1$diff != -1), c(1:13)]
       colnames(df)[13] <- "sum_individuals"
       if (verbose) {
         message(paste0(n_minus1, " cases in which length class number differ from zero and discard = -1"))
@@ -90,10 +78,8 @@ MEDBS_weight_minus1 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       if (verbose) {
         message("There aren\'t -1 discards")
       }
-      # n_minus1 <- 0
       df <- data[0, c(1:13)]
     }
   }
-
   return(df)
 }

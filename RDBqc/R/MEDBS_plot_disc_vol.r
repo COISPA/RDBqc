@@ -29,14 +29,9 @@
 
 
 MEDBS_plot_disc_vol <- function(data, SP, MS, GSA) {
-
   year <- gear <- fishery <- discards <- sumLand <- NULL
-
   colnames(data) <- tolower(colnames(data))
-
-  # data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
   data <- data[which(data$area == as.character(GSA) & data$country == MS & data$species == SP), ]
-
 
   if (nrow(data) > 0) {
     data$discards[data$discards == -1] <- 0

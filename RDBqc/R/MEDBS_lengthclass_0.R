@@ -10,28 +10,19 @@
 #' @return The function returns a data frame with the rows with 0 values length class having weigth > 0.
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
-#' @examples MEDBS_lengthclass_0(data = Landing_tab_example, type = "l",
-#' SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE)
-#' MEDBS_lengthclass_0(data = Discard_tab_example, type = "d", SP = "DPS",
-#' MS = "ITA", GSA = "GSA 9", verbose = TRUE)
+#' @examples MEDBS_lengthclass_0(
+#'   data = Landing_tab_example, type = "l",
+#'   SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE
+#' )
+#' MEDBS_lengthclass_0(
+#'   data = Discard_tab_example, type = "d", SP = "DPS",
+#'   MS = "ITA", GSA = "GSA 9", verbose = TRUE
+#' )
 #' @importFrom utils globalVariables
 #' @export MEDBS_lengthclass_0
 
 MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    MS <- "ITA"
-    GSA <- "GSA 11"
-    SP <- "ARA"
-    by <- "year" # "quarter"
-    verbose <- TRUE
-    data <- landing
-
-    MEDBS_lengthclass_0(data = Landing_tab_example, type = "l", SP = "ARS", MS = "ITA", GSA = "GSA 18", verbose = TRUE)
-  }
-
   poi2 <- NULL # in combination with @importFrom utils globalVariables
-
-  # data$area <- as.numeric(gsub("[^0-9.-]+","\\1",data$area))
   data <- data[which(data$area == as.character(GSA) & data$country == MS & data$species == SP), ]
 
   if (type == "l") {
@@ -60,12 +51,11 @@ MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       if (verbose) {
         message(paste0("No landings data > 0"))
       }
-      result <- data.frame(matrix(ncol=13,nrow=0))
-      colnames(result) <- c("id", "country", "year", "quarter", "vessel_length", "gear", "mesh_size_range",  "fishery",  "area", "specon", "species",   "landings", "ck_0_length")
+      result <- data.frame(matrix(ncol = 13, nrow = 0))
+      colnames(result) <- c("id", "country", "year", "quarter", "vessel_length", "gear", "mesh_size_range", "fishery", "area", "specon", "species", "landings", "ck_0_length")
       return(result)
     }
   }
-
 
   if (type == "d") {
     if (length(which(data$discards > 0))) {
@@ -93,8 +83,8 @@ MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       if (verbose) {
         message(paste0("No discards data > 0"))
       }
-      result <- data.frame(matrix(ncol=13,nrow=0))
-      colnames(result) <- c("id", "country", "year", "quarter", "vessel_length", "gear", "mesh_size_range",  "fishery",  "area", "specon", "species",   "discards", "ck_0_length")
+      result <- data.frame(matrix(ncol = 13, nrow = 0))
+      colnames(result) <- c("id", "country", "year", "quarter", "vessel_length", "gear", "mesh_size_range", "fishery", "area", "specon", "species", "discards", "ck_0_length")
       return(result)
     }
   }

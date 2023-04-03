@@ -21,35 +21,29 @@
 #' @importFrom dplyr full_join
 
 MEDBS_comp_land_Q_VL_fishery <- function(data, SP, MS, GSA, verbose = TRUE) {
-
-
   colnames(data) <- toupper(colnames(data))
   data[is.na(data$VESSEL_LENGTH), "VESSEL_LENGTH"] <- "NA"
   data[is.na(data$GEAR), "GEAR"] <- "NA"
   data[is.na(data$MESH_SIZE_RANGE), "MESH_SIZE_RANGE"] <- "NA"
   data[is.na(data$FISHERY), "FISHERY"] <- "NA"
-
   land <- data
 
   GEAR <- LANDINGS <- QUARTER <- VESSEL_LENGTH <- YEAR <- tmp1 <- tot_VL <- tot_NoVL <- FISHERY <- NULL
 
-  # land$area <- as.numeric(gsub("[^0-9.-]+", "\\1", land$area))
   land <- land[which(land$AREA == as.character(GSA) & land$COUNTRY == MS & land$SPECIES == SP), ]
 
   if (nrow(land) == 0) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
-    compLandings2 <- data.frame(matrix(ncol=9,nrow=0))
-    colnames(compLandings2) <- c("YEAR", "GEAR", "FISHERY", "QUARTER","tot_VL", "tot_NoVL", "ratio")
-
+    compLandings2 <- data.frame(matrix(ncol = 9, nrow = 0))
+    colnames(compLandings2) <- c("YEAR", "GEAR", "FISHERY", "QUARTER", "tot_VL", "tot_NoVL", "ratio")
   } else if (nrow(land) > 0) {
     land$LANDINGS[land$LANDINGS == -1] <- 0
     compLand2 <- list()
     c2 <- 1
     i <- 1
     for (i in unique(land$YEAR)) {
-      # i=2019
       tmp2 <- land[land$YEAR %in% i, ]
       suppressMessages(VL <- tmp2 %>%
         filter(!VESSEL_LENGTH %in% "NA") %>%
@@ -65,7 +59,6 @@ MEDBS_comp_land_Q_VL_fishery <- function(data, SP, MS, GSA, verbose = TRUE) {
       c2 <- c2 + 1
     }
     compLandings2 <- do.call(rbind, compLand2)
-
   } # nrow(land) >0
   return(data.frame(compLandings2))
 }

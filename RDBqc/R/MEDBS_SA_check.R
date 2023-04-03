@@ -12,18 +12,9 @@
 #' @import ggplot2 dplyr
 #' @examples MEDBS_SA_check(SA_tab_example, "DPS", "ITA", "GSA 99")
 MEDBS_SA_check <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    data <- SA_tab_example
-    SP <- "DPS"
-    MS <- "ITA"
-    GSA <- "GSA 99"
-    # data=SA
-  }
-
   AREA <- SEXRATIO <- Summary_SA <- AGECLASS <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX_RATIO <- NULL
 
   colnames(data) <- toupper(colnames(data))
-
   SA_tab <- data
   SA_tab <- SA_tab[SA_tab$SPECIES %in% SP & SA_tab$COUNTRY %in% MS & SA_tab$AREA %in% GSA, ]
 
@@ -32,14 +23,9 @@ MEDBS_SA_check <- function(data, SP, MS, GSA, verbose = TRUE) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
   } else if (nrow(SA_tab) > 0) {
-
-    Summary_SA <- suppressMessages(data.frame(SA_tab %>% group_by(COUNTRY,AREA,START_YEAR,END_YEAR,SPECIES) %>% summarise(SEX_RATIO = length(SEX_RATIO))))
-
-    # Summary_SA <- aggregate(SA_tab$SEX_RATIO, by = list(SA_tab$COUNTRY, SA_tab$AREA, SA_tab$START_YEAR, SA_tab$END_YEAR, SA_tab$SPECIES), FUN = "length")
-    # colnames(Summary_SA) <- c("COUNTRY", "YEAR", "START_YEAR", "END_YEAR", "SPECIES", "SEX_RATIO")
+    Summary_SA <- suppressMessages(data.frame(SA_tab %>% group_by(COUNTRY, AREA, START_YEAR, END_YEAR, SPECIES) %>% summarise(SEX_RATIO = length(SEX_RATIO))))
 
     Summary_SA <- Summary_SA[1:nrow(Summary_SA), 1:(ncol(Summary_SA) - 1)]
-
     output <- list()
     l <- length(output) + 1
     output[[l]] <- Summary_SA
@@ -53,7 +39,6 @@ MEDBS_SA_check <- function(data, SP, MS, GSA, verbose = TRUE) {
       xlab("Age class") +
       ylab("Sex ratio")
 
-    # print(p)
     l <- length(output) + 1
     output[[l]] <- p
     names(output)[[l]] <- paste("SA_cum", SP, MS, GSA, sep = " _ ")
@@ -68,7 +53,6 @@ MEDBS_SA_check <- function(data, SP, MS, GSA, verbose = TRUE) {
       theme(legend.position = "none") +
       xlab("Age class") +
       ylab("Sex ratio")
-    # print(p)
     l <- length(output) + 1
     output[[l]] <- p
     names(output)[[l]] <- paste("SA", SP, MS, GSA, sep = " _ ")

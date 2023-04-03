@@ -5,13 +5,13 @@
 #' @param verbose boolean. If TRUE messages are returned
 #' @return The data frame of the selected GFCM task is returned with the expected format used by the QC functions
 #' @export
-#' @examples check_gfcm_header(task_ii2,"TASK_II.2",verbose=FALSE)
+#' @examples check_gfcm_header(task_ii2, "TASK_II.2", verbose = FALSE)
 check_gfcm_header <- function(data, task, verbose = FALSE) {
   if (FALSE) {
     data <- T_vii32
     data <- read.csv("~/GitHub/RDBqc/APPOGGIO/Ioannis/vii32.csv")
     task <- "VII.3.2"
-    check_gfcm_header(data,"VII.3.2")
+    check_gfcm_header(data, "VII.3.2")
   }
 
   tab <- structure(list(n = 1:61, table = c(
@@ -59,24 +59,24 @@ check_gfcm_header <- function(data, task, verbose = FALSE) {
   ))
 
   if (task %in% c("II.2", "III", "VII.2", "VII.3.1", "VII.3.2")) {
-      if(verbose){
-          message(paste0("Header conversion of task ",task," table"))
-      }
-      tab <- tab[tab$table == task, ]
-      names <- colnames(data)
-  if (all(names %in% tab$RDBFIS) & length(names) == length(tab$RDBFIS)) {
-    colnames(data) <- tab$RDBqc
-  } else if (all(names %in% tab$CS_RDBqc) & length(names) == length(tab$CS_RDBFIS)) {
-    colnames(data) <- tab$CS_RDBqc
-  } else {
     if (verbose) {
-      message("Error: Unexpected format for GFCM table")
+      message(paste0("Header conversion of task ", task, " table"))
+    }
+    tab <- tab[tab$table == task, ]
+    names <- colnames(data)
+    if (all(names %in% tab$RDBFIS) & length(names) == length(tab$RDBFIS)) {
+      colnames(data) <- tab$RDBqc
+    } else if (all(names %in% tab$CS_RDBqc) & length(names) == length(tab$CS_RDBFIS)) {
+      colnames(data) <- tab$CS_RDBqc
+    } else {
+      if (verbose) {
+        message("Error: Unexpected format for GFCM table")
+      }
+    }
+  } else { # task in "II.2", "III", "VII.2", "VII.3.1", "VII.3.1"
+    if (verbose) {
+      message("Unexpected table provided")
     }
   }
-  } else {# task in "II.2", "III", "VII.2", "VII.3.1", "VII.3.1"
-     if(verbose){
-           message("Unexpected table provided")
-         }
-      }
   return(data)
 }

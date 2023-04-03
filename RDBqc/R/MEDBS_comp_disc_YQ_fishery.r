@@ -21,28 +21,16 @@
 #' @importFrom dplyr full_join
 
 MEDBS_comp_disc_YQ_fishery <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    MS <- "ITA"
-    GSA <- "GSA 18"
-    SP <- "HKE"
-    # verbose=TRUE
-    data <- Disc
-    MEDBS_comp_disc_YQ_fishery(data, MS = "ITA", GSA = "GSA 9", SP = "DPS")
-  }
-
   gear <- discards <- quarter <- tot_q <- tot_yr <- year <- fishery <- NULL
-
   colnames(data) <- tolower(colnames(data))
   disc <- data
-
-  # disc$area <- as.numeric(gsub("[^0-9.-]+","\\1",disc$area))
   disc <- disc[which(disc$area == as.character(GSA) & disc$country == MS & disc$species == SP), ]
   if (nrow(disc) == 0) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
-    empty <- data.frame(matrix(ncol=6,nrow=0))
-    colnames(empty) <- c("YEAR", "GEAR",  "FISHERY", "TOT_Q",  "TOT_YR", "RATIO")
+    empty <- data.frame(matrix(ncol = 6, nrow = 0))
+    colnames(empty) <- c("YEAR", "GEAR", "FISHERY", "TOT_Q", "TOT_YR", "RATIO")
     return(empty)
   } else {
     disc$discards[disc$discards == -1] <- 0
@@ -59,7 +47,6 @@ MEDBS_comp_disc_YQ_fishery <- function(data, SP, MS, GSA, verbose = TRUE) {
       c0 <- c0 + 1
     }
     compdiscards0 <- do.call(rbind, compdisc0)
-
     colnames(compdiscards0) <- toupper(colnames(compdiscards0))
     return(as.data.frame(compdiscards0))
   }

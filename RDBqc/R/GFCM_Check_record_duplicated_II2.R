@@ -11,21 +11,13 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_taskII2(task_ii2)
 check_RD_taskII2 <- function(data, verbose = TRUE) {
-  if (FALSE) {
-    data <- read.csv("dc_dcrf_task_ii2_catch.csv", sep = ";", dec = ".", head = T, na.strings = "NA")
-    # str(data)
-
-    check_RD_taskII2(data, tab = "tabII.2", verbose = TRUE)
-  }
-
   df <- data[, which(colnames(data) %in% c(
     "Reference_Year",
     "CPC",
     "GSA",
     "Segment",
     "Species"
-  ))] # c(1:5)
-
+  ))]
 
   # Identify the line number of duplicate
   duplicated_line <- which(duplicated(df))

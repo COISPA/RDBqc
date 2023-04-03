@@ -11,13 +11,6 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_FDI_I(fdi_i_spatial_effort)
 check_RD_FDI_I <- function(data, verbose = TRUE) {
-  if (FALSE) {
-    # data=read.csv("dc_fdi_i_spatial_fe.csv", sep=";",dec=".",head=T,na.strings="NA")
-    # #str(data)
-    #
-    # check_RD_FDI_I(data, tab="tabFDI_I", verbose=TRUE)
-  }
-
   df <- data[, c(1:19)]
 
   # Identify the line number of duplicate

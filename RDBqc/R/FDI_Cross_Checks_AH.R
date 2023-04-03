@@ -24,12 +24,6 @@ FDI_cross_checks_AH <- function(data1, data2, verbose = FALSE) {
     suppressMessages(data1 <- data1 %>% filter(!is.na(country) & !is.na(year)))
     suppressMessages(data2 <- data2 %>% filter(!is.na(country) & !is.na(year)))
 
-
-
-    # data1[, c(2, 3, 11, 16:18, 20:22)] <- as.data.frame(lapply(data1[, c(2, 3, 11, 16:18, 20:22)], as.numeric))
-    # data2[, c(2, 3, 21, 22)] <- as.data.frame(lapply(data2[, c(2, 3, 21, 22)], as.numeric))
-
-
     suppressMessages(data1 <- data1 %>%
       group_by(country, year, vessel_length, fishing_tech, gear_type, sub_region) %>%
       summarize(totwghtlandg = sum(as.numeric(totwghtlandg), na.rm = TRUE)))

@@ -12,19 +12,10 @@
 #' @import ggplot2 dplyr
 #' @examples MEDBS_SL_check(SL_tab_example, "DPS", "ITA", "GSA 99")
 MEDBS_SL_check <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    data <- SL # SL_tab_example
-    SP <- "DPS"
-    MS <- "ITA"
-    GSA <- "GSA 18"
-    MEDBS_SL_check(SL, "DPS", "ITA", "GSA 19")
-  }
-
   AREA <- SEXRATIO <- Summary_SL <- LENGTHCLASS <- cOUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX_RATIO <- NULL
 
   colnames(data) <- toupper(colnames(data))
   SL_tab <- data
-
 
   SL_tab <- SL_tab[SL_tab$SPECIES == SP & SL_tab$COUNTRY == MS & SL_tab$AREA == GSA, ]
 
@@ -51,7 +42,6 @@ MEDBS_SL_check <- function(data, SP, MS, GSA, verbose = TRUE) {
       xlab("Length class") +
       ylab("Sex ratio")
 
-    # print(p)
     l <- length(output) + 1
     output[[l]] <- p
     names(output)[[l]] <- paste("SL_cum", SP, MS, GSA, sep = " _ ")
@@ -64,7 +54,6 @@ MEDBS_SL_check <- function(data, SP, MS, GSA, verbose = TRUE) {
       facet_wrap(~START_YEAR) +
       ggtitle(paste0("Sex ratio by length class of ", SP, " in ", MS, " - ", GSA)) +
       theme(legend.position = "none")
-    # print(p)
     l <- length(output) + 1
     output[[l]] <- p
     names(output)[[l]] <- paste("SL", SP, MS, GSA, sep = " _ ")

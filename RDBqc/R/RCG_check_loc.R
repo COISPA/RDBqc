@@ -17,21 +17,7 @@
 #' @import sp
 #' @import sf
 
-RCG_check_loc <- function(data, MS=NA, GSA=NA, ports = circabc) {
-  if (FALSE) {
-    data <- read.csv("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB/Workshop 2/dati/RCG/exported_dataRCG_rev.csv", sep=";")
-    data <- check_cs_header(data)
-    GSA = "GSA18"
-    MS = "ITA"
-    ports = circabc
-    RCG_check_loc(data)
-    # data <- data_ex
-    # data$Initial_latitude[1] <- 41.4
-    # data$Initial_longitude[1] <- 17
-    # data$Final_latitude[1] <- 41.5
-    # data$Final_longitude[1] <- 17.1
-  }
-
+RCG_check_loc <- function(data, MS = NA, GSA = NA, ports = circabc) {
   data <- check_cs_header(data)
 
   oldoptions <- options()$warn
@@ -47,17 +33,11 @@ RCG_check_loc <- function(data, MS=NA, GSA=NA, ports = circabc) {
     MS <- unique(data$Flag_country)
   }
   data <- data[data$Area %in% GSA & data$Flag_country %in% MS, ]
-
   lat.start.na <- data[is.na(data$Initial_latitude), ]
   lon.start.na <- data[is.na(data$Initial_longitude), ]
   lat.end.na <- data[is.na(data$Final_latitude), ]
   lon.end.na <- data[is.na(data$Final_longitude), ]
-
   df_coord <- data[!(is.na(data$Initial_latitude)) & !(is.na(data$Initial_longitude)), ]
-
-  # if (nrow(data)>0) {
-  #
-  # }
 
   # initial coordinates
   DF1 <- as.data.frame(cbind(data$Flag_country, data$Trip_code, data$Harbour, data$Initial_latitude, data$Initial_longitude))
@@ -70,7 +50,6 @@ RCG_check_loc <- function(data, MS=NA, GSA=NA, ports = circabc) {
     DF1 <- DF1[!duplicated(DF1), ]
   }
 
-
   # final coordinates
   DF2 <- as.data.frame(cbind(data$Flag_country, data$Trip_code, data$Harbour, data$Final_latitude, data$Final_longitude))
   colnames(DF2) <- c("ISO3", "Code", "Name", "Latitude", "Longitude")
@@ -81,6 +60,7 @@ RCG_check_loc <- function(data, MS=NA, GSA=NA, ports = circabc) {
     DF2$Legend <- "final position"
     DF2 <- DF2[!duplicated(DF2), ]
   }
+
   # ports coordinates
   DF_ports <- base::merge(as.data.frame(ports), data, by.x = "Code", by.y = "Harbour")
   DF3 <- as.data.frame(cbind(DF_ports$ISO3, DF_ports$Code, DF_ports$Name, DF_ports$Latitude, DF_ports$Longitude))
@@ -95,19 +75,18 @@ RCG_check_loc <- function(data, MS=NA, GSA=NA, ports = circabc) {
   DF <- rbind(DF1, DF2, DF3)
   DF$Legend <- as.factor(DF$Legend)
 
-
   if (any(!is.na(DF$Latitude) & !is.na(DF$Longitude))) {
     DF <- DF[!is.na(DF$Latitude) & !is.na(DF$Longitude), ]
     DF$Latitude <- as.numeric(DF$Latitude)
     DF$Longitude <- as.numeric(DF$Longitude)
     labels <- DF[DF$Legend == "ports", ]
     cla <- DF[!duplicated(DF), ]
+
     # definition of the map extension
     range <- min(DF$Longitude)
     range[2] <- max(DF$Longitude)
     range[3] <- min(DF$Latitude)
     range[4] <- max(DF$Latitude)
-    # coordinates(DF) <- ~ Longitude + Latitude
 
     # definition of a buffer area arount the map extension
     dlon <- (range[2] - range[1]) * 0.1
@@ -124,38 +103,36 @@ RCG_check_loc <- function(data, MS=NA, GSA=NA, ports = circabc) {
 
     # par parameters
     par(mar = c(4, 5, 4, 2))
-
     xl <- c(range[1] - dlon, range[2] + dlon)
     yl <- c(range[3] - dlat, range[4] + dlat)
-
-    if (xl[1]==xl[2]) {
-      xl[1]=xl[1]-1
-      xl[2]=xl[2]+1
+    if (xl[1] == xl[2]) {
+      xl[1] <- xl[1] - 1
+      xl[2] <- xl[2] + 1
     }
-
-    if (yl[1]==yl[2]) {
-      yl[1]=yl[1]-1
-      yl[2]=yl[2]+1
+    if (yl[1] == yl[2]) {
+      yl[1] <- yl[1] - 1
+      yl[2] <- yl[2] + 1
     }
 
     x_breaks <- c(round(range[1], 0), round(range[1], 0) + round((range[2] - range[1]) / 2, 0), round(range[1], 0) + 2 * round((range[2] - range[1]) / 2, 0))
     y_breaks <- c(round(range[3], 0), round(range[3], 0) + round((range[4] - range[3]) / 2, 0), round(range[3], 0) + 2 * round((range[4] - range[3]) / 2, 0))
 
-   p <- ggplot() +
-      geom_polygon(data = world, aes(x = long, y = lat, group = group), fill = "lightgrey", color = "darkgrey",inherit.aes = FALSE) +
+    p <- ggplot() +
+      geom_polygon(data = world, aes(x = long, y = lat, group = group), fill = "lightgrey", color = "darkgrey", inherit.aes = FALSE) +
       coord_sf(xlim = xl, ylim = yl, expand = FALSE) +
-      geom_point(data = DF, aes_string(x = "Longitude",y = "Latitude",color="Legend"), size = 3)+
+      geom_point(data = DF, aes_string(x = "Longitude", y = "Latitude", color = "Legend"), size = 3) +
       scale_x_continuous(breaks = x_breaks) +
       scale_y_continuous(breaks = y_breaks) +
       theme_bw() +
-      theme(axis.text = element_text(size = 14),
-            axis.title = element_text(size = 14),
-            legend.text= element_text(size=14),
-            legend.title = element_text(size=14))+
+      theme(
+        axis.text = element_text(size = 14),
+        axis.title = element_text(size = 14),
+        legend.text = element_text(size = 14),
+        legend.title = element_text(size = 14)
+      ) +
       xlab("Longitude (E)") +
       ylab("Latitude (N)")
-    p <- p + geom_text(data=labels,aes(Longitude,Latitude,label =Name,check_overlap = TRUE,nudge_y=1,inherit.aes =FALSE))
-  } # coordinate
-
+    p <- p + geom_text(data = labels, aes(Longitude, Latitude, label = Name, check_overlap = TRUE, nudge_y = 1, inherit.aes = FALSE))
+  }
   return(p)
 }

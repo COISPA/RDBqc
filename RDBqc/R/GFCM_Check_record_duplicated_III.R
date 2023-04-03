@@ -11,15 +11,6 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_taskIII(task_iii)
 check_RD_taskIII <- function(data, verbose = TRUE) {
-  if (FALSE) {
-    data <- read.csv("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Workshop 2\\dati\\GFCM\\NEW\\dc_dcrf_task_iii_incidental_catch.csv", sep=";")
-    data = check_gfcm_header(data,task="III")
-    # str(data_TaskIII)
-
-    check_RD_taskIII(data, verbose = TRUE)
-  }
-
-
   df <- data[, which(colnames(data) %in% c(
     "Reference_Year",
     "CPC",
@@ -31,7 +22,7 @@ check_RD_taskIII <- function(data, verbose = TRUE) {
     "Date",
     "Gear",
     "Source"
-  ))] # c(1:5)
+  ))]
 
   # Identify the line number of duplicate
   duplicated_line <- which(duplicated(df))

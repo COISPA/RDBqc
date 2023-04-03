@@ -13,23 +13,13 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples MEDBS_ALK(data = ALK_tab_example, SP = "MUT", MS = "ITA", GSA = "GSA 99")
 MEDBS_ALK <- function(data, SP, MS, GSA, verbose = TRUE) {
-  if (FALSE) {
-    data <- ALK # ALK_tab_example
-    SP <- "HKE"
-    GSA <- "GSA 18"
-    MS <- "ITA"
-  }
-
   AGE <- len <- START_YEAR <- NULL
-
   colnames(data) <- toupper(colnames(data))
-
 
   data <- data[data$AREA == as.character(GSA) & data$COUNTRY == MS & data$SPECIES == SP, ]
   ALK <- data
   if (nrow(ALK) > 0) {
     sexes <- unique(ALK$SEX)
-
     plots <- list()
 
     if ("F" %in% sexes) {
@@ -53,7 +43,6 @@ MEDBS_ALK <- function(data, SP, MS, GSA, verbose = TRUE) {
       plots[[l]] <- p
       names(plots)[[l]] <- paste("Females", SP, MS, GSA, sep = " - ")
     }
-
 
     if ("M" %in% sexes) {
       ALK_M <- ALK[ALK$SEX == "M", ]
@@ -104,6 +93,5 @@ MEDBS_ALK <- function(data, SP, MS, GSA, verbose = TRUE) {
     if (verbose) {
       message("No data for the selected combination of SP, MS, GSA ")
     }
-    # -------------
   }
 }
