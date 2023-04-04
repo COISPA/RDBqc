@@ -2,17 +2,14 @@ Package: RDBqc
 Title: Quality check functions for RDBFIS
 Version: 0.0.14
 Date: 2022-11-08
-Authors@R: 
-    c(person("Isabella", "Bitetto", email="bitetto@coispa.it", role = c("cre","aut"),
-           comment = c(ORCID = "0000-0002-8497-1642")),
-    person("Walter", "Zupa", email="zupa@coispa.it", role = c("aut"),
-           comment = c(ORCID = "0000-0002-2058-8652")),
-    person("Alessandro", "Mannini", email="alessandro.mannini@ec.europa.eu", role = c("com")),
-    person("Loredana", "Casciaro", email="casciaro@coispa.eu", role = c("ctb")),
-    person("Sebastien", "Alfonso", email="salfonso@coispa.eu", role = c("ctb")),
-    person("Vasiliki", "Sgardeli", email="vsgard@hcmr.gr", role = c("ctb")),
-    person("Andrea", "Pierucci", email="pierucci@coispa.eu", role = c("ctb")) )
-Maintainer: Isabella Bitetto <bitetto@coispa.eu>
+Author: Isabella Bitetto [aut,cre] <bitetto@fondazionecoispa.org>, 
+        Walter Zupa [aut, cre] <zupa@fondazionecoispa.org>, 
+        Alessandro Mannini [aut] <alessandro.mannini@irbim.cnr.it>, 
+        Loredana Casciaro [cbt] <casciaro@coispa.eu>, 
+        Sebastien Alfonso [cbt] <salfonso@coispa.eu>, 
+        Vasiliki Sgardeli [cbt] <vsgard@hcmr.gr>, 
+        Andrea Pierucci [cbt] <pierucci@coispa.eu>
+Maintainer: Isabella Bitetto <bitetto@fondazionecoispa.org>
 Description: The package contains functions used to perform a priori and a posteriori quality checks on RDBFIS data.
 License: GPL (>= 3)
 Encoding: UTF-8

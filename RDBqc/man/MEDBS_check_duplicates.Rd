@@ -26,12 +26,18 @@ The function returns a data frame containing the duplicated rows to be likely de
 The function checks the presence of duplicated rows in landings, discards or catch data.
 }
 \examples{
-MEDBS_check_duplicates(data = Discard_tab_example, type = "d", SP = "DPS",
-MS = "ITA", GSA = "GSA 9", verbose = TRUE)
-MEDBS_check_duplicates(data = Landing_tab_example, type = "l", SP = "DPS",
-MS = "ITA", GSA = "GSA 9", verbose = TRUE)
-MEDBS_check_duplicates(data = Catch_tab_example, type = "c", SP = "DPS",
-MS = "ITA", GSA = "GSA 9", verbose = TRUE)
+MEDBS_check_duplicates(
+  data = Discard_tab_example, type = "d", SP = "DPS",
+  MS = "ITA", GSA = "GSA 9", verbose = TRUE
+)
+MEDBS_check_duplicates(
+  data = Landing_tab_example, type = "l", SP = "DPS",
+  MS = "ITA", GSA = "GSA 9", verbose = TRUE
+)
+MEDBS_check_duplicates(
+  data = Catch_tab_example, type = "c", SP = "DPS",
+  MS = "ITA", GSA = "GSA 9", verbose = TRUE
+)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

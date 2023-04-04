@@ -20,5 +20,5 @@ The data frame of the selected GFCM task is returned with the expected format us
 Headers check for GFCM tables
 }
 \examples{
-check_gfcm_header(task_ii2,"TASK_II.2",verbose=FALSE)
+check_gfcm_header(task_ii2, "TASK_II.2", verbose = FALSE)
 }

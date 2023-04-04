@@ -24,7 +24,7 @@ The function return a plot of the maturity stages per length and sex per species
 Function to plot the lengths at maturity stages by species and sex to easily identify outliers.
 }
 \examples{
-check_lmat_TaskVII.3.2(task_vii32, MS="ITA", GSA="18",SP="CTC")
+check_lmat_TaskVII.3.2(task_vii32, MS = "ITA", GSA = "18", SP = "CTC")
 }
 \author{
 Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}

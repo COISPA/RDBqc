@@ -25,7 +25,7 @@ The function estimates from the FDI table A an average price per species and yea
 }
 \examples{
 FDI_prices_not_null(
-  data = fdi_a_catch, MS = "PSP",GSA="GSA99",
+  data = fdi_a_catch, MS = "PSP", GSA = "GSA99",
   SP = c("ARA", "BOG", "HKE"), verbose = TRUE
 )
 }

@@ -24,7 +24,7 @@ The function returns a plot to visualize the L50 time series by species and sex 
 Function to verify the consistency of L50 reported in the TaskVII.3.1 table by mean of plot by GSA, species and sex
 }
 \examples{
-check_l50_TaskVII.3.1(task_vii31, MS = "ITA", GSA = "19",SP="HKE")
+check_l50_TaskVII.3.1(task_vii31, MS = "ITA", GSA = "19", SP = "HKE")
 }
 \author{
 Loredana Casciaro \href{mailto:casciaro@coispa.eu}{casciaro@coispa.eu}

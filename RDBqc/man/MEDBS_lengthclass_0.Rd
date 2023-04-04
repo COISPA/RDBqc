@@ -26,10 +26,14 @@ The function returns a data frame with the rows with 0 values length class havin
 The function checks landings and discards for the presence of length class filled in having weigth > 0.
 }
 \examples{
-MEDBS_lengthclass_0(data = Landing_tab_example, type = "l",
-SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE)
-MEDBS_lengthclass_0(data = Discard_tab_example, type = "d", SP = "DPS",
-MS = "ITA", GSA = "GSA 9", verbose = TRUE)
+MEDBS_lengthclass_0(
+  data = Landing_tab_example, type = "l",
+  SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE
+)
+MEDBS_lengthclass_0(
+  data = Discard_tab_example, type = "d", SP = "DPS",
+  MS = "ITA", GSA = "GSA 9", verbose = TRUE
+)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

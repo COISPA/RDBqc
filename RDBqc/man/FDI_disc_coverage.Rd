@@ -24,7 +24,7 @@ The function returns a list of data frames by GSA reporting the landing volumes 
 The functions checks the discard coverage in table A for the selected MS by GSAs.
 }
 \examples{
-FDI_disc_coverage(fdi_a_catch, MS = "PSP", GSA="GSA99", SP="HKE", verbose = TRUE)
+FDI_disc_coverage(fdi_a_catch, MS = "PSP", GSA = "GSA99", SP = "HKE", verbose = TRUE)
 }
 \author{
 Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}

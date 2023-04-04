@@ -24,8 +24,10 @@ The function returns a list. The first element is a table reporting the inconsis
 The function checks the consistencies of the total number of individual caught in comparison with the sum of the individuals alive, dead and released reported in Task III table.
 }
 \examples{
-GFCM_cov_task_iii(data = task_iii, SP = "Dasyatis pastinaca",
-MS = "ITA", GSA = "18")
+GFCM_cov_task_iii(
+  data = task_iii, SP = "Dasyatis pastinaca",
+  MS = "ITA", GSA = "18"
+)
 }
 \author{
 Walter Zupa \href{mailto:zupa@coispa.it}{zupa@coispa.it}

@@ -26,10 +26,14 @@ The function returns a table of rows with -1 values in landing weights having le
 The function checks landings in weight equal to -1 having length class filled in
 }
 \examples{
-MEDBS_weight_minus1(data = Landing_tab_example, type = "l",
-SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE)
-MEDBS_weight_minus1(data = Discard_tab_example, type = "d", SP = "DPS",
-MS = "ITA", GSA = "GSA 9", verbose = TRUE)
+MEDBS_weight_minus1(
+  data = Landing_tab_example, type = "l",
+  SP = "DPS", MS = "ITA", GSA = "GSA 9", verbose = TRUE
+)
+MEDBS_weight_minus1(
+  data = Discard_tab_example, type = "d", SP = "DPS",
+  MS = "ITA", GSA = "GSA 9", verbose = TRUE
+)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
