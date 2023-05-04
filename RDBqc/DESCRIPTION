@@ -1,13 +1,13 @@
 Package: RDBqc
 Title: Quality check functions for RDBFIS
-Version: 0.0.14
+Version: 0.0.15
 Date: 2022-11-08
 Author: Isabella Bitetto [aut,cre] <bitetto@fondazionecoispa.org>, 
         Walter Zupa [aut, cre] <zupa@fondazionecoispa.org>, 
         Alessandro Mannini [aut] <alessandro.mannini@irbim.cnr.it>, 
         Loredana Casciaro [cbt] <casciaro@coispa.eu>, 
         Sebastien Alfonso [cbt] <salfonso@coispa.eu>, 
-        Vasiliki Sgardeli [cbt] <vsgard@hcmr.gr>, 
+        Vasiliki Sgardeli [aut] <vsgard@hcmr.gr>, 
         Andrea Pierucci [cbt] <pierucci@coispa.eu>
 Maintainer: Isabella Bitetto <bitetto@fondazionecoispa.org>
 Description: The package contains functions used to perform a priori and a posteriori quality checks on RDBFIS data.
@@ -17,7 +17,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Depends: 
     R (>= 4.1.0)
-Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, pander, data.table, grDevices, magrittr, tictoc,tidyverse, fishmethods,tidyr,gridExtra, scales, outliers, sf, methods
+Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, pander, data.table, grDevices, magrittr, tictoc,tidyverse, fishmethods,tidyr,gridExtra, scales, outliers, sf, methods, reshape2,cowplot
 LazyData: true
 Suggests: 
     rmarkdown,

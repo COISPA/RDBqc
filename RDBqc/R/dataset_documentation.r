@@ -137,3 +137,35 @@
 #' @author Isabella Bitetto \email{bitetto@coispa.it}
 #' @keywords GFCM datacall
 "minmaxLtaskVII31"
+
+#' GSAs table
+#'
+#' @name GSAs
+#' @docType data
+#' @author Walter Zupa \email{zupa@fondazionecoispa.org}
+#' @keywords GSAs
+"GSAs"
+
+#' SPs table
+#'
+#' @name SPs
+#' @docType data
+#' @author Walter Zupa \email{zupa@fondazionecoispa.org}
+#' @keywords SPs
+"SPs"
+
+#' AER catch table
+#'
+#' @name aer_catch
+#' @docType data
+#' @author Vasiliki Sgardeli \email{vsgard@hcmr.gr}
+#' @keywords aer_catch
+"aer_catch"
+
+#' MEDBSSP table
+#'
+#' @name MEDBSSP
+#' @docType data
+#' @author Alessandro Mannini \email{alessandro.mannini@irbim.cnr.it}
+#' @keywords MEDBSSP
+"MEDBSSP"

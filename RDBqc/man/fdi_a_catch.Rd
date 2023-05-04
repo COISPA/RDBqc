@@ -5,7 +5,7 @@
 \alias{fdi_a_catch}
 \title{fdi_a_catch in FDI DGMAREMED&BS datacall format}
 \format{
-An object of class \code{data.frame} with 2450 rows and 23 columns.
+An object of class \code{data.frame} with 2600 rows and 23 columns.
 }
 \usage{
 fdi_a_catch
