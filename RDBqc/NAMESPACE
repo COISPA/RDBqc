@@ -3,6 +3,7 @@
 export(Check_Tot_Disc)
 export(Check_Tot_Disc_gear)
 export(Check_Tot_Disc_gear_Q)
+export(Check_Tot_Disc_metier)
 export(Check_Tot_Land)
 export(Check_Tot_Land2)
 export(Check_Tot_Land3)

@@ -32,16 +32,26 @@ Check_Tot_Land2 <- function(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = 
   compland <- list()
   colorset <- c("FDI" = "red", "MEDBS" = "blue", "AER" = "green")
 
+  # converting input AER format in JRC output format
+  if(!"COUNTRY_CODE" %in% colnames(data2)) data2$COUNTRY_CODE <- MS
+  if("ACRONYM" %in% colnames(data2)) colnames(data2)[which(colnames(data2)=="ACRONYM")]<- "VARIABLE_CODE"
+  if("SPECIES" %in% colnames(data2)) colnames(data2)[which(colnames(data2)=="SPECIES")]<- "SPECIES_CODE"
+  if("SUB_REGION" %in% colnames(data2)) colnames(data2)[which(colnames(data2)=="SUB_REGION")]<- "SUB_REG"
+  #-------------------------------------------------
+
   if (!SP %in% MEDBSSP$SPECIES) {
     print("Warning: selected species is not present in MEDBS data call list. Landings comparison for MEDBS could be not possible")
   }
-  if (!SP %in% unique(data$SPECIES) & !SP %in% unique(data1$SPECIES) & !SP %in% unique(data2$SPECIES)) {
+  if (!SP %in% unique(data$SPECIES) & !SP %in% unique(data1$SPECIES) & !SP %in% unique(data2$SPECIES_CODE)) {
     print("Error: selected species is not present in any of the three Data Calls datasets. Landings comparison is not possible")
   }
   data$AREA <- gsub(" ", "", data$AREA)
   data2$SUB_REG <- gsub("sa ", "GSA", data2$SUB_REG)
   data$LANDINGS[data$LANDINGS %in% c("-1", "NA", NA, "")] <- 0
   data1$TOTWGHTLANDG[data1$TOTWGHTLANDG %in% c("NA", NA, "", "NK")] <- 0
+  data$LANDINGS <- as.numeric(data$LANDINGS)
+  data1$TOTWGHTLANDG <- as.numeric(data1$TOTWGHTLANDG)
+
   data2 <- data2[data2$VARIABLE_CODE %in% "totwghtlandg", ]
   suppressWarnings(data2$VALUE <- as.numeric(data2$VALUE))
   data2$VALUE[data2$VALUE %in% c("NA", NA, "", "NK")] <- 0
@@ -50,7 +60,7 @@ Check_Tot_Land2 <- function(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = 
   id <- paste0(MS, "_", GSA, "_", SP)
   if (id %in% c(unique(paste0(data$COUNTRY, "_", data$AREA, "_", data$SPECIES))) |
     id %in% c(unique(paste0(data1$COUNTRY, "_", data1$SUB_REGION, "_", data1$SPECIES))) |
-    id %in% c(unique(paste0(data2$COUNTRY_CODE, "_", data2$SUB_REGION, "_", data2$SPECIES_CODE)))) {
+    id %in% c(unique(paste0(data2$COUNTRY_CODE, "_", data2$SUB_REG, "_", data2$SPECIES_CODE)))) {
     data <- data[data$COUNTRY %in% MS & data$AREA %in% GSA & data$SPECIES %in% SP, ]
     if (nrow(data) > 0) {
       suppressMessages(data <- data %>% group_by(YEAR, COUNTRY, AREA, SPECIES) %>% summarize(TOT = sum(LANDINGS, na.rm = T)))
@@ -125,12 +135,12 @@ Check_Tot_Land2 <- function(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = 
       )
       names(compland)[[counter + 1]] <- paste("PLOT_LANDINGS", MS, GSA, SP, sep = "_")
 
-      if (OUT %in% TRUE) {
+      if (OUT) {
         WD <- getwd()
         suppressWarnings(dir.create(paste0(WD, "/OUTPUT/PLOT"), recursive = T))
         suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-        write.csv(do.call(rbind, list(db, db1, db2)), paste0("../OUTPUT/CSV/Landings comparison for ", MS, "_", GSA, "_", SP, ".csv"), row.names = F)
-        ggsave(paste0("../OUTPUT/PLOT/Landings comparison for ", MS, "_", GSA, "_", SP, ".jpeg"),
+        write.csv(do.call(rbind, list(db, db1, db2)), paste0(WD,"/OUTPUT/CSV/Landings comparison for ", MS, "_", GSA, "_", SP, ".csv"), row.names = F)
+        ggsave(paste0(WD,"/OUTPUT/PLOT/Landings comparison for ", MS, "_", GSA, "_", SP, ".jpeg"),
           units = "in", width = 8, height = 4, dpi = 300,
           plot = plot_grid(
             ggplot(do.call(rbind, list(db, db1, db2)), aes(x = YEAR, y = DATA_CALL, col = DATA_CALL)) +
@@ -158,7 +168,7 @@ Check_Tot_Land2 <- function(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = 
         print("")
       }
     }
-    ifelse(OUT %in% TRUE, print("Landings comparison has been done. Please check outputs in OUTPUT folder."),
+    ifelse(OUT, print("Landings comparison has been done. Please check outputs in OUTPUT folder."),
       print("Landings comparison has been done.")
     )
   } else {

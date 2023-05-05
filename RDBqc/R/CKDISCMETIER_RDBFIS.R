@@ -7,7 +7,7 @@
 #' @param MEDBSSP look up table in which requested MEDBS Data Call species (see MEDBS data call Annex I) are listed
 #' @param verbose boolean. If TRUE a message is printed
 #' @param OUT Default is FALSE. If set as TRUE plots and tables in csv will be saved in the OUTPUT folder created in the working directory
-#' @export Check_Tot_Land_metier
+#' @export Check_Tot_Disc_metier
 #' @importFrom dplyr summarize group_by
 #' @importFrom data.table fread
 #' @import ggplot2
@@ -15,11 +15,11 @@
 #' @description The function compares the discards in weight values reported in the MEDBS discards by length table with the one reported in the FDI Table A catch table. The analysis is done at MS, GSA, species and metier level
 #' @return The function returns plots comparison by year of the discards in weight provided through the MEDBS and FDI Data Calls. Moreover a csv file with the actual values will be created. Plot, csv and rds output files will be saved in the dedicated folders in OUTPUT folder
 #' @author Alessandro Mannini <alessandro.mannini@irbim.cnr.it>
-#' @examples \donttest{# Check_Tot_Land_metier(MEDBS,FDI,"ITA","GSA10","HKE",MEDBSSP,verbose=TRUE,OUT=FALSE)}
+#' @examples \donttest{# Check_Tot_Disc_metier(MEDBS,FDI,"ITA","GSA10","HKE",MEDBSSP,verbose=TRUE,OUT=FALSE)}
 #' # The function works by one country, subarea and species each.
 #' # It is not possible assign more country, subarea or species.
 
-Check_Tot_Land_metier <- function(data,data1,MS,GSA,SP,MEDBSSP,verbose=TRUE,OUT=FALSE){
+Check_Tot_Disc_metier <- function(data,data1,MS,GSA,SP,MEDBSSP,verbose=TRUE,OUT=FALSE){
 
   AREA <- COUNTRY <- DATA_CALL <- DISCARDS <- FISHERY <- GEAR <- GEAR_TYPE <- MESH_SIZE_RANGE <- SPECIES <- SUB_REGION <- TARGET_ASSEMBLAGE <- YEAR <- NULL
 
@@ -45,6 +45,10 @@ Check_Tot_Land_metier <- function(data,data1,MS,GSA,SP,MEDBSSP,verbose=TRUE,OUT=
   data$AREA <- gsub(" ","",data$AREA)
   data$DISCARDS[data$DISCARDS%in%c("-1","NA",NA,"")] <- 0
   data1$DISCARDS[data1$DISCARDS%in%c("NA",NA,"","NK")] <- 0
+  data$DISCARDS <- as.numeric(data$DISCARDS)
+  data1$DISCARDS <- as.numeric(data1$DISCARDS)
+
+
   id <- paste0(MS,"_",GSA,"_",SP)
   if(id%in%paste0(data$COUNTRY,"_",data$AREA,"_",data$SPECIES) |
      id%in%paste0(data1$COUNTRY,"_",data1$SUB_REGION,"_",data1$SPECIES)){

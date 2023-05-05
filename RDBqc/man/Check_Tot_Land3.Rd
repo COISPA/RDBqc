@@ -4,7 +4,17 @@
 \alias{Check_Tot_Land3}
 \title{Comparing total landings in weight between MEDBS, FDI and AER EU Data Calls}
 \usage{
-Check_Tot_Land3(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = TRUE, OUT)
+Check_Tot_Land3(
+  data,
+  data1,
+  data2,
+  MS,
+  GSA,
+  SP,
+  MEDBSSP,
+  verbose = TRUE,
+  OUT = FALSE
+)
 }
 \arguments{
 \item{data}{data frame containing MEDBS landings by length table}

@@ -28,10 +28,20 @@
 #' @examples FDI_AER_land_landvalue(FDI=fdi_a_catch, AER=aer_catch, var='landings',
 #' level=2, MS='PSP', GSA=c('GSA97', 'GSA98'), verbose = FALSE)
 FDI_AER_land_landvalue <- function(FDI, AER, var='landings', MS, level=3,  YEAR=NA, GSA=NA, SP=NA, OUT=FALSE, verbose = FALSE){
+
+  country <- acronym <- var_FDI <- var_AER <- NULL
+
   FDI <- as.data.frame(FDI)
   AER <- as.data.frame(AER)
   colnames(FDI) <- tolower(colnames(FDI))
   colnames(AER) <- tolower(colnames(AER))
+
+  # converting JRC output format into AER input format
+  if(!"country_code" %in% colnames(AER)) data2$country_code <- MS
+  if("variable_code" %in% colnames(AER)) colnames(AER)[which(colnames(AER)=="variable_code")]<- "acronym"
+  if("species_code" %in% colnames(AER)) colnames(AER)[which(colnames(AER)=="species_code")]<- "species"
+  if("sub_reg" %in% colnames(AER)) colnames(AER)[which(colnames(AER)=="sub_reg")]<- "sub_region"
+  #-------------------------------------------------
 
   # STEP1: SEVERAL CHECKS on input data and function arguments
 
@@ -80,8 +90,6 @@ FDI_AER_land_landvalue <- function(FDI, AER, var='landings', MS, level=3,  YEAR=
     }
     print(paste0('***Cross-check ', MS, ' ',  var, ' between FDI and AER databases at ', namelevel[level+1] ,' level', ' ',name, '***'))
   }
-
-  country <- acronym <- var_FDI <- var_AER <- NULL
 
   # check for NAs in gsas or years reported
   gsas1 <- data1$sub_region
@@ -201,6 +209,7 @@ FDI_AER_land_landvalue <- function(FDI, AER, var='landings', MS, level=3,  YEAR=
 
   if(OUT%in%TRUE){
     WD <- getwd()
+    suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
   write.csv(df2error, file.path(paste0(WD,"/OUTPUT/CSV"),paste0(var,'_mismatch_FDI_AER_',namelevel[level+1],'_level.csv')), row.names=F)
   }
 

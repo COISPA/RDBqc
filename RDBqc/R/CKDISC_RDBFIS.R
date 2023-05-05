@@ -40,6 +40,8 @@ Check_Tot_Disc <- function(data,data1,MS,GSA,SP,MEDBSSP,verbose=FALSE,OUT=FALSE)
   data$AREA <- gsub(" ","",data$AREA)
   data$DISCARDS[data$DISCARDS%in%c("-1","NA",NA,"")] <- 0
   data1$DISCARDS[data1$DISCARDS%in%c("NA",NA,"","NK")] <- 0
+  data$DISCARDS <- as.numeric( data$DISCARDS)
+  data1$DISCARDS <- as.numeric(data1$DISCARDS)
 
   id <- paste0(MS,"_",GSA,"_",SP)
   if(id%in%c(unique(paste0(data$COUNTRY,"_",data$AREA,"_",data$SPECIES))) | id%in%c(unique(paste0(data1$COUNTRY,"_",data1$SUB_REGION,"_",data1$SPECIES)))){

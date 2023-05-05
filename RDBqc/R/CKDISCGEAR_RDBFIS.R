@@ -39,8 +39,11 @@ Check_Tot_Disc_gear <- function(data,data1,MS,GSA,SP,MEDBSSP,verbose=TRUE,OUT=FA
   data$AREA <- gsub(" ","",data$AREA)
   data$DISCARDS[data$DISCARDS%in%c("-1","NA",NA,"")] <- 0
   data1$DISCARDS[data1$DISCARDS%in%c("NA",NA,"","NK")] <- 0
+  data$DISCARDS <- as.numeric(data$DISCARDS)
+  data1$DISCARDS <- as.numeric(data1$DISCARDS)
+
   id <- paste0(MS,"_",GSA,"_",SP)
-  if(id%in%c(unique(paste0(data$COUNTRY,"_",data$AREA,"_",data$SPECIES))) |
+  if (id%in%c(unique(paste0(data$COUNTRY,"_",data$AREA,"_",data$SPECIES))) |
      id%in%c(unique(paste0(data1$COUNTRY,"_",data1$SUB_REGION,"_",data1$SPECIES)))){
   data <- data[data$COUNTRY%in%MS & data$AREA%in%GSA & data$SPECIES%in%SP,]
   data1 <- data1[data1$COUNTRY%in%MS & data1$SUB_REGION%in%GSA & data1$SPECIES%in%SP,]
