@@ -148,7 +148,7 @@ Check_Tot_Disc_gear_Q <- function(data,data1,MS,GSA,SP,MEDBSSP,verbose=TRUE,OUT=
         #)
                names(compland)[[counter]] <- paste("PLOT_DISCARDS_GEAR",i,"QUARTER",j,MS,GSA,SP,sep="_")
                counter <- counter+1
-      }#else{print("")}
+      }
 
     }
   }
@@ -169,13 +169,11 @@ Check_Tot_Disc_gear_Q <- function(data,data1,MS,GSA,SP,MEDBSSP,verbose=TRUE,OUT=
                      xlab("")+scale_x_continuous(breaks = seq(min(rbind(db,db1)[rbind(db,db1)$GEAR%in%i & rbind(db,db1)$QUARTER%in%j,]$YEAR),max(rbind(db,db1)[rbind(db,db1)$GEAR%in%i & rbind(db,db1)$QUARTER%in%j,]$YEAR),1))+theme_bw()+theme(legend.position = "bottom"),
                    align = "v", nrow = 2, rel_heights = c(1/4,1/2)))
           )
-        }#else{print("")
+        }
 
         }
       }
     }
-    #}
-
 
     if(length(compland)!=0){
 

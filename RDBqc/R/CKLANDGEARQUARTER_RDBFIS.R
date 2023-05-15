@@ -180,7 +180,7 @@ Check_Tot_Land_gear_Q <- function(data, data1, MS, GSA, SP, MEDBSSP, verbose = T
           # )
           names(compland)[[counter]] <- paste("PLOT_LANDINGS_GEAR", i, "QUARTER", j, MS, GSA, SP, sep = "_")
           counter <- counter + 1
-        } # else{print("")}
+        }
       }
     }
     if (OUT %in% TRUE) {
@@ -216,12 +216,10 @@ Check_Tot_Land_gear_Q <- function(data, data1, MS, GSA, SP, MEDBSSP, verbose = T
                 align = "v", nrow = 2, rel_heights = c(1 / 4, 1 / 2)
               ))
             )
-          } # else{print("")
+          }
         }
       }
     }
-    # }
-
 
     if (length(compland) != 0) {
       return(compland)

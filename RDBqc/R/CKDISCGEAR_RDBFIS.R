@@ -131,7 +131,7 @@ if(OUT%in%TRUE){
                                            align = "v", nrow = 2, rel_heights = c(1/4,1/2)))
         names(compland)[[counter]] <- paste("PLOT_DISCARDS_GEAR",i,MS,GSA,SP,sep="_")
         counter <- counter+1
-      }else{print("")
+      }
 
       }
     }
@@ -150,8 +150,6 @@ if(OUT%in%TRUE){
                               ggplot(rbind(db,db1)[rbind(db,db1)$GEAR%in%i,],aes(x=YEAR,y=LANDINGS,col=DATA_CALL))+geom_point()+geom_line()+ylab("DISCARDS (t)")+
                                 xlab("")+scale_x_continuous(breaks = seq(min(rbind(db,db1)[rbind(db,db1)$GEAR%in%i,]$YEAR),max(rbind(db,db1)[rbind(db,db1)$GEAR%in%i,]$YEAR),1))+theme_bw()+theme(legend.position = "bottom"),
                               align = "v", nrow = 2, rel_heights = c(1/4,1/2))))
-    }else{print("")
-
     }
       }
     }

@@ -164,8 +164,6 @@ Check_Tot_Land2 <- function(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = 
             align = "v", nrow = 2, rel_heights = c(1 / 4, 1 / 2)
           )
         )
-      } else {
-        print("")
       }
     }
     ifelse(OUT, print("Landings comparison has been done. Please check outputs in OUTPUT folder."),

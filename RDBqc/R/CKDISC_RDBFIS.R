@@ -96,7 +96,7 @@ if(OUT%in%TRUE){
            xlab("")+scale_x_continuous(breaks = seq(min(rbind(db,db1)$YEAR),max(rbind(db,db1)$YEAR),1))+theme_bw()+theme(legend.position = "bottom"),
           align = "v", nrow = 2, rel_heights = c(1/4,1/2)))
   write.csv(rbind(db,db1),file=paste0(WD,"/OUTPUT/CSV/Discards_",MS,"_",GSA,"_",SP,".csv"),row.names = FALSE)
-}else{print("")}
+}
   }
 ifelse(OUT%in%TRUE,print("Discards comparison has been done. Please check outputs in OUTPUT folder."),
        print("Discards comparison has been done."))

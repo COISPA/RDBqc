@@ -132,8 +132,6 @@ Check_Tot_Land <- function(data, data1, MS, GSA, SP, MEDBSSP, verbose = FALSE, O
           )
         )
         write.csv(rbind(db, db1), file = paste0(WD, "/OUTPUT/CSV/Landings_", MS, "_", GSA, "_", SP, ".csv"), row.names = FALSE)
-      } else {
-        print("")
       }
     }
     ifelse(OUT %in% TRUE, print("Landings comparison has been done. Please check outputs in OUTPUT folder."),
