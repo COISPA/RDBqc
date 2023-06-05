@@ -18,11 +18,12 @@
 #' @importFrom magrittr %>%
 #' @importFrom reshape2 dcast
 
-check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = SPs, OUT, verbose = TRUE) {
+check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = SPs, OUT=FALSE, verbose = TRUE) {
   if (FALSE) {
     rm(list = ls(all.names = TRUE))
     # library(readxl)
     # library(dplyr)
+    # library(reshape2)
     setwd("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\data")
     load("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/QualiTrain_scripts/QualiTrain/data/GSAs.rda")
 
@@ -41,7 +42,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = SP
     AR <- read_excel("table 2.1 e 2.2 med and bs.xlsx", sheet = "Table 2.2 Biol variables", skip = 1)
     AR <- data.frame(AR)
 
-    check_maturity_MEDBS_AR(ML, AR, MS = "ITA", GSA = NA, SP, year = 2019, verbose = TRUE)
+    check_maturity_MEDBS_AR(ML, AR, MS = "ITA", GSA = NA, SP, year = 2019,OUT=TRUE, verbose = TRUE)
   }
 
   Area <- Implementation.year <- Species <- Achieved.number.of.individuals.measured.at.national.level <- country <- area <- in.year <- ref.year <- species <- sex <- sample_size <- NULL
@@ -341,7 +342,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = SP
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_no_MEDBS, paste0("../OUTPUT/CSV/MEDBS_AR_Maturity_comparison_Data_not_in_MEDBS_", MS, ".csv"), row.names = F)
+      write.csv(tab_no_MEDBS, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_Maturity_comparison_Data_not_in_MEDBS_", MS, ".csv"), row.names = F)
     }
 
     tab <- tab[!(is.na(tab$C_maturity_ML) &
@@ -352,7 +353,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = SP
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_no_AR, paste0("../OUTPUT/CSV/MEDBS_AR_Maturity_comparison_Data_not_in_AR_", MS, ".csv"), row.names = F)
+      write.csv(tab_no_AR, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_Maturity_comparison_Data_not_in_AR_", MS, ".csv"), row.names = F)
     }
 
     tab <- tab[!is.na(tab$maturity.AR) & tab$maturity.AR != 0, ]
@@ -365,7 +366,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = SP
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_match, paste0("../OUTPUT/CSV/MEDBS_AR_Maturity_comparison_Matching_data_", MS, ".csv"), row.names = F)
+      write.csv(tab_match, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_Maturity_comparison_Matching_data_", MS, ".csv"), row.names = F)
     }
 
     output <- list(tab_match, tab_no_MEDBS, tab_no_AR)

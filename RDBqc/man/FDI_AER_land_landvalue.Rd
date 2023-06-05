@@ -40,9 +40,9 @@ Default is NA, which will produce the check for all GSAs existing in the data fr
 \item{SP}{(optional) vector string of species FAO 3-alpha codes to produce the checks on (e.g. SPECIES = c('DPS', 'TGS')).
 Default is NA, which will produce the check for all SP existing in the data frames.}
 
-\item{OUT}{Default is FALSE. If set as TRUE tables in csv will be saved in the OUTPUT folder created in the working directory}
+\item{OUT}{If set as TRUE tables in csv will be saved in the OUTPUT folder created in the working directory. Default is FALSE}
 
-\item{verbose}{(optional) boolean, if TRUE messages are printed. Default is TRUE.}
+\item{verbose}{(optional) boolean, if TRUE messages are printed. Default is FALSE.}
 }
 \value{
 The function returns a list of three data frames, containing: a) entries for which 'var' differs between
@@ -55,8 +55,10 @@ the FDI and AER databases for the given MS. By default, the comparison is done b
 Optionally, the user can select a higher level of aggregation (e.g. 'MS', 'GSA', etc.) (see level variable)
 }
 \examples{
-FDI_AER_land_landvalue(FDI=fdi_a_catch, AER=aer_catch, var='landings',
-level=2, MS='PSP', GSA=c('GSA97', 'GSA98'), verbose = FALSE)
+FDI_AER_land_landvalue(
+  FDI = fdi_a_catch, AER = aer_catch, var = "landings",
+  level = 2, MS = "PSP", GSA = c("GSA97", "GSA98"), verbose = FALSE
+)
 }
 \author{
 Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}

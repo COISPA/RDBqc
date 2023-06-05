@@ -4,7 +4,7 @@
 \alias{check_n_trips_MEDBS_AR}
 \title{Cross check of number of trips between MED&BS catch table and AR Table 2.5}
 \usage{
-check_n_trips_MEDBS_AR(MEDBS, AR, MS, year, OUT, verbose = FALSE)
+check_n_trips_MEDBS_AR(MEDBS, AR, MS, year, OUT = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{MEDBS}{data frame containing MED&BS catch table}

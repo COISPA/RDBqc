@@ -16,7 +16,7 @@
 #' @author Walter Zupa <zupa@@fondazionecoispa.org>
 #' @import dplyr
 #' @importFrom magrittr %>%
-check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = SPs, OUT, verbose = TRUE) {
+check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = SPs, OUT=FALSE, verbose = TRUE) {
   if (FALSE) {
     rm(list = ls(all.names = TRUE))
     # library(readxl)
@@ -41,8 +41,8 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = SPs, O
     ALK <- read.table("alk.csv", sep = ";", header = TRUE)
     AR <- read_excel("table 2.1 e 2.2 med and bs.xlsx", sheet = "Table 2.2 Biol variables", skip = 1)
     AR <- data.frame(AR)
-
-    check_age_MEDBS_AR(ALK, AR, MS = "ITA", GSA = NA, SP, year = 2019, verbose = TRUE)
+    OUT=FALSE
+    check_age_MEDBS_AR(ALK, AR, MS = "ITA", GSA = NA, SP, year = 2019,OUT=TRUE, verbose = TRUE)
   }
 
   Area <- Implementation.year <- Species <- Achieved.number.of.individuals.measured.at.national.level <- country <- area <- in.year <- ref.year <- species <- sex <- total_number_of_hard_structure_read_by_age <- NULL
@@ -336,10 +336,10 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = SPs, O
       is.na(tab$F_age_ALK) &
       is.na(tab$M_age_ALK) &
       (!is.na(tab$age.AR) & tab$age.AR != 0), ]
-    if (OUT %in% TRUE) {
+    if (OUT == TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_no_MEDBS, paste0("../OUTPUT/CSV/MEDBS_AR_ages_comparison_Data_not_in_MEDBS_", MS, ".csv"), row.names = F)
+      write.csv(tab_no_MEDBS, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_ages_comparison_Data_not_in_MEDBS_", MS, ".csv"), row.names = F)
     }
 
     tab <- tab[!(is.na(tab$C_age_ALK) &
@@ -350,7 +350,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = SPs, O
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_no_AR, paste0("../OUTPUT/CSV/MEDBS_AR_ages_comparison_Data_not_in_AR_", MS, ".csv"), row.names = F)
+      write.csv(tab_no_AR, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_ages_comparison_Data_not_in_AR_", MS, ".csv"), row.names = F)
     }
 
     tab <- tab[!is.na(tab$age.AR) & tab$age.AR != 0, ]
@@ -362,7 +362,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = SPs, O
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_match, paste0("../OUTPUT/CSV/MEDBS_AR_ages_comparison_Matching_data_", MS, ".csv"), row.names = F)
+      write.csv(tab_match, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_ages_comparison_Matching_data_", MS, ".csv"), row.names = F)
     }
     output <- list(tab_match, tab_no_MEDBS, tab_no_AR)
     names(output) <- c("Species_matches", "Species_not_in_MEDBS", "Species_not_in_AR")

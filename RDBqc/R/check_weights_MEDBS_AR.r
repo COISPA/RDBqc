@@ -17,7 +17,7 @@
 #' @import dplyr
 #' @importFrom magrittr %>%
 
-check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = SPs, OUT, verbose = TRUE) {
+check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = SPs, OUT=FALSE, verbose = TRUE) {
   if (FALSE) {
     rm(list = ls(all.names = TRUE))
     # library(readxl)
@@ -40,7 +40,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = SPs
     AR <- read_excel("table 2.1 e 2.2 med and bs.xlsx", sheet = "Table 2.2 Biol variables", skip = 1)
     AR <- data.frame(AR)
 
-    check_weights_MEDBS_AR(GP, AR, MS = "ITA", GSA = NA, SP = NA, year = 2019, verbose = TRUE)
+    check_weights_MEDBS_AR(GP, AR, MS = "ITA", GSA = NA, SP = NA, year = 2019, OUT=TRUE, verbose = TRUE)
   }
 
   Area <- Implementation.year <- Species <- Achieved.number.of.individuals.measured.at.national.level <- country <- area <- in.year <- ref.year <- species <- sex <- l_w_sample_size <- NULL
@@ -337,7 +337,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = SPs
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_no_MEDBS, paste0("../OUTPUT/CSV/MEDBS_AR_weights_comparison_Data_not_in_MEDBS_", MS, ".csv"), row.names = F)
+      write.csv(tab_no_MEDBS, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_weights_comparison_Data_not_in_MEDBS_", MS, ".csv"), row.names = F)
     }
 
 
@@ -349,7 +349,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = SPs
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_no_AR, paste0("../OUTPUT/CSV/MEDBS_AR_weights_comparison_Data_not_in_AR_", MS, ".csv"), row.names = F)
+      write.csv(tab_no_AR, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_weights_comparison_Data_not_in_AR_", MS, ".csv"), row.names = F)
     }
 
     tab <- tab[!is.na(tab$weights.AR) & tab$weights.AR != 0, ]
@@ -362,7 +362,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = SPs
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_match, paste0("../OUTPUT/CSV/MEDBS_AR_weights_comparison_Matching_data_", MS, ".csv"), row.names = F)
+      write.csv(tab_match, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_weights_comparison_Matching_data_", MS, ".csv"), row.names = F)
     }
 
     output <- list(tab_match, tab_no_MEDBS, tab_no_AR)

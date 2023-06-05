@@ -15,7 +15,7 @@
 #' @import dplyr
 #' @importFrom magrittr %>%
 
-check_n_trips_MEDBS_AR <- function(MEDBS, AR, MS, year, OUT, verbose = FALSE) {
+check_n_trips_MEDBS_AR <- function(MEDBS, AR, MS, year, OUT=FALSE, verbose = FALSE) {
 
   if (FALSE) {
     rm(list = ls(all.names = TRUE))
@@ -39,7 +39,7 @@ check_n_trips_MEDBS_AR <- function(MEDBS, AR, MS, year, OUT, verbose = FALSE) {
     med <- read.table("catch ita 2019.csv", sep = ";", header = TRUE)
     med <- med[, c(1:20)]
 
-    check_n_trips_MEDBS_AR(MEDBS, AR, MS="ITA",year=2019,verbose=TRUE)
+    check_n_trips_MEDBS_AR(MEDBS, AR, MS="ITA",year=2019,OUT=TRUE,verbose=TRUE)
   } # if (FALSE)
 
   Sampling.frame.spatial.coverage <- Implementation.year <- Achieved.number.of.PSUs.in.the.implementation.year <- country <- area <- metier <- no_samples_catch <- trips_year <- no_samples_landings <- no_samples_discards <- quarter <- trips_quarters <- Country <- Year <- MEDBS_by_Year_Catch <- MEDBS_by_Year_Landings <- MEDBS_quarters_Discards <- MEDBS_by_Year_Discards <- MEDBS_quarters_Catches <- MEDBS_quarters_Landings <- NULL
@@ -259,7 +259,7 @@ check_n_trips_MEDBS_AR <- function(MEDBS, AR, MS, year, OUT, verbose = FALSE) {
     if(OUT%in%TRUE){
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD,"/OUTPUT/CSV"),recursive = T))
-      write.csv(tab,paste0("../OUTPUT/CSV/MEDBS_AR_TRIPS_comparison_",MS,".csv"),row.names = F)
+      write.csv(tab,paste0(WD,"/OUTPUT/CSV/MEDBS_AR_TRIPS_comparison_",MS,".csv"),row.names = F)
     }
 
     return(tab)

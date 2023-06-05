@@ -43,6 +43,20 @@ The supported quality checks in version `r packageVersion("RDBqc")` are:
 * GFCM - Task VII.3.1 table
 * GFCM - Task VII.3.2 table
 
+### _Cross-checks_ among data calls
+Since RBDqc version 0.0.15, the package also includes cross-check functions to perform checks between data call tables.
+In particular, the following cross-check functions are available:
+
+* Landing consistency among the different data calls: MED & BS, FDI and Annual Economic Report (AER)
+* Discard consistency between MED & BS and FDI data calls
+* Landing consistency between FDI and AER data calls
+* Landing value consistency between FDI and AER data calls
+* Number of trips consistency between MED & BS and Annual report (AR) data calls
+* Number of ages consistency between MED & BS and AR data calls
+* Number of weights consistency between MED & BS and AR data calls
+* Number of maturity data consistency between MED & BS and AR data calls
+
+
 # Checks on RCG
 
 Example of Regional Coordination Group Mediterranean & Black Sea data formats:

@@ -1,36 +1,53 @@
 RDBqc: Quality checks on RDBFIS data formats
 ================
 Walter Zupa
-2022-10-20
+2023-06-05
 
 RDBqc allows to carry out a set of *a priori* quality checks on detailed
 sampling data and on aggregated landing data, and *a posteriori* quality
 check on MEDBS, FDI and GFCM data call formats.
 
-The supported quality checks in version 0.0.12 are:
+The supported quality checks in version 0.0.16 are:
 
 ### *A priori* quality checks
 
--   RCG CS - biological sampling data
--   RCG CL - aggregated landing data
+- RCG CS - biological sampling data
+- RCG CL - aggregated landing data
 
 ### *A posteriori* quality checks
 
--   MEDBS - catch data
--   MEDBS - discard data
--   MEDBS - landing data
--   MEDBS - GP table
--   MEDBS - LW table
--   MEDBS - MA table
--   MEDBS - ML table
--   MEDBS - SA table
--   MEDBS - SL table
--   FDI tables (A, G, H, I and J)
--   GFCM - Task II.2 table
--   GFCM - Task III table
--   GFCM - Task VII.2 table
--   GFCM - Task VII.3.1 table
--   GFCM - Task VII.3.2 table
+- MEDBS - catch data
+- MEDBS - discard data
+- MEDBS - landing data
+- MEDBS - GP table
+- MEDBS - LW table
+- MEDBS - MA table
+- MEDBS - ML table
+- MEDBS - SA table
+- MEDBS - SL table
+- FDI tables (A, G, H, I and J)
+- GFCM - Task II.2 table
+- GFCM - Task III table
+- GFCM - Task VII.2 table
+- GFCM - Task VII.3.1 table
+- GFCM - Task VII.3.2 table
+
+### *Cross-checks* among data calls
+
+Since RBDqc version 0.0.15, the package also includes cross-check
+functions to perform checks between data call tables. In particular, the
+following cross-check functions are available:
+
+- Landing consistency among the different data calls: MED & BS, FDI and
+  Annual Economic Report (AER)
+- Discard consistency between MED & BS and FDI data calls
+- Landing consistency between FDI and AER data calls
+- Landing value consistency between FDI and AER data calls
+- Number of trips consistency between MED & BS and Annual report (AR)
+  data calls
+- Number of ages consistency between MED & BS and AR data calls
+- Number of weights consistency between MED & BS and AR data calls
+- Number of maturity data consistency between MED & BS and AR data calls
 
 # Checks on RCG
 
@@ -117,34 +134,27 @@ head(data_ex)
 
 ``` r
 head(data_exampleCL)
-#>   landCtry vslFlgCtry year quarter month  area rect subRect
-#> 1       NA   COUNTRY1 1900       1     1 GSA99   NA      NA
-#> 2       NA   COUNTRY1 1900       1     2 GSA99   NA      NA
-#> 3       NA   COUNTRY1 1900       1     3 GSA99   NA      NA
-#> 4       NA   COUNTRY1 1900       2     4 GSA99   NA      NA
-#> 5       NA   COUNTRY1 1900       2     5 GSA99   NA      NA
-#> 6       NA   COUNTRY1 1900       2     6 GSA99   NA      NA
-#>                      taxon landCat commCatScl commCat  foCatNat foCatEu5
-#> 1 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#> 2 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#> 3 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#> 4 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#> 5 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#> 6 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#>           foCatEu6 harbour vslLenCat unallocCatchWt misRepCatchWt    landWt
-#> 1 OTB_DEF_>=40_0_0    Port        NA             NA            NA  73452.53
-#> 2 OTB_DEF_>=40_0_0    Port        NA             NA            NA  78741.52
-#> 3 OTB_DEF_>=40_0_0    Port        NA             NA            NA  82021.10
-#> 4 OTB_DEF_>=40_0_0    Port        NA             NA            NA  89022.59
-#> 5 OTB_DEF_>=40_0_0    Port        NA             NA            NA 103911.92
-#> 6 OTB_DEF_>=40_0_0    Port        NA             NA            NA 102987.30
-#>   landMult landValue
-#> 1       NA  372658.8
-#> 2       NA  392665.2
-#> 3       NA  460280.8
-#> 4       NA  433524.2
-#> 5       NA  494103.4
-#> 6       NA  498298.8
+#>   flag_country year quarter month  area                  species
+#> 1     COUNTRY1 2014       1     1 GSA99 Parapenaeus longirostris
+#> 2     COUNTRY1 2014       1     2 GSA99 Parapenaeus longirostris
+#> 3     COUNTRY1 2014       1     3 GSA99 Parapenaeus longirostris
+#> 4     COUNTRY1 2014       2     4 GSA99 Parapenaeus longirostris
+#> 5     COUNTRY1 2014       2     5 GSA99 Parapenaeus longirostris
+#> 6     COUNTRY1 2014       2     6 GSA99 Parapenaeus longirostris
+#>   fishing_activity_category_national fishing_activity_category_eu_l6 harbour
+#> 1                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#> 2                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#> 3                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#> 4                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#> 5                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#> 6                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#>   official_landings_weight official_landings_value
+#> 1                 73452.53                372658.8
+#> 2                 78741.52                392665.2
+#> 3                 82021.10                460280.8
+#> 4                 89022.59                433524.2
+#> 5                103911.92                494103.4
+#> 6                102987.30                498298.8
 ```
 
 ## Checks on CS
@@ -397,6 +407,7 @@ ports position included in the data.
 
 ``` r
 RCG_check_loc(data_ex)
+#> 
 #> Regions defined for each Polygons
 ```
 
@@ -412,18 +423,18 @@ for the selected species. The output is a list of 6 data frames:
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[1]]
 #>    Year Quarter Month Sum_Landings
-#> 1  1900       1     1     80553.10
-#> 2  1900       1     2     80519.05
-#> 3  1900       1     3     85107.68
-#> 4  1900       2     4     90093.59
-#> 5  1900       2     5    110096.34
-#> 6  1900       2     6    117515.89
-#> 7  1900       3     7     98584.85
-#> 8  1900       3     8     49500.43
-#> 9  1900       3     9     32084.59
-#> 10 1900       4    10    153080.70
-#> 11 1900       4    11    123574.70
-#> 12 1900       4    12     99743.72
+#> 1  2014       1     1     80553.10
+#> 2  2014       1     2     80519.05
+#> 3  2014       1     3     85107.68
+#> 4  2014       2     4     90093.59
+#> 5  2014       2     5    110096.34
+#> 6  2014       2     6    117515.89
+#> 7  2014       3     7     98584.85
+#> 8  2014       3     8     49500.43
+#> 9  2014       3     9     32084.59
+#> 10 2014       4    10    153080.70
+#> 11 2014       4    11    123574.70
+#> 12 2014       4    12     99743.72
 ```
 
 2.  Sum of Landing value by year, quarter and month;
@@ -431,18 +442,18 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[2]]
 #>    Year Quarter Month Sum_LandingsValue
-#> 1  1900       1     1          410296.6
-#> 2  1900       1     2          400928.4
-#> 3  1900       1     3          476691.5
-#> 4  1900       2     4          438991.9
-#> 5  1900       2     5          521380.8
-#> 6  1900       2     6          571712.2
-#> 7  1900       3     7          518606.2
-#> 8  1900       3     8          308576.7
-#> 9  1900       3     9          161772.9
-#> 10 1900       4    10          609361.4
-#> 11 1900       4    11          576900.8
-#> 12 1900       4    12          601217.8
+#> 1  2014       1     1          410296.6
+#> 2  2014       1     2          400928.4
+#> 3  2014       1     3          476691.5
+#> 4  2014       2     4          438991.9
+#> 5  2014       2     5          521380.8
+#> 6  2014       2     6          571712.2
+#> 7  2014       3     7          518606.2
+#> 8  2014       3     8          308576.7
+#> 9  2014       3     9          161772.9
+#> 10 2014       4    10          609361.4
+#> 11 2014       4    11          576900.8
+#> 12 2014       4    12          601217.8
 ```
 
 3.  Sum of landings by LandCtry, VslFlgCtry, Area, Rect, SubRect,
@@ -450,8 +461,8 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[3]]
-#>   LandCtry VslFlgCtry  Area Rect SubRect Harbour Sum_Landings
-#> 1       NA   COUNTRY1 GSA99   NA      NA    Port      1120455
+#>    Country  Area Harbour Sum_Landings
+#> 1 COUNTRY1 GSA99    Port      1120455
 ```
 
 4.  Sum of landing value by LandCtry, VslFlgCtry, Area, Rect, SubRect,
@@ -459,36 +470,45 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[4]]
-#>   LandCtry VslFlgCtry  Area Rect SubRect Harbour Sum_LandingsValue
-#> 1       NA   COUNTRY1 GSA99   NA      NA    Port           5596437
+#>    Country  Area Harbour Sum_LandingsValue
+#> 1 COUNTRY1 GSA99    Port           5596437
 ```
 
 5.  Sum of landings by Year, Species, foCatEu5, foCatEu6;
 
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[5]]
-#>   Year                  Species foCatEu5         foCatEu6 Sum_Landings
-#> 1 1900 Parapenaeus longirostris       NA OTB_DEF_>=40_0_0  1018083.081
-#> 2 1900 Parapenaeus longirostris       NA OTB_DWS_>=40_0_0     1453.471
-#> 3 1900 Parapenaeus longirostris       NA OTB_MDD_>=40_0_0   100918.089
+#>   Year                  Species fishing_activity_category_national
+#> 1 2014 Parapenaeus longirostris                         OTB_ mixed
+#> 2 2014 Parapenaeus longirostris                          OTB_shelf
+#> 3 2014 Parapenaeus longirostris                          OTB_slope
+#>   fishing_activity_category_eu_l6 Sum_Landings
+#> 1                OTB_MDD_>=40_0_0   100918.089
+#> 2                OTB_DEF_>=40_0_0  1018083.081
+#> 3                OTB_DWS_>=40_0_0     1453.471
 ```
 
 6.  Sum of landing value by Year, Species, foCatEu5, foCatEu6.
 
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[6]]
-#>   Year                  Species foCatEu5         foCatEu6 Sum_LandingsValue
-#> 1 1900 Parapenaeus longirostris       NA OTB_DEF_>=40_0_0       5050728.907
-#> 2 1900 Parapenaeus longirostris       NA OTB_DWS_>=40_0_0          7721.884
-#> 3 1900 Parapenaeus longirostris       NA OTB_MDD_>=40_0_0        537986.519
+#>   Year                  Species fishing_activity_category_national
+#> 1 2014 Parapenaeus longirostris                         OTB_ mixed
+#> 2 2014 Parapenaeus longirostris                          OTB_shelf
+#> 3 2014 Parapenaeus longirostris                          OTB_slope
+#>   fishing_activity_category_eu_l6 Sum_LandingsValue
+#> 1                OTB_MDD_>=40_0_0        537986.519
+#> 2                OTB_DEF_>=40_0_0       5050728.907
+#> 3                OTB_DWS_>=40_0_0          7721.884
 ```
 
 7.  Plot of the landings by year and foCatEu6
 
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[7]]
-#> geom_path: Each group consists of only one observation. Do you need to adjust
-#> the group aesthetic?
+#> 
+#> `geom_line()`: Each group consists of only one observation.
+#> i Do you need to adjust the group aesthetic?
 ```
 
 ![](README_files/figure-gfm/RCG_check_CL7-1.png)<!-- -->
@@ -499,343 +519,343 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 ``` r
 head(Catch_tab_example)
-#>                              ID COUNTRY YEAR QUARTER VESSEL_LENGTH GEAR
+#>                              id country year quarter vessel_length gear
 #> 1       ITA 2008-1GNS-1DEMFSA 9     ITA 2008      -1            -1  GNS
 #> 2   ITA 2010-1OTB50D100DWSPSA 9     ITA 2010      -1            -1  OTB
 #> 3   ITA 2014-1OTB50D100DWSPSA 9     ITA 2014      -1            -1  OTB
 #> 4  ITA 2008-1OTB50D100DEMSPSA 9     ITA 2008      -1            -1  OTB
 #> 5 ITA 2008-1OTB50D100MDDWSPSA 9     ITA 2008      -1            -1  OTB
 #> 6  ITA 2007-1OTB50D100DEMSPSA 9     ITA 2007      -1            -1  OTB
-#>   MESH_SIZE_RANGE FISHERY  AREA SPECON SPECIES  LANDINGS DISCARDS
+#>   mesh_size_range fishery  area specon species  landings discards
 #> 1              -1    DEMF GSA 9     -1     DPS   0.50829       -1
 #> 2          50D100    DWSP GSA 9     -1     DPS   9.69116       -1
 #> 3          50D100    DWSP GSA 9     -1     DPS   2.11283       -1
 #> 4          50D100   DEMSP GSA 9     -1     DPS 187.26219       -1
 #> 5          50D100  MDDWSP GSA 9     -1     DPS  66.06531       -1
 #> 6          50D100   DEMSP GSA 9     -1     DPS  89.84975       -1
-#>   NO_SAMPLES_LANDINGS NO_LENGTH_MEASUREMENTS_LANDINGS
+#>   no_samples_landings no_length_measurements_landings
 #> 1                  30                               0
 #> 2                   6                               0
 #> 3                   2                               0
 #> 4                  67                            3038
 #> 5                  12                            1461
 #> 6                  50                            2452
-#>   NO_AGE_MEASUREMENTS_LANDINGS NO_SAMPLES_DISCARDS
+#>   no_age_measurements_landings no_samples_discards
 #> 1                            0                   0
 #> 2                            0                   0
 #> 3                            0                   0
 #> 4                            0                   0
 #> 5                            0                   0
 #> 6                            0                   0
-#>   NO_LENGTH_MEASUREMENTS_DISCARDS NO_AGE_MEASUREMENTS_DISCARDS NO_SAMPLES_CATCH
+#>   no_length_measurements_discards no_age_measurements_discards no_samples_catch
 #> 1                              -1                           -1               -1
 #> 2                              -1                           -1               -1
 #> 3                              -1                           -1               -1
 #> 4                              -1                           -1               -1
 #> 5                              -1                           -1               -1
 #> 6                              -1                           -1               -1
-#>   NO_LENGTH_MEASUREMENTS_CATCH NO_AGE_MEASUREMENTS_CATCH MIN_AGE MAX_AGE AGE_0
+#>   no_length_measurements_catch no_age_measurements_catch min_age max_age age_0
 #> 1                           -1                        -1      -1      -1     0
 #> 2                           -1                        -1      -1      -1     0
 #> 3                           -1                        -1      -1      -1     0
 #> 4                           -1                        -1       0       4     0
 #> 5                           -1                        -1       0       4     0
 #> 6                           -1                        -1       0       4     0
-#>   AGE_0_NO_LANDED AGE_0_MEAN_WEIGHT_LANDED AGE_0_MEAN_LENGTH_LANDED
+#>   age_0_no_landed age_0_mean_weight_landed age_0_mean_length_landed
 #> 1           0.000                    0.000                     0.00
 #> 2           0.000                    0.000                     0.00
 #> 3           0.000                    0.000                     0.00
 #> 4        8859.650                    0.005                     1.97
 #> 5         489.758                    0.006                     2.02
 #> 6        1430.784                    0.006                     2.06
-#>   AGE_0_NO_DISCARD AGE_0_MEAN_WEIGHT_DISCARD AGE_0_MEAN_LENGTH_DISCARD AGE_1
+#>   age_0_no_discard age_0_mean_weight_discard age_0_mean_length_discard age_1
 #> 1               -1                        -1                        -1     1
 #> 2               -1                        -1                        -1     1
 #> 3               -1                        -1                        -1     1
 #> 4               -1                        -1                         0     1
 #> 5               -1                        -1                         0     1
 #> 6               -1                        -1                         0     1
-#>   AGE_1_NO_LANDED AGE_1_MEAN_WEIGHT_LANDED AGE_1_MEAN_LENGTH_LANDED
+#>   age_1_no_landed age_1_mean_weight_landed age_1_mean_length_landed
 #> 1           0.000                    0.000                     0.00
 #> 2           0.000                    0.000                     0.00
 #> 3           0.000                    0.000                     0.00
 #> 4        8431.094                    0.012                     2.68
 #> 5        2721.682                    0.013                     2.80
 #> 6        4638.951                    0.013                     2.77
-#>   AGE_1_NO_DISCARD AGE_1_MEAN_WEIGHT_DISCARD AGE_1_MEAN_LENGTH_DISCARD AGE_2
+#>   age_1_no_discard age_1_mean_weight_discard age_1_mean_length_discard age_2
 #> 1               -1                        -1                        -1     2
 #> 2               -1                        -1                        -1     2
 #> 3               -1                        -1                        -1     2
 #> 4               -1                        -1                         0     2
 #> 5               -1                        -1                         0     2
 #> 6               -1                        -1                         0     2
-#>   AGE_2_NO_LANDED AGE_2_MEAN_WEIGHT_LANDED AGE_2_MEAN_LENGTH_LANDED
+#>   age_2_no_landed age_2_mean_weight_landed age_2_mean_length_landed
 #> 1           0.000                    0.000                     0.00
 #> 2           0.000                    0.000                     0.00
 #> 3           0.000                    0.000                     0.00
 #> 4        1395.641                    0.020                     3.28
 #> 5         638.159                    0.020                     3.31
 #> 6         935.121                    0.021                     3.35
-#>   AGE_2_NO_DISCARD AGE_2_MEAN_WEIGHT_DISCARD AGE_2_MEAN_LENGTH_DISCARD AGE_3
+#>   age_2_no_discard age_2_mean_weight_discard age_2_mean_length_discard age_3
 #> 1               -1                        -1                        -1     3
 #> 2               -1                        -1                        -1     3
 #> 3               -1                        -1                        -1     3
 #> 4               -1                        -1                         0     3
 #> 5               -1                        -1                         0     3
 #> 6               -1                        -1                         0     3
-#>   AGE_3_NO_LANDED AGE_3_MEAN_WEIGHT_LANDED AGE_3_MEAN_LENGTH_LANDED
+#>   age_3_no_landed age_3_mean_weight_landed age_3_mean_length_landed
 #> 1           0.000                    0.000                     0.00
 #> 2           0.000                    0.000                     0.00
 #> 3           0.000                    0.000                     0.00
 #> 4         213.802                    0.024                     3.54
 #> 5         197.337                    0.026                     3.63
 #> 6          64.480                    0.022                     3.39
-#>   AGE_3_NO_DISCARD AGE_3_MEAN_WEIGHT_DISCARD AGE_3_MEAN_LENGTH_DISCARD AGE_4
+#>   age_3_no_discard age_3_mean_weight_discard age_3_mean_length_discard age_4
 #> 1               -1                        -1                        -1     4
 #> 2               -1                        -1                        -1     4
 #> 3               -1                        -1                        -1     4
 #> 4               -1                        -1                         0     4
 #> 5               -1                        -1                         0     4
 #> 6               -1                        -1                         0     4
-#>   AGE_4_NO_LANDED AGE_4_MEAN_WEIGHT_LANDED AGE_4_MEAN_LENGTH_LANDED
+#>   age_4_no_landed age_4_mean_weight_landed age_4_mean_length_landed
 #> 1           0.000                    0.000                     0.00
 #> 2           0.000                    0.000                     0.00
 #> 3           0.000                    0.000                     0.00
 #> 4         414.040                    0.023                     3.50
 #> 5         388.771                    0.024                     3.55
 #> 6          29.945                    0.023                     3.49
-#>   AGE_4_NO_DISCARD AGE_4_MEAN_WEIGHT_DISCARD AGE_4_MEAN_LENGTH_DISCARD AGE_5
+#>   age_4_no_discard age_4_mean_weight_discard age_4_mean_length_discard age_5
 #> 1               -1                        -1                        -1     5
 #> 2               -1                        -1                        -1     5
 #> 3               -1                        -1                        -1     5
 #> 4               -1                        -1                         0     5
 #> 5               -1                        -1                         0     5
 #> 6               -1                        -1                         0     5
-#>   AGE_5_NO_LANDED AGE_5_MEAN_WEIGHT_LANDED AGE_5_MEAN_LENGTH_LANDED
+#>   age_5_no_landed age_5_mean_weight_landed age_5_mean_length_landed
 #> 1               0                        0                        0
 #> 2               0                        0                        0
 #> 3               0                        0                        0
 #> 4               0                        0                        0
 #> 5               0                        0                        0
 #> 6               0                        0                        0
-#>   AGE_5_NO_DISCARD AGE_5_MEAN_WEIGHT_DISCARD AGE_5_MEAN_LENGTH_DISCARD AGE_6
+#>   age_5_no_discard age_5_mean_weight_discard age_5_mean_length_discard age_6
 #> 1               -1                        -1                        -1     6
 #> 2               -1                        -1                        -1     6
 #> 3               -1                        -1                        -1     6
 #> 4               -1                        -1                         0     6
 #> 5               -1                        -1                         0     6
 #> 6               -1                        -1                         0     6
-#>   AGE_6_NO_LANDED AGE_6_MEAN_WEIGHT_LANDED AGE_6_MEAN_LENGTH_LANDED
+#>   age_6_no_landed age_6_mean_weight_landed age_6_mean_length_landed
 #> 1               0                        0                        0
 #> 2               0                        0                        0
 #> 3               0                        0                        0
 #> 4               0                        0                        0
 #> 5               0                        0                        0
 #> 6               0                        0                        0
-#>   AGE_6_NO_DISCARD AGE_6_MEAN_WEIGHT_DISCARD AGE_6_MEAN_LENGTH_DISCARD AGE_7
+#>   age_6_no_discard age_6_mean_weight_discard age_6_mean_length_discard age_7
 #> 1               -1                        -1                        -1     7
 #> 2               -1                        -1                        -1     7
 #> 3               -1                        -1                        -1     7
 #> 4               -1                        -1                         0     7
 #> 5               -1                        -1                         0     7
 #> 6               -1                        -1                         0     7
-#>   AGE_7_NO_LANDED AGE_7_MEAN_WEIGHT_LANDED AGE_7_MEAN_LENGTH_LANDED
+#>   age_7_no_landed age_7_mean_weight_landed age_7_mean_length_landed
 #> 1               0                        0                        0
 #> 2               0                        0                        0
 #> 3               0                        0                        0
 #> 4               0                        0                        0
 #> 5               0                        0                        0
 #> 6               0                        0                        0
-#>   AGE_7_NO_DISCARD AGE_7_MEAN_WEIGHT_DISCARD AGE_7_MEAN_LENGTH_DISCARD AGE_8
+#>   age_7_no_discard age_7_mean_weight_discard age_7_mean_length_discard age_8
 #> 1               -1                        -1                        -1     8
 #> 2               -1                        -1                        -1     8
 #> 3               -1                        -1                        -1     8
 #> 4               -1                        -1                         0     8
 #> 5               -1                        -1                         0     8
 #> 6               -1                        -1                         0     8
-#>   AGE_8_NO_LANDED AGE_8_MEAN_WEIGHT_LANDED AGE_8_MEAN_LENGTH_LANDED
+#>   age_8_no_landed age_8_mean_weight_landed age_8_mean_length_landed
 #> 1               0                        0                        0
 #> 2               0                        0                        0
 #> 3               0                        0                        0
 #> 4               0                        0                        0
 #> 5               0                        0                        0
 #> 6               0                        0                        0
-#>   AGE_8_NO_DISCARD AGE_8_MEAN_WEIGHT_DISCARD AGE_8_MEAN_LENGTH_DISCARD AGE_9
+#>   age_8_no_discard age_8_mean_weight_discard age_8_mean_length_discard age_9
 #> 1               -1                        -1                        -1     9
 #> 2               -1                        -1                        -1     9
 #> 3               -1                        -1                        -1     9
 #> 4               -1                        -1                         0     9
 #> 5               -1                        -1                         0     9
 #> 6               -1                        -1                         0     9
-#>   AGE_9_NO_LANDED AGE_9_MEAN_WEIGHT_LANDED AGE_9_MEAN_LENGTH_LANDED
+#>   age_9_no_landed age_9_mean_weight_landed age_9_mean_length_landed
 #> 1               0                        0                        0
 #> 2               0                        0                        0
 #> 3               0                        0                        0
 #> 4               0                        0                        0
 #> 5               0                        0                        0
 #> 6               0                        0                        0
-#>   AGE_9_NO_DISCARD AGE_9_MEAN_WEIGHT_DISCARD AGE_9_MEAN_LENGTH_DISCARD AGE_10
+#>   age_9_no_discard age_9_mean_weight_discard age_9_mean_length_discard age_10
 #> 1               -1                        -1                        -1     10
 #> 2               -1                        -1                        -1     10
 #> 3               -1                        -1                        -1     10
 #> 4               -1                        -1                         0     10
 #> 5               -1                        -1                         0     10
 #> 6               -1                        -1                         0     10
-#>   AGE_10_NO_LANDED AGE_10_MEAN_WEIGHT_LANDED AGE_10_MEAN_LENGTH_LANDED
+#>   age_10_no_landed age_10_mean_weight_landed age_10_mean_length_landed
 #> 1                0                         0                         0
 #> 2                0                         0                         0
 #> 3                0                         0                         0
 #> 4                0                         0                         0
 #> 5                0                         0                         0
 #> 6                0                         0                         0
-#>   AGE_10_NO_DISCARD AGE_10_MEAN_WEIGHT_DISCARD AGE_10_MEAN_LENGTH_DISCARD
+#>   age_10_no_discard age_10_mean_weight_discard age_10_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_11 AGE_11_NO_LANDED AGE_11_MEAN_WEIGHT_LANDED AGE_11_MEAN_LENGTH_LANDED
+#>   age_11 age_11_no_landed age_11_mean_weight_landed age_11_mean_length_landed
 #> 1     11                0                         0                         0
 #> 2     11                0                         0                         0
 #> 3     11                0                         0                         0
 #> 4     11                0                         0                         0
 #> 5     11                0                         0                         0
 #> 6     11                0                         0                         0
-#>   AGE_11_NO_DISCARD AGE_11_MEAN_WEIGHT_DISCARD AGE_11_MEAN_LENGTH_DISCARD
+#>   age_11_no_discard age_11_mean_weight_discard age_11_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_12 AGE_12_NO_LANDED AGE_12_MEAN_WEIGHT_LANDED AGE_12_MEAN_LENGTH_LANDED
+#>   age_12 age_12_no_landed age_12_mean_weight_landed age_12_mean_length_landed
 #> 1     12                0                         0                         0
 #> 2     12                0                         0                         0
 #> 3     12                0                         0                         0
 #> 4     12                0                         0                         0
 #> 5     12                0                         0                         0
 #> 6     12                0                         0                         0
-#>   AGE_12_NO_DISCARD AGE_12_MEAN_WEIGHT_DISCARD AGE_12_MEAN_LENGTH_DISCARD
+#>   age_12_no_discard age_12_mean_weight_discard age_12_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_13 AGE_13_NO_LANDED AGE_13_MEAN_WEIGHT_LANDED AGE_13_MEAN_LENGTH_LANDED
+#>   age_13 age_13_no_landed age_13_mean_weight_landed age_13_mean_length_landed
 #> 1     13                0                         0                         0
 #> 2     13                0                         0                         0
 #> 3     13                0                         0                         0
 #> 4     13                0                         0                         0
 #> 5     13                0                         0                         0
 #> 6     13                0                         0                         0
-#>   AGE_13_NO_DISCARD AGE_13_MEAN_WEIGHT_DISCARD AGE_13_MEAN_LENGTH_DISCARD
+#>   age_13_no_discard age_13_mean_weight_discard age_13_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_14 AGE_14_NO_LANDED AGE_14_MEAN_WEIGHT_LANDED AGE_14_MEAN_LENGTH_LANDED
+#>   age_14 age_14_no_landed age_14_mean_weight_landed age_14_mean_length_landed
 #> 1     14                0                         0                         0
 #> 2     14                0                         0                         0
 #> 3     14                0                         0                         0
 #> 4     14                0                         0                         0
 #> 5     14                0                         0                         0
 #> 6     14                0                         0                         0
-#>   AGE_14_NO_DISCARD AGE_14_MEAN_WEIGHT_DISCARD AGE_14_MEAN_LENGTH_DISCARD
+#>   age_14_no_discard age_14_mean_weight_discard age_14_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_15 AGE_15_NO_LANDED AGE_15_MEAN_WEIGHT_LANDED AGE_15_MEAN_LENGTH_LANDED
+#>   age_15 age_15_no_landed age_15_mean_weight_landed age_15_mean_length_landed
 #> 1     15                0                         0                         0
 #> 2     15                0                         0                         0
 #> 3     15                0                         0                         0
 #> 4     15                0                         0                         0
 #> 5     15                0                         0                         0
 #> 6     15                0                         0                         0
-#>   AGE_15_NO_DISCARD AGE_15_MEAN_WEIGHT_DISCARD AGE_15_MEAN_LENGTH_DISCARD
+#>   age_15_no_discard age_15_mean_weight_discard age_15_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_16 AGE_16_NO_LANDED AGE_16_MEAN_WEIGHT_LANDED AGE_16_MEAN_LENGTH_LANDED
+#>   age_16 age_16_no_landed age_16_mean_weight_landed age_16_mean_length_landed
 #> 1     16                0                         0                         0
 #> 2     16                0                         0                         0
 #> 3     16                0                         0                         0
 #> 4     16                0                         0                         0
 #> 5     16                0                         0                         0
 #> 6     16                0                         0                         0
-#>   AGE_16_NO_DISCARD AGE_16_MEAN_WEIGHT_DISCARD AGE_16_MEAN_LENGTH_DISCARD
+#>   age_16_no_discard age_16_mean_weight_discard age_16_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_17 AGE_17_NO_LANDED AGE_17_MEAN_WEIGHT_LANDED AGE_17_MEAN_LENGTH_LANDED
+#>   age_17 age_17_no_landed age_17_mean_weight_landed age_17_mean_length_landed
 #> 1     17                0                         0                         0
 #> 2     17                0                         0                         0
 #> 3     17                0                         0                         0
 #> 4     17                0                         0                         0
 #> 5     17                0                         0                         0
 #> 6     17                0                         0                         0
-#>   AGE_17_NO_DISCARD AGE_17_MEAN_WEIGHT_DISCARD AGE_17_MEAN_LENGTH_DISCARD
+#>   age_17_no_discard age_17_mean_weight_discard age_17_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_18 AGE_18_NO_LANDED AGE_18_MEAN_WEIGHT_LANDED AGE_18_MEAN_LENGTH_LANDED
+#>   age_18 age_18_no_landed age_18_mean_weight_landed age_18_mean_length_landed
 #> 1     18                0                         0                         0
 #> 2     18                0                         0                         0
 #> 3     18                0                         0                         0
 #> 4     18                0                         0                         0
 #> 5     18                0                         0                         0
 #> 6     18                0                         0                         0
-#>   AGE_18_NO_DISCARD AGE_18_MEAN_WEIGHT_DISCARD AGE_18_MEAN_LENGTH_DISCARD
+#>   age_18_no_discard age_18_mean_weight_discard age_18_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_19 AGE_19_NO_LANDED AGE_19_MEAN_WEIGHT_LANDED AGE_19_MEAN_LENGTH_LANDED
+#>   age_19 age_19_no_landed age_19_mean_weight_landed age_19_mean_length_landed
 #> 1     19                0                         0                         0
 #> 2     19                0                         0                         0
 #> 3     19                0                         0                         0
 #> 4     19                0                         0                         0
 #> 5     19                0                         0                         0
 #> 6     19                0                         0                         0
-#>   AGE_19_NO_DISCARD AGE_19_MEAN_WEIGHT_DISCARD AGE_19_MEAN_LENGTH_DISCARD
+#>   age_19_no_discard age_19_mean_weight_discard age_19_mean_length_discard
 #> 1                -1                         -1                         -1
 #> 2                -1                         -1                         -1
 #> 3                -1                         -1                         -1
 #> 4                -1                         -1                          0
 #> 5                -1                         -1                          0
 #> 6                -1                         -1                          0
-#>   AGE_20_PLUS AGE_20_PLUS_NO_LANDED AGE_20_PLUS_MEAN_WEIGHT_LANDED
+#>   age_20_plus age_20_plus_no_landed age_20_plus_mean_weight_landed
 #> 1          20                     0                              0
 #> 2          20                     0                              0
 #> 3          20                     0                              0
 #> 4          20                     0                              0
 #> 5          20                     0                              0
 #> 6          20                     0                              0
-#>   AGE_20_PLUS_MEAN_LENGTH_LANDED AGE_20_PLUS_NO_DISCARD
+#>   age_20_plus_mean_length_landed age_20_plus_no_discard
 #> 1                              0                     -1
 #> 2                              0                     -1
 #> 3                              0                     -1
 #> 4                              0                     -1
 #> 5                              0                     -1
 #> 6                              0                     -1
-#>   AGE_20_PLUS_MEAN_WEIGHT_DISCARD AGE_20_PLUS_MEAN_LENGTH_DISCARD
+#>   age_20_plus_mean_weight_discard age_20_plus_mean_length_discard
 #> 1                              -1                              -1
 #> 2                              -1                              -1
 #> 3                              -1                              -1
@@ -1342,11 +1362,6 @@ year.
 
 ``` r
 ks <- MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9",Rt=1)
-#> Warning in melt.data.table(dat, id.vars = c("year", "area", "species",
-#> "unit", : 'measure.vars' [0, 1, 2, 3, ...] are not all of the same type. By
-#> order of hierarchy, the molten data value column will be of type 'double'. All
-#> measure variables not of type 'double' will be coerced too. Check DETAILS in ?
-#> melt.data.table for more on coercion.
 ```
 
 ![](README_files/figure-gfm/MEDBS_ks_landing1-1.png)<!-- -->
@@ -1785,10 +1800,13 @@ gear and fishery aggregation.
 
 ``` r
 results[[2]]
-#> geom_path: Each group consists of only one observation. Do you need to adjust
-#> the group aesthetic?
-#> geom_path: Each group consists of only one observation. Do you need to adjust
-#> the group aesthetic?
+#> 
+#> `geom_line()`: Each group consists of only one observation.
+#> i Do you need to adjust the group aesthetic?
+#> 
+#> 
+#> `geom_line()`: Each group consists of only one observation.
+#> i Do you need to adjust the group aesthetic?
 ```
 
 ![](README_files/figure-gfm/MEDBS_disc_mean_weight2-1.png)<!-- -->
@@ -2152,7 +2170,7 @@ check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[1]]
 #>            metier   domain_discards   domain_landings      supra_region 
 #>                 0                 0                 0                 0 
 #>        sub_region     eez_indicator     geo_indicator       specon_tech 
-#>                 0              2413                 0                 3 
+#>                 0              2563                 0                 3 
 #>              deep           species      totwghtlandg       totvallandg 
 #>                 0                 0                30                33 
 #>          discards      confidential 
@@ -2405,7 +2423,18 @@ check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[2]]
 #> [2367] 2396 2397 2398 2399 2400 2401 2402 2403 2404 2405 2406 2407 2408 2409
 #> [2381] 2410 2411 2412 2413 2414 2415 2416 2417 2418 2419 2420 2421 2422 2423
 #> [2395] 2426 2430 2431 2432 2433 2434 2438 2439 2440 2441 2442 2443 2444 2445
-#> [2409] 2446 2447 2448 2449 2450
+#> [2409] 2446 2447 2448 2449 2450 2451 2452 2453 2454 2455 2456 2457 2458 2459
+#> [2423] 2460 2461 2462 2463 2464 2465 2466 2467 2468 2469 2470 2471 2472 2473
+#> [2437] 2474 2475 2476 2477 2478 2479 2480 2481 2482 2483 2484 2485 2486 2487
+#> [2451] 2488 2489 2490 2491 2492 2493 2494 2495 2496 2497 2498 2499 2500 2501
+#> [2465] 2502 2503 2504 2505 2506 2507 2508 2509 2510 2511 2512 2513 2514 2515
+#> [2479] 2516 2517 2518 2519 2520 2521 2522 2523 2524 2525 2526 2527 2528 2529
+#> [2493] 2530 2531 2532 2533 2534 2535 2536 2537 2538 2539 2540 2541 2542 2543
+#> [2507] 2544 2545 2546 2547 2548 2549 2550 2551 2552 2553 2554 2555 2556 2557
+#> [2521] 2558 2559 2560 2561 2562 2563 2564 2565 2566 2567 2568 2569 2570 2571
+#> [2535] 2572 2573 2574 2575 2576 2577 2578 2579 2580 2581 2582 2583 2584 2585
+#> [2549] 2586 2587 2588 2589 2590 2591 2592 2593 2594 2595 2596 2597 2598 2599
+#> [2563] 2600
 #> 
 #> $geo_indicator
 #> integer(0)
@@ -2457,13 +2486,15 @@ year. The function works on FDI tables A, G, H, I and J.
 ``` r
 FDI_coverage(data=fdi_a_catch, MS="PSP", verbose = FALSE)
 #>   year country   gsa records
-#> 1 2014     PSP GSA99     429
-#> 2 2015     PSP GSA99     258
-#> 3 2016     PSP GSA99     258
-#> 4 2017     PSP GSA99     301
-#> 5 2018     PSP GSA99     387
-#> 6 2019     PSP GSA99     430
-#> 7 2020     PSP GSA99     387
+#> 1 2018     PSP GSA97      59
+#> 2 2018     PSP GSA98      91
+#> 3 2014     PSP GSA99     429
+#> 4 2015     PSP GSA99     258
+#> 5 2016     PSP GSA99     258
+#> 6 2017     PSP GSA99     301
+#> 7 2018     PSP GSA99     387
+#> 8 2019     PSP GSA99     430
+#> 9 2020     PSP GSA99     387
 ```
 
 ### Coverage of FDI discard data
@@ -2572,7 +2603,7 @@ parameter is not specified, the analysis is conducted over all the
 species in the provided data frame.
 
 ``` r
-FDI_prices_not_null(data = fdi_a_catch, MS = "PSP",SP = c("HKE"), verbose = FALSE)[[1]]
+FDI_prices_not_null(data = fdi_a_catch, MS = "PSP", GSA = "GSA99",SP = c("HKE"), verbose = FALSE)[[1]]
 #>   species year land weight land value    price av_price
 #> 1     HKE 2014       1.099  7607.1731 6.921905 4.596886
 #> 2     HKE 2015       0.249  1944.6006 7.809641 4.596886
@@ -2590,7 +2621,7 @@ not specified, the analysis is conducted over all the species in the
 provided data frame.
 
 ``` r
-FDI_prices_not_null(data = fdi_a_catch, MS = "PSP",SP = c("HKE"), verbose = TRUE)[[2]]
+FDI_prices_not_null(data = fdi_a_catch, MS = "PSP", GSA = "GSA99",SP = c("HKE"), verbose = TRUE)[[2]]
 #> [1] "Average price per species in PSP"
 #> No cases with total landings > 0 but landings value = 0
 #> [1] year        species     land weight land value  price      
@@ -3074,32 +3105,32 @@ FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[6]]
 
 ``` r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[7]]
-#> Warning: Removed 3 rows containing missing values (geom_point).
-#> Warning: Removed 3 row(s) containing missing values (geom_path).
+#> Warning: Removed 3 rows containing missing values (`geom_point()`).
+#> Warning: Removed 3 rows containing missing values (`geom_line()`).
 ```
 
 ![](README_files/figure-gfm/FDI_cov_tableG_3-5.png)<!-- -->
 
 ``` r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[8]]
-#> Warning: Removed 3 rows containing missing values (geom_point).
-#> Removed 3 row(s) containing missing values (geom_path).
+#> Warning: Removed 3 rows containing missing values (`geom_point()`).
+#> Removed 3 rows containing missing values (`geom_line()`).
 ```
 
 ![](README_files/figure-gfm/FDI_cov_tableG_3-6.png)<!-- -->
 
 ``` r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[9]]
-#> Warning: Removed 3 rows containing missing values (geom_point).
-#> Removed 3 row(s) containing missing values (geom_path).
+#> Warning: Removed 3 rows containing missing values (`geom_point()`).
+#> Removed 3 rows containing missing values (`geom_line()`).
 ```
 
 ![](README_files/figure-gfm/FDI_cov_tableG_3-7.png)<!-- -->
 
 ``` r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[10]]
-#> Warning: Removed 3 rows containing missing values (geom_point).
-#> Removed 3 row(s) containing missing values (geom_path).
+#> Warning: Removed 3 rows containing missing values (`geom_point()`).
+#> Removed 3 rows containing missing values (`geom_line()`).
 ```
 
 ![](README_files/figure-gfm/FDI_cov_tableG_3-8.png)<!-- -->
@@ -3760,7 +3791,7 @@ longitude.
 
 ``` r
 FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
-#> no data available with rectangle coordinates in the selected table
+#> no data with rectangle coordinates available in the selected table
 #> NULL
 ```
 
@@ -4239,7 +4270,7 @@ longitude.
 
 ``` r
 FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
-#> no data available with rectangle coordinates in the selected table
+#> no data with rectangle coordinates available in the selected table
 #> NULL
 ```
 
@@ -4358,8 +4389,8 @@ does not match vessel length category.
 ``` r
 head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[1]])
 #> [1] "Check consistency of vessel length with vessel category in table J for PSP data"
-#> [1] "found 30 cases with NAs in either vessel length or vessel category or both. Check output table"
-#> [1] "found 1991 cases where vessel length does not match vessel length category"
+#> found 30 cases with NAs in either vessel length or vessel category or both. Check output table
+#> found 1991 cases where vessel length does not match vessel length category
 #>    country year vessel_length principal_sub_region totkw totgt totves    avgage
 #> 1      PSP 2014            NK                GSA99   221    21      1   7.00000
 #> 2      PSP 2014            NK                GSA99   471    18      1 444.00000
@@ -4379,8 +4410,8 @@ head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[1]])
 ``` r
 head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[2]])
 #> [1] "Check consistency of vessel length with vessel category in table J for PSP data"
-#> [1] "found 30 cases with NAs in either vessel length or vessel category or both. Check output table"
-#> [1] "found 1991 cases where vessel length does not match vessel length category"
+#> found 30 cases with NAs in either vessel length or vessel category or both. Check output table
+#> found 1991 cases where vessel length does not match vessel length category
 #>    country year vessel_length principal_sub_region totkw totgt totves
 #> 4      PSP 2014        VL0006                GSA99   444   108      3
 #> 5      PSP 2014        VL0612                GSA99   598    44     44
@@ -4506,9 +4537,11 @@ FDI_landweight_cov(dataA=fdi_a_catch, dataH=fdi_h_spatial_landings, MS="PSP", ve
 #> 2 2015     PSP GSA99       131.154      5372.477  3996.31%
 #> 3 2016     PSP GSA99        41.679      5638.029 13427.27%
 #> 4 2017     PSP GSA99        72.392      5266.220  7174.59%
-#> 5 2018     PSP GSA99       125.115      6301.502  4936.57%
-#> 6 2019     PSP GSA99       179.482      7191.640  3906.89%
-#> 7 2020     PSP GSA99       225.216      8186.780  3535.08%
+#> 5 2018     PSP GSA97       607.990            NA      <NA>
+#> 6 2018     PSP GSA98      2824.540            NA      <NA>
+#> 7 2018     PSP GSA99       125.115      6301.502  4936.57%
+#> 8 2019     PSP GSA99       179.482      7191.640  3906.89%
+#> 9 2020     PSP GSA99       225.216      8186.780  3535.08%
 ```
 
 ### Check number of vessels in FDI table J and G
@@ -4593,7 +4626,7 @@ head(FDI_cross_checks_AG(data1=fdi_a_catch, data2=fdi_g_effort))
 #> 78            20D40             <NA>      GSA99        0.000       56.84
 #> 138            <NA> GNS_SLP_>=16_0_0      GSA99        0.000      317.41
 #> 158            <NA> OTB_DEF_>=40_0_0      GSA99        0.000       22.04
-#>     totseadays                                                            Data
+#>     totseadays                                                   Check results
 #> 18          82 no landings, only effort in fishing days and sea days available
 #> 33          28                                 landings and sea days available
 #> 48           1 no landings, only effort in fishing days and sea days available
@@ -4612,16 +4645,48 @@ in table A and spatial landings in table H are reported.
 ``` r
 FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings,verbose=TRUE)[[1]]
 #>    country year vessel_length fishing_tech gear_type sub_region totwghtlandg
-#> 1      PSP 2014        VL0006          DFN      <NA>      GSA99            0
-#> 2      PSP 2014        VL0612          DFN      <NA>      GSA99            0
-#> 3      PSP 2014        VL2440          PMP       LHP      GSA99            0
-#> 4      PSP 2014          <NA>          DTS       OTB      GSA99            0
-#> 5      PSP 2014          <NA>          PMP       GTR      GSA99            0
-#> 6      PSP 2014          <NA>          PMP       LHP      GSA99            0
-#> 7      PSP 2016        VL0006          PMP       FPO      GSA99            0
-#> 8      PSP 2016        VL2440          PMP       FPO      GSA99            0
-#> 9      PSP 2016          <NA>          PMP       FPO      GSA99            0
-#> 10     PSP 2017          <NA>          PMP       FPO      GSA99            0
+#> 1      PSP 2014        VL0006          DFN      <NA>      GSA99         0.00
+#> 2      PSP 2014        VL0612          DFN      <NA>      GSA99         0.00
+#> 3      PSP 2014        VL2440          PMP       LHP      GSA99         0.00
+#> 4      PSP 2014          <NA>          DTS       OTB      GSA99         0.00
+#> 5      PSP 2014          <NA>          PMP       GTR      GSA99         0.00
+#> 6      PSP 2014          <NA>          PMP       LHP      GSA99         0.00
+#> 7      PSP 2016        VL0006          PMP       FPO      GSA99         0.00
+#> 8      PSP 2016        VL2440          PMP       FPO      GSA99         0.00
+#> 9      PSP 2016          <NA>          PMP       FPO      GSA99         0.00
+#> 10     PSP 2017          <NA>          PMP       FPO      GSA99         0.00
+#> 11     PSP 2018        VL0006          FPO       FPO      GSA98         2.13
+#> 12     PSP 2018        VL0006          HOK       LLS      GSA98         5.49
+#> 13     PSP 2018        VL0006           PG       GNS      GSA98        41.51
+#> 14     PSP 2018        VL0006           PG       GTR      GSA98        11.64
+#> 15     PSP 2018        VL0612          FPO       FPO      GSA98        10.52
+#> 16     PSP 2018        VL0612          HOK       LLS      GSA97        41.46
+#> 17     PSP 2018        VL0612          HOK       LLS      GSA98       216.29
+#> 18     PSP 2018        VL0612          MGP        SB      GSA97         2.00
+#> 19     PSP 2018        VL0612          MGP        SB      GSA98         4.05
+#> 20     PSP 2018        VL0612           PG       GNS      GSA97       219.78
+#> 21     PSP 2018        VL0612           PG       GNS      GSA98       423.99
+#> 22     PSP 2018        VL0612           PG       GTR      GSA97       128.86
+#> 23     PSP 2018        VL0612           PG       GTR      GSA98       135.44
+#> 24     PSP 2018        VL1218          DTS       OTB      GSA98         6.76
+#> 25     PSP 2018        VL1218          HOK       LLS      GSA97         8.75
+#> 26     PSP 2018        VL1218          HOK       LLS      GSA98        53.39
+#> 27     PSP 2018        VL1218          MGP        SB      GSA98         4.03
+#> 28     PSP 2018        VL1218          PGP       GNS      GSA97        19.00
+#> 29     PSP 2018        VL1218          PGP       GNS      GSA98        24.78
+#> 30     PSP 2018        VL1218          PGP       GTR      GSA97        13.43
+#> 31     PSP 2018        VL1218          PGP       GTR      GSA98        11.46
+#> 32     PSP 2018        VL1824          DTS       OTB      GSA97        65.66
+#> 33     PSP 2018        VL1824          DTS       OTB      GSA98       445.08
+#> 34     PSP 2018        VL1824          FPO       FPO      GSA98         4.01
+#> 35     PSP 2018        VL1824          HOK       LLS      GSA97         6.07
+#> 36     PSP 2018        VL1824          HOK       LLS      GSA98        13.32
+#> 37     PSP 2018        VL1824          PGP       GTR      GSA97         2.00
+#> 38     PSP 2018        VL1824           PS        PS      GSA97         4.04
+#> 39     PSP 2018        VL1824           PS        PS      GSA98         6.03
+#> 40     PSP 2018        VL2440          DTS       OTB      GSA97        96.94
+#> 41     PSP 2018        VL2440          DTS       OTB      GSA98      1398.61
+#> 42     PSP 2018        VL2440           PS        PS      GSA98         6.01
 #>     ttwghtl
 #> 1  0.141613
 #> 2  1.051240
@@ -4633,17 +4698,81 @@ FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings,verbose=
 #> 8  0.001000
 #> 9  1.132000
 #> 10 0.242750
-#>                                                                    Data
-#> 1  landings in tabel A not avalilable and landings in table H available
-#> 2  landings in tabel A not avalilable and landings in table H available
-#> 3  landings in tabel A not avalilable and landings in table H available
-#> 4  landings in tabel A not avalilable and landings in table H available
-#> 5  landings in tabel A not avalilable and landings in table H available
-#> 6  landings in tabel A not avalilable and landings in table H available
-#> 7  landings in tabel A not avalilable and landings in table H available
-#> 8  landings in tabel A not avalilable and landings in table H available
-#> 9  landings in tabel A not avalilable and landings in table H available
-#> 10 landings in tabel A not avalilable and landings in table H available
+#> 11 0.000000
+#> 12 0.000000
+#> 13 0.000000
+#> 14 0.000000
+#> 15 0.000000
+#> 16 0.000000
+#> 17 0.000000
+#> 18 0.000000
+#> 19 0.000000
+#> 20 0.000000
+#> 21 0.000000
+#> 22 0.000000
+#> 23 0.000000
+#> 24 0.000000
+#> 25 0.000000
+#> 26 0.000000
+#> 27 0.000000
+#> 28 0.000000
+#> 29 0.000000
+#> 30 0.000000
+#> 31 0.000000
+#> 32 0.000000
+#> 33 0.000000
+#> 34 0.000000
+#> 35 0.000000
+#> 36 0.000000
+#> 37 0.000000
+#> 38 0.000000
+#> 39 0.000000
+#> 40 0.000000
+#> 41 0.000000
+#> 42 0.000000
+#>                                                                           Data
+#> 1         landings in tabel A not avalilable and landings in table H available
+#> 2         landings in tabel A not avalilable and landings in table H available
+#> 3         landings in tabel A not avalilable and landings in table H available
+#> 4         landings in tabel A not avalilable and landings in table H available
+#> 5         landings in tabel A not avalilable and landings in table H available
+#> 6         landings in tabel A not avalilable and landings in table H available
+#> 7         landings in tabel A not avalilable and landings in table H available
+#> 8         landings in tabel A not avalilable and landings in table H available
+#> 9         landings in tabel A not avalilable and landings in table H available
+#> 10        landings in tabel A not avalilable and landings in table H available
+#> 11 landings in table A are available and landings in table H are not available
+#> 12 landings in table A are available and landings in table H are not available
+#> 13 landings in table A are available and landings in table H are not available
+#> 14 landings in table A are available and landings in table H are not available
+#> 15 landings in table A are available and landings in table H are not available
+#> 16 landings in table A are available and landings in table H are not available
+#> 17 landings in table A are available and landings in table H are not available
+#> 18 landings in table A are available and landings in table H are not available
+#> 19 landings in table A are available and landings in table H are not available
+#> 20 landings in table A are available and landings in table H are not available
+#> 21 landings in table A are available and landings in table H are not available
+#> 22 landings in table A are available and landings in table H are not available
+#> 23 landings in table A are available and landings in table H are not available
+#> 24 landings in table A are available and landings in table H are not available
+#> 25 landings in table A are available and landings in table H are not available
+#> 26 landings in table A are available and landings in table H are not available
+#> 27 landings in table A are available and landings in table H are not available
+#> 28 landings in table A are available and landings in table H are not available
+#> 29 landings in table A are available and landings in table H are not available
+#> 30 landings in table A are available and landings in table H are not available
+#> 31 landings in table A are available and landings in table H are not available
+#> 32 landings in table A are available and landings in table H are not available
+#> 33 landings in table A are available and landings in table H are not available
+#> 34 landings in table A are available and landings in table H are not available
+#> 35 landings in table A are available and landings in table H are not available
+#> 36 landings in table A are available and landings in table H are not available
+#> 37 landings in table A are available and landings in table H are not available
+#> 38 landings in table A are available and landings in table H are not available
+#> 39 landings in table A are available and landings in table H are not available
+#> 40 landings in table A are available and landings in table H are not available
+#> 41 landings in table A are available and landings in table H are not available
+#> 42 landings in table A are available and landings in table H are not available
 ```
 
 The second table reports the comparison between total landings of table
@@ -4656,9 +4785,11 @@ FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings)[[2]]
 #> 2 2015     PSP      GSA99      131.154     5372.477
 #> 3 2016     PSP      GSA99       41.679     5638.029
 #> 4 2017     PSP      GSA99       72.392     5266.220
-#> 5 2018     PSP      GSA99      125.115     6301.502
-#> 6 2019     PSP      GSA99      179.482     7191.640
-#> 7 2020     PSP      GSA99      225.216     8186.780
+#> 5 2018     PSP      GSA97      607.990           NA
+#> 6 2018     PSP      GSA98     2824.540           NA
+#> 7 2018     PSP      GSA99      125.115     6301.502
+#> 8 2019     PSP      GSA99      179.482     7191.640
+#> 9 2020     PSP      GSA99      225.216     8186.780
 ```
 
 ### ross check between FDI tables I and G
@@ -4871,9 +5002,9 @@ list gives the number of NA for each reference column.
 
 ``` r
 check_EF_taskIII(task_iii,verbose=FALSE)[[1]]
-#> Reference_Year            CPC            GSA        Segment          Group 
+#> Reference_Year            CPC           Date            GSA         Source 
 #>              0              0              0              0              0 
-#>           Date         Source   NumberCaught 
+#>        Segment          Group   NumberCaught 
 #>              0              0              0
 ```
 
@@ -4887,19 +5018,19 @@ check_EF_taskIII(task_iii,verbose=FALSE)[[2]]
 #> $CPC
 #> integer(0)
 #> 
+#> $Date
+#> integer(0)
+#> 
 #> $GSA
+#> integer(0)
+#> 
+#> $Source
 #> integer(0)
 #> 
 #> $Segment
 #> integer(0)
 #> 
 #> $Group
-#> integer(0)
-#> 
-#> $Date
-#> integer(0)
-#> 
-#> $Source
 #> integer(0)
 #> 
 #> $NumberCaught
@@ -4916,8 +5047,8 @@ columns of the Task Task III table.
 
 ``` r
 check_RD_taskIII(task_iii)
-#> no duplicated lines in the data frame
-#> integer(0)
+#> 1 record/s duplicated
+#> [1] 6
 ```
 
 ## Task VII.2 table
@@ -5006,10 +5137,6 @@ than the expected ones.
 
 ``` r
 check_minmaxl_TaskVII.2(task_vii2,minmaxLtaskVII2,MS="ITA",GSA="18")
-#>   Species min_observed max_observed min_theoretical max_theoretical check_min
-#> 1     BOG          8.5           18               5             100          
-#>   check_max
-#> 1
 ```
 
 ### Plot of the relationship length weight for each species
@@ -5193,22 +5320,22 @@ check_RD_TaskVII32(task_vii32)
 
 The function `check_species_catfau_TaskVII.3.2` allows to check the
 correct codification of faunistic category according to species and sex
-in Task VII.3.2 table. Two vectors are returned by the function. The
-first provides the list of mismatching combination of species/faunistic
-categories.
+in Task VII.3.2 table. A vector is returned by the function providing
+the list of mismatching combination of species/faunistic categories.
 
 ``` r
-check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18")[[1]]
+check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18",SP="CTC")[[1]]
 #> character(0)
 ```
 
-The second vector provides the list of mismatching combination of
-sex/maturity stages.
+Furthermore, a plot of the length distribution by sex and maturity is
+returned for the selected species.
 
 ``` r
-check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18")[[2]]
-#> character(0)
+check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18",SP="CTC")[[2]]
 ```
+
+![](README_files/figure-gfm/check_species_catfau_TaskVII.3.2_2-1.png)<!-- -->
 
 ### Plot of the maturity stages per length for each sex and species
 
@@ -5217,7 +5344,7 @@ by species and sex to easily identify outliers. The function return a
 plot of the maturity stages per length and sex per species.
 
 ``` r
-check_lmat_TaskVII.3.2(task_vii32)
+check_lmat_TaskVII.3.2(task_vii32, MS="ITA",GSA="18",SP="CTC")
 ```
 
 ![](README_files/figure-gfm/check_lmat_TaskVII.3.2-1.png)<!-- -->

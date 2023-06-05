@@ -1,7 +1,7 @@
 ---
 title: "RDBqc: Quality checks on RDBFIS data formats" 
 author: "Walter Zupa"
-date: "2022-11-15"
+date: "2023-06-05"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteEngine{knitr::knitr}
@@ -16,7 +16,7 @@ vignette: >
 
 RDBqc allows to carry out a set of _a priori_ quality checks on detailed sampling data and on aggregated landing data, and _a posteriori_ quality check on MEDBS, FDI and GFCM data call formats.
 
-The supported quality checks in version 0.0.13 are:
+The supported quality checks in version 0.0.16 are:
 
 ### _A priori_ quality checks
 * RCG CS - biological sampling data
@@ -38,6 +38,19 @@ The supported quality checks in version 0.0.13 are:
 * GFCM - Task VII.2 table
 * GFCM - Task VII.3.1 table
 * GFCM - Task VII.3.2 table
+
+### _Cross-checks_ among data calls
+Since RBDqc version 0.0.15, the package also includes cross-check functions to perform checks between data call tables.
+In particular, the following cross-check functions are available:
+
+* Landing consistency among the different data calls: MED & BS, FDI and Annual Economic Report (AER)
+* Discard consistency between MED & BS and FDI data calls
+* Landing consistency between FDI and AER data calls
+* Landing value consistency between FDI and AER data calls
+* Number of trips consistency between MED & BS and Annual report (AR) data calls
+* Number of ages consistency between MED & BS and AR data calls
+* Number of weights consistency between MED & BS and AR data calls
+* Number of maturity data consistency between MED & BS and AR data calls
 
 # Checks on RCG
 
@@ -125,34 +138,27 @@ head(data_ex)
 
 ```r
 head(data_exampleCL)
-#>   landCtry vslFlgCtry year quarter month  area rect subRect
-#> 1       NA   COUNTRY1 1900       1     1 GSA99   NA      NA
-#> 2       NA   COUNTRY1 1900       1     2 GSA99   NA      NA
-#> 3       NA   COUNTRY1 1900       1     3 GSA99   NA      NA
-#> 4       NA   COUNTRY1 1900       2     4 GSA99   NA      NA
-#> 5       NA   COUNTRY1 1900       2     5 GSA99   NA      NA
-#> 6       NA   COUNTRY1 1900       2     6 GSA99   NA      NA
-#>                      taxon landCat commCatScl commCat  foCatNat foCatEu5
-#> 1 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#> 2 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#> 3 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#> 4 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#> 5 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#> 6 Parapenaeus longirostris      NA         NA      NA OTB_shelf       NA
-#>           foCatEu6 harbour vslLenCat unallocCatchWt misRepCatchWt    landWt
-#> 1 OTB_DEF_>=40_0_0    Port        NA             NA            NA  73452.53
-#> 2 OTB_DEF_>=40_0_0    Port        NA             NA            NA  78741.52
-#> 3 OTB_DEF_>=40_0_0    Port        NA             NA            NA  82021.10
-#> 4 OTB_DEF_>=40_0_0    Port        NA             NA            NA  89022.59
-#> 5 OTB_DEF_>=40_0_0    Port        NA             NA            NA 103911.92
-#> 6 OTB_DEF_>=40_0_0    Port        NA             NA            NA 102987.30
-#>   landMult landValue
-#> 1       NA  372658.8
-#> 2       NA  392665.2
-#> 3       NA  460280.8
-#> 4       NA  433524.2
-#> 5       NA  494103.4
-#> 6       NA  498298.8
+#>   flag_country year quarter month  area                  species
+#> 1     COUNTRY1 2014       1     1 GSA99 Parapenaeus longirostris
+#> 2     COUNTRY1 2014       1     2 GSA99 Parapenaeus longirostris
+#> 3     COUNTRY1 2014       1     3 GSA99 Parapenaeus longirostris
+#> 4     COUNTRY1 2014       2     4 GSA99 Parapenaeus longirostris
+#> 5     COUNTRY1 2014       2     5 GSA99 Parapenaeus longirostris
+#> 6     COUNTRY1 2014       2     6 GSA99 Parapenaeus longirostris
+#>   fishing_activity_category_national fishing_activity_category_eu_l6 harbour
+#> 1                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#> 2                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#> 3                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#> 4                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#> 5                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#> 6                          OTB_shelf                OTB_DEF_>=40_0_0    Port
+#>   official_landings_weight official_landings_value
+#> 1                 73452.53                372658.8
+#> 2                 78741.52                392665.2
+#> 3                 82021.10                460280.8
+#> 4                 89022.59                433524.2
+#> 5                103911.92                494103.4
+#> 6                102987.30                498298.8
 ```
 
 ## Checks on CS
@@ -399,6 +405,7 @@ The function `RCG_check_loc` allows to check the spatial distribution of data us
 
 ```r
 RCG_check_loc(data_ex)
+#> 
 #> Regions defined for each Polygons
 ```
 
@@ -414,18 +421,18 @@ This function `RCG_check_CL` allows to check the data in the CL table for the se
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[1]]
 #>    Year Quarter Month Sum_Landings
-#> 1  1900       1     1     80553.10
-#> 2  1900       1     2     80519.05
-#> 3  1900       1     3     85107.68
-#> 4  1900       2     4     90093.59
-#> 5  1900       2     5    110096.34
-#> 6  1900       2     6    117515.89
-#> 7  1900       3     7     98584.85
-#> 8  1900       3     8     49500.43
-#> 9  1900       3     9     32084.59
-#> 10 1900       4    10    153080.70
-#> 11 1900       4    11    123574.70
-#> 12 1900       4    12     99743.72
+#> 1  2014       1     1     80553.10
+#> 2  2014       1     2     80519.05
+#> 3  2014       1     3     85107.68
+#> 4  2014       2     4     90093.59
+#> 5  2014       2     5    110096.34
+#> 6  2014       2     6    117515.89
+#> 7  2014       3     7     98584.85
+#> 8  2014       3     8     49500.43
+#> 9  2014       3     9     32084.59
+#> 10 2014       4    10    153080.70
+#> 11 2014       4    11    123574.70
+#> 12 2014       4    12     99743.72
 ```
 
 2. Sum of Landing value by year, quarter and month;
@@ -434,18 +441,18 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[2]]
 #>    Year Quarter Month Sum_LandingsValue
-#> 1  1900       1     1          410296.6
-#> 2  1900       1     2          400928.4
-#> 3  1900       1     3          476691.5
-#> 4  1900       2     4          438991.9
-#> 5  1900       2     5          521380.8
-#> 6  1900       2     6          571712.2
-#> 7  1900       3     7          518606.2
-#> 8  1900       3     8          308576.7
-#> 9  1900       3     9          161772.9
-#> 10 1900       4    10          609361.4
-#> 11 1900       4    11          576900.8
-#> 12 1900       4    12          601217.8
+#> 1  2014       1     1          410296.6
+#> 2  2014       1     2          400928.4
+#> 3  2014       1     3          476691.5
+#> 4  2014       2     4          438991.9
+#> 5  2014       2     5          521380.8
+#> 6  2014       2     6          571712.2
+#> 7  2014       3     7          518606.2
+#> 8  2014       3     8          308576.7
+#> 9  2014       3     9          161772.9
+#> 10 2014       4    10          609361.4
+#> 11 2014       4    11          576900.8
+#> 12 2014       4    12          601217.8
 ```
 
 3. Sum of landings by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
@@ -453,8 +460,8 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[3]]
-#>   LandCtry VslFlgCtry  Area Rect SubRect Harbour Sum_Landings
-#> 1       NA   COUNTRY1 GSA99   NA      NA    Port      1120455
+#>    Country  Area Harbour Sum_Landings
+#> 1 COUNTRY1 GSA99    Port      1120455
 ```
 
 4. Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
@@ -462,8 +469,8 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[4]]
-#>   LandCtry VslFlgCtry  Area Rect SubRect Harbour Sum_LandingsValue
-#> 1       NA   COUNTRY1 GSA99   NA      NA    Port           5596437
+#>    Country  Area Harbour Sum_LandingsValue
+#> 1 COUNTRY1 GSA99    Port           5596437
 ```
 
 5. Sum of landings by Year, Species, foCatEu5, foCatEu6;
@@ -471,10 +478,14 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[5]]
-#>   Year                  Species foCatEu5         foCatEu6 Sum_Landings
-#> 1 1900 Parapenaeus longirostris       NA OTB_DEF_>=40_0_0  1018083.081
-#> 2 1900 Parapenaeus longirostris       NA OTB_DWS_>=40_0_0     1453.471
-#> 3 1900 Parapenaeus longirostris       NA OTB_MDD_>=40_0_0   100918.089
+#>   Year                  Species fishing_activity_category_national
+#> 1 2014 Parapenaeus longirostris                         OTB_ mixed
+#> 2 2014 Parapenaeus longirostris                          OTB_shelf
+#> 3 2014 Parapenaeus longirostris                          OTB_slope
+#>   fishing_activity_category_eu_l6 Sum_Landings
+#> 1                OTB_MDD_>=40_0_0   100918.089
+#> 2                OTB_DEF_>=40_0_0  1018083.081
+#> 3                OTB_DWS_>=40_0_0     1453.471
 ```
 
 6. Sum of landing value by Year, Species, foCatEu5, foCatEu6.
@@ -482,10 +493,14 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[6]]
-#>   Year                  Species foCatEu5         foCatEu6 Sum_LandingsValue
-#> 1 1900 Parapenaeus longirostris       NA OTB_DEF_>=40_0_0       5050728.907
-#> 2 1900 Parapenaeus longirostris       NA OTB_DWS_>=40_0_0          7721.884
-#> 3 1900 Parapenaeus longirostris       NA OTB_MDD_>=40_0_0        537986.519
+#>   Year                  Species fishing_activity_category_national
+#> 1 2014 Parapenaeus longirostris                         OTB_ mixed
+#> 2 2014 Parapenaeus longirostris                          OTB_shelf
+#> 3 2014 Parapenaeus longirostris                          OTB_slope
+#>   fishing_activity_category_eu_l6 Sum_LandingsValue
+#> 1                OTB_MDD_>=40_0_0        537986.519
+#> 2                OTB_DEF_>=40_0_0       5050728.907
+#> 3                OTB_DWS_>=40_0_0          7721.884
 ```
 
 7. Plot of the landings by year and foCatEu6
@@ -493,8 +508,9 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 ```r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[7]]
-#> geom_path: Each group consists of only one observation. Do you need to adjust
-#> the group aesthetic?
+#> 
+#> `geom_line()`: Each group consists of only one observation.
+#> i Do you need to adjust the group aesthetic?
 ```
 
 ![plot of chunk RCG_check_CL7](figure/RCG_check_CL7-1.png)
@@ -1765,10 +1781,13 @@ The function also returns a plot of the mean discards weight by year, gear and f
 
 ```r
 results[[2]]
-#> geom_path: Each group consists of only one observation. Do you need to adjust
-#> the group aesthetic?
-#> geom_path: Each group consists of only one observation. Do you need to adjust
-#> the group aesthetic?
+#> 
+#> `geom_line()`: Each group consists of only one observation.
+#> i Do you need to adjust the group aesthetic?
+#> 
+#> 
+#> `geom_line()`: Each group consists of only one observation.
+#> i Do you need to adjust the group aesthetic?
 ```
 
 ![plot of chunk MEDBS_disc_mean_weight2](figure/MEDBS_disc_mean_weight2-1.png)
@@ -2125,7 +2144,7 @@ check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[1]]
 #>            metier   domain_discards   domain_landings      supra_region 
 #>                 0                 0                 0                 0 
 #>        sub_region     eez_indicator     geo_indicator       specon_tech 
-#>                 0              2413                 0                 3 
+#>                 0              2563                 0                 3 
 #>              deep           species      totwghtlandg       totvallandg 
 #>                 0                 0                30                33 
 #>          discards      confidential 
@@ -2378,7 +2397,18 @@ check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[2]]
 #> [2367] 2396 2397 2398 2399 2400 2401 2402 2403 2404 2405 2406 2407 2408 2409
 #> [2381] 2410 2411 2412 2413 2414 2415 2416 2417 2418 2419 2420 2421 2422 2423
 #> [2395] 2426 2430 2431 2432 2433 2434 2438 2439 2440 2441 2442 2443 2444 2445
-#> [2409] 2446 2447 2448 2449 2450
+#> [2409] 2446 2447 2448 2449 2450 2451 2452 2453 2454 2455 2456 2457 2458 2459
+#> [2423] 2460 2461 2462 2463 2464 2465 2466 2467 2468 2469 2470 2471 2472 2473
+#> [2437] 2474 2475 2476 2477 2478 2479 2480 2481 2482 2483 2484 2485 2486 2487
+#> [2451] 2488 2489 2490 2491 2492 2493 2494 2495 2496 2497 2498 2499 2500 2501
+#> [2465] 2502 2503 2504 2505 2506 2507 2508 2509 2510 2511 2512 2513 2514 2515
+#> [2479] 2516 2517 2518 2519 2520 2521 2522 2523 2524 2525 2526 2527 2528 2529
+#> [2493] 2530 2531 2532 2533 2534 2535 2536 2537 2538 2539 2540 2541 2542 2543
+#> [2507] 2544 2545 2546 2547 2548 2549 2550 2551 2552 2553 2554 2555 2556 2557
+#> [2521] 2558 2559 2560 2561 2562 2563 2564 2565 2566 2567 2568 2569 2570 2571
+#> [2535] 2572 2573 2574 2575 2576 2577 2578 2579 2580 2581 2582 2583 2584 2585
+#> [2549] 2586 2587 2588 2589 2590 2591 2592 2593 2594 2595 2596 2597 2598 2599
+#> [2563] 2600
 #> 
 #> $geo_indicator
 #> integer(0)
@@ -2427,13 +2457,15 @@ The function `FDI_coverage` returns a data frame reporting the coverage of the s
 ```r
 FDI_coverage(data=fdi_a_catch, MS="PSP", verbose = FALSE)
 #>   year country   gsa records
-#> 1 2014     PSP GSA99     429
-#> 2 2015     PSP GSA99     258
-#> 3 2016     PSP GSA99     258
-#> 4 2017     PSP GSA99     301
-#> 5 2018     PSP GSA99     387
-#> 6 2019     PSP GSA99     430
-#> 7 2020     PSP GSA99     387
+#> 1 2018     PSP GSA97      59
+#> 2 2018     PSP GSA98      91
+#> 3 2014     PSP GSA99     429
+#> 4 2015     PSP GSA99     258
+#> 5 2016     PSP GSA99     258
+#> 6 2017     PSP GSA99     301
+#> 7 2018     PSP GSA99     387
+#> 8 2019     PSP GSA99     430
+#> 9 2020     PSP GSA99     387
 ```
 ### Coverage of FDI discard data
 
@@ -3022,32 +3054,32 @@ FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[6]]
 
 ```r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[7]]
-#> Warning: Removed 3 rows containing missing values (geom_point).
-#> Warning: Removed 3 row(s) containing missing values (geom_path).
+#> Warning: Removed 3 rows containing missing values (`geom_point()`).
+#> Warning: Removed 3 rows containing missing values (`geom_line()`).
 ```
 
 ![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-5.png)
 
 ```r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[8]]
-#> Warning: Removed 3 rows containing missing values (geom_point).
-#> Removed 3 row(s) containing missing values (geom_path).
+#> Warning: Removed 3 rows containing missing values (`geom_point()`).
+#> Removed 3 rows containing missing values (`geom_line()`).
 ```
 
 ![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-6.png)
 
 ```r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[9]]
-#> Warning: Removed 3 rows containing missing values (geom_point).
-#> Removed 3 row(s) containing missing values (geom_path).
+#> Warning: Removed 3 rows containing missing values (`geom_point()`).
+#> Removed 3 rows containing missing values (`geom_line()`).
 ```
 
 ![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-7.png)
 
 ```r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[10]]
-#> Warning: Removed 3 rows containing missing values (geom_point).
-#> Removed 3 row(s) containing missing values (geom_path).
+#> Warning: Removed 3 rows containing missing values (`geom_point()`).
+#> Removed 3 rows containing missing values (`geom_line()`).
 ```
 
 ![plot of chunk FDI_cov_tableG_3](figure/FDI_cov_tableG_3-8.png)
@@ -4420,9 +4452,11 @@ FDI_landweight_cov(dataA=fdi_a_catch, dataH=fdi_h_spatial_landings, MS="PSP", ve
 #> 2 2015     PSP GSA99       131.154      5372.477  3996.31%
 #> 3 2016     PSP GSA99        41.679      5638.029 13427.27%
 #> 4 2017     PSP GSA99        72.392      5266.220  7174.59%
-#> 5 2018     PSP GSA99       125.115      6301.502  4936.57%
-#> 6 2019     PSP GSA99       179.482      7191.640  3906.89%
-#> 7 2020     PSP GSA99       225.216      8186.780  3535.08%
+#> 5 2018     PSP GSA97       607.990            NA      <NA>
+#> 6 2018     PSP GSA98      2824.540            NA      <NA>
+#> 7 2018     PSP GSA99       125.115      6301.502  4936.57%
+#> 8 2019     PSP GSA99       179.482      7191.640  3906.89%
+#> 9 2020     PSP GSA99       225.216      8186.780  3535.08%
 ```
 
 ### Check number of vessels in FDI table J and G
@@ -4522,16 +4556,48 @@ The function checks the possible data inconsistency between landings in table A 
 ```r
 FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings,verbose=TRUE)[[1]]
 #>    country year vessel_length fishing_tech gear_type sub_region totwghtlandg
-#> 1      PSP 2014        VL0006          DFN      <NA>      GSA99            0
-#> 2      PSP 2014        VL0612          DFN      <NA>      GSA99            0
-#> 3      PSP 2014        VL2440          PMP       LHP      GSA99            0
-#> 4      PSP 2014          <NA>          DTS       OTB      GSA99            0
-#> 5      PSP 2014          <NA>          PMP       GTR      GSA99            0
-#> 6      PSP 2014          <NA>          PMP       LHP      GSA99            0
-#> 7      PSP 2016        VL0006          PMP       FPO      GSA99            0
-#> 8      PSP 2016        VL2440          PMP       FPO      GSA99            0
-#> 9      PSP 2016          <NA>          PMP       FPO      GSA99            0
-#> 10     PSP 2017          <NA>          PMP       FPO      GSA99            0
+#> 1      PSP 2014        VL0006          DFN      <NA>      GSA99         0.00
+#> 2      PSP 2014        VL0612          DFN      <NA>      GSA99         0.00
+#> 3      PSP 2014        VL2440          PMP       LHP      GSA99         0.00
+#> 4      PSP 2014          <NA>          DTS       OTB      GSA99         0.00
+#> 5      PSP 2014          <NA>          PMP       GTR      GSA99         0.00
+#> 6      PSP 2014          <NA>          PMP       LHP      GSA99         0.00
+#> 7      PSP 2016        VL0006          PMP       FPO      GSA99         0.00
+#> 8      PSP 2016        VL2440          PMP       FPO      GSA99         0.00
+#> 9      PSP 2016          <NA>          PMP       FPO      GSA99         0.00
+#> 10     PSP 2017          <NA>          PMP       FPO      GSA99         0.00
+#> 11     PSP 2018        VL0006          FPO       FPO      GSA98         2.13
+#> 12     PSP 2018        VL0006          HOK       LLS      GSA98         5.49
+#> 13     PSP 2018        VL0006           PG       GNS      GSA98        41.51
+#> 14     PSP 2018        VL0006           PG       GTR      GSA98        11.64
+#> 15     PSP 2018        VL0612          FPO       FPO      GSA98        10.52
+#> 16     PSP 2018        VL0612          HOK       LLS      GSA97        41.46
+#> 17     PSP 2018        VL0612          HOK       LLS      GSA98       216.29
+#> 18     PSP 2018        VL0612          MGP        SB      GSA97         2.00
+#> 19     PSP 2018        VL0612          MGP        SB      GSA98         4.05
+#> 20     PSP 2018        VL0612           PG       GNS      GSA97       219.78
+#> 21     PSP 2018        VL0612           PG       GNS      GSA98       423.99
+#> 22     PSP 2018        VL0612           PG       GTR      GSA97       128.86
+#> 23     PSP 2018        VL0612           PG       GTR      GSA98       135.44
+#> 24     PSP 2018        VL1218          DTS       OTB      GSA98         6.76
+#> 25     PSP 2018        VL1218          HOK       LLS      GSA97         8.75
+#> 26     PSP 2018        VL1218          HOK       LLS      GSA98        53.39
+#> 27     PSP 2018        VL1218          MGP        SB      GSA98         4.03
+#> 28     PSP 2018        VL1218          PGP       GNS      GSA97        19.00
+#> 29     PSP 2018        VL1218          PGP       GNS      GSA98        24.78
+#> 30     PSP 2018        VL1218          PGP       GTR      GSA97        13.43
+#> 31     PSP 2018        VL1218          PGP       GTR      GSA98        11.46
+#> 32     PSP 2018        VL1824          DTS       OTB      GSA97        65.66
+#> 33     PSP 2018        VL1824          DTS       OTB      GSA98       445.08
+#> 34     PSP 2018        VL1824          FPO       FPO      GSA98         4.01
+#> 35     PSP 2018        VL1824          HOK       LLS      GSA97         6.07
+#> 36     PSP 2018        VL1824          HOK       LLS      GSA98        13.32
+#> 37     PSP 2018        VL1824          PGP       GTR      GSA97         2.00
+#> 38     PSP 2018        VL1824           PS        PS      GSA97         4.04
+#> 39     PSP 2018        VL1824           PS        PS      GSA98         6.03
+#> 40     PSP 2018        VL2440          DTS       OTB      GSA97        96.94
+#> 41     PSP 2018        VL2440          DTS       OTB      GSA98      1398.61
+#> 42     PSP 2018        VL2440           PS        PS      GSA98         6.01
 #>     ttwghtl
 #> 1  0.141613
 #> 2  1.051240
@@ -4543,17 +4609,81 @@ FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings,verbose=
 #> 8  0.001000
 #> 9  1.132000
 #> 10 0.242750
-#>                                                                    Data
-#> 1  landings in tabel A not avalilable and landings in table H available
-#> 2  landings in tabel A not avalilable and landings in table H available
-#> 3  landings in tabel A not avalilable and landings in table H available
-#> 4  landings in tabel A not avalilable and landings in table H available
-#> 5  landings in tabel A not avalilable and landings in table H available
-#> 6  landings in tabel A not avalilable and landings in table H available
-#> 7  landings in tabel A not avalilable and landings in table H available
-#> 8  landings in tabel A not avalilable and landings in table H available
-#> 9  landings in tabel A not avalilable and landings in table H available
-#> 10 landings in tabel A not avalilable and landings in table H available
+#> 11 0.000000
+#> 12 0.000000
+#> 13 0.000000
+#> 14 0.000000
+#> 15 0.000000
+#> 16 0.000000
+#> 17 0.000000
+#> 18 0.000000
+#> 19 0.000000
+#> 20 0.000000
+#> 21 0.000000
+#> 22 0.000000
+#> 23 0.000000
+#> 24 0.000000
+#> 25 0.000000
+#> 26 0.000000
+#> 27 0.000000
+#> 28 0.000000
+#> 29 0.000000
+#> 30 0.000000
+#> 31 0.000000
+#> 32 0.000000
+#> 33 0.000000
+#> 34 0.000000
+#> 35 0.000000
+#> 36 0.000000
+#> 37 0.000000
+#> 38 0.000000
+#> 39 0.000000
+#> 40 0.000000
+#> 41 0.000000
+#> 42 0.000000
+#>                                                                           Data
+#> 1         landings in tabel A not avalilable and landings in table H available
+#> 2         landings in tabel A not avalilable and landings in table H available
+#> 3         landings in tabel A not avalilable and landings in table H available
+#> 4         landings in tabel A not avalilable and landings in table H available
+#> 5         landings in tabel A not avalilable and landings in table H available
+#> 6         landings in tabel A not avalilable and landings in table H available
+#> 7         landings in tabel A not avalilable and landings in table H available
+#> 8         landings in tabel A not avalilable and landings in table H available
+#> 9         landings in tabel A not avalilable and landings in table H available
+#> 10        landings in tabel A not avalilable and landings in table H available
+#> 11 landings in table A are available and landings in table H are not available
+#> 12 landings in table A are available and landings in table H are not available
+#> 13 landings in table A are available and landings in table H are not available
+#> 14 landings in table A are available and landings in table H are not available
+#> 15 landings in table A are available and landings in table H are not available
+#> 16 landings in table A are available and landings in table H are not available
+#> 17 landings in table A are available and landings in table H are not available
+#> 18 landings in table A are available and landings in table H are not available
+#> 19 landings in table A are available and landings in table H are not available
+#> 20 landings in table A are available and landings in table H are not available
+#> 21 landings in table A are available and landings in table H are not available
+#> 22 landings in table A are available and landings in table H are not available
+#> 23 landings in table A are available and landings in table H are not available
+#> 24 landings in table A are available and landings in table H are not available
+#> 25 landings in table A are available and landings in table H are not available
+#> 26 landings in table A are available and landings in table H are not available
+#> 27 landings in table A are available and landings in table H are not available
+#> 28 landings in table A are available and landings in table H are not available
+#> 29 landings in table A are available and landings in table H are not available
+#> 30 landings in table A are available and landings in table H are not available
+#> 31 landings in table A are available and landings in table H are not available
+#> 32 landings in table A are available and landings in table H are not available
+#> 33 landings in table A are available and landings in table H are not available
+#> 34 landings in table A are available and landings in table H are not available
+#> 35 landings in table A are available and landings in table H are not available
+#> 36 landings in table A are available and landings in table H are not available
+#> 37 landings in table A are available and landings in table H are not available
+#> 38 landings in table A are available and landings in table H are not available
+#> 39 landings in table A are available and landings in table H are not available
+#> 40 landings in table A are available and landings in table H are not available
+#> 41 landings in table A are available and landings in table H are not available
+#> 42 landings in table A are available and landings in table H are not available
 ```
 
 The second table reports the comparison between total landings of table A and total spatial landings in table H.
@@ -4566,9 +4696,11 @@ FDI_cross_checks_AH(data1 = fdi_a_catch, data2 = fdi_h_spatial_landings)[[2]]
 #> 2 2015     PSP      GSA99      131.154     5372.477
 #> 3 2016     PSP      GSA99       41.679     5638.029
 #> 4 2017     PSP      GSA99       72.392     5266.220
-#> 5 2018     PSP      GSA99      125.115     6301.502
-#> 6 2019     PSP      GSA99      179.482     7191.640
-#> 7 2020     PSP      GSA99      225.216     8186.780
+#> 5 2018     PSP      GSA97      607.990           NA
+#> 6 2018     PSP      GSA98     2824.540           NA
+#> 7 2018     PSP      GSA99      125.115     6301.502
+#> 8 2019     PSP      GSA99      179.482     7191.640
+#> 9 2020     PSP      GSA99      225.216     8186.780
 ```
 
 ### ross check between FDI tables I and G

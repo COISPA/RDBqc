@@ -12,7 +12,7 @@ check_maturity_MEDBS_AR(
   SP,
   year,
   species_list = SPs,
-  OUT,
+  OUT = FALSE,
   verbose = TRUE
 )
 }

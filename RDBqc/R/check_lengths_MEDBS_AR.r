@@ -17,7 +17,7 @@
 #' @import dplyr
 #' @importFrom magrittr %>%
 
-check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = SPs, OUT, verbose = FALSE) {
+check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = SPs, OUT=FALSE, verbose = FALSE) {
   if (FALSE) {
     rm(list = ls(all.names = TRUE))
     # library(readxl)
@@ -45,7 +45,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
     med <- read.table("catch ita 2019.csv", sep = ";", header = TRUE)
     # med <- med[, c(1:30)]
 
-    res <- check_lengths_MEDBS_AR(MEDBS, AR, MS = "ITA", GSA = NA, SP = NA, year = 2019, verbose = FALSE)
+    res <- check_lengths_MEDBS_AR(MEDBS, AR, MS = "ITA", GSA = NA, SP = NA, year = 2019, verbose = FALSE,OUT=TRUE)
   } # if (FALSE)
 
   Area <- Implementation.year <- Achieved.number.of.PSUs.in.the.implementation.year <- country <- area <- metier <- no_samples_catch <- trips_year <- no_samples_landings <- no_samples_discards <- quarter <- trips_quarters <- Country <- Year <- MEDBS_by_Year_Catch <- MEDBS_by_Year_Landings <- MEDBS_quarters_Discards <- MEDBS_by_Year_Discards <- MEDBS_quarters_Catches <- MEDBS_quarters_Landings <- Species <- Achieved.number.of.individuals.measured.for.length.at.national.level.from.commercial.sampling <- species <- no_length_measurements_catch <- no_length_measurements_landings <- no_length_measurements_discards <- no_length_catch <- no_length_landings <- no_length_discards <- NULL
@@ -400,7 +400,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_no_MEDBS, paste0("../OUTPUT/CSV/MEDBS_AR_lengths_comparison_Data_not_in_MEDBS_", MS, ".csv"), row.names = F)
+      write.csv(tab_no_MEDBS, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_lengths_comparison_Data_not_in_MEDBS_", MS, ".csv"), row.names = F)
     }
 
 
@@ -416,7 +416,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_no_AR, paste0("../OUTPUT/CSV/MEDBS_AR_lengths_comparison_Data_not_in_AR_", MS, ".csv"), row.names = F)
+      write.csv(tab_no_AR, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_lengths_comparison_Data_not_in_AR_", MS, ".csv"), row.names = F)
     }
 
     tab <- tab[!is.na(tab$Lengths_AR), ]
@@ -432,7 +432,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
     if (OUT %in% TRUE) {
       WD <- getwd()
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(tab_match, paste0("../OUTPUT/CSV/MEDBS_AR_lengths_comparison_Matching_data_", MS, ".csv"), row.names = F)
+      write.csv(tab_match, paste0(WD,"/OUTPUT/CSV/MEDBS_AR_lengths_comparison_Matching_data_", MS, ".csv"), row.names = F)
     }
 
     output <- list(tab_match, tab_no_MEDBS, tab_no_AR)
