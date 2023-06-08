@@ -14,7 +14,7 @@ circabc
 Ports coordinates according to codification CIRCABC
 }
 \author{
-CIRCABC \email{https://circabc.europa.eu}
+CIRCABC
 }
 \keyword{CIRCABC}
 \keyword{Harbour}

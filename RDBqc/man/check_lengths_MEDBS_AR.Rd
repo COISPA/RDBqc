@@ -11,7 +11,7 @@ check_lengths_MEDBS_AR(
   GSA,
   SP,
   year,
-  species_list = SPs,
+  species_list = RDBqc::SSPP,
   OUT = FALSE,
   verbose = FALSE
 )

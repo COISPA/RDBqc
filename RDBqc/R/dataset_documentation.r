@@ -138,21 +138,21 @@
 #' @keywords GFCM datacall
 "minmaxLtaskVII31"
 
-#' GSAs table
+#' GSAlist table
 #'
-#' @name GSAs
+#' @name GSAlist
 #' @docType data
 #' @author Walter Zupa \email{zupa@fondazionecoispa.org}
-#' @keywords GSAs
-"GSAs"
+#' @keywords GSAlist
+"GSAlist"
 
-#' SPs table
+#' SSPP table
 #'
-#' @name SPs
+#' @name SSPP
 #' @docType data
 #' @author Walter Zupa \email{zupa@fondazionecoispa.org}
-#' @keywords SPs
-"SPs"
+#' @keywords SSPP
+"SSPP"
 
 #' AER catch table
 #'

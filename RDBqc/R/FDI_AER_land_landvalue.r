@@ -31,7 +31,7 @@
 #' )
 FDI_AER_land_landvalue <- function(FDI, AER, var = "landings", MS, level = 3, YEAR = NA,
                                    GSA = NA, SP = NA, OUT = FALSE, verbose = FALSE) {
-  country <- acronym <- var_FDI <- var_AER <- NULL
+  country <- country_code <- acronym <- var_FDI <- var_AER <- NULL
   FDI <- as.data.frame(FDI)
   AER <- as.data.frame(AER)
   colnames(FDI) <- tolower(colnames(FDI))

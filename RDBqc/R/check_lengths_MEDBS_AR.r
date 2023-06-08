@@ -17,7 +17,7 @@
 #' @import dplyr
 #' @importFrom magrittr %>%
 
-check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = SPs, OUT=FALSE, verbose = FALSE) {
+check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = RDBqc::SSPP, OUT=FALSE, verbose = FALSE) {
   if (FALSE) {
     rm(list = ls(all.names = TRUE))
     # library(readxl)
@@ -31,7 +31,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
     # SPs <- read_excel("ASFIS_sp_2022_REV1.xlsx",sheet =1)
     # SPs <- data.frame(SPs)
 
-    species_list <- SPs
+    # species_list <- SSPP
     MS <- "ITA"
     SP <- NA
     GSA <- NA # "GSA 18"
@@ -55,13 +55,13 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
   quit <- FALSE
   quit_AR <- FALSE
 
-  GSAs <- GSAs[GSAs$COUNTRY == MS, ]
+  GSAlist <- GSAlist[GSAlist$COUNTRY == MS, ]
   if (all(is.na(GSA))) {
-    GSA <- paste("GSA", as.numeric(GSAs$GSA))
+    GSA <- paste("GSA", as.numeric(GSAlist$GSA))
     user_GSA <- FALSE
   } else {
     GSA <- GSA[!is.na(GSA)]
-    GSA <- GSA[GSA %in% paste("GSA", as.numeric(GSAs$GSA))]
+    GSA <- GSA[GSA %in% paste("GSA", as.numeric(GSAlist$GSA))]
     user_GSA <- TRUE
   }
 
@@ -161,22 +161,22 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
     for (s in 1:length(species.AR)) {
       AR_GSA <- AR[AR$Species == species.AR[s], ]
       GSAR <- unique(AR_GSA$Area)
-      if (all(!is.na(GSAR)) & all(GSAR %in% paste0("GSA", GSAs$GSA))) {
+      if (all(!is.na(GSAR)) & all(GSAR %in% paste0("GSA", GSAlist$GSA))) {
         AR_GSA <- AR_GSA[AR_GSA$Area %in% GSAR, ]
         g <- as.numeric(substr(AR_GSA$Area, 4, 5))
         g <- paste("GSA", g)
         AR_GSA$Area <- g
         AR_GSA$estimation <- "GSA"
-      } else if (all(!is.na(GSAR)) & all(GSAR %in% paste0("GSA ", GSAs$GSA))) {
+      } else if (all(!is.na(GSAR)) & all(GSAR %in% paste0("GSA ", GSAlist$GSA))) {
         AR_GSA <- AR_GSA[AR_GSA$Area %in% GSAR, ]
         g <- as.numeric(substr(AR_GSA$Area, 5, 6))
         g <- paste("GSA", g)
         AR_GSA$Area <- g
         AR_GSA$estimation <- "GSA"
-      } else if (all(!is.na(GSAR)) & all(GSAR %in% paste0("GSA ", as.numeric(GSAs$GSA)))) {
+      } else if (all(!is.na(GSAR)) & all(GSAR %in% paste0("GSA ", as.numeric(GSAlist$GSA)))) {
         AR_GSA <- AR_GSA[!is.na(AR_GSA$Area) & AR_GSA$Area %in% GSAR, ]
         AR_GSA$estimation <- "GSA"
-      } else if (all(!is.na(GSAR)) & all(GSAR %in% paste0("GSA", as.numeric(GSAs$GSA)))) {
+      } else if (all(!is.na(GSAR)) & all(GSAR %in% paste0("GSA", as.numeric(GSAlist$GSA)))) {
         AR_GSA <- AR_GSA[AR_GSA$Area %in% GSAR, ]
         g <- as.numeric(substr(AR_GSA$Area, 4, 5))
         g <- paste("GSA", g)

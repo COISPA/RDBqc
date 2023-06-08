@@ -1,7 +1,7 @@
 #' Ports coordinates according to codification CIRCABC
 #' @name circabc
 #' @docType data
-#' @author CIRCABC \email{https://circabc.europa.eu}
+#' @author CIRCABC
 #' @keywords CIRCABC Harbour
 "circabc"
 

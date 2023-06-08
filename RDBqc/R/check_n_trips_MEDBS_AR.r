@@ -24,8 +24,8 @@ check_n_trips_MEDBS_AR <- function(MEDBS, AR, MS, year, OUT=FALSE, verbose = FAL
 
     verbose = FALSE
 
-    setwd("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\data")
-    load("GSAs.rda")
+    # setwd("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\data")
+    # load("GSAs.rda")
 
     MS <- "ITA"
     # GSA <- NA # "GSA 18"
@@ -45,7 +45,7 @@ check_n_trips_MEDBS_AR <- function(MEDBS, AR, MS, year, OUT=FALSE, verbose = FAL
   Sampling.frame.spatial.coverage <- Implementation.year <- Achieved.number.of.PSUs.in.the.implementation.year <- country <- area <- metier <- no_samples_catch <- trips_year <- no_samples_landings <- no_samples_discards <- quarter <- trips_quarters <- Country <- Year <- MEDBS_by_Year_Catch <- MEDBS_by_Year_Landings <- MEDBS_quarters_Discards <- MEDBS_by_Year_Discards <- MEDBS_quarters_Catches <- MEDBS_quarters_Landings <- NULL
 
   #----------
-  GSAs <- GSAs[GSAs$COUNTRY == MS, ]
+  GSAlist <- GSAlist[GSAlist$COUNTRY == MS, ]
   AR <- AR[AR$MS == MS, ]
   AR <- AR[AR$Implementation.year == year, ]
   AR <- AR[AR$Sampling.scheme.type == "Commercial fishing trip", ]
@@ -54,23 +54,23 @@ check_n_trips_MEDBS_AR <- function(MEDBS, AR, MS, year, OUT=FALSE, verbose = FAL
   AR[AR$Sampling.frame.spatial.coverage =="GSA11", "Sampling.frame.spatial.coverage"] <- "GSA 11"
   GSA <- unique(AR$Sampling.frame.spatial.coverage)
 
-  if (all(!is.na(GSA)) & all(GSA %in% paste0("GSA",GSAs$GSA))) {
+  if (all(!is.na(GSA)) & all(GSA %in% paste0("GSA",GSAlist$GSA))) {
     AR <- AR[AR$Sampling.frame.spatial.coverage %in% GSA, ]
     g <- as.numeric(substr(AR$Sampling.frame.spatial.coverage,4,5))
     g <- paste("GSA",g)
 
     estimation <- "GSA"
-  } else if (all(!is.na(GSA)) & all(GSA %in% paste0("GSA ",GSAs$GSA))) {
+  } else if (all(!is.na(GSA)) & all(GSA %in% paste0("GSA ",GSAlist$GSA))) {
     AR <- AR[AR$Sampling.frame.spatial.coverage %in% GSA, ]
     g <- as.numeric(substr(AR$Sampling.frame.spatial.coverage,5,6))
     g <- paste("GSA",g)
 
     estimation <- "GSA"
-  } else if (all(!is.na(GSA)) & all(GSA %in% paste0("GSA ",as.numeric(GSAs$GSA)))) {
+  } else if (all(!is.na(GSA)) & all(GSA %in% paste0("GSA ",as.numeric(GSAlist$GSA)))) {
     AR <- AR[AR$Sampling.frame.spatial.coverage %in% GSA, ]
 
     estimation <- "GSA"
-  } else if (all(!is.na(GSA)) & all(GSA %in% paste0("GSA",as.numeric(GSAs$GSA)))) {
+  } else if (all(!is.na(GSA)) & all(GSA %in% paste0("GSA",as.numeric(GSAlist$GSA)))) {
     AR <- AR[AR$Sampling.frame.spatial.coverage %in% GSA, ]
     g <- as.numeric(substr(AR$Sampling.frame.spatial.coverage,4,5))
     g <- paste("GSA",g)

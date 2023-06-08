@@ -166,8 +166,7 @@ Check_Tot_Land2 <- function(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = 
         )
       }
     }
-    ifelse(OUT, print("Landings comparison has been done. Please check outputs in OUTPUT folder."),
-      print("Landings comparison has been done.")
+    ifelse(OUT & verbose, print("Landings comparison has been done. Please check outputs in OUTPUT folder."), print("Landings comparison has been done.")
     )
   } else {
     print("Error: selected MS,GSA and Species combination doesn't exist.")
