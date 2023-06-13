@@ -698,22 +698,22 @@ if (check_Disc) {
 
       if (!is.null(res)) {
         tab1 <- aggregate(tab1$discards, by = list(tab1$country, tab1$year, tab1$area, tab1$gear, tab1$species), FUN = "sum")
-        colnames(tab1) <- c("COUNTRY", "YEAR", "AREA", "GEAR", "SPECIES", "LANDINGS")
+        colnames(tab1) <- c("COUNTRY", "YEAR", "AREA", "GEAR", "SPECIES", "DISCARDS")
         if (nrow(tab1) > 0) {
-          cat(paste0("\n_Coverage of landing data for ", SPs[s], " in ", GSAs[g], "_"))
+          cat(paste0("\n_Coverage of discard data for ", SPs[s], " in ", GSAs[g], "_"))
           print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
           cat("\n\n\n")
         } else {
-          cat("\n\n\n- No data for landings")
+          cat("\n\n\n- No data for discards")
         }
         print(res[[2]])
         cat("\n\n\n")
       } else {
-        cat(paste0("\n- No Landings data for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        cat(paste0("\n- No Discards data for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
     }
   }
-} # check_Land
+} # check_Disc
 ```
 
 ```{r comp_disc_YQ, results = 'asis', fig.height=6, fig.width=9}
