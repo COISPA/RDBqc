@@ -67,7 +67,8 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose = FALSE) {
       ldat$start_length <- as.integer(ldat$start_length)
       ldat[(ldat$value < 0) | is.na(ldat$value), "value"] <- 0
 
-      LFL <- aggregate(ldat$value, by = list(ldat$year, ldat$gear, ldat$fishery, ldat$start_length), sum)
+      LFL <- suppressMessages(ldat %>% group_by(year, gear, fishery,start_length) %>% summarise(value= sum(value,na.rm=TRUE)))
+      # aggregate(ldat$value, by = list(ldat$year, ldat$gear, ldat$fishery, ldat$start_length), sum)
       names(LFL) <- c("year", "gear", "fishery", "start_length", "value")
       LFL$ID <- paste0(LFL$gear, "_", LFL$fishery, sep = "")
       LFL$start_length <- LFL$start_length - 1
@@ -114,7 +115,8 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose = FALSE) {
         ddat <- suppressWarnings(data.table::melt(dat1, id.vars = c("year", "area", "species", "unit", "country", "gear", "fishery"), variable.name = "start_length", value.name = "value"))
         ddat$start_length <- as.integer(ddat$start_length)
         ddat[(ddat$value < 0) | is.na(ddat$value), "value"] <- 0
-        LFD <- aggregate(ddat$value, by = list(ddat$year, ddat$gear, ddat$fishery, ddat$start_length), sum)
+        LFD <- suppressMessages(ddat %>% group_by(year, gear, fishery,start_length) %>% summarise(value= sum(value,na.rm=TRUE)))
+        # aggregate(ddat$value, by = list(ddat$year, ddat$gear, ddat$fishery, ddat$start_length), sum)
         names(LFD) <- c("year", "gear", "fishery", "start_length", "value")
         LFD$ID <- paste0(LFD$gear, "_", LFD$fishery, sep = "")
         LFD$start_length <- LFD$start_length - 1

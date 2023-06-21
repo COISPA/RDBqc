@@ -1,3 +1,6 @@
+# RDBqc 0.0.17
+ * improving results of MEDBS functions (ALK, LFD, yr_missing_length) 
+
 # RDBqc 0.0.16
  * update compatibility with R version 4.3
 

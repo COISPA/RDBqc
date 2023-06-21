@@ -61,10 +61,10 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
   if (type=="l" | type=="b"){
     landed <-   as.data.table(data)
     colnames(landed) <- tolower(colnames(landed))
-    landed$upload_id <- NA
+    # landed$upload_id <- NA
     landed[landed$landings==-1]=0
-    id_landings <- NA
-    landed <- cbind(id_landings, landed)
+    # id_landings <- NA
+    # landed <- cbind(id_landings, landed)
     landed$landings[landed$landings == -1] <- 0
 
     ## Subsetting DataFrame, preparing data for further elaboration and setting output directory ####
@@ -95,7 +95,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
       WD <- getwd()
       dir_csv <- paste0(WD, "/OUTPUT/CSV")
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(land,file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","landings.csv"),row.names=F)
+      write.csv(land,file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Landings.csv"),row.names=F)
     }
 
     i_csv <- i_csv + 1
@@ -112,7 +112,8 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
     ldat$start_length=as.integer(ldat$start_length)
     ldat[(ldat$value<0) | is.na(ldat$value),"value"] <- 0
 
-    LFL=aggregate(ldat$value,by=list(ldat$year,ldat$gear,ldat$fishery,ldat$start_length),sum)
+    LFL=suppressMessages(ldat %>% group_by(year,gear,fishery,start_length) %>% summarise(value=sum(value, na.rm=TRUE)))
+     # aggregate(ldat$value,by=list(ldat$year,ldat$gear,ldat$fishery,ldat$start_length),sum)
     names(LFL)=c("year","gear","fishery","start_length","value")
     LFL$ID=paste0(LFL$gear,"_",LFL$fishery,sep="")
 
@@ -163,7 +164,8 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
     }
 
     LFL_fin=as.data.frame(LFL)
-    LFL_fin=aggregate(LFL_fin$value,by=list(LFL_fin$year,LFL_fin$start_length),sum)
+    LFL_fin= suppressMessages(LFL_fin %>% group_by(year,start_length) %>% summarise(value=sum(value, na.rm=TRUE)))
+    # aggregate(LFL_fin$value,by=list(LFL_fin$year,LFL_fin$start_length),sum)
     names(LFL_fin)=c("year","length","value")
 
     temp1 <- data.frame(cbind(rep(unique(LFL$year),each=length(unique(LFL_fin$length))),rep(rep(0:100,each=1),length(unique(LFL_fin$year)))))
@@ -182,9 +184,10 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
     output_csv[[i_csv]] <- arrange(LFL_fin,desc(year),desc(length))
     names(output_csv)[i_csv] <- "Table_Landing_LFL_YEAR"
 
-    yield=land[,-c(15:116)]
-    yield_tot=aggregate(yield$landings,by=list(yield$year,yield$gear,yield$fishery),sum)
-    yield_totali=aggregate(yield$landings,by=list(yield$year),sum)
+    yield=land[,-c(14:114)]  # [,-c(15:116)]
+    yield_tot= suppressMessages(yield %>% group_by(year,gear,fishery) %>% summarise(value=sum(landings,na.rm=TRUE))) # aggregate(yield$landings,by=list(yield$year,yield$gear,yield$fishery),sum)
+    yield_totali= suppressMessages(yield %>% group_by(year) %>% summarise(tonnes=sum(landings, na.rm=TRUE)))
+      # aggregate(yield$landings,by=list(yield$year),sum)
     names(yield_totali)=c("year","tonnes")
     names(yield_tot)=c("year","gear","fishery","value")
     yield_tot$ID=paste0(yield_tot$gear,"_",yield_tot$fishery,sep="")
@@ -209,7 +212,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
       WD <- getwd()
       dir_plot <- paste0(WD, "/OUTPUT/JPG")
       suppressWarnings(dir.create(dir_plot, recursive = T))
-      ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"TOTAL_WEIGTH_LAND.jpg"),width = 10, height = 8, dpi = 150, units = "in" )
+      ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_TOTAL_WEIGTH_LAND.jpg"),width = 10, height = 8, dpi = 150, units = "in" )
     }
 
   }  # END Landing analysis
@@ -227,8 +230,8 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
   if (type == "d" | type=="b") {
     discarded$upload_id <- NA
     discarded[discarded$discards==-1]=0
-    id_discards <- NA
-    discarded <- cbind(id_discards,discarded)
+    # id_discards <- NA
+    # discarded <- cbind(id_discards,discarded)
 
     discarded$discards[discarded$discards == -1] <- 0
 
@@ -258,7 +261,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
       WD <- getwd()
       dir_csv <- paste0(WD, "/OUTPUT/CSV")
       suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(disc,file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","discards.csv"),row.names=F)
+      write.csv(disc,file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Discards.csv"),row.names=F)
     }
     i_csv <- i_csv + 1
     output_csv[[i_csv]] <- disc
@@ -325,7 +328,8 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
     }
 
       LFD_fin=as.data.frame(LFD)
-      LFD_fin=aggregate(LFD_fin$value,by=list(LFD_fin$year,LFD_fin$start_length),sum)
+      LFD_fin=suppressMessages(LFD_fin %>% group_by(year,start_length) %>% summarise(value=sum(value,na.rm=TRUE)))
+      #aggregate(LFD_fin$value,by=list(LFD_fin$year,LFD_fin$start_length),sum)
       names(LFD_fin)=c("year","length","value")
       temp <- data.frame(cbind(rep(unique(LFD$year),each=length(unique(LFD_fin$length))),rep(rep(0:100,each=1),length(unique(LFD_fin$year)))))
       names(temp) <- c("year","length")
@@ -384,8 +388,9 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
   if (type == "b") {
     #### Total ####
     if(nrow(LFD)>0){
-      LFT=full_join(LFL,LFD,by=c("year","start_length","gear","fishery","ID"))
+      LFT=suppressMessages(full_join(LFL,LFD,by=c("year","start_length","gear","fishery","ID")))
       LFT[is.na(LFT)] <- 0
+      LFT$tot_val <- NA
       for (i in 1:(nrow(LFT))){
         LFT$tot_val[i]=LFT$value.x[i]+LFT$value.y[i]
       }
@@ -397,20 +402,22 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
     }
 
     if(nrow(LFD)>0){
-      LFT2=aggregate(LFT$tot_val,by=list(LFT$year,LFT$ID,LFT$start_length),sum)
+      LFT2= suppressMessages(LFT %>% group_by(year,ID,start_length) %>% summarise(tot_val=sum(tot_val,na.rm=TRUE)))
+        #aggregate(LFT$tot_val,by=list(LFT$year,LFT$ID,LFT$start_length),sum)
       names(LFT2)=c("year","ID","length","tot_val")
-      LFT_fin <- aggregate(LFT$tot_val,by=list(LFT$year,LFT$start_length),sum)
+      LFT_fin <- suppressMessages(LFT %>% group_by(year,start_length) %>% summarise(tot_val=sum(tot_val,na.rm=TRUE)))
+        #aggregate(LFT$tot_val,by=list(LFT$year,LFT$start_length),sum)
       names(LFT_fin)=c("year","length","tot_val")
       if (OUT){
         WD <- getwd()
         dir_csv <- paste0(WD, "/OUTPUT/CSV")
-      write.csv(arrange(LFT[,c("year","gear","tot_val")],desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"LFD_total_gear.csv"),row.names=F)
+      write.csv(arrange(LFT[,c("year","gear","tot_val")],desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_total_gear.csv"),row.names=F)
 
       i_csv <- i_csv + 1
       output_csv[[i_csv]] <- arrange(LFT[,c("year","gear","tot_val")],desc(year),desc(gear))
       names(output_csv)[i_csv] <- "Table_Catches_LFD_GEAR"
 
-      write.csv(arrange(LFT_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"LFT_yr.csv"),row.names=F)
+      write.csv(arrange(LFT_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_LFT_yr.csv"),row.names=F)
 
       i_csv <- i_csv + 1
       output_csv[[i_csv]] <- arrange(LFT_fin,desc(year),desc(length))
@@ -418,20 +425,21 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
 
       }
     }else{
-      LFT2=aggregate(LFL$val,by=list(LFL$year,LFL$ID,LFL$start_length),sum)
-      names(LFT2)=c("year","ID","length","tot_val")
-      LFT_fin <- aggregate(LFL$val,by=list(LFL$year,LFL$start_length),sum)
-      names(LFT_fin)=c("year","length","tot_val")
+      LFT2= suppressMessages(LFL %>% group_by(year,ID,start_length) %>% summarise(tot_value=sum(value,na.rm=TRUE)))
+        #aggregate(LFL$val,by=list(LFL$year,LFL$ID,LFL$start_length),sum)
+      names(LFT2)=c("year","ID","length","tot_value")
+      LFT_fin <- aggregate(LFL$value,by=list(LFL$year,LFL$start_length),sum)
+      names(LFT_fin)=c("year","length","tot_value")
       if (OUT){
         WD <- getwd()
         dir_csv <- paste0(WD, "/OUTPUT/CSV")
-      write.csv(arrange(LFL[,c("year","gear","value")],desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"LFD_total_gear.csv"),row.names=F)
+      write.csv(arrange(LFL[,c("year","gear","value")],desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_total_gear.csv"),row.names=F)
 
       i_csv <- i_csv + 1
       output_csv[[i_csv]] <- arrange(LFL[,c("year","gear","value")],desc(year),desc(gear))
       names(output_csv)[i_csv] <- "Table_Catches_LFD_GEAR"
 
-      write.csv(arrange(LFT_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"LFT_yr.csv"),row.names=F)
+      write.csv(arrange(LFT_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFT_yr.csv"),row.names=F)
 
       i_csv <- i_csv + 1
       output_csv[[i_csv]] <- arrange(LFT_fin,desc(year),desc(length))
@@ -462,34 +470,51 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
                WD <- getwd()
                dir_plot <- paste0(WD, "/OUTPUT/JPG")
                suppressWarnings(dir.create(dir_plot, recursive = T))
-             ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"LFD_Catches.jpg"),width = 10, height = 8, dpi = 150, units = "in")
+             ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_","LFD_Catches.jpg"),width = 10, height = 8, dpi = 150, units = "in")
       }
     }else{
       print("There aren't any length frequencies distributions available")
     }
 
-  #   ### TOTAL CATCHES ###
-  #   tl <- land[,-c(1,2,3,5:12,14:116)]
-  #   tl <- tl %>% group_by(year) %>%
-  #     dplyr::summarize(landings=sum(landings,na.rm = T))
-  #
-  #   td <- disc[,-c(1,2,4:11,13:115)]
-  #
-  #   if(nrow(td)>0){
-  #     td <- td %>% group_by(year) %>%
-  #       dplyr::summarize(discards=sum(discards,na.rm = T))
-  #   }else{
-  #     td <- setNames(data.frame(tl$year,0),c("year","discards"))
-  #   }
-  #
-  #   total_catches <- as.data.frame(left_join(tl,td))
-  #   total_catches[is.na(total_catches)]=0
-  #   total_catches$total=total_catches$landings+total_catches$discards
-  #   time <- data.frame("year"=seq(min(total_catches$year),max(total_catches$year),1))
-  #   total_catches <-full_join(total_catches,time)
-  #   write.csv(total_catches,file=paste0(dir_t,"/",MS,"/",SP,"/","Total_catches_weight.csv"),row.names = F)
-  #   write.csv(total_catches[,-c(2,4)],file=paste0(dir_t,"/",MS,"/",SP,"/","Discard_wg.csv"),row.names=F)
-  #   write.csv(total_catches[,-c(3,4)],file=paste0(dir_t,"/",MS,"/",SP,"/","Landing_wg.csv"),row.names=F)
+    ### TOTAL CATCHES ###
+    tl <- land[,-c(1,2,4:11,13:114)]
+    tl <- tl %>% group_by(year) %>%
+      dplyr::summarize(landings=sum(landings,na.rm = T))
+
+    td <- disc[,-c(1,2,4:11,13:115)]
+
+    if(nrow(td)>0){
+      td <- td %>% group_by(year) %>%
+        dplyr::summarize(discards=sum(discards,na.rm = T))
+    }else{
+      td <- setNames(data.frame(tl$year,0),c("year","discards"))
+    }
+
+    total_catches <- suppressMessages(as.data.frame(left_join(tl,td)))
+    total_catches[is.na(total_catches)]=0
+    total_catches$total=total_catches$landings+total_catches$discards
+    time <- data.frame("year"=seq(min(total_catches$year),max(total_catches$year),1))
+    total_catches <- suppressMessages(full_join(total_catches,time))
+
+    i_csv <- i_csv + 1
+    output_csv[[i_csv]] <- total_catches
+    names(output_csv)[i_csv] <- "total_catches_weight"
+
+    i_csv <- i_csv + 1
+    output_csv[[i_csv]] <- total_catches[,-c(2,4)]
+    names(output_csv)[i_csv] <- "Discard_wg"
+
+    i_csv <- i_csv + 1
+    output_csv[[i_csv]] <- total_catches[,-c(3,4)]
+    names(output_csv)[i_csv] <- "Landing_wg"
+
+    if (OUT){
+      WD <- getwd()
+      dir_csv <- paste0(WD, "/OUTPUT/CSV")
+    write.csv(total_catches,file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Total_catches_weight.csv"),row.names = F)
+    write.csv(total_catches[,-c(2,4)],file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Discard_wg.csv"),row.names=F)
+    write.csv(total_catches[,-c(3,4)],file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Landing_wg.csv"),row.names=F)
+    }
 
   } # type == "b"
 

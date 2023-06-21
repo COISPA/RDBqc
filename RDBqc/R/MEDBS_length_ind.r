@@ -84,7 +84,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
       ldat$start_length <- as.integer(ldat$start_length)
       ldat[(ldat$value < 0) | is.na(ldat$value), "value"] <- 0
 
-      LFL <- aggregate(ldat$value, by = list(ldat$year, ldat$gear, ldat$fishery, ldat$start_length), sum)
+      LFL <- suppressMessages(ldat %>% group_by(year,gear,fishery,start_length) %>% summarise(value=sum(value)))
+      # aggregate(ldat$value, by = list(ldat$year, ldat$gear, ldat$fishery, ldat$start_length), sum)
       names(LFL) <- c("year", "gear", "fishery", "start_length", "value")
       LFL$ID <- paste0(LFL$gear, "_", LFL$fishery, sep = "")
       LFL$start_length <- LFL$start_length - 1
@@ -165,6 +166,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
       output[[l]] <- result
       names(output)[[l]] <- "summary table"
 
+      LFLandingsDB[is.na(LFLandingsDB$fishery), "fishery"]="NA"
+
       ### plot MEAN
       plot <- ggplot(LFLandingsDB[LFLandingsDB$total_number > 0, ], aes(x = as.numeric(year), y = as.numeric(mean_size), col = fishery)) +
         geom_point(col = "black") +
@@ -236,7 +239,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
         suppressWarnings(ddat <- data.table::melt(dat1, id.vars = c("year", "area", "species", "unit", "country", "gear", "fishery"), variable.name = "start_length", value.name = "value"))
         ddat$start_length <- as.integer(ddat$start_length)
         ddat[(ddat$value < 0) | is.na(ddat$value), "value"] <- 0
-        LFD <- aggregate(ddat$value, by = list(ddat$year, ddat$gear, ddat$fishery, ddat$start_length), sum)
+        LFD <- suppressMessages(ddat %>% group_by(year,gear,fishery,start_length) %>% summarise(value=sum(value)))
+        # aggregate(ddat$value, by = list(ddat$year, ddat$gear, ddat$fishery, ddat$start_length), sum)
         names(LFD) <- c("year", "gear", "fishery", "start_length", "value")
         LFD$ID <- paste0(LFD$gear, "_", LFD$fishery, sep = "")
         LFD$start_length <- LFD$start_length - 1
@@ -312,6 +316,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA,
         l <- length(output) + 1
         output[[l]] <- result
         names(output)[[l]] <- "summary table"
+
+        LFDiscardsDB[is.na(LFDiscardsDB$fishery), "fishery"]="NA"
 
         ### Plot MEAN
         plot <- ggplot(LFDiscardsDB[LFDiscardsDB$total_number > 0, ], aes(x = as.numeric(year), y = as.numeric(mean_size), col = fishery)) +
