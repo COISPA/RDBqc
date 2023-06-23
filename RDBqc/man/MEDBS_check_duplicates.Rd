@@ -9,7 +9,7 @@ MEDBS_check_duplicates(data, type = "l", SP, MS, GSA, verbose = TRUE)
 \arguments{
 \item{data}{data frame containing either landings, discards or catch data}
 
-\item{type}{string vector indicating the type of table to be checked. "l" for landing; "d" for discards; "c" for catch table.}
+\item{type}{string vector indicating the type of table to be checked. "l" for landing; "d" for discards; "c" for catch table; "gp" for growth parameters table; "alk" for age-length keys table; "ma" for maturity at age table; "ml" for maturity at length table; "sra" for sex ratio at age table; "srl" for maturity at length table..}
 
 \item{SP}{species code}
 
@@ -23,7 +23,7 @@ MEDBS_check_duplicates(data, type = "l", SP, MS, GSA, verbose = TRUE)
 The function returns a data frame containing the duplicated rows to be likely deleted from the data.
 }
 \description{
-The function checks the presence of duplicated rows in landings, discards or catch data.
+The function checks the presence of duplicated rows in MED & BS tables data.
 }
 \examples{
 MEDBS_check_duplicates(

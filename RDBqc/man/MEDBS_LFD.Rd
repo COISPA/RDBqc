@@ -4,7 +4,7 @@
 \alias{MEDBS_LFD}
 \title{LFD of MED & BS landing and discard data}
 \usage{
-MEDBS_LFD(data, data2, type, SP, MS, GSA, OUT = FALSE, verbose = TRUE)
+MEDBS_LFD(data, data2, type, SP, MS, GSA, OUT = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{data}{data frame of either landings or discards data}

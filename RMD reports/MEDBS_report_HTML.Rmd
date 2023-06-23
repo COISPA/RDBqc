@@ -52,7 +52,7 @@ SA <- read.table("./sra.csv", sep = ";", header = TRUE)
 GP <- read.table("./gp.csv", sep = ";", header = TRUE)
 ALK <- read.table("./alk.csv", sep = ";", header = TRUE)
 
-SPs <- c("HKE", "MUT", "DPS")
+SPs <- c("MUT")
 MS <- "ITA"
 GSAs <- "GSA 18"
 ```
@@ -314,9 +314,10 @@ if (check_Land) {
     for (s in 1:length(SPs)) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_Landing_coverage(Land, SP = SPs[s], MS = MS, GSA = GSAs[g]))
-      tab1 <- res[[1]]
+
 
       if (!is.null(res)) {
+        tab1 <- res[[1]]
         tab1 <- aggregate(tab1$landings, by = list(tab1$country, tab1$year, tab1$area, tab1$gear, tab1$species), FUN = "sum")
         colnames(tab1) <- c("country", "year", "area", "gear", "species", "landings")
         if (nrow(tab1) > 0) {
@@ -629,6 +630,70 @@ if (check_Land) {
   }
 } # check_Land
 ```
+
+
+```{r plot_land_LFD, results = 'asis', fig.height=6, fig.width=9}
+if (check_Land) {
+  cat("\n## Landing Length Frequency Distribution\n")
+  cat(paste0("\nTo identify possible inconsistencies in landing lengths structure, the species' LFDs are here plotted by fishery and year\n"))
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+    s <- 1
+    for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
+      res <- suppressMessages(MEDBS_LFD(data = Land, data2=NA, type="l", MS = MS, GSA = GSAs[g], SP = SPs[s], OUT=FALSE, verbose = TRUE))
+
+      
+      
+            if (class(res) == "list" & length(res) > 0) {
+              
+              content <- strsplit(names(res),"_")
+              lcontent <- max(lengths(content))
+              u=5
+              for (u in 1:length(content)) {
+                if (lengths(content[u])< lcontent){
+                  content[[u]][(lengths(content[u])+1):lcontent] = NA
+                }
+              }
+              content <- data.frame(do.call(rbind,content))
+              tables_names <- content[content$X1 == "Table", ]
+              tables_names <- tables_names[-1, ]
+              tables <- res[grep("Table",names(res))]
+              tables <- tables[-1]
+              plots_names <- content[content$X1 == "Plot", ]
+              plots <- res[grep("Plot",names(res))]
+
+              t=1
+              for (t in 1:length(tables)) {
+                cat(paste0("\n_Summary table of ",tables_names[t,2]," LFD",ifelse(!is.na(tables_names[t,4]),paste0(" by ",tables_names[t,4]),"")," for ", SPs[s], " in ", GSAs[g], "_"))
+                
+                print(tables[[t]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+              }
+
+        x <- 1
+        for (x in 1:length(plots)) {
+          if (plots_names[x,3]=="TOTAL LANDINGS") {
+            cat(paste0("\n_Plot of total landings for ", SPs[s], " in ", GSAs[g], "_"))
+          } else {
+            cat(paste0("\n_Plot of ",plots_names[x,2]," LDF",ifelse(!is.na(plots_names[x,4]),paste0(" by ",plots_names[x,4]),"")," for ", SPs[s], " in ", GSAs[g], "_"))
+          }
+          suppressMessages(print(plots[[x]]))
+          cat("\n\n\n")
+        }
+      } else {
+        cat(paste0("\n- No LFD available in landings for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+      }
+      
+      
+    }
+  }
+} # check_Land
+```
+
+
+
 
 <!-- DISCARD -->
 
@@ -1010,6 +1075,66 @@ if (check_Disc) {
 } # check_Disc
 ```
 
+```{r plot_disc_LFD, results = 'asis', fig.height=6, fig.width=9}
+if (check_Disc) {
+  cat("\n## Discard Length Frequency Distribution\n")
+  cat(paste0("\nTo identify possible inconsistencies in discards lengths structure, the species' LFDs are here plotted by fishery and year\n"))
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+    s <- 1
+    for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
+      res <- suppressMessages(MEDBS_LFD(data = Disc, data2=NA, type="d", MS = MS, GSA = GSAs[g], SP = SPs[s], OUT=FALSE, verbose = TRUE))
+
+
+
+            if (class(res) == "list" & length(res) > 0) {
+
+              content <- strsplit(names(res),"_")
+              lcontent <- max(lengths(content))
+              u=5
+              for (u in 1:length(content)) {
+                if (lengths(content[u])< lcontent){
+                  content[[u]][(lengths(content[u])+1):lcontent] = NA
+                }
+              }
+              content <- data.frame(do.call(rbind,content))
+              tables_names <- content[content$X1 == "Table", ]
+              tables_names <- tables_names[-1, ]
+              tables <- res[grep("Table",names(res))]
+              tables <- tables[-1]
+              plots_names <- content[content$X1 == "Plot", ]
+              plots <- res[grep("Plot",names(res))]
+
+              t=1
+              for (t in 1:length(tables)) {
+                cat(paste0("\n_Summary table of ",tables_names[t,2]," LFD",ifelse(!is.na(tables_names[t,4]),paste0(" by ",tables_names[t,4]),"")," for ", SPs[s], " in ", GSAs[g], "_"))
+
+                print(tables[[t]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+              }
+
+        x <- 1
+        for (x in 1:length(plots)) {
+          if (plots_names[x,3]=="TOTAL DISCARDS") {
+            cat(paste0("\n_Plot of total discards for ", SPs[s], " in ", GSAs[g], "_"))
+          } else {
+            cat(paste0("\n_Plot of ",plots_names[x,2]," LDF",ifelse(!is.na(plots_names[x,4]),paste0(" by ",plots_names[x,4]),"")," for ", SPs[s], " in ", GSAs[g], "_"))
+          }
+          suppressMessages(print(plots[[x]]))
+          cat("\n\n\n")
+        }
+      } else {
+        cat(paste0("\n- No LFD available in discards for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+      }
+
+
+    }
+  }
+} # check_Disc
+```
+
 <!-- GROWTH PARAMETERS -->
 
 ```{r check_GP_data, results = 'asis'}
@@ -1035,6 +1160,39 @@ if (exists("GP")) {
   cat("\n No growth parameters (GP) data available \n")
 }
 ```
+
+
+```{r GP_duplicated_records, results = 'asis'}
+if (check_GP) {
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the GP table were checked for the presence of duplicated records. The result of the check is here reported:\n")
+
+  duplicates <- GP[0, ]
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_duplicates(data = GP, type = "gp", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        duplicates <- rbind(duplicates, res)
+      }
+    }
+  }
+
+  if (nrow(duplicates) > 0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+    duplic <- data.frame(duplicates)
+    print(duplic %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+    GP <- GP[-which(rownames(GP) %in% as.numeric(rownames(duplicates))), ]
+  } else {
+    cat("\n", paste0("- No replicated records in GP data"), "\n")
+  }
+
+  cat("\n*Attention*: eventual duplicated records will be removed from GP data for the following analysis \n")
+} # check_GP
+```
+
 
 ```{r GP_checks, results = 'asis', fig.height=6, fig.width=9}
 
@@ -1144,6 +1302,39 @@ if (exists("MA")) {
 }
 ```
 
+
+```{r MA_duplicated_records, results = 'asis'}
+if (check_MA) {
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the MA table were checked for the presence of duplicated records. The result of the check is here reported:\n")
+
+  duplicates <- MA[0, ]
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_duplicates(data = MA, type = "ma", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        duplicates <- rbind(duplicates, res)
+      }
+    }
+  }
+
+  if (nrow(duplicates) > 0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+    duplic <- data.frame(duplicates)
+    print(duplic %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+    MA <- MA[-which(rownames(MA) %in% as.numeric(rownames(duplicates))), ]
+  } else {
+    cat("\n", paste0("- No replicated records in MA data"), "\n")
+  }
+
+  cat("\n*Attention*: eventual duplicated records will be removed from MA data for the following analysis \n")
+} # check_MA
+```
+
+
 ```{r MA_checks, results = 'asis', fig.height=6, fig.width=9}
 
 if (check_MA) {
@@ -1213,6 +1404,39 @@ if (exists("ML")) {
   cat("\n No Maturity at Length (ML) data available \n")
 }
 ```
+
+
+```{r ML_duplicated_records, results = 'asis'}
+if (check_ML) {
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the ML table were checked for the presence of duplicated records. The result of the check is here reported:\n")
+
+  duplicates <- ML[0, ]
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_duplicates(data = ML, type = "ml", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        duplicates <- rbind(duplicates, res)
+      }
+    }
+  }
+
+  if (nrow(duplicates) > 0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+    duplic <- data.frame(duplicates)
+    print(duplic %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+    ML <- ML[-which(rownames(ML) %in% as.numeric(rownames(duplicates))), ]
+  } else {
+    cat("\n", paste0("- No replicated records in ML data"), "\n")
+  }
+
+  cat("\n*Attention*: eventual duplicated records will be removed from ML data for the following analysis \n")
+} # check_ML
+```
+
 
 ```{r ML_checks, results = 'asis', fig.height=6, fig.width=9}
 
@@ -1285,6 +1509,39 @@ if (exists("SA")) {
 }
 ```
 
+
+```{r SRA_duplicated_records, results = 'asis'}
+if (check_SRA) {
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the SRA table were checked for the presence of duplicated records. The result of the check is here reported:\n")
+
+  duplicates <- SA[0, ]
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_duplicates(data = SA, type = "sra", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        duplicates <- rbind(duplicates, res)
+      }
+    }
+  }
+
+  if (nrow(duplicates) > 0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+    duplic <- data.frame(duplicates)
+    print(duplic %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+    SA <- SA[-which(rownames(SA) %in% as.numeric(rownames(duplicates))), ]
+  } else {
+    cat("\n", paste0("- No replicated records in SRA data"), "\n")
+  }
+
+  cat("\n*Attention*: eventual duplicated records will be removed from SRA data for the following analysis \n")
+} # check_SRA
+```
+
+
 ```{r SA_checks, results = 'asis', fig.height=6, fig.width=9}
 if (check_SA) {
   cat("\n## Plots of Sex Ratio at age (SRA) data\n")
@@ -1335,6 +1592,39 @@ if (exists("SL")) {
   cat("\n No Sex Ratio at length (SRL) data available \n")
 }
 ```
+
+
+```{r SRL_duplicated_records, results = 'asis'}
+if (check_SRL) {
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the SRL table were checked for the presence of duplicated records. The result of the check is here reported:\n")
+
+  duplicates <- SL[0, ]
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_duplicates(data = SL, type = "srl", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        duplicates <- rbind(duplicates, res)
+      }
+    }
+  }
+
+  if (nrow(duplicates) > 0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+    duplic <- data.frame(duplicates)
+    print(duplic %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+    SL <- SL[-which(rownames(SL) %in% as.numeric(rownames(duplicates))), ]
+  } else {
+    cat("\n", paste0("- No replicated records in SRL data"), "\n")
+  }
+
+  cat("\n*Attention*: eventual duplicated records will be removed from SRL data for the following analysis \n")
+} # check_SRL
+```
+
 
 ```{r SL_checks, results = 'asis', fig.height=6, fig.width=9}
 
@@ -1387,6 +1677,40 @@ if (exists("ALK")) {
   cat("\n No Age-Length Keys (ALK) data available \n")
 }
 ```
+
+
+
+```{r ALK_duplicated_records, results = 'asis'}
+if (check_ALK) {
+  cat("\n## Presence of duplicated records\n")
+  cat("\nData included in the ALK table were checked for the presence of duplicated records. The result of the check is here reported:\n")
+
+  duplicates <- ALK[0, ]
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_duplicates(data = ALK, type = "alk", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        duplicates <- rbind(duplicates, res)
+      }
+    }
+  }
+
+  if (nrow(duplicates) > 0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(duplicates), " replicated record/records in the data"), "\n")
+    duplic <- data.frame(duplicates)
+    print(duplic %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+    ALK <- ALK[-which(rownames(ALK) %in% as.numeric(rownames(duplicates))), ]
+  } else {
+    cat("\n", paste0("- No replicated records in ALK data"), "\n")
+  }
+
+  cat("\n*Attention*: eventual duplicated records will be removed from ALK data for the following analysis \n")
+} # check_ALK
+```
+
 
 ```{r ALK_checks, results = 'asis', fig.height=6, fig.width=9}
 

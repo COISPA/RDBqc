@@ -27,7 +27,7 @@
 #' @importFrom data.table data.table
 
 
-MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE){
+MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE){
   if (FALSE) {
     # library(ggplot2)
     # library(data.table)
@@ -38,11 +38,14 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
     # library(utils)
     # library(magrittr)
     # library(tidyr)
-    type="b"
-    landed<- RDBqc::Landing_tab_example
+    type="d"
+    landed<- NA # RDBqc::Landing_tab_example
     discarded <- RDBqc::Discard_tab_example
     data <- landed
     data2 <-  discarded
+
+    Land <- landed
+    Disc <- discarded
 
     SP <- "DPS"
     GSA <- "GSA 9"
@@ -156,7 +159,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
 
          i_csv <- i_csv + 1
          output_csv[[i_csv]] <- arrange(LFL,desc(year),desc(gear))
-         names(output_csv)[i_csv] <- "Table_Landing_LFL_GEAR"
+         names(output_csv)[i_csv] <- "Table_Landing_LFD_GEAR"
 
 
     }else{
@@ -182,7 +185,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = TRUE)
 
     i_csv <- i_csv + 1
     output_csv[[i_csv]] <- arrange(LFL_fin,desc(year),desc(length))
-    names(output_csv)[i_csv] <- "Table_Landing_LFL_YEAR"
+    names(output_csv)[i_csv] <- "Table_Landing_LFD_YEAR"
 
     yield=land[,-c(14:114)]  # [,-c(15:116)]
     yield_tot= suppressMessages(yield %>% group_by(year,gear,fishery) %>% summarise(value=sum(landings,na.rm=TRUE))) # aggregate(yield$landings,by=list(yield$year,yield$gear,yield$fishery),sum)
