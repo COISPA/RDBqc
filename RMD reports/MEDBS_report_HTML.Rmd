@@ -1490,7 +1490,7 @@ if (check_ML) {
 if (exists("SA")) {
   if (class(SA) == "data.frame") {
     if (nrow(SA) > 0) {
-      check_SA <- TRUE
+      check_SRA <- TRUE
       cat(paste0("\n# Sex Ratio at age (SRA) table\n"))
       if (!user_SP) {
         SPs <- unique(SA$species)
@@ -1504,7 +1504,7 @@ if (exists("SA")) {
     }
   }
 } else {
-  check_SA <- FALSE
+  check_SRA <- FALSE
   cat("\n No Sex Ratio at age (SRA) data available \n")
 }
 ```
@@ -1574,7 +1574,7 @@ if (check_SA) {
 if (exists("SL")) {
   if (class(SL) == "data.frame") {
     if (nrow(SL) > 0) {
-      check_SL <- TRUE
+      check_SRL <- TRUE
       cat(paste0("\n# Sex Ratio at length (SRL) table\n"))
       if (!user_SP) {
         SPs <- unique(SL$species)
@@ -1588,7 +1588,7 @@ if (exists("SL")) {
     }
   }
 } else {
-  check_SL <- FALSE
+  check_SRL <- FALSE
   cat("\n No Sex Ratio at length (SRL) data available \n")
 }
 ```
