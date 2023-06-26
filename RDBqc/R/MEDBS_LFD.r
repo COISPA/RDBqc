@@ -25,6 +25,7 @@
 #' @importFrom dplyr filter
 #' @importFrom dplyr full_join
 #' @importFrom data.table data.table
+#' @export
 
 
 MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE){
@@ -46,6 +47,15 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
 
     Land <- landed
     Disc <- discarded
+    data <- discarded
+
+    # ddddd <- read.csv("~/GitHub/RDBqc_appoggio/dataset/discards_BGR.csv")
+    # data <- ddddd
+    # SP <- "ANE"
+    # GSA <- "GSA 29"
+    # MS <- "BGR"
+    # res <- MEDBS_LFD(data=ddddd, data2=NA, type="d", SP, MS, GSA, OUT=TRUE, verbose = TRUE)
+
 
     SP <- "DPS"
     GSA <- "GSA 9"
@@ -232,15 +242,24 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
 
   if (type == "d" | type=="b") {
     discarded$upload_id <- NA
-    discarded[discarded$discards==-1]=0
+    discarded[discarded$discards==-1,]=0
     # id_discards <- NA
     # discarded <- cbind(id_discards,discarded)
 
-    discarded$discards[discarded$discards == -1] <- 0
+    # discarded$discards[discarded$discards == -1] <- 0
 
     ## Subsetting DataFrame, preparing data for further elaboration and setting output directory ####
     disc <- data.table(discarded[which(discarded$area == GSA & discarded$country == MS & discarded$species == SP), ])
 
+    if (nrow(disc)==0) {
+      if (verbose) {
+        print("No discard data available for the selected combination of country, GSA and species")
+      }
+      no_discard_data <- TRUE
+      LFD <- data.frame(matrix(ncol=5,nrow=0))
+      colnames(LFD) <- c("year","gear","fishery","start_length","value")
+    } else {
+      no_discard_data <- FALSE
     if (SP %in% c("ARA","ARS","NEP","DPS")){
       step <- 25 # 5 should be ok for crustaceans and cephalopods and 50 for fish. Change this value accordingly on how plot resulted.
     }else{
@@ -385,19 +404,19 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
       }else{
         print("No discards available")
       }
+    }
   } # type="d"
 
 
   if (type == "b") {
     #### Total ####
-    if(nrow(LFD)>0){
+    if(nrow(LFD)>0 & !no_discard_data){
       LFT=suppressMessages(full_join(LFL,LFD,by=c("year","start_length","gear","fishery","ID")))
       LFT[is.na(LFT)] <- 0
       LFT$tot_val <- NA
       for (i in 1:(nrow(LFT))){
         LFT$tot_val[i]=LFT$value.x[i]+LFT$value.y[i]
       }
-
     }else{
       LFT=LFL
       #str(LFT)

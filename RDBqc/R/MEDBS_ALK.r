@@ -19,6 +19,11 @@ MEDBS_ALK <- function(data, SP, MS, GSA, verbose = TRUE) {
   data <- data[data$AREA == as.character(GSA) & data$COUNTRY == MS & data$SPECIES == SP, ]
   ALK <- data
   if (nrow(ALK) > 0) {
+
+    alk_LENGTH <- ALK[,c(14:114)]
+    alk_LENGTH[alk_LENGTH == -1] <- 0
+    ALK <- cbind( ALK[,c(1:13)],alk_LENGTH)
+
     sexes <- unique(ALK$SEX)
     plots <- list()
 

@@ -42,19 +42,19 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-Catch <- read.table("./catch.csv", sep = ";", header = TRUE)
-Land <- read.table("./landings_gsa18.csv", sep = ";", header = TRUE)
-Disc <- read.table("./discards_gsa18.csv", sep = ";", header = TRUE)
-ML <- read.table("./ml.csv", sep = ";", header = TRUE)
-MA <- read.table("./ma.csv", sep = ";", header = TRUE)
-SL <- read.table("./srl.csv", sep = ";", header = TRUE)
-SA <- read.table("./sra.csv", sep = ";", header = TRUE)
-GP <- read.table("./gp.csv", sep = ";", header = TRUE)
-ALK <- read.table("./alk.csv", sep = ";", header = TRUE)
+# Catch <- read.table("./catch.csv", sep = ";", header = TRUE)
+# Land <- read.table("./landings_gsa18.csv", sep = ";", header = TRUE)
+Disc <- read.csv("~/GitHub/RDBqc_appoggio/dataset/discards_BGR.csv") #read.table("./discards_gsa18.csv", sep = ";", header = TRUE)
+# ML <- read.table("./ml.csv", sep = ";", header = TRUE)
+# MA <- read.table("./ma.csv", sep = ";", header = TRUE)
+# SL <- read.table("./srl.csv", sep = ";", header = TRUE)
+# SA <- read.table("./sra.csv", sep = ";", header = TRUE)
+# GP <- read.table("./gp.csv", sep = ";", header = TRUE)
+# ALK <- read.table("./alk.csv", sep = ";", header = TRUE)
 
-SPs <- c("MUT")
-MS <- "ITA"
-GSAs <- "GSA 18"
+SPs <- c("ANE")
+MS <- "BGR"
+GSAs <- "GSA 29"
 ```
 
 
@@ -1543,7 +1543,7 @@ if (check_SRA) {
 
 
 ```{r SA_checks, results = 'asis', fig.height=6, fig.width=9}
-if (check_SA) {
+if (check_SRA) {
   cat("\n## Plots of Sex Ratio at age (SRA) data\n")
 
   for (g in 1:length(GSAs)) {
@@ -1628,7 +1628,7 @@ if (check_SRL) {
 
 ```{r SL_checks, results = 'asis', fig.height=6, fig.width=9}
 
-if (check_SL) {
+if (check_SRL) {
   cat("\n## Plots of Sex Ratio at length (SRL) data\n")
 
   for (g in 1:length(GSAs)) {
