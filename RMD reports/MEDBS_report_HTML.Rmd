@@ -44,7 +44,7 @@ lapply(lib, require, character.only = TRUE)
 
 # Catch <- read.table("./catch.csv", sep = ";", header = TRUE)
 # Land <- read.table("./landings_gsa18.csv", sep = ";", header = TRUE)
-Disc <- read.csv("~/GitHub/RDBqc_appoggio/dataset/discards_BGR.csv") #read.table("./discards_gsa18.csv", sep = ";", header = TRUE)
+# Disc <- read.table("./discards_gsa18.csv", sep = ";", header = TRUE)
 # ML <- read.table("./ml.csv", sep = ";", header = TRUE)
 # MA <- read.table("./ma.csv", sep = ";", header = TRUE)
 # SL <- read.table("./srl.csv", sep = ";", header = TRUE)
@@ -53,8 +53,8 @@ Disc <- read.csv("~/GitHub/RDBqc_appoggio/dataset/discards_BGR.csv") #read.table
 # ALK <- read.table("./alk.csv", sep = ";", header = TRUE)
 
 SPs <- c("ANE")
-MS <- "BGR"
-GSAs <- "GSA 29"
+MS <- "ITA"
+GSAs <- "GSA 18"
 ```
 
 

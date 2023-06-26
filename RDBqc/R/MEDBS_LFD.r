@@ -387,7 +387,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
                  geom_line(stat="identity") + facet_grid(gear~.,scales = "free")+
                  ggtitle(paste0(SP," ",MS," ",GSA," ","TOTAL DISCARD")) + xlab("YEAR") + ylab("tons")+
                  theme(axis.text.x = element_text(angle=0, vjust=0.6))+
-                 scale_x_continuous(breaks = seq(min(yield_tot$year),max(yield_tot$year),by=2))+
+                 scale_x_continuous(breaks = seq(min(dyield_tot$year),max(dyield_tot$year),by=2))+
                  theme(legend.position="right")+
                  theme_bw()+
                  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
