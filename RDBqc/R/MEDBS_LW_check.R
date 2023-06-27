@@ -18,7 +18,7 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = TRUE) {
   colnames(data) <- toupper(colnames(data))
   GP_tab <- data
   GP_tab <- GP_tab[GP_tab$SPECIES == SP & GP_tab$COUNTRY == MS & GP_tab$AREA == GSA, ]
-  GP_tab <- GP_tab[!is.na(GP_tab$A) & GP_tab$A != -1 & !is.na(GP_tab$B) & GP_tab$B != -1, ]
+  GP_tab <- GP_tab[!is.na(GP_tab$A) & GP_tab$A != -1 & !is.na(GP_tab$B) & GP_tab$B != -1 & GP_tab$A >0 & GP_tab$B > 0, ]
   if (nrow(GP_tab) == 0) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
@@ -30,7 +30,7 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = TRUE) {
     Summary_LW <- suppressMessages(data.frame(GP_tab %>% group_by(COUNTRY, AREA, START_YEAR, END_YEAR, SPECIES, SEX) %>% summarise(CUNT = length(A))))
     GP_tab$ID <- paste0(GP_tab$START_YEAR, " a = ", GP_tab$A, ", b = ", GP_tab$B)
 
-    Linf <- GP_tab[!is.na(GP_tab$VB_LINF) & GP_tab$VB_LINF != -1, "VB_LINF"]
+    Linf <- GP_tab[!is.na(GP_tab$VB_LINF) & GP_tab$VB_LINF != -1 & GP_tab$VB_LINF != -999, "VB_LINF"]
     if (length(Linf) > 0) {
       Linf <- max(Linf)
     } else {

@@ -62,6 +62,16 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     MS <- "ITA"
 
     res <- MEDBS_LFD(data=landed, data2=discarded, type="b", SP, MS, GSA, OUT=TRUE, verbose = TRUE)
+
+    data = Land
+    data2=NA
+    type="l"
+    MS = MS
+    GSA = GSAs[g]
+    SP = SPs[s]
+    OUT=FALSE
+    verbose = TRUE
+
   }
 
   . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- ID <- value <- start_length <- discards <- tot_val <- NULL
