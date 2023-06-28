@@ -1,3 +1,7 @@
+# RDBqc 0.0.17.02
+ * improving results of MEDBS functions (SOP, Discard_coverage, plot_discard_ts, plot_disc_vol) 
+ * expansion of MEDBS_check_duplicates function to all MED&BS tables of biological parameters (GP, ALK, MA, ML, SRA, SRL)
+
 # RDBqc 0.0.17
  * improving results of MEDBS functions (ALK, LFD, yr_missing_length) 
  * expansion of MEDBS_check_duplicates function to all MED&BS tables of biological parameters (GP, ALK, MA, ML, SRA, SRL)

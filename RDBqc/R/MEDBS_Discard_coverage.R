@@ -29,8 +29,8 @@ MEDBS_discard_coverage <- function(Discard_tab, SP, MS, GSA, verbose = TRUE) {
       message(paste0("No data available for the selected species (", SP, ")"))
     }
   } else {
-    if (length(Discard_tab$Discard_tab[Discard_tab$discards == -1, "discards"]) > 0) {
-      Discard_tab$Discard_tab[Discard_tab$discards == -1, "discards"] <- 0
+    if (length(Discard_tab[Discard_tab$discards == -1, "discards"]) > 0) {
+      Discard_tab[Discard_tab$discards == -1, "discards"] <- 0
     }
     Summary_land_wt <- data.frame(Discard_tab %>% group_by(country, year, quarter, vessel_length, gear, mesh_size_range, fishery, area, species) %>% summarise(discards = sum(discards, na.rm = TRUE)))
 
@@ -43,7 +43,7 @@ MEDBS_discard_coverage <- function(Discard_tab, SP, MS, GSA, verbose = TRUE) {
     output[[l]] <- Summary_land_wt
     names(output)[[l]] <- "summary table"
 
-    Discard_tab$Discard_tab[Discard_tab$discards == -1] <- 0
+    Discard_tab[Discard_tab$discards == -1,"discards"] <- 0
     suppressMessages(land_wt <- Discard_tab %>%
       group_by(country, area, year, quarter, vessel_length, gear, mesh_size_range, fishery) %>% summarize(discards = sum(discards, na.rm = TRUE)))
 

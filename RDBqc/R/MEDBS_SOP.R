@@ -50,17 +50,17 @@ MEDBS_SOP <- function(data, SP, MS, GSA, threshold = 5, verbose = TRUE) {
 
     Landing_wt[, 13:ncol(Landing_wt)][Landing_wt[, 13:ncol(Landing_wt)] == -1] <- 0
 
-    Data_call$check_LANDING <- ""
-    Data_call$check_DISCARD <- ""
+    Data_call$check_LANDING <- NA
+    Data_call$check_DISCARD <- NA
 
-    r <- 4
+    r <- 1
     for (r in pos_indices) {
-      nb <- Landing_nb[r, 13:(ncol(Landing_nb) - 1)]
-      wt <- Landing_wt[r, 13:ncol(Landing_wt)]
+      nb <- as.numeric(Landing_nb[r, 13:(ncol(Landing_nb) - 1)])
+      wt <- as.numeric(Landing_wt[r, 13:ncol(Landing_wt)])
       Prod <- sum(nb * wt)
       percentage <- (Prod - Landing_wt[r, 12]) / Landing_wt[r, 12] * 100
       if (abs(round(percentage, 2)) > threshold) {
-        Data_call$check_LANDING[r] <- round(percentage, 2)
+        Data_call$check_LANDING[r] <- round((percentage), 2)
       }
     }
     #-----------CHECK CONSISTENCY DISCARD--------
@@ -99,7 +99,7 @@ MEDBS_SOP <- function(data, SP, MS, GSA, threshold = 5, verbose = TRUE) {
     }
 
     error <- Data_call[
-      (Data_call$check_LANDING >= threshold & !is.na(Data_call$check_LANDING)) | (Data_call$check_DISCARD >= threshold & !is.na(Data_call$check_DISCARD)),
+      (Data_call$check_LANDING >= threshold & !is.na(Data_call$check_LANDING)) | (Data_call$check_LANDING <= threshold & !is.na(Data_call$check_LANDING)) | (Data_call$check_DISCARD >= threshold & !is.na(Data_call$check_DISCARD)) | (Data_call$check_DISCARD <= threshold & !is.na(Data_call$check_DISCARD)),
       c(
         3:8,
         which(colnames(Data_call) == "check_LANDING"),

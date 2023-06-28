@@ -59,7 +59,7 @@ MEDBS_plot_discard_ts <- function(data, SP, MS, GSA, by = "year") {
         labs(x = "", y = "Tonnes", fill = "Gear")
     }
 
-    print(plot)
+    return(plot)
   } else {
     message("No discard data in the subset.\n")
   }

@@ -27,7 +27,7 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = TRUE) {
     Summary_LW <- aggregate(GP_tab$A, by = list(GP_tab$COUNTRY, GP_tab$AREA, GP_tab$START_YEAR, GP_tab$END_YEAR, GP_tab$SPECIES, GP_tab$SEX), FUN = "length")
     colnames(Summary_LW) <- c("COUNTRY", "AREA", "START_YEAR", "END_YEAR", "SPECIES", "SEX", "COUNT")
 
-    Summary_LW <- suppressMessages(data.frame(GP_tab %>% group_by(COUNTRY, AREA, START_YEAR, END_YEAR, SPECIES, SEX) %>% summarise(CUNT = length(A))))
+    Summary_LW <- suppressMessages(data.frame(GP_tab %>% group_by(COUNTRY, AREA, START_YEAR, END_YEAR, SPECIES, SEX) %>% summarise(COUNT = length(A))))
     GP_tab$ID <- paste0(GP_tab$START_YEAR, " a = ", GP_tab$A, ", b = ", GP_tab$B)
 
     Linf <- GP_tab[!is.na(GP_tab$VB_LINF) & GP_tab$VB_LINF != -1 & GP_tab$VB_LINF != -999, "VB_LINF"]

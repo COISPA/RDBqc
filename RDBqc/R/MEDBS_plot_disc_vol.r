@@ -47,7 +47,7 @@ MEDBS_plot_disc_vol <- function(data, SP, MS, GSA) {
       xlab("") +
       ylab("Discards (t)")
 
-    print(plot)
+    return(plot)
   } else {
     message("No discard data in the subset.\n")
   }
