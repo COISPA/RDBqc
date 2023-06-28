@@ -152,9 +152,14 @@ MEDBS_SOP <- function(data, SP, MS, GSA, threshold = 5, verbose = TRUE) {
       error <- errord
     } else if (nrow(errord)==0 & nrow(errorl)>0) {
       error <- errorl
+    } else {
+      error <- data.frame(matrix(ncol=11,nrow=0))
+      colnames(errord) <- c("COUNTRY", "YEAR", "QUARTER",  "GEAR", "MESH_SIZE_RANGE", "FISHERY",   "AREA", "SPECIES", "VOLUME", "sumprod", "SOP")
     }
-    error$SOP <- round(as.numeric(error$SOP),5)
 
+    if (nrow(error)>0){
+       error$SOP <- round(as.numeric(error$SOP),5)
+      }
 
 
     return(error)
