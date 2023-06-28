@@ -52,16 +52,26 @@ MEDBS_SOP <- function(data, SP, MS, GSA, threshold = 5, verbose = TRUE) {
 
     Data_call$check_LANDING <- NA
     Data_call$check_DISCARD <- NA
+    Data_call$sumprodl <- NA
+    Data_call$SOPl <- NA
+    Data_call$sumprodd <- NA
+    Data_call$SOPd <- NA
 
-    r <- 1
+    r <- 6
     for (r in pos_indices) {
       nb <- as.numeric(Landing_nb[r, 13:(ncol(Landing_nb) - 1)])
       wt <- as.numeric(Landing_wt[r, 13:ncol(Landing_wt)])
       Prod <- sum(nb * wt)
-      percentage <- (Prod - Landing_wt[r, 12]) / Landing_wt[r, 12] * 100
-      if (abs(round(percentage, 2)) > threshold) {
+      percentage <- (Landing_wt[r, "LANDINGS"]/Prod)
+      if (round(percentage, 2) > 1+(threshold/100) | round(percentage, 2) < 1-(threshold/100)) {
         Data_call$check_LANDING[r] <- round((percentage), 2)
+        Data_call$sumprodl[r] <- Prod
+        Data_call$SOPl[r] <- percentage
       }
+      # percentage <- (Prod - Landing_wt[r, 12]) / Landing_wt[r, 12] * 100
+      # if (abs(round(percentage, 2)) > threshold) {
+      #   Data_call$check_LANDING[r] <- round((percentage), 2)
+      # }
     }
     #-----------CHECK CONSISTENCY DISCARD--------
 
@@ -88,24 +98,64 @@ MEDBS_SOP <- function(data, SP, MS, GSA, threshold = 5, verbose = TRUE) {
 
     Discard_wt[, 13:ncol(Discard_wt)][Discard_wt[, 13:ncol(Discard_wt)] == -1] <- 0
 
+    r=1
     for (r in pos_indices) {
       nb <- Discard_nb[r, 13:(ncol(Discard_nb) - 1)]
       wt <- Discard_wt[r, 13:ncol(Discard_wt)]
       Prod <- sum(nb * wt)
-      percentage <- ifelse((Discard_wt[r, 12] == 0) & (Prod == 0), NA, (Prod - Discard_wt[r, 12]) / Discard_wt[r, 12] * 100)
-      if (!is.na(percentage) & abs(round(percentage, 2)) > threshold) {
-        Data_call$check_DISCARD[r] <- round(percentage, 2)
+      if (Prod!=0 & Discard_wt[r, "DISCARDS"] !=0){
+        percentage <- (Discard_wt[r, "DISCARDS"]/Prod)
+      } else {
+        percentage <- NA
       }
+      if (round(percentage, 2) > 1+(threshold/100) | round(percentage, 2) < 1-(threshold/100)) {
+        Data_call$check_DISCARD[r] <- round((percentage), 2)
+        Data_call$sumprodd[r] <- Prod
+        Data_call$SOPd[r] <- percentage
+      }
+
+
+
+
+
+      # Prod <- sum(nb * wt)
+      # percentage <- ifelse((Discard_wt[r, 12] == 0) & (Prod == 0), NA, (Prod - Discard_wt[r, 12]) / Discard_wt[r, 12] * 100)
+      # if (!is.na(percentage) & abs(round(percentage, 2)) > threshold) {
+      #   Data_call$check_DISCARD[r] <- round(percentage, 2)
+      # }
     }
 
-    error <- Data_call[
-      (Data_call$check_LANDING >= threshold & !is.na(Data_call$check_LANDING)) | (Data_call$check_LANDING <= threshold & !is.na(Data_call$check_LANDING)) | (Data_call$check_DISCARD >= threshold & !is.na(Data_call$check_DISCARD)) | (Data_call$check_DISCARD <= threshold & !is.na(Data_call$check_DISCARD)),
-      c(
-        3:8,
-        which(colnames(Data_call) == "check_LANDING"),
-        which(colnames(Data_call) == "check_DISCARD")
-      )
-    ]
+    # error <- Data_call[
+    #   (Data_call$check_LANDING >= threshold & !is.na(Data_call$check_LANDING)) | (Data_call$check_LANDING <= threshold & !is.na(Data_call$check_LANDING)) | (Data_call$check_DISCARD >= threshold & !is.na(Data_call$check_DISCARD)) | (Data_call$check_DISCARD <= threshold & !is.na(Data_call$check_DISCARD)),
+    #   c(
+    #     3:8,
+    #     which(colnames(Data_call) == "check_LANDING"),
+    #     which(colnames(Data_call) == "check_DISCARD")
+    #   )
+    # ]
+
+    errorl <- Data_call[!is.na(Data_call$check_LANDING),c("COUNTRY", "YEAR", "QUARTER",  "GEAR", "MESH_SIZE_RANGE", "FISHERY",   "AREA", "SPECIES", "LANDINGS", "sumprodl", "SOPl")]
+    colnames(errorl) <- c("COUNTRY", "YEAR", "QUARTER",  "GEAR", "MESH_SIZE_RANGE", "FISHERY",   "AREA", "SPECIES", "VOLUME", "sumprod", "SOP")
+    if (nrow(errorl)>0){
+      errorl$DATA <- "LANDINGS"
+    }
+
+    errord <- Data_call[!is.na(Data_call$check_DISCARD),c("COUNTRY", "YEAR", "QUARTER",  "GEAR", "MESH_SIZE_RANGE", "FISHERY",   "AREA", "SPECIES", "DISCARDS", "sumprodd", "SOPd")]
+    colnames(errord) <- c("COUNTRY", "YEAR", "QUARTER",  "GEAR", "MESH_SIZE_RANGE", "FISHERY",   "AREA", "SPECIES", "VOLUME", "sumprod", "SOP")
+    if (nrow(errord)>0){
+       errord$DATA <- "DISCARDS"
+    }
+
+    if (nrow(errorl)>0 & nrow(errord)>0) {
+      error <- rbind(errorl,errord)
+    } else if (nrow(errorl)==0 & nrow(errord)>0) {
+      error <- errord
+    } else if (nrow(errord)==0 & nrow(errorl)>0) {
+      error <- errorl
+    }
+    error$SOP <- round(as.numeric(error$SOP),5)
+
+
 
     return(error)
   } else {

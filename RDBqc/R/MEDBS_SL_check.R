@@ -15,6 +15,9 @@ MEDBS_SL_check <- function(data, SP, MS, GSA, verbose = TRUE) {
   AREA <- SEXRATIO <- Summary_SL <- LENGTHCLASS <- cOUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX_RATIO <- NULL
 
   colnames(data) <- toupper(colnames(data))
+  if(any(colnames(data)=="SEXRATIO")){
+    colnames(data)[which(colnames(data)=="SEXRATIO")] <- "SEX_RATIO"
+  }
   SL_tab <- data
 
   SL_tab <- SL_tab[SL_tab$SPECIES == SP & SL_tab$COUNTRY == MS & SL_tab$AREA == GSA, ]

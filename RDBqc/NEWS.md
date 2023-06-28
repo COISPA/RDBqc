@@ -1,3 +1,7 @@
+# RDBqc 0.0.17.03
+ * Modification of SOP table output
+ * inclusion of check on "sex_ratio" header in SA and SL tables
+
 # RDBqc 0.0.17.02
  * improving results of MEDBS functions (SOP, Discard_coverage, plot_discard_ts, plot_disc_vol) 
  * expansion of MEDBS_check_duplicates function to all MED&BS tables of biological parameters (GP, ALK, MA, ML, SRA, SRL)
