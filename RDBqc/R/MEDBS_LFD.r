@@ -39,8 +39,8 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     # library(utils)
     # library(magrittr)
     # library(tidyr)
-    type="d"
-    landed<- NA # RDBqc::Landing_tab_example
+    type="b"
+    landed<- RDBqc::Landing_tab_example
     discarded <- RDBqc::Discard_tab_example
     data <- landed
     data2 <-  discarded
@@ -163,6 +163,8 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
       output_jpg[[i_jpg]] <- plot1
       names(output_jpg)[i_jpg] <- "Plot_Landing_LFD_GEAR"
 
+      LFL_sum <- subset(LFL2,start_length<maxlength) %>% group_by(year,gear,fishery) %>% summarise(total_number = sum(value,na.rm=TRUE))
+
          if (OUT) {
            # save plot
            WD <- getwd()
@@ -174,11 +176,11 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
            WD <- getwd()
            dir_csv <- paste0(WD, "/OUTPUT/CSV")
            suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-           write.csv(arrange(LFL,desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFL_land_gear.csv"),row.names=F)
+           write.csv(arrange(LFL_sum,desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFL_land_gear.csv"),row.names=F)
          }
 
          i_csv <- i_csv + 1
-         output_csv[[i_csv]] <- arrange(LFL,desc(year),desc(gear))
+         output_csv[[i_csv]] <- arrange(LFL_sum,desc(year),desc(gear))
          names(output_csv)[i_csv] <- "Table_Landing_LFD_GEAR"
 
 
@@ -197,15 +199,15 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     temp1[is.na(temp1)] <- 0
     LFL_fin <- temp1
 
-    if (OUT) {
-      WD <- getwd()
-      dir_csv <- paste0(WD, "/OUTPUT/CSV")
-      write.csv(arrange(LFL_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFL_yr.csv"),row.names=F)
-    }
-
-    i_csv <- i_csv + 1
-    output_csv[[i_csv]] <- arrange(LFL_fin,desc(year),desc(length))
-    names(output_csv)[i_csv] <- "Table_Landing_LFD_YEAR"
+    # if (OUT) {
+    #   WD <- getwd()
+    #   dir_csv <- paste0(WD, "/OUTPUT/CSV")
+    #   write.csv(arrange(LFL_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFL_yr.csv"),row.names=F)
+    # }
+    #
+    # i_csv <- i_csv + 1
+    # output_csv[[i_csv]] <- arrange(LFL_fin,desc(year),desc(length))
+    # names(output_csv)[i_csv] <- "Table_Landing_LFD_YEAR"
 
     yield=land[,-c(14:114)]  # [,-c(15:116)]
     yield_tot= suppressMessages(yield %>% group_by(year,gear,fishery) %>% summarise(value=sum(landings,na.rm=TRUE))) # aggregate(yield$landings,by=list(yield$year,yield$gear,yield$fishery),sum)
@@ -335,7 +337,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
       output_jpg[[i_jpg]] <- plot3
       names(output_jpg)[i_jpg] <- "Plot_Discards_LFD_GEAR"
 
-
+      LFD_sum <-subset(LFD2,start_length<maxlength) %>% group_by(year,gear,fishery) %>% summarise(total_number = sum(value,na.rm=TRUE))
 
       if (OUT) {
         # save plot
@@ -348,11 +350,11 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
         WD <- getwd()
         dir_csv <- paste0(WD, "/OUTPUT/CSV")
         suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-        write.csv(arrange(LFD,desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_disc_gear.csv"),row.names=F)
+        write.csv(arrange(LFD_sum,desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_disc_gear.csv"),row.names=F)
       }
 
       i_csv <- i_csv + 1
-      output_csv[[i_csv]] <- arrange(LFD,desc(year),desc(gear))
+      output_csv[[i_csv]] <- arrange(LFD_sum,desc(year),desc(gear))
       names(output_csv)[i_csv] <- "Table_Discards_LFD_GEAR"
 
     }else{
@@ -369,16 +371,16 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
       temp[is.na(temp)] <- 0
       LFD_fin <- temp
 
-      if (OUT) {
-        WD <- getwd()
-        dir_csv <- paste0(WD, "/OUTPUT/CSV")
-        suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(arrange(LFD_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_yr.csv"),row.names=F)
-      }
-
-      i_csv <- i_csv + 1
-      output_csv[[i_csv]] <- arrange(LFD_fin,desc(year),desc(length))
-      names(output_csv)[i_csv] <- "Table_Discards_LFD_YEAR"
+      # if (OUT) {
+      #   WD <- getwd()
+      #   dir_csv <- paste0(WD, "/OUTPUT/CSV")
+      #   suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
+      # write.csv(arrange(LFD_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_yr.csv"),row.names=F)
+      # }
+      #
+      # i_csv <- i_csv + 1
+      # output_csv[[i_csv]] <- arrange(LFD_fin,desc(year),desc(length))
+      # names(output_csv)[i_csv] <- "Table_Discards_LFD_YEAR"
 
 
       dyield=disc[,-c(14:115)]

@@ -1,3 +1,7 @@
+# RDBqc 0.0.17.04
+ * Improved checks for missing data in landing for MEDBS_length_ind function
+ * modification of table output in MEDBS_LFD function
+
 # RDBqc 0.0.17.03
  * Modification of SOP table output
  * inclusion of check on "sex_ratio" header in SA and SL tables
