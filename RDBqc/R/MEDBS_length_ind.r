@@ -294,7 +294,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           )) +
           theme(legend.position = "bottom") +
           guides(colour = guide_legend(nrow = 1))
-        print(plot)
+        # print(plot)
         l <- length(output) + 1
         output[[l]] <- plot
         names(output)[[l]] <- paste("MedianLength",

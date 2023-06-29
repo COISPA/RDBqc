@@ -231,7 +231,7 @@ if (check_Catch) {
     s <- 1
     for (s in 1:length(SPs)) {
       cat(paste0("\n#### ", SPs[s], "\n"))
-      res <- suppressMessages(MEDBS_SOP(Catch, SP = SPs[s], MS = MS, GSA = GSAs[g], threshold = SOP_threshold, verbose = FALSE))
+      res <- suppressMessages(MEDBS_SOP(data=Catch, SP = SPs[s], MS = MS, GSA = GSAs[g], threshold = SOP_threshold, verbose = FALSE))
 
       if (nrow(res) > 0) {
         cat(paste0("\n_Critical values of SOP for ", SPs[s], " in ", GSAs[g], "_\n\n"))
@@ -348,7 +348,7 @@ if (check_Land) {
     for (s in 1:length(SPs)) {
       cat(paste0("\n##### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_comp_land_Q_VL_fishery(data = Land, MS = MS, GSA = GSAs[g], SP = SPs[s]))
-      res <- res[!is.na(res$ratio) & res$ratio > 0, ]
+      res <- res[!is.na(res$ratio) & res$ratio != 1, ] # res$ratio > 0
       if (nrow(res) > 0) {
         cat(paste0("\n_Comparison of landing volumes aggregated by quarter and fishery reported with and without vessel length codes for ", SPs[s], " in ", GSAs[g], "_"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
@@ -666,13 +666,17 @@ if (check_Land) {
               plots <- res[grep("Plot",names(res))]
 
               t=1
+				if (length(tables)>0){					
               for (t in 1:length(tables)) {
                 cat(paste0("\n_Summary table of ",tables_names[t,2]," LFD",ifelse(!is.na(tables_names[t,4]),paste0(" by ",tables_names[t,4]),"")," for ", SPs[s], " in ", GSAs[g], "_"))
                 
                 print(tables[[t]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+              } } else {
+                cat(paste0("\n- No LFD available in landings for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
               }
 
         x <- 1
+		if (length(plots)>0){					 
         for (x in 1:length(plots)) {
           if (plots_names[x,3]=="TOTAL LANDINGS") {
             cat(paste0("\n_Plot of total landings for ", SPs[s], " in ", GSAs[g], "_"))
@@ -682,6 +686,9 @@ if (check_Land) {
           suppressMessages(print(plots[[x]]))
           cat("\n\n\n")
         }
+		} else {
+            cat(paste0("\n- No plot of LFD available for landings for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+          }		
       } else {
         cat(paste0("\n- No LFD available in landings for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
       }
