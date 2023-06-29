@@ -1116,13 +1116,18 @@ if (check_Disc) {
               plots <- res[grep("Plot",names(res))]
 
               t=1
+			  if (length(tables)>0) {
               for (t in 1:length(tables)) {
                 cat(paste0("\n_Summary table of ",tables_names[t,2]," LFD",ifelse(!is.na(tables_names[t,4]),paste0(" by ",tables_names[t,4]),"")," for ", SPs[s], " in ", GSAs[g], "_"))
 
                 print(tables[[t]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
               }
+			  } else {
+                cat(paste0("\n- No LFD available in discards for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+              }
 
         x <- 1
+		if (length(plots)>0){
         for (x in 1:length(plots)) {
           if (plots_names[x,3]=="TOTAL DISCARDS") {
             cat(paste0("\n_Plot of total discards for ", SPs[s], " in ", GSAs[g], "_"))
@@ -1132,6 +1137,9 @@ if (check_Disc) {
           suppressMessages(print(plots[[x]]))
           cat("\n\n\n")
         }
+		} else {
+            cat(paste0("\n- No plots of LFD available for discards for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+          }
       } else {
         cat(paste0("\n- No LFD available in discards for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
       }
