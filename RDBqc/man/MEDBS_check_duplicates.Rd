@@ -2,7 +2,7 @@
 % Please edit documentation in R/MEDBS_check_duplicates.r
 \name{MEDBS_check_duplicates}
 \alias{MEDBS_check_duplicates}
-\title{Check for duplicated data rows in landings, discards and catch tables}
+\title{Check for duplicated data rows in MED & BS tables}
 \usage{
 MEDBS_check_duplicates(data, type = "l", SP, MS, GSA, verbose = TRUE)
 }

@@ -1,4 +1,4 @@
-#' Check for duplicated data rows in landings, discards and catch tables
+#' Check for duplicated data rows in MED & BS tables
 #'
 #' @param data data frame containing either landings, discards or catch data
 #' @param type string vector indicating the type of table to be checked. "l" for landing; "d" for discards; "c" for catch table; "gp" for growth parameters table; "alk" for age-length keys table; "ma" for maturity at age table; "ml" for maturity at length table; "sra" for sex ratio at age table; "srl" for maturity at length table..

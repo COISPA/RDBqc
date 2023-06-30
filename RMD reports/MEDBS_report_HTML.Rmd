@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 
 ```{r libraries, include=FALSE}
 # loading needed libraries
-lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra")
+lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra", "plyr")
 lapply(lib, require, character.only = TRUE)
 ```
 
@@ -42,15 +42,15 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-# Catch <- read.table("./catch.csv", sep = ";", header = TRUE)
-# Land <- read.table("./landings_gsa18.csv", sep = ";", header = TRUE)
-# Disc <- read.table("./discards_gsa18.csv", sep = ";", header = TRUE)
-# ML <- read.table("./ml.csv", sep = ";", header = TRUE)
-# MA <- read.table("./ma.csv", sep = ";", header = TRUE)
-# SL <- read.table("./srl.csv", sep = ";", header = TRUE)
-# SA <- read.table("./sra.csv", sep = ";", header = TRUE)
-# GP <- read.table("./gp.csv", sep = ";", header = TRUE)
-# ALK <- read.table("./alk.csv", sep = ";", header = TRUE)
+# Catch <- read.table("./catch.csv", sep = ",", header = TRUE)
+# Land <- read.table("./landings.csv", sep = ",", header = TRUE)
+# Disc <- read.table("./discards.csv", sep = ",", header = TRUE)
+# ML <- read.table("./ml.csv", sep = ",", header = TRUE)
+# MA <- read.table("./ma.csv", sep = ",", header = TRUE)
+# SL <- read.table("./srl.csv", sep = ",", header = TRUE)
+# SA <- read.table("./sra.csv", sep = ",", header = TRUE)
+# GP <- read.table("./gp.csv", sep = ",", header = TRUE)
+# ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
 
 SPs <- c("ANE")
 MS <- "ITA"
@@ -152,7 +152,7 @@ if (check_Catch) {
   for (g in 1:length(GSAs)) {
     s <- 1
     for (s in 1:length(SPs)) {
-      res <- MEDBS_check_duplicates(data = Catch, type = "c", SP = SPs[s], MS = "ITA", GSA = GSAs[g], verbose = FALSE)
+      res <- MEDBS_check_duplicates(data = Catch, type = "c", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
       if (!is.null(res)) {
         duplicates <- rbind(duplicates, res)
       }
@@ -171,6 +171,37 @@ if (check_Catch) {
   cat("\n*Attention*: eventual duplicated records will be removed from catch data for the following analysis \n")
 } # check_Catch
 ```
+
+
+```{r catch_disaggregated_records, results = 'asis'}
+if (check_Catch) {
+  cat("\n## Presence of disaggregated records\n")
+  cat("\nData included in the catch table were checked for the presence of disaggregated records. The result of the check is here reported:\n")
+
+  disaggregated <- Catch[0, ]
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_disaggregated(data = Catch, type = "c", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        disaggregated <- rbind(disaggregated, res)
+      }
+    }
+  }
+
+  if (nrow(disaggregated) > 0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(disaggregated), " disaggregated record/records in the data"), "\n")
+    print(disaggregated %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+  } else {
+    cat("\n", paste0("- No disaggregated records in Catch data"), "\n")
+  }
+
+} # check_Catch
+```
+
+
 
 ```{r catch_coverage, results = 'asis',fig.height=6,fig.width=9}
 
@@ -224,7 +255,7 @@ if (check_Catch) {
 ```{r catch_SOP, results = 'asis',fig.height=6,fig.width=9}
 if (check_Catch) {
   cat("\n## Check of Sum of Products (SOP)\n")
-  cat(paste0("\nThe result of the percentage difference of SOP and both landing and discard volumes are reported in the following table in case the value is greater then ", SOP_threshold, "% (selected threshold value):\n"))
+  cat(paste0("\nRecords for which the Sum Of Product (SOP) in weight differs in absolute terms more then ", SOP_threshold, "% threshold chosen from the landings or discards volumes declared.\n"))
 
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -305,7 +336,7 @@ if (check_Land) {
 
 ```{r landing_coverage, results = 'asis',fig.height=6,fig.width=9}
 if (check_Land) {
-  cat("\n## Coverage of landings data\n")
+  cat("\n## Landing data time series\n")
 
   g <- 1
   for (g in 1:length(GSAs)) {
@@ -340,7 +371,7 @@ if (check_Land) {
 ```{r comp_Q_VL_fishery, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
   cat("\n## Checks on landing volumes\n")
-  cat("\n### Comparison of landing volumes aggregated by quarter and fishery accounting for vessel length\n")
+  cat("\n### Comparison of landing volumes aggregated by quarters at metier and vessel length levels\n")
 
   for (g in 1:length(GSAs)) {
     cat(paste0("\n#### ", GSAs[g], "\n"))
@@ -348,12 +379,12 @@ if (check_Land) {
     for (s in 1:length(SPs)) {
       cat(paste0("\n##### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_comp_land_Q_VL_fishery(data = Land, MS = MS, GSA = GSAs[g], SP = SPs[s]))
-      res <- res[!is.na(res$ratio) & res$ratio != 1, ] # res$ratio > 0
+      res <- res[!is.na(res$ratio) & res$ratio >= 0.95 & res$ratio <= 1.05, ] # res$ratio > 0
       if (nrow(res) > 0) {
-        cat(paste0("\n_Comparison of landing volumes aggregated by quarter and fishery reported with and without vessel length codes for ", SPs[s], " in ", GSAs[g], "_"))
+        cat(paste0("\n_Summary table reporting the record in which the ratio values are equal or close (5% deviation) to 1 for ", SPs[s], " in ", GSAs[g], "_"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       } else {
-        cat(paste0("\n- No landing volumes aggregated by quarter and fishery are reported with and without vessel codes at the same time for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        cat(paste0("\n- No table reported means that no issues were identified in data for: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
     }
   }
@@ -362,7 +393,7 @@ if (check_Land) {
 
 ```{r comp_YQ_fishery, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
-  cat("\n### Comparison of landing volumes aggregated by fishery accounting for time frame\n")
+  cat("\n### Comparison between landings in weight reported by quarter and at year time frame by gear and fishery combination\n")
 
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -370,12 +401,12 @@ if (check_Land) {
     for (s in 1:length(SPs)) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_comp_land_YQ_fishery(data = Land, MS = MS, GSA = GSAs[g], SP = SPs[s]))
-      res <- res[!is.na(res$ratio) & res$ratio > 0, ]
+      res <- res[!is.na(res$ratio) & res$ratio >= 0.95 & res$ratio <= 1.05,  ]
       if (nrow(res) > 0) {
-        cat(paste0("\n_Comparison of landing volumes aggregated by fishery according to the time frame (quarter/year) for ", SPs[s], " in ", GSAs[g], "_"))
+        cat(paste0("\n_Summary table reporting the records in which the ratio values are equal or close (5% deviation) to 1 for ", SPs[s], " in ", GSAs[g], "_"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       } else {
-        cat(paste0("\n- No landing volumes aggregated by fishery are reported for both the time frames (quarter/year) for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        cat(paste0("\n- No table reported means that no issues were identified for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
     }
   }
@@ -385,7 +416,7 @@ if (check_Land) {
 ```{r KS_test_land, results = 'asis', fig.height=6, fig.width=9}
 
 if (check_Land) {
-  cat("\n## Kolmogorov-Smirnov test\n")
+  cat("\n## Kolmogorov-Smirnov test of landings LFDs\n")
   cat("\nThe Kolmogorov-Smirnov test provides cumulative length distribution plots by fishery and year. The test is performed on couples of years to assess if their distributions belong to the same population. The table reports only the cases in which the distribution does not belong to the same population in the given comparison.\n")
 
   for (g in 1:length(GSAs)) {
@@ -416,8 +447,8 @@ if (check_Land) {
 
 ```{r lengthclass_0_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
-  cat("\n## Check the presence of length classes numbers with zeros in landings\n")
-  cat("\nThe presence of length classes numbers zero with having weigth > 0 in landings are reported in the following table:\n")
+  cat("\n## Check the number of records for which no demographic structure has been reported\n")
+  cat("\nThe presence of length classes numbers zero having weigth > 0 in landings is here reported:\n")
 
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -426,8 +457,10 @@ if (check_Land) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_lengthclass_0(data = Land, type = "l", MS = MS, GSA = GSAs[g], SP = SPs[s]))
       if (nrow(res) > 0) {
-        cat(paste0("\n_Landing records with 0  length class values having weigth > 0 for ", SPs[s], " in ", GSAs[g], "_"))
-        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        ll <- Land
+        colnames(ll) <- tolower(colnames(ll))
+        cat(paste0("\n_",nrow(res)," landing records in which length class numbers are 0 for ", SPs[s], " in ", GSAs[g], " over a total of ",nrow(ll[ll$country == MS & ll$area==GSAs[g] & ll$species ==SPs[s], ])," rows_"))
+        # print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       } else {
         cat(paste0("\n- No landing records with 0 length class values having weigth > 0 for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
@@ -504,7 +537,7 @@ if (check_Land) {
 
 ```{r weight_0_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
-  cat("\n## Check the presence of landing weights with zeros in landings\n")
+  cat("\n## Check if there are landings in weight equal to zero having length class filled in\n")
   cat("\nThe presence of rows in landing with 0 values in weights having length classes filled in is reported in the following table:\n")
 
   for (g in 1:length(GSAs)) {
@@ -526,7 +559,7 @@ if (check_Land) {
 
 ```{r weight_minus1_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
-  cat("\n## Check the presence of landing weights with -1 in landings\n")
+  cat("\n## Check if there are landings in weight equal to -1 having length class filled in\n")
   cat("\nThe presence of rows in landing with -1 values in weights having length classes filled in is reported in the following table:\n")
 
   g <- 2
@@ -1213,7 +1246,7 @@ if (check_GP) {
 
 if (check_GP) {
   cat("\n## plots of the growth parameter\n")
-  cat("\nData related to growth parameter are used to produce a summary table (counting available VBGF parameters by YEAR and SEX) and plots of growth curves for the selected combination of species and GSAs by sexes.\n")
+  cat("\nData related to growth parameter are used to produce a plots of growth curves for the selected combination of species and GSAs by sexes.\n")
 
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -1223,8 +1256,8 @@ if (check_GP) {
       res <- suppressMessages(MEDBS_GP_check(GP, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
       if (class(res) == "list" & length(res) > 0) {
-        cat(paste0("\n_Summary table of VBGF parameters for ", SPs[s], " in ", GSAs[g], "_"))
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        # cat(paste0("\n_Summary table of VBGF parameters for ", SPs[s], " in ", GSAs[g], "_"))
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
 
         name <- names(res)
         list_name <- strsplit(name, " _ ")
@@ -1260,8 +1293,8 @@ if (check_GP) {
       res <- suppressMessages(MEDBS_LW_check(GP, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
       if (class(res) == "list" & length(res) > 0) {
-        cat(paste0("\n_Summary table of length-weight parameters for ", SPs[s], " in ", GSAs[g], "_"))
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        # cat(paste0("\n_Summary table of length-weight parameters for ", SPs[s], " in ", GSAs[g], "_"))
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
 
         name <- names(res)
         list_name <- strsplit(name, " _ ")
@@ -1363,8 +1396,8 @@ if (check_MA) {
       res <- suppressMessages(MEDBS_MA_check(MA, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
       if (class(res) == "list" & length(res) > 0) {
-        cat(paste0("\n_Summary table of percentage of matures at age for ", SPs[s], " in ", GSAs[g], "_"))
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        # cat(paste0("\n_Summary table of percentage of matures at age for ", SPs[s], " in ", GSAs[g], "_"))
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
 
         name <- names(res)
         list_name <- strsplit(name, " _ ")
@@ -1466,8 +1499,8 @@ if (check_ML) {
       res <- suppressMessages(MEDBS_ML_check(ML, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
       if (class(res) == "list" & length(res) > 0) {
-        cat(paste0("\n_Summary table of percentage of matures at length for ", SPs[s], " in ", GSAs[g], "_"))
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        # cat(paste0("\n_Summary table of percentage of matures at length for ", SPs[s], " in ", GSAs[g], "_"))
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
 
         name <- names(res)
         list_name <- strsplit(name, " _ ")
@@ -1568,8 +1601,8 @@ if (check_SRA) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_SA_check(SA, SP = SPs[s], MS = MS, GSA = GSAs[g]))
       if (class(res) == "list" & length(res) > 0) {
-        cat(paste0("\n_Summary table of sex ratio at age for ", SPs[s], " in ", GSAs[g], "_"))
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        # cat(paste0("\n_Summary table of sex ratio at age for ", SPs[s], " in ", GSAs[g], "_"))
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
 
         cat(paste0("\nPlot of sex ratio at age for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
         print(res[[2]])
@@ -1653,8 +1686,8 @@ if (check_SRL) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_SL_check(SL, SP = SPs[s], MS = MS, GSA = GSAs[g]))
       if (class(res) == "list" & length(res) > 0) {
-        cat(paste0("\n_Summary table of sex ratio at length for ", SPs[s], " in ", GSAs[g], "_"))
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        # cat(paste0("\n_Summary table of sex ratio at length for ", SPs[s], " in ", GSAs[g], "_"))
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
 
         cat(paste0("\nPlot of sex ratio at length for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
         print(res[[2]])
@@ -1698,7 +1731,7 @@ if (exists("ALK")) {
 ```{r ALK_duplicated_records, results = 'asis'}
 if (check_ALK) {
   cat("\n## Presence of duplicated records\n")
-  cat("\nData included in the ALK table were checked for the presence of duplicated records. The result of the check is here reported:\n")
+  cat("\nData included in the ALK table were checked for the presence of duplicated records. The results of the check are here reported:\n")
 
   duplicates <- ALK[0, ]
 

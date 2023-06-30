@@ -57,13 +57,22 @@ MEDBS_SOP <- function(data, SP, MS, GSA, threshold = 5, verbose = TRUE) {
     Data_call$sumprodd <- NA
     Data_call$SOPd <- NA
 
-    r <- 6
+    not_run <- NULL
+
+    r <- 1
     for (r in pos_indices) {
       nb <- as.numeric(Landing_nb[r, 13:(ncol(Landing_nb) - 1)])
       wt <- as.numeric(Landing_wt[r, 13:ncol(Landing_wt)])
       Prod <- sum(nb * wt)
-      percentage <- (Landing_wt[r, "LANDINGS"]/Prod)
-      if (round(percentage, 2) > 1+(threshold/100) | round(percentage, 2) < 1-(threshold/100)) {
+      if (Prod!=0 & Landing_wt[r, "LANDINGS"] !=0){
+        percentage <- (Landing_wt[r, "LANDINGS"]/Prod)
+      } else if (Prod==0 & Landing_wt[r, "LANDINGS"] !=0){
+        percentage <- (Landing_wt[r, "LANDINGS"]/Prod)
+      } else {
+        percentage <- NA
+      }
+
+      if (is.na(percentage) | round(percentage, 2) > 1+(threshold/100) | round(percentage, 2) < 1-(threshold/100)) {
         Data_call$check_LANDING[r] <- round((percentage), 2)
         Data_call$sumprodl[r] <- Prod
         Data_call$SOPl[r] <- percentage
@@ -105,10 +114,12 @@ MEDBS_SOP <- function(data, SP, MS, GSA, threshold = 5, verbose = TRUE) {
       Prod <- sum(nb * wt)
       if (Prod!=0 & Discard_wt[r, "DISCARDS"] !=0){
         percentage <- (Discard_wt[r, "DISCARDS"]/Prod)
+      } else if (Prod==0 & Discard_wt[r, "DISCARDS"] !=0){
+        percentage <- (Discard_wt[r, "DISCARDS"]/Prod)
       } else {
         percentage <- NA
       }
-      if (round(percentage, 2) > 1+(threshold/100) | round(percentage, 2) < 1-(threshold/100)) {
+      if (is.na(percentage) | round(percentage, 2) > 1+(threshold/100) | round(percentage, 2) < 1-(threshold/100)) {
         Data_call$check_DISCARD[r] <- round((percentage), 2)
         Data_call$sumprodd[r] <- Prod
         Data_call$SOPd[r] <- percentage
