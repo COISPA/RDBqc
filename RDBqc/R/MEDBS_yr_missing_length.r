@@ -19,7 +19,7 @@
 #'   MS = "ITA", GSA = "GSA 9"
 #' )
 #' @import tidyverse
-#' @importFrom dplyr full_join group_by inner_join left_join summarize mutate filter
+#' @importFrom dplyr full_join group_by inner_join left_join summarise mutate filter
 #' @importFrom magrittr %>%
 #' @importFrom utils globalVariables
 #' @importFrom fishmethods clus.lf
@@ -28,6 +28,16 @@
 #' @export MEDBS_yr_missing_length
 
 MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose = FALSE) {
+
+  if (FALSE) {
+    data = Land
+    type = "l"
+    MS = MS
+    GSA = GSAs[g]
+    SP = SPs[s]
+  }
+
+
   . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- NULL
   len <- variable <- dbland <- NULL
   value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
@@ -66,6 +76,8 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose = FALSE) {
       ldat <- suppressWarnings(data.table::melt(dat, id.vars = c("year", "area", "species", "unit", "country", "gear", "fishery"), variable.name = "start_length", value.name = "value"))
       ldat$start_length <- as.integer(ldat$start_length)
       ldat[(ldat$value < 0) | is.na(ldat$value), "value"] <- 0
+      # ldat[is.na(ldat$gear),"gear"] <- "NA"
+      # ldat[is.na(ldat$fishery),"fishery"] <- "NA"
 
       LFL <- suppressMessages(ldat %>% group_by(year, gear, fishery,start_length) %>% summarise(value= sum(value,na.rm=TRUE)))
       # aggregate(ldat$value, by = list(ldat$year, ldat$gear, ldat$fishery, ldat$start_length), sum)
@@ -73,17 +85,40 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose = FALSE) {
       LFL$ID <- paste0(LFL$gear, "_", LFL$fishery, sep = "")
       LFL$start_length <- LFL$start_length - 1
 
-      suppressMessages(NUMBERb <- LFL %>% group_by(year, gear, fishery) %>% summarize(total_number = sum(value)))
+      suppressMessages(NUMBERb <- LFL %>% group_by(year, gear, fishery) %>% summarise(total_number = sum(value)))
 
       dbland <- setNames(NUMBERb, c("year", "gear", "fishery", "total_number_landed"))
       yr_missing_land <- as.data.frame(dbland[dbland$total_number_landed %in% 0, ])
 
-      if (nrow(yr_missing_land) > 0) {
-        return(yr_missing_land)
+      year_range=(range(ldat$year))
+      year_range <- data.frame(year=seq(year_range[1],year_range[2],1))
+      LFL2 <- suppressMessages(ldat %>% group_by(year) %>% summarise(value= sum(value,na.rm=TRUE)))
+
+      missing_years <- suppressMessages(left_join(year_range,LFL2))
+      missing_years[is.na(missing_years$value),"value"] <- 0
+      no_LFD_YEARS <- missing_years[missing_years$value == 0, "year"]
+
+      output <- list()
+
+
+        if (nrow(yr_missing_land) > 0) {
+          output[[1]] <- yr_missing_land
+        } else {
+          output[[1]] <- NULL
+        }
+
+
+      if (length(no_LFD_YEARS) > 0) {
+        output[[2]] <- no_LFD_YEARS
       } else {
-        return(NULL)
+        output[[2]] <- NULL
       }
+
+    return(output)
     } else {
+      if (verbose) {
+        print("No landings data available for this stock")
+      }
       return(NULL)
     }
   }
@@ -120,16 +155,36 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose = FALSE) {
         names(LFD) <- c("year", "gear", "fishery", "start_length", "value")
         LFD$ID <- paste0(LFD$gear, "_", LFD$fishery, sep = "")
         LFD$start_length <- LFD$start_length - 1
-        suppressMessages(NUMBERb <- LFD %>% group_by(year, gear, fishery) %>% summarize(total_number = sum(value)))
+        suppressMessages(NUMBERb <- LFD %>% group_by(year, gear, fishery) %>% summarise(total_number = sum(value)))
 
         dbdisc <- setNames(NUMBERb, c("year", "gear", "fishery", "total_number_discarded"))
         yr_missing_disc <- as.data.frame(dbdisc[dbdisc$total_number_discarded %in% 0, ])
 
+        year_range=(range(ddat$year))
+        year_range <- data.frame(year=seq(year_range[1],year_range[2],1))
+        LFD2 <- suppressMessages(ddat %>% group_by(year) %>% summarise(value= sum(value,na.rm=TRUE)))
+
+        missing_years <- suppressMessages(left_join(year_range,LFD2))
+        missing_years[is.na(missing_years$value),"value"] <- 0
+        no_LFD_YEARS <- missing_years[missing_years$value == 0, "year"]
+
+        output <- list()
+
+
         if (nrow(yr_missing_disc) > 0) {
-          return(yr_missing_disc)
+          output[[1]] <- yr_missing_disc
         } else {
-          return(yr_missing_disc)
+          output[[1]] <- NULL
         }
+
+
+        if (length(no_LFD_YEARS) > 0) {
+          output[[2]] <- no_LFD_YEARS
+        } else {
+          output[[2]] <- NULL
+        }
+
+        return(output)
       } else {
         if (verbose) {
           print("No discards data available for this stock")

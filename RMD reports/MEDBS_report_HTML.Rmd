@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 
 ```{r libraries, include=FALSE}
 # loading needed libraries
-lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra", "plyr")
+lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra")
 lapply(lib, require, character.only = TRUE)
 ```
 
@@ -42,6 +42,10 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
+
+# Catch <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/20230627_Practical_session/EWG2203/catch.csv", sep = ",", header = TRUE)
+# Land <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/20230627_Practical_session/EWG2203/landings.csv", sep = ",", header = TRUE)
+Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/20230627_Practical_session/EWG2203/discards.csv", sep = ",", header = TRUE)
 # Catch <- read.table("./catch.csv", sep = ",", header = TRUE)
 # Land <- read.table("./landings.csv", sep = ",", header = TRUE)
 # Disc <- read.table("./discards.csv", sep = ",", header = TRUE)
@@ -52,7 +56,7 @@ lapply(lib, require, character.only = TRUE)
 # GP <- read.table("./gp.csv", sep = ",", header = TRUE)
 # ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
 
-SPs <- c("ANE")
+SPs <- c("DPS")
 MS <- "ITA"
 GSAs <- "GSA 18"
 ```
@@ -334,6 +338,34 @@ if (check_Land) {
 } # check_Land
 ```
 
+```{r landings_disaggregated_records, results = 'asis'}
+if (check_Land) {
+  cat("\n## Presence of disaggregated records\n")
+  cat("\nData included in the landings table were checked for the presence of disaggregated records. The result of the check is here reported:\n")
+
+  disaggregated <- Land[0, ]
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_disaggregated(data = Land, type = "l", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        disaggregated <- rbind(disaggregated, res)
+      }
+    }
+  }
+
+  if (nrow(disaggregated) > 0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(disaggregated), " disaggregated record/records in the data"), "\n")
+    print(disaggregated %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+  } else {
+    cat("\n", paste0("- No disaggregated records in landings data"), "\n")
+  }
+
+} # check_Land
+```
+
 ```{r landing_coverage, results = 'asis',fig.height=6,fig.width=9}
 if (check_Land) {
   cat("\n## Landing data time series\n")
@@ -509,31 +541,43 @@ if (check_Land) {
 } # check_Land
 ```
 
+
 ```{r yr_missing_length_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
   cat("\n## Check the presence of years with missing length distribution\n")
   cat("\nLanding data were checked to identify the presence of years with missing length distributions. The years with the missing length distribution are reported in the following table (if any):\n")
 
+  g=1
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
     s <- 1
     for (s in 1:length(SPs)) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_yr_missing_length(data = Land, type = "l", MS = MS, GSA = GSAs[g], SP = SPs[s]))
-      if (!is.null(res)) {
-        if (nrow(res) > 0) {
-          cat(paste0("\n_Years in which the length distribution is missing in landing data for ", SPs[s], " in ", GSAs[g], "_"))
-          print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      if (!is.null(res) & length(res)!=0) {
+          
+          if (!is.null(res[[1]])) {
+              if (length(res[[2]]>0)) {
+               cat(paste0("\n- No length distributions available for the following years: ", paste(res[[2]],collapse = ", "), "\n"))
+              }
+          }
+          
+          
+        if (!is.null(res[[1]])) {
+          cat(paste0("\n_Metiers in which no length distribution is available for ", SPs[s], " in ", GSAs[g], "_"))
+          print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
         } else {
-          cat(paste0("\n- No years in landing with missing length distribution for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+          cat(paste0("\n- No metiers in landings with missing length distribution for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
         }
       } else {
-        cat("No data available")
+        cat(paste0("\n- No years in landings with missing length distribution for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
     }
   }
 } # check_Land
 ```
+
+
 
 ```{r weight_0_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
@@ -789,6 +833,34 @@ if (check_Disc) {
 } # check_Disc
 ```
 
+```{r discards_disaggregated_records, results = 'asis'}
+if (check_Disc) {
+  cat("\n## Presence of disaggregated records\n")
+  cat("\nData included in the discards table were checked for the presence of disaggregated records. The result of the check is here reported:\n")
+
+  disaggregated <- Disc[0, ]
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_disaggregated(data = Disc, type = "d", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        disaggregated <- rbind(disaggregated, res)
+      }
+    }
+  }
+
+  if (nrow(disaggregated) > 0) {
+    cat("\n", paste0("- _WARNING_ - ", nrow(disaggregated), " disaggregated record/records in the data"), "\n")
+    print(disaggregated %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+  } else {
+    cat("\n", paste0("- No disaggregated records in discards data"), "\n")
+  }
+
+} # check_Disc
+```
+
 ```{r discard_coverage, results = 'asis',fig.height=6,fig.width=9}
 if (check_Disc) {
   cat("\n## Coverage of discards data\n")
@@ -1000,26 +1072,36 @@ if (check_Disc) {
   cat("\n## Check the presence of years with missing length distribution\n")
   cat("\nDiscard data were checked to identify the presence of years with missing length distributions. The years with the missing length distribution are reported in the following table (if any):\n")
 
+  g=1
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
     s <- 1
     for (s in 1:length(SPs)) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_yr_missing_length(data = Disc, type = "d", MS = MS, GSA = GSAs[g], SP = SPs[s]))
-      if (!is.null(res)) {
-        if (nrow(res) > 0) {
-          cat(paste0("\n_Years in which the length distribution is missing in discard data for ", SPs[s], " in ", GSAs[g], "_"))
-          print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      if (!is.null(res) & length(res)!=0) {
+          
+          if (!is.null(res[[1]])) {
+              if (length(res[[2]]>0)) {
+               cat(paste0("\n- No length distributions available for the following years: ", paste(res[[2]],collapse = ", "), "\n"))
+              }
+          }
+          
+          
+        if (!is.null(res[[1]])) {
+          cat(paste0("\n_Metiers in which no length distribution is available for ", SPs[s], " in ", GSAs[g], "_"))
+          print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
         } else {
-          cat(paste0("\n- No years in discard with missing length distribution for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+          cat(paste0("\n- No metiers in discards with missing length distribution for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
         }
       } else {
-        cat(paste0("\n- No years in discard with missing length distribution for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        cat(paste0("\n- No years in discards with missing length distribution for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
     }
   }
 } # check_Disc
 ```
+
 
 ```{r weight_0_disc, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {

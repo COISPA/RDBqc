@@ -25,6 +25,7 @@
 #' @author Alessandro Mannini <alessandro.mannini@@ec.europa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @author Loredana Casciaro <casciaro@@coispa.eu>
+#' @importFrom plyr match_df
 
 MEDBS_check_disaggregated <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
