@@ -1,5 +1,6 @@
 # RDBqc 0.0.17.05
  * Inclusion of a new function to detect the presence of disaggregated data: MEDBS_check_disaggregated
+ * Inclusion of a new function to detect the presence of missing years in data: MEDBS_check_missing_years
 
 # RDBqc 0.0.17.04
  * Improved checks for missing data in landing for MEDBS_length_ind function

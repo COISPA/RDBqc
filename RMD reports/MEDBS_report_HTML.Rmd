@@ -42,21 +42,17 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
+Catch <- read.table("./catch.csv", sep = ",", header = TRUE)
+Land <- read.table("./landings.csv", sep = ",", header = TRUE)
+Disc <- read.table("./discards.csv", sep = ",", header = TRUE)
+ML <- read.table("./ml.csv", sep = ",", header = TRUE)
+MA <- read.table("./ma.csv", sep = ",", header = TRUE)
+SL <- read.table("./srl.csv", sep = ",", header = TRUE)
+SA <- read.table("./sra.csv", sep = ",", header = TRUE)
+GP <- read.table("./gp.csv", sep = ",", header = TRUE)
+ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
 
-# Catch <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/20230627_Practical_session/EWG2203/catch.csv", sep = ",", header = TRUE)
-# Land <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/20230627_Practical_session/EWG2203/landings.csv", sep = ",", header = TRUE)
-Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/20230627_Practical_session/EWG2203/discards.csv", sep = ",", header = TRUE)
-# Catch <- read.table("./catch.csv", sep = ",", header = TRUE)
-# Land <- read.table("./landings.csv", sep = ",", header = TRUE)
-# Disc <- read.table("./discards.csv", sep = ",", header = TRUE)
-# ML <- read.table("./ml.csv", sep = ",", header = TRUE)
-# MA <- read.table("./ma.csv", sep = ",", header = TRUE)
-# SL <- read.table("./srl.csv", sep = ",", header = TRUE)
-# SA <- read.table("./sra.csv", sep = ",", header = TRUE)
-# GP <- read.table("./gp.csv", sep = ",", header = TRUE)
-# ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
-
-SPs <- c("DPS")
+SPs <- c("HKE")
 MS <- "ITA"
 GSAs <- "GSA 18"
 ```
@@ -147,7 +143,7 @@ if (exists("Catch")) {
 
 ```{r catch_duplicated_records, results = 'asis'}
 if (check_Catch) {
-  cat("\n## Presence of duplicated records\n")
+  cat("\n## No replicated records in Catch data\n")
   cat("\nData included in the catch table were checked for the presence of duplicated records. The result of the check is here reported:\n")
 
   duplicates <- Catch[0, ]
@@ -205,12 +201,34 @@ if (check_Catch) {
 } # check_Catch
 ```
 
+```{r catch_missing_years, results = 'asis'}
+if (check_Catch) {
+  cat("\n## Check missing years in time series\n")
+  cat("\nData where checked for the continuity of the time series, identifying the presence of missing years:\n")
 
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_missing_years(data = Catch, type = "c", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        if (length(res)>0) {
+           cat(paste0("\n- The following years were detected in the Catch data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res,collapse=", "),"\n")) 
+        } else {
+          cat(paste0("\n- No missing years in the Catch data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))  
+        }
+      } else {
+       cat(paste0("\n- No Catch data for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+      }
+    } # for cycle SP
+  } # for cycle GSA
+} # check_Catch
+```
 
 ```{r catch_coverage, results = 'asis',fig.height=6,fig.width=9}
 
 if (check_Catch) {
-  cat("\n## Coverage of catch data\n")
+  cat("\n## Catch data time series\n")
 
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -310,7 +328,7 @@ if (exists("Land")) {
 
 ```{r landings_duplicated_records, results = 'asis'}
 if (check_Land) {
-  cat("\n## Presence of duplicated records \n")
+  cat("\n## No replicated records in Landing data \n")
   cat("\nData included in the landing table were checked for the presence of duplicated records. The result of the check is here reported:\n")
 
   duplicates <- Land[0, ]
@@ -366,6 +384,32 @@ if (check_Land) {
 } # check_Land
 ```
 
+
+```{r land_missing_years, results = 'asis'}
+if (check_Land) {
+  cat("\n## Check missing years in time series\n")
+  cat("\nLanding data where checked for the continuity of the time series, identifying the presence of missing years:\n")
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_missing_years(data = Land, type = "l", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        if (length(res)>0) {
+           cat(paste0("\n- The following years were detected in the landings data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res,collapse=", "),"\n")) 
+        } else {
+          cat(paste0("\n- No missing years in the landings data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))  
+        }
+      } else {
+       cat(paste0("\n- No disclandingsrds data for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+      }
+    } # for cycle SP
+  } # for cycle GSA
+} # check_Land
+```
+
+
 ```{r landing_coverage, results = 'asis',fig.height=6,fig.width=9}
 if (check_Land) {
   cat("\n## Landing data time series\n")
@@ -404,14 +448,16 @@ if (check_Land) {
 if (check_Land) {
   cat("\n## Checks on landing volumes\n")
   cat("\n### Comparison of landing volumes aggregated by quarters at metier and vessel length levels\n")
-
+g=1
   for (g in 1:length(GSAs)) {
     cat(paste0("\n#### ", GSAs[g], "\n"))
     s <- 1
     for (s in 1:length(SPs)) {
       cat(paste0("\n##### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_comp_land_Q_VL_fishery(data = Land, MS = MS, GSA = GSAs[g], SP = SPs[s]))
-      res <- res[!is.na(res$ratio) & res$ratio >= 0.95 & res$ratio <= 1.05, ] # res$ratio > 0
+      if (nrow(res) > 0) {
+        res <- res[!is.na(res$ratio) & res$ratio >= 0.95 & res$ratio <= 1.05, ] # res$ratio > 0
+      }
       if (nrow(res) > 0) {
         cat(paste0("\n_Summary table reporting the record in which the ratio values are equal or close (5% deviation) to 1 for ", SPs[s], " in ", GSAs[g], "_"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
@@ -433,7 +479,9 @@ if (check_Land) {
     for (s in 1:length(SPs)) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_comp_land_YQ_fishery(data = Land, MS = MS, GSA = GSAs[g], SP = SPs[s]))
-      res <- res[!is.na(res$ratio) & res$ratio >= 0.95 & res$ratio <= 1.05,  ]
+      if (nrow(res) > 0){
+         res <- res[!is.na(res$ratio) & res$ratio >= 0.95 & res$ratio <= 1.05,  ]
+      }
       if (nrow(res) > 0) {
         cat(paste0("\n_Summary table reporting the records in which the ratio values are equal or close (5% deviation) to 1 for ", SPs[s], " in ", GSAs[g], "_"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
@@ -477,29 +525,7 @@ if (check_Land) {
 } # check_Land
 ```
 
-```{r lengthclass_0_land, results = 'asis', fig.height=6, fig.width=9}
-if (check_Land) {
-  cat("\n## Check the number of records for which no demographic structure has been reported\n")
-  cat("\nThe presence of length classes numbers zero having weigth > 0 in landings is here reported:\n")
 
-  for (g in 1:length(GSAs)) {
-    cat(paste0("\n### ", GSAs[g], "\n"))
-    s <- 1
-    for (s in 1:length(SPs)) {
-      cat(paste0("\n#### ", SPs[s], "\n"))
-      res <- suppressMessages(MEDBS_lengthclass_0(data = Land, type = "l", MS = MS, GSA = GSAs[g], SP = SPs[s]))
-      if (nrow(res) > 0) {
-        ll <- Land
-        colnames(ll) <- tolower(colnames(ll))
-        cat(paste0("\n_",nrow(res)," landing records in which length class numbers are 0 for ", SPs[s], " in ", GSAs[g], " over a total of ",nrow(ll[ll$country == MS & ll$area==GSAs[g] & ll$species ==SPs[s], ])," rows_"))
-        # print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
-      } else {
-        cat(paste0("\n- No landing records with 0 length class values having weigth > 0 for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
-      }
-    }
-  }
-} # check_Land
-```
 
 ```{r length_ind_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {
@@ -535,6 +561,30 @@ if (check_Land) {
         }
       } else {
         cat(paste0("\n- No main length size indicators estimated for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+      }
+    }
+  }
+} # check_Land
+```
+
+```{r lengthclass_0_land, results = 'asis', fig.height=6, fig.width=9}
+if (check_Land) {
+  cat("\n## Check the number of records for which no demographic structure has been reported\n")
+  cat("\nThe presence of length classes numbers zero having weigth > 0 in landings is here reported:\n")
+
+  for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+    s <- 1
+    for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
+      res <- suppressMessages(MEDBS_lengthclass_0(data = Land, type = "l", MS = MS, GSA = GSAs[g], SP = SPs[s]))
+      if (nrow(res) > 0) {
+        ll <- Land
+        colnames(ll) <- tolower(colnames(ll))
+        cat(paste0("\n_",nrow(res)," landing records in which length class numbers are 0 for ", SPs[s], " in ", GSAs[g], " over a total of ",nrow(ll[ll$country == MS & ll$area==GSAs[g] & ll$species ==SPs[s], ])," rows_"))
+        # print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      } else {
+        cat(paste0("\n- No landing records with 0 length class values having weigth > 0 for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
     }
   }
@@ -753,15 +803,17 @@ if (check_Land) {
               }
 
         x <- 1
-		if (length(plots)>0){					 
+		if (length(plots)>0){	
+		    x=2
         for (x in 1:length(plots)) {
-          if (plots_names[x,3]=="TOTAL LANDINGS") {
-            cat(paste0("\n_Plot of total landings for ", SPs[s], " in ", GSAs[g], "_"))
+          if (plots_names[x,3]=="TOTAL LANDING") {
+            # cat(paste0("\n_Plot of total landings for ", SPs[s], " in ", GSAs[g], "_"))
           } else {
             cat(paste0("\n_Plot of ",plots_names[x,2]," LDF",ifelse(!is.na(plots_names[x,4]),paste0(" by ",plots_names[x,4]),"")," for ", SPs[s], " in ", GSAs[g], "_"))
-          }
           suppressMessages(print(plots[[x]]))
           cat("\n\n\n")
+          }
+
         }
 		} else {
             cat(paste0("\n- No plot of LFD available for landings for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
@@ -807,7 +859,7 @@ if (exists("Disc")) {
 
 ```{r discards_duplicated_records, results = 'asis'}
 if (check_Disc) {
-  cat("\n## Presence of duplicated records \n")
+  cat("\n## No replocated records in discard data \n")
   cat("\nData included in the discard table were checked for the presence of duplicated records. The result of the check is here reported:\n")
 
   duplicates <- Disc[0, ]
@@ -861,9 +913,35 @@ if (check_Disc) {
 } # check_Disc
 ```
 
+
+```{r disc_missing_years, results = 'asis'}
+if (check_Disc) {
+  cat("\n## Check missing years in time series\n")
+  cat("\nDiscard data where checked for the continuity of the time series, identifying the presence of missing years:\n")
+
+  g <- 1
+  for (g in 1:length(GSAs)) {
+    s <- 1
+    for (s in 1:length(SPs)) {
+      res <- MEDBS_check_missing_years(data = Disc, type = "d", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      if (!is.null(res)) {
+        if (length(res)>0) {
+           cat(paste0("\n- The following years were detected in the discards data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res,collapse=", "),"\n")) 
+        } else {
+          cat(paste0("\n- No missing years in the discards data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))  
+        }
+      } else {
+       cat(paste0("\n- No discards data for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+      }
+    } # for cycle SP
+  } # for cycle GSA
+} # check_Disc
+```
+
+
 ```{r discard_coverage, results = 'asis',fig.height=6,fig.width=9}
 if (check_Disc) {
-  cat("\n## Coverage of discards data\n")
+  cat("\n## Discards data time series\n")
 
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
@@ -897,7 +975,7 @@ if (check_Disc) {
 if (check_Disc) {
   cat("\n## Comparison between discards in weight by quarter and year\n")
   cat("\nDiscard data by gear were aggragated by quarter and years (-1) and were compared to identify possible inconsistencies.\n")
-
+ g=1
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
     s <- 1
@@ -905,10 +983,13 @@ if (check_Disc) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_comp_disc_YQ(data = Disc, MS = MS, GSA = GSAs[g], SP = SPs[s]))
       if (nrow(res) > 0) {
+          res <- res[!is.na(res$RATIO) & res$RATIO >= 0.95 & res$RATIO <= 1.05,  ]
+      }
+      if (nrow(res) > 0) {
         cat(paste0("\n_Summary table of discard data aggregated by gear and both quarter and year for ", SPs[s], " in ", GSAs[g], "_"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       } else {
-        cat(paste0("\n No discard data available for: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        cat(paste0("\n No table reported means that no issues were identified for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
     }
   }
@@ -917,7 +998,7 @@ if (check_Disc) {
 
 ```{r comp_disc_YQ_fishery, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {
-  cat("\n## Comparison between discards in weight by quarter and year, accounting for fishery\n")
+  cat("\n## Comparison between discards in weight by quarter and year at metier level\n")
   cat("\nDiscard data by gear and fishery were aggragated by quarter and yeas and were compared to identify possible inconsistencies.\n")
 
   g <- 1
@@ -928,10 +1009,13 @@ if (check_Disc) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_comp_disc_YQ_fishery(data = Disc, MS = MS, GSA = GSAs[g], SP = SPs[s]))
       if (nrow(res) > 0) {
+          res <- res[!is.na(res$RATIO) & res$RATIO >= 0.95 & res$RATIO <= 1.05,  ]
+      }
+      if (nrow(res) > 0) {
         cat(paste0("\n_Summary table of discard data aggregated by gear, fishery and both quarter and year for ", SPs[s], " in ", GSAs[g], "_"))
         print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       } else {
-        cat(paste0("\n No discard data available for: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        cat(paste0("\n No table reported means that no issues were identified for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
     }
   }
@@ -1005,28 +1089,6 @@ if (check_Disc) {
 } # check_Disc
 ```
 
-```{r lengthclass_0_disc, results = 'asis', fig.height=6, fig.width=9}
-if (check_Disc) {
-  cat("\n## Check the presence of length classes numbers with zeros in discards\n")
-  cat("\nThe presence of length classes numbers zero with having weigth > 0 in discards are reported in the following table:\n")
-
-  for (g in 1:length(GSAs)) {
-    cat(paste0("\n### ", GSAs[g], "\n"))
-    s <- 1
-    for (s in 1:length(SPs)) {
-      cat(paste0("\n#### ", SPs[s], "\n"))
-      res <- suppressMessages(MEDBS_lengthclass_0(data = Disc, type = "d", MS = MS, GSA = GSAs[g], SP = SPs[s]))
-      if (nrow(res) > 0) {
-        cat(paste0("\nDiscard records with 0  length class values having weigth > 0 for ", SPs[s], " in ", GSAs[g], "_"))
-        print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
-      } else {
-        cat(paste0("\n- No discard records with 0 length class values having weigth > 0 for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
-      }
-    }
-  }
-} # check_Disc
-```
-
 ```{r length_ind_disc, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {
   cat("\n## Main length size indicators\n")
@@ -1061,6 +1123,30 @@ if (check_Disc) {
         }
       } else {
         cat(paste0("\n- No main length size indicators estimated for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+      }
+    }
+  }
+} # check_Disc
+```
+
+```{r lengthclass_0_disc, results = 'asis', fig.height=6, fig.width=9}
+if (check_Disc) {
+  cat("\n## Check the number of records for which no demographic structure has been reported\n")
+  cat("\nThe presence of length classes numbers zero having weigth > 0 in discards is here reported:\n")
+
+  for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+    s <- 1
+    for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
+      res <- suppressMessages(MEDBS_lengthclass_0(data = Disc, type = "d", MS = MS, GSA = GSAs[g], SP = SPs[s]))
+      if (nrow(res) > 0) {
+        ll <- Disc
+        colnames(ll) <- tolower(colnames(ll))
+        cat(paste0("\n_",nrow(res)," discard records in which length class numbers are 0 for ", SPs[s], " in ", GSAs[g], " over a total of ",nrow(ll[ll$country == MS & ll$area==GSAs[g] & ll$species ==SPs[s], ])," rows_"))
+        # print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+      } else {
+        cat(paste0("\n- No discard records with 0 length class values having weigth > 0 for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
     }
   }
@@ -1105,7 +1191,7 @@ if (check_Disc) {
 
 ```{r weight_0_disc, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {
-  cat("\n## Check the presence of discard weights with zeros in discards\n")
+  cat("\n## Check discard in weight equal to 0 with length class filled in\n")
   cat("\nThe presence of rows in discards with 0 values in weights having length classes filled in is reported in the following table:\n")
 
   for (g in 1:length(GSAs)) {
@@ -1127,7 +1213,7 @@ if (check_Disc) {
 
 ```{r weight_minus1_disc, results = 'asis', fig.height=6, fig.width=9}
 if (check_Disc) {
-  cat("\n## Check the presence of discard weights with -1 in discards\n")
+  cat("\n## Check discard in weight equal to -1 with length class filled in\n")
   cat("\nThe presence of rows in discards with -1 values in weights having length classes filled in is reported in the following table:\n")
 
   for (g in 1:length(GSAs)) {
@@ -1245,12 +1331,13 @@ if (check_Disc) {
 		if (length(plots)>0){
         for (x in 1:length(plots)) {
           if (plots_names[x,3]=="TOTAL DISCARDS") {
-            cat(paste0("\n_Plot of total discards for ", SPs[s], " in ", GSAs[g], "_"))
+            # cat(paste0("\n_Plot of total discards for ", SPs[s], " in ", GSAs[g], "_"))
           } else {
             cat(paste0("\n_Plot of ",plots_names[x,2]," LDF",ifelse(!is.na(plots_names[x,4]),paste0(" by ",plots_names[x,4]),"")," for ", SPs[s], " in ", GSAs[g], "_"))
-          }
           suppressMessages(print(plots[[x]]))
           cat("\n\n\n")
+          }
+
         }
 		} else {
             cat(paste0("\n- No plots of LFD available for discards for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
