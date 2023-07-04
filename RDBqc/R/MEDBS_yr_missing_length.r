@@ -104,7 +104,7 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose = FALSE) {
         if (nrow(yr_missing_land) > 0) {
           output[[1]] <- yr_missing_land
         } else {
-          output[[1]] <- NULL
+          output[[1]] <- yr_missing_land
         }
 
 
@@ -174,7 +174,7 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose = FALSE) {
         if (nrow(yr_missing_disc) > 0) {
           output[[1]] <- yr_missing_disc
         } else {
-          output[[1]] <- NULL
+          output[[1]] <- yr_missing_disc
         }
 
 

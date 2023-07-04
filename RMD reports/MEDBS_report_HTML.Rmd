@@ -42,19 +42,19 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-Catch <- read.table("./catch.csv", sep = ",", header = TRUE)
-Land <- read.table("./landings.csv", sep = ",", header = TRUE)
-Disc <- read.table("./discards.csv", sep = ",", header = TRUE)
-ML <- read.table("./ml.csv", sep = ",", header = TRUE)
-MA <- read.table("./ma.csv", sep = ",", header = TRUE)
-SL <- read.table("./srl.csv", sep = ",", header = TRUE)
-SA <- read.table("./sra.csv", sep = ",", header = TRUE)
-GP <- read.table("./gp.csv", sep = ",", header = TRUE)
-ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
+# Catch <- read.table("./catch.csv", sep = ",", header = TRUE)
+# Land <- read.table("./landings.csv", sep = ",", header = TRUE)
+# Disc <- read.table("./discards.csv", sep = ",", header = TRUE)
+# ML <- read.table("./ml.csv", sep = ",", header = TRUE)
+# MA <- read.table("./ma.csv", sep = ",", header = TRUE)
+# SL <- read.table("./srl.csv", sep = ",", header = TRUE)
+# SA <- read.table("./sra.csv", sep = ",", header = TRUE)
+# GP <- read.table("./gp.csv", sep = ",", header = TRUE)
+# ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
 
-SPs <- c("HKE")
-MS <- "ITA"
-GSAs <- "GSA 18"
+SPs <- c("ANE")
+MS <- "BGR"
+GSAs <- "GSA 29"
 ```
 
 
@@ -606,10 +606,12 @@ if (check_Land) {
       res <- suppressMessages(MEDBS_yr_missing_length(data = Land, type = "l", MS = MS, GSA = GSAs[g], SP = SPs[s]))
       if (!is.null(res) & length(res)!=0) {
           
-          if (!is.null(res[[1]])) {
+          if (!is.null(res[[1]]) & length(res)>1) {
               if (length(res[[2]]>0)) {
                cat(paste0("\n- No length distributions available for the following years: ", paste(res[[2]],collapse = ", "), "\n"))
               }
+          } else {
+                  cat(paste0("\n- No length distributions available in landings for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
           }
           
           
@@ -1168,9 +1170,11 @@ if (check_Disc) {
       if (!is.null(res) & length(res)!=0) {
           
           if (!is.null(res[[1]])) {
-              if (length(res[[2]]>0)) {
+              if (length(res[[2]]>0) & length(res)>1) {
                cat(paste0("\n- No length distributions available for the following years: ", paste(res[[2]],collapse = ", "), "\n"))
-              }
+              }  else {
+                  cat(paste0("\n- No length distributions available in discards for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+          }
           }
           
           

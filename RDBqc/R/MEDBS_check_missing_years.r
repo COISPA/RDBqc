@@ -41,14 +41,16 @@ MEDBS_check_missing_years <- function(data, type = "l", SP, MS, GSA, verbose = T
     } else {
       if (verbose) {
         message(paste0("No data available for the selected combination of country, GSA and species."))
-        missing <- NULL
+
       }
+      missing <- NULL
     }
     return(missing)
   } else {
     if (verbose) {
       message(paste0("Wrong table format selected."))
-      missing <- NULL
+
     }
+    missing <- NULL
   }
 }
