@@ -1,6 +1,5 @@
 ---
-title: "| ![](logo.png){width=6in} \\vspace{1in} \n\n\n\n`r format(params$term)` Report\n\n\n\n
-  \\vspace{0.1in} "
+title: "![](logo.png){width=6in}<br>\\vspace{2in}\n\n\n\n`r format(params$term)` Report\\vspace{0.1in} "
 
 date: "Compiled on `r format(Sys.time(), '%d/%m/%Y, %H:%M')`"
 subtitle: ''
@@ -52,9 +51,9 @@ lapply(lib, require, character.only = TRUE)
 # GP <- read.table("./gp.csv", sep = ",", header = TRUE)
 # ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
 
-SPs <- c("ANE")
-MS <- "BGR"
-GSAs <- "GSA 29"
+SPs <- c("BOG")
+MS <- "MLT"
+GSAs <- "GSA 15"
 ```
 
 
@@ -606,9 +605,9 @@ if (check_Land) {
       res <- suppressMessages(MEDBS_yr_missing_length(data = Land, type = "l", MS = MS, GSA = GSAs[g], SP = SPs[s]))
       if (!is.null(res) & length(res)!=0) {
           
-          if (!is.null(res[[1]]) & length(res)>1) {
-              if (length(res[[2]]>0)) {
-               cat(paste0("\n- No length distributions available for the following years: ", paste(res[[2]],collapse = ", "), "\n"))
+          if (!is.null(res[[1]]) ) {
+              if (length(res)>1) {
+               cat(paste0("\n- No length distributions available for the following years: ", ifelse(is.na(res[[2]][1]),"NONE",paste(res[[2]],collapse = ", ")), "\n"))
               }
           } else {
                   cat(paste0("\n- No length distributions available in landings for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
@@ -1170,10 +1169,10 @@ if (check_Disc) {
       if (!is.null(res) & length(res)!=0) {
           
           if (!is.null(res[[1]])) {
-              if (length(res[[2]]>0) & length(res)>1) {
-               cat(paste0("\n- No length distributions available for the following years: ", paste(res[[2]],collapse = ", "), "\n"))
+              if (length(res)>1) {
+               cat(paste0("\n- No length distributions available for the following years: ", ifelse(is.na(res[[2]][1]),"NONE",paste(res[[2]],collapse = ", ")), "\n"))
               }  else {
-                  cat(paste0("\n- No length distributions available in discards for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+                  cat(paste0("\n- No years in discards with missing length distribution for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
           }
           }
           
@@ -1185,7 +1184,7 @@ if (check_Disc) {
           cat(paste0("\n- No metiers in discards with missing length distribution for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
         }
       } else {
-        cat(paste0("\n- No years in discards with missing length distribution for : ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
+        cat(paste0("\n- No discards data available for: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
     }
   }

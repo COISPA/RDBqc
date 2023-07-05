@@ -111,7 +111,7 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose = FALSE) {
       if (length(no_LFD_YEARS) > 0) {
         output[[2]] <- no_LFD_YEARS
       } else {
-        output[[2]] <- NULL
+        output[[2]] <- NA
       }
 
     return(output)
@@ -181,7 +181,7 @@ MEDBS_yr_missing_length <- function(data, type, SP, MS, GSA, verbose = FALSE) {
         if (length(no_LFD_YEARS) > 0) {
           output[[2]] <- no_LFD_YEARS
         } else {
-          output[[2]] <- NULL
+          output[[2]] <- NA
         }
 
         return(output)
