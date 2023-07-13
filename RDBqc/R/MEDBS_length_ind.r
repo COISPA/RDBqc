@@ -172,6 +172,10 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           final_DB,
           SDdb
         ))
+
+
+        ffff <- final_DB
+
         suppressMessages(final_DB <- left_join(NUMBERb, final_DB))
         suppressMessages(final_DB <- as.data.frame(final_DB))
         LFLandings <- LFL
@@ -223,6 +227,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
         output[[l]] <- result
         names(output)[[l]] <- "summary table"
         LFLandingsDB[is.na(LFLandingsDB$fishery), "fishery"] <- "NA"
+
+        # MEAN LANDING
         plot <- ggplot(LFLandingsDB[LFLandingsDB$total_number >
           0, ], aes(
           x = as.numeric(year), y = as.numeric(mean_size),
@@ -261,6 +267,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           MS, GSA,
           sep = " _ "
         )
+
+        # MEDIAN LANDING
         plot <- ggplot(LFLandingsDB[LFLandingsDB$spline %in%
           0.2 & LFLandingsDB$percentile %in% 0.5 & LFLandingsDB$total_number >
           0, ], aes(
@@ -301,6 +309,165 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           SP, MS, GSA,
           sep = " _ "
         )
+
+        # 25th_percentile LANDING
+        plot <- ggplot(LFLandingsDB[LFLandingsDB$spline %in%
+                     0.2 & LFLandingsDB$percentile %in% 0.25 & LFLandingsDB$total_number > 0, ], aes(x = as.numeric(year), y = as.numeric(percentile_value), col = fishery )) +
+          geom_point(col = "black") +
+          geom_line() +
+          facet_wrap(~gear, scales = "free") +
+          scale_x_continuous(breaks = seq(min(LFLandingsDB$year),
+                                          max(LFLandingsDB$year),
+                                          by = 2
+          )) +
+          theme(axis.text.x = element_text(
+            angle = 45,
+            size = 8
+          )) +
+          theme(strip.background = element_rect(fill = "white")) +
+          theme(axis.text.y = element_text(
+            angle = 90,
+            size = 8
+          )) +
+          ggtitle(paste0(
+            "Landing 25th.perc Length ",
+            SP, " ", MS, " ", GSA
+          )) +
+          xlab("") +
+          ylab(paste0(
+            "25th.perc size", "(", unit,
+            ")"
+          )) +
+          theme(legend.position = "bottom") +
+          guides(colour = guide_legend(nrow = 1))
+        # print(plot)
+        l <- length(output) + 1
+        output[[l]] <- plot
+        names(output)[[l]] <- paste("25th.perc",
+                                    SP, MS, GSA,
+                                    sep = " _ "
+        )
+
+        # 75th_percentile LANDING
+        plot <- ggplot(LFLandingsDB[LFLandingsDB$spline %in%
+                                      0.2 & LFLandingsDB$percentile %in% 0.75 & LFLandingsDB$total_number > 0, ], aes(x = as.numeric(year), y = as.numeric(percentile_value), col = fishery )) +
+          geom_point(col = "black") +
+          geom_line() +
+          facet_wrap(~gear, scales = "free") +
+          scale_x_continuous(breaks = seq(min(LFLandingsDB$year),
+                                          max(LFLandingsDB$year),
+                                          by = 2
+          )) +
+          theme(axis.text.x = element_text(
+            angle = 45,
+            size = 8
+          )) +
+          theme(strip.background = element_rect(fill = "white")) +
+          theme(axis.text.y = element_text(
+            angle = 90,
+            size = 8
+          )) +
+          ggtitle(paste0(
+            "Landing 75th.perc Length ",
+            SP, " ", MS, " ", GSA
+          )) +
+          xlab("") +
+          ylab(paste0(
+            "75th.perc size", "(", unit,
+            ")"
+          )) +
+          theme(legend.position = "bottom") +
+          guides(colour = guide_legend(nrow = 1))
+        # print(plot)
+        l <- length(output) + 1
+        output[[l]] <- plot
+        names(output)[[l]] <- paste("75th.perc",
+                                    SP, MS, GSA,
+                                    sep = " _ "
+        )
+
+
+        # MIN LANDING
+        plot <- ggplot(LFLandingsDB[LFLandingsDB$total_number >
+                                      0, ], aes(
+                                        x = as.numeric(year), y = as.numeric(min_size),
+                                        col = fishery
+                                      )) +
+          geom_point(col = "black") +
+          geom_line() +
+          facet_wrap(~gear, scales = "free") +
+          scale_x_continuous(breaks = seq(min(LFLandingsDB$year),
+                                          max(LFLandingsDB$year),
+                                          by = 2
+          )) +
+          theme(axis.text.x = element_text(
+            angle = 45,
+            size = 8
+          )) +
+          theme(strip.background = element_rect(fill = "white")) +
+          theme(axis.text.y = element_text(
+            angle = 90,
+            size = 8
+          )) +
+          ggtitle(paste0(
+            "Landing Min Length ",
+            SP, " ", MS, " ", GSA
+          )) +
+          xlab("") +
+          ylab(paste0(
+            "Min size ", "(", unit,
+            ")"
+          )) +
+          theme(legend.position = "bottom") +
+          guides(colour = guide_legend(nrow = 1))
+        l <- length(output) + 1
+        output[[l]] <- plot
+        names(output)[[l]] <- paste("MinLength", SP,
+                                    MS, GSA,
+                                    sep = " _ "
+        )
+
+        # MAX LANDING
+        plot <- ggplot(LFLandingsDB[LFLandingsDB$total_number >
+                                      0, ], aes(
+                                        x = as.numeric(year), y = as.numeric(max_size),
+                                        col = fishery
+                                      )) +
+          geom_point(col = "black") +
+          geom_line() +
+          facet_wrap(~gear, scales = "free") +
+          scale_x_continuous(breaks = seq(min(LFLandingsDB$year),
+                                          max(LFLandingsDB$year),
+                                          by = 2
+          )) +
+          theme(axis.text.x = element_text(
+            angle = 45,
+            size = 8
+          )) +
+          theme(strip.background = element_rect(fill = "white")) +
+          theme(axis.text.y = element_text(
+            angle = 90,
+            size = 8
+          )) +
+          ggtitle(paste0(
+            "Landing Max Length ",
+            SP, " ", MS, " ", GSA
+          )) +
+          xlab("") +
+          ylab(paste0(
+            "Max size ", "(", unit,
+            ")"
+          )) +
+          theme(legend.position = "bottom") +
+          guides(colour = guide_legend(nrow = 1))
+        l <- length(output) + 1
+        output[[l]] <- plot
+        names(output)[[l]] <- paste("MaxLength", SP,
+                                    MS, GSA,
+                                    sep = " _ "
+        )
+
+
       } else {
         print("No landings data available for this stock")
         output <- NULL
@@ -492,6 +659,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
         output[[l]] <- result
         names(output)[[l]] <- "summary table"
         LFDiscardsDB[is.na(LFDiscardsDB$fishery), "fishery"] <- "NA"
+
+        # MEAN DISCARD
         plot <- ggplot(LFDiscardsDB[LFDiscardsDB$total_number >
           0, ], aes(
           x = as.numeric(year), y = as.numeric(mean_size),
@@ -530,6 +699,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           SP, MS, GSA,
           sep = " _ "
         )
+
+        # MEDIAN DISCARD
         plot <- ggplot(LFDiscardsDB[LFDiscardsDB$spline %in%
           0.2 & LFDiscardsDB$percentile %in% 0.5 & LFDiscardsDB$total_number >
           0, ], aes(
@@ -569,6 +740,170 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           SP, MS, GSA,
           sep = " _ "
         )
+
+
+        # 25th.perc DISCARD
+        plot <- ggplot(LFDiscardsDB[LFDiscardsDB$spline %in%
+                                      0.2 & LFDiscardsDB$percentile %in% 0.25 & LFDiscardsDB$total_number >
+                                      0, ], aes(
+                                        x = as.numeric(year), y = as.numeric(percentile_value),
+                                        col = fishery
+                                      )) +
+          geom_point() +
+          geom_line() +
+          facet_wrap(~gear, scales = "free") +
+          scale_x_continuous(breaks = seq(min(LFDiscardsDB$year),
+                                          max(LFDiscardsDB$year),
+                                          by = 2
+          )) +
+          theme(axis.text.x = element_text(
+            angle = 45,
+            size = 8
+          )) +
+          theme(strip.background = element_rect(fill = "white")) +
+          theme(axis.text.y = element_text(
+            angle = 90,
+            size = 8
+          )) +
+          ggtitle(paste0(
+            "Discard 25th.perc Length ",
+            SP, " ", MS, " ", GSA
+          )) +
+          xlab("") +
+          ylab(paste0(
+            "25th.perc size", "(",
+            unit, ")"
+          )) +
+          theme(legend.position = "bottom") +
+          guides(colour = guide_legend(nrow = 1))
+        l <- length(output) + 1
+        output[[l]] <- plot
+        names(output)[[l]] <- paste("25th.perc",
+                                    SP, MS, GSA,
+                                    sep = " _ "
+        )
+
+        # 75th.perc DISCARD
+        plot <- ggplot(LFDiscardsDB[LFDiscardsDB$spline %in%
+                                      0.2 & LFDiscardsDB$percentile %in% 0.75 & LFDiscardsDB$total_number >
+                                      0, ], aes(
+                                        x = as.numeric(year), y = as.numeric(percentile_value),
+                                        col = fishery
+                                      )) +
+          geom_point() +
+          geom_line() +
+          facet_wrap(~gear, scales = "free") +
+          scale_x_continuous(breaks = seq(min(LFDiscardsDB$year),
+                                          max(LFDiscardsDB$year),
+                                          by = 2
+          )) +
+          theme(axis.text.x = element_text(
+            angle = 45,
+            size = 8
+          )) +
+          theme(strip.background = element_rect(fill = "white")) +
+          theme(axis.text.y = element_text(
+            angle = 90,
+            size = 8
+          )) +
+          ggtitle(paste0(
+            "Discard 75th.perc Length ",
+            SP, " ", MS, " ", GSA
+          )) +
+          xlab("") +
+          ylab(paste0(
+            "75th.perc size", "(",
+            unit, ")"
+          )) +
+          theme(legend.position = "bottom") +
+          guides(colour = guide_legend(nrow = 1))
+        l <- length(output) + 1
+        output[[l]] <- plot
+        names(output)[[l]] <- paste("75th.perc",
+                                    SP, MS, GSA,
+                                    sep = " _ "
+        )
+
+        # MIN DISCARD
+        plot <- ggplot(LFDiscardsDB[LFDiscardsDB$total_number >
+                                      0, ], aes(
+                                        x = as.numeric(year), y = as.numeric(min_size),
+                                        col = fishery
+                                      )) +
+          geom_point() +
+          geom_line() +
+          facet_wrap(~gear, scales = "free") +
+          scale_x_continuous(breaks = seq(min(LFDiscardsDB$year),
+                                          max(LFDiscardsDB$year),
+                                          by = 2
+          )) +
+          theme(axis.text.x = element_text(
+            angle = 45,
+            size = 8
+          )) +
+          theme(strip.background = element_rect(fill = "white")) +
+          theme(axis.text.y = element_text(
+            angle = 90,
+            size = 8
+          )) +
+          ggtitle(paste0(
+            "Discard Min Length ",
+            SP, " ", MS, " ", GSA
+          )) +
+          xlab("") +
+          ylab(paste0(
+            "Min size", "(", unit,
+            ")"
+          )) +
+          theme(legend.position = "bottom") +
+          guides(colour = guide_legend(nrow = 1))
+        l <- length(output) + 1
+        output[[l]] <- plot
+        names(output)[[l]] <- paste("MinLength",
+                                    SP, MS, GSA,
+                                    sep = " _ "
+        )
+
+        # MAX DISCARD
+        plot <- ggplot(LFDiscardsDB[LFDiscardsDB$total_number >
+                                      0, ], aes(
+                                        x = as.numeric(year), y = as.numeric(max_size),
+                                        col = fishery
+                                      )) +
+          geom_point() +
+          geom_line() +
+          facet_wrap(~gear, scales = "free") +
+          scale_x_continuous(breaks = seq(min(LFDiscardsDB$year),
+                                          max(LFDiscardsDB$year),
+                                          by = 2
+          )) +
+          theme(axis.text.x = element_text(
+            angle = 45,
+            size = 8
+          )) +
+          theme(strip.background = element_rect(fill = "white")) +
+          theme(axis.text.y = element_text(
+            angle = 90,
+            size = 8
+          )) +
+          ggtitle(paste0(
+            "Discard Max Length ",
+            SP, " ", MS, " ", GSA
+          )) +
+          xlab("") +
+          ylab(paste0(
+            "Max size", "(", unit,
+            ")"
+          )) +
+          theme(legend.position = "bottom") +
+          guides(colour = guide_legend(nrow = 1))
+        l <- length(output) + 1
+        output[[l]] <- plot
+        names(output)[[l]] <- paste("MaxLength",
+                                    SP, MS, GSA,
+                                    sep = " _ "
+        )
+
       } else {
         print("No discards data available for this stock")
         output <- NULL

@@ -4,12 +4,22 @@
 \alias{MEDBS_check_missing_years}
 \title{Check for missing years in MED & BS tables}
 \usage{
-MEDBS_check_missing_years(data, type = "l", SP, MS, GSA, verbose = TRUE)
+MEDBS_check_missing_years(
+  data,
+  end_year,
+  type = "l",
+  SP,
+  MS,
+  GSA,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{data}{data frame containing either landings, discards or catch data}
 
-\item{type}{string vector indicating the type of table to be checked. "l" for landing; "d" for discards; "c" for catch table; "gp" for growth parameters table; "alk" for age-length keys table; "ma" for maturity at age table; "ml" for maturity at length table; "sra" for sex ratio at age table; "srl" for maturity at length table..}
+\item{end_year}{numeric value reporting the final year of the time series for the given country}
+
+\item{type}{string vector indicating the type of table to be checked. "l" for landing; "d" for discards; "c" for catch table.}
 
 \item{SP}{species code}
 

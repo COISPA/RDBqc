@@ -1,7 +1,8 @@
 #' Check for missing years in MED & BS tables
 #'
 #' @param data data frame containing either landings, discards or catch data
-#' @param type string vector indicating the type of table to be checked. "l" for landing; "d" for discards; "c" for catch table; "gp" for growth parameters table; "alk" for age-length keys table; "ma" for maturity at age table; "ml" for maturity at length table; "sra" for sex ratio at age table; "srl" for maturity at length table..
+#' @param end_year numeric value reporting the final year of the time series for the given country
+#' @param type string vector indicating the type of table to be checked. "l" for landing; "d" for discards; "c" for catch table.
 #' @param SP species code
 #' @param MS member state code
 #' @param GSA GSA code (Geographical sub-area)
@@ -17,7 +18,7 @@
 #' @export MEDBS_check_missing_years
 #' @author Walter Zupa <zupa@@coispa.it>
 
-MEDBS_check_missing_years <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
+MEDBS_check_missing_years <- function(data, end_year, type = "l", SP, MS, GSA, verbose = TRUE) {
   if (FALSE) {
     data <- Landing_tab_example
     type <- "l"
@@ -25,16 +26,52 @@ MEDBS_check_missing_years <- function(data, type = "l", SP, MS, GSA, verbose = T
     GSA <- "GSA 9"
     SP <- "DPS"
     verbose <- TRUE
+    end_year <- 2022
 
-    MEDBS_check_missing_years(data = data, type = "l", MS = "ITA", GSA = "GSA 18", SP = "NEP", verbose = FALSE)
+    MEDBS_check_missing_years(data = data, end_year, type = "l", MS = "ITA", GSA = "GSA 18", SP = "NEP", verbose = FALSE)
   }
+
+  start_survey <- data.frame(
+    countries = c(
+      "BGR",
+      "CYP",
+      "ESP",
+      "FRA",
+      "GRC",
+      "HRV",
+      "ITA",
+      "MLT",
+      "ROU",
+      "SVN"
+    ),
+    start_year = c(
+      2008,
+      2005,
+      2002,
+      2002,
+      2003,
+      2012,
+      2002,
+      2005,
+      2008,
+      2005
+    )
+  )
 
   data <- as.data.frame(data)
   colnames(data) <- toupper(colnames(data))
+
+  d <- data[data$COUNTRY ==MS, ]
+  if (nrow(d)>0){
+    d <- as.data.frame(suppressMessages(d %>% group_by(COUNTRY,AREA) %>% summarise()))
+  } else {
+    d = NULL
+  }
+
   data <- data[data$AREA %in% as.character(GSA) & data$COUNTRY == MS & data$SPECIES %in% SP, ]
   if (type %in% c("l", "d", "c")) {
     if (nrow(data)>0) {
-       ry <- range(data$YEAR)
+       ry <- range(start_survey[start_survey$countries==MS, "start_year"]:end_year)
        ry <- seq(ry[1],ry[2],1)
        observed <- sort(unique(data$YEAR))
        missing <- ry[which(! ry %in% observed)]
@@ -45,7 +82,7 @@ MEDBS_check_missing_years <- function(data, type = "l", SP, MS, GSA, verbose = T
       }
       missing <- NULL
     }
-    return(missing)
+    return(list(missing,d))
   } else {
     if (verbose) {
       message(paste0("Wrong table format selected."))

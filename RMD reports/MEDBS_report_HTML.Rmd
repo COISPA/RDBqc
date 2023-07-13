@@ -51,9 +51,10 @@ lapply(lib, require, character.only = TRUE)
 # GP <- read.table("./gp.csv", sep = ",", header = TRUE)
 # ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
 
-SPs <- c("BOG")
-MS <- "MLT"
-GSAs <- "GSA 15"
+SPs <- c("HKE")
+MS <- "ITA"
+GSAs <- "GSA 18"
+end_year <- 2021
 ```
 
 
@@ -209,10 +210,19 @@ if (check_Catch) {
   for (g in 1:length(GSAs)) {
     s <- 1
     for (s in 1:length(SPs)) {
-      res <- MEDBS_check_missing_years(data = Catch, type = "c", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      res <- MEDBS_check_missing_years(data = Catch, end_year, type = "c", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
       if (!is.null(res)) {
         if (length(res)>0) {
-           cat(paste0("\n- The following years were detected in the Catch data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res,collapse=", "),"\n")) 
+           cat(paste0("\n- The following years are missing in the Catch data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res[[1]],collapse=", "),"\n")) 
+            
+            if (!is.null(res[2])) {
+          cat(paste0("\n_All the combination of country and areas detected in data are reported in the following table_:"))
+          print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+          cat("\n\n\n")
+        } else {
+          cat("\n\n\n- No data data available for the selected country")
+        }   
+            
         } else {
           cat(paste0("\n- No missing years in the Catch data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))  
         }
@@ -393,10 +403,21 @@ if (check_Land) {
   for (g in 1:length(GSAs)) {
     s <- 1
     for (s in 1:length(SPs)) {
-      res <- MEDBS_check_missing_years(data = Land, type = "l", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      res <- MEDBS_check_missing_years(data = Land, end_year=end_year, type = "l", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
       if (!is.null(res)) {
         if (length(res)>0) {
-           cat(paste0("\n- The following years were detected in the landings data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res,collapse=", "),"\n")) 
+           cat(paste0("\n- The following years are missing in the landings data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res[[1]],collapse=", "),"\n")) 
+            
+        if (!is.null(res[2])) {
+          cat(paste0("\n_All the combination of country and areas detected in data are reported in the following table_:"))
+          print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+          cat("\n\n\n")
+        } else {
+          cat("\n\n\n- No data data available for the selected country")
+        }    
+            
+            
+            
         } else {
           cat(paste0("\n- No missing years in the landings data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))  
         }
@@ -512,10 +533,10 @@ if (check_Land) {
         cat("\n\n\n")
 
 
-        cat(paste0("\n_Summary table of Kolmogorov-Smirnov test for ", SPs[s], " in ", GSAs[g], "_\n"))
-        tab1 <- res[[2]]
-        tab1 <- tab1[tab1$Comment == "not belong to same population", ]
-        print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        # cat(paste0("\n_Summary table of Kolmogorov-Smirnov test for ", SPs[s], " in ", GSAs[g], "_\n"))
+        # tab1 <- res[[2]]
+        # tab1 <- tab1[tab1$Comment == "not belong to same population", ]
+        # print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
       } else {
         cat(paste0("\n- No Kolmogorov-Smirnov test results are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
       }
@@ -539,8 +560,8 @@ if (check_Land) {
       res <- suppressMessages(MEDBS_length_ind(data = Land, type = "l", MS = MS, GSA = GSAs[g], SP = SPs[s], splines = c(0.2, 0.4, 0.6, 0.8), Xtresholds = c(0.25, 0.5, 0.75)))
 
       if (class(res) == "list" & length(res) > 0) {
-        cat(paste0("\n_Summary table of Main length size indicators for ", SPs[s], " in ", GSAs[g], "_"))
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        # cat(paste0("\n_Summary table of Main length size indicators for ", SPs[s], " in ", GSAs[g], "_"))
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
 
         name <- names(res)
         list_name <- strsplit(name, " _ ")
@@ -549,7 +570,7 @@ if (check_Land) {
         for (n in 1:length(list_name)) {
           short_list[n] <- list_name[[n]][1]
         }
-        index <- which(short_list %in% c("MeanLength", "MedianLength"))
+        index <- which(short_list %in% c("MeanLength","MedianLength","25th.perc","75th.perc","MinLength","MaxLength"))
 
         x <- 3
         for (x in index) {
@@ -924,13 +945,22 @@ if (check_Disc) {
   for (g in 1:length(GSAs)) {
     s <- 1
     for (s in 1:length(SPs)) {
-      res <- MEDBS_check_missing_years(data = Disc, type = "d", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
+      res <- MEDBS_check_missing_years(data = Disc,end_year, type = "d", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
       if (!is.null(res)) {
         if (length(res)>0) {
-           cat(paste0("\n- The following years were detected in the discards data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res,collapse=", "),"\n")) 
+           cat(paste0("\n- The following years are missing in the discards data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res[[1]],collapse=", "),"\n")) 
+            
+        if (!is.null(res[2])) {
+          cat(paste0("\n_All the combination of country and areas detected in data are reported in the following table_:"))
+          print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+          cat("\n\n\n")
         } else {
-          cat(paste0("\n- No missing years in the discards data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))  
-        }
+          cat("\n\n\n- No data data available for the selected country")
+        }   
+           
+            
+        } else {
+          cat(paste0("\n- No missing years in the discards data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n")) }
       } else {
        cat(paste0("\n- No discards data for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
       }
@@ -1073,12 +1103,12 @@ if (check_Disc) {
           cat(paste0("\nPlot of cumulative length distributions by fishery and year for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
           plot(res[[4]])
           cat("\n\n\n")
-          if (!is.null(res[[2]])) {
-            cat(paste0("\n_Summary table of Kolmogorov-Smirnov test for ", SPs[s], " in ", GSAs[g], "_\n"))
-            tab1 <- res[[2]]
-            tab1 <- tab1[tab1$Comment == "not belong to same population", ]
-            print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
-          }
+          # if (!is.null(res[[2]])) {
+          #   cat(paste0("\n_Summary table of Kolmogorov-Smirnov test for ", SPs[s], " in ", GSAs[g], "_\n"))
+          #   tab1 <- res[[2]]
+          #   tab1 <- tab1[tab1$Comment == "not belong to same population", ]
+          #   print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+          # }
         } else {
           cat(paste0("\n- No Kolmogorov-Smirnov test results are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
         }
@@ -1103,8 +1133,8 @@ if (check_Disc) {
       res <- suppressMessages(MEDBS_length_ind(data = Disc, type = "d", MS = MS, GSA = GSAs[g], SP = SPs[s], splines = c(0.2, 0.4, 0.6, 0.8), Xtresholds = c(0.25, 0.5, 0.75)))
 
       if (class(res) == "list" & length(res) > 0) {
-        cat(paste0("\n_Summary table of Main length size indicators for ", SPs[s], " in ", GSAs[g], "_"))
-        print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+        # cat(paste0("\n_Summary table of Main length size indicators for ", SPs[s], " in ", GSAs[g], "_"))
+        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
 
         name <- names(res)
         list_name <- strsplit(name, " _ ")
@@ -1113,7 +1143,7 @@ if (check_Disc) {
         for (n in 1:length(list_name)) {
           short_list[n] <- list_name[[n]][1]
         }
-        index <- which(short_list %in% c("MeanLength", "MedianLength"))
+        index <- which(short_list %in% c("MeanLength", "MedianLength","25th.perc","75th.perc","MinLength","MaxLength"))
 
         x <- 3
         for (x in index) {
