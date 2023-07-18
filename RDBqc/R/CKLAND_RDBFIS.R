@@ -132,6 +132,29 @@ Check_Tot_Land <- function(data, data1, MS, GSA, SP, MEDBSSP, verbose = FALSE, O
           )
         )
         write.csv(rbind(db, db1), file = paste0(WD, "/OUTPUT/CSV/Landings_", MS, "_", GSA, "_", SP, ".csv"), row.names = FALSE)
+      } else {
+        plot = plot_grid(
+          ggplot(rbind(db, db1), aes(x = YEAR, y = DATA_CALL, col = DATA_CALL)) +
+            geom_point() +
+            ylab("") +
+            xlab("") +
+            scale_color_manual(values = colorset) +
+            scale_x_continuous(breaks = seq(min(rbind(db, db1)$YEAR), max(rbind(db, db1)$YEAR), 1)) +
+            theme_bw() +
+            ggtitle(paste0("Time series available for ", MS, "_", GSA, "_", SP)) +
+            theme(legend.position = "none"),
+          ggplot(rbind(db, db1), aes(x = YEAR, y = LANDINGS, col = DATA_CALL)) +
+            geom_point() +
+            geom_line() +
+            ylab("Landings (t)") +
+            scale_color_manual(values = colorset) +
+            xlab("") +
+            scale_x_continuous(breaks = seq(min(rbind(db, db1)$YEAR), max(rbind(db, db1)$YEAR), 1)) +
+            theme_bw() +
+            theme(legend.position = "bottom"),
+          align = "v", nrow = 2, rel_heights = c(1 / 4, 1 / 2)
+        )
+        print(plot)
       }
     }
     if (verbose){

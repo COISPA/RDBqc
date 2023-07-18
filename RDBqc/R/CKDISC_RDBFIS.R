@@ -96,11 +96,20 @@ if(OUT%in%TRUE){
            xlab("")+scale_x_continuous(breaks = seq(min(rbind(db,db1)$YEAR),max(rbind(db,db1)$YEAR),1))+theme_bw()+theme(legend.position = "bottom"),
           align = "v", nrow = 2, rel_heights = c(1/4,1/2)))
   write.csv(rbind(db,db1),file=paste0(WD,"/OUTPUT/CSV/Discards_",MS,"_",GSA,"_",SP,".csv"),row.names = FALSE)
+} else {
+  plot = plot_grid(
+    ggplot(rbind(db,db1),aes(x=YEAR,y=DATA_CALL,col=DATA_CALL))+geom_point()+ylab("")+xlab("")+
+      scale_x_continuous(breaks = seq(min(rbind(db,db1)$YEAR),max(rbind(db,db1)$YEAR),1))+theme_bw()+ggtitle(paste0("Time series available for ",MS,"_",GSA,"_",SP))+theme(legend.position = "none"),
+    ggplot(rbind(db,db1),aes(x=YEAR,y=DISCARDS,col=DATA_CALL))+geom_point()+geom_line()+ylab("Discards (t)")+
+      xlab("")+scale_x_continuous(breaks = seq(min(rbind(db,db1)$YEAR),max(rbind(db,db1)$YEAR),1))+theme_bw()+theme(legend.position = "bottom"),
+    align = "v", nrow = 2, rel_heights = c(1/4,1/2))
+  print(plot)
 }
   }
+  if(verbose){
 ifelse(OUT%in%TRUE,print("Discards comparison has been done. Please check outputs in OUTPUT folder."),
        print("Discards comparison has been done."))
-
+}
          }else{
     print("Error: selected MS,GSA and Species combination doesn't exist.")
   }

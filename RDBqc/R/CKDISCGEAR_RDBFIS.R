@@ -131,9 +131,7 @@ Check_Tot_Disc_gear <- function(data,data1,MS,GSA,SP,MEDBSSP,verbose=TRUE,OUT=FA
                                                             align = "v", nrow = 2, rel_heights = c(1/4,1/2)))
           names(compland)[[counter]] <- paste("PLOT_DISCARDS_GEAR",i,MS,GSA,SP,sep="_")
           counter <- counter+1
-        }else{print("")
-
-        }
+        }else{print("")}
       }
       if(OUT%in%TRUE){
         mylist1 <- list()
@@ -147,12 +145,12 @@ Check_Tot_Disc_gear <- function(data,data1,MS,GSA,SP,MEDBSSP,verbose=TRUE,OUT=FA
             ggsave(paste0(WD,"/OUTPUT/PLOT/Discards_gear_",i,"_",MS,"_",GSA,"_",SP,".jpeg"),  units="in", width=8, height=4, dpi=300,
                    plot = suppressMessages(plot_grid(ggplot(rbind(db,db1)[rbind(db,db1)$GEAR%in%i,],aes(x=YEAR,y=DATA_CALL,col=DATA_CALL))+geom_point()+ylab("")+xlab("")+
                                                        scale_x_continuous(breaks = seq(min(rbind(db,db1)[rbind(db,db1)$GEAR%in%i,]$YEAR),max(rbind(db,db1)[rbind(db,db1)$GEAR%in%i,]$YEAR),1))+theme_bw()+ggtitle(paste0("Time series available for gear ",i," ",MS," ",GSA," ",SP))+theme(legend.position = "none"),
-                                                     ggplot(rbind(db,db1)[rbind(db,db1)$GEAR%in%i,],aes(x=YEAR,y=LANDINGS,col=DATA_CALL))+geom_point()+geom_line()+ylab("DISCARDS (t)")+
+                                                     ggplot(rbind(db,db1)[rbind(db,db1)$GEAR%in%i,],aes(x=YEAR,y=DISCARDS,col=DATA_CALL))+geom_point()+geom_line()+ylab("DISCARDS (t)")+
                                                        xlab("")+scale_x_continuous(breaks = seq(min(rbind(db,db1)[rbind(db,db1)$GEAR%in%i,]$YEAR),max(rbind(db,db1)[rbind(db,db1)$GEAR%in%i,]$YEAR),1))+theme_bw()+theme(legend.position = "bottom"),
                                                      align = "v", nrow = 2, rel_heights = c(1/4,1/2))))
-          }else{print("")
-
-          }
+          } else {
+            print("")
+            }
         }
       }
 

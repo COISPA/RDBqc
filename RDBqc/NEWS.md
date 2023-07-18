@@ -1,3 +1,5 @@
+# RDBqc 0.0.17.06
+ * Improving output saving in the cross-data call checks
 # RDBqc 0.0.17.05
  * Inclusion of a new function to detect the presence of disaggregated data: MEDBS_check_disaggregated
  * Inclusion of a new function to detect the presence of missing years in data: MEDBS_check_missing_years
