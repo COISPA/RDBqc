@@ -37,6 +37,7 @@ Check_Tot_Land <- function(data, data1, MS, GSA, SP, MEDBSSP, verbose = FALSE, O
     print("Error: selected species is not present in both Data Calls datasets. Landings comparison is not possible")
   }
   ## Modifying codes to allign them among the data calls
+  GSA <- gsub(" ", "", GSA)
   data$AREA <- gsub(" ", "", data$AREA)
   data$LANDINGS[data$LANDINGS %in% c("-1", "NA", NA, "")] <- 0
   data1$TOTWGHTLANDG[data1$TOTWGHTLANDG %in% c("NA", NA, "", "NK")] <- 0

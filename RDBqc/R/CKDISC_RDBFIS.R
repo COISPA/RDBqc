@@ -37,6 +37,7 @@ Check_Tot_Disc <- function(data,data1,MS,GSA,SP,MEDBSSP,verbose=FALSE,OUT=FALSE)
     print("Error: selected species is not present in both Data Calls datasets. Discards comparison is not possible")
     }
   ## Modifying codes to allign them among the data calls
+  GSA <- gsub(" ", "", GSA)
   data$AREA <- gsub(" ","",data$AREA)
   data$DISCARDS[data$DISCARDS%in%c("-1","NA",NA,"")] <- 0
   data1$DISCARDS[data1$DISCARDS%in%c("NA",NA,"","NK")] <- 0
