@@ -1,3 +1,5 @@
+# RDBqc 0.0.17.07
+ * updated version of FDI_AER_land_landvalue function
 # RDBqc 0.0.17.06
  * Improving output saving in the cross-data call checks
 # RDBqc 0.0.17.05

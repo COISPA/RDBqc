@@ -9,7 +9,7 @@ FDI_AER_land_landvalue(
   AER,
   var = "landings",
   MS,
-  level = 3,
+  level = "METIER",
   YEAR = NA,
   GSA = NA,
   SP = NA,
@@ -27,9 +27,9 @@ or 'value' for landings' value.}
 
 \item{MS}{(mandatory) The MS code (e.g. 'GRC'). Only one MS code is allowed.}
 
-\item{level}{(optional) integer 0-3 to select the level of aggregation of variable 'var'.
-0: 'MS', 1: 'GSA', 2: 'FISHING_TECH', 3: 'VESSEL_LENGTH'. E.g. if level = 2 is selected, the comparison
-will be performed by 'MS', 'GSA' and 'FISHING_TECH'. Default level is 3.}
+\item{level}{(optional) character to select the level of aggregation of variable 'var', i.e.
+'MS', 'GSA', 'GEAR' or 'METIER'. E.g. if level 'GEAR' is selected, the comparison
+will be performed by 'MS', 'GSA' and 'GEAR'. Default level is 'METIER'.}
 
 \item{YEAR}{(optional) vector of years to perform the check on. Default is NA, which will produce a check for all
 the years found in both data frames}
@@ -51,14 +51,12 @@ c) entries in DFI that are missing from AER (missing_AER). This output is also s
 }
 \description{
 The function compares landings (var='landings') or landings' value (var='value) by SP and YEAR between
-the FDI and AER databases for the given MS. By default, the comparison is done by GSA, FISHING_TECH and VESSEL_LENGTH.
+the FDI and AER databases for the given MS. By default, the comparison is done by GSA, GEAR and METIER.
 Optionally, the user can select a higher level of aggregation (e.g. 'MS', 'GSA', etc.) (see level variable)
 }
 \examples{
-FDI_AER_land_landvalue(
-  FDI = fdi_a_catch, AER = aer_catch, var = "landings",
-  level = 2, MS = "PSP", GSA = c("GSA97", "GSA98"), verbose = FALSE
-)
+FDI_AER_land_landvalue(FDI=fdi_a_catch, AER=aer_catch, var='landings',
+level='GEAR', MS='PSP', YEAR=NA, GSA=c('GSA97', 'GSA98'), SP=NA, OUT = TRUE, verbose = TRUE)
 }
 \author{
 Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}
