@@ -9,7 +9,7 @@ FDI_AER_land_landvalue(
   AER,
   var = "landings",
   MS,
-  level = "METIER",
+  level = "GSA",
   YEAR = NA,
   GSA = NA,
   SP = NA,
