@@ -37,6 +37,7 @@ Check_Tot_Land_gear_Q <- function(data, data1, MS, GSA, SP, MEDBSSP, verbose = T
     print("Error: selected species is not present in both Data Calls datasets. Landings comparison is not possible")
   }
   ## Modifying FDI code according to MEDBS
+  GSA <- gsub(" ", "", GSA)
   data1$GEAR_TYPE[data1$GEAR_TYPE %in% c("NO", "NK")] <- "NA"
   data1$QUARTER[data1$QUARTER %in% c("ALL")] <- -1
   data$AREA <- gsub(" ", "", data$AREA)

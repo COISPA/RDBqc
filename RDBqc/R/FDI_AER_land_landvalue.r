@@ -19,8 +19,8 @@
 #' the FDI and AER databases for the given MS. By default, the comparison is done by GSA, GEAR and METIER.
 #' Optionally, the user can select a higher level of aggregation (e.g. 'MS', 'GSA', etc.) (see level variable)
 #' @return The function returns a list of three data frames, containing: a) entries for which 'var' differs between
-#' the two data frames (mismatch_FDI_AER), b) entries in AER that are missing from FDI (missing_FDI) and
-#' c) entries in DFI that are missing from AER (missing_AER). This output is also saved in .csv files if OUT is TRUE.
+#' the two data frames (mismatch_FDI_AER) reporting only differences greater than 5%, b) entries in AER that are missing from FDI (missing_FDI) and
+#' c) entries in FDI that are missing from AER (missing_AER). This output is also saved in .csv files if OUT is TRUE.
 #' @export FDI_AER_land_landvalue
 #' @author Vasiliki Sgardeli <vsgard@hcmr.gr>
 #' @importFrom scales label_percent
@@ -49,11 +49,9 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
   }
   if (var == "landings") {
     var1 <- "totwghtlandg"
-  }
-  else if (var == "value") {
+  } else if (var == "value") {
     var1 <- "totvallandg"
-  }
-  else {
+  } else {
     stop("incorrect argument to variable 'var'. Use either 'landings' or 'value'")
   }
   if (!(MS %in% FDI$country)) {
@@ -142,8 +140,7 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
     tabB <- subset(data2, acronym == var1)
     tabB <- aggregate(list(var_AER = tabB$value), by = list(year = tabB$year,
                                                             species = tabB$species), FUN = sumfun)
-  }
-  else if (level == 'GSA') {
+  }  else if (level == 'GSA') {
     tabA <- aggregate(list(var_FDI = data1[[var1]]), by = list(year = data1$year,
                                                                gsa = data1$sub_region, species = data1$species),
                       FUN = sumfun)
@@ -155,8 +152,7 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
                                                             gsa = tabB$sub_region, species = tabB$species), FUN = sumfun)
     tabB$gsa <- paste0("GSA", substr(tabB$gsa, nchar(tabB$gsa) -
                                        1, nchar(tabB$gsa)))
-  }
-  else if (level == 'GEAR') {
+  }  else if (level == 'GEAR') {
     tabA <- aggregate(list(var_FDI = data1[[var1]]), by = list(year = data1$year,
                                                                gsa = data1$sub_region, species = data1$species,
                                                                fishing_tech = data1$fishing_tech), FUN = sumfun)
@@ -169,8 +165,7 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
                       FUN = sumfun)
     tabB$gsa <- paste0("GSA", substr(tabB$gsa, nchar(tabB$gsa) -
                                        1, nchar(tabB$gsa)))
-  }
-  else if (level == 'METIER') {
+  }  else if (level == 'METIER') {
     tabA <- aggregate(list(var_FDI = data1[[var1]]), by = list(year = data1$year,
                                                                gsa = data1$sub_region, species = data1$species,
                                                                fishing_tech = data1$fishing_tech, vessel_length = data1$vessel_length),
@@ -213,8 +208,7 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
                    " not existing in provided dataframes"))
     }
     df1 <- df1[which(df1$gsa %in% GSA), ]
-  }
-  else if (!is.na(GSA)[1] & level==namelevel[1] ) {
+  } else if (!is.na(GSA)[1] & level==namelevel[1] ) {
     print(paste0("warning: cross-check produced at ",
                  level, " level. GSA provided ingnored. To cross-check by GSA use level = 'GSA' "))
   }
@@ -224,8 +218,10 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
     if (verbose) {
       print("No common combinations to compare between FDI and AER")
     }
-  }
-  else if (nrow(df2 != 0)) {
+  }  else if (nrow(df2) != 0) {
+    perc <- (df2$var_FDI - df2$var_AER) * 100/df2$var_FDI
+    ids <- which(perc < 5 & perc > -5)
+    df2 <- df2[-ids, ]
     df2$"% diff" <- (scales::label_percent(1, accuracy = 1e-04,
                                            big.mark = ""))((df2$var_FDI - df2$var_AER) *
                                                              100/df2$var_FDI)
@@ -247,6 +243,7 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
                                                                        "_FDI")
   colnames(df2error)[which(colnames(df2error) == "var_AER")] <- paste0(var,
                                                                        "_AER")
+
   if (OUT %in% TRUE) {
     WD <- getwd()
     suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"),

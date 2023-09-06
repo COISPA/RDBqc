@@ -46,8 +46,8 @@ Default is NA, which will produce the check for all SP existing in the data fram
 }
 \value{
 The function returns a list of three data frames, containing: a) entries for which 'var' differs between
-the two data frames (mismatch_FDI_AER), b) entries in AER that are missing from FDI (missing_FDI) and
-c) entries in DFI that are missing from AER (missing_AER). This output is also saved in .csv files if OUT is TRUE.
+the two data frames (mismatch_FDI_AER) reporting only differences greater than 5\%, b) entries in AER that are missing from FDI (missing_FDI) and
+c) entries in FDI that are missing from AER (missing_AER). This output is also saved in .csv files if OUT is TRUE.
 }
 \description{
 The function compares landings (var='landings') or landings' value (var='value) by SP and YEAR between

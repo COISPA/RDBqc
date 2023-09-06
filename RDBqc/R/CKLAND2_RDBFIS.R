@@ -45,6 +45,7 @@ Check_Tot_Land2 <- function(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = 
   if (!SP %in% unique(data$SPECIES) & !SP %in% unique(data1$SPECIES) & !SP %in% unique(data2$SPECIES_CODE)) {
     print("Error: selected species is not present in any of the three Data Calls datasets. Landings comparison is not possible")
   }
+  GSA <- gsub(" ", "", GSA)
   data$AREA <- gsub(" ", "", data$AREA)
   data2$SUB_REG <- gsub("sa ", "GSA", data2$SUB_REG)
   data$LANDINGS[data$LANDINGS %in% c("-1", "NA", NA, "")] <- 0

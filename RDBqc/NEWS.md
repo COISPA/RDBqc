@@ -1,3 +1,6 @@
+# RDBqc 0.0.17.08
+ * 5% threshold value introduced in the FDI_AER_land_landvalue function output
+ * MEDBS cross-checks modified to allow GSA filter with and without space (e.g. "GSA18","GSA 18")
 # RDBqc 0.0.17.07
  * updated version of FDI_AER_land_landvalue function
 # RDBqc 0.0.17.06
