@@ -42,7 +42,7 @@
 
 MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,0.8), Xtresholds = c(0.25, 0.5, 0.75), verbose = TRUE) {
   . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- NULL
-  value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
+  value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- max_size <- min_size<- NULL
   data <- as.data.table(data)
   colnames(data) <- tolower(colnames(data))
   if (type == "l") {

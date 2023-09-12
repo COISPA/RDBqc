@@ -31,6 +31,8 @@ MEDBS_check_missing_years <- function(data, end_year, type = "l", SP, MS, GSA, v
     MEDBS_check_missing_years(data = data, end_year, type = "l", MS = "ITA", GSA = "GSA 18", SP = "NEP", verbose = FALSE)
   }
 
+  COUNTRY <- AREA <- NULL
+
   start_survey <- data.frame(
     countries = c(
       "BGR",

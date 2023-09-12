@@ -74,7 +74,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
 
   }
 
-  . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- ID <- value <- start_length <- discards <- tot_val <- NULL
+  . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- ID <- value <- start_length <- discards <- landings<- tot_val <- NULL
 
     output_csv <- list()
     output_jpg <- list()
