@@ -158,7 +158,7 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       plots <- list()
 
       axel <- LFLandingssub %>% group_by(year,ID) %>% summarize(count_v=sum(value > 0))
-      toremove_cumulativeL <- axel[axel$count_v<nbobscumulative,]
+      toremove_cumulativeL <- axel[axel$count_v<3,]
       LFLandingssub_tmp <- full_join(LFLandingssub,toremove_cumulativeL)
       LFLandingssub <- LFLandingssub_tmp[LFLandingssub_tmp$count_v%in%NA,]
 
