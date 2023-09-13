@@ -1,3 +1,9 @@
+# RDBqc 0.0.17.10
+ * Improvement of outputs of MEDBS_check_missing_years function
+ * Improvement of outputs of FDI_AER_land_landvalue function
+# RDBqc 0.0.17.09
+ * Improvement of outputs of MEDBS_ks function 
+ * Improvement of plots in MEDBS_LW_check function
 # RDBqc 0.0.17.08
  * 5% threshold value introduced in the FDI_AER_land_landvalue function output
  * MEDBS cross-checks modified to allow GSA filter with and without space (e.g. "GSA18","GSA 18")

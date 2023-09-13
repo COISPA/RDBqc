@@ -24,6 +24,21 @@
 #' @export MEDBS_ks
 
 MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
+
+
+
+  if (FALSE) {
+    data <- read.csv("//Pc-casciaro/e/Programmi di RACCOLTA DATI corretti al 2017/DATACALL/_____Tools for data-quality check__/EWG2203/discards.csv")
+    type="d"
+    SP="MUT"
+    MS="CYP"
+    GSA="GSA 25"
+    Rt = 1
+    verbose = TRUE
+  }
+
+
+
   . <- ID <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- NULL
   len <- variable <- dbland <- NULL
   value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- NULL
@@ -138,16 +153,22 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       tmpdb1 <- list()
       counter <- 1
       counter1 <- 1
-
+      counter2 <- 1
       i <- "OTB_DEF"
       plots <- list()
+
+      axel <- LFLandingssub %>% group_by(year,ID) %>% summarize(count_v=sum(value > 0))
+      toremove_cumulativeL <- axel[axel$count_v<3,]
+      LFLandingssub_tmp <- full_join(LFLandingssub,toremove_cumulativeL)
+      LFLandingssub <- LFLandingssub_tmp[LFLandingssub_tmp$count_v%in%NA,]
+
       for (i in unique(LFLandingssub$ID)) {
         LFLandingsred <- LFLandingssub[LFLandingssub$ID %in% i, ]
         LFLandingsred$value <- LFLandingsred$value / Rt
         check_num_data <- LFLandingsred[LFLandingsred$value > 0, ]
         check_num_data <- suppressMessages(check_num_data %>% group_by(year, ID) %>% summarise(n = length(value)))
 
-        if (length(unique(LFLandingsred$year)) == 1 | any(check_num_data$n < 5)) {
+        if (length(unique(LFLandingsred$year)) == 1 ) { # | any(check_num_data$n < 5)
           tmpdb1[[counter1]] <- LFLandingsred
           counter1 <- counter1 + 1
         } else {
@@ -223,6 +244,7 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
     disc <- discarded[which(discarded$area == GSA & discarded$country == MS & discarded$species == SP), ]
     if (nrow(disc) > 0) {
       var_no_discard <- grep("lengthclass", names(disc), value = TRUE)
+      disc <- data.table(disc)
       max_no_discard <- disc[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_discard]
       max_no_discard[max_no_discard == -1] <- 0
       max_no_discard2 <- max_no_discard[, -(1:7)]
@@ -299,14 +321,21 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       tmpdb1 <- list()
       counter <- 1
       counter1 <- 1
+      counter2 <- 1
       plots <- list()
-      i <- "GNS_DEF"
+
+      axel <- suppressMessages(LFLandingssub %>% group_by(year,ID) %>% summarize(count_v=sum(value > 0)))
+      toremove_cumulative <- axel[axel$count_v<3,]
+      LFLandingssub_tmp <- full_join(LFLandingssub,toremove_cumulative)
+      LFLandingssub <- LFLandingssub_tmp[LFLandingssub_tmp$count_v%in%NA,]
+
+      i <- "OTB_DEMF"
       for (i in unique(LFLandingssub$ID)) {
         LFLandingsred <- LFLandingssub[LFLandingssub$ID %in% i, ]
         LFLandingsred$value <- LFLandingsred$value / Rt
-        check_num_data <- LFLandingsred[LFLandingsred$value > 0, ]
-        check_num_data <- suppressMessages(check_num_data %>% group_by(year, ID) %>% summarise(n = length(value)))
-        if (length(unique(LFLandingsred$year)) == 1 | any(check_num_data$n < 5)) {
+        # check_num_data <- LFLandingsred[LFLandingsred$value > 0, ]
+        # check_num_data <- suppressMessages(check_num_data %>% group_by(year, ID) %>% summarise(n = length(value)))
+        if (length(unique(LFLandingsred$year)) == 1 ) {  # | any(check_num_data$n < 5)
           tmpdb1[[counter1]] <- LFLandingsred
           counter1 <- counter1 + 1
         } else {

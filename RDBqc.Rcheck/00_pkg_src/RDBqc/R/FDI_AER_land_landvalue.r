@@ -4,8 +4,7 @@
 #' @param var (mandatory) string to select the variable of interest. Use either 'landings' for landings
 #' or 'value' for landings' value.
 #' @param MS (mandatory) The MS code (e.g. 'GRC'). Only one MS code is allowed.
-#' @param level (optional) character to select the level of aggregation of variable 'var', i.e.
-#' 'MS', 'GSA', 'GEAR' or 'METIER'. E.g. if level 'GEAR' is selected, the comparison
+#' @param level (optional) character to select the level of aggregation of variable 'var', i.e. 'MS', 'GSA', 'GEAR' or 'METIER'. E.g. if level 'GEAR' is selected, the comparison
 #' will be performed by 'MS', 'GSA' and 'GEAR'. Default level is 'METIER'.
 #' @param YEAR (optional) vector of years to perform the check on. Default is NA, which will produce a check for all
 #' the years found in both data frames
@@ -26,10 +25,8 @@
 #' @importFrom scales label_percent
 #' @importFrom utils write.csv
 #' @examples FDI_AER_land_landvalue(FDI=fdi_a_catch, AER=aer_catch, var='landings',
-#' level='GEAR', MS='PSP', YEAR=NA, GSA=c('GSA97', 'GSA98'), SP=NA, OUT = TRUE, verbose = TRUE)
-FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA', YEAR = NA,
-                                    GSA = NA, SP = NA, OUT = FALSE, verbose = FALSE)
-{
+#' level='GEAR', MS='PSP', YEAR=NA, GSA=c('GSA97', 'GSA98'), SP="HKE", OUT = TRUE, verbose = TRUE)
+FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA', YEAR = NA,GSA = NA, SP = NA, OUT = FALSE, verbose = FALSE){
   country <- country_code <- acronym <- var_FDI <- var_AER <- NULL
   FDI <- as.data.frame(FDI)
   AER <- as.data.frame(AER)
@@ -62,7 +59,13 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
   if (nrow(data1) == 0 | nrow(data2) == 0) {
     stop("One or both of input data frames are empty")
   }
+  data1$sub_region <- gsub("[^0-9]","",data1$sub_region)
+  data2$sub_region <- gsub("[^0-9]","",data2$sub_region)
+
   if (!is.na(GSA)[1]){
+    GSA <- gsub("[^0-9]", "", GSA)
+    data1 <- data1[data1$sub_region %in% GSA, ]
+    data2 <- data2[data2$sub_region %in% GSA, ]
     for (i in 1:length(GSA)){
       if(sum(data1$sub_region==GSA[i])==0){
         print("Error: Selected COUNTRY and GSA combination doesn't exist in FDI")
@@ -72,6 +75,15 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
       }
     }
   }
+
+  if ((!is.na(SP)[1])){
+  data1 <- subset(data1, species == SP)
+  data2 <- subset(data2, species == SP)
+  if (nrow(data1) == 0 | nrow(data2) == 0) {
+    stop("One or both of input data frames are empty")
+  }
+  }
+
   level     <- toupper(level)
   namelevel <- c("MS", "GSA", "GEAR", "METIER")
   if (!(level %in% namelevel)) {
@@ -79,7 +91,7 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
     print("warning: Invalid value provided to 'level' argument. Proceeding with default level=METIER")
   }
   if (verbose) {
-    namesub  <- c(paste0('for ', toString(SP)), paste0('in ', toString(GSA)), paste0('in year(s) ', toString(YEAR)))
+    namesub  <- c(paste0('for ', toString(SP)), paste0('in GSA ', toString(GSA)), paste0('in year(s) ', toString(YEAR)))
     sub      <- which(c(sum(!is.na(YEAR)), sum(!is.na(GSA)), sum(!is.na(SP))) != 0)
     if (length(sub) != 0) {
       namesub <- toString(namesub[sub])
@@ -150,8 +162,7 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
     tabB <- subset(data2, acronym == var1)
     tabB <- aggregate(list(var_AER = tabB$value), by = list(year = tabB$year,
                                                             gsa = tabB$sub_region, species = tabB$species), FUN = sumfun)
-    tabB$gsa <- paste0("GSA", substr(tabB$gsa, nchar(tabB$gsa) -
-                                       1, nchar(tabB$gsa)))
+    # tabB$gsa <- paste0("GSA", substr(tabB$gsa, nchar(tabB$gsa) - 1, nchar(tabB$gsa)))
   }  else if (level == 'GEAR') {
     tabA <- aggregate(list(var_FDI = data1[[var1]]), by = list(year = data1$year,
                                                                gsa = data1$sub_region, species = data1$species,
@@ -163,8 +174,7 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
     tabB <- aggregate(list(var_AER = tabB$value), by = list(year = tabB$year,
                                                             gsa = tabB$sub_region, species = tabB$species, fishing_tech = tabB$fishing_tech),
                       FUN = sumfun)
-    tabB$gsa <- paste0("GSA", substr(tabB$gsa, nchar(tabB$gsa) -
-                                       1, nchar(tabB$gsa)))
+    # tabB$gsa <- paste0("GSA", substr(tabB$gsa, nchar(tabB$gsa) - 1, nchar(tabB$gsa)))
   }  else if (level == 'METIER') {
     tabA <- aggregate(list(var_FDI = data1[[var1]]), by = list(year = data1$year,
                                                                gsa = data1$sub_region, species = data1$species,
@@ -177,8 +187,7 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA
     tabB <- aggregate(list(var_AER = tabB$value), by = list(year = tabB$year,
                                                             gsa = tabB$sub_region, species = tabB$species, fishing_tech = tabB$fishing_tech,
                                                             vessel_length = tabB$vessel_length), FUN = sumfun)
-    tabB$gsa <- paste0("GSA", substr(tabB$gsa, nchar(tabB$gsa) -
-                                       1, nchar(tabB$gsa)))
+    # tabB$gsa <- paste0("GSA", substr(tabB$gsa, nchar(tabB$gsa) - 1, nchar(tabB$gsa)))
   }
   df  <- merge(tabA, tabB, all.x = TRUE, all.y = TRUE)
   df1 <- df

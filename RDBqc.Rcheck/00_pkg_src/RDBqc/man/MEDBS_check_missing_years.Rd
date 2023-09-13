@@ -38,7 +38,7 @@ The function checks the presence of missing years in MED & BS tables data.
 \examples{
 df <- Discard_tab_example[-which(Discard_tab_example$year==2011),]
 MEDBS_check_missing_years(
-  data = df, type = "d", SP = "DPS",
+  data = df, end_year=2002, type = "d", SP = "DPS",
   MS = "ITA", GSA = "GSA 9", verbose = TRUE
 )
 }

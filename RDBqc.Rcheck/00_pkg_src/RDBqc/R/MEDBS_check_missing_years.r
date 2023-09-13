@@ -12,7 +12,7 @@
 #' @examples
 #' df <- Discard_tab_example[-which(Discard_tab_example$year==2011),]
 #' MEDBS_check_missing_years(
-#'   data = df, type = "d", SP = "DPS",
+#'   data = df, end_year=2002, type = "d", SP = "DPS",
 #'   MS = "ITA", GSA = "GSA 9", verbose = TRUE
 #' )
 #' @export MEDBS_check_missing_years
@@ -30,6 +30,8 @@ MEDBS_check_missing_years <- function(data, end_year, type = "l", SP, MS, GSA, v
 
     MEDBS_check_missing_years(data = data, end_year, type = "l", MS = "ITA", GSA = "GSA 18", SP = "NEP", verbose = FALSE)
   }
+
+  COUNTRY <- AREA <- NULL
 
   start_survey <- data.frame(
     countries = c(
@@ -61,12 +63,12 @@ MEDBS_check_missing_years <- function(data, end_year, type = "l", SP, MS, GSA, v
   data <- as.data.frame(data)
   colnames(data) <- toupper(colnames(data))
 
-  d <- data[data$COUNTRY ==MS, ]
-  if (nrow(d)>0){
-    d <- as.data.frame(suppressMessages(d %>% group_by(COUNTRY,AREA) %>% summarise()))
-  } else {
-    d = NULL
-  }
+  # d <- data[data$COUNTRY ==MS, ]
+  # if (nrow(d)>0){
+  #   d <- as.data.frame(suppressMessages(d %>% group_by(COUNTRY,AREA) %>% summarise()))
+  # } else {
+  #   d = NULL
+  # }
 
   data <- data[data$AREA %in% as.character(GSA) & data$COUNTRY == MS & data$SPECIES %in% SP, ]
   if (type %in% c("l", "d", "c")) {
@@ -82,7 +84,7 @@ MEDBS_check_missing_years <- function(data, end_year, type = "l", SP, MS, GSA, v
       }
       missing <- NULL
     }
-    return(list(missing,d))
+    return(list(missing)) # ,d
   } else {
     if (verbose) {
       message(paste0("Wrong table format selected."))

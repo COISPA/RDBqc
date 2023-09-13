@@ -273,7 +273,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 ### ** Examples
 
 FDI_AER_land_landvalue(FDI=fdi_a_catch, AER=aer_catch, var='landings',
-level='GEAR', MS='PSP', YEAR=NA, GSA=c('GSA97', 'GSA98'), SP=NA, OUT = TRUE, verbose = TRUE)
+level='GEAR', MS='PSP', YEAR=NA, GSA=c('GSA97', 'GSA98'), SP="HKE", OUT = TRUE, verbose = TRUE)
 
 
 
@@ -948,7 +948,7 @@ base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 
 df <- Discard_tab_example[-which(Discard_tab_example$year==2011),]
 MEDBS_check_missing_years(
-  data = df, type = "d", SP = "DPS",
+  data = df, end_year=2002, type = "d", SP = "DPS",
   MS = "ITA", GSA = "GSA 9", verbose = TRUE
 )
 

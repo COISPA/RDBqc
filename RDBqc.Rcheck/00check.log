@@ -4,7 +4,7 @@
 * using session charset: ISO8859-1
 * using options '--no-manual --as-cran'
 * checking for file 'RDBqc/DESCRIPTION' ... OK
-* this is package 'RDBqc' version '0.0.17.08'
+* this is package 'RDBqc' version '0.0.17.10'
 * package encoding: UTF-8
 * checking package namespace information ... OK
 * checking package dependencies ... OK
@@ -18,7 +18,9 @@
 * checking package directory ... OK
 * checking for future file timestamps ... OK
 * checking DESCRIPTION meta-information ... OK
-* checking top-level files ... OK
+* checking top-level files ... NOTE
+Non-standard file/directory found at top level:
+  'OUTPUT'
 * checking for left-over files ... OK
 * checking index information ... OK
 * checking package subdirectories ... OK
@@ -35,15 +37,10 @@
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
 * checking R code for possible problems ... NOTE
-MEDBS_LFD: no visible binding for global variable 'landings'
-MEDBS_check_missing_years: no visible binding for global variable
-  'COUNTRY'
-MEDBS_check_missing_years: no visible binding for global variable
-  'AREA'
-MEDBS_length_ind: no visible binding for global variable 'min_size'
-MEDBS_length_ind: no visible binding for global variable 'max_size'
+FDI_AER_land_landvalue: no visible binding for global variable
+  'species'
 Undefined global functions or variables:
-  AREA COUNTRY landings max_size min_size
+  species
 * checking Rd files ... OK
 * checking Rd metadata ... OK
 * checking Rd line widths ... OK
@@ -60,44 +57,11 @@ Undefined global functions or variables:
 * checking files in 'vignettes' ... WARNING
 Files in the 'vignettes' directory but no files in 'inst/doc':
   'RDBqc.R', 'RDBqc.Rmd', 'RDBqc.html'
-* checking examples ... ERROR
-Running examples in 'RDBqc-Ex.R' failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: MEDBS_check_missing_years
-> ### Title: Check for missing years in MED & BS tables
-> ### Aliases: MEDBS_check_missing_years
-> 
-> ### ** Examples
-> 
-> df <- Discard_tab_example[-which(Discard_tab_example$year==2011),]
-> MEDBS_check_missing_years(
-+   data = df, type = "d", SP = "DPS",
-+   MS = "ITA", GSA = "GSA 9", verbose = TRUE
-+ )
-Error in MEDBS_check_missing_years(data = df, type = "d", SP = "DPS",  : 
-  argument "end_year" is missing, with no default
-Execution halted
-* checking examples with --run-donttest ... ERROR
-Running examples in 'RDBqc-Ex.R' failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: MEDBS_check_missing_years
-> ### Title: Check for missing years in MED & BS tables
-> ### Aliases: MEDBS_check_missing_years
-> 
-> ### ** Examples
-> 
-> df <- Discard_tab_example[-which(Discard_tab_example$year==2011),]
-> MEDBS_check_missing_years(
-+   data = df, type = "d", SP = "DPS",
-+   MS = "ITA", GSA = "GSA 9", verbose = TRUE
-+ )
-Error in MEDBS_check_missing_years(data = df, type = "d", SP = "DPS",  : 
-  argument "end_year" is missing, with no default
-Execution halted
+* checking examples ... OK
+Examples with CPU (user + system) or elapsed time > 5s
+          user system elapsed
+MEDBS_ks 53.73   0.02   53.94
+* checking examples with --run-donttest ... OK
 * checking for unstated dependencies in vignettes ... OK
 * checking package vignettes in 'inst/doc' ... WARNING
 dir.exists(dir) non è TRUE
@@ -110,4 +74,4 @@ Found the following files/directories:
   'OUTPUT'
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 2 ERRORs, 2 WARNINGs, 2 NOTEs
+Status: 2 WARNINGs, 3 NOTEs

@@ -27,7 +27,7 @@
 #' @examples FDI_AER_land_landvalue(FDI=fdi_a_catch, AER=aer_catch, var='landings',
 #' level='GEAR', MS='PSP', YEAR=NA, GSA=c('GSA97', 'GSA98'), SP="HKE", OUT = TRUE, verbose = TRUE)
 FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = 'GSA', YEAR = NA,GSA = NA, SP = NA, OUT = FALSE, verbose = FALSE){
-  country <- country_code <- acronym <- var_FDI <- var_AER <- NULL
+  species <- country <- country_code <- acronym <- var_FDI <- var_AER <- NULL
   FDI <- as.data.frame(FDI)
   AER <- as.data.frame(AER)
   colnames(FDI) <- tolower(colnames(FDI))

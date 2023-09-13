@@ -27,8 +27,7 @@ or 'value' for landings' value.}
 
 \item{MS}{(mandatory) The MS code (e.g. 'GRC'). Only one MS code is allowed.}
 
-\item{level}{(optional) character to select the level of aggregation of variable 'var', i.e.
-'MS', 'GSA', 'GEAR' or 'METIER'. E.g. if level 'GEAR' is selected, the comparison
+\item{level}{(optional) character to select the level of aggregation of variable 'var', i.e. 'MS', 'GSA', 'GEAR' or 'METIER'. E.g. if level 'GEAR' is selected, the comparison
 will be performed by 'MS', 'GSA' and 'GEAR'. Default level is 'METIER'.}
 
 \item{YEAR}{(optional) vector of years to perform the check on. Default is NA, which will produce a check for all
@@ -56,7 +55,7 @@ Optionally, the user can select a higher level of aggregation (e.g. 'MS', 'GSA',
 }
 \examples{
 FDI_AER_land_landvalue(FDI=fdi_a_catch, AER=aer_catch, var='landings',
-level='GEAR', MS='PSP', YEAR=NA, GSA=c('GSA97', 'GSA98'), SP=NA, OUT = TRUE, verbose = TRUE)
+level='GEAR', MS='PSP', YEAR=NA, GSA=c('GSA97', 'GSA98'), SP="HKE", OUT = TRUE, verbose = TRUE)
 }
 \author{
 Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}
