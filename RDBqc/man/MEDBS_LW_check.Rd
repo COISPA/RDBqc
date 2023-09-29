@@ -4,7 +4,7 @@
 \alias{MEDBS_LW_check}
 \title{Check LW parameters in GP table}
 \usage{
-MEDBS_LW_check(data, SP, MS, GSA, verbose = TRUE)
+MEDBS_LW_check(data, SP, MS, GSA, verbose = FALSE)
 }
 \arguments{
 \item{data}{growth params table in MED&BS datacall format}

@@ -23,9 +23,11 @@
 
 MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
   poi2 <- NULL # in combination with @importFrom utils globalVariables
+  colnames(data) <- tolower(colnames(data))
   data <- data[which(data$area == as.character(GSA) & data$country == MS & data$species == SP), ]
 
   if (type == "l") {
+
     if (length(which(data$landings > 0))>0) {
       land <- data
       land_vs_length_minus2 <- land[land$landings > 0, ]
@@ -49,7 +51,7 @@ MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       return(result)
     } else {
       if (verbose) {
-        message(paste0("No landings data > 0"))
+        message(paste0("No landings  data in weight > 0"))
       }
       result <- data.frame(matrix(ncol = 13, nrow = 0))
       colnames(result) <- c("id", "country", "year", "quarter", "vessel_length", "gear", "mesh_size_range", "fishery", "area", "specon", "species", "landings", "ck_0_length")
@@ -81,7 +83,7 @@ MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
       return(result)
     } else {
       if (verbose) {
-        message(paste0("No discards data > 0"))
+        message(paste0("No discards data in weight > 0"))
       }
       result <- data.frame(matrix(ncol = 13, nrow = 0))
       colnames(result) <- c("id", "country", "year", "quarter", "vessel_length", "gear", "mesh_size_range", "fishery", "area", "specon", "species", "discards", "ck_0_length")

@@ -12,7 +12,7 @@
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
 #' @examples MEDBS_LW_check(GP_tab_example, "MUT", "ITA", "GSA 18")
-MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = TRUE) {
+MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
   A <- AREA <- COUNTRY <- END_YEAR <- SPECIES <- START_YEAR <- LENGTH <- WEIGHT <- SEX <- ID <- NULL
 
   colnames(data) <- toupper(colnames(data))
