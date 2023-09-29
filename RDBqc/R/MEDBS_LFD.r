@@ -76,10 +76,10 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
 
   . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- ID <- value <- start_length <- discards <- landings<- tot_val <- NULL
 
-    output_csv <- list()
-    output_jpg <- list()
-    i_csv <- 0
-    i_jpg <- 0
+  output_csv <- list()
+  output_jpg <- list()
+  i_csv <- 0
+  i_jpg <- 0
 
   if (type=="l" | type=="b"){
     landed <-   as.data.table(data)
@@ -136,7 +136,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     ldat[(ldat$value<0) | is.na(ldat$value),"value"] <- 0
 
     LFL=suppressMessages(ldat %>% group_by(year,gear,fishery,start_length) %>% summarise(value=sum(value, na.rm=TRUE)))
-     # aggregate(ldat$value,by=list(ldat$year,ldat$gear,ldat$fishery,ldat$start_length),sum)
+    # aggregate(ldat$value,by=list(ldat$year,ldat$gear,ldat$fishery,ldat$start_length),sum)
     names(LFL)=c("year","gear","fishery","start_length","value")
     LFL$ID=paste0(LFL$gear,"_",LFL$fishery,sep="")
 
@@ -149,39 +149,39 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     if (nrow(LFL2)>0){
 
       plot1=ggplot(subset(LFL2,start_length<maxlength), aes(x=start_length, y=value,fill=ID)) +
-               geom_bar(stat="identity") + facet_grid(ID~year,scales = "free") +
-               #theme(strip.background =element_rect(fill="white"))+
-               theme(axis.text.x = element_text(angle=90,size=4)) +
-               theme_bw()+
-               ggtitle(paste0(SP," ",MS," ",GSA," ","Landings Length Frequency")) +
-               xlab(paste0("Length","_","(",unit,")")) +
-               ylab("Number  (thousands)")+xlab(paste0("Length","(",unit,")")) +
-               scale_x_continuous(breaks = seq(0,maxlength,by=step)) +
-               theme(legend.position="none")+
-               theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+        geom_bar(stat="identity") + facet_grid(ID~year,scales = "free") +
+        #theme(strip.background =element_rect(fill="white"))+
+        theme(axis.text.x = element_text(angle=90,size=4)) +
+        theme_bw()+
+        ggtitle(paste0(SP," ",MS," ",GSA," ","Landings Length Frequency")) +
+        xlab(paste0("Length","_","(",unit,")")) +
+        ylab("Number  (thousands)")+xlab(paste0("Length","(",unit,")")) +
+        scale_x_continuous(breaks = seq(0,maxlength,by=step)) +
+        theme(legend.position="none")+
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
       i_jpg <- i_jpg + 1
       output_jpg[[i_jpg]] <- plot1
       names(output_jpg)[i_jpg] <- "Plot_Landing_LFD_GEAR"
 
       LFL_sum <- subset(LFL2,start_length<maxlength) %>% group_by(year,gear,fishery) %>% summarise(total_number = sum(value,na.rm=TRUE))
 
-         if (OUT) {
-           # save plot
-           WD <- getwd()
-           dir_plot <- paste0(WD, "/OUTPUT/JPG")
-           suppressWarnings(dir.create(dir_plot, recursive = T))
-           ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_","LFD_LANDING.jpg"),width = 10, height = 8, dpi = 150, units = "in")
+      if (OUT) {
+        # save plot
+        WD <- getwd()
+        dir_plot <- paste0(WD, "/OUTPUT/JPG")
+        suppressWarnings(dir.create(dir_plot, recursive = T))
+        ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_","LFD_LANDING.jpg"),width = 10, height = 8, dpi = 150, units = "in")
 
-           #save csv
-           WD <- getwd()
-           dir_csv <- paste0(WD, "/OUTPUT/CSV")
-           suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-           write.csv(arrange(LFL_sum,desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFL_land_gear.csv"),row.names=F)
-         }
+        #save csv
+        WD <- getwd()
+        dir_csv <- paste0(WD, "/OUTPUT/CSV")
+        suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
+        write.csv(arrange(LFL_sum,desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFL_land_gear.csv"),row.names=F)
+      }
 
-         i_csv <- i_csv + 1
-         output_csv[[i_csv]] <- arrange(LFL_sum,desc(year),desc(gear))
-         names(output_csv)[i_csv] <- "Table_Landing_LFD_GEAR"
+      i_csv <- i_csv + 1
+      output_csv[[i_csv]] <- arrange(LFL_sum,desc(year),desc(gear))
+      names(output_csv)[i_csv] <- "Table_Landing_LFD_GEAR"
 
 
     }else{
@@ -212,7 +212,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     yield=land[,-c(14:114)]  # [,-c(15:116)]
     yield_tot= suppressMessages(yield %>% group_by(year,gear,fishery) %>% summarise(value=sum(landings,na.rm=TRUE))) # aggregate(yield$landings,by=list(yield$year,yield$gear,yield$fishery),sum)
     yield_totali= suppressMessages(yield %>% group_by(year) %>% summarise(tonnes=sum(landings, na.rm=TRUE)))
-      # aggregate(yield$landings,by=list(yield$year),sum)
+    # aggregate(yield$landings,by=list(yield$year),sum)
     names(yield_totali)=c("year","tonnes")
     names(yield_tot)=c("year","gear","fishery","value")
     yield_tot$ID=paste0(yield_tot$gear,"_",yield_tot$fishery,sep="")
@@ -220,14 +220,14 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
 
 
     plot2=ggplot(yield_tot, aes(x=year, y=value,color=ID))+
-         geom_point()+
-         geom_line(stat="identity") + facet_grid(gear~.,scales = "free")+
-         ggtitle(paste0(SP," ",MS," ",GSA," ","TOTAL LANDING")) + xlab("YEAR") + ylab("tons")+
-         theme(axis.text.x = element_text(angle=0, vjust=0.6))+
-         scale_x_continuous(breaks = seq(min(yield_tot$year),max(yield_tot$year),by=2))+
-         theme(legend.position="right")+
-         theme_bw()+
-         theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+      geom_point()+
+      geom_line(stat="identity") + facet_grid(gear~.,scales = "free")+
+      ggtitle(paste0(SP," ",MS," ",GSA," ","TOTAL LANDING")) + xlab("YEAR") + ylab("tons")+
+      theme(axis.text.x = element_text(angle=0, vjust=0.6))+
+      scale_x_continuous(breaks = seq(min(yield_tot$year),max(yield_tot$year),by=2))+
+      theme(legend.position="right")+
+      theme_bw()+
+      theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
     i_jpg <- i_jpg + 1
     output_jpg[[i_jpg]] <- plot2
@@ -272,94 +272,94 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
       colnames(LFD) <- c("year","gear","fishery","start_length","value")
     } else {
       no_discard_data <- FALSE
-    if (SP %in% c("ARA","ARS","NEP","DPS")){
-      step <- 25 # 5 should be ok for crustaceans and cephalopods and 50 for fish. Change this value accordingly on how plot resulted.
-    }else{
-      step <- 50
-    }
+      if (SP %in% c("ARA","ARS","NEP","DPS")){
+        step <- 25 # 5 should be ok for crustaceans and cephalopods and 50 for fish. Change this value accordingly on how plot resulted.
+      }else{
+        step <- 50
+      }
 
-    var_no_discarded <- grep("lengthclass", colnames(disc), value = TRUE)
-    max_no_discarded <- disc[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_discarded]
-    max_no_discarded[max_no_discarded == -1] <- 0
-    max_no_discarded2 <- max_no_discarded[, -(1:7)]
+      var_no_discarded <- grep("lengthclass", colnames(disc), value = TRUE)
+      max_no_discarded <- disc[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_discarded]
+      max_no_discarded[max_no_discarded == -1] <- 0
+      max_no_discarded2 <- max_no_discarded[, -(1:7)]
 
-    # is.na(max_no_landed)
-    p=as.data.frame(colSums(max_no_discarded2,na.rm=TRUE))
-    p$Length=c(0:100)
-    names(p)=c("Sum","Length")
+      # is.na(max_no_landed)
+      p=as.data.frame(colSums(max_no_discarded2,na.rm=TRUE))
+      p$Length=c(0:100)
+      names(p)=c("Sum","Length")
 
-    maxlength= max(p[which(p$Sum > 0),"Length"])
-    unit=unique(disc$unit)
-
-    if (OUT) {
-      WD <- getwd()
-      dir_csv <- paste0(WD, "/OUTPUT/CSV")
-      suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-      write.csv(disc,file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Discards.csv"),row.names=F)
-    }
-    i_csv <- i_csv + 1
-    output_csv[[i_csv]] <- disc
-    names(output_csv)[i_csv] <- "Table_Discards"
-
-    ####### DISCARDS ##########
-    cols <- c(which(colnames(disc) %in% c("year", "area", "species", "unit","gear","fishery","country")), grep("lengthclass", colnames(disc)))
-    dat1 <- disc[, cols, with=FALSE]
-    lccols <- grep("lengthclass", colnames(dat1))
-    colnames(dat1)[lccols] <- gsub("[^0-9]", "", colnames(dat1)[lccols])
-    ddat <- suppressWarnings(melt(dat1, id.vars=c("year", "area","species", "unit", "country", "gear", "fishery"), variable.name="start_length", value.name="value"))
-    ddat$start_length=as.integer(ddat$start_length)
-    ddat[(ddat$value<0) | is.na(ddat$value),"value"] <- 0
-    LFD <- suppressMessages(ddat %>% group_by(year,gear,fishery,start_length) %>% dplyr::summarize(value=sum(value,na.rm=T)))
-    names(LFD)=c("year","gear","fishery","start_length","value")
-    LFD$ID=paste0(LFD$gear,"_",LFD$fishery,sep="")
-    LFD$start_length=LFD$start_length-1
-
-    ckd <- suppressMessages(LFD %>% group_by(year,ID) %>% dplyr::summarize (tot=sum(value,na.rm=T)))
-    ckd$ckd <- ifelse(ckd$tot>0,1,0)
-    LFD2 <- suppressMessages(as.data.frame(left_join(LFD,ckd)))
-    LFD2 <- subset(LFD2[LFD2$ckd>0,])
-    # droplevels(LFD2)
-
-    if(nrow(LFD2)>0){
-
-      plot3=ggplot(subset(LFD2,start_length<maxlength), aes(x=start_length, y=value,fill=ID)) +
-        geom_bar(stat="identity") + facet_grid(ID~year,scales = "free") +
-        theme(axis.text.x = element_text(angle=90,size=4)) +
-        theme_bw()+
-        ggtitle(paste0(SP," ",MS," ",GSA," ","Discards Length Frequency")) +
-        xlab(paste0("Length","_","(",unit,")")) +
-        ylab("Number  (thousands)")+xlab(paste0("Length","(",unit,")")) +
-        scale_x_continuous(breaks = seq(0,maxlength,by=step)) +
-        theme(legend.position="none")+
-        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
-      i_jpg <- i_jpg + 1
-      output_jpg[[i_jpg]] <- plot3
-      names(output_jpg)[i_jpg] <- "Plot_Discards_LFD_GEAR"
-
-      LFD_sum <-subset(LFD2,start_length<maxlength) %>% group_by(year,gear,fishery) %>% summarise(total_number = sum(value,na.rm=TRUE))
+      maxlength= max(p[which(p$Sum > 0),"Length"])
+      unit=unique(disc$unit)
 
       if (OUT) {
-        # save plot
-        WD <- getwd()
-        dir_plot <- paste0(WD, "/OUTPUT/JPG")
-        suppressWarnings(dir.create(dir_plot, recursive = T))
-        ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_","LFD_DISCARD.jpg"),width = 10, height = 8, dpi = 150, units = "in")
-
-        #save csv
         WD <- getwd()
         dir_csv <- paste0(WD, "/OUTPUT/CSV")
         suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
-        write.csv(arrange(LFD_sum,desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_disc_gear.csv"),row.names=F)
+        write.csv(disc,file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Discards.csv"),row.names=F)
       }
-
       i_csv <- i_csv + 1
-      output_csv[[i_csv]] <- arrange(LFD_sum,desc(year),desc(gear))
-      names(output_csv)[i_csv] <- "Table_Discards_LFD_GEAR"
+      output_csv[[i_csv]] <- disc
+      names(output_csv)[i_csv] <- "Table_Discards"
 
-    }else{
-      print("Discards LFDs not available")
-    }
+      ####### DISCARDS ##########
+      cols <- c(which(colnames(disc) %in% c("year", "area", "species", "unit","gear","fishery","country")), grep("lengthclass", colnames(disc)))
+      dat1 <- disc[, cols, with=FALSE]
+      lccols <- grep("lengthclass", colnames(dat1))
+      colnames(dat1)[lccols] <- gsub("[^0-9]", "", colnames(dat1)[lccols])
+      ddat <- suppressWarnings(melt(dat1, id.vars=c("year", "area","species", "unit", "country", "gear", "fishery"), variable.name="start_length", value.name="value"))
+      ddat$start_length=as.integer(ddat$start_length)
+      ddat[(ddat$value<0) | is.na(ddat$value),"value"] <- 0
+      LFD <- suppressMessages(ddat %>% group_by(year,gear,fishery,start_length) %>% dplyr::summarize(value=sum(value,na.rm=T)))
+      names(LFD)=c("year","gear","fishery","start_length","value")
+      LFD$ID=paste0(LFD$gear,"_",LFD$fishery,sep="")
+      LFD$start_length=LFD$start_length-1
+
+      ckd <- suppressMessages(LFD %>% group_by(year,ID) %>% dplyr::summarize (tot=sum(value,na.rm=T)))
+      ckd$ckd <- ifelse(ckd$tot>0,1,0)
+      LFD2 <- suppressMessages(as.data.frame(left_join(LFD,ckd)))
+      LFD2 <- subset(LFD2[LFD2$ckd>0,])
+      # droplevels(LFD2)
+
+      if(nrow(LFD2)>0){
+
+        plot3=ggplot(subset(LFD2,start_length<maxlength), aes(x=start_length, y=value,fill=ID)) +
+          geom_bar(stat="identity") + facet_grid(ID~year,scales = "free") +
+          theme(axis.text.x = element_text(angle=90,size=4)) +
+          theme_bw()+
+          ggtitle(paste0(SP," ",MS," ",GSA," ","Discards Length Frequency")) +
+          xlab(paste0("Length","_","(",unit,")")) +
+          ylab("Number  (thousands)")+xlab(paste0("Length","(",unit,")")) +
+          scale_x_continuous(breaks = seq(0,maxlength,by=step)) +
+          theme(legend.position="none")+
+          theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+        i_jpg <- i_jpg + 1
+        output_jpg[[i_jpg]] <- plot3
+        names(output_jpg)[i_jpg] <- "Plot_Discards_LFD_GEAR"
+
+        LFD_sum <-subset(LFD2,start_length<maxlength) %>% group_by(year,gear,fishery) %>% summarise(total_number = sum(value,na.rm=TRUE))
+
+        if (OUT) {
+          # save plot
+          WD <- getwd()
+          dir_plot <- paste0(WD, "/OUTPUT/JPG")
+          suppressWarnings(dir.create(dir_plot, recursive = T))
+          ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_","LFD_DISCARD.jpg"),width = 10, height = 8, dpi = 150, units = "in")
+
+          #save csv
+          WD <- getwd()
+          dir_csv <- paste0(WD, "/OUTPUT/CSV")
+          suppressWarnings(dir.create(paste0(WD, "/OUTPUT/CSV"), recursive = T))
+          write.csv(arrange(LFD_sum,desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_disc_gear.csv"),row.names=F)
+        }
+
+        i_csv <- i_csv + 1
+        output_csv[[i_csv]] <- arrange(LFD_sum,desc(year),desc(gear))
+        names(output_csv)[i_csv] <- "Table_Discards_LFD_GEAR"
+
+      }else{
+        print("Discards LFDs not available")
+      }
 
       LFD_fin=as.data.frame(LFD)
       LFD_fin=suppressMessages(LFD_fin %>% group_by(year,start_length) %>% summarise(value=sum(value,na.rm=TRUE)))
@@ -394,25 +394,25 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
 
       if (nrow(dyield_tot)>0){
 
-               plot4=ggplot(dyield_tot, aes(x=year, y=value,color=ID))+
-                 geom_point()+
-                 geom_line(stat="identity") + facet_grid(gear~.,scales = "free")+
-                 ggtitle(paste0(SP," ",MS," ",GSA," ","TOTAL DISCARD")) + xlab("YEAR") + ylab("tons")+
-                 theme(axis.text.x = element_text(angle=0, vjust=0.6))+
-                 scale_x_continuous(breaks = seq(min(dyield_tot$year),max(dyield_tot$year),by=2))+
-                 theme(legend.position="right")+
-                 theme_bw()+
-                 theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-               i_jpg <- i_jpg + 1
-               output_jpg[[i_jpg]] <- plot4
-               names(output_jpg)[i_jpg] <- "Plot_Discards_TOTAL DISCARDS"
+        plot4=ggplot(dyield_tot, aes(x=year, y=value,color=ID))+
+          geom_point()+
+          geom_line(stat="identity") + facet_grid(gear~.,scales = "free")+
+          ggtitle(paste0(SP," ",MS," ",GSA," ","TOTAL DISCARD")) + xlab("YEAR") + ylab("tons")+
+          theme(axis.text.x = element_text(angle=0, vjust=0.6))+
+          scale_x_continuous(breaks = seq(min(dyield_tot$year),max(dyield_tot$year),by=2))+
+          theme(legend.position="right")+
+          theme_bw()+
+          theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+        i_jpg <- i_jpg + 1
+        output_jpg[[i_jpg]] <- plot4
+        names(output_jpg)[i_jpg] <- "Plot_Discards_TOTAL DISCARDS"
 
-               if (OUT) {
-                 WD <- getwd()
-                 dir_plot <- paste0(WD, "/OUTPUT/JPG")
-                 suppressWarnings(dir.create(dir_plot, recursive = T))
-               ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_","TOTAL_WEIGHT_DISC.jpg"),width = 10, height = 8, dpi = 150, units = "in")
-                 }
+        if (OUT) {
+          WD <- getwd()
+          dir_plot <- paste0(WD, "/OUTPUT/JPG")
+          suppressWarnings(dir.create(dir_plot, recursive = T))
+          ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_","TOTAL_WEIGHT_DISC.jpg"),width = 10, height = 8, dpi = 150, units = "in")
+        }
       }else{
         print("No discards available")
       }
@@ -437,74 +437,74 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
 
     if(nrow(LFD)>0){
       LFT2= suppressMessages(LFT %>% group_by(year,ID,start_length) %>% summarise(tot_val=sum(tot_val,na.rm=TRUE)))
-        #aggregate(LFT$tot_val,by=list(LFT$year,LFT$ID,LFT$start_length),sum)
+      #aggregate(LFT$tot_val,by=list(LFT$year,LFT$ID,LFT$start_length),sum)
       names(LFT2)=c("year","ID","length","tot_val")
       LFT_fin <- suppressMessages(LFT %>% group_by(year,start_length) %>% summarise(tot_val=sum(tot_val,na.rm=TRUE)))
-        #aggregate(LFT$tot_val,by=list(LFT$year,LFT$start_length),sum)
+      #aggregate(LFT$tot_val,by=list(LFT$year,LFT$start_length),sum)
       names(LFT_fin)=c("year","length","tot_val")
       if (OUT){
         WD <- getwd()
         dir_csv <- paste0(WD, "/OUTPUT/CSV")
-      write.csv(arrange(LFT[,c("year","gear","tot_val")],desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_total_gear.csv"),row.names=F)
+        write.csv(arrange(LFT[,c("year","gear","tot_val")],desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_total_gear.csv"),row.names=F)
 
-      i_csv <- i_csv + 1
-      output_csv[[i_csv]] <- arrange(LFT[,c("year","gear","tot_val")],desc(year),desc(gear))
-      names(output_csv)[i_csv] <- "Table_Catches_LFD_GEAR"
+        i_csv <- i_csv + 1
+        output_csv[[i_csv]] <- arrange(LFT[,c("year","gear","tot_val")],desc(year),desc(gear))
+        names(output_csv)[i_csv] <- "Table_Catches_LFD_GEAR"
 
-      write.csv(arrange(LFT_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_LFT_yr.csv"),row.names=F)
+        write.csv(arrange(LFT_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_LFT_yr.csv"),row.names=F)
 
-      i_csv <- i_csv + 1
-      output_csv[[i_csv]] <- arrange(LFT_fin,desc(year),desc(length))
-      names(output_csv)[i_csv] <- "Table_Catches_LFD_YEAR"
+        i_csv <- i_csv + 1
+        output_csv[[i_csv]] <- arrange(LFT_fin,desc(year),desc(length))
+        names(output_csv)[i_csv] <- "Table_Catches_LFD_YEAR"
 
       }
     }else{
       LFT2= suppressMessages(LFL %>% group_by(year,ID,start_length) %>% summarise(tot_value=sum(value,na.rm=TRUE)))
-        #aggregate(LFL$val,by=list(LFL$year,LFL$ID,LFL$start_length),sum)
+      #aggregate(LFL$val,by=list(LFL$year,LFL$ID,LFL$start_length),sum)
       names(LFT2)=c("year","ID","length","tot_value")
       LFT_fin <- aggregate(LFL$value,by=list(LFL$year,LFL$start_length),sum)
       names(LFT_fin)=c("year","length","tot_value")
       if (OUT){
         WD <- getwd()
         dir_csv <- paste0(WD, "/OUTPUT/CSV")
-      write.csv(arrange(LFL[,c("year","gear","value")],desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_total_gear.csv"),row.names=F)
+        write.csv(arrange(LFL[,c("year","gear","value")],desc(year),desc(gear)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFD_total_gear.csv"),row.names=F)
 
-      i_csv <- i_csv + 1
-      output_csv[[i_csv]] <- arrange(LFL[,c("year","gear","value")],desc(year),desc(gear))
-      names(output_csv)[i_csv] <- "Table_Catches_LFD_GEAR"
+        i_csv <- i_csv + 1
+        output_csv[[i_csv]] <- arrange(LFL[,c("year","gear","value")],desc(year),desc(gear))
+        names(output_csv)[i_csv] <- "Table_Catches_LFD_GEAR"
 
-      write.csv(arrange(LFT_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFT_yr.csv"),row.names=F)
+        write.csv(arrange(LFT_fin,desc(year),desc(length)),file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","LFT_yr.csv"),row.names=F)
 
-      i_csv <- i_csv + 1
-      output_csv[[i_csv]] <- arrange(LFT_fin,desc(year),desc(length))
-      names(output_csv)[i_csv] <- "Table_Catches_LFD_YEAR"
+        i_csv <- i_csv + 1
+        output_csv[[i_csv]] <- arrange(LFT_fin,desc(year),desc(length))
+        names(output_csv)[i_csv] <- "Table_Catches_LFD_YEAR"
 
       }
     }
 
     if(nrow(LFT2)>0){
 
-             plot5=ggplot(subset(LFT2,length<maxlength), aes(x=length, y=tot_val,fill=ID)) +
-               geom_bar(stat="identity") + facet_grid(ID~year,scales = "free") +
-               #theme(strip.background =element_rect(fill="white"))+
-               theme(axis.text.x = element_text(angle=90,size=4)) +
-               theme_bw()+
-               ggtitle(paste0(SP," ",MS," ",GSA," ","Catches Length Frequency")) +
-               xlab(paste0("Length","_","(",unit,")")) +
-               ylab("Number  (thousands)")+xlab(paste0("Length","(",unit,")")) +
-               scale_x_continuous(breaks = seq(0,maxlength,by=step)) +
-               theme(legend.position="none")+
-               theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+      plot5=ggplot(subset(LFT2,length<maxlength), aes(x=length, y=tot_val,fill=ID)) +
+        geom_bar(stat="identity") + facet_grid(ID~year,scales = "free") +
+        #theme(strip.background =element_rect(fill="white"))+
+        theme(axis.text.x = element_text(angle=90,size=4)) +
+        theme_bw()+
+        ggtitle(paste0(SP," ",MS," ",GSA," ","Catches Length Frequency")) +
+        xlab(paste0("Length","_","(",unit,")")) +
+        ylab("Number  (thousands)")+xlab(paste0("Length","(",unit,")")) +
+        scale_x_continuous(breaks = seq(0,maxlength,by=step)) +
+        theme(legend.position="none")+
+        theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 
-             i_jpg <- i_jpg + 1
-             output_jpg[[i_jpg]] <- plot5
-             names(output_jpg)[i_jpg] <- "Plot_Catches_LFD"
+      i_jpg <- i_jpg + 1
+      output_jpg[[i_jpg]] <- plot5
+      names(output_jpg)[i_jpg] <- "Plot_Catches_LFD"
 
-             if (OUT){
-               WD <- getwd()
-               dir_plot <- paste0(WD, "/OUTPUT/JPG")
-               suppressWarnings(dir.create(dir_plot, recursive = T))
-             ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_","LFD_Catches.jpg"),width = 10, height = 8, dpi = 150, units = "in")
+      if (OUT){
+        WD <- getwd()
+        dir_plot <- paste0(WD, "/OUTPUT/JPG")
+        suppressWarnings(dir.create(dir_plot, recursive = T))
+        ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_","LFD_Catches.jpg"),width = 10, height = 8, dpi = 150, units = "in")
       }
     }else{
       print("There aren't any length frequencies distributions available")
@@ -545,14 +545,14 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     if (OUT){
       WD <- getwd()
       dir_csv <- paste0(WD, "/OUTPUT/CSV")
-    write.csv(total_catches,file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Total_catches_weight.csv"),row.names = F)
-    write.csv(total_catches[,-c(2,4)],file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Discard_wg.csv"),row.names=F)
-    write.csv(total_catches[,-c(3,4)],file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Landing_wg.csv"),row.names=F)
+      write.csv(total_catches,file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Total_catches_weight.csv"),row.names = F)
+      write.csv(total_catches[,-c(2,4)],file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Discard_wg.csv"),row.names=F)
+      write.csv(total_catches[,-c(3,4)],file=paste0(dir_csv,"/",MS,"_",GSA,"_",SP,"_","Landing_wg.csv"),row.names=F)
     }
 
   } # type == "b"
 
-    output <- c(output_csv,output_jpg)
+  output <- c(output_csv,output_jpg)
 
-    return(output)
+  return(output)
 }  # FUNCTION END

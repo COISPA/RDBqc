@@ -114,5 +114,9 @@ MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
       names(plots)[[l]] <- paste("VBGF_cum", SP, MS, GSA, i, sep = " _ ")
     }
     return(plots)
+  } else {
+    if (verbose) {
+      message(paste0("No data available for the selected species (", SP, ")"))
   }
+    }
 }

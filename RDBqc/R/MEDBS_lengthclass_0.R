@@ -26,7 +26,7 @@ MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
   data <- data[which(data$area == as.character(GSA) & data$country == MS & data$species == SP), ]
 
   if (type == "l") {
-    if (length(which(data$landings > 0))) {
+    if (length(which(data$landings > 0))>0) {
       land <- data
       land_vs_length_minus2 <- land[land$landings > 0, ]
       land_vs_length_minus2 <- as.data.frame(land_vs_length_minus2)
@@ -58,7 +58,7 @@ MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
   }
 
   if (type == "d") {
-    if (length(which(data$discards > 0))) {
+    if (length(which(data$discards > 0))>0) {
       land <- data
       land_vs_length_minus2 <- land[land$discards > 0, ]
       land_vs_length_minus2 <- as.data.frame(land_vs_length_minus2)
