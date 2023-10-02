@@ -41,17 +41,17 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-# Catch <- read.table("./catch.csv", sep = ",", header = TRUE)
-# Land <- read.table("./landings.csv", sep = ",", header = TRUE)
-# Disc <- read.table("./discards.csv", sep = ",", header = TRUE)
-# ML <- read.table("./ml.csv", sep = ",", header = TRUE)
-# MA <- read.table("./ma.csv", sep = ",", header = TRUE)
-# SL <- read.table("./srl.csv", sep = ",", header = TRUE)
-# SA <- read.table("./sra.csv", sep = ",", header = TRUE)
-# GP <- read.table("./gp.csv", sep = ",", header = TRUE)
-# ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
+Catch <- read.table("./catch.csv", sep = ",", header = TRUE)
+Land <- read.table("./landings.csv", sep = ",", header = TRUE)
+Disc <- read.table("./discards.csv", sep = ",", header = TRUE)
+ML <- read.table("./ml.csv", sep = ",", header = TRUE)
+MA <- read.table("./ma.csv", sep = ",", header = TRUE)
+SL <- read.table("./srl.csv", sep = ",", header = TRUE)
+SA <- read.table("./sra.csv", sep = ",", header = TRUE)
+GP <- read.table("./gp.csv", sep = ",", header = TRUE)
+ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
 
-SPs <- c("HKE")
+SPs <- c("MUT")
 MS <- "ITA"
 GSAs <- "GSA 18"
 end_year <- 2021
@@ -214,15 +214,6 @@ if (check_Catch) {
       if (!is.null(res)) {
         if (length(res)>0) {
            cat(paste0("\n- The following years are missing in the Catch data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res[[1]],collapse=", "),"\n")) 
-            
-            if (!is.null(res[2])) {
-          cat(paste0("\n_All the combination of country and areas detected in data are reported in the following table_:"))
-          print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
-          cat("\n\n\n")
-        } else {
-          cat("\n\n\n- No data data available for the selected country")
-        }   
-            
         } else {
           cat(paste0("\n- No missing years in the Catch data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))  
         }
@@ -406,18 +397,7 @@ if (check_Land) {
       res <- MEDBS_check_missing_years(data = Land, end_year=end_year, type = "l", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
       if (!is.null(res)) {
         if (length(res)>0) {
-           cat(paste0("\n- The following years are missing in the landings data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res[[1]],collapse=", "),"\n")) 
-            
-        if (!is.null(res[2])) {
-          cat(paste0("\n_All the combination of country and areas detected in data are reported in the following table_:"))
-          print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
-          cat("\n\n\n")
-        } else {
-          cat("\n\n\n- No data data available for the selected country")
-        }    
-            
-            
-            
+           cat(paste0("\n- The following years are missing in the landings data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res,collapse=", "),"\n")) 
         } else {
           cat(paste0("\n- No missing years in the landings data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))  
         }
@@ -948,17 +928,7 @@ if (check_Disc) {
       res <- MEDBS_check_missing_years(data = Disc,end_year, type = "d", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
       if (!is.null(res)) {
         if (length(res)>0) {
-           cat(paste0("\n- The following years are missing in the discards data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res[[1]],collapse=", "),"\n")) 
-            
-        if (!is.null(res[2])) {
-          cat(paste0("\n_All the combination of country and areas detected in data are reported in the following table_:"))
-          print(res[[2]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
-          cat("\n\n\n")
-        } else {
-          cat("\n\n\n- No data data available for the selected country")
-        }   
-           
-            
+           cat(paste0("\n- The following years are missing in the discards data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res,collapse=", "),"\n"))
         } else {
           cat(paste0("\n- No missing years in the discards data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n")) }
       } else {

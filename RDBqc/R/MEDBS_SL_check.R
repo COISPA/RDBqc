@@ -12,7 +12,7 @@
 #' @import ggplot2 dplyr
 #' @examples MEDBS_SL_check(SL_tab_example, "DPS", "ITA", "GSA 99")
 MEDBS_SL_check <- function(data, SP, MS, GSA, verbose = TRUE) {
-  AREA <- SEXRATIO <- Summary_SL <- LENGTHCLASS <- cOUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX_RATIO <- NULL
+  AREA <- SEXRATIO <- Summary_SL <- LENGTHCLASS <- COUNTRY <- cOUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX_RATIO <- NULL
 
   colnames(data) <- toupper(colnames(data))
   if(any(colnames(data)=="SEXRATIO")){
