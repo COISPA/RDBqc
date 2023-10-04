@@ -7,7 +7,7 @@
 check_EF_FDI_A(data, verbose = TRUE)
 }
 \arguments{
-\item{data}{GFCM Task A table}
+\item{data}{FDI Task A table}
 
 \item{verbose}{boolean. If TRUE a message is printed.}
 }

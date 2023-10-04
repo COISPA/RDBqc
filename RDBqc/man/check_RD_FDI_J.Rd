@@ -7,7 +7,7 @@
 check_RD_FDI_J(data, verbose = TRUE)
 }
 \arguments{
-\item{data}{GFCM Task J table}
+\item{data}{FDI Task J table}
 
 \item{verbose}{boolean. If TRUE a message is printed.}
 }

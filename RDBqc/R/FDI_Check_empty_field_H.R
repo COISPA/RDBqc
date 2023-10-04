@@ -1,7 +1,7 @@
 #' Check empty fields in FDI H table
 #'
 #' @description The function checks the presence of not allowed empty data in the given table.
-#' @param data GFCM Task H table
+#' @param data FDI Task H table
 #' @param verbose boolean. If TRUE a message is printed.
 #' @author Loredana Casciaro <casciaro@@coispa.eu>
 #' @author Sebastien Alfonso <salfonso@@coispa.eu>

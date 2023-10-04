@@ -1,7 +1,7 @@
 #' Check empty fields in FDI J table
 #'
 #' @description The function checks the presence of not allowed empty data in the given table.
-#' @param data GFCM Task J table
+#' @param data FDI Task J table
 #' @param verbose boolean. If TRUE a message is printed.
 #'
 #' @return Two lists are returned by the function. The first list gives the number of NA for each reference column. The second list gives the index of each NA in the reference column.

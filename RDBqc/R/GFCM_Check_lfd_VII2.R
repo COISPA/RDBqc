@@ -29,8 +29,11 @@ check_ldf_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
       data %>% group_by(Reference_Year, Source, Segment, Length) %>% summarise(NumberIndividuals = sum(NumberIndividualsExpanded, na.rm = TRUE))
     )
 
+    plots <- list()
     data_BS <- data1[data1$Source == "BS", ]
+    if (nrow(data_BS)>0){
     source <- "BS"
+    data_BS$Segment[is.na(data_BS$Segment)] <- "NA"
     # Plot of tot_Caught
     suppressMessages(plot1 <- data_BS %>%
       ggplot(aes(x = Length, y = NumberIndividuals, col = Segment)) +
@@ -47,9 +50,16 @@ check_ldf_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
       xlab("Year") +
       facet_wrap(~Reference_Year))
 
+      plots[[1]] <- plot1
+    } else {
+      n <- length(plots)
+      plots[[1]] <- NULL
+     }
 
     data_SU <- data1[data1$Source == "SU", ]
+    if (nrow(data_SU)>0){
     source <- "SU"
+    data_SU$Segment[is.na(data_SU$Segment)] <- "NA"
     # Plot of tot_Caught
     suppressMessages(plot2 <- data_SU %>%
       ggplot(aes(x = Length, y = NumberIndividuals, col = Segment)) +
@@ -65,6 +75,12 @@ check_ldf_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
       ylab("Total individuals caught") +
       xlab("Year") +
       facet_wrap(~Reference_Year))
-    return(list(plot1, plot2))
+
+    plots[[2]] <- plot2
+    } else {
+      n <- length(plots)
+      plots[[2]] <- NULL
+    }
+    return(plots) # list(plot1, plot2)
   }
 }
