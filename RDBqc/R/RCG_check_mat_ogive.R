@@ -45,14 +45,13 @@ RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0",
 
 
     # summary table of number of individuals by length class by maturity stage
-    data_sex <- data[!is.na(data$Sex), ]
-
-    tab_sex <- aggregate(data_sex$Number_at_length, by = list(data_sex$Year, data_sex$Length_class), FUN = "length")
-    colnames(tab_sex) <- c("Year", "Length_class", "nb_sex_measurements")
+    # data_sex <- data[!is.na(data$Sex), ]
+    # tab_sex <- aggregate(data_sex$Number_at_length, by = list(data_sex$Year, data_sex$Length_class), FUN = "length")
+    # colnames(tab_sex) <- c("Year", "Length_class", "nb_sex_measurements")
 
     # summary table of number of individuals by length class by maturity stage
     data_mat <- data[!is.na(data$Maturity_Stage), ]
-
+    if (nrow(data_mat)>0) {
     tab_mat <- aggregate(data_mat$Number_at_length, by = list(data_mat$Year, data_mat$Length_class), FUN = "length")
     colnames(tab_mat) <- c("Year", "Length_class", "nb_maturity_stage_measurements")
 
@@ -78,6 +77,8 @@ RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0",
     if (sex == "F") {
       # females
       merge_temp <- merge[as.character(merge$Sex) != "M" & as.character(merge$Sex) != "N", ]
+
+      if (nrow(merge_temp)>0){
       years <- paste("(", min(merge_temp$Year), "-", max(merge_temp$Year), ")", sep = "")
       Mat <- aggregate(merge_temp$Mature, by = list(merge_temp$Length_class), FUN = "sum")
       Immat <- aggregate(merge_temp$Immature, by = list(merge_temp$Length_class), FUN = "sum")
@@ -116,11 +117,17 @@ RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0",
           axis.text = element_text(size = 12),
           axis.title = element_text(size = 14, face = "bold")
         )
+      } else {
+        p = NULL
+      }
+
     } # sex F
 
     if (sex == "M") {
       # males
       merge_temp <- merge[as.character(merge$Sex) != "F" & as.character(merge$Sex) != "N", ]
+
+      if (nrow(merge_temp)>0){
       years <- paste("(", min(merge_temp$Year), "-", max(merge_temp$Year), ")", sep = "")
 
       Mat <- aggregate(merge_temp$Mature, by = list(merge_temp$Length_class), FUN = "sum")
@@ -160,7 +167,14 @@ RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0",
           axis.text = element_text(size = 12),
           axis.title = element_text(size = 14, face = "bold")
         )
+      } else {
+        p=NULL
+      }
     } # sex M
+
+    } else {
+      p =NULL
+    }
     return(p)
   } # (nrow(data)>0)
 }

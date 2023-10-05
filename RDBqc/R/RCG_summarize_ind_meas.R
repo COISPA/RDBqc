@@ -24,14 +24,14 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
   } else {
     data$presence <- 1
     data[is.na(data$Length_class), "presence"] <- 0
-    data$presence <- data$presence * data$Number_at_length
+    data$presence <- data$presence * as.numeric(data$Number_at_length)
     lengths <- data %>%
       group_by(Year, Area, Species, Trip_code) %>%
       summarize(length_measurements = sum(presence, na.rm = TRUE))
     lengths <- as.data.frame(lengths)
     data$presence <- 1
     data[is.na(data$Maturity_Stage), "presence"] <- 0
-    data$presence <- data$presence * data$Number_at_length
+    data$presence <- data$presence * as.numeric(data$Number_at_length)
     mat <- data %>%
       group_by(Year, Area, Species, Trip_code) %>%
       summarize(maturity_data = sum(presence, na.rm = TRUE))
@@ -39,7 +39,7 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
 
     data$presence <- 1
     data[is.na(data$Sex), "presence"] <- 0
-    data$presence <- data$presence * data$Number_at_length
+    data$presence <- data$presence * as.numeric(data$Number_at_length)
     sex <- data %>%
       filter(Sex != "U" & Sex != "C") %>%
       group_by(Year, Area, Species, Trip_code) %>%
@@ -48,7 +48,7 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
 
     data$presence <- 1
     data[is.na(data$Age), "presence"] <- 0
-    data$presence <- data$presence * data$Number_at_length
+    data$presence <- data$presence * as.numeric(data$Number_at_length)
     age <- data %>%
       group_by(Year, Area, Species, Trip_code) %>%
       summarize(age_data = sum(presence, na.rm = TRUE))
@@ -56,7 +56,7 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
 
     data$presence <- 1
     data[is.na(data$Individual_weight), "presence"] <- 0
-    data$presence <- data$presence * data$Number_at_length
+    data$presence <- data$presence * as.numeric(data$Number_at_length)
     weight <- data %>%
       group_by(Year, Area, Species, Trip_code) %>%
       summarize(weight_data = sum(presence, na.rm = TRUE))
