@@ -2,6 +2,7 @@
  * Improvement of outputs of check_ldf_TaskVII.2 function
  * Improvement of outputs of RCG_check_loc
  * Improvement of outputs of RCG_summarize_ind_meas
+ * RCG_check_mat_ogive
 # RDBqc 0.0.17.10
  * Improvement of outputs of MEDBS_check_missing_years function
  * Improvement of outputs of FDI_AER_land_landvalue function
