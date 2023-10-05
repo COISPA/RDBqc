@@ -66,8 +66,8 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       if (verbose) {
         print("No sex data", quote = F)
       }
-      sex$variable <- colnames(sex)[ncol(sex)]
-      colnames(sex)[ncol(sex) - 1] <- "number_of_data"
+      sex <- data.frame(matrix(ncol=6, nrow=0))
+      colnames(sex) <- c("Year","Area","Species","Trip_code","number_of_data","variable")
     } else {
       sex$variable <- colnames(sex)[ncol(sex)]
       colnames(sex)[ncol(sex) - 1] <- "number_of_data"
@@ -77,8 +77,8 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       if (verbose) {
         print("No maturity data", quote = F)
       }
-      mat$variable <- colnames(mat)[ncol(mat)]
-      colnames(mat)[ncol(mat) - 1] <- "number_of_data"
+      mat <- data.frame(matrix(ncol=6, nrow=0))
+      colnames(mat) <- c("Year","Area","Species","Trip_code","number_of_data","variable")
     } else {
       mat$variable <- colnames(mat)[ncol(mat)]
       colnames(mat)[ncol(mat) - 1] <- "number_of_data"
@@ -88,8 +88,8 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       if (verbose) {
         print("No age data", quote = F)
       }
-      age$variable <- colnames(age)[ncol(age)]
-      colnames(age)[ncol(age) - 1] <- "number_of_data"
+      age <- data.frame(matrix(ncol=6, nrow=0))
+      colnames(age) <- c("Year","Area","Species","Trip_code","number_of_data","variable")
     } else {
       age$variable <- colnames(age)[ncol(age)]
       colnames(age)[ncol(age) - 1] <- "number_of_data"
@@ -99,8 +99,8 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
       if (verbose) {
         print("No weight data", quote = F)
       }
-      weight$variable <- colnames(weight)[ncol(weight)]
-      colnames(weight)[ncol(weight) - 1] <- "number_of_data"
+      weight <- data.frame(matrix(ncol=6, nrow=0))
+      colnames(weight) <- c("Year","Area","Species","Trip_code","number_of_data","variable")
     } else {
       weight$variable <- colnames(weight)[ncol(weight)]
       colnames(weight)[ncol(weight) - 1] <- "number_of_data"
@@ -108,20 +108,25 @@ RCG_summarize_ind_meas <- function(data, MS, GSA, SP, verbose = TRUE) {
 
     if (nrow(lengths) == 0) {
       if (verbose) {
-        print("No weight data", quote = F)
+        print("No length data", quote = F)
       }
-      lengths$variable <- colnames(lengths)[ncol(lengths)]
-      colnames(lengths)[ncol(lengths) - 1] <- "number_of_data"
+      lengths <- data.frame(matrix(ncol=6, nrow=0))
+      colnames(lengths) <- c("Year","Area","Species","Trip_code","number_of_data","variable")
     } else {
       lengths$variable <- colnames(lengths)[ncol(lengths)]
       colnames(lengths)[ncol(lengths) - 1] <- "number_of_data"
     }
 
     result_table <- do.call(rbind, list(lengths, mat, sex, age, weight))
+    if (nrow(result_table)>0){
     result_table[is.na(result_table$number_of_data), "number_of_data"] <- 0
     result_table <- as.data.table(result_table)
     result_table <- data.table::dcast(result_table, Year + Area + Species + Trip_code ~ variable, value.var = "number_of_data")
     result_table <- data.frame(result_table)
+    } else {
+      result_table <- data.frame(matrix(ncol=8,nrow=0))
+      colnames(result_table) <- c("Year","Area","Species","Trip_code","age_data","length_measurements","maturity_data","weight_data" )
+    }
     return(result_table)
   }
 }

@@ -133,6 +133,8 @@ RCG_check_loc <- function(data, MS = NA, GSA = NA, ports = circabc) {
       xlab("Longitude (E)") +
       ylab("Latitude (N)")
     p <- p + geom_text(data = labels, aes(Longitude, Latitude, label = Name, check_overlap = TRUE, nudge_y = 1, inherit.aes = FALSE))
+  } else {
+    p <- NULL
   }
   return(p)
 }
