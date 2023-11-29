@@ -27,7 +27,8 @@ or 'value' for landings' value.}
 
 \item{MS}{(mandatory) The MS code (e.g. 'GRC'). Only one MS code is allowed.}
 
-\item{level}{(optional) character to select the level of aggregation of variable 'var', i.e. 'MS', 'GSA', 'GEAR' or 'METIER'. E.g. if level 'GEAR' is selected, the comparison
+\item{level}{(optional) character to select the level of aggregation of variable 'var', i.e.
+'MS', 'GSA', 'GEAR' or 'METIER'. E.g. if level 'GEAR' is selected, the comparison
 will be performed by 'MS', 'GSA' and 'GEAR'. Default level is 'METIER'.}
 
 \item{YEAR}{(optional) vector of years to perform the check on. Default is NA, which will produce a check for all
@@ -39,14 +40,15 @@ Default is NA, which will produce the check for all GSAs existing in the data fr
 \item{SP}{(optional) vector string of species FAO 3-alpha codes to produce the checks on (e.g. SPECIES = c('DPS', 'TGS')).
 Default is NA, which will produce the check for all SP existing in the data frames.}
 
-\item{OUT}{If set as TRUE tables in csv will be saved in the OUTPUT folder created in the working directory. Default is FALSE}
+\item{OUT}{If set as TRUE a table in csv will be saved in the OUTPUT folder created in the working directory. Default is FALSE}
 
 \item{verbose}{(optional) boolean, if TRUE messages are printed. Default is FALSE.}
 }
 \value{
-The function returns a list of three data frames, containing: a) entries for which 'var' differs between
-the two data frames (mismatch_FDI_AER) reporting only differences greater than 5\%, b) entries in AER that are missing from FDI (missing_FDI) and
-c) entries in FDI that are missing from AER (missing_AER). This output is also saved in .csv files if OUT is TRUE.
+The function returns a data frame containing all entries found in FDI, in AER and in both dataframes,
+with the last column reporting the ratio FDI/AER for the selected var. This ratio equals 1 if the two entries
+are the same, differs from 1 if the two entries differ or is NA if the entry is missing in one of the two dataframes.
+This output table is also saved in .csv files if OUT is TRUE.
 }
 \description{
 The function compares landings (var='landings') or landings' value (var='value) by SP and YEAR between
@@ -55,7 +57,7 @@ Optionally, the user can select a higher level of aggregation (e.g. 'MS', 'GSA',
 }
 \examples{
 FDI_AER_land_landvalue(FDI=fdi_a_catch, AER=aer_catch, var='landings',
-level='GEAR', MS='PSP', YEAR=NA, GSA=c('GSA97', 'GSA98'), SP="HKE", OUT = TRUE, verbose = TRUE)
+level='GEAR', MS='PSP', YEAR=NA, GSA=c('GSA97', 'GSA98'), SP=NA, OUT = TRUE, verbose = TRUE)
 }
 \author{
 Vasiliki Sgardeli \href{mailto:vsgard@hcmr.gr}{vsgard@hcmr.gr}

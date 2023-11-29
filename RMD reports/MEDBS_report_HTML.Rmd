@@ -120,6 +120,7 @@ if (exists("Catch")) {
   if (class(Catch) == "data.frame") {
     if (nrow(Catch) > 0) {
       check_Catch <- TRUE
+      colnames(Catch) <- tolower(colnames(Catch))
       cat(paste0("\n# Catch table\n"))
       if (!user_SP) {
         SPs <- sort(unique(Catch$species))
@@ -305,6 +306,7 @@ if (exists("Land")) {
   if (class(Land) == "data.frame") {
     if (nrow(Land) > 0) {
       check_Land <- TRUE
+      colnames(Land) <- tolower(colnames(Land))
       cat(paste0("\n# Landing table\n"))
       if (!user_SP) {
         SPs <- sort(unique(Land$species))
@@ -841,6 +843,7 @@ if (exists("Disc")) {
   if (class(Disc) == "data.frame") {
     if (nrow(Disc) > 0) {
       check_Disc <- TRUE
+      colnames(Disc) <- tolower(colnames(Disc))
       cat(paste0("\n# Discard table\n"))
       if (!user_SP) {
         SPs <- unique(Disc$species)
@@ -1363,6 +1366,7 @@ if (exists("GP")) {
   if (class(GP) == "data.frame") {
     if (nrow(GP) > 0) {
       check_GP <- TRUE
+      colnames(GP) <- tolower(colnames(GP))
       cat(paste0("\n# Growth parameters (GP) table\n"))
       if (!user_SP) {
         SPs <- unique(GP$species)
@@ -1504,6 +1508,7 @@ if (exists("MA")) {
   if (class(MA) == "data.frame") {
     if (nrow(MA) > 0) {
       check_MA <- TRUE
+      colnames(MA) <- tolower(colnames(MA))
       cat(paste0("\n# Maturity at Age (MA) table\n"))
       if (!user_SP) {
         SPs <- unique(MA$species)
@@ -1607,6 +1612,7 @@ if (exists("ML")) {
   if (class(ML) == "data.frame") {
     if (nrow(ML) > 0) {
       check_ML <- TRUE
+      colnames(ML) <- tolower(colnames(ML))
       cat(paste0("\n# Maturity at Length (ML) table\n"))
       if (!user_SP) {
         SPs <- unique(ML$species)
@@ -1711,6 +1717,7 @@ if (exists("SA")) {
   if (class(SA) == "data.frame") {
     if (nrow(SA) > 0) {
       check_SRA <- TRUE
+      colnames(SA) <- tolower(colnames(SA))
       cat(paste0("\n# Sex Ratio at age (SRA) table\n"))
       if (!user_SP) {
         SPs <- unique(SA$species)
@@ -1795,6 +1802,7 @@ if (exists("SL")) {
   if (class(SL) == "data.frame") {
     if (nrow(SL) > 0) {
       check_SRL <- TRUE
+      colnames(SL) <- tolower(colnames(SL))
       cat(paste0("\n# Sex Ratio at length (SRL) table\n"))
       if (!user_SP) {
         SPs <- unique(SL$species)
@@ -1880,6 +1888,7 @@ if (exists("ALK")) {
   if (class(ALK) == "data.frame") {
     if (nrow(ALK) > 0) {
       check_ALK <- TRUE
+      colnames(ALK) <- tolower(colnames(ALK))
       cat(paste0("\n# Age-Length Keys (ALK) table\n"))
       if (!user_SP) {
         SPs <- unique(ALK$species)
@@ -1957,5 +1966,5 @@ if (check_ALK) {
       }
     }
   }
-} # check_SRL
+} # check_ALK
 ```

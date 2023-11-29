@@ -93,13 +93,17 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     ## Subsetting DataFrame, preparing data for further elaboration and setting output directory ####
     land <- landed[which(landed$area == GSA & landed$country == MS & landed$species == SP), ]
 
+    if (nrow(land) == 0){
+      if (verbose) {
+        message("No length frequency distributions available")
+      }
+    } else {
+
     if (SP %in% c("ARA","ARS","NEP","DPS")){
       step <- 25 # 5 should be ok for crustaceans and cephalopods and 50 for fish. Change this value accordingly on how plot resulted.
     }else{
       step <- 50
     }
-
-    land <- landed[which(landed$area==GSA & landed$country==MS & landed$species==SP),]
 
     var_no_landed <- grep("lengthclass", colnames(land), value = TRUE)
     max_no_landed <- land[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_landed]
@@ -185,7 +189,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
 
 
     }else{
-      print("No length frequency disributions available")
+      print("No length frequency distributions available")
     }
 
     LFL_fin=as.data.frame(LFL)
@@ -239,7 +243,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
       suppressWarnings(dir.create(dir_plot, recursive = T))
       ggsave(filename=paste0(dir_plot,"/",MS,"_",GSA,"_",SP,"_TOTAL_WEIGTH_LAND.jpg"),width = 10, height = 8, dpi = 150, units = "in" )
     }
-
+} # nrow==0
   }  # END Landing analysis
 
   if (type == "b"){
