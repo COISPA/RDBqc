@@ -1,3 +1,5 @@
+# RBDqc 0.0.17.14
+ * Bug correction in check_age_MEDBS_AR
 # RDBqc 0.0.17.12
  * Improvement of outputs of check_ldf_TaskVII.2 function
  * Improvement of outputs of RCG_check_loc
