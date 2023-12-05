@@ -25,9 +25,11 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
     load("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/QualiTrain_scripts/QualiTrain/data/GSAs.rda")
 
     MS <- "ITA"
-    GSA <- NA
-    SP <- NA # c("ARS","HKE")
-    year <- 2019
+    GSA <- "GSA 9"
+    SP <- "MUT" # c("ARS","HKE")
+    year <- 2020
+    species_list = RDBqc::SSPP
+
 
     load("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/QualiTrain_scripts/QualiTrain/data/SPs.rda")
     # species_list <- SSPP
@@ -175,6 +177,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
     }
     quit_AR <- TRUE
   } else {
+    i=1
     for (i in 1:nrow(AR)) {
       if (AR$Species[i] %in% SPs$Scientific_Name) {
         AR$Species[i] <- SPs[SPs$Scientific_Name == AR$Species[i], "X3A_CODE"]
@@ -241,6 +244,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
     #-------------------
     # ANNUAL REPORT data
     #-------------------
+    AR$Achieved.number.of.individuals.measured.at.national.level <- as.numeric(AR$Achieved.number.of.individuals.measured.at.national.level)
     AR1 <- suppressMessages(
       AR %>%
         group_by(MS, Area, Implementation.year, Species) %>%
@@ -251,6 +255,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
     #--------------------
     # MED & BS ALK data
     #--------------------
+    ALK$total_number_of_hard_structure_read_by_age <- as.numeric(ALK$total_number_of_hard_structure_read_by_age)
     if (any(!unique(ALK$species) %in% SP_COUNTRY)) {
       ALK_GSA <- suppressMessages(
         ALK[!ALK$species %in% SP_COUNTRY, ] %>% group_by(country, area, in.year, ref.year, species, sex) %>%
