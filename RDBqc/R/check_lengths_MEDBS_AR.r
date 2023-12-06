@@ -68,7 +68,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
   #### MED & BS Catch
 
   #----------
-
+  med <- MEDBS
   med <- med[med$country == MS & med$area %in% GSA, ]
   med <- med[med$year == year, ]
 
