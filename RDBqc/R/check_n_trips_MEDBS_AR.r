@@ -83,7 +83,7 @@ check_n_trips_MEDBS_AR <- function(MEDBS, AR, MS, year, OUT=FALSE, verbose = FAL
   AR <- AR[!is.na(AR$Achieved.number.of.PSUs.in.the.implementation.year),]
 
   #----------
-
+    med <- MEDBS
     med <- med[med$country == MS, ]
     med <- med[med$year == year, ]
 
