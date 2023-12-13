@@ -16,6 +16,32 @@ FDI_landweight_cov <- function(dataA, dataH, MS, verbose = FALSE) {
   colnames(dataA) <- tolower(colnames(dataA))
   colnames(dataH) <- tolower(colnames(dataH))
 
+  ### adaptation for new FDI table structure ------
+  colnames(dataA) <- tolower(colnames(dataA))
+  if ("latitude" %in% colnames(dataA)) {
+    colnames(dataA)[which(colnames(dataA)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(dataA)) {
+    colnames(dataA)[which(colnames(dataA)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(dataA)) {
+    dataA <- dataA[ , -(which(colnames(dataA)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
+
+  ### adaptation for new FDI table structure ------
+  colnames(dataH) <- tolower(colnames(dataH))
+  if ("latitude" %in% colnames(dataH)) {
+    colnames(dataH)[which(colnames(dataH)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(dataH)) {
+    colnames(dataH)[which(colnames(dataH)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(dataH)) {
+    dataH <- dataH[ , -(which(colnames(dataH)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
+
   # check if MS is existing
   mslistA <- unique(dataA$country)
   mslistH <- unique(dataH$country)

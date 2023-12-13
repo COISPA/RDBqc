@@ -14,6 +14,32 @@ FDI_fishdays_cov <- function(dataG, dataI, MS, verbose = TRUE) {
   colnames(dataG) <- tolower(colnames(dataG))
   colnames(dataI) <- tolower(colnames(dataI))
 
+  ### adaptation for new FDI table structure ------
+  colnames(dataG) <- tolower(colnames(dataG))
+  if ("latitude" %in% colnames(dataG)) {
+    colnames(dataG)[which(colnames(dataG)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(dataG)) {
+    colnames(dataG)[which(colnames(dataG)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(dataG)) {
+    dataG <- dataG[ , -(which(colnames(dataG)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
+
+  ### adaptation for new FDI table structure ------
+  colnames(dataI) <- tolower(colnames(dataI))
+  if ("latitude" %in% colnames(dataI)) {
+    colnames(dataI)[which(colnames(dataI)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(dataI)) {
+    colnames(dataI)[which(colnames(dataI)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(dataI)) {
+    dataI <- dataI[ , -(which(colnames(dataI)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
+
   country <- NULL
 
   # check if MS is existing

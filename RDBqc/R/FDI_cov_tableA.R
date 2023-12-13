@@ -25,6 +25,16 @@
 FDI_cov_tableA <- function(data, MS, SP = "COMBINED", vessel_len = "COMBINED", fishtech = "COMBINED", GSA, verbose = TRUE) {
   year <- sub_region <- country <- species <- vessel_length <- fishing_tech <- totwghtlandg <- totvallandg <- discards <- NULL
 
+  if (FALSE) {
+    data <- read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc_appoggio\\REV TAB FDI\\dc_fdi_a_catch_da_DB.csv", sep=",",header=TRUE)
+    MS="BGR"
+    GSA="GSA29"
+
+    SP = "COMBINED"
+    vessel_len = "COMBINED"
+    fishtech = "COMBINED"
+  }
+
   if (nrow(data) == 0) {
     if (verbose) {
       message(paste0("No data available"))
@@ -32,6 +42,18 @@ FDI_cov_tableA <- function(data, MS, SP = "COMBINED", vessel_len = "COMBINED", f
     output <- NULL
   } else {
 
+    ### adaptation for new FDI table structure ------
+    colnames(data) <- tolower(colnames(data))
+    if ("latitude" %in% colnames(data)) {
+      colnames(data)[which(colnames(data)=="latitude")] <- "rectangle_lat"
+    }
+    if ("longitude" %in% colnames(data)) {
+      colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+    }
+    if ("metier_7" %in% colnames(data)) {
+      data <- data[ , -(which(colnames(data)%in% "metier_7"))]
+    }
+    #-----------------------------------------------
 
     # check of the species, combined vs specific species defined by the user
     if (length(SP) == 1 & SP[1] == "COMBINED") {

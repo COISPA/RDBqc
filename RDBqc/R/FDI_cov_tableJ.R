@@ -20,6 +20,7 @@
 #' @import tidyverse
 
 FDI_cov_tableJ <- function(data, MS, GSA, vessel_len = "COMBINED", fishtech = "COMBINED", verbose = TRUE) {
+
   country <- principal_sub_region <- totgt <- totkw <- tottrips <- totves <- NULL
   fishing_tech <- total_GT <- total_total_kW <- total_trips <- total_vessels <- vessel_length <- year <- NULL
 
@@ -27,6 +28,18 @@ FDI_cov_tableJ <- function(data, MS, GSA, vessel_len = "COMBINED", fishtech = "C
     stop(paste0("No data available"))
   }
 
+  ### adaptation for new FDI table structure ------
+  colnames(data) <- tolower(colnames(data))
+  if ("latitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(data)) {
+    data <- data[ , -(which(colnames(data)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
 
   # check of the vessel length, all vs specific vessel length defined by the user
   if (length(vessel_len) == 1 & vessel_len[1] == "COMBINED") {

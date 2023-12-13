@@ -15,6 +15,31 @@ FDI_cross_checks_AH <- function(data1, data2, verbose = FALSE) {
   Data <- country <- cscode <- fishing_tech <- gear_type <- sub_region <- totwghtlandg <- ttwghtl <- vessel_length <- year <- NULL
 
   if (nrow(data1) != 0 & nrow(data2) != 0) {
+
+    ### adaptation for new FDI table structure ------
+    colnames(data1) <- tolower(colnames(data1))
+    if ("latitude" %in% colnames(data1)) {
+      colnames(data1)[which(colnames(data1)=="latitude")] <- "rectangle_lat"
+    }
+    if ("longitude" %in% colnames(data)) {
+      colnames(data1)[which(colnames(data1)=="longitude")] <- "rectangle_lon"
+    }
+    if ("metier_7" %in% colnames(data1)) {
+      data1 <- data1[ , -(which(colnames(data1)%in% "metier_7"))]
+    }
+    #--------------------
+    colnames(data2) <- tolower(colnames(data2))
+    if ("latitude" %in% colnames(data2)) {
+      colnames(data2)[which(colnames(data2)=="latitude")] <- "rectangle_lat"
+    }
+    if ("longitude" %in% colnames(data2)) {
+      colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+    }
+    if ("metier_7" %in% colnames(data2)) {
+      data2 <- data2[ , -(which(colnames(data2)%in% "metier_7"))]
+    }
+    #-----------------------------------------------
+
     data1[1:19][data1[1:19] == "NK" | data1[1:19] == "NA" | is.na(data1[1:19])] <- NA
     data1[20:22][is.na(data1[20:22])] <- 0
 

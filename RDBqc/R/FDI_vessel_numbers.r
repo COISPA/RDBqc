@@ -18,6 +18,30 @@ FDI_vessel_numbers <- function(dataJ, dataG, MS, verbose = TRUE) {
   colnames(data1) <- tolower(colnames(data1))
   colnames(data2) <- tolower(colnames(data2))
 
+  ### adaptation for new FDI table structure ------
+  colnames(data1) <- tolower(colnames(data1))
+  if ("latitude" %in% colnames(data1)) {
+    colnames(data1)[which(colnames(data1)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(data)) {
+    colnames(data1)[which(colnames(data1)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(data1)) {
+    data1 <- data1[ , -(which(colnames(data1)%in% "metier_7"))]
+  }
+  #--------------------
+  colnames(data2) <- tolower(colnames(data2))
+  if ("latitude" %in% colnames(data2)) {
+    colnames(data2)[which(colnames(data2)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(data2)) {
+    colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(data2)) {
+    data2 <- data2[ , -(which(colnames(data2)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
+
   # check if MS is existing
   mslist1 <- unique(data1$country)
   mslist2 <- unique(data2$country)

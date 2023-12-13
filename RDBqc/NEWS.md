@@ -1,3 +1,5 @@
+# RBDqc 0.0.17.15
+ * addressing new table format in FDI data call (new field "metier_7" and new colnames for rectangle_lat and rectangle_lon fields)
 # RBDqc 0.0.17.14
  * Bug correction in check_age_MEDBS_AR
 # RDBqc 0.0.17.12

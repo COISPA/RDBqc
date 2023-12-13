@@ -10,19 +10,53 @@
 #' @author Sebastien Alfonso <salfonso@@coispa.eu>
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_FDI_I(fdi_i_spatial_effort)
-check_RD_FDI_I <- function(data, verbose = TRUE) {
-  df <- data[, c(1:19)]
+check_RD_FDI_I <- function(data, verbose = TRUE)
+{
+  if (FALSE){
+    data <- read.table("E:\\Programmi di RACCOLTA DATI corretti al 2017\\DATACALL\\_____Tools for data-quality check__\\REV TAB FDI\\dc_fdi_i_spatial_fe_da_DB.csv", sep=";", header=T)
+    verbose = TRUE
+    check_RD_FDI_I(data, verbose = TRUE)
+  }
 
-  # Identify the line number of duplicate
+  ### adaptation for new FDI table structure ------
+  colnames(data) <- tolower(colnames(data))
+  if ("latitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+  }
+  #------------------------------------------------
+
+  df <- data[, which(colnames(data) %in% c("country",
+                                           "year",
+                                           "quarter",
+                                           "vessel_length",
+                                           "fishing_tech",
+                                           "gear_type",
+                                           "target_assemblage",
+                                           "mesh_size_range",
+                                           "metier",
+                                           "metier_7",
+                                           "supra_region",
+                                           "sub_region",
+                                           "eez_indicator",
+                                           "geo_indicator",
+                                           "specon_tech",
+                                           "deep",
+                                           "rectangle_type",
+                                           "latitude",
+                                           "longitude",
+                                           "c_square"))]
+
   duplicated_line <- which(duplicated(df))
-
   if (verbose) {
     if (length(duplicated_line) == 0) {
       message("no duplicated lines in the data frame")
-    } else {
+    }
+    else {
       message(paste0(length(duplicated_line), " record/s duplicated"))
     }
   }
-
   return(duplicated_line)
 }

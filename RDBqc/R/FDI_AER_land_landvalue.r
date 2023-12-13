@@ -47,6 +47,20 @@ FDI_AER_land_landvalue <- function (FDI, AER, var = "landings", MS, level = "GSA
   if ("sub_reg" %in% colnames(AER)) {
     colnames(AER)[which(colnames(AER) == "sub_reg")] <- "sub_region"
   }
+
+  ### adaptation for new FDI table structure ------
+  colnames(FDI) <- tolower(colnames(FDI))
+  if ("latitude" %in% colnames(FDI)) {
+    colnames(FDI)[which(colnames(FDI)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(FDI)) {
+    colnames(FDI)[which(colnames(FDI)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(FDI)) {
+    FDI <- FDI[ , -(which(colnames(FDI)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
+
   if (var == "landings") {
     var1 <- "totwghtlandg"
   }else if (var == "value") {

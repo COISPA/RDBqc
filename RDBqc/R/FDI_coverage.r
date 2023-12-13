@@ -14,7 +14,31 @@
 FDI_coverage <- function(data, MS, verbose = TRUE) {
   country <- NULL
 
+  if (FALSE) {
+    data <- read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc_appoggio\\REV TAB FDI\\dc_fdi_a_catch_da_DB.csv", sep=",",header=TRUE)
+    MS="BGR"
+    GSA="GSA29"
+
+    SP = "COMBINED"
+    vessel_len = "COMBINED"
+    fishtech = "COMBINED"
+    verbose = TRUE
+  }
+
   colnames(data) <- tolower(colnames(data))
+
+  ### adaptation for new FDI table structure ------
+  colnames(data) <- tolower(colnames(data))
+  if ("latitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(data)) {
+    data <- data[ , -(which(colnames(data)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
 
   # check if MS is existing
   mslist <- unique(data$country)

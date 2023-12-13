@@ -22,6 +22,19 @@ FDI_prices_cov <- function(data, MS, SP = "COMBINED", GSA = "COMBINED", verbose 
     stop(paste0("No data available"))
   }
 
+  ### adaptation for new FDI table structure ------
+  colnames(data) <- tolower(colnames(data))
+  if ("latitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(data)) {
+    data <- data[ , -(which(colnames(data)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
+
   # check of the GSA, combined vs GSA  defined by the user
   if (length(GSA) == 1 & GSA[1] == "COMBINED") {
     data$sub_region <- "COMBINED"

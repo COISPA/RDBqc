@@ -19,6 +19,20 @@ FDI_check_coord <- function(data, MS, verbose = FALSE) {
 
 
   if (nrow(data) > 0) {
+
+    ### adaptation for new FDI table structure ------
+    colnames(data) <- tolower(colnames(data))
+    if ("latitude" %in% colnames(data)) {
+      colnames(data)[which(colnames(data)=="latitude")] <- "rectangle_lat"
+    }
+    if ("longitude" %in% colnames(data)) {
+      colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+    }
+    if ("metier_7" %in% colnames(data)) {
+      data <- data[ , -(which(colnames(data)%in% "metier_7"))]
+    }
+    #-----------------------------------------------
+
     data <- data[!is.na(data$rectangle_type) & !is.na(data$rectangle_lat) & !is.na(data$rectangle_lon), ]
 
     if (nrow(data) > 0) {

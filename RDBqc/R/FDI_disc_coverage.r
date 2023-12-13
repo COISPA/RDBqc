@@ -23,6 +23,20 @@ FDI_disc_coverage <- function(data, MS, GSA, SP, verbose = TRUE) {
     data1 <- data[which(data$sub_region %in% as.character(GSA) & data$country == MS & data$species %in% SP), ]
 
     if (nrow(data1) > 0) {
+
+      ### adaptation for new FDI table structure ------
+      colnames(data1) <- tolower(colnames(data1))
+      if ("latitude" %in% colnames(data1)) {
+        colnames(data1)[which(colnames(data1)=="latitude")] <- "rectangle_lat"
+      }
+      if ("longitude" %in% colnames(data1)) {
+        colnames(data1)[which(colnames(data1)=="longitude")] <- "rectangle_lon"
+      }
+      if ("metier_7" %in% colnames(data1)) {
+        data1 <- data1[ , -(which(colnames(data1)%in% "metier_7"))]
+      }
+      #-----------------------------------------------
+
       ngsas <- unique(data1$sub_region)
       nyrs <- unique(data1$year)
 

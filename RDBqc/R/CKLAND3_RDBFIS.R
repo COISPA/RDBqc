@@ -25,8 +25,20 @@
 Check_Tot_Land3 <- function(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = TRUE, OUT=FALSE) {
   AREA <- COUNTRY <- DATA_CALL <- LANDINGS <- SPECIES <- SUB_REGION <- TOTWGHTLANDG <- VALUE <- YEAR <- NULL
 
-
   colnames(data) <- toupper(colnames(data))
+
+  ### adaptation for new FDI table structure ------
+  colnames(data1) <- tolower(colnames(data1))
+  if ("latitude" %in% colnames(data1)) {
+    colnames(data1)[which(colnames(data1)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(data)) {
+    colnames(data1)[which(colnames(data1)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(data1)) {
+    data1 <- data1[ , -(which(colnames(data1)%in% "metier_7"))]
+  }
+  #--------------------
   colnames(data1) <- toupper(colnames(data1))
   colnames(data1)[1] <- "COUNTRY"
   colnames(data2) <- toupper(colnames(data2))

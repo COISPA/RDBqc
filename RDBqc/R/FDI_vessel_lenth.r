@@ -12,7 +12,18 @@
 FDI_vessel_lenth <- function(data, MS, verbose = TRUE) {
   country <- NULL
 
+  ### adaptation for new FDI table structure ------
   colnames(data) <- tolower(colnames(data))
+  if ("latitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(data)) {
+    data <- data[ , -(which(colnames(data)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
 
   # check if MS is existing
   mslist <- unique(data$country)

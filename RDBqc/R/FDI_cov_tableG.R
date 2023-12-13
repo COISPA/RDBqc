@@ -26,6 +26,20 @@
 #' @import tidyverse
 
 FDI_cov_tableG <- function(data, MS, GSA, vessel_len = "COMBINED", fishtech = "COMBINED", met = "COMBINED", verbose = TRUE) {
+
+  if (FALSE) {
+    data <- read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc_appoggio\\REV TAB FDI\\dc_fdi_g_effort_da_DB.csv", sep=",",header=TRUE)
+    MS="BGR"
+    GSA="GSA29"
+
+    SP = "COMBINED"
+    vessel_len = "COMBINED"
+    fishtech = "COMBINED"
+    met = "COMBINED"
+  }
+
+
+
   country <- fishing_tech <- hrsea <- kwhrsea <- metier <- sub_region <- totfishdays <-
     totgtdaysatsea <- totgtfishdays <- totkwdaysatsea <- totkwfishdays <- totseadays <-
     vessel_length <- year <- NULL
@@ -33,6 +47,19 @@ FDI_cov_tableG <- function(data, MS, GSA, vessel_len = "COMBINED", fishtech = "C
   if (nrow(data) == 0) {
     stop(paste0("No data available"))
   }
+
+  ### adaptation for new FDI table structure ------
+  colnames(data) <- tolower(colnames(data))
+  if ("latitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(data)) {
+    data <- data[ , -(which(colnames(data)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
 
   # check of the vessel_length, all vs specific vessel length defined by the user
   if (length(vessel_len) == 1 & vessel_len[1] == "COMBINED") {

@@ -18,8 +18,27 @@
 #' @import tidyverse
 
 FDI_checks_spatial_HI <- function(data, MS, verbose = FALSE) {
+
+  if (FALSE) {
+    data <- read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc_appoggio\\REV TAB FDI\\dc_fdi_i_spatial_fe_da_DB.csv", sep=",",header=TRUE)
+    MS="BGR"
+  }
+
+
+  ### adaptation for new FDI table structure ------
   colnames(data) <- tolower(colnames(data))
-  data <- data[data$country %in% MS, ]
+  if ("latitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="latitude")] <- "rectangle_lat"
+  }
+  if ("longitude" %in% colnames(data)) {
+    colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+  }
+  if ("metier_7" %in% colnames(data)) {
+    data <- data[ , -(which(colnames(data)%in% "metier_7"))]
+  }
+  #-----------------------------------------------
+
+    data <- data[data$country %in% MS, ]
 
   if (nrow(data) > 0) {
 
@@ -29,12 +48,12 @@ FDI_checks_spatial_HI <- function(data, MS, verbose = FALSE) {
 
     if (length(d1_ids) == 0) {
       if (verbose) {
-        message(paste("no NAs in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA"))
+        message(paste("no NAs in 'c_square' field when 'rectangle_type', 'latitude' (rectangle_lat), 'longitude' (rectangle_lon) are all NA"))
       }
     } else {
       l_na_d1 <- length(d1_ids)
       if (verbose) {
-        message(paste(l_na_d1, "NAs in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA"))
+        message(paste(l_na_d1, "NAs in 'c_square' field when 'rectangle_type', , 'latitude' (rectangle_lat), 'longitude' (rectangle_lon) are all NA"))
       }
     }
 
@@ -44,12 +63,12 @@ FDI_checks_spatial_HI <- function(data, MS, verbose = FALSE) {
 
     if (length(d2_ids) == 0) {
       if (verbose) {
-        message(paste("no data reported in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported"))
+        message(paste("no data reported in 'rectangle_type', , 'latitude' (rectangle_lat), 'longitude' (rectangle_lon) when 'c_square' is reported"))
       }
     } else {
       l_na_d2 <- length(d2_ids)
       if (verbose) {
-        message(paste(l_na_d2, " record with at least one data among 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported"))
+        message(paste(l_na_d2, " record with at least one data among 'rectangle_type', 'latitude' (rectangle_lat), 'longitude' (rectangle_lon) when 'c_square' is reported"))
       }
     }
 
@@ -60,12 +79,12 @@ FDI_checks_spatial_HI <- function(data, MS, verbose = FALSE) {
 
     if (length(d3_ids) == 0) {
       if (verbose) {
-        message(paste("no data reported in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in"))
+        message(paste("no data reported in 'c-squares' when 'rectangle_type', 'latitude' (rectangle_lat), 'longitude' (rectangle_lon) are filled in"))
       }
     } else {
       l_na_d3 <- length(d3_ids)
       if (verbose) {
-        message(paste(l_na_d3, " record with not NA values in 'c_square' when all 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in"))
+        message(paste(l_na_d3, " record with not NA values in 'c_square' when all 'rectangle_type', 'latitude' (rectangle_lat), 'longitude' (rectangle_lon) are filled in"))
       }
     }
 
