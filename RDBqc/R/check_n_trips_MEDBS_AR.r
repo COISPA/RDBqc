@@ -39,7 +39,7 @@ check_n_trips_MEDBS_AR <- function(MEDBS, AR, MS, year, OUT=FALSE, verbose = FAL
     med <- read.table("catch ita 2019.csv", sep = ";", header = TRUE)
     med <- med[, c(1:20)]
 
-    check_n_trips_MEDBS_AR(MEDBS, AR, MS="ITA",year=2019,OUT=TRUE,verbose=TRUE)
+    check_n_trips_MEDBS_AR(MEDBS=med, AR=AR, MS="ITA",year=2019,OUT=TRUE,verbose=TRUE)
   } # if (FALSE)
 
   Sampling.frame.spatial.coverage <- Implementation.year <- Achieved.number.of.PSUs.in.the.implementation.year <- country <- area <- metier <- no_samples_catch <- trips_year <- no_samples_landings <- no_samples_discards <- quarter <- trips_quarters <- Country <- Year <- MEDBS_by_Year_Catch <- MEDBS_by_Year_Landings <- MEDBS_quarters_Discards <- MEDBS_by_Year_Discards <- MEDBS_quarters_Catches <- MEDBS_quarters_Landings <- NULL

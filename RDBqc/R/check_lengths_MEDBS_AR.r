@@ -45,7 +45,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
     med <- read.table("catch ita 2019.csv", sep = ";", header = TRUE)
     # med <- med[, c(1:30)]
 
-    res <- check_lengths_MEDBS_AR(MEDBS, AR, MS = "ITA", GSA = NA, SP = NA, year = 2019, verbose = FALSE,OUT=TRUE)
+    res <- check_lengths_MEDBS_AR(MEDBS=med, AR=AR, MS = "ITA", GSA = NA, SP = NA, year = 2019, verbose = FALSE,OUT=TRUE)
   } # if (FALSE)
 
   Area <- Implementation.year <- Achieved.number.of.PSUs.in.the.implementation.year <- country <- area <- metier <- no_samples_catch <- trips_year <- no_samples_landings <- no_samples_discards <- quarter <- trips_quarters <- Country <- Year <- MEDBS_by_Year_Catch <- MEDBS_by_Year_Landings <- MEDBS_quarters_Discards <- MEDBS_by_Year_Discards <- MEDBS_quarters_Catches <- MEDBS_quarters_Landings <- Species <- Achieved.number.of.individuals.measured.for.length.at.national.level.from.commercial.sampling <- species <- no_length_measurements_catch <- no_length_measurements_landings <- no_length_measurements_discards <- no_length_catch <- no_length_landings <- no_length_discards <- NULL
