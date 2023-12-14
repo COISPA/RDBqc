@@ -65,6 +65,10 @@ FDI_check_coord <- function(data, MS, verbose = FALSE) {
       data$lon.check <- FALSE
 
       df <- data[, c("rectangle_lat", "rectangle_lon", "t1", "t2", "lat.dec", "lon.dec")]
+      df$rectangle_lat <- suppressWarnings(as.numeric(df$rectangle_lat))
+      df$rectangle_lon <- suppressWarnings(as.numeric(df$rectangle_lon))
+      df$t1 <- suppressWarnings(as.numeric(df$t1))
+      df$t2 <- suppressWarnings(as.numeric(df$t2))
 
       check.lat <- function(d) {
         d[5] <- abs(d[1]) - abs(as.integer(d[1]))

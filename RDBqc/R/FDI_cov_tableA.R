@@ -87,6 +87,10 @@ FDI_cov_tableA <- function(data, MS, SP = "COMBINED", vessel_len = "COMBINED", f
       data[data == "NK"] <- NA
       data[data == "NA"] <- NA
 
+      data$totwghtlandg <- as.numeric(data$totwghtlandg)
+      data$totvallandg <- as.numeric(data$totvallandg)
+      data$discards <- as.numeric(data$discards)
+
       # Summary Table of records number
       suppressMessages(data1 <- data %>%
         drop_na(year, sub_region, country, species, vessel_length, fishing_tech) %>%

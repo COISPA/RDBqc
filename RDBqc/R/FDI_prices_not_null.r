@@ -62,7 +62,10 @@ FDI_prices_not_null <- function(data, MS, GSA, SP = NA, verbose = FALSE) {
       # converting totvallandg in numeric field
       data1[data1$totvallandg == "NK" & !is.na(data1$totvallandg), "totvallandg"] <- NA
       data1$totvallandg <- as.numeric(data1$totvallandg)
-
+      data1$totwghtlandg <- suppressWarnings(as.numeric(data1$totwghtlandg))
+      data1$totwghtlandg[is.na(data1$totwghtlandg)] <- 0
+      data1$discards <- suppressWarnings(as.numeric(data1$discards))
+      data1$discards[is.na(data1$discards)] <- 0
 
       # compute average price per species and year
       WT <- aggregate(list(wt = data1$totwghtlandg), by = list(year = data1$year, species = data1$species), FUN = sum, na.rm = T)

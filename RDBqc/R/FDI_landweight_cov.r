@@ -96,6 +96,11 @@ FDI_landweight_cov <- function(dataA, dataH, MS, verbose = FALSE) {
       }
     }
 
+    dataA$totwghtlandg <- suppressWarnings(as.numeric(dataA$totwghtlandg))
+    dataA$totwghtlandg[is.na(dataA$totwghtlandg)] <- 0
+    dataH$totwghtlandg <- suppressWarnings(as.numeric(dataH$totwghtlandg))
+    dataH$totwghtlandg[is.na(dataH$totwghtlandg)] <- 0
+
     # Landings weight coverage in tables A and H by gsa (comparison)
     covA <- aggregate(list(landingsA = dataA$totwghtlandg), by = list(year = dataA$year, country = dataA$country, gsa = dataA$sub_region), FUN = sum, na.rm = T)
     covH <- aggregate(list(landingsH = dataH$totwghtlandg), by = list(year = dataH$year, country = dataH$country, gsa = dataH$sub_region), FUN = sum, na.rm = T)

@@ -33,7 +33,7 @@ FDI_cross_checks_AH <- function(data1, data2, verbose = FALSE) {
       colnames(data2)[which(colnames(data2)=="latitude")] <- "rectangle_lat"
     }
     if ("longitude" %in% colnames(data2)) {
-      colnames(data)[which(colnames(data)=="longitude")] <- "rectangle_lon"
+      colnames(data2)[which(colnames(data2)=="longitude")] <- "rectangle_lon"
     }
     if ("metier_7" %in% colnames(data2)) {
       data2 <- data2[ , -(which(colnames(data2)%in% "metier_7"))]
@@ -41,9 +41,14 @@ FDI_cross_checks_AH <- function(data1, data2, verbose = FALSE) {
     #-----------------------------------------------
 
     data1[1:19][data1[1:19] == "NK" | data1[1:19] == "NA" | is.na(data1[1:19])] <- NA
+    data1$totwghtlandg <- suppressWarnings(as.numeric(data1$totwghtlandg))
+    data1$totvallandg <- suppressWarnings(as.numeric(data1$totvallandg))
+    data1$discards <- suppressWarnings(as.numeric(data1$discards))
     data1[20:22][is.na(data1[20:22])] <- 0
 
     data2[1:20][data2[1:20] == "NK" | data2[1:20] == "NA" | is.na(data2[1:20])] <- NA
+    data2$totwghtlandg <- suppressWarnings(as.numeric(data2$totwghtlandg))
+    data2$totvallandg <- suppressWarnings(as.numeric(data2$totvallandg))
     data2[21, 22][is.na(data2[21, 22])] <- 0
 
     suppressMessages(data1 <- data1 %>% filter(!is.na(country) & !is.na(year)))

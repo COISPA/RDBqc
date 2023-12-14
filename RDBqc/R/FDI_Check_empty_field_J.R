@@ -13,8 +13,30 @@
 #'
 ####
 check_EF_FDI_J <- function(data, verbose = TRUE) {
+
+  if (FALSE){
+    data <- read.table("E:\\Programmi di RACCOLTA DATI corretti al 2017\\DATACALL\\_____Tools for data-quality check__\\REV TAB FDI\\FDI Capacity by country.csv", sep=",", header=T)
+    verbose = TRUE
+    check_RD_FDI_J(data, verbose = TRUE)
+  }
+  colnames(data) <- tolower(colnames(data))
+
   # Declaration of variables and suppression of empty columns for dataframe1
-  data <- data[, 1:14]
+  # data <- data[, 1:14]
+  data <- data[, which(colnames(data) %in% c("country",
+                                             "year",
+                                             "vessel_length",
+                                             "fishing_tech",
+                                             "supra_region",
+                                             "geo_indicator",
+                                             "principal_sub_region",
+                                             "tottrips",
+                                             "totkw",
+                                             "totgt",
+                                             "totves",
+                                             "avgage",
+                                             "avgloa",
+                                             "maxseadays"))]
 
   data$tottrips <- as.character(data$tottrips)
   data$totkw <- as.character(data$totkw)

@@ -87,11 +87,13 @@ FDI_vessel_numbers <- function(dataJ, dataG, MS, verbose = TRUE) {
       data1[data1$totves == "NK", "totves"] <- NA
       data1$totves <- as.numeric(data1$totves)
     }
+    data1$totves <- suppressWarnings(as.numeric(data1$totves))
 
     if (class(data2$totves) == "character" & "NK" %in% data2$totves) {
       data2[data2$totves == "NK", "totves"] <- NA
       data2$totves <- as.numeric(data2$totves)
     }
+    data2$totves <- suppressWarnings(as.numeric(data2$totves))
 
     # Vessel numbers in tables J and G (comparison), by fish_tech, gsa and year. For table G estimate max of quarters
     cov1 <- aggregate(list(vesselsJ = data1$totves), by = list(year = data1$year, gsa = data1$principal_sub_region, fish_tech = data1$fishing_tech), FUN = sum, na.rm = T)

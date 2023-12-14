@@ -74,8 +74,13 @@ FDI_disc_coverage <- function(data, MS, GSA, SP, verbose = TRUE) {
       data1$DISCcat[d2] <- "0"
       data1$DISCcat[d3] <- "NK"
 
+      data1$totwghtlandg <- as.numeric(data1$totwghtlandg)
+      data1$totvallandg <- as.numeric(data1$totvallandg)
+      data1$discards <- as.numeric(data1$discards)
+
       if (class(data1$totwghtlandg) != "numeric") {
-        stop("Unexpected values in 'totwghtlandg' field in table A catch")
+        message("Unexpected class values in 'totwghtlandg' field in table A catch. COnverted to numeric")
+          data1$totwghtlandg <- as.numeric(data1$totwghtlandg)
       }
 
       discov <- aggregate(list(landings = data1$totwghtlandg), by = list(year = data1$year, gsa = data1$sub_region, disccat = data1$DISCcat), FUN = sum, na.rm = T)

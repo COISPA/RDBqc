@@ -9,8 +9,7 @@
 #' @export
 #'
 #' @examples check_EF_FDI_A(fdi_a_catch)
-check_EF_FDI_A <- function (data, verbose = TRUE)
-{
+check_EF_FDI_A <- function (data, verbose = TRUE) {
   if (FALSE){
     data <- read.table("E:\\Programmi di RACCOLTA DATI corretti al 2017\\DATACALL\\_____Tools for data-quality check__\\REV TAB FDI\\FDI Catches by country2022.csv", sep=";", header=T)
     verbose = TRUE
@@ -292,7 +291,6 @@ check_EF_FDI_A <- function (data, verbose = TRUE)
     }
   }
   output <- list(results, results2)
-  output
   return(output)
 }
 

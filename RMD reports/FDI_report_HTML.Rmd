@@ -1,6 +1,5 @@
 ---
-title: "| ![](logo.png){width=6in} \\vspace{1in} \n\n\n\n`r format(params$term)` Report\n\n\n\n
-  \\vspace{0.1in} "
+title: "![](logo.png){width=6in}<br>\\vspace{2in}\n\n\n\n`r format(params$term)` Report\\vspace{0.1in} "
 
 date: "Compiled on `r format(Sys.time(), '%d/%m/%Y, %H:%M')`"
 subtitle: ''
@@ -131,6 +130,7 @@ if (exists("metier")) {
 if (exists("tableA")) {
   if (class(tableA) == "data.frame") {
     if (nrow(tableA) > 0) {
+      colnames(tableA) <- tolower(colnames(tableA))
       check_tableA <- TRUE
       cat(paste0("\n# FDI catch data (Table A)\n"))
 
@@ -187,14 +187,14 @@ if (check_tableA) {
 
 ```{r FDI_RD_A, results = 'asis'}
 if (check_tableA) {
-  cat("\n## Check the presence of duplicated records\n")
-  cat("\nFDI catch data (table A) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 19 columns generates duplicate records.\n")
+  cat("\n## Check the presence of duplicated or disaggregated records\n")
+  cat("\nFDI catch data (table A) were checked for the presence of duplicated or disaggregated records. In particular, it was checks whether the combination of the first 20 columns generates duplicate or disaggregated records.\n")
 
   res <- suppressMessages(check_RD_FDI_A(data = tableA, verbose = FALSE))
 
   if (length(res) > 0) {
     l <- length(res)
-    cat(paste0("\n\n\n- ", l, " duplicated record/s was/were detected in the FDI catch table A\n\n\n"))
+    cat(paste0("\n\n\n- ", l, " duplicated or disaggregated record/s was/were detected in the FDI catch table A\n\n\n"))
     df <- tableA[res, which(colnames(tableA) %in% c(
       "country", "year", "quarter", "vessel_length", "fishing_tech", "gear_type",
       "target_assemblage", "mesh_size_range", "metier",
@@ -203,11 +203,11 @@ if (check_tableA) {
     ))]
 
     cat("\n\n\n")
-    cat(paste0("\n_Table of duplicated records in FDI catch table (Table A)_\n"))
+    cat(paste0("\n_Table of duplicated or disaggregated records in FDI catch table (Table A)_\n"))
     print(df %>% kable("html") %>% kable_styling(font_size = 11) %>% kable_classic(full_width = TRUE))
     cat("\n\n\n")
   } else {
-    cat(paste0("\n\n\n- No duplicated records were detected in the FDI catch table A\n\n\n"))
+    cat(paste0("\n\n\n- No duplicated or disaggregated records were detected in the FDI catch table A\n\n\n"))
   }
 } # check_TableA
 ```
@@ -369,6 +369,7 @@ if (check_tableA) {
 if (exists("tableG")) {
   if (class(tableG) == "data.frame") {
     if (nrow(tableG) > 0) {
+      colnames(tableG) <- tolower(colnames(tableG))
       check_tableG <- TRUE
       cat(paste0("\n# FDI effort data (table G)\n"))
 
@@ -421,14 +422,14 @@ if (check_tableG) {
 
 ```{r FDI_RD_G, results = 'asis'}
 if (check_tableG) {
-  cat("\n## Check the presence of duplicated records\n")
-  cat("\nFDI effort data (table G) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 15 columns generates duplicate records.\n")
+  cat("\n## Check the presence of duplicated or disaggregated records\n")
+  cat("\nFDI effort data (table G) were checked for the presence of duplicated or disaggregated records. In particular, it was checked whether the combination of the first 16 columns generates duplicated or disaggregated records.\n")
 
   res <- suppressMessages(check_RD_FDI_G(data = tableG, verbose = FALSE))
 
   if (length(res) > 0) {
     l <- length(res)
-    cat(paste0("\n\n\n- ", l, " duplicated record/s was/were detected in the FDI effort table G\n\n\n"))
+    cat(paste0("\n\n\n- ", l, " duplicated or disaggregated record/s was/were detected in the FDI effort table G\n\n\n"))
     df <- tableG[res, which(colnames(tableG) %in% c(
       "country", "year", "quarter", "vessel_length", "fishing_tech", "gear_type",
       "target_assemblage", "mesh_size_range", "metier",
@@ -436,11 +437,11 @@ if (check_tableG) {
     ))]
 
     cat("\n\n\n")
-    cat(paste0("\n_Table of duplicated records in FDI effort table (Table G)_\n"))
+    cat(paste0("\n_Table of duplicated or disaggregated records in FDI effort table (Table G)_\n"))
     print(df %>% kable("html") %>% kable_styling(font_size = 11) %>% kable_classic(full_width = TRUE))
     cat("\n\n\n")
   } else {
-    cat(paste0("\n\n\n- No duplicated records were detected in the FDI effort table G\n\n\n"))
+    cat(paste0("\n\n\n- No duplicated or disaggregated records were detected in the FDI effort table G\n\n\n"))
   }
 } # check_TableA
 ```
@@ -539,6 +540,7 @@ if (check_tableG) {
 if (exists("tableH")) {
   if (class(tableH) == "data.frame") {
     if (nrow(tableH) > 0) {
+      colnames(tableH) <- tolower(colnames(tableH))
       check_tableH <- TRUE
       cat(paste0("\n# FDI Landings by rectangle data (table H)\n"))
 
@@ -588,14 +590,14 @@ if (check_tableH) {
 
 ```{r FDI_RD_H, results = 'asis'}
 if (check_tableH) {
-  cat("\n## Check the presence of duplicated records\n")
-  cat("\nFDI Landings by rectangle data (table H) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 20 columns generates duplicate records.\n")
+  cat("\n## Check the presence of duplicated or disaggregated records\n")
+  cat("\nFDI Landings by rectangle data (table H) were checked for the presence of duplicated or disaggregated records. In particular, it was checked whether the combination of the first 20 columns generates duplicated or disaggregated records.\n")
 
   res <- suppressMessages(check_RD_FDI_H(data = tableH, verbose = FALSE))
 
   if (length(res) > 0) {
     l <- length(res)
-    cat(paste0("\n\n\n- ", l, " duplicated record/s was/were detected in the FDI Landings by rectangle table H\n\n\n"))
+    cat(paste0("\n\n\n- ", l, " duplicated or disaggregated record/s was/were detected in the FDI Landings by rectangle table H\n\n\n"))
     df <- tableH[res, which(colnames(tableH) %in% c(
       "country", "year", "quarter", "vessel_length", "fishing_tech", "gear_type",
       "target_assemblage", "mesh_size_range", "metier",
@@ -604,11 +606,11 @@ if (check_tableH) {
     ))]
 
     cat("\n\n\n")
-    cat(paste0("\n_Table of duplicated records in FDI Landings by rectangle table (Table H)_\n"))
+    cat(paste0("\n_Table of duplicated or disaggregated records in FDI Landings by rectangle table (Table H)_\n"))
     print(df %>% kable("html") %>% kable_styling(font_size = 11) %>% kable_classic(full_width = TRUE))
     cat("\n\n\n")
   } else {
-    cat(paste0("\n\n\n- No duplicated records were detected in the FDI Landings by rectangle table H\n\n\n"))
+    cat(paste0("\n\n\n- No duplicated or disaggregated records were detected in the FDI Landings by rectangle table H\n\n\n"))
   }
 } # check_TableH
 ```
@@ -699,6 +701,7 @@ if (check_tableH) {
 if (exists("tableI")) {
   if (class(tableI) == "data.frame") {
     if (nrow(tableI) > 0) {
+      colnames(tableI) <- tolower(colnames(tableI))
       check_tableI <- TRUE
       cat(paste0("\n# FDI Effort by rectangle data (table I)\n"))
 
@@ -744,14 +747,14 @@ if (check_tableI) {
 
 ```{r FDI_RD_I, results = 'asis'}
 if (check_tableI) {
-  cat("\n## Check the presence of duplicated records\n")
-  cat("\nFDI Effort by rectangle data (table I) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 19 columns generates duplicate records.\n")
+  cat("\n## Check the presence of duplicated or disaggregated records\n")
+  cat("\nFDI Effort by rectangle data (table I) were checked for the presence of duplicated or disaggregated records. In particular, it was checked whether the combination of the first 20 columns generates duplicated or disaggregated records.\n")
 
   res <- suppressMessages(check_RD_FDI_I(data = tableI, verbose = FALSE))
 
   if (length(res) > 0) {
     l <- length(res)
-    cat(paste0("\n\n\n- ", l, " duplicated record/s was/were detected in the FDI Effort by rectangle table I\n\n\n"))
+    cat(paste0("\n\n\n- ", l, " duplicated or disaggregated record/s was/were detected in the FDI Effort by rectangle table I\n\n\n"))
     df <- tableI[res, which(colnames(tableI) %in% c(
       "country", "year", "quarter", "vessel_length", "fishing_tech", "gear_type",
       "target_assemblage", "mesh_size_range", "metier",
@@ -760,11 +763,11 @@ if (check_tableI) {
     ))]
 
     cat("\n\n\n")
-    cat(paste0("\n_Table of duplicated records in FDI Effort by rectangle table (Table I)_\n"))
+    cat(paste0("\n_Table of duplicated or disaggregated records in FDI Effort by rectangle table (Table I)_\n"))
     print(df %>% kable("html") %>% kable_styling(font_size = 11) %>% kable_classic(full_width = TRUE))
     cat("\n\n\n")
   } else {
-    cat(paste0("\n\n\n- No duplicated records were detected in the FDI Effort by rectangle table I\n\n\n"))
+    cat(paste0("\n\n\n- No duplicated or disaggregated records were detected in the FDI Effort by rectangle table I\n\n\n"))
   }
 } # check_TableI
 ```
@@ -856,6 +859,7 @@ if (check_tableI) {
 if (exists("tableJ")) {
   if (class(tableJ) == "data.frame") {
     if (nrow(tableJ) > 0) {
+      colnames(tableJ) <- tolower(colnames(tableJ))
       check_tableJ <- TRUE
       cat(paste0("\n# FDI Capacity and fleet segment effort data (table J)\n"))
 
@@ -908,25 +912,25 @@ if (check_tableJ) {
 
 ```{r FDI_RD_J, results = 'asis'}
 if (check_tableJ) {
-  cat("\n## Check the presence of duplicated records\n")
-  cat("\nFDI Capacity and fleet segment effort data (table J) were checked for the presence of duplicated records. In particular, it was checks whether the combination of the first 19 columns generates duplicate records.\n")
+  cat("\n## Check the presence of duplicated or disaggregated records\n")
+  cat("\nFDI Capacity and fleet segment effort data (table J) were checked for the presence of duplicated or disaggregated records. In particular, it was checked whether the combination of the first 20 columns generates duplicated or disaggregated records.\n")
 
   res <- suppressMessages(check_RD_FDI_J(data = tableJ, verbose = FALSE))
 
   if (length(res) > 0) {
     l <- length(res)
-    cat(paste0("\n\n\n- ", l, " duplicated record/s was/were detected in the FDI Capacity and fleet segment effort table J\n\n\n"))
+    cat(paste0("\n\n\n- ", l, " duplicated or disaggregated record/s was/were detected in the FDI Capacity and fleet segment effort table J\n\n\n"))
     df <- tableJ[res, which(colnames(tableJ) %in% c(
       "country", "year", "vessel_length", "fishing_tech", "supra_region",
       "geo_indicator", "principal_sub_region"
     ))]
 
     cat("\n\n\n")
-    cat(paste0("\n_Table of duplicated records in FDI Capacity and fleet segment effort table (Table J)_\n"))
+    cat(paste0("\n_Table of duplicated or disaggregated records in FDI Capacity and fleet segment effort table (Table J)_\n"))
     print(df %>% kable("html") %>% kable_styling(font_size = 11) %>% kable_classic(full_width = TRUE))
     cat("\n\n\n")
   } else {
-    cat(paste0("\n\n\n- No duplicated records were detected in the FDI Capacity and fleet segment effort table J\n\n\n"))
+    cat(paste0("\n\n\n- No duplicated or disaggregated records were detected in the FDI Capacity and fleet segment effort table J\n\n\n"))
   }
 } # check_TableJ
 ```
