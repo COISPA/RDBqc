@@ -24,12 +24,13 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
     setwd("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\data")
     load("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/QualiTrain_scripts/QualiTrain/data/GSAs.rda")
 
+    verbose = TRUE
     MS <- "ITA"
     GSA <- "GSA 9"
     SP <- "MUT" # c("ARS","HKE")
     year <- 2020
     species_list = RDBqc::SSPP
-
+    GSAlist <- RDBqc::GSAlist
 
     load("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/QualiTrain_scripts/QualiTrain/data/SPs.rda")
     # species_list <- SSPP
@@ -40,11 +41,15 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
     # save(SSPP,file="D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\QualiTrain_scripts\\QualiTrain\\data/SSPP.rda",compress="xz",compression_level=9)
 
 
-    ALK <- read.table("alk.csv", sep = ";", header = TRUE)
-    AR <- read_excel("table 2.1 e 2.2 med and bs.xlsx", sheet = "Table 2.2 Biol variables", skip = 1)
-    AR <- data.frame(AR)
+    # ALK <- read.table("alk.csv", sep = ";", header = TRUE)
+    # AR <- read_excel("table 2.1 e 2.2 med and bs.xlsx", sheet = "Table 2.2 Biol variables", skip = 1)
+    # AR <- data.frame(AR)
+
+
+    ALK <- read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\AR-documentazione\\TEST funzioni AR\\alk.csv",sep=",", header=TRUE)
+    AR <- read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\AR-documentazione\\TEST funzioni AR\\AR_TAB22_2022.csv",sep=",", header=TRUE)
     OUT=FALSE
-    check_age_MEDBS_AR(ALK, AR, MS = "ITA", GSA = NA, SP, year = 2019,OUT=TRUE, verbose = TRUE)
+    check_age_MEDBS_AR(ALK, AR, MS = "ITA", GSA = GSA, SP=SP, year = 2020,OUT=FALSE, verbose = TRUE)
   }
 
   Area <- Implementation.year <- Species <- Achieved.number.of.individuals.measured.at.national.level <- country <- area <- in.year <- ref.year <- species <- sex <- total_number_of_hard_structure_read_by_age <- NULL
@@ -58,6 +63,8 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
     user_GSA <- FALSE
   } else {
     GSA <- GSA[!is.na(GSA)]
+    GSA <- as.numeric(gsub("\\D", "", GSA))
+    GSA <- paste("GSA" ,GSA,sep=" ")
     GSA <- GSA[GSA %in% paste("GSA", as.numeric(GSAlist$GSA))]
     user_GSA <- TRUE
   }
@@ -109,7 +116,8 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
   #------------------
   ### AR data
   # filter on country
-  AR[!is.na(AR$Area) & AR$Area == "GSA11", "Area"] <- "GSA 11"
+
+  # AR[!is.na(AR$Area) & AR$Area == "GSA11", "Area"] <- "GSA 11"
 
   if (user_GSA) {
     AR <- AR[AR$MS == MS & AR$Area %in% GSA, ]
@@ -286,11 +294,26 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
     ALK_tab_f <- reshape2::dcast(ALK_tab, Country + Area + Year + Sample.Year.ALK + Species ~ Sex, value.var = "numb.age.ALK")
     colnames(ALK_tab_f)[6:ncol(ALK_tab_f)] <- paste(colnames(ALK_tab_f)[6:ncol(ALK_tab_f)], "_age_ALK", sep = "")
 
+
+    if (!"C_age_ALK" %in% colnames(ALK_tab_f) ) {
+      ALK_tab_f$C_age_ALK <- NA
+    }
+
+    if (!"F_age_ALK" %in% colnames(ALK_tab_f) ) {
+      ALK_tab_f$F_age_ALK <- NA
+    }
+
+    if (!"M_age_ALK" %in% colnames(ALK_tab_f) ) {
+      ALK_tab_f$M_age_ALK <- NA
+    }
+
     tab <- suppressMessages(ALK_tab_f %>% full_join(AR1))
     tab$warnings <- NA
     tab$errors <- NA
 
-    n <- 10
+
+
+    n <- 1
     for (n in 1:nrow(tab)) {
       if (!tab[n, "Species"] %in% unique(SPs[!is.na(SPs$MEDBS), "MEDBS"])) {
         tab[n, "warnings"] <- "species not present in MEDBS data call list"

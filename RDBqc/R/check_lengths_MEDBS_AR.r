@@ -33,9 +33,9 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
 
     # species_list <- SSPP
     MS <- "ITA"
-    SP <- NA
-    GSA <- NA # "GSA 18"
-    year <- 2019
+    SP <- "KLK"
+    GSA <- "GSA 17"
+    year <- 2020
 
     # AR <- read_excel("AR_2019_template_2023_Tab_2.5.xlsx", sheet = "Table 2.5 Sampling plan biol", skip = 1)
     AR <- read_excel("table 2.1 e 2.2 med and bs.xlsx", sheet = "Table 2.1 Stocks", skip = 1)
@@ -45,7 +45,12 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
     med <- read.table("catch ita 2019.csv", sep = ";", header = TRUE)
     # med <- med[, c(1:30)]
 
-    res <- check_lengths_MEDBS_AR(MEDBS=med, AR=AR, MS = "ITA", GSA = NA, SP = NA, year = 2019, verbose = FALSE,OUT=TRUE)
+    species_list = SSPP
+    MEDBS <- read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\AR-documentazione\\TEST funzioni AR\\catch.csv",sep=",", header=TRUE)
+    AR <- read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\AR-documentazione\\TEST funzioni AR\\AR_TAB21_2022.csv",sep=",", header=TRUE)
+
+
+    res <- check_lengths_MEDBS_AR(MEDBS=MEDBS, AR=AR, MS = "ITA", GSA = GSA, SP = SP, year = 2020, species_list = SSPP, verbose = TRUE,OUT=TRUE)
   } # if (FALSE)
 
   Area <- Implementation.year <- Achieved.number.of.PSUs.in.the.implementation.year <- country <- area <- metier <- no_samples_catch <- trips_year <- no_samples_landings <- no_samples_discards <- quarter <- trips_quarters <- Country <- Year <- MEDBS_by_Year_Catch <- MEDBS_by_Year_Landings <- MEDBS_quarters_Discards <- MEDBS_by_Year_Discards <- MEDBS_quarters_Catches <- MEDBS_quarters_Landings <- Species <- Achieved.number.of.individuals.measured.for.length.at.national.level.from.commercial.sampling <- species <- no_length_measurements_catch <- no_length_measurements_landings <- no_length_measurements_discards <- no_length_catch <- no_length_landings <- no_length_discards <- NULL
@@ -61,9 +66,14 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
     user_GSA <- FALSE
   } else {
     GSA <- GSA[!is.na(GSA)]
+    GSA <- as.numeric(gsub("\\D", "", GSA))
+    GSA <- paste("GSA" ,GSA,sep=" ")
     GSA <- GSA[GSA %in% paste("GSA", as.numeric(GSAlist$GSA))]
     user_GSA <- TRUE
   }
+
+
+
 
   #### MED & BS Catch
 
@@ -94,7 +104,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
 
   #### AR
   #----------
-  AR[!is.na(AR$Area) & AR$Area == "GSA11", "Area"] <- "GSA 11"
+  # AR[!is.na(AR$Area) & AR$Area == "GSA11", "Area"] <- "GSA 11"
 
   if (user_GSA) {
     AR <- AR[AR$MS == MS & AR$Area %in% GSA, ]
@@ -442,5 +452,6 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
     if (verbose) {
       message("No data available in one or both tables for the selected combination of country and GSA")
     }
+    return(NULL)
   }
 }

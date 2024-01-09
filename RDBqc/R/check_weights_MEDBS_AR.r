@@ -26,9 +26,10 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
     load("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/QualiTrain_scripts/QualiTrain/data/GSAs.rda")
 
     MS <- "ITA"
-    GSA <- NA
-    SP <- NA # c("ARS","HKE")
-    year <- 2019
+    GSA <- "18"
+    SP <- "MUT" # c("ARS","HKE")
+    year <- 2020
+    species_list = SSPP
 
     # SPs <- read_excel("ASFIS_sp_2022_REV1.xlsx",sheet =1)
     # SPs <- data.frame(SPs)
@@ -40,7 +41,12 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
     AR <- read_excel("table 2.1 e 2.2 med and bs.xlsx", sheet = "Table 2.2 Biol variables", skip = 1)
     AR <- data.frame(AR)
 
-    check_weights_MEDBS_AR(GP, AR, MS = "ITA", GSA = NA, SP = NA, year = 2019, OUT=TRUE, verbose = TRUE)
+
+    GP <- read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\AR-documentazione\\TEST funzioni AR\\gp.csv",sep=",", header=TRUE)
+    AR <- read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\AR-documentazione\\TEST funzioni AR\\AR_TAB22_2022.csv",sep=",", header=TRUE)
+    AR <- data.frame(AR)
+
+    check_weights_MEDBS_AR(GP, AR, MS = "ITA", GSA = GSA, SP = SP, year = 2020, OUT=TRUE, verbose = TRUE)
   }
 
   Area <- Implementation.year <- Species <- Achieved.number.of.individuals.measured.at.national.level <- country <- area <- in.year <- ref.year <- species <- sex <- l_w_sample_size <- NULL
@@ -55,6 +61,8 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
     user_GSA <- FALSE
   } else {
     GSA <- GSA[!is.na(GSA)]
+    GSA <- as.numeric(gsub("\\D", "", GSA))
+    GSA <- paste("GSA" ,GSA,sep=" ")
     GSA <- GSA[GSA %in% paste("GSA", as.numeric(GSAlist$GSA))]
     user_GSA <- TRUE
   }
@@ -276,6 +284,18 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
 
     GP_tab_f <- reshape2::dcast(GP_tab, Country + Area + Year + Sample.Year.GP + Species ~ Sex, value.var = "numb.weights.GP")
     colnames(GP_tab_f)[6:ncol(GP_tab_f)] <- paste(colnames(GP_tab_f)[6:ncol(GP_tab_f)], "_weights_GP", sep = "")
+
+    if (! "F_weights_GP" %in% colnames(GP_tab_f) ) {
+      GP_tab_f$F_weights_GP <- NA
+    }
+
+    if (! "M_weights_GP" %in% colnames(GP_tab_f) ) {
+      GP_tab_f$M_weights_GP <- NA
+    }
+
+    if (! "C_weights_GP" %in% colnames(GP_tab_f) ) {
+      GP_tab_f$C_weights_GP <- NA
+    }
 
     tab <- suppressMessages(GP_tab_f %>% full_join(AR1))
 

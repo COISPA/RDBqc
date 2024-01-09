@@ -28,21 +28,21 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
     load("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/QualiTrain_scripts/QualiTrain/data/GSAs.rda")
 
     MS <- "ITA"
-    GSA <- NA
-    SP <- NA # c("ARS","HKE")
-    year <- 2019
-
+    GSA <- "9"
+    SP <- "MUT" # c("ARS","HKE")
+    year <- 2020
+    species_list = SSPP
     # SPs <- read_excel("ASFIS_sp_2022_REV1.xlsx",sheet =1)
     # SPs <- data.frame(SPs)
     load("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/QualiTrain/QualiTrain_scripts/QualiTrain/data/Sps.rda")
     # species_list <- SSPP
     # save(SPs,file="D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\QualiTrain_scripts\\QualiTrain\\data/SPs.rda",compress="xz",compression_level=9)
 
-    ML <- read.table("ml.csv", sep = ",", header = TRUE)
-    AR <- read_excel("table 2.1 e 2.2 med and bs.xlsx", sheet = "Table 2.2 Biol variables", skip = 1)
+    ML <- read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\AR-documentazione\\TEST funzioni AR\\ml.csv",sep=",", header=TRUE)
+    AR <- read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\QualiTrain\\AR-documentazione\\TEST funzioni AR\\AR_TAB22_2022.csv",sep=",", header=TRUE)
     AR <- data.frame(AR)
 
-    check_maturity_MEDBS_AR(ML, AR, MS = "ITA", GSA = NA, SP, year = 2019,OUT=TRUE, verbose = TRUE)
+    check_maturity_MEDBS_AR(ML, AR, MS = "ITA", GSA = "GSA 9", SP="MUT", year = 2020,OUT=TRUE, species_list = SSPP, verbose = TRUE)
   }
 
   Area <- Implementation.year <- Species <- Achieved.number.of.individuals.measured.at.national.level <- country <- area <- in.year <- ref.year <- species <- sex <- sample_size <- NULL
@@ -57,6 +57,8 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
     user_GSA <- FALSE
   } else {
     GSA <- GSA[!is.na(GSA)]
+    GSA <- as.numeric(gsub("\\D", "", GSA))
+    GSA <- paste("GSA" ,GSA,sep=" ")
     GSA <- GSA[GSA %in% paste("GSA", as.numeric(GSAlist$GSA))]
     user_GSA <- TRUE
   }
@@ -106,7 +108,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
 
   #------------------
   ### AR data
-  AR[!is.na(AR$Area) & AR$Area == "GSA11", "Area"] <- "GSA 11"
+  # AR[!is.na(AR$Area) & AR$Area == "GSA11", "Area"] <- "GSA 11"
 
   # filter on country
   if (user_GSA) {
@@ -143,7 +145,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
     }
     quit_AR <- TRUE
   } else {
-    AR <- AR[tolower(AR$Biological.variable) == "maturity", ]
+    AR <- AR[grep("maturity",tolower(AR$Biological.variable)), ]
   }
 
 
@@ -282,6 +284,19 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
 
     ML_tab_f <- dcast(ML_tab, Country + Area + Year + Sample.Year.ML + Species ~ Sex, value.var = "numb.maturity.ML")
     colnames(ML_tab_f)[6:ncol(ML_tab_f)] <- paste(colnames(ML_tab_f)[6:ncol(ML_tab_f)], "_maturity_ML", sep = "")
+
+    if (! "F_maturity_ML" %in% colnames(ML_tab_f) ) {
+      ML_tab_f$F_maturity_ML <- NA
+    }
+
+    if (! "M_maturity_ML" %in% colnames(ML_tab_f) ) {
+      ML_tab_f$M_maturity_ML <- NA
+    }
+
+    if (! "C_maturity_ML" %in% colnames(ML_tab_f) ) {
+      ML_tab_f$C_maturity_ML <- NA
+    }
+
 
     tab <- suppressMessages(ML_tab_f %>% full_join(AR1))
 
