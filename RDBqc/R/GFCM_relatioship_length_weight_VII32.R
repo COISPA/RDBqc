@@ -14,6 +14,10 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_lw_TaskVII.3.2(task_vii32, MS = "ITA", GSA = "18", SP = "CTC")
 check_lw_TaskVII.3.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
+
+  # check format of headers
+  data <- GFCM_check_headers(data, "task7.3.2")
+
   Length <- Reference_Year <- WeightIndividualsSampled <- Sex <- NULL
   data <- data[data$CPC %in% MS & data$GSA %in% GSA & data$Species %in% SP, ]
 

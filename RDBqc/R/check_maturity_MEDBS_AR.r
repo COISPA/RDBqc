@@ -70,7 +70,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
   # filter on species
   if (nrow(ML) == 0) {
     if (verbose) {
-      message("No data avilable in ML table for the selected country")
+      message("No data available in ML table for the selected country")
     }
     quit <- TRUE
   } else {
@@ -89,7 +89,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
 
   if (quit | nrow(ML) == 0) {
     if (verbose) {
-      message("No ML data avilable for the analysis")
+      message("No ML data available for the analysis")
     }
     quit <- TRUE
   } else {
@@ -121,7 +121,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
   # filter on Year
   if (nrow(AR) == 0) {
     if (verbose) {
-      message("No data avilable in AR table for the selected country")
+      message("No data available in AR table for the selected country")
     }
     quit_AR <- TRUE
   } else {
@@ -131,7 +131,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
   # filter on Region
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -141,7 +141,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
   # filter on Biological variable
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -152,7 +152,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
   # filter on Observation.type
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -162,7 +162,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
   # filter on Sampling.scheme.type
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -173,7 +173,7 @@ check_maturity_MEDBS_AR <- function(ML, AR, MS, GSA, SP, year, species_list = RD
   excluded.sp <- NULL
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {

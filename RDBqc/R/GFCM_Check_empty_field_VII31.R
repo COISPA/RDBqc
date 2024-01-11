@@ -12,6 +12,10 @@
 #'
 ####
 check_EF_TaskVII31 <- function(data, verbose = TRUE) {
+
+  # check format of headers
+  data <- GFCM_check_headers(data, "task7.3.1")
+
   # Declaration of variables and suppression of empty columns for dataframe1
   data <- data[, which(colnames(data) %in% c("Reference_Year", "CPC", "GSA", "Species", "Sex", "L50"))]
 

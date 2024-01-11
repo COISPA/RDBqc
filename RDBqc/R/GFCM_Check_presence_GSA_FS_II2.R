@@ -17,6 +17,9 @@ check_presence_taskII2 <- function(data1, data2, MS, GSA) {
     data2 <- combination_taskII2
   }
 
+  # check format of headers
+  data <- GFCM_check_headers(data, "task2.2")
+
   # Declaration of variables and suppression of empty columns for dataframe1
   data1$Reference_Year <- as.numeric(data1$Reference_Year)
   data1$CPC <- as.character(data1$CPC)

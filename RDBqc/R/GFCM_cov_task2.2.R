@@ -15,6 +15,10 @@
 #' @importFrom tidyr drop_na
 
 GFCM_cov_II2 <- function(data, MS, SP = "COMBINED", segment = "COMBINED", GSA, verbose = TRUE) {
+
+  # check format of headers
+  data <- GFCM_check_headers(data, "task2.2")
+
   colnames(data) <- tolower(colnames(data))
   reference_year <- gsa <- cpc <- species <- landing <- discards <- tot_landing <- tot_discards <- NULL
 

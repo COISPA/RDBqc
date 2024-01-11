@@ -16,6 +16,9 @@
 check_lmat_TaskVII.3.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
   FAU_stage <- Length <- Sex <- NULL
 
+  # check format of headers
+  data <- GFCM_check_headers(data, "task7.3.2")
+
   data <- data[data$CPC == MS & data$GSA %in% GSA & data$Species %in% SP, ]
 
   if (nrow(data) == 0) {

@@ -13,6 +13,10 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_l50_TaskVII.3.1(task_vii31, MS = "ITA", GSA = "19", SP = "HKE")
 check_l50_TaskVII.3.1 <- function(data, MS, GSA, SP = NA, verbose = FALSE) {
+
+  # check format of headers
+  data <- GFCM_check_headers(data, "task7.3.1")
+
   CPC <- Gear <- L50 <- Length <- NumberAlive <- NumberCaught <- NumberDead <-
     NumberIndividuals <- NumberIndividualsExpanded <- NumberReleased <-
     Reference_Year <- Segment <- Sex <- Source <- Species <- WeightCaught <- tot_Caught <- NULL

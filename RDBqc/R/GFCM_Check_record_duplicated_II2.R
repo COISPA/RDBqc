@@ -11,6 +11,10 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_RD_taskII2(task_ii2)
 check_RD_taskII2 <- function(data, verbose = TRUE) {
+
+  # check format of headers
+  data <- GFCM_check_headers(data, "task2.2")
+
   df <- data[, which(colnames(data) %in% c(
     "Reference_Year",
     "CPC",

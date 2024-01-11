@@ -74,7 +74,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
   # filter on species
   if (nrow(GP) == 0) {
     if (verbose) {
-      message("No data avilable in GP table for the selected country")
+      message("No data available in GP table for the selected country")
     }
     quit <- TRUE
   } else {
@@ -93,7 +93,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
 
   if (quit | nrow(GP) == 0) {
     if (verbose) {
-      message("No GP data avilable for the analysis")
+      message("No GP data available for the analysis")
     }
     quit <- TRUE
   } else {
@@ -125,7 +125,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
   # filter on Year
   if (nrow(AR) == 0) {
     if (verbose) {
-      message("No data avilable in AR table for the selected country")
+      message("No data available in AR table for the selected country")
     }
     quit_AR <- TRUE
   } else {
@@ -135,7 +135,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
   # filter on Region
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -145,7 +145,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
   # filter on Biological variable
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -156,7 +156,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
   # filter on Observation.type
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -166,7 +166,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
   # filter on Sampling.scheme.type
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -177,7 +177,7 @@ check_weights_MEDBS_AR <- function(GP, AR, MS, GSA, SP, year, species_list = RDB
   excluded.sp <- NULL
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {

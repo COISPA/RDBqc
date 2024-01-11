@@ -10,6 +10,10 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_EF_taskIII(task_iii)
 check_EF_taskIII <- function(data, verbose = TRUE) {
+
+  # check format of headers
+  data <- GFCM_check_headers(data, "task3")
+
   # Declaration of variables and suppression of empty columns for dataframe1
   data <- data[, which(colnames(data) %in% c(
     "Reference_Year",

@@ -39,11 +39,11 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-T_ii2 <- read.csv("./dc_dcrf_task_ii2_catch.csv", sep = ";")
-T_iii <- read.csv("./dc_dcrf_task_iii_incidental_catch.csv", sep = ";")
-T_vii2 <- read.csv("./dc_dcrf_task_vii2_length_data.csv", sep = ";")
-T_vii31 <- read.csv("./dc_dcrf_task_vii31_size_1st_matur.csv", sep = ";")
-T_vii32 <- read.csv("./dc_dcrf_task_vii32_maturity_data.csv", sep = ";")
+# T_ii2 <- read.csv("./dc_dcrf_task_ii2_catch.csv", sep = ";")
+# T_iii <- read.csv("./dc_dcrf_task_iii_incidental_catch.csv", sep = ";")
+# T_vii2 <- read.csv("./dc_dcrf_task_vii2_length_data.csv", sep = ";")
+# T_vii31 <- read.csv("./dc_dcrf_task_vii31_size_1st_matur.csv", sep = ";")
+# T_vii32 <- read.csv("./dcrf_task_vii32_maturity.csv", sep = ";")
 
 MS <- "ITA"
 SPs <- c("HKE", "DPS")
@@ -108,6 +108,7 @@ if (exists("Segments")) {
 if (exists("T_ii2")) {
   if (class(T_ii2) == "data.frame") {
     if (nrow(T_ii2) > 0) {
+      T_ii2 <- GFCM_check_headers(T_ii2, "task2.2")
       check_task_ii2 <- TRUE
       cat(paste0("\n# GFCM Catch data per species (Table II.2)\n"))
 
@@ -245,6 +246,7 @@ if (check_task_ii2) {
 if (exists("T_iii")) {
   if (class(T_iii) == "data.frame") {
     if (nrow(T_iii) > 0) {
+      T_iii <- GFCM_check_headers(T_iii, "task3")
       check_task_iii <- TRUE
       cat(paste0("\n# GFCM Incidental catch of vulnerable species (Table III)\n"))
 
@@ -372,6 +374,7 @@ if (check_task_iii) {
 if (exists("T_vii2")) {
   if (class(T_vii2) == "data.frame") {
     if (nrow(T_vii2) > 0) {
+      T_vii2 <- GFCM_check_headers(T_vii2, "task7.2")      
       check_task_vii2 <- TRUE
       cat(paste0("\n# GFCM Biological information (Table VII.2, Length data)\n"))
 
@@ -531,6 +534,7 @@ if (check_task_vii2) {
 if (exists("T_vii31")) {
   if (class(T_vii31) == "data.frame") {
     if (nrow(T_vii31) > 0) {
+      T_vii31 <- GFCM_check_headers(T_vii31, "task7.3.1")
       check_task_vii31 <- TRUE
       cat(paste0("\n# GFCM Size at first maturity (Table VII.3.1)\n"))
 
@@ -647,6 +651,7 @@ if (check_task_vii31) {
 if (exists("T_vii32")) {
   if (class(T_vii32) == "data.frame") {
     if (nrow(T_vii32) > 0) {
+      T_vii32 <- GFCM_check_headers(T_vii32, "task7.3.2")      
       check_task_vii32 <- TRUE
       cat(paste0("\n# GFCM Biological information (Table VII.3.2, Maturity data)\n"))
 

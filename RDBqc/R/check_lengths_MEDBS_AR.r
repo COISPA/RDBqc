@@ -87,7 +87,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
   # filter on species
   if (nrow(med) == 0) {
     if (verbose) {
-      message("No data avilable in Catch table for the selected country")
+      message("No data available in Catch table for the selected country")
     }
     quit <- TRUE
   } else {
@@ -115,7 +115,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
   # filter by year
   if (nrow(AR) == 0) {
     if (verbose) {
-      message("No data avilable in AR table for the selected country")
+      message("No data available in AR table for the selected country")
     }
     quit_AR <- TRUE
   } else {
@@ -129,7 +129,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
   # filter by Region
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -140,7 +140,7 @@ check_lengths_MEDBS_AR <- function(MEDBS, AR, MS, GSA, SP, year, species_list = 
   excluded.sp <- NULL
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {

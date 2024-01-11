@@ -1,3 +1,5 @@
+# RBDqc 0.0.17.16
+ * inclusion of 'GFCM_check_headers' function allowing to convert the GFCM headers from RDBFIS to GFCM format
 # RBDqc 0.0.17.15
  * addressing new table format in FDI data call (new field "metier_7" and new colnames for rectangle_lat and rectangle_lon fields)
 # RBDqc 0.0.17.14

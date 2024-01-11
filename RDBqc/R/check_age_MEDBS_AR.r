@@ -77,7 +77,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
   # filter on species
   if (nrow(ALK) == 0) {
     if (verbose) {
-      message("No data avilable in ALK table for the selected country")
+      message("No data available in ALK table for the selected country")
     }
     quit <- TRUE
   } else {
@@ -96,7 +96,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
 
   if (quit | nrow(ALK) == 0) {
     if (verbose) {
-      message("No ALK data avilable for the analysis")
+      message("No ALK data available for the analysis")
     }
     quit <- TRUE
   } else {
@@ -129,7 +129,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
   # filter on Year
   if (nrow(AR) == 0) {
     if (verbose) {
-      message("No data avilable in AR table for the selected country")
+      message("No data available in AR table for the selected country")
     }
     quit_AR <- TRUE
   } else {
@@ -139,7 +139,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
   # filter on Region
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -149,7 +149,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
   # filter on Biological variable
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -160,7 +160,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
   # filter on Observation.type
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -170,7 +170,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
   # filter on Sampling.scheme.type
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {
@@ -181,7 +181,7 @@ check_age_MEDBS_AR <- function(ALK, AR, MS, GSA, SP, year, species_list = RDBqc:
   excluded.sp <- NULL
   if (quit_AR | nrow(AR) == 0) {
     if (verbose) {
-      message("No AR data avilable for the analysis")
+      message("No AR data available for the analysis")
     }
     quit_AR <- TRUE
   } else {

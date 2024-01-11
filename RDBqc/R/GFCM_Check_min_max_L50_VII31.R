@@ -13,6 +13,9 @@
 #' @examples check_minmaxl50_TaskVII.3.1(task_vii31, minmaxLtaskVII31, MS = "ITA", GSA = "19")
 check_minmaxl50_TaskVII.3.1 <- function(data, tab_L50, MS, GSA) {
 
+  # check format of headers
+  data <- GFCM_check_headers(data, "task7.3.1")
+
   # Creation of Pivot for calculation of min/max depending of species
 
   data <- data[data$CPC %in% MS & data$GSA %in% GSA, ]

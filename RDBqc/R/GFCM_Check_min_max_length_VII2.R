@@ -13,6 +13,10 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples check_minmaxl_TaskVII.2(task_vii2, minmaxLtaskVII2, MS = "ITA", GSA = "18")
 check_minmaxl_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
+
+  # check format of headers
+  data <- GFCM_check_headers(data, "task7.2")
+
   CPC <- Gear <- L50 <- Length <- NumberAlive <- NumberCaught <- NumberDead <-
     NumberIndividuals <- NumberIndividualsExpanded <- NumberReleased <-
     Reference_Year <- Segment <- Sex <- Source <- Species <- WeightCaught <- tot_Caught <- NULL
