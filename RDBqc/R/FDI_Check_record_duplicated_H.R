@@ -13,7 +13,7 @@
 check_RD_FDI_H <- function(data, verbose = TRUE) {
 
   if (FALSE){
-    data <- read.table("E:\\Programmi di RACCOLTA DATI corretti al 2017\\DATACALL\\_____Tools for data-quality check__\\REV TAB FDI\\dc_fdi_h_spatial_land_da_DB.csv", sep=";", header=T)
+    data <- read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB\\Testing RDBqc\\ITA_fdi_table_H - 2017.csv", sep=",", header=T)
     verbose = TRUE
     check_RD_FDI_H(data, verbose = TRUE)
   }

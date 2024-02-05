@@ -22,6 +22,18 @@
 #' # The function works by one country, subarea and species each.
 #' # It is not possible assign more country, subarea or species.
 Check_Tot_Land2 <- function(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = TRUE, OUT = FALSE) {
+
+  if (FALSE) {
+    data <- read.table("D:\\Documents and Settings\\Utente\\Downloads\\landings (5).csv",sep=",", header=TRUE)
+    data1 <- read.table("D:\\Documents and Settings\\Utente\\Downloads\\TABLE_A_CATCH_FDI_2023.csv",sep=",", header=TRUE)
+    data2 <- read.table("D:\\Documents and Settings\\Utente\\Downloads\\AER_2307 (1).csv",sep=",",header = TRUE)
+    MS <- "GRC"
+    GSA <- "GSA23"
+    SP="MUR"
+    Check_Tot_Land2(data, data1, data2, MS, GSA, SP, MEDBSSP, verbose = TRUE, OUT = FALSE)
+  }
+
+
   AREA <- COUNTRY <- COUNTRY_CODE <- DATA_CALL <- LANDINGS <- SPECIES <- SPECIES_CODE <- SUB_REG <- SUB_REGION <- TOTWGHTLANDG <- VALUE <- YEAR <- NULL
 
   ## Assigning "update" column name
