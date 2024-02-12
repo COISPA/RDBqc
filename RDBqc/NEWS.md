@@ -1,3 +1,5 @@
+# RBDqc 0.0.17.17
+ * correction bug on MEDBS_LFD for discards
 # RBDqc 0.0.17.16
  * inclusion of 'GFCM_check_headers' function allowing to convert the GFCM headers from RDBFIS to GFCM format
 # RBDqc 0.0.17.15

@@ -39,7 +39,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     # library(utils)
     # library(magrittr)
     # library(tidyr)
-    type="b"
+    type="d"
     landed<- RDBqc::Landing_tab_example
     discarded <- RDBqc::Discard_tab_example
     data <- landed
@@ -71,6 +71,18 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     SP = SPs[s]
     OUT=FALSE
     verbose = TRUE
+
+    data = Disc
+    data2= NA
+    type="d"
+    MS = MS
+    GSA = GSAs[g]
+    SP = SPs[s]
+    OUT=FALSE
+    verbose = TRUE
+    res <- suppressMessages(MEDBS_LFD(data = Disc, data2=NA, type="d", MS = MS, GSA = GSAs[g], SP = SPs[s], OUT=TRUE, verbose = TRUE))
+
+
 
   }
 
@@ -105,6 +117,10 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
       step <- 50
     }
 
+      land_tmp <- data.frame(land)
+      land_tmp[is.na(land_tmp)] <- 0
+      land_tmp[land_tmp == -1 ] <- 0
+      land <- data.table(land_tmp)
     var_no_landed <- grep("lengthclass", colnames(land), value = TRUE)
     max_no_landed <- land[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_landed]
     max_no_landed[max_no_landed == -1] <- 0
@@ -282,9 +298,15 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
         step <- 50
       }
 
+      disc_tmp <- data.frame(disc)
+      disc_tmp[is.na(disc_tmp)] <- 0
+      disc_tmp[disc_tmp == -1 ] <- 0
+      disc <- data.table(disc_tmp)
+
       var_no_discarded <- grep("lengthclass", colnames(disc), value = TRUE)
       max_no_discarded <- disc[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_discarded]
       max_no_discarded[max_no_discarded == -1] <- 0
+      max_no_discarded[is.na(max_no_discarded)] <- 0
       max_no_discarded2 <- max_no_discarded[, -(1:7)]
 
       # is.na(max_no_landed)
@@ -292,7 +314,11 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
       p$Length=c(0:100)
       names(p)=c("Sum","Length")
 
+      if (length(which(p$Sum > 0))>0){
       maxlength= max(p[which(p$Sum > 0),"Length"])
+      } else {
+        maxlength=0
+      }
       unit=unique(disc$unit)
 
       if (OUT) {
@@ -324,7 +350,7 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
       LFD2 <- subset(LFD2[LFD2$ckd>0,])
       # droplevels(LFD2)
 
-      if(nrow(LFD2)>0){
+      if(nrow(LFD2)>0 & nrow(subset(LFD2,start_length<maxlength))>0){
 
         plot3=ggplot(subset(LFD2,start_length<maxlength), aes(x=start_length, y=value,fill=ID)) +
           geom_bar(stat="identity") + facet_grid(ID~year,scales = "free") +
