@@ -216,7 +216,7 @@ if (check_Catch) {
       res <- MEDBS_check_missing_years(data = Catch, end_year, type = "c", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
       if (!is.null(res)) {
         if (length(res)>0) {
-           cat(paste0("\n- The following years are missing in the Catch data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res[[1]],collapse=", "),"\n")) 
+           cat(paste0("\n- The following years are missing in the Catch data time series (", SPs[s], " - ", MS, " - ", GSAs[g], "): ",paste(res,collapse=", "),"\n")) 
         } else {
           cat(paste0("\n- No missing years in the Catch data time series for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))  
         }
