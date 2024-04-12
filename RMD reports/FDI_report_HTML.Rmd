@@ -38,14 +38,14 @@ lapply(lib, require, character.only = TRUE)
 ## UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 ## SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-tableA <- read.table("./fdi_a_catch.csv", sep = ";", header = TRUE)
-tableG <- read.table("./fdi_g_effort.csv", sep = ";", header = TRUE)
-tableH <- read.table("./fdi_h_spatial_landings.csv", sep = ";", header = TRUE)
-tableI <- read.table("./fdi_i_spatial_effort.csv", sep = ";", header = TRUE)
-tableJ <- read.table("./fdi_j_capacity.csv", sep = ";", header = TRUE)
+tableA <- read.table("D:\\COISPA\\QualiTrain\\Practical sessions\\scripts\\dummy datasets\\fdi_a_catch.csv", sep = ";", header = TRUE)
+tableG <- read.table("D:\\COISPA\\QualiTrain\\Practical sessions\\scripts\\dummy datasets\\fdi_g_effort.csv", sep = ";", header = TRUE)
+tableH <- read.table("D:\\COISPA\\QualiTrain\\Practical sessions\\scripts\\dummy datasets\\fdi_h_spatial_landings.csv", sep = ";", header = TRUE)
+tableI <- read.table("D:\\COISPA\\QualiTrain\\Practical sessions\\scripts\\dummy datasets\\fdi_i_spatial_effort.csv", sep = ";", header = TRUE)
+tableJ <- read.table("D:\\COISPA\\QualiTrain\\Practical sessions\\scripts\\dummy datasets\\fdi_j_capacity.csv", sep = ";", header = TRUE)
 
 MS <- "ITA"
-SPs <- c("DPS")
+SPs <- c("MUT")
 GSAs <- c("GSA99")
 vessel_len <- "COMBINED"
 fishtech <- "COMBINED"

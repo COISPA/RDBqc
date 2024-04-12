@@ -500,26 +500,26 @@ if (check_task_vii2) {
 
       res <- suppressMessages(check_ldf_TaskVII.2(data = T_vii2, MS = MS, SP = SPs[s], GSA = GSAs[g], verbose = FALSE))
 
-      if (!is.null(res)) {
-        if (!is.null(res[[1]])) {
+      if (any(!is.na(res))) {
+        if (all(!is.na(res[[1]]))) {
           cat("\n\n\n")
           cat(paste0("\nPlot of the Length Frequency Distribution by year and segment for ", SPs[s], " - ", MS, " - GSA ", GSAs[g], " - Biological sumpling (BS).\n"))
           suppressMessages(print(res[[1]]))
           cat("\n\n\n")
         } else {
-          cat(paste0("\n\n\n- No data available in GFCM Biological information (Table VII.2, Length data)\n"))
+          cat(paste0("\n\n\n- No biological sampling (BS) data available in GFCM Biological information (Table VII.2, Length data)\n"))
         }
 
-        if (!is.null(res[[2]])) {
+        if  (all(!is.na(res[[2]])))  {
           cat("\n\n\n")
           cat(paste0("\nPlot of the Length Frequency Distribution  by year  for ", SPs[s], " - ", MS, " - GSA ", GSAs[g], " - Surveys (SU).\n"))
           suppressMessages(print(res[[2]]))
           cat("\n\n\n")
         } else {
-          cat(paste0("\n\n\n- No biological sampling (BU) data available in GFCM Biological information (Table VII.2, Length data)\n"))
+          cat(paste0("\n\n\n- No survey sampling (SU) data available in GFCM Biological information (Table VII.2, Length data)\n"))
         }
       } else {
-        cat(paste0("\n\n\n- No biological sampling (BU) data available in GFCM Biological information (Table VII.2, Length data)\n"))
+        cat(paste0("\n\n\n- No data available in GFCM Biological information (Table VII.2, Length data)\n"))
       }
     }
   }

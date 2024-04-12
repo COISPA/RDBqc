@@ -57,7 +57,7 @@ check_ldf_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
       plots[[1]] <- plot1
     } else {
       n <- length(plots)
-      plots[[1]] <- NULL
+      plots[[1]] <- NA
      }
 
     data_SU <- data1[data1$Source == "SU", ]
@@ -83,7 +83,8 @@ check_ldf_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
     plots[[2]] <- plot2
     } else {
       n <- length(plots)
-      plots[[2]] <- NULL
+      plots[[2]] <- NA
+      # plots[[2]] <- NULL
     }
     return(plots) # list(plot1, plot2)
   }
