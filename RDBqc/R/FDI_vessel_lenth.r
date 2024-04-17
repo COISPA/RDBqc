@@ -35,12 +35,17 @@ FDI_vessel_lenth <- function(data, MS, verbose = TRUE) {
 
     # subset for MS
     data <- subset(data, country == MS)
-
+    data <- subset(data, vessel_length != "NK")
+    data <- data[!is.na(data$vessel_length), ]
     # Make a data frame with vessel category length (min, max) and vessel lengths
     VC <- data$vessel_length
-    VL <- data$avgloa
+    VL <- as.numeric(data$avgloa)
+    mVL <- max(VL,na.rm=TRUE)
     vc_min <- as.numeric(substr(VC, 3, 4))
-    vc_max <- as.numeric(substr(VC, 5, 6))
+    VCm <- substr(VC, 5, 6)
+    VCm[VCm=="XX"] <- mVL
+    vc_max <- as.numeric(VCm)
+
     data$consistent <- rep(TRUE, length(VC)) # flag to record whether length cat. is consistent with actual repoted length
 
     # do the check, compare vessel length with category

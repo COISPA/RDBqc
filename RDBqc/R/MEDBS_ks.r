@@ -46,6 +46,19 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
   colnames(data) <- tolower(colnames(data))
   data <- as.data.table(data)
 
+  #-----------------------------
+  data <- as.data.frame(data)
+  var_no_landed <- grep("lengthclass", names(data), value = TRUE)
+  sel_nl <- c(var_no_landed)
+  cols_no_length <- colnames(data)[which(!colnames(data) %in% sel_nl)]
+  length_cols <- (data[, which(names(data) %in% sel_nl)])
+  length_cols = suppressWarnings(apply(length_cols, 2, function(x) as.numeric(as.character(x))))
+  length_cols[is.na(length_cols)] <- 0
+  no_lenght_col <- data[, which(colnames(data) %in% cols_no_length)]
+  data <- cbind(no_lenght_col, length_cols)
+  # data
+  #-----------------------------
+
   if (type == "l") {
     landed <- data
     landed$upload_id <- NA
@@ -63,6 +76,7 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
       return(NULL)
     } else {
       var_no_landed <- grep("lengthclass", names(land), value = TRUE)
+      land <- as.data.table(land)
       max_no_landed <- land[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_landed]
       max_no_landed[max_no_landed == -1] <- 0
       max_no_landed2 <- max_no_landed[, -(1:7)]

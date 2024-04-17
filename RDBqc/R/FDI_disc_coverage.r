@@ -66,6 +66,12 @@ FDI_disc_coverage <- function(data, MS, GSA, SP, verbose = TRUE) {
       }
 
       d3 <- which(data1$discards == "NK")
+
+      if(any(is.na(data1$discards ))){
+        if (verbose){
+          print("Column DISCARDS cannot contain NA values. Substitute NAs with NK and run again the script",quote=F)
+        }
+      }
       suppressWarnings(d1 <- which(as.numeric(data1$discards) > 0))
       suppressWarnings(d2 <- which(as.numeric(data1$discards) == 0))
 

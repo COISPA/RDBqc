@@ -31,6 +31,7 @@ MEDBS_disc_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     var_no_landed <- grep("LENGTHCLASS", names(land), value = TRUE)
     sel_nl <- c(var_no_landed)
     pippo <- (land[, which(names(land) %in% sel_nl)])
+    pippo = apply(pippo, 2, function(x) as.numeric(as.character(x)));
     pippo[is.na(pippo)] <- 0
     pippo[pippo == -1] <- 0
     pippo[pippo == ""] <- 0

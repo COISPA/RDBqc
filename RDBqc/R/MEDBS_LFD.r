@@ -273,6 +273,17 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
 
 
   if (type == "d" | type=="b") {
+    #-----------------------------
+    data <- as.data.frame(discarded)
+    var_no_landed <- grep("lengthclass", names(data), value = TRUE)
+    sel_nl <- c(var_no_landed)
+    cols_no_length <- colnames(data)[which(!colnames(data) %in% sel_nl)]
+    length_cols <- (data[, which(names(data) %in% sel_nl)])
+    length_cols = suppressWarnings(apply(length_cols, 2, function(x) as.numeric(as.character(x))))
+    length_cols[is.na(length_cols)] <- 0
+    no_lenght_col <- data[, which(colnames(data) %in% cols_no_length)]
+    discarded <- cbind(no_lenght_col, length_cols)
+    #-----------------------------
     discarded$upload_id <- NA
     discarded[discarded$discards==-1,]=0
     # id_discards <- NA

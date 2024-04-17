@@ -61,6 +61,18 @@ MEDBS_lengthclass_0 <- function(data, type = "l", SP, MS, GSA, verbose = TRUE) {
 
   if (type == "d") {
     if (length(which(data$discards > 0))>0) {
+      #-----------------------------
+      data <- as.data.frame(data)
+      var_no_landed <- grep("lengthclass", names(data), value = TRUE)
+      sel_nl <- c(var_no_landed)
+      cols_no_length <- colnames(data)[which(!colnames(data) %in% sel_nl)]
+      length_cols <- (data[, which(names(data) %in% sel_nl)])
+      length_cols = suppressWarnings(apply(length_cols, 2, function(x) as.numeric(as.character(x))))
+      length_cols[is.na(length_cols)] <- 0
+      no_lenght_col <- data[, which(colnames(data) %in% cols_no_length)]
+      data <- cbind(no_lenght_col, length_cols)
+      data
+      #-----------------------------
       land <- data
       land_vs_length_minus2 <- land[land$discards > 0, ]
       land_vs_length_minus2 <- as.data.frame(land_vs_length_minus2)

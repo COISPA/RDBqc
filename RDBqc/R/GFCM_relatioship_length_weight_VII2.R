@@ -39,7 +39,7 @@ check_lw_TaskVII.2 <- function(data, MS, GSA, SP, verbose = TRUE) {
         plot.title = element_text(hjust = 0.5, size = 15)
       ) +
       xlab("Length") +
-      ylab("Weight (kg)") +
+      ylab("Mean Individual Weight (kg)") +
       guides(color = guide_legend(title = "Year")) +
       ggtitle(SP)
 

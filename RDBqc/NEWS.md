@@ -1,3 +1,9 @@
+
+
+# RBDqc 0.0.17.19
+ * included warning messages in FDI_disc_coverage function in case NA values are detected in the discards field.
+ * improved management of unexpected class in numeric fields of landing and discard tables on MED&BS data call functions
+ * improvement of vessel length transformation from character to numeric in FDI_vessel_lenth function
 # RBDqc 0.0.17.17
  * correction bug on MEDBS_LFD for discards
 # RBDqc 0.0.17.16
