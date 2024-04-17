@@ -342,7 +342,7 @@ if (check_Land) {
     for (s in 1:length(SPs)) {
       # cc <- Catch[Catch$AREA== GSAs[g]&Catch$SPECIES==SPs[s],]
       # Catch <- rbind(Catch,cc[1,])
-      res <- MEDBS_check_duplicates(data = Land, type = "l", SP = SPs[s], MS = "ITA", GSA = GSAs[g], verbose = FALSE)
+      res <- MEDBS_check_duplicates(data = Land, type = "l", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
       if (!is.null(res)) {
         duplicates <- rbind(duplicates, res)
       }
@@ -874,7 +874,7 @@ if (check_Disc) {
   for (g in 1:length(GSAs)) {
     s <- 1
     for (s in 1:length(SPs)) {
-      res <- MEDBS_check_duplicates(data = Disc, type = "d", SP = SPs[s], MS = "ITA", GSA = GSAs[g], verbose = FALSE)
+      res <- MEDBS_check_duplicates(data = Disc, type = "d", SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE)
       if (!is.null(res)) {
         duplicates <- rbind(duplicates, res)
       }
