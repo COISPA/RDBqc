@@ -1,5 +1,5 @@
-
-
+# RBDqc 0.0.17.20
+ * improvement of MEDBS_length_ind and to RCG_check_mat_ogive functions
 # RBDqc 0.0.17.19
  * included warning messages in FDI_disc_coverage function in case NA values are detected in the discards field.
  * improved management of unexpected class in numeric fields of landing and discard tables on MED&BS data call functions

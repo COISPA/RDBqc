@@ -45,6 +45,20 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
   value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- max_size <- min_size<- NULL
   data <- as.data.table(data)
   colnames(data) <- tolower(colnames(data))
+
+  #---------
+  data <- as.data.frame(data)
+  var_no_landed <- grep("lengthclass", names(data), value = TRUE)
+  sel_nl <- c(var_no_landed)
+  cols_no_length <- colnames(data)[which(!colnames(data) %in%
+                                           sel_nl)]
+  length_cols <- (data[, which(names(data) %in% sel_nl)])
+  length_cols = suppressWarnings(apply(length_cols, 2, function(x) as.numeric(as.character(x))))
+  length_cols[is.na(length_cols)] <- 0
+  no_lenght_col <- data[, which(colnames(data) %in% cols_no_length)]
+  data <- cbind(no_lenght_col, length_cols)
+  #-------------
+
   if (type == "l") {
     landed <- data
     landed$upload_id <- NA
