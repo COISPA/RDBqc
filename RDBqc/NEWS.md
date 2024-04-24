@@ -1,3 +1,5 @@
+# RBDqc 0.0.17.21
+ * RCG_check_LFD modified to work with datasets with only one record
 # RBDqc 0.0.17.20
  * improvement of MEDBS_length_ind and to RCG_check_mat_ogive functions
 # RBDqc 0.0.17.19

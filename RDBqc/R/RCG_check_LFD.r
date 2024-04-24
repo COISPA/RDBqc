@@ -45,7 +45,7 @@ RCG_check_LFD <- function(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose
     if (is.na(min_len) | is.na(max_len)) {
       test_max <- grubbs.test(data$Length_class)$p.value
       test_min <- grubbs.test(data$Length_class, opposite = TRUE)$p.value
-      if (test_max < 0.05) {
+      if (test_max < 0.05 & !is.na(test_max)) {
         id_max <- which(data$Length_class == max(data$Length_class))
         if (verbose) {
           message(paste("The Grubbs' test identifies the maximum value of Length class distribution (", round(max(data$Length_class), 1), ") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers", sep = ""))
@@ -54,7 +54,7 @@ RCG_check_LFD <- function(data, SP, MS, GSA, min_len = NA, max_len = NA, verbose
         id_max <- 0
       }
 
-      if (test_min < 0.05) {
+      if (test_min < 0.05 & !is.na(test_min)) {
         id_min <- which(data$Length_class == min(data$Length_class))
         if (verbose) {
           message(paste("The Grubbs' test identifies the minimum value of Length class distribution (", round(min(data$Length_class), 1), ") as an outlier. Please, carefully check the plots to identify the presence of other possible outliers", sep = ""))
