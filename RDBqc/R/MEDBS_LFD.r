@@ -72,6 +72,8 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     OUT=FALSE
     verbose = TRUE
 
+    res <- suppressMessages(MEDBS_LFD(data = landed, data2=NA, type="l", MS = MS, GSA = GSAs[g], SP = SPs[s], OUT=TRUE, verbose = TRUE))
+
     data = Disc
     data2= NA
     type="d"
@@ -118,12 +120,12 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
     }
 
       land_tmp <- data.frame(land)
-      land_tmp[is.na(land_tmp)] <- 0
-      land_tmp[land_tmp == -1 ] <- 0
+      land_tmp[,c(12,14:114)][is.na(land_tmp[,c(12,14:114)])] <- 0
+      land_tmp[,c(12,14:114)][land_tmp[,c(12,14:114)]==-1] <- 0
       land <- data.table(land_tmp)
     var_no_landed <- grep("lengthclass", colnames(land), value = TRUE)
     max_no_landed <- land[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_landed]
-    max_no_landed[max_no_landed == -1] <- 0
+    # max_no_landed[max_no_landed == -1] <- 0
     max_no_landed2 <- max_no_landed[, -(1:7)]
 
     # is.na(max_no_landed)
@@ -310,14 +312,16 @@ MEDBS_LFD <- function(data, data2, type, SP, MS, GSA, OUT=FALSE, verbose = FALSE
       }
 
       disc_tmp <- data.frame(disc)
-      disc_tmp[is.na(disc_tmp)] <- 0
-      disc_tmp[disc_tmp == -1 ] <- 0
+      # disc_tmp[is.na(disc_tmp)] <- 0
+      # disc_tmp[disc_tmp == -1 ] <- 0
+      disc_tmp[,c(12,14:114)][is.na(disc_tmp[,c(12,14:114)])] <- 0
+      disc_tmp[,c(12,14:114)][disc_tmp[,c(12,14:114)]==-1] <- 0
       disc <- data.table(disc_tmp)
 
       var_no_discarded <- grep("lengthclass", colnames(disc), value = TRUE)
       max_no_discarded <- disc[, lapply(.SD, max), by = .(country, area, species, year, gear, mesh_size_range, fishery), .SDcols = var_no_discarded]
-      max_no_discarded[max_no_discarded == -1] <- 0
-      max_no_discarded[is.na(max_no_discarded)] <- 0
+      # max_no_discarded[max_no_discarded == -1] <- 0
+      # max_no_discarded[is.na(max_no_discarded)] <- 0
       max_no_discarded2 <- max_no_discarded[, -(1:7)]
 
       # is.na(max_no_landed)

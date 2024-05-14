@@ -1,0 +1,5 @@
+
+MUR GSA25 LW relationship / VBFGC  - Le unità di misura usate nella LW relationship devono essere in accordo con VBFGC quando viene presa la Linf per il plot.
+
+ML check - gestire serie multiple che anno lo stesso anno di inizio (generare un warning per avvisare della presenza di più di una serie con lo stesso anno di inizio).
+
