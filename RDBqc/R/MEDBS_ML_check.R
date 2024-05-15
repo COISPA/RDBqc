@@ -39,6 +39,7 @@ MEDBS_ML_check <- function(data, SP, MS, GSA, verbose = TRUE) {
     for (i in unique(as.character(ML_tab$SEX))) {
       p <- ggplot(data = ML_tab[ML_tab$SEX %in% i, ], aes(x = LENGTHCLASS, y = PRM, col = factor(START_YEAR))) +
         geom_line(stat = "identity") +
+        geom_point(stat = "identity") +
         theme(legend.position = "bottom") +
         expand_limits(x = 0, y = 0) +
         theme(legend.text = element_text(color = "blue", size = 6)) +

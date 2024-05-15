@@ -12,6 +12,15 @@
 #' @import ggplot2 dplyr
 #' @examples MEDBS_MA_check(MA_tab_example, "DPS", "ITA", "GSA 99")
 MEDBS_MA_check <- function(data, SP, MS, GSA, verbose = TRUE) {
+
+
+  if (FALSE) {
+    data=MA_tab_example
+    SP="DPS"
+    MS="ITA"
+    GSA="GSA 99"
+    MEDBS_MA_check(data, SP, MS, GSA, verbose = TRUE)
+  }
   AREA <- Summary_MA_tab <- AGECLASS <- PRM <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
 
   colnames(data) <- toupper(colnames(data))
@@ -42,6 +51,7 @@ MEDBS_MA_check <- function(data, SP, MS, GSA, verbose = TRUE) {
       col = factor(START_YEAR)
     )) +
       geom_line(stat = "identity") +
+      geom_point(stat = "identity") +
       facet_grid(AREA + COUNTRY ~ SEX) +
       labs(color = "Years") +
       ggtitle(SP) +
@@ -58,6 +68,7 @@ MEDBS_MA_check <- function(data, SP, MS, GSA, verbose = TRUE) {
         col = factor(START_YEAR)
       )) +
         geom_line(stat = "identity") +
+        geom_point(stat = "identity") +
         theme(legend.position = "bottom") +
         expand_limits(x = 0, y = 0) +
         theme(legend.text = element_text(color = "blue", size = 6)) +

@@ -1,5 +1,6 @@
 # RBDqc 0.0.17.22
  * MEDBS_LFD improved NA and -1 value management
+ * MEDBS_MA_check and MEDBS_ML_check points were included in the plots
 # RBDqc 0.0.17.21
  * RCG_check_LFD modified to work with datasets with only one record
 # RBDqc 0.0.17.20
