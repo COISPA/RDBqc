@@ -1,9 +1,9 @@
 Package: RDBqc
 Title: Quality check functions for RDBFIS
-Version: 0.0.17.22
-Date: 2024-05-15
-Author: Isabella Bitetto [aut,cre] <bitetto@fondazionecoispa.org>, 
-        Walter Zupa [aut, cre] <zupa@fondazionecoispa.org>, 
+Version: 0.0.17.23
+Date: 2024-05-31
+Author: Walter Zupa [aut, cre] <zupa@fondazionecoispa.org>,
+        Isabella Bitetto [aut,cre] <bitetto@fondazionecoispa.org>, 
         Alessandro Mannini [aut] <alessandro.mannini@irbim.cnr.it>, 
         Loredana Casciaro [cbt] <casciaro@coispa.eu>, 
         Sebastien Alfonso [cbt] <salfonso@coispa.eu>, 

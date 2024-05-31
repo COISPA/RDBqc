@@ -59,6 +59,7 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
     }
     LW_final <- do.call("rbind", F_wt)
     LW_final <- LW_final[!LW_final$WEIGHT %in% NA, ]
+    LW_final$ID <- paste(LW_final$ID,LW_final$UNITS,sep=" - ")
     steps <- seq(0, 80, 20)
 
     ### plot by year and sex
@@ -75,7 +76,7 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
       theme(legend.position = "bottom") +
       scale_x_continuous(breaks = steps) +
       expand_limits(x = 0, y = 0) +
-      xlab(paste0("Length (", unique(LW_final$UNITS)[1], ")")) +
+      xlab(paste0("Length")) +
       ylab("Weight (g)")
 
     l <- length(plots) + 1
@@ -94,7 +95,7 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
           expand_limits(x = 0, y = 0) +
           theme(legend.text = element_text(color = "blue", size = 6)) +
           guides(col = guide_legend(title = paste(SP, GSA, MS))) +
-          xlab(paste0("Length (", unique(LW_final$UNITS)[1], ")")) +
+          xlab(paste0("Length")) +
           ylab("Weight (g)")
 
         l <- length(plots) + 1
@@ -113,7 +114,7 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
           expand_limits(x = 0, y = 0) +
           theme(legend.text = element_text(color = "blue", size = 6)) +
           guides(col = guide_legend(title = paste(SP, GSA, MS))) +
-          xlab(paste0("Length (", unique(LW_final$UNITS)[1], ")")) +
+          xlab(paste0("Length")) +
           ylab("Weight (g)")
 
         l <- length(plots) + 1

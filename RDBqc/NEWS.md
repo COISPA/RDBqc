@@ -1,3 +1,5 @@
+# RBDqc 0.0.17.23
+ * MEDBS_LW_check unit of measure included in the curve ID in the legend of the plots
 # RBDqc 0.0.17.22
  * MEDBS_LFD improved NA and -1 value management
  * MEDBS_MA_check and MEDBS_ML_check points were included in the plots
