@@ -866,7 +866,7 @@ if (exists("Disc")) {
 
 ```{r discards_duplicated_records, results = 'asis'}
 if (check_Disc) {
-  cat("\n## No replocated records in discard data \n")
+  cat("\n## No replicated records in discard data \n")
   cat("\nData included in the discard table were checked for the presence of duplicated records. The result of the check is here reported:\n")
 
   duplicates <- Disc[0, ]
