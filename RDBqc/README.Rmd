@@ -25,6 +25,10 @@ Install the latest RDBqc release from GitHub:
 ```{r installation}
 library(devtools)
 install_github("COISPA/RDBqc/RDBqc",upgrade = c("never"))
+
+## uncomment the following code line to install the package buiding the vignettes
+
+# install_github("COISPA/RDBqc/RDBqc",upgrade = c("never"), build_vignettes = TRUE)
 ```
 
 # Introduction
