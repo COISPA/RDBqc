@@ -1,13 +1,36 @@
 RDBqc: Quality checks on RDBFIS data formats
 ================
 Walter Zupa
-2023-06-05
+2024-06-19
+
+# installation of RDBqc package
+
+Install the latest RDBqc release from GitHub:
+
+``` r
+library(devtools)
+#> Loading required package: usethis
+install_github("COISPA/RDBqc/RDBqc",upgrade = c("never"))
+#> Downloading GitHub repo COISPA/RDBqc@HEAD
+#> ── R CMD build ─────────────────────────────────────────────────────────────────
+#>          checking for file 'C:\Users\Walter\AppData\Local\Temp\RtmpcVQTEg\remotes27c442fbeca\COISPA-RDBqc-277fe7c\RDBqc/DESCRIPTION' ...     checking for file 'C:\Users\Walter\AppData\Local\Temp\RtmpcVQTEg\remotes27c442fbeca\COISPA-RDBqc-277fe7c\RDBqc/DESCRIPTION' ...   ✔  checking for file 'C:\Users\Walter\AppData\Local\Temp\RtmpcVQTEg\remotes27c442fbeca\COISPA-RDBqc-277fe7c\RDBqc/DESCRIPTION' (992ms)
+#>       ─  preparing 'RDBqc': (357ms)
+#>    checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
+#>       ─  checking for LF line-endings in source and make files and shell scripts
+#>       ─  checking for empty or unneeded directories
+#>       ─  building 'RDBqc_0.0.17.23.tar.gz'
+#>      
+#> 
+#> Warning: package 'RDBqc' is in use and will not be installed
+```
+
+# Introduction
 
 RDBqc allows to carry out a set of *a priori* quality checks on detailed
 sampling data and on aggregated landing data, and *a posteriori* quality
 check on MEDBS, FDI and GFCM data call formats.
 
-The supported quality checks in version 0.0.16 are:
+The supported quality checks in version 0.0.17 are:
 
 ### *A priori* quality checks
 
@@ -407,7 +430,6 @@ ports position included in the data.
 
 ``` r
 RCG_check_loc(data_ex)
-#> 
 #> Regions defined for each Polygons
 ```
 
@@ -506,9 +528,8 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 ``` r
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[7]]
-#> 
 #> `geom_line()`: Each group consists of only one observation.
-#> i Do you need to adjust the group aesthetic?
+#> ℹ Do you need to adjust the group aesthetic?
 ```
 
 ![](README_files/figure-gfm/RCG_check_CL7-1.png)<!-- -->
@@ -1378,10 +1399,6 @@ head(results)
 #> 6 2005  GTR   DEMSP         0.00       NA        NA       NA       NA
 ```
 
-``` r
-# plot(ks[[3]])
-```
-
 ### Check consistency of length data
 
 The function `MEDBS_length_ind` allows to check the consistency of
@@ -1465,7 +1482,7 @@ MEDBS_weight_0(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA 9", 
 #>  [5] vessel_length   gear            mesh_size_range fishery        
 #>  [9] area            specon          species         discards       
 #> [13] unit           
-#> <0 righe> (o 0-length row.names)
+#> <0 rows> (or 0-length row.names)
 ```
 
 ### weight -1 in landings and discards
@@ -1481,7 +1498,7 @@ MEDBS_weight_minus1(data=Discard_tab_example,type="d",SP="DPS",MS="ITA",GSA="GSA
 #>  [5] vessel_length   gear            mesh_size_range fishery        
 #>  [9] area            specon          species         discards       
 #> [13] unit           
-#> <0 righe> (o 0-length row.names)
+#> <0 rows> (or 0-length row.names)
 ```
 
 ### Years with missing length distributions
@@ -1800,13 +1817,10 @@ gear and fishery aggregation.
 
 ``` r
 results[[2]]
-#> 
 #> `geom_line()`: Each group consists of only one observation.
-#> i Do you need to adjust the group aesthetic?
-#> 
-#> 
+#> ℹ Do you need to adjust the group aesthetic?
 #> `geom_line()`: Each group consists of only one observation.
-#> i Do you need to adjust the group aesthetic?
+#> ℹ Do you need to adjust the group aesthetic?
 ```
 
 ![](README_files/figure-gfm/MEDBS_disc_mean_weight2-1.png)<!-- -->
@@ -2625,7 +2639,7 @@ FDI_prices_not_null(data = fdi_a_catch, MS = "PSP", GSA = "GSA99",SP = c("HKE"),
 #> [1] "Average price per species in PSP"
 #> No cases with total landings > 0 but landings value = 0
 #> [1] year        species     land weight land value  price      
-#> <0 righe> (o 0-length row.names)
+#> <0 rows> (or 0-length row.names)
 ```
 
 ### Check prices trend in FDI A table
@@ -3105,32 +3119,40 @@ FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[6]]
 
 ``` r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[7]]
-#> Warning: Removed 3 rows containing missing values (`geom_point()`).
-#> Warning: Removed 3 rows containing missing values (`geom_line()`).
+#> Warning: Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_point()`).
+#> Warning: Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_line()`).
 ```
 
 ![](README_files/figure-gfm/FDI_cov_tableG_3-5.png)<!-- -->
 
 ``` r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[8]]
-#> Warning: Removed 3 rows containing missing values (`geom_point()`).
-#> Removed 3 rows containing missing values (`geom_line()`).
+#> Warning: Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_point()`).
+#> Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_line()`).
 ```
 
 ![](README_files/figure-gfm/FDI_cov_tableG_3-6.png)<!-- -->
 
 ``` r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[9]]
-#> Warning: Removed 3 rows containing missing values (`geom_point()`).
-#> Removed 3 rows containing missing values (`geom_line()`).
+#> Warning: Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_point()`).
+#> Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_line()`).
 ```
 
 ![](README_files/figure-gfm/FDI_cov_tableG_3-7.png)<!-- -->
 
 ``` r
 FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[10]]
-#> Warning: Removed 3 rows containing missing values (`geom_point()`).
-#> Removed 3 rows containing missing values (`geom_line()`).
+#> Warning: Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_point()`).
+#> Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_line()`).
 ```
 
 ![](README_files/figure-gfm/FDI_cov_tableG_3-8.png)<!-- -->
@@ -3775,7 +3797,7 @@ FDI_checks_spatial_HI(data=fdi_h_spatial_landings,MS="PSP", verbose=FALSE)[[2]]
 #>  [1] country           year              quarter           vessel_length    
 #>  [5] fishing_tech      gear_type         target_assemblage mesh_size_range  
 #>  [9] metier            supra_region      sub_region       
-#> <0 righe> (o 0-length row.names)
+#> <0 rows> (or 0-length row.names)
 ```
 
 ### Compatibility of the geographical coordinates with rectangle type
@@ -4254,7 +4276,7 @@ FDI_checks_spatial_HI(data=fdi_i_spatial_effort,MS="PSP", verbose=FALSE)[[2]]
 #>  [1] country           year              quarter           vessel_length    
 #>  [5] fishing_tech      gear_type         target_assemblage mesh_size_range  
 #>  [9] metier            supra_region      sub_region       
-#> <0 righe> (o 0-length row.names)
+#> <0 rows> (or 0-length row.names)
 ```
 
 ### Compatibility of the geographical coordinates with rectangle type
@@ -4803,7 +4825,7 @@ effort in table I and effort in table G are shown.
 FDI_cross_checks_IG(data1=fdi_i_spatial_effort, data2=fdi_g_effort)[[1]]
 #> [1] year              vessel_length     fishing_tech      gear_type        
 #> [5] sub_region        totfishdays_data1 totfishdays_data2 Data             
-#> <0 righe> (o 0-length row.names)
+#> <0 rows> (or 0-length row.names)
 ```
 
 In the second table the comparison between total spatial effort of table

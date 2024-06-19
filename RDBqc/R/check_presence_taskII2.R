@@ -15,10 +15,12 @@ check_presence_taskII2 <- function(data1, data2, MS, GSA) {
   if (FALSE) {
     data1 <- task_ii2
     data2 <- combination_taskII2
+    MS = "ITA"
+    GSA = "18"
   }
 
   # check format of headers
-  data <- GFCM_check_headers(data, "task2.2")
+  data1 <- GFCM_check_headers(data1, "task2.2")
 
   # Declaration of variables and suppression of empty columns for dataframe1
   data1$Reference_Year <- as.numeric(data1$Reference_Year)
@@ -41,7 +43,7 @@ check_presence_taskII2 <- function(data1, data2, MS, GSA) {
   if (nrow(data2) == 0) {
     message(paste0("No reference values for the following years: ", paste(yrs, collapse = ", "), "."))
   } else {
-    if (nrow(level_fac_dat2) > 0 & nrow(level_fac_dat1) > 0) {
+    if (nrow(data2) > 0 & nrow(data1) > 0) {
 
 
       # creation of variable ID by concatenating GSA and Fleet.segment and year for data frame 1 and dataframe 2

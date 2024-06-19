@@ -1,7 +1,7 @@
 Package: RDBqc
 Title: Quality check functions for RDBFIS
-Version: 0.0.17.23
-Date: 2024-05-31
+Version: 0.0.17.24
+Date: 2024-06-19
 Author: Walter Zupa [aut, cre] <zupa@fondazionecoispa.org>,
         Isabella Bitetto [aut,cre] <bitetto@fondazionecoispa.org>, 
         Alessandro Mannini [aut] <alessandro.mannini@irbim.cnr.it>, 

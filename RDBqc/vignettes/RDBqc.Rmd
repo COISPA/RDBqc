@@ -1,32 +1,34 @@
 ---
-title: "RDBqc: Quality checks on RDBFIS data formats" 
-author: "Walter Zupa"
-date: "`r Sys.Date()`"
+title: "RDBqc"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteEngine{knitr::knitr}
-  %\VignetteIndexEntry{RDBqc: Quality checks on RDBFIS data formats}
-  %\usepackage[UTF-8]{inputenc}
+  %\VignetteIndexEntry{RDBqc}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+```
 
+```{r setup}
 library(RDBqc)
 ```
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
 
-library(RDBqc)
+# installation of RDBqc package 
+
+Install the latest RDBqc release from GitHub:
+
+```{r installation}
+library(devtools)
+install_github("COISPA/RDBqc/RDBqc",upgrade = c("never"))
 ```
+
+# Introduction
 
 RDBqc allows to carry out a set of _a priori_ quality checks on detailed sampling data and on aggregated landing data, and _a posteriori_ quality check on MEDBS, FDI and GFCM data call formats.
 
@@ -65,6 +67,8 @@ In particular, the following cross-check functions are available:
 * Number of ages consistency between MED & BS and AR data calls
 * Number of weights consistency between MED & BS and AR data calls
 * Number of maturity data consistency between MED & BS and AR data calls
+
+
 
 # Checks on RCG
 
@@ -335,11 +339,6 @@ The function `MEDBS_ks` allows to perform the Kolmogorov-Smirnov test on both la
 ks <- MEDBS_ks(data=Landing_tab_example, type="l", SP="DPS",MS="ITA",GSA="GSA 9",Rt=1)
 results <- ks[[1]]
 head(results)
-```
-
-
-```{r MEDBS_ks_landing2,fig.height=10,fig.width=10}
-# plot(ks[[3]])
 ```
 
 ### Check consistency of length data

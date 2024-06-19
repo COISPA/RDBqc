@@ -1,3 +1,5 @@
+# RBDqc 0.0.17.24
+ * check_presence_taskII2 function checked and merging issues corrected
 # RBDqc 0.0.17.23
  * MEDBS_LW_check unit of measure included in the curve ID in the legend of the plots
 # RBDqc 0.0.17.22
