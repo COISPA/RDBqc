@@ -1,3 +1,6 @@
+# RBDqc 0.0.17.25
+ * FDI_fishdays_cov.r updated to check the class of field 'totfishdays' in tables G and I and transform it to numeric if needed.
+ * FDI_disc_coverage.r updated to transforms NAs to NK and return a warning.
 # RBDqc 0.0.17.24
  * check_presence_taskII2 function checked and merging issues corrected
 # RBDqc 0.0.17.23
