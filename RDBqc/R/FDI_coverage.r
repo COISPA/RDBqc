@@ -15,14 +15,16 @@ FDI_coverage <- function(data, MS, verbose = TRUE) {
   country <- NULL
 
   if (FALSE) {
-    data <- read.table("D:\\Documents and Settings\\Utente\\Documenti\\GitHub\\RDBqc_appoggio\\REV TAB FDI\\dc_fdi_a_catch_da_DB.csv", sep=",",header=TRUE)
-    MS="BGR"
-    GSA="GSA29"
+    data <- read.table("D:\\OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L\\RDB2\\Second Training RDBFIS II\\MLT\\TABLE_A_CATCH 2013-2022.csv", sep=",",header=TRUE)
+    MS="MLT"
+    GSA="GSA10"
 
     SP = "COMBINED"
     vessel_len = "COMBINED"
     fishtech = "COMBINED"
     verbose = TRUE
+
+    FDI_coverage(data, MS, verbose = TRUE)
   }
 
   colnames(data) <- tolower(colnames(data))

@@ -34,21 +34,38 @@ The supported quality checks in version 0.0.17.24 are:
 
 ### *A posteriori* quality checks
 
-- MEDBS - catch data
-- MEDBS - discard data
-- MEDBS - landing data
-- MEDBS - GP table
-- MEDBS - LW table
-- MEDBS - MA table
-- MEDBS - ML table
-- MEDBS - SA table
-- MEDBS - SL table
-- FDI tables (A, G, H, I and J)
-- GFCM - Task II.2 table
-- GFCM - Task III table
-- GFCM - Task VII.2 table
-- GFCM - Task VII.3.1 table
-- GFCM - Task VII.3.2 table
+
+The dataset structure and formats for MED & BS data call are based on the guidelines outlined in the official *Data Call for the STECF Expert Working Groups on Mediterranean and Black Sea in 2024*, published by the Joint Research Centre (JRC) of the European Commission. The document, available at [this link](https://datacollection.jrc.ec.europa.eu/documents/d/dcf/mbs_annex-1-data-call-2024), provides a comprehensive framework for reporting fisheries-dependent and biological data in the Mediterranean and Black Sea under the EU Data Collection Framework (DCF).
+
+The dataset includes the following structured tables:
+
+-   *MEDBS - catch data*
+-   *MEDBS - discard data*
+-   *MEDBS - landing data*
+-   *MEDBS - GP table*
+-   *MEDBS - LW table*
+-   *MEDBS - MA table*
+-   *MEDBS - ML table*
+-   *MEDBS - SA table*
+-   *MEDBS - SL table*
+
+The FDI dataset structure and formats are based on the guidelines outlined in the official ["FDI Data Call Annex 2024"](https://datacollection.jrc.ec.europa.eu/documents/d/dcf/fdi_datacall_annex_2024-1), published by the Joint Research Centre (JRC) of the European Commission. The document provides a comprehensive framework for reporting fisheries-dependent data under the EU Data Collection Framework (DCF).
+
+The dataset adheres to the standardized formats specified for tables such as:
+
+-   *Table A*
+-   *Table G*
+-   *Tables H*
+-   *Tables I*
+-   *Table J*
+
+For the GFCM data call, the following tables, as further described in the dedicated manual ([GFCM Data Call Manual](https://dcf.ec.europa.eu/data-calls_en)), are included and verified:
+
+-   *GFCM - Task II.2 table*
+-   *GFCM - Task III table*
+-   *GFCM - Task VII.2 table*
+-   *GFCM - Task VII.3.1 table*
+-   *GFCM - Task VII.3.2 table*
 
 ### *Cross-checks* among data calls
 
