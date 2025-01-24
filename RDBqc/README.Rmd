@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(RDBqc)
 ```
 
-# installation of RDBqc package 
+# installation of RDBqc package
 
 Install the latest RDBqc release from GitHub:
 
@@ -33,45 +33,61 @@ install_github("COISPA/RDBqc/RDBqc",upgrade = c("never"))
 
 # Introduction
 
-RDBqc allows to carry out a set of _a priori_ quality checks on detailed sampling data and on aggregated landing data, and _a posteriori_ quality check on MEDBS, FDI and GFCM data call formats.
+RDBqc allows to carry out a set of *a priori* quality checks on detailed sampling data and on aggregated landing data, and *a posteriori* quality check on MEDBS, FDI and GFCM data call formats.
 
 The supported quality checks in version `r packageVersion("RDBqc")` are:
 
-### _A priori_ quality checks
-* RCG CS - biological sampling data
-* RCG CL - aggregated landing data
+### *A priori* quality checks
 
-### _A posteriori_ quality checks
-* MEDBS - catch data
-* MEDBS - discard data
-* MEDBS - landing data
-* MEDBS - GP table
-* MEDBS - LW table
-* MEDBS - MA table
-* MEDBS - ML table
-* MEDBS - SA table
-* MEDBS - SL table
-* FDI tables (A, G, H, I and J)
-* GFCM - Task II.2 table
-* GFCM - Task III table
-* GFCM - Task VII.2 table
-* GFCM - Task VII.3.1 table
-* GFCM - Task VII.3.2 table
+-   RCG CS - biological sampling data
+-   RCG CL - aggregated landing data
 
-### _Cross-checks_ among data calls
-Since RBDqc version 0.0.15, the package also includes cross-check functions to perform checks between data call tables.
-In particular, the following cross-check functions are available:
+### *A posteriori* quality checks
 
-* Landing consistency among the different data calls: MED & BS, FDI and Annual Economic Report (AER)
-* Discard consistency between MED & BS and FDI data calls
-* Landing consistency between FDI and AER data calls
-* Landing value consistency between FDI and AER data calls
-* Number of trips consistency between MED & BS and Annual report (AR) data calls
-* Number of ages consistency between MED & BS and AR data calls
-* Number of weights consistency between MED & BS and AR data calls
-* Number of maturity data consistency between MED & BS and AR data calls
+The dataset structure and formats for MED & BS data call are based on the guidelines outlined in the official *Data Call for the STECF Expert Working Groups on Mediterranean and Black Sea in 2024*, published by the Joint Research Centre (JRC) of the European Commission. The document, available at [this link](https://datacollection.jrc.ec.europa.eu/documents/d/dcf/mbs_annex-1-data-call-2024), provides a comprehensive framework for reporting fisheries-dependent and biological data in the Mediterranean and Black Sea under the EU Data Collection Framework (DCF).
 
+The dataset includes the following structured tables:
 
+-   *MEDBS - catch data*
+-   *MEDBS - discard data*
+-   *MEDBS - landing data*
+-   *MEDBS - GP table*
+-   *MEDBS - LW table*
+-   *MEDBS - MA table*
+-   *MEDBS - ML table*
+-   *MEDBS - SA table*
+-   *MEDBS - SL table*
+
+The FDI dataset structure and formats are based on the guidelines outlined in the official ["FDI Data Call Annex 2024"](https://datacollection.jrc.ec.europa.eu/documents/d/dcf/fdi_datacall_annex_2024-1), published by the Joint Research Centre (JRC) of the European Commission. The document provides a comprehensive framework for reporting fisheries-dependent data under the EU Data Collection Framework (DCF).
+
+The dataset adheres to the standardized formats specified for tables such as:
+
+-   *Table A*
+-   *Table G*
+-   *Tables H*
+-   *Tables I*
+-   *Table J*
+
+For the GFCM data call, the following tables, as further described in the dedicated manual ([GFCM Data Call Manual](https://dcf.ec.europa.eu/data-calls_en)), are included and verified:
+
+-   *GFCM - Task II.2 table*
+-   *GFCM - Task III table*
+-   *GFCM - Task VII.2 table*
+-   *GFCM - Task VII.3.1 table*
+-   *GFCM - Task VII.3.2 table*
+
+### *Cross-checks* among data calls
+
+Since RBDqc version 0.0.15, the package also includes cross-check functions to perform checks between data call tables. In particular, the following cross-check functions are available:
+
+-   Landing consistency among the different data calls: MED & BS, FDI and Annual Economic Report (AER)
+-   Discard consistency between MED & BS and FDI data calls
+-   Landing consistency between FDI and AER data calls
+-   Landing value consistency between FDI and AER data calls
+-   Number of trips consistency between MED & BS and Annual report (AR) data calls
+-   Number of ages consistency between MED & BS and AR data calls
+-   Number of weights consistency between MED & BS and AR data calls
+-   Number of maturity data consistency between MED & BS and AR data calls
 
 # Checks on RCG
 
@@ -119,16 +135,16 @@ A plot of the length distributions by year and commercial category is also retur
 RCG_check_LFD_comm_cat(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus")[[2]]
 ```
 
-### Check AL 
+### Check AL
 
-This function `RCG_check_AL` reports for each year and length class the number of age measurements in the dataset, providing a summary data frame. 
+This function `RCG_check_AL` reports for each year and length class the number of age measurements in the dataset, providing a summary data frame.
 
 ```{r RCG_check_AL}
 results <- RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=5)[[1]]
 head(results)
 ```
 
-Moreover, the function detects if the age data are in the range min_age-max_age, reporting the list of the trip codes including outliers. 
+Moreover, the function detects if the age data are in the range min_age-max_age, reporting the list of the trip codes including outliers.
 
 ```{r RCG_check_AL2}
 RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=5)[[2]]
@@ -140,7 +156,7 @@ A plot of the age/length relationship by sex and year is outputted for the selec
 RCG_check_AL(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus",min_age=0,max_age=5)[[3]]
 ```
 
-### Check lw 
+### Check lw
 
 This function `RCG_check_lw` plots for each year and sex the length-weight scatter plot
 
@@ -154,7 +170,7 @@ Furthermore, it checks if the weight data are within the boundaries in input, pr
 RCG_check_lw(data_ex,MS="ITA",GSA="GSA99", SP="Mullus barbatus",Min=0,Max=200)[[1]]
 ```
 
-### check maturity stages 
+### check maturity stages
 
 This function `RCG_check_mat` plots for each year and sex the length-maturity stage scatter plot
 
@@ -169,10 +185,10 @@ This function `RCG_check_mat_ogive` plots the maturity ogive by sex derived from
 ```{r RCG_check_mat_ogive,fig.height=6,fig.width=9}
 RCG_check_mat_ogive(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus", sex="F",immature_stages=c("0","1","2a"))
 ```
- 
+
 ### Summarize individual measurements
 
-This function `RCG_summarize_ind_meas` reports for each trip the number of length sex, maturity, individual weight and age measurements for a selected species. 
+This function `RCG_summarize_ind_meas` reports for each trip the number of length sex, maturity, individual weight and age measurements for a selected species.
 
 ```{r RCG_summarize_ind_meas}
 results <- RCG_summarize_ind_meas(data=data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
@@ -181,7 +197,7 @@ head(results)
 
 ### Summarize trips
 
-This function `RCG_summarize_trips` reports for the selected species the number of trips in the dataset for each year, area, harbour, metier and sampling method. 
+This function `RCG_summarize_trips` reports for the selected species the number of trips in the dataset for each year, area, harbour, metier and sampling method.
 
 ```{r RCG_summarize_trips}
 results <- RCG_summarize_trips(data_ex,MS="ITA",GSA="GSA99",SP="Mullus barbatus")
@@ -200,43 +216,43 @@ RCG_check_loc(data_ex)
 
 This function `RCG_check_CL` allows to check the data in the CL table for the selected species. The output is a list of 6 data frames:
 
-1. Sum of Landings by year, quarter and month;
+1.  Sum of Landings by year, quarter and month;
 
 ```{r RCG_check_CL1}
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[1]]
 ```
 
-2. Sum of Landing value by year, quarter and month;
+2.  Sum of Landing value by year, quarter and month;
 
 ```{r RCG_check_CL2}
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[2]]
 ```
 
-3. Sum of landings by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
+3.  Sum of landings by LandCtry, VslFlgCtry, Area, Rect, SubRect, Harbour;
 
 ```{r RCG_check_CL3}
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[3]]
 ```
 
-4. Sum of landing value by LandCtry, VslFlgCtry,  Area, Rect, SubRect, Harbour;
+4.  Sum of landing value by LandCtry, VslFlgCtry, Area, Rect, SubRect, Harbour;
 
 ```{r RCG_check_CL4}
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[4]]
 ```
 
-5. Sum of landings by Year, Species, foCatEu5, foCatEu6;
+5.  Sum of landings by Year, Species, foCatEu5, foCatEu6;
 
 ```{r RCG_check_CL5}
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[5]]
 ```
 
-6. Sum of landing value by Year, Species, foCatEu5, foCatEu6.
+6.  Sum of landing value by Year, Species, foCatEu5, foCatEu6.
 
 ```{r RCG_check_CL6}
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[6]]
 ```
 
-7. Plot of the landings by year and foCatEu6
+7.  Plot of the landings by year and foCatEu6
 
 ```{r RCG_check_CL7,fig.height=6,fig.width=9}
 RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostris")[[7]]
@@ -244,19 +260,19 @@ RCG_check_CL(data_exampleCL,MS="COUNTRY1",GSA="GSA99",SP="Parapenaeus longirostr
 
 # Checks on MEDBS tables
 
-_catch table_
+*catch table*
 
 ```{r Catch_tab_example}
 head(Catch_tab_example)
 ```
 
-_landings table_
+*landings table*
 
 ```{r Landing_tab_example}
 head(Landing_tab_example)
 ```
 
-_discards table_
+*discards table*
 
 ```{r Discard_tab_example}
 head(Discard_tab_example)
@@ -264,7 +280,7 @@ head(Discard_tab_example)
 
 ## Checks on Catch table
 
-The function `MEDBS_check_duplicates` checks the presence of duplicated rows in catch table 
+The function `MEDBS_check_duplicates` checks the presence of duplicated rows in catch table
 
 ```{r MEDBS_check_duplicates_catches}
 catch_with_diplicate <- rbind(Catch_tab_example,Catch_tab_example[1,])
@@ -275,26 +291,26 @@ MEDBS_check_duplicates(data=catch_with_diplicate,type="c",MS="ITA",GSA="GSA 9",S
 
 The function `MEDBS_Catch_coverage` allows to check the coverage in Catch table by mean of summary tables summarizing both landing and discard volumes and producing relative plots for the selected species. In particular:
 
-1. summary table of landings
+1.  summary table of landings
 
 ```{r MEDBS_Catch_coverage1}
 results <- suppressMessages(MEDBS_Catch_coverage(Catch_tab_example,"DPS","ITA","GSA 9"))
 head(results[[1]])
 ```
 
-2. summary table of discards
+2.  summary table of discards
 
 ```{r MEDBS_Catch_coverage2}
 head(results[[2]])
 ```
 
-3. Plot of landing volumes in catch table
+3.  Plot of landing volumes in catch table
 
 ```{r MEDBS_Catch_coverage3,fig.height=6,fig.width=9}
 results[[3]]
 ```
 
-4. Plot of discard volumes in catch table
+4.  Plot of discard volumes in catch table
 
 ```{r MEDBS_Catch_coverage4,fig.height=6,fig.width=9}
 results[[4]]
@@ -320,14 +336,14 @@ MEDBS_SOP(data=Catch_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",threshold = 2)
 
 ### check duplicated records
 
-The function `MEDBS_check_duplicates` checks the presence of duplicated rows in landings 
+The function `MEDBS_check_duplicates` checks the presence of duplicated rows in landings
 
 ```{r MEDBS_check_duplicates_landings}
 Landing_tab_example <- rbind(Landing_tab_example,Landing_tab_example[1,])
 MEDBS_check_duplicates(data=Landing_tab_example,type="l",MS="ITA",GSA="GSA 9",SP="DPS",verbose=TRUE)
 ```
 
-The function `MEDBS_check_duplicates` also checks the presence of duplicated rows in landings 
+The function `MEDBS_check_duplicates` also checks the presence of duplicated rows in landings
 
 ```{r MEDBS_check_duplicates_discards}
 Discard_tab_example <- rbind(Discard_tab_example,Discard_tab_example[1,])
@@ -367,7 +383,7 @@ results[[3]]
 
 ### Check of null individuals in landings and discards
 
-The function `MEDBS_lengthclass_0` checks landings and discards for the presence of length class filled in having weigth > 0, returning a data frame with the rows with 0 values length class having weigth > 0.
+The function `MEDBS_lengthclass_0` checks landings and discards for the presence of length class filled in having weigth \> 0, returning a data frame with the rows with 0 values length class having weigth \> 0.
 
 ```{r MEDBS_lengthclass_0}
 results <- MEDBS_lengthclass_0(data=Landing_tab_example,type="l",SP="DPS",MS="ITA",GSA="GSA 9",verbose=TRUE)
@@ -413,8 +429,7 @@ head(results)
 
 ### Comparison between landings in weight by quarter and fishery accounting for vessel length
 
-The function `MEDBS_comp_land_Q_VL_fishery` allows to perform the comparison of landings of a selected species aggregated by quarters and fishery accounting for the presence of vessel length. 
-The function returns a data frame for the comparison of landings aggregated by quarters and fishery accounting for the presence of vessel length information.
+The function `MEDBS_comp_land_Q_VL_fishery` allows to perform the comparison of landings of a selected species aggregated by quarters and fishery accounting for the presence of vessel length. The function returns a data frame for the comparison of landings aggregated by quarters and fishery accounting for the presence of vessel length information.
 
 ```{r MEDBS_comp_land_Q_VL_fishery}
 results <- suppressMessages(MEDBS_comp_land_Q_VL_fishery(data = Landing_tab_example, 
@@ -424,8 +439,7 @@ head(results)
 
 ### Comparison between landings in weight by quarter and -1
 
-The function `MEDBS_comp_land_YQ` allows to perform the comparison of landings of a selected species aggregated by quarters and by year.
-The function returns a data frame  for the comparison of landings aggregated by quarters and by year.
+The function `MEDBS_comp_land_YQ` allows to perform the comparison of landings of a selected species aggregated by quarters and by year. The function returns a data frame for the comparison of landings aggregated by quarters and by year.
 
 ```{r MEDBS_comp_land_YQ}
 MEDBS_comp_land_YQ(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
@@ -433,8 +447,7 @@ MEDBS_comp_land_YQ(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
 
 ### Comparison between landings in weight by quarter, quarter -1 and by fishery
 
-The function `MEDBS_comp_land_YQ_fishery` allows to perform the comparison of landings of a selected species aggregated by quarters and by year and fishery.
-The function returns a data frame  for the comparison of landings aggregated by quarters and by year and fishery.
+The function `MEDBS_comp_land_YQ_fishery` allows to perform the comparison of landings of a selected species aggregated by quarters and by year and fishery. The function returns a data frame for the comparison of landings aggregated by quarters and by year and fishery.
 
 ```{r MEDBS_comp_land_YQ_fishery}
 results <- suppressMessages(MEDBS_comp_land_YQ_fishery(data = Landing_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9"))
@@ -443,8 +456,7 @@ head(results)
 
 ### Check mean weight by year,gear and fishery aggregation
 
-The function `MEDBS_land_mean_weight` allows to check consistency of  mean landing of a selected species plotting the landings' weight by year, gear and fishery.
-A summary data frame is returned.
+The function `MEDBS_land_mean_weight` allows to check consistency of mean landing of a selected species plotting the landings' weight by year, gear and fishery. A summary data frame is returned.
 
 ```{r MEDBS_land_mean_weight}
 results <- MEDBS_land_mean_weight(data=Landing_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")[[1]]
@@ -507,7 +519,7 @@ results[[2]]
 
 ### Comparison between discards in weight by quarter and -1
 
-The function `MEDBS_comp_disc_YQ` allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level. The function returns a data frame  for the comparison of discards aggregated by quarters and by year
+The function `MEDBS_comp_disc_YQ` allows to compare the discards weights aggregated by quarter and by year for a selected species at the gear level. The function returns a data frame for the comparison of discards aggregated by quarters and by year
 
 ```{r MEDBS_comp_disc_YQ}
 MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
@@ -515,7 +527,7 @@ MEDBS_comp_disc_YQ(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
 
 ### Comparison between discards in weight by quarter, quarter -1 and by fishery
 
-The function `MEDBS_comp_disc_YQ_fishery` allow to estimates the discards in weight for a selected species by quarter and fishery. The function returns a data frame  for the comparison of discards aggregated by quarters and by year and fishery
+The function `MEDBS_comp_disc_YQ_fishery` allow to estimates the discards in weight for a selected species by quarter and fishery. The function returns a data frame for the comparison of discards aggregated by quarters and by year and fishery
 
 ```{r MEDBS_comp_disc_YQ_fishery}
 results <- MEDBS_comp_disc_YQ_fishery(data=Discard_tab_example,MS="ITA",GSA="GSA 9",SP="DPS")
@@ -524,7 +536,7 @@ head(results)
 
 ### Check mean weight by year,gear and fishery aggregation in discard
 
-The function `MEDBS_disc_mean_weight` allows to check consistency of mean discard weight of a selected species providing a table of the mean individual weight by year, gear and fishery. 
+The function `MEDBS_disc_mean_weight` allows to check consistency of mean discard weight of a selected species providing a table of the mean individual weight by year, gear and fishery.
 
 ```{r MEDBS_disc_mean_weight1}
 results <- MEDBS_disc_mean_weight(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9")
@@ -557,7 +569,7 @@ MEDBS_plot_discard_ts(data=Discard_tab_example,SP="DPS",MS="ITA",GSA="GSA 9",by=
 
 ### GP_tab (growth params) table check
 
-The function `GP_check` allows to check the growth parameters by sex and year for a selected species.  The function returns a list of objects containing a summary table and different plots of the growth curves by sex
+The function `GP_check` allows to check the growth parameters by sex and year for a selected species. The function returns a list of objects containing a summary table and different plots of the growth curves by sex
 
 ```{r GP_check1}
 results <- MEDBS_GP_check(GP_tab_example,"MUT","ITA","GSA 18")
@@ -690,8 +702,7 @@ results[[3]]
 
 ### Check empty fields in FDI A table
 
-The function `check_EF_FDI_A` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2022 - Annex 1'.
-A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
+The function `check_EF_FDI_A` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2022 - Annex 1'. A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column.
 
 ```{r check_EF_FDI_A1}
 check_EF_FDI_A(fdi_a_catch, verbose=FALSE)[[1]]
@@ -718,6 +729,7 @@ The function `FDI_coverage` returns a data frame reporting the coverage of the s
 ```{r FDI_coverage_table_A}
 FDI_coverage(data=fdi_a_catch, MS="PSP", verbose = FALSE)
 ```
+
 ### Coverage of FDI discard data
 
 The functions checks the discard coverage in table A for the selected MS by GSAs
@@ -740,7 +752,7 @@ The function also provides a summary tables of the sum of the values grouped by 
 head(FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[2]])
 ```
 
-A plot for each of the three metrics is also provided: 
+A plot for each of the three metrics is also provided:
 
 ```{r FDI_cov_tableA_3}
 FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$fishing_tech), GSA="GSA99")[[3]]
@@ -750,18 +762,17 @@ FDI_cov_tableA(data=fdi_a_catch, SP="MUT", MS="PSP",fishtech=unique(fdi_a_catch$
 
 ### Check of species value
 
-The function estimates from the FDI table A an average price per species and year and compares it with average price calculated per country and species. Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings > 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
+The function estimates from the FDI table A an average price per species and year and compares it with average price calculated per country and species. Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings \> 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
 
 ```{r FDI_prices_not_null_1}
 FDI_prices_not_null(data = fdi_a_catch, MS = "PSP", GSA = "GSA99",SP = c("HKE"), verbose = FALSE)[[1]]
 ```
 
-Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings > 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
+Furthermore, the function performs comparisons between total weight landings and total value landings. In particular it identifies the cases with total landings \> 0 but landings value = 0. In case SP parameter is not specified, the analysis is conducted over all the species in the provided data frame.
 
 ```{r FDI_prices_not_null_2}
 FDI_prices_not_null(data = fdi_a_catch, MS = "PSP", GSA = "GSA99",SP = c("HKE"), verbose = TRUE)[[2]]
 ```
-
 
 ### Check prices trend in FDI A table
 
@@ -770,6 +781,7 @@ The function checks the trend prices in the given table grouped by year, GSA, MS
 ```{r FDI_prices_cov_1}
 FDI_prices_cov(data = fdi_a_catch, SP = c("HKE"), MS = "PSP", GSA = "GSA99",verbose=FALSE)[[1]]
 ```
+
 ```{r FDI_prices_cov_2}
 FDI_prices_cov(data = fdi_a_catch, SP = c("HKE"), MS = "PSP", GSA = "GSA99",verbose=FALSE)[[2]]
 ```
@@ -778,8 +790,7 @@ FDI_prices_cov(data = fdi_a_catch, SP = c("HKE"), MS = "PSP", GSA = "GSA99",verb
 
 ### Check empty fields in FDI G table
 
-The function `check_EF_FDI_G` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2021 - Annex 1'.
-A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
+The function `check_EF_FDI_G` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2021 - Annex 1'. A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column.
 
 ```{r check_EF_FDI_G1}
 check_EF_FDI_G(fdi_g_effort, verbose=FALSE)[[1]]
@@ -834,8 +845,7 @@ FDI_cov_tableG(data=fdi_g_effort, MS="PSP", GSA="GSA99")[[10]]
 
 ### Check empty fields in FDI H table
 
-The function `check_EF_FDI_H` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2021 - Annex 1'.
-A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
+The function `check_EF_FDI_H` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2021 - Annex 1'. A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column.
 
 ```{r check_EF_FDI_H1}
 check_EF_FDI_H(fdi_h_spatial_landings, verbose=FALSE)[[1]]
@@ -866,10 +876,7 @@ FDI_coverage(data=fdi_h_spatial_landings ,MS="PSP", verbose = FALSE)
 
 ### check NA values in spatial columns of table H
 
-The function checks the incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included:
-- presence of NA values in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA
-- the presence any data in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported
-- the presence of any data in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in
+The function checks the incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included: - presence of NA values in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA - the presence any data in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported - the presence of any data in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in
 
 Furthermore the function identifies the records without any sub-region assignment.
 
@@ -883,7 +890,6 @@ FDI_checks_spatial_HI(data=fdi_h_spatial_landings,MS="PSP", verbose=FALSE)[[2]]
 
 ### Compatibility of the geographical coordinates with rectangle type
 
-
 The function checks in both tables H and I the compatibility of the geographical coordinates (latitude and longitude) with the value provided for the rectangle type. The data frame of the input table is returned retaining the only records in which at least one among latitude and longitude is not compatible with the rectangle type. Two more columns (lat.check and lon.check) are included to the data frame to report the results of the checks respectively for latitude and longitude.
 
 ```{r FDI_check_coord_1}
@@ -894,7 +900,7 @@ FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
 
 ### Check empty fields in FDI I table
 
-The function `check_EF_FDI_I` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2021 - Annex 1'. A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column. 
+The function `check_EF_FDI_I` checks the presence of not allowed empty data in the given table, according to the 'Fisheries Dependent Information data call 2021 - Annex 1'. A list is returned by the function. The first list's object is a vector containing the number of NA for each reference column.
 
 ```{r check_EF_FDI_I1}
 check_EF_FDI_I(fdi_i_spatial_effort,verbose=FALSE)[[1]]
@@ -925,10 +931,7 @@ FDI_coverage(data=fdi_i_spatial_effort ,MS="PSP", verbose = FALSE)
 
 ### check NA values in spatial columns of table I
 
-The function checks the incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included:
-- presence of NA values in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA
-- the presence any data in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported
-- the presence of any data in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in
+The function checks the incorrect combination of NA in the spatial columns in both table H (Landings by rectangle) and table I (Effort by rectangle). The following check are included: - presence of NA values in 'c_square' field when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are all NA - the presence any data in 'rectangle_type', 'rectangle_lat', 'rectangle_lon' when 'c_square' is reported - the presence of any data in 'c-squares' when 'rectangle_type', 'rectangle_lat', 'rectangle_lon' are filled in
 
 Furthermore, the function identifies the records without any sub-region assignment.
 
@@ -947,7 +950,6 @@ The function checks in both tables H and I the compatibility of the geographical
 ```{r FDI_check_coord_2}
 FDI_check_coord(data=fdi_i_spatial_effort, MS="PSP",verbose=TRUE)
 ```
-
 
 ## Table J
 
@@ -996,13 +998,7 @@ head(FDI_vessel_lenth(data=fdi_j_capacity, MS="PSP", verbose = TRUE)[[2]])
 
 ### Check number of record in FDI J table
 
-The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, and fishing techniques for the following 4 variables: total trips; total kW; total GT; total vessels.
-The function returns a list. The first element gives the summary table of records number. From the second to the fifth element gives 4 plots for each variables among:
-* total trips
-* total kW
-* total GT
-* total vessels
-
+The function checks and count the numbers of records data in the given table grouped by year, GSA, MS, vessels length, and fishing techniques for the following 4 variables: total trips; total kW; total GT; total vessels. The function returns a list. The first element gives the summary table of records number. From the second to the fifth element gives 4 plots for each variables among: \* total trips \* total kW \* total GT \* total vessels
 
 ```{r FDI_cov_tableJ_1}
 FDI_cov_tableJ(data=fdi_j_capacity, MS="PSP", GSA="GSA99", verbose=TRUE)[[1]]
@@ -1039,13 +1035,11 @@ FDI_landweight_cov(dataA=fdi_a_catch, dataH=fdi_h_spatial_landings, MS="PSP", ve
 
 ### Check number of vessels in FDI table J and G
 
-The function cross-checks the number of vessels in table J in comparison of the number reported in table G.
-A list of data frames is returned. The first element reports the number of vessel in table J in comparison to table G and the relative difference percentage, while the second table reports the vessels not present in table G.
+The function cross-checks the number of vessels in table J in comparison of the number reported in table G. A list of data frames is returned. The first element reports the number of vessel in table J in comparison to table G and the relative difference percentage, while the second table reports the vessels not present in table G.
 
 ```{r}
 FDI_vessel_numbers(dataJ=fdi_j_capacity, dataG=fdi_g_effort, MS="PSP", verbose = TRUE)
 ```
-
 
 ### Cross check between FDI tables A and G
 
@@ -1091,7 +1085,6 @@ The function checks the possible data inconsistency between the amount of vessel
 FDI_cross_checks_JG(data1=fdi_j_capacity, data2=fdi_g_effort,verbose=TRUE)
 ```
 
-
 #### 
 
 # GFCM data format
@@ -1100,7 +1093,7 @@ FDI_cross_checks_JG(data1=fdi_j_capacity, data2=fdi_g_effort,verbose=TRUE)
 
 ### Check empty fields in GFCM Task II.2 table
 
-The function `check_EF_taskII2` checks the presence of not allowed empty data in the given table, according to the GFCM Data Collection Reference Framework (DCRF, V. 20.1). The function returns two lists. The first list gives the number of NA for each reference column. 
+The function `check_EF_taskII2` checks the presence of not allowed empty data in the given table, according to the GFCM Data Collection Reference Framework (DCRF, V. 20.1). The function returns two lists. The first list gives the number of NA for each reference column.
 
 ```{r check_EF_taskII2_1}
 check_EF_taskII2(task_ii2, verbose=FALSE)[[1]]
@@ -1133,7 +1126,7 @@ check_RD_taskII2(ii2)
 
 ### Check empty fields in GFCM Task III table
 
-The function `check_EF_taskIII` checks the presence of not allowed empty data in the given table, according to the GFCM Data Collection Reference Framework (DCRF, V. 20.1). The function returns two lists. The first list gives the number of NA for each reference column. 
+The function `check_EF_taskIII` checks the presence of not allowed empty data in the given table, according to the GFCM Data Collection Reference Framework (DCRF, V. 20.1). The function returns two lists. The first list gives the number of NA for each reference column.
 
 ```{r check_EF_taskIII1}
 check_EF_taskIII(task_iii,verbose=FALSE)[[1]]
@@ -1193,8 +1186,6 @@ The function `check_lw_TaskVII.2` allows to check the consistency of length-weig
 check_lw_TaskVII.2(task_vii2, MS = "ITA", GSA = "18", SP = "BOG")
 ```
 
-
-
 ## Task VII.3.1 table
 
 ### Check empty fields in GFCM Task VII.3.1 table
@@ -1213,8 +1204,7 @@ check_EF_TaskVII31(task_vii31, verbose=FALSE)[[2]]
 
 ### Comparison between min/max L50 observed for each species and sex with theoretical values
 
-The function `check_minmaxl50_TaskVII.3.1` allows to verify the consistency of L50 reported in the TaskVII.3.1 table with the theoretical values reported in the minmaxLtaskVII31 table. The function allows to identify the records in which the observed L50 are greater or lower than the expected ones.
-The function returns a table with the comparison between min/max L50 observed for each species and sex with theoretical values. The field check_max of the returned data frame will contain "Warning" in case of L50 outliers.
+The function `check_minmaxl50_TaskVII.3.1` allows to verify the consistency of L50 reported in the TaskVII.3.1 table with the theoretical values reported in the minmaxLtaskVII31 table. The function allows to identify the records in which the observed L50 are greater or lower than the expected ones. The function returns a table with the comparison between min/max L50 observed for each species and sex with theoretical values. The field check_max of the returned data frame will contain "Warning" in case of L50 outliers.
 
 ```{r check_minmaxl50_TaskVII.3.1}
 check_minmaxl50_TaskVII.3.1(task_vii31,minmaxLtaskVII31,MS="ITA",GSA="19")
@@ -1244,7 +1234,6 @@ The second list returns the index of each NA in the reference column.
 check_EF_TaskVII32(task_vii32, verbose=FALSE)[[2]]
 ```
 
-
 ### Check duplicated records in GFCM Task VII.3.2 table
 
 The function `check_RD_TaskVII32` checks the presence of duplicated records. In particular, it checks whether the combination of the first 10 columns generates duplicate records. The function returns the indices of the duplicated rows, checking the unique combinations of the first 10 columns of the Task VII.3.2 table.
@@ -1255,8 +1244,7 @@ check_RD_TaskVII32(task_vii32)
 
 ### Check mismatching species/Catfau and Sex per maturity stages for Task VII.3.2 table
 
-The function `check_species_catfau_TaskVII.3.2` allows to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table.
-A vector is returned by the function providing the list of mismatching combination of species/faunistic categories.  
+The function `check_species_catfau_TaskVII.3.2` allows to check the correct codification of faunistic category according to species and sex in Task VII.3.2 table. A vector is returned by the function providing the list of mismatching combination of species/faunistic categories.
 
 ```{r check_species_catfau_TaskVII.3.2_1}
 check_species_catfau_TaskVII.3.2(task_vii32,catfau_check,sex_mat, MS="ITA",GSA="18",SP="CTC")[[1]]
