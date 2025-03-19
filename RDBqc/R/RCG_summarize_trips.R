@@ -14,7 +14,7 @@
 #' @importFrom utils globalVariables
 
 RCG_summarize_trips <- function(data, SP, MS, GSA, verbose = TRUE) {
-  data <- check_cs_header(data)
+  data <- check_cs_header(data,verbose=FALSE)
   Year <- Area <- Harbour <- Fishing_activity_category_European_lvl_6 <- Sampling_method <- Trip_code <- trips <- Flag_country <- Species <- NULL
 
   data <- data[data$Flag_country %in% MS & data$Area %in% GSA & data$Species %in% SP, ]

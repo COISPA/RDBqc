@@ -29,7 +29,7 @@ knitr::opts_chunk$set(
 
 ```{r libraries, include=FALSE}
 # loading needed libraries
-lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra")
+lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra","readr")
 lapply(lib, require, character.only = TRUE)
 ```
 
@@ -41,15 +41,15 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-Catch <- read.table("./catch.csv", sep = ",", header = TRUE)
-Land <- read.table("./landings.csv", sep = ",", header = TRUE)
-Disc <- read.table("./discards.csv", sep = ",", header = TRUE)
-ML <- read.table("./ml.csv", sep = ",", header = TRUE)
-MA <- read.table("./ma.csv", sep = ",", header = TRUE)
-SL <- read.table("./srl.csv", sep = ",", header = TRUE)
-SA <- read.table("./sra.csv", sep = ",", header = TRUE)
-GP <- read.table("./gp.csv", sep = ",", header = TRUE)
-ALK <- read.table("./alk.csv", sep = ",", header = TRUE)
+Catch <- read.coded.file("./catch.csv", sep = ",")
+Land <- read.coded.file("./landings.csv", sep = ",")
+Disc <- read.coded.file("./discards.csv", sep = ",")
+ML <- read.coded.file("./ml.csv", sep = ",")
+MA <- read.coded.file("./ma.csv", sep = ",")
+SL <- read.coded.file("./srl.csv", sep = ",")
+SA <- read.coded.file("./sra.csv", sep = ",")
+GP <- read.coded.file("./gp.csv", sep = ",")
+ALK <- read.coded.file("./alk.csv", sep = ",")
 
 SPs <- c("MUT")
 MS <- "ITA"

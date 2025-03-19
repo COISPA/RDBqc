@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 )
 
 # loading needed libraries
-lib <- c("RDBqc","knitr","kableExtra","dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc","tidyverse", "fishmethods","tidyr","gridExtra","outliers")
+lib <- c("RDBqc","knitr","kableExtra","dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc","tidyverse", "fishmethods","tidyr","gridExtra","outliers","readr")
 lapply(lib, require, character.only = TRUE)
 ```
 
@@ -37,8 +37,8 @@ lapply(lib, require, character.only = TRUE)
 # reading files
 # UNCOMMENT  THE FOLLOWING LINES FOR STAN-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
-CS <- read.csv("./sampling.csv")
-CL <- read.csv("./landings.csv")
+CS <- read.coded.file("./sampling.csv",sep=",")
+CL <- read.coded.file("./landings.csv",sep=",")
 
 
 SPs <- c("Merluccius merluccius")
@@ -192,7 +192,7 @@ if (exists("CS")) {
       check_CS <- TRUE
       cat(paste0("\n# Detailed data table\n"))
       
-      CS <- check_cs_header(CS)
+      CS <- check_cs_header(CS,verbose=TRUE)
       
       if(!user_SP){
         SPs <- unique(CS$Species)

@@ -1,7 +1,7 @@
 Package: RDBqc
 Title: Quality check functions for RDBFIS
-Version: 0.0.17.25
-Date: 2024-06-25
+Version: 0.0.17.26
+Date: 2025-03-19
 Author: Walter Zupa [aut, cre] <zupa@fondazionecoispa.org>,
         Isabella Bitetto [aut,cre] <bitetto@fondazionecoispa.org>, 
         Alessandro Mannini [aut] <alessandro.mannini@irbim.cnr.it>, 
@@ -17,7 +17,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Depends: 
     R (>= 4.1.0)
-Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, data.table, grDevices, magrittr, tidyverse, fishmethods,tidyr,gridExtra, scales, outliers, sf, methods, reshape2,cowplot,plyr
+Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, data.table, grDevices, magrittr, tidyverse, fishmethods,tidyr,gridExtra, scales, outliers, sf, methods, reshape2,cowplot,plyr,readr
 LazyData: true
 Suggests: 
     rmarkdown, knitr, markdown

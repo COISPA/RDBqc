@@ -1,3 +1,5 @@
+# RBDqc 0.0.17.25 (19/03/2025)
+ * included the read.coded.file function to be used in Rmd templates to automatically select the encoding for opening the tables 
 # RBDqc 0.0.17.25
  * FDI_fishdays_cov.r updated to check the class of field 'totfishdays' in tables G and I and transform it to numeric if needed.
  * FDI_disc_coverage.r updated to transforms NAs to NK and return a warning.

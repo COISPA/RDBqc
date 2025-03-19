@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 )
 
 # loading needed libraries
-lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra", "outliers")
+lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra", "outliers","readr")
 lapply(lib, require, character.only = TRUE)
 ```
 
@@ -39,11 +39,11 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-# T_ii2 <- read.csv("./dc_dcrf_task_ii2_catch.csv", sep = ";")
-# T_iii <- read.csv("./dc_dcrf_task_iii_incidental_catch.csv", sep = ";")
-# T_vii2 <- read.csv("./dc_dcrf_task_vii2_length_data.csv", sep = ";")
-# T_vii31 <- read.csv("./dc_dcrf_task_vii31_size_1st_matur.csv", sep = ";")
-# T_vii32 <- read.csv("./dcrf_task_vii32_maturity.csv", sep = ";")
+# T_ii2 <- read.coded.file("./dc_dcrf_task_ii2_catch.csv", sep = ";")
+# T_iii <- read.coded.file("./dc_dcrf_task_iii_incidental_catch.csv", sep = ";")
+# T_vii2 <- read.coded.file("./dc_dcrf_task_vii2_length_data.csv", sep = ";")
+# T_vii31 <- read.coded.file("./dc_dcrf_task_vii31_size_1st_matur.csv", sep = ";")
+# T_vii32 <- read.coded.file("./dcrf_task_vii32_maturity.csv", sep = ";")
 
 MS <- "ITA"
 SPs <- c("HKE", "DPS")
