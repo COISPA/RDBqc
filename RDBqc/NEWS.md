@@ -1,3 +1,5 @@
+# RBDqc 0.1.00 (26/06/2025)
+ * Fixes for RDBFIS III
 # RBDqc 0.0.17.25 (19/03/2025)
  * included the read.coded.file function to be used in Rmd templates to automatically select the encoding for opening the tables 
 # RBDqc 0.0.17.25
