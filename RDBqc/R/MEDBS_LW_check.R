@@ -13,6 +13,10 @@
 #' @importFrom grDevices dev.off
 #' @examples MEDBS_LW_check(GP_tab_example, "MUT", "ITA", "GSA 18")
 MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
+
+  if (FALSE){
+    MEDBS_LW_check(data, SP, MS, GSA, verbose = TRUE)
+  }
   A <- AREA <- COUNTRY <- END_YEAR <- SPECIES <- START_YEAR <- LENGTH <- WEIGHT <- SEX <- ID <- NULL
 
   colnames(data) <- toupper(colnames(data))
@@ -122,6 +126,35 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
         names(plots)[[l]] <- paste("LW_cum", SP, MS, GSA, i, sep = " _ ")
       }
     }
+
+    ## PROT 4
+
+    p01 <- ggplot(GP_tab, aes(x = SEX, y = A, col = SEX)) +
+      geom_boxplot() +
+      # ggtitle(paste0("VBGF Linf values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
+      theme(legend.text = element_text(color = "blue", size = 6)) +
+      guides(col = guide_legend(title = "")) +
+      xlab("Sex") +
+      ylab(paste0("A"))
+
+
+    p02 <- ggplot(GP_tab, aes(x = SEX, y = B, col = SEX)) +
+      geom_boxplot() +
+      # ggtitle(paste0("VBGF k values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
+      theme(legend.text = element_text(color = "blue", size = 6)) +
+      guides(col = guide_legend(title = "")) +
+      xlab("Sex") +
+      ylab(paste0("B")) # ", unique(VBGF[VBGF$SEX %in% i, "UNIT"])[1], "
+
+    p <- ggarrange(p01,p02,
+                   labels = c("A", "B"),
+                   common.legend = TRUE,legend="right",nrow=1, ncol=2)
+    p <- annotate_figure(p, top = text_grob(paste0("Growth parameters A and B of ", SP, " in ", MS, " - ", GSA), size = 8))
+
+    l <- length(plots) + 1
+    plots[[l]] <- p
+    names(plots)[[l]] <- paste("LW_param", SP, MS, GSA, i, sep = " _ ")
+
     return(plots)
   } # nrow(GP_tab) > 0
 }

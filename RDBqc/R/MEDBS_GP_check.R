@@ -11,6 +11,7 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
+#' @importFrom ggpubr ggarrange
 #' @examples MEDBS_GP_check(GP_tab_example, "MUT", "ITA", "GSA 18")
 MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
 
@@ -20,6 +21,7 @@ MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
     MS = MS
     GSA = GSAs[g]
     verbose = TRUE
+    MEDBS_GP_check(data, SP, MS, GSA, verbose = TRUE)
   }
   AREA <- VB_LINF <- AGE <- LENGTH <- ID <- COUNTRY <- YEAR <- START_YEAR <- END_YEAR <- SPECIES <- SEX <- NULL
 
@@ -113,6 +115,45 @@ MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
       plots[[l]] <- p
       names(plots)[[l]] <- paste("VBGF_cum", SP, MS, GSA, i, sep = " _ ")
     }
+
+    ## PROT 4
+
+      p01 <- ggplot(GP_tab, aes(x = SEX, y = VB_LINF, col = SEX)) +
+        geom_boxplot() +
+        # ggtitle(paste0("VBGF Linf values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
+        theme(legend.text = element_text(color = "blue", size = 6)) +
+        guides(col = guide_legend(title = "")) +
+        xlab("Sex") +
+        ylab(paste0("Linf (cm)"))
+
+
+      p02 <- ggplot(GP_tab, aes(x = SEX, y = VB_K, col = SEX)) +
+        geom_boxplot() +
+        # ggtitle(paste0("VBGF k values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
+        theme(legend.text = element_text(color = "blue", size = 6)) +
+        guides(col = guide_legend(title = "")) +
+        xlab("Sex") +
+        ylab(paste0("K")) # ", unique(VBGF[VBGF$SEX %in% i, "UNIT"])[1], "
+
+
+      p03 <- ggplot(GP_tab, aes(x = AGE, y = VB_T0, col = SEX)) +
+        geom_boxplot() +
+        # ggtitle(paste0("VBGF T0 values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
+        theme(legend.text = element_text(color = "blue", size = 6)) +
+        guides(col = guide_legend(title = "")) +
+        xlab("Sex") +
+        ylab(paste0("t0")) # ", unique(VBGF[VBGF$SEX %in% i, "UNIT"])[1], "
+
+      p <- ggarrange(p01,p02,p03,
+                     labels=c("Linf","k","t0"),common.legend = TRUE,legend="right",nrow=1, ncol=3)
+      annotate_figure(p, top = text_grob(paste0("VBGF Linf, k and T0 values of ", SP, " in ", MS, " - ", GSA), size = 8))
+
+      l <- length(plots) + 1
+      plots[[l]] <- p
+      names(plots)[[l]] <- paste("VBGF_param", SP, MS, GSA, i, sep = " _ ")
+
+
+
     return(plots)
   } else {
     if (verbose) {
