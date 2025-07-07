@@ -1,5 +1,7 @@
 # RBDqc 0.1.00 (26/06/2025)
  * Fixes for RDBFIS III
+ ** MEDBS_GP_check addedd new plots of boxplot of Linf, k and t0 parameters of VBGF
+ ** MEDBS_LW_check addedd new plots of boxplot of both a and b parameters of growth parameters
 # RBDqc 0.0.17.25 (19/03/2025)
  * included the read.coded.file function to be used in Rmd templates to automatically select the encoding for opening the tables 
 # RBDqc 0.0.17.25
