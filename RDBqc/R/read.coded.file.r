@@ -12,6 +12,7 @@
 #' write.table(test1, tf, sep=",",row.names=FALSE)
 #' read.coded.file(tf,verbose=TRUE)
 #' @importFrom readr guess_encoding
+#' @importFrom utils read.table
 
 read.coded.file <- function(file, sep=",",dec=".",verbose=FALSE){
     encodings <- guess_encoding(file)$encoding

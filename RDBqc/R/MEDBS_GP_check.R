@@ -11,7 +11,8 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
-#' @importFrom ggpubr ggarrange
+#' @importFrom ggpubr ggarrange annotate_figure text_grob
+#' @importFrom utils globalVariables
 #' @examples MEDBS_GP_check(GP_tab_example, "MUT", "ITA", "GSA 18")
 MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
 
@@ -161,3 +162,7 @@ MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
   }
     }
 }
+
+utils::globalVariables(c(
+  "VB_K", "VB_T0"
+))

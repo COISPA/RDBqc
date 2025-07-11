@@ -2,46 +2,33 @@
 % Please edit documentation in R/MEDBS_ks_NEW.r
 \name{MEDBS_ks}
 \alias{MEDBS_ks}
-\title{Kolmogorov–Smirnov test on length frequencies}
+\title{Kolmogorov-Smirnov test}
 \usage{
 MEDBS_ks(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE)
 }
 \arguments{
-\item{data}{Data frame (or data.table) containing either landings or discards.}
+\item{data}{data frame of either landings or discards data}
 
-\item{type}{Character: \code{"l"} for landings, \code{"d"} for discards.}
+\item{type}{type of data frame. "l" for landing and "d" for discard}
 
-\item{SP}{Species code.}
+\item{SP}{species code}
 
-\item{MS}{Member-state code.}
+\item{MS}{member state code}
 
-\item{GSA}{Geographical Sub-Area code.}
+\item{GSA}{GSA code (Geographical sub-area)}
 
-\item{Rt}{Numeric ratio applied to subsample data to reduce the risk of rejecting the H0 hypothesis.}
+\item{Rt}{ratio to be applied to subsample data to reduce the risk of rejection of H0 Hypothesis}
 
-\item{verbose}{Logical; if \code{TRUE}, progress messages are printed.}
+\item{verbose}{boolean. If TRUE messages are returned}
 }
 \value{
-A list with four elements:
-\describe{
-\item{final_DB}{Descriptive statistics by year × gear × fishery.}
-\item{KS_final}{Table of KS results for all year pairs.}
-\item{KS_not_run}{Data sets skipped because only one year was available.}
-\item{plots}{Grid of cumulative-distribution plots (ggplot grobs).}
-}
+the function returns a list of data frames and cumulative distribution plots
 }
 \description{
-Computes the two-sample Kolmogorov–Smirnov statistic on length–frequency data
-for each pair of years within every gear/fishery, and produces cumulative
-length-distribution plots by fishery and year.
-The statistic is calculated analytically from vectorised cumulative curves;
-results are returned as a table with one row per year pair together with
-descriptive statistics and the corresponding plots.
+The function allows to perform the Kolmogorov-Smirnov test on both landings and discards for a selected species providing cumulative length distribution plots by fishery and year. The function performs Kolmogorov-Smirnov tests on couples of years to assess if they belong to the same population.
 }
 \examples{
-MEDBS_ks(data = Landing_tab_example,
-         type = "l", SP = "DPS", MS = "ITA", GSA = "GSA 9", Rt = 1)
-
+MEDBS_ks(data = Landing_tab_example, type = "l", SP = "DPS", MS = "ITA", GSA = "GSA 9", Rt = 1)
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}

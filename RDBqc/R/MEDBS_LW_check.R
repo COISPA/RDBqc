@@ -11,6 +11,7 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
+#' @importFrom utils globalVariables
 #' @examples MEDBS_LW_check(GP_tab_example, "MUT", "ITA", "GSA 18")
 MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
 
@@ -158,3 +159,7 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
     return(plots)
   } # nrow(GP_tab) > 0
 }
+
+utils::globalVariables(c(
+  "B"
+))

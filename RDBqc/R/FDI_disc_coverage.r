@@ -70,7 +70,7 @@ FDI_disc_coverage <- function(data, MS, GSA, SP, verbose = TRUE) {
       data1$DISCcat[d1] <- "1"
       data1$DISCcat[d2] <- "0"
       data1$DISCcat[d3] <- "NK"
-      if (class(data1$totwghtlandg) != "numeric") {
+      if (!inherits(data1$totwghtlandg, "numeric")){
         message("Unexpected class values in 'totwghtlandg' field in table A catch. Converted to numeric")
         data1$totwghtlandg <- as.numeric(data1$totwghtlandg)
       }

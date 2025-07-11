@@ -15,7 +15,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.1.0)
-Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, data.table, grDevices, magrittr, tidyverse, fishmethods,tidyr,gridExtra, scales, outliers, sf, methods, reshape2,cowplot,plyr,readr
+Imports: dplyr, ggplot2, rworldmap, sp, rworldxtra, data.table, grDevices, magrittr, tidyverse, fishmethods,tidyr,gridExtra, scales, outliers, sf, methods, reshape2,cowplot,plyr,readr,ggpubr
 LazyData: true
 Suggests: 
     rmarkdown, knitr, markdown
