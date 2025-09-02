@@ -18,7 +18,7 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples MEDBS_ALK_NB(data = ALK_tab_example, SP = "MUT", MS = "ITA", GSA = "GSA 99")
 MEDBS_ALK_NB <- function(data, SP, MS, GSA, verbose = TRUE) {
-  AGE <- len <- START_YEAR <- END_YEAR<-SEX<- AREA<-length_cm<-TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE<-YEARS<-NULL
+  AGE <- len <- START_YEAR <- END_YEAR<-SEX<- AREA<-length_cm<-TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE<-YEARS<-LENGTHCLASS<-NULL
   colnames(data) <- toupper(colnames(data))
 
   data <- data[data$AREA == as.character(GSA) & data$COUNTRY == MS & data$SPECIES == SP, ]
