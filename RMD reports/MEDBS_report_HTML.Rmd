@@ -317,6 +317,25 @@ if (check_Catch) {
   }
 } # check_Catch
 ```
+
+
+```{r catch_CAA, results = 'asis',fig.height=6,fig.width=9}
+if (check_Catch) {
+  cat("\n## Check the numbers by age in landing and discard from Catch table\n")
+  
+
+  for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+    s <- 1
+    for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
+      res <- suppressMessages(MEDBS_Catch_CAA(data=Catch, SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE))
+
+    }
+  }
+} # check_Catch
+```
+
 <!-- LANDING -->
 
 ```{r check_landing_data, results = 'asis'}
