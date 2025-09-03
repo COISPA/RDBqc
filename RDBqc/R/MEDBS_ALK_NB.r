@@ -58,7 +58,7 @@ MEDBS_ALK_NB <- function(data, SP, MS, GSA, verbose = TRUE) {
     nb_total$diff=nb_total$TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE-nb_total$total_n
     errors=nb_total[which(nb_total$diff>0),]
 
-if (nrow(errors)>0 & nrow(data)>0){
+if (nrow(data)>0){
 
 return(errors)
 

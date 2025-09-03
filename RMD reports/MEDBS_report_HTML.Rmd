@@ -1,4 +1,4 @@
----
+--- 
 title: "![](logo.png){width=6in}<br>\\vspace{2in}\n\n\n\n`r format(params$term)` Report\\vspace{0.1in} "
 
 date: "Compiled on `r format(Sys.time(), '%d/%m/%Y, %H:%M')`"
@@ -15,7 +15,9 @@ output:
     df_print: paged
 params:
   term: MEDBS datacall
+  
 ---
+
 <!-- INITIALIZATION -->
 
 ```{r inizialization, include=FALSE}
@@ -41,20 +43,20 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-Catch <- read.coded.file("./catch.csv", sep = ",")
-Land <- read.coded.file("./landings.csv", sep = ",")
-Disc <- read.coded.file("./discards.csv", sep = ",")
-ML <- read.coded.file("./ml.csv", sep = ",")
-MA <- read.coded.file("./ma.csv", sep = ",")
-SL <- read.coded.file("./srl.csv", sep = ",")
-SA <- read.coded.file("./sra.csv", sep = ",")
-GP <- read.coded.file("./gp.csv", sep = ",")
-ALK <- read.coded.file("./alk.csv", sep = ",")
+Catch <- Catch_tab_example #read.coded.file("./catch.csv", sep = ",")
+Land <- Landing_tab_example #read.coded.file("./landings.csv", sep = ",")
+Disc <- Discard_tab_example #read.coded.file("./discards.csv", sep = ",")
+ML <-ML_tab_example # read.coded.file("./ml.csv", sep = ",")
+MA <- MA_tab_example #read.coded.file("./ma.csv", sep = ",")
+SL <- SL_tab_example #read.coded.file("./srl.csv", sep = ",")
+SA <- SA_tab_example #read.coded.file("./sra.csv", sep = ",")
+GP <- GP_tab_example #read.coded.file("./gp.csv", sep = ",")
+ALK <- ALK_tab_example #read.coded.file("./alk.csv", sep = ",")
 
 SPs <- c("MUT")
 MS <- "ITA"
-GSAs <- "GSA 18"
-end_year <- 2021
+GSAs <- "GSA 99"
+end_year <- 2012
 ```
 
 
@@ -2036,7 +2038,6 @@ if (check_ALK) {
 ```
 
 ```{r ALK_checks3, results = 'asis', fig.height=6, fig.width=9}
-
 if (check_ALK) {
   cat("\n## Check if the total number of hard structures is consistent with the sum of numbers by age in the Age-Length Keys (ALK) data\n")
 
@@ -2047,20 +2048,20 @@ if (check_ALK) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_ALK_NB(ALK, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
-      if (class(res) == "list" & length(res) > 0) {
-        l <- 1
-        for (l in 1:length(res)) {
-          sex <- strsplit(names(res[l]), " - ")[[1]][1]
-          cat(paste0("\n Records for which the total number of hard structures is not consistent with the sum of numbers by age from ALK for ", SPs[s], " - ", MS, " - ", GSAs[g], " - ", sex, "\n"))
-          print(res[[l]])
+      if (nrow(ALK)>0 & nrow(res)>0) {
+      cat(paste0("\n Records for which the total number of hard structures is not consistent with the sum of numbers by age from ALK for ", SPs[s], " - ", MS, " - ", GSAs[g], " - ", "\n"))
+          print(res)
           cat("\n\n\n")
-        }
-      } else {
+        }    else if (nrow(ALK)==0){
         cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+      } else if (nrow(ALK)>0 & nrow(res)==0)
+      {
+       cat(paste0("\n- All records are consistent for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))   
       }
+          
     }
   }
-} # check_ALK
+}# check_ALK
 ```
 
 
