@@ -56,7 +56,7 @@ MEDBS_ALK_NB <- function(data, SP, MS, GSA, verbose = TRUE) {
     #mean_lengths$YEARS=""
     #mean_lengths$YEARS=paste(mean_lengths$START_YEAR,"-", mean_lengths$END_YEAR)
     nb_total$diff=nb_total$TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE-nb_total$total_n
-    errors=nb_total[which(nb_total$diff>0),]
+    errors=data.frame(nb_total[which(nb_total$diff!=0),])
 
 if (nrow(data)>0){
 
