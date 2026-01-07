@@ -20,6 +20,7 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples MEDBS_ALK_MLAA(data = ALK_tab_example, SP = "MUT", MS = "ITA", GSA = "GSA 99")
 MEDBS_ALK_MLAA <- function(data, SP, MS, GSA, verbose = TRUE) {
+
   AGE <- len <- START_YEAR <- END_YEAR<-SEX<- AREA<-length_cm<-mean_length<-YEARS<-NULL
   colnames(data) <- toupper(colnames(data))
 
@@ -101,7 +102,7 @@ MEDBS_ALK_MLAA <- function(data, SP, MS, GSA, verbose = TRUE) {
     if ("C" %in% sexes) {
         mean_lengths_C <- mean_lengths[mean_lengths$SEX == "C", ]
         #unit <- unique(ALK_F$UNIT)
-        mean_lengths_C <- as.data.table(mean_lengths_M)
+        mean_lengths_C <- as.data.table(mean_lengths_C)
         p <- ggplot(data = mean_lengths_C, aes(x = AGE, y = mean_length, col = YEARS)) +
             geom_point(stat = "identity") +
             ggtitle(paste("Combined", SP, MS, GSA, sep = " - ")) +
@@ -116,7 +117,9 @@ MEDBS_ALK_MLAA <- function(data, SP, MS, GSA, verbose = TRUE) {
         names(plots)[[l]] <- paste("Combined", SP, MS, GSA, sep = " - ")
     }
 
+
     return(plots)
+
   } else {
     if (verbose) {
       message("No data for the selected combination of SP, MS, GSA ")

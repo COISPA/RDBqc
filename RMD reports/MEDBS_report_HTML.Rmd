@@ -1,4 +1,4 @@
----
+--- 
 title: "![](logo.png){width=6in}<br>\\vspace{2in}\n\n\n\n`r format(params$term)` Report\\vspace{0.1in} "
 
 date: "Compiled on `r format(Sys.time(), '%d/%m/%Y, %H:%M')`"
@@ -15,7 +15,9 @@ output:
     df_print: paged
 params:
   term: MEDBS datacall
+  
 ---
+
 <!-- INITIALIZATION -->
 
 ```{r inizialization, include=FALSE}
@@ -41,20 +43,20 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-Catch <- read.coded.file("./catch.csv", sep = ",")
-Land <- read.coded.file("./landings.csv", sep = ",")
-Disc <- read.coded.file("./discards.csv", sep = ",")
-ML <- read.coded.file("./ml.csv", sep = ",")
-MA <- read.coded.file("./ma.csv", sep = ",")
-SL <- read.coded.file("./srl.csv", sep = ",")
-SA <- read.coded.file("./sra.csv", sep = ",")
-GP <- read.coded.file("./gp.csv", sep = ",")
-ALK <- read.coded.file("./alk.csv", sep = ",")
+Catch <-  read.coded.file("C:\\prova_rdbqc\\Catch_GSA_18.csv", sep = ";") # Catch_tab_example
+Land <-  read.coded.file("C:\\prova_rdbqc\\Lnd_GSA_18.csv", sep = ";") #Landing_tab_example
+Disc <-  read.coded.file("C:\\prova_rdbqc\\Disc_GSA_18.csv", sep = ";") #Discard_tab_example
+ML <- read.coded.file("C:\\prova_rdbqc\\ML_GSA 18.csv", sep = ";") #ML_tab_example 
+MA <- read.coded.file("C:\\prova_rdbqc\\MA_GSA 18.csv", sep = ";") # MA_tab_example
+SL <-  read.coded.file("C:\\prova_rdbqc\\SRL_GSA 18.csv", sep = ";") #SL_tab_example
+SA <-  read.coded.file("C:\\prova_rdbqc\\SRA_GSA 18.csv", sep = ";") #SA_tab_example
+GP <- read.coded.file("C:\\prova_rdbqc\\GP_GSA 18.csv", sep = ";") #GP_tab_example 
+ALK <-  read.coded.file("C:\\prova_rdbqc\\ALK_GSA 18 with errors.csv", sep = ";") #ALK_tab_example
 
-SPs <- c("MUT")
+SPs <- c("NEP")
 MS <- "ITA"
 GSAs <- "GSA 18"
-end_year <- 2021
+end_year <- 2022
 ```
 
 
@@ -295,6 +297,42 @@ if (check_Catch) {
       } else {
         cat(paste0("\n_No critical values of SOP detected for ", SPs[s], " in ", GSAs[g], "_\n\n"))
       }
+    }
+  }
+} # check_Catch
+```
+
+
+```{r catch_LW, results = 'asis',fig.height=6,fig.width=9}
+if (check_Catch) {
+  cat("\n## Check of length weight in landing and discard from Catch table\n")
+  
+
+  for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+    s <- 1
+    for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
+      res <- suppressMessages(MEDBS_Catch_LW(data=Catch, SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE))
+print(res)
+    }
+  }
+} # check_Catch
+```
+
+
+```{r catch_CAA, results = 'asis',fig.height=6,fig.width=9}
+if (check_Catch) {
+  cat("\n## Check the numbers by age in landing and discard from Catch table\n")
+  
+
+  for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+    s <- 1
+    for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
+      res <- suppressMessages(MEDBS_Catch_CAA(data=Catch, SP = SPs[s], MS = MS, GSA = GSAs[g], verbose = FALSE))
+print(res)
     }
   }
 } # check_Catch
@@ -1885,8 +1923,9 @@ if (check_SRL) {
 <!-- ALK -->
 
 ```{r check_ALK_data, results = 'asis'}
+sp_ALK= ALK[ALK$species %in% SPs & ALK$AREA %in% GSAs & ALK$COUNTRY %in% MS,]
 
-if (exists("ALK")) {
+if (exists("ALK") & nrow(sp_ALK)>0) {
   if (class(ALK) == "data.frame") {
     if (nrow(ALK) > 0) {
       check_ALK <- TRUE
@@ -1912,7 +1951,7 @@ if (exists("ALK")) {
 
 
 ```{r ALK_duplicated_records, results = 'asis'}
-if (check_ALK) {
+if (check_ALK & nrow(sp_ALK)>0) {
   cat("\n## Presence of duplicated records\n")
   cat("\nData included in the ALK table were checked for the presence of duplicated records. The results of the check are here reported:\n")
 
@@ -1945,7 +1984,7 @@ if (check_ALK) {
 
 ```{r ALK_checks, results = 'asis', fig.height=6, fig.width=9}
 
-if (check_ALK) {
+if (check_ALK & nrow(sp_ALK)>0) {
   cat("\n## Plots of Age-Length Keys (ALK) data\n")
 
   for (g in 1:length(GSAs)) {
@@ -1973,7 +2012,7 @@ if (check_ALK) {
 
 ```{r ALK_checks2, results = 'asis', fig.height=6, fig.width=9}
 
-if (check_ALK) {
+if (check_ALK & nrow(sp_ALK)>0) {
   cat("\n## Plots of mean length at age from the Age-Length Keys (ALK) data\n")
 
   for (g in 1:length(GSAs)) {
@@ -1983,15 +2022,10 @@ if (check_ALK) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_ALK_MLAA(ALK, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
-      if (class(res) == "list" & length(res) > 0) {
-        l <- 1
-        for (l in 1:length(res)) {
-          sex <- strsplit(names(res[l]), " - ")[[1]][1]
-          cat(paste0("\nPlot of mean length at age from ALK for ", SPs[s], " - ", MS, " - ", GSAs[g], " - ", sex, "\n"))
-          print(res[[l]])
+       if (nrow(ALK)>0 & length(res)>0) {
+          print(res)
           cat("\n\n\n")
-        }
-      } else {
+              } else if (nrow(ALK)==0){
         cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
       }
     }
@@ -2000,8 +2034,7 @@ if (check_ALK) {
 ```
 
 ```{r ALK_checks3, results = 'asis', fig.height=6, fig.width=9}
-
-if (check_ALK) {
+if (check_ALK & nrow(sp_ALK)>0) {
   cat("\n## Check if the total number of hard structures is consistent with the sum of numbers by age in the Age-Length Keys (ALK) data\n")
 
   for (g in 1:length(GSAs)) {
@@ -2011,20 +2044,20 @@ if (check_ALK) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_ALK_NB(ALK, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
-      if (class(res) == "list" & length(res) > 0) {
-        l <- 1
-        for (l in 1:length(res)) {
-          sex <- strsplit(names(res[l]), " - ")[[1]][1]
-          cat(paste0("\n Records for which the total number of hard structures is not consistent with the sum of numbers by age from ALK for ", SPs[s], " - ", MS, " - ", GSAs[g], " - ", sex, "\n"))
-          print(res[[l]])
-          cat("\n\n\n")
-        }
-      } else {
+      if (nrow(ALK)>0 & nrow(res)>0) {
+      cat(paste0("\n Records for which the total number of hard structures is not consistent with the sum of numbers by age from ALK for ", SPs[s], " - ", MS, " - ", GSAs[g], " - ", "\n"))
+           print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+         cat("\n\n\n")
+        }    else if (nrow(ALK)==0){
         cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+      } else if (nrow(ALK)>0 & nrow(res)==0)
+      {
+       cat(paste0("\n- All records are consistent for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))   
       }
+          
     }
   }
-} # check_ALK
+}# check_ALK
 ```
 
 

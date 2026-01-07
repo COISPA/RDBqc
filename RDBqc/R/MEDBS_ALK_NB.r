@@ -18,7 +18,7 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples MEDBS_ALK_NB(data = ALK_tab_example, SP = "MUT", MS = "ITA", GSA = "GSA 99")
 MEDBS_ALK_NB <- function(data, SP, MS, GSA, verbose = TRUE) {
-  AGE <- len <- START_YEAR <- END_YEAR<-SEX<- AREA<-length_cm<-TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE<-YEARS<-NULL
+  AGE <- len <- START_YEAR <- END_YEAR<-SEX<- AREA<-length_cm<-TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE<-YEARS<-LENGTHCLASS<-NULL
   colnames(data) <- toupper(colnames(data))
 
   data <- data[data$AREA == as.character(GSA) & data$COUNTRY == MS & data$SPECIES == SP, ]
@@ -56,18 +56,15 @@ MEDBS_ALK_NB <- function(data, SP, MS, GSA, verbose = TRUE) {
     #mean_lengths$YEARS=""
     #mean_lengths$YEARS=paste(mean_lengths$START_YEAR,"-", mean_lengths$END_YEAR)
     nb_total$diff=nb_total$TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE-nb_total$total_n
-    errors=nb_total[which(nb_total$diff>0),]
+    errors=data.frame(nb_total[which(nb_total$diff!=0),])
 
-if (nrow(errors)>0){
+if (nrow(data)>0){
 
 return(errors)
 
-} else {
-        message("The total number of hard structures is consistent with the sum of numbers by age")
-    }
-
+}
   } else {
-    if (verbose) {
+    if (verbose & nrow(data)==0) {
       message("No data for the selected combination of SP, MS, GSA ")
     }
   }
