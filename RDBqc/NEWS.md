@@ -2,7 +2,8 @@
  * Fixes for RDBFIS III
    * The function MEDBS_length_ind() was updated to improve computational performance when repeatedly called across multiple species and GSAs (e.g., within RMarkdown reports), without altering its overall logic, structure, or returned outputs. Estimated improvement ≈ 10 × faster.
    * MEDBS_ks() was revised to improve performance and robustness when executed repeatedly in automated reporting workflows. The internal implementation was updated to reduce redundant computations and data reshaping within each call
-
+   * MEDBS_Catch_LW was revised correcting the names of columns in the selection of mean lengh at age data.
+   * MEDBS_report_HTML was updated to deal with null datasets in ALK (when calling MEDBS_ALK_MLAA and MEDBS_ALK_NB fucntions) and Catch (when calling MEDBS_Catch_LW and MEDBS_Catch_CAA functions)
 
 # RBDqc 0.1.0 (26/06/2025)
  * Fixes for RDBFIS III
