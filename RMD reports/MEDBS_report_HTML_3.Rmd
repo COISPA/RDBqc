@@ -42,8 +42,8 @@ lapply(lib, require, character.only = TRUE)
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
 Catch <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/catch.csv", sep = ",", header = TRUE)
-# Land <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/landings.csv", sep = ",", header = TRUE)
-# Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/discards.csv", sep = ",", header = TRUE)
+Land <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/landings.csv", sep = ",", header = TRUE)
+Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/discards.csv", sep = ",", header = TRUE)
 # ML <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/ml.csv", sep = ",", header = TRUE)
 # MA <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/ma.csv", sep = ",", header = TRUE)
 # SL <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/srl.csv", sep = ",", header = TRUE)
