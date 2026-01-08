@@ -41,9 +41,9 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-Catch <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/catch.csv", sep = ",", header = TRUE)
+# Catch <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/catch.csv", sep = ",", header = TRUE)
 Land <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/landings.csv", sep = ",", header = TRUE)
-Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/discards.csv", sep = ",", header = TRUE)
+# Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/discards.csv", sep = ",", header = TRUE)
 # ML <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/ml.csv", sep = ",", header = TRUE)
 # MA <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/ma.csv", sep = ",", header = TRUE)
 # SL <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/srl.csv", sep = ",", header = TRUE)
@@ -51,7 +51,7 @@ Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/tes
 # GP <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/gp.csv", sep = ",", header = TRUE)
 # ALK <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/alk.csv", sep = ",", header = TRUE)
 
-SPs <- sort(c("HKE","DPS","NEP","ANE","OCC","MUT")) 
+SPs <- NA # sort(c("HKE","DPS","NEP","ANE","OCC","MUT")) 
 MS <- "ITA"
 GSAs <- "GSA 18"
 end_year <- 2022
@@ -647,7 +647,7 @@ if (check_Land) {
 
 
 ```{r length_ind_land, results = 'asis', fig.height=6, fig.width=9}
-t0 <- Sys.time()
+# t0 <- Sys.time()
 
 if (check_Land) {
   cat("\n## Main length size indicators\n")
@@ -687,9 +687,11 @@ if (check_Land) {
   }
 } # check_Land
 
-t1 <- Sys.time() - t0
-print( t1)
+# t1 <- Sys.time() - t0
+# print( t1)
 ```
+
+
 
 
 ```{r lengthclass_0_land, results = 'asis', fig.height=6, fig.width=9}
@@ -2114,7 +2116,8 @@ if (check_SRL) {
 
 ```{r check_ALK_data, results = 'asis'}
 
-if (exists("ALK")) {
+
+if (exists("ALK") ) {
   if (class(ALK) == "data.frame") {
     if (nrow(ALK) > 0) {
       check_ALK <- TRUE
@@ -2140,7 +2143,7 @@ if (exists("ALK")) {
 
 
 ```{r ALK_duplicated_records, results = 'asis'}
-if (check_ALK) {
+if (check_ALK ) {
   cat("\n## Presence of duplicated records\n")
   cat("\nData included in the ALK table were checked for the presence of duplicated records. The results of the check are here reported:\n")
 
@@ -2183,7 +2186,7 @@ if (check_ALK) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_ALK(ALK, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
-      if (class(res) == "list" & length(res) > 0) {
+      if (class(res) == "list" & class(res)[1]!= "NULL") {
         l <- 1
         for (l in 1:length(res)) {
           sex <- strsplit(names(res[l]), " - ")[[1]][1]
@@ -2191,10 +2194,63 @@ if (check_ALK) {
           print(res[[l]])
           cat("\n\n\n")
         }
-      } else {
+      } else if (class(res)[1]!= "NULL"){
         cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
       }
     }
   }
 } # check_ALK
+```
+
+```{r ALK_checks2, results = 'asis', fig.height=6, fig.width=9}
+
+if (check_ALK ) {
+  cat("\n## Plots of mean length at age from the Age-Length Keys (ALK) data\n")
+
+  for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+    s <- 1
+    for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
+      res <- suppressMessages(MEDBS_ALK_MLAA(ALK, SP = SPs[s], MS = MS, GSA = GSAs[g]))
+
+       if (nrow(ALK)>0 & class(res)[1]!= "NULL") {
+          print(res)
+          cat("\n\n\n")
+              } else if (class(res)[1]== "NULL"){
+        cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+      }
+    }
+  }
+} # check_ALK
+```
+
+```{r ALK_checks3, results = 'asis', fig.height=6, fig.width=9}
+if (check_ALK ) {
+  cat("\n## Check if the total number of hard structures is consistent with the sum of numbers by age in the Age-Length Keys (ALK) data\n")
+
+  for (g in 1:length(GSAs)) {
+    cat(paste0("\n### ", GSAs[g], "\n"))
+    s <- 1
+    for (s in 1:length(SPs)) {
+      cat(paste0("\n#### ", SPs[s], "\n"))
+      res <- suppressMessages(MEDBS_ALK_NB(ALK, SP = SPs[s], MS = MS, GSA = GSAs[g]))
+
+      if (class(res)[1]!= "NULL") {
+          if(nrow(res)>0) {
+      cat(paste0("\n Records for which the total number of hard structures is not consistent with the sum of numbers by age from ALK for ", SPs[s], " - ", MS, " - ", GSAs[g], " - ", "\n"))
+           print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+         cat("\n\n\n")
+          } else if ( nrow(res)==0){
+      
+       cat(paste0("\n- All records are consistent for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))   
+      }
+          }   else if (class(res)[1]== "NULL"){
+        cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+        } 
+      
+          
+    }
+  }
+}# check_ALK
 ```

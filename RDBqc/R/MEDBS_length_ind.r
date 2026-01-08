@@ -67,8 +67,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
   if (type == "l") {
     landed <- data
     landed$upload_id <- rep(NA, nrow(landed))
-    id_landings <- NA
-    landed <- cbind(id_landings, landed)
+    id_landings <- rep(NA, nrow(landed))
+    landed <- cbind(id_landings = id_landings, landed)
     landed$landings[landed$landings == -1] <- 0
     land <- landed[which(landed$area == GSA & landed$country ==
                            MS & landed$species == SP), ]
