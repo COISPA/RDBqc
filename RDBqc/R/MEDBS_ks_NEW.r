@@ -111,7 +111,9 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
             p <- as.data.frame(colSums(max_no_landed2, na.rm = TRUE))
             p$Length <- c(0:100)
             names(p) <- c("Sum", "Length")
-            maxlength <- max(p[which(p$Sum > 0), "Length"])
+            idx <- which(p$Sum > 0)
+            maxlength <- if (length(idx) == 0) NA else max(p[idx, "Length"])
+            # maxlength <- suppressWarnings(max(p[which(p$Sum > 0), "Length"]))
             unit <- unique(land$unit)
 
             cols <- c(which(colnames(land) %in% c("year", "area", "species", "unit", "gear", "fishery", "country")), grep("lengthclass", colnames(land)))

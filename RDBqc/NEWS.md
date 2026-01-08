@@ -1,12 +1,5 @@
 # RBDqc 0.1.00 (26/06/2025)
  * Fixes for RDBFIS III
- 
-   ** MEDBS_GP_check addedd new plots of boxplot of Linf, k and t0 parameters of VBGF
-   
-   ** MEDBS_LW_check addedd new plots of boxplot of both a and b parameters of growth parameters
-   
-   ** MEDBS_ks has been refactored for speed and memory efficiency. The function no longer calls clus.lf() with 100 bootstrap resamples; instead, a lightweight helper (calc_KS_ID()) computes the Kolmogorov–Smirnov statistic analytically from vectorised length-frequency tables. Length-class columns are converted to numeric in a single multithreaded data.table pass, cumulative curves are built with a grouped cumsum(), and all data-frame merges have been replaced by in-place data-table joins. The public interface and output (KS decisions, cumulative plots) are unchanged, but runtime drops from ~5 s to ~0.16 s (≈ 30 × faster) and peak memory from ~645 MB to ~25 MB.
-
    * MEDBS_GP_check addedd new plots of boxplot of Linf, k and t0 parameters of VBGF
    * MEDBS_LW_check addedd new plots of boxplot of both a and b parameters of growth parameters
    * MEDBS_ks has been refactored for speed and memory efficiency. The function no longer calls clus.lf() with 100 bootstrap resamples; instead, a lightweight helper (calc_KS_ID()) computes the Kolmogorov–Smirnov statistic analytically from vectorised length-frequency tables. Length-class columns are converted to numeric in a single multithreaded data.table pass, cumulative curves are built with a grouped cumsum(), and all data-frame merges have been replaced by in-place data-table joins. The public interface and output (KS decisions, cumulative plots) are unchanged, but runtime drops from ~5 s to ~0.16 s (≈ 30 × faster) and peak memory from ~645 MB to ~25 MB.

@@ -8,7 +8,7 @@
 #' @return A ggplot object: multi-panel barplots of numbers-at-age (quarters summed),
 #' by YEAR (columns) and by group GEAR - MESH_SIZE_RANGE - FISHERY (rows).
 #'
-#' @importFrom dplyr filter mutate select group_by summarise bind_rows
+#' @importFrom dplyr filter mutate select group_by summarise bind_rows distinct anti_join
 #' @importFrom tidyr pivot_longer
 #' @importFrom stringr str_extract
 #' @importFrom tidyselect matches
@@ -20,7 +20,7 @@
 MEDBS_Catch_CAA <- function(data, SP, MS, GSA, verbose = TRUE) {
 
     # avoid "no visible binding for global variable" notes
-    AGE_COL <- YEAR <- QUARTER <- GEAR <- MESH_SIZE_RANGE <- FISHERY <- AGE <- NUMBER <- TYPE <- GROUP<-NULL
+    AGE_COL <- YEAR <- QUARTER <- GEAR <- MESH_SIZE_RANGE <- FISHERY <- AGE <- NUMBER <- TYPE <- GROUP <- NULL
     colnames(data) <- toupper(colnames(data))
     data[is.na(data$VESSEL_LENGTH), "VESSEL_LENGTH"] <- "NA"
     data[is.na(data$GEAR), "GEAR"] <- "NA"
@@ -39,91 +39,60 @@ MEDBS_Catch_CAA <- function(data, SP, MS, GSA, verbose = TRUE) {
             Data_call[Data_call[, p] == -1, p] <- 0
         }
 
-        # Landing_nb <- Data_call[, 1:12]
-        # i <- 1
-        # for (i in 1:20) {
-        #     Landing_nb <- cbind(Landing_nb, Data_call[, which(colnames(Data_call) == paste("AGE_", i - 1, "_NO_LANDED", sep = ""))])
-        #     colnames(Landing_nb)[ncol(Landing_nb)] <- paste("AGE_", i - 1, "_NO_LANDED", sep = "")
-        # }
-        # Landing_nb <- cbind(Landing_nb, Data_call[, (colnames(Data_call) == "AGE_20_PLUS_NO_LANDED" | colnames(Data_call) == "AGE_20_NO_LANDED")])
-        #
-        # colnames(Landing_nb) <- c(colnames(Data_call[1:12]), paste("AGE_", c(0:19), "_NO_LANDED", sep = ""), "AGE_20_PLUS_NO_LANDED")
-        #
-        # Landing_nb[, 13:ncol(Landing_nb)][Landing_nb[, 13:ncol(Landing_nb)] == -1] <- 0
-        # Landing_nb$Sum <- rowSums(Landing_nb[, 13:ncol(Landing_nb)])
-        # pos_indices <- which(Landing_nb$Sum > 0)
-        Landing_nb <- Data_call[, 1:12]
-
-        for (i in 1:20) {
-            Landing_nb <- cbind(Landing_nb, Data_call[, colnames(Data_call) == paste("AGE_", i - 1, "_NO_LANDED", sep = "") | colnames(Data_call) == paste("AGE_", i - 1, "_NO_LANDED", sep = "")])
-        }
-        Landing_nb <- cbind(Landing_nb, Data_call[, colnames(Data_call) == "AGE_20_PLUS_NO_LANDED" | colnames(Data_call) == "AGE_20_NO_LANDED"])
-        colnames(Landing_nb) <- c(colnames(Data_call[1:12]), paste("AGE_", c(0:19), "_NO_LANDED", sep = ""), "AGE_20_PLUS_NO_LANDED")
-
-        Landing_nb[, 13:ncol(Landing_nb)][Landing_nb[, 13:ncol(Landing_nb)] == -1] <- 0
-
-
-        Discard_nb <- Data_call[, 1:12]
-
-        for (i in 1:20) {
-            Discard_nb <- cbind(Discard_nb, Data_call[, colnames(Data_call) == paste("AGE_", i - 1, "_NO_DISCARD", sep = "") | colnames(Data_call) == paste("AGE_", i - 1, "_NO_DISCARD", sep = "")])
-        }
-        Discard_nb <- cbind(Discard_nb, Data_call[, colnames(Data_call) == "AGE_20_PLUS_NO_DISCARD" | colnames(Data_call) == "AGE_20_NO_DISCARD"])
-        colnames(Discard_nb) <- c(colnames(Data_call[1:12]), paste("AGE_", c(0:19), "_NO_DISCARD", sep = ""), "AGE_20_PLUS_NO_DISCARD")
-
-        Discard_nb[, 13:ncol(Discard_nb)][Discard_nb[, 13:ncol(Discard_nb)] == -1] <- 0
-
-
-
         age_levels <- c(as.character(0:19), "20+")
 
-        # Landing: AGE_*_NO_LANDED -> long
-        landing_long <- Landing_nb %>%
+        # One single pivot: keep only numbers-at-age (landed and discard)
+        lw_counts <- Data_call %>%
             pivot_longer(
-                cols = matches("^AGE_\\d+_NO_LANDED$|^AGE_20_PLUS_NO_LANDED$"),
+                cols = matches("^AGE_\\d+_NO_LANDED$|^AGE_20_PLUS_NO_LANDED$|^AGE_20_NO_LANDED$|^AGE_\\d+_NO_DISCARD$|^AGE_20_PLUS_NO_DISCARD$|^AGE_20_NO_DISCARD$"),
                 names_to  = "AGE_COL",
                 values_to = "NUMBER"
             ) %>%
             mutate(
-                TYPE = "Landing",
-                AGE  = ifelse(grepl("20_PLUS", AGE_COL),
+                TYPE = ifelse(grepl("_NO_LANDED$", AGE_COL), "Landing", "Discard"),
+                AGE  = ifelse(grepl("20_PLUS", AGE_COL) | grepl("^AGE_20_", AGE_COL),
                               "20+",
-                              stringr::str_extract(AGE_COL, "\\d+"))
-            ) %>%
-            select(YEAR, QUARTER, GEAR, MESH_SIZE_RANGE, FISHERY, AGE, NUMBER, TYPE)
-
-        # Discard: AGE_*_NO_DISCARD -> long
-        discard_long <- Discard_nb %>%
-            pivot_longer(
-                cols = matches("^AGE_\\d+_NO_DISCARD$|^AGE_20_PLUS_NO_DISCARD$"),
-                names_to  = "AGE_COL",
-                values_to = "NUMBER"
-            ) %>%
-            mutate(
-                TYPE = "Discard",
-                AGE  = ifelse(grepl("20_PLUS", AGE_COL),
-                              "20+",
-                              stringr::str_extract(AGE_COL, "\\d+"))
-            ) %>%
-            select(YEAR, QUARTER, GEAR, MESH_SIZE_RANGE, FISHERY, AGE, NUMBER, TYPE)
-
-        # Combine, sum over QUARTER, keep YEAR separate (columns in the facet)
-        # lw_counts <- bind_rows(landing_long, discard_long) %>%
-        #     mutate(
-        #         AGE   = factor(AGE, levels = age_levels),
-        #         GROUP = paste(GEAR, MESH_SIZE_RANGE, FISHERY, sep = " - ")
-        #     ) %>%
-        #     group_by(GROUP, YEAR, AGE, TYPE) %>%       # <- sums over QUARTER implicitly
-        #     summarise(NUMBER = sum(NUMBER, na.rm = TRUE), .groups = "drop")
-        #
-        lw_counts <- bind_rows(landing_long, discard_long) %>%
-            mutate(
-                AGE   = factor(AGE, levels = c(as.character(0:19), "20+")),
+                              stringr::str_extract(AGE_COL, "\\d+")),
+                AGE   = factor(AGE, levels = age_levels),
                 GROUP = paste(GEAR, MESH_SIZE_RANGE, FISHERY, sep = " - ")
             ) %>%
             group_by(GROUP, YEAR, AGE, TYPE) %>%
             summarise(NUMBER = sum(NUMBER, na.rm = TRUE), .groups = "drop") %>%
             filter(NUMBER > 0)
+
+        # If, after cleaning, there are no positive numbers-at-age, do not try faceting
+        if (nrow(lw_counts) == 0) {
+            if (isTRUE(verbose)) {
+                message(paste0("No numbers-at-age > 0 after cleaning for ", SP, " in ", MS, " - ", GSA))
+            }
+            return(NULL)
+        }
+
+        # Add one dummy observation for each missing GROUP x YEAR panel to avoid ggplot warnings
+        obs_panels <- lw_counts %>%
+            distinct(GROUP, YEAR)
+
+        grid_panels <- expand.grid(
+            GROUP = unique(lw_counts$GROUP),
+            YEAR  = unique(lw_counts$YEAR),
+            stringsAsFactors = FALSE
+        )
+
+        missing_panels <- anti_join(
+            grid_panels,
+            obs_panels,
+            by = c("GROUP", "YEAR")
+        )
+
+        if (nrow(missing_panels) > 0) {
+            dummy <- missing_panels %>%
+                mutate(
+                    AGE    = factor(age_levels[1], levels = age_levels),
+                    TYPE   = "Landing",
+                    NUMBER = 0
+                )
+            lw_counts <- bind_rows(lw_counts, dummy)
+        }
 
         # ---- Plot: one row per GROUP, columns = YEAR; blue=Landing, pink=Discard ----
         p <- ggplot(lw_counts, aes(x = AGE, y = NUMBER, fill = TYPE)) +
@@ -135,7 +104,7 @@ MEDBS_Catch_CAA <- function(data, SP, MS, GSA, verbose = TRUE) {
                 y = "Number of individuals (thousands)",
                 fill = NULL,
                 title = paste0("Numbers by age (quarters summed) - ", SP, " in ", MS, " - ", GSA)
-               ) +
+            ) +
             theme(
                 legend.position = "top",
                 strip.text.y = element_text(angle = 0)
