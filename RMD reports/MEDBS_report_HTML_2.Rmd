@@ -3341,6 +3341,8 @@ if (check_SRL) {
 <!-- ALK -->
 
 ```{r check_ALK_data, results = 'asis'}
+# sp_ALK= ALK[ALK$species %in% SPs & ALK$AREA %in% GSAs & ALK$COUNTRY %in% MS,]
+
 if (exists("ALK")) {
   if (class(ALK) == "data.frame") {
     if (nrow(ALK) > 0) {
@@ -3365,7 +3367,7 @@ if (exists("ALK")) {
 ```
 
 ```{r ALK_duplicated_records, results = 'asis'}
-if (check_ALK) {
+if (check_ALK & nrow(sp_ALK)>0) {
   cat("\n## Presence of duplicated records\n")
   cat("\nData included in the ALK table were checked for the presence of duplicated records. The results of the check are here reported:\n")
 
@@ -3397,7 +3399,7 @@ if (check_ALK) {
 
 ```{r ALK_checks, results = 'asis', fig.height=6, fig.width=9}
 
-if (check_ALK) {
+if (check_ALK & nrow(sp_ALK)>0) {
   cat("\n## Plots of Age-Length Keys (ALK) data\n")
 
   for (g in 1:length(GSAs)) {
@@ -3425,7 +3427,7 @@ if (check_ALK) {
 
 ```{r ALK_checks2, results = 'asis', fig.height=6, fig.width=9}
 
-if (check_ALK) {
+if (check_ALK & nrow(sp_ALK)>0) {
   cat("\n## Plots of mean length at age from the Age-Length Keys (ALK) data\n")
 
   for (g in 1:length(GSAs)) {
@@ -3447,7 +3449,7 @@ if (check_ALK) {
 ```
 
 ```{r ALK_checks3, results = 'asis', fig.height=6, fig.width=9}
-if (check_ALK) {
+if (check_ALK & nrow(sp_ALK)>0) {
   cat("\n## Check if the total number of hard structures is consistent with the sum of numbers by age in the Age-Length Keys (ALK) data\n")
 
   for (g in 1:length(GSAs)) {

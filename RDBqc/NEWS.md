@@ -1,4 +1,10 @@
-# RBDqc 0.1.00 (26/06/2025)
+# RBDqc 0.1.1 (08/01/2026)
+ * Fixes for RDBFIS III
+   * The function MEDBS_length_ind() was updated to improve computational performance when repeatedly called across multiple species and GSAs (e.g., within RMarkdown reports), without altering its overall logic, structure, or returned outputs. Estimated improvement ≈ 10 × faster.
+   * MEDBS_ks() was revised to improve performance and robustness when executed repeatedly in automated reporting workflows. The internal implementation was updated to reduce redundant computations and data reshaping within each call
+
+
+# RBDqc 0.1.0 (26/06/2025)
  * Fixes for RDBFIS III
    * MEDBS_GP_check addedd new plots of boxplot of Linf, k and t0 parameters of VBGF
    * MEDBS_LW_check addedd new plots of boxplot of both a and b parameters of growth parameters

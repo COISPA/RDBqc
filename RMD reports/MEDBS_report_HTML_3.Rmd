@@ -41,17 +41,17 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-Catch <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/catch.csv", sep = ",", header = TRUE)
+# Catch <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/catch.csv", sep = ",", header = TRUE)
 Land <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/landings.csv", sep = ",", header = TRUE)
-Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/discards.csv", sep = ",", header = TRUE)
-ML <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/ml.csv", sep = ",", header = TRUE)
-MA <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/ma.csv", sep = ",", header = TRUE)
-SL <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/srl.csv", sep = ",", header = TRUE)
-SA <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/sra.csv", sep = ",", header = TRUE)
-GP <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/gp.csv", sep = ",", header = TRUE)
-ALK <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/alk.csv", sep = ",", header = TRUE)
+# Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/discards.csv", sep = ",", header = TRUE)
+# ML <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/ml.csv", sep = ",", header = TRUE)
+# MA <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/ma.csv", sep = ",", header = TRUE)
+# SL <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/srl.csv", sep = ",", header = TRUE)
+# SA <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/sra.csv", sep = ",", header = TRUE)
+# GP <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/gp.csv", sep = ",", header = TRUE)
+# ALK <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/alk.csv", sep = ",", header = TRUE)
 
-SPs <- NA # c("MUT")
+SPs <- sort(c("HKE","DPS","NEP","ANE","OCC","MUT")) # "HKE","DPS","NEP","ANE","OCC",
 MS <- "ITA"
 GSAs <- "GSA 18"
 end_year <- 2022
@@ -497,23 +497,128 @@ if (check_Land) {
 } # check_Land
 ```
 
+
+
+
+<!-- ```{r KS_test_land, results = 'asis', fig.height=6, fig.width=9} -->
+
+<!-- if (check_Land) { -->
+<!--   cat("\n## Kolmogorov-Smirnov test of landings LFDs\n") -->
+<!--   cat("\nThe Kolmogorov-Smirnov test provides cumulative length distribution plots by fishery and year. The test is performed on couples of years to assess if their distributions belong to the same population. The table reports only the cases in which the distribution does not belong to the same population in the given comparison.\n") -->
+
+<!--   for (g in 1:length(GSAs)) { -->
+<!--     cat(paste0("\n### ", GSAs[g], "\n")) -->
+<!--     s <- 1 -->
+<!--     for (s in 1:length(SPs)) { -->
+<!--       cat(paste0("\n#### ", SPs[s], "\n")) -->
+<!--       res <- suppressMessages(MEDBS_ks(data = Land, type = "l", SP = SPs[s], MS = MS, GSA = GSAs[g], Rt = Rt)) -->
+
+<!--       if (class(res) == "list" & length(res) > 0) { -->
+<!--         cat("\n\n\n") -->
+<!--         cat(paste0("\nPlot of cumulative length distributions by fishery and year for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n")) -->
+<!--         print(res[[4]]) -->
+<!--         cat("\n\n\n") -->
+
+
+<!--         # cat(paste0("\n_Summary table of Kolmogorov-Smirnov test for ", SPs[s], " in ", GSAs[g], "_\n")) -->
+<!--         # tab1 <- res[[2]] -->
+<!--         # tab1 <- tab1[tab1$Comment == "not belong to same population", ] -->
+<!--         # print(tab1 %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE)) -->
+<!--       } else { -->
+<!--         cat(paste0("\n- No Kolmogorov-Smirnov test results are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n")) -->
+<!--       } -->
+<!--     } -->
+<!--   } -->
+<!-- } # check_Land -->
+<!-- ``` -->
+
+
 ```{r KS_test_land, results = 'asis', fig.height=6, fig.width=9}
+
+# t0 <- Sys.time()
 
 if (check_Land) {
   cat("\n## Kolmogorov-Smirnov test of landings LFDs\n")
   cat("\nThe Kolmogorov-Smirnov test provides cumulative length distribution plots by fishery and year. The test is performed on couples of years to assess if their distributions belong to the same population. The table reports only the cases in which the distribution does not belong to the same population in the given comparison.\n")
+
+  .ks_res_mat <- local({
+    .old_plan <- future::plan()
+    on.exit(future::plan(.old_plan), add = TRUE)
+
+    future::plan(future::multisession)
+
+    .grid <- base::expand.grid(
+      g = 1:length(GSAs),
+      s = 1:length(SPs)
+    )
+
+    .res_list <- tryCatch(
+      furrr::future_map(
+        seq_len(nrow(.grid)),
+        function(i) {
+          g <- .grid$g[[i]]
+          s <- .grid$s[[i]]
+
+          suppressMessages(
+            suppressWarnings(
+              tryCatch({
+                .dev_before <- grDevices::dev.list()
+                .dev_before_ids <- if (is.null(.dev_before)) integer(0) else as.integer(.dev_before)
+
+                .tmp_pdf <- tempfile(fileext = ".pdf")
+                grDevices::pdf(.tmp_pdf)
+
+                on.exit({
+                  .dev_after <- grDevices::dev.list()
+                  .dev_after_ids <- if (is.null(.dev_after)) integer(0) else as.integer(.dev_after)
+
+                  .extra <- setdiff(.dev_after_ids, .dev_before_ids)
+                  if (length(.extra) > 0) {
+                    for (d in rev(.extra)) {
+                      grDevices::dev.set(which = d)
+                      grDevices::dev.off()
+                    }
+                  }
+
+                  if (base::file.exists(.tmp_pdf)) base::unlink(.tmp_pdf)
+                }, add = TRUE)
+
+                MEDBS_ks(data = Land, type = "l", SP = SPs[s], MS = MS, GSA = GSAs[g], Rt = Rt)
+              }, error = function(e) NULL)
+            )
+          )
+        },
+        .options = furrr::furrr_options(seed = TRUE)
+      ),
+      error = function(e) base::rep(list(NULL), nrow(.grid))
+    )
+
+    .res_mat <- vector("list", length(GSAs))
+    for (g in 1:length(GSAs)) {
+      .res_mat[[g]] <- vector("list", length(SPs))
+    }
+    for (i in seq_len(nrow(.grid))) {
+      .res_mat[[.grid$g[[i]]]][[.grid$s[[i]]]] <- .res_list[[i]]
+    }
+
+    .res_mat
+  })
 
   for (g in 1:length(GSAs)) {
     cat(paste0("\n### ", GSAs[g], "\n"))
     s <- 1
     for (s in 1:length(SPs)) {
       cat(paste0("\n#### ", SPs[s], "\n"))
-      res <- suppressMessages(MEDBS_ks(data = Land, type = "l", SP = SPs[s], MS = MS, GSA = GSAs[g], Rt = Rt))
+      res <- tryCatch(.ks_res_mat[[g]][[s]], error = function(e) NULL)
 
       if (class(res) == "list" & length(res) > 0) {
         cat("\n\n\n")
         cat(paste0("\nPlot of cumulative length distributions by fishery and year for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
-        print(res[[4]])
+        # print(res[[4]])
+        if (!is.null(res[[4]])) {
+          grid::grid.newpage()
+          invisible(grid::grid.draw(res[[4]]))
+        }
         cat("\n\n\n")
 
 
@@ -527,49 +632,62 @@ if (check_Land) {
     }
   }
 } # check_Land
+
+# t1 <- Sys.time() - t0
+# print( t1)
 ```
 
 
 
-```{r length_ind_land, results = 'asis', fig.height=6, fig.width=9}
-if (check_Land) {
-  cat("\n## Main length size indicators\n")
-  cat(paste0("\nThe time series of the main length size indicators (mean and median length) by fishery was estimated and hereafter reported: \n"))
 
-  for (g in 1:length(GSAs)) {
-    cat(paste0("\n### ", GSAs[g], "\n"))
-    s <- 1
-    for (s in 1:length(SPs)) {
-      cat(paste0("\n#### ", SPs[s], "\n"))
-      res <- suppressMessages(MEDBS_length_ind(data = Land, type = "l", MS = MS, GSA = GSAs[g], SP = SPs[s], splines = c(0.2, 0.4, 0.6, 0.8), Xtresholds = c(0.25, 0.5, 0.75)))
+<!-- ```{r length_ind_land, results = 'asis', fig.height=6, fig.width=9} -->
+<!-- t0 <- Sys.time() -->
 
-      if (class(res) == "list" & length(res) > 0) {
-        # cat(paste0("\n_Summary table of Main length size indicators for ", SPs[s], " in ", GSAs[g], "_"))
-        # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
+<!-- if (check_Land) { -->
+<!--   cat("\n## Main length size indicators\n") -->
+<!--   cat(paste0("\nThe time series of the main length size indicators (mean and median length) by fishery was estimated and hereafter reported: \n")) -->
 
-        name <- names(res)
-        list_name <- strsplit(name, " _ ")
-        short_list <- NULL
-        n <- 1
-        for (n in 1:length(list_name)) {
-          short_list[n] <- list_name[[n]][1]
-        }
-        index <- which(short_list %in% c("MeanLength","MedianLength","25th.perc","75th.perc","MinLength","MaxLength"))
+<!--   for (g in 1:length(GSAs)) { -->
+<!--     cat(paste0("\n### ", GSAs[g], "\n")) -->
+<!--     s <- 1 -->
+<!--     for (s in 1:length(SPs)) { -->
+<!--       cat(paste0("\n#### ", SPs[s], "\n")) -->
+<!--       res <- suppressMessages(MEDBS_length_ind(data = Land, type = "l", MS = MS, GSA = GSAs[g], SP = SPs[s], splines = c(0.2, 0.4, 0.6, 0.8), Xtresholds = c(0.25, 0.5, 0.75))) -->
 
-        x <- 3
-        for (x in index) {
-          text <- strsplit(name[[x]], " _ ")[[1]][1]
-          cat(paste0("\nPlot of ", short_list[x], " for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n"))
-          suppressMessages(print(res[[x]]))
-          cat("\n\n\n")
-        }
-      } else {
-        cat(paste0("\n- No main length size indicators estimated for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
-      }
-    }
-  }
-} # check_Land
-```
+<!--       if (class(res) == "list" & length(res) > 0) { -->
+<!--         # cat(paste0("\n_Summary table of Main length size indicators for ", SPs[s], " in ", GSAs[g], "_")) -->
+<!--         # print(res[[1]] %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE)) -->
+
+<!--         name <- names(res) -->
+<!--         list_name <- strsplit(name, " _ ") -->
+<!--         short_list <- NULL -->
+<!--         n <- 1 -->
+<!--         for (n in 1:length(list_name)) { -->
+<!--           short_list[n] <- list_name[[n]][1] -->
+<!--         } -->
+<!--         index <- which(short_list %in% c("MeanLength","MedianLength","25th.perc","75th.perc","MinLength","MaxLength")) -->
+
+<!--         x <- 3 -->
+<!--         for (x in index) { -->
+<!--           text <- strsplit(name[[x]], " _ ")[[1]][1] -->
+<!--           cat(paste0("\nPlot of ", short_list[x], " for ", SPs[s], " - ", MS, " - ", GSAs[g], "\n")) -->
+<!--           suppressMessages(print(res[[x]])) -->
+<!--           cat("\n\n\n") -->
+<!--         } -->
+<!--       } else { -->
+<!--         cat(paste0("\n- No main length size indicators estimated for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n")) -->
+<!--       } -->
+<!--     } -->
+<!--   } -->
+<!-- } # check_Land -->
+
+<!-- t1 <- Sys.time() - t0 -->
+<!-- print( t1) -->
+<!-- ``` -->
+
+
+
+
 
 ```{r lengthclass_0_land, results = 'asis', fig.height=6, fig.width=9}
 if (check_Land) {

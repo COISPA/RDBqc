@@ -39,7 +39,6 @@
 #' @importFrom ggplot2 facet_wrap guide_legend guides
 #' @importFrom data.table as.data.table
 #' @export MEDBS_length_ind
-
 MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,0.8), Xtresholds = c(0.25, 0.5, 0.75), verbose = TRUE) {
   . <- country <- area <- species <- year <- gear <- mesh_size_range <- fishery <- NULL
   value <- start_length <- fsquare <- total_number <- mean_size <- percentile_value <- max_size <- min_size<- NULL
@@ -47,15 +46,21 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
   colnames(data) <- tolower(colnames(data))
 
   #---------
+  # Early filtering to avoid preprocessing the full dataset on repeated calls
+  if (all(c("area", "country", "species") %in% names(data))) {
+    data <- data[area == GSA & country == MS & species == SP]
+  }
+
   data <- as.data.frame(data)
   var_no_landed <- grep("lengthclass", names(data), value = TRUE)
   sel_nl <- c(var_no_landed)
   cols_no_length <- colnames(data)[which(!colnames(data) %in%
                                            sel_nl)]
-  length_cols <- (data[, which(names(data) %in% sel_nl)])
-  length_cols = suppressWarnings(apply(length_cols, 2, function(x) as.numeric(as.character(x))))
+  length_cols <- (data[, which(names(data) %in% sel_nl), drop = FALSE])
+  # Convert length columns without materializing a matrix
+  length_cols <- suppressWarnings(as.data.frame(lapply(length_cols, function(x) as.numeric(as.character(x)))))
   length_cols[is.na(length_cols)] <- 0
-  no_lenght_col <- data[, which(colnames(data) %in% cols_no_length)]
+  no_lenght_col <- data[, which(colnames(data) %in% cols_no_length), drop = FALSE]
   data <- cbind(no_lenght_col, length_cols)
   #-------------
 
@@ -66,7 +71,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
     landed <- cbind(id_landings, landed)
     landed$landings[landed$landings == -1] <- 0
     land <- landed[which(landed$area == GSA & landed$country ==
-      MS & landed$species == SP), ]
+                           MS & landed$species == SP), ]
     if (nrow(land) < 2) {
       if (verbose) {
         message(paste0(
@@ -77,15 +82,15 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
       output <- NULL
     } else {
       var_no_landed <- grep("lengthclass", names(land),
-        value = TRUE
+                            value = TRUE
       )
       land <- data.table(land)
       max_no_landed <- land[, lapply(.SD, max),
-        by = .(
-          country,
-          area, species, year, gear, mesh_size_range, fishery
-        ),
-        .SDcols = var_no_landed
+                            by = .(
+                              country,
+                              area, species, year, gear, mesh_size_range, fishery
+                            ),
+                            .SDcols = var_no_landed
       ]
       max_no_landed[max_no_landed == -1] <- 0
       max_no_landed2 <- max_no_landed[, -(1:7)]
@@ -110,12 +115,12 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           colnames(dat)[lccols]
         )
         suppressWarnings(ldat <- data.table::melt(dat,
-          id.vars = c(
-            "year",
-            "area", "species", "unit",
-            "country", "gear", "fishery"
-          ),
-          variable.name = "start_length", value.name = "value"
+                                                  id.vars = c(
+                                                    "year",
+                                                    "area", "species", "unit",
+                                                    "country", "gear", "fishery"
+                                                  ),
+                                                  variable.name = "start_length", value.name = "value"
         ))
         ldat$start_length <- as.integer(ldat$start_length)
         ldat[(ldat$value < 0) | is.na(ldat$value), "value"] <- 0
@@ -128,28 +133,23 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           "start_length", "value"
         )
         LFL$ID <- paste0(LFL$gear, "_", LFL$fishery,
-          sep = ""
+                         sep = ""
         )
         LFL$start_length <- LFL$start_length - 1
-        tempcum <- list()
-        c <- 1
-        for (i in unique(LFL$year)) {
-          tempyr <- LFL[LFL$year %in% i, ]
-          for (j in unique(tempyr$gear)) {
-            tempgear <- tempyr[tempyr$gear %in% j, ]
-            for (z in unique(tempgear$fishery)) {
-              tempfish <- tempgear[tempgear$fishery %in%
-                z, ]
-              xout <- as.data.frame(transform(tempfish,
-                cumFreq = cumsum(value)
-              ))
-              xout$relative <- xout$cumFreq / max(xout$cumFreq)
-              tempcum[[c]] <- xout
-              c <- c + 1
-            }
-          }
-        }
-        db <- do.call(rbind, tempcum)
+
+        # Compute cumulative distributions by group (same logic as nested loops)
+        LFL_dt <- as.data.table(LFL)
+        data.table::setorder(LFL_dt, year, gear, fishery, start_length)
+        db <- LFL_dt[, {
+          cumFreq <- cumsum(value)
+          .(start_length = start_length,
+            value = value,
+            ID = ID,
+            cumFreq = cumFreq,
+            relative = cumFreq / max(cumFreq))
+        }, by = .(year, gear, fishery)]
+        db <- as.data.frame(db)
+
         suppressMessages(NUMBERb <- LFL %>% group_by(
           year,
           gear, fishery
@@ -158,7 +158,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           year,
           gear, fishery
         ) %>% summarize(mean_size = (sum(start_length *
-          value, na.rm = T)) / sum(value, na.rm = T)))
+                                           value, na.rm = T)) / sum(value, na.rm = T)))
         suppressMessages(LFL_mutate <- inner_join(LFL, MEANdb))
         LFL_mutate$square <- (LFL_mutate$start_length - LFL_mutate$mean_size)^2
         LFL_mutate$fsquare <- LFL_mutate$square * LFL_mutate$value
@@ -166,7 +166,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           year,
           gear, fishery
         ) %>% summarize(sd_size = sqrt(sum(fsquare) / (sum(value) -
-          1))))
+                                                         1))))
         suppressMessages(MINdb <- LFL %>% group_by(
           year,
           gear, fishery
@@ -201,21 +201,24 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
         dbl <- filter(db, total_number != 0)
         tmp1 <- list()
         c <- 1
+
+        # Define X once (avoid re-allocations in the inner loop)
+        X <- seq(0, 100, 1)
+
         for (i in unique(dbl$year)) {
           tempyr <- dbl[dbl$year %in% i, ]
           for (j in unique(tempyr$gear)) {
             tempgear <- tempyr[tempyr$gear %in% j, ]
             for (z in unique(tempgear$fishery)) {
               tempfish <- tempgear[tempgear$fishery %in%
-                z, ]
+                                     z, ]
               for (q in unique(splines)) {
                 smooth_vals <- loess(tempfish$relative ~
-                tempfish$start_length, span = q)
-                X <- seq(0, 100, 1)
+                                       tempfish$start_length, span = q)
                 P <- abs(predict(smooth_vals, X))
                 M <- which.max(P)
                 Inverse1 <- suppressWarnings(approxfun(X[1:M] ~
-                P[1:M]))
+                                                         P[1:M]))
                 db1 <- data.frame(
                   spline = q, percentile = Xtresholds,
                   percentile_value = Inverse1(Xtresholds)
@@ -244,16 +247,16 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
 
         # MEAN LANDING
         plot <- ggplot(LFLandingsDB[LFLandingsDB$total_number >
-          0, ], aes(
-          x = as.numeric(year), y = as.numeric(mean_size),
-          col = fishery
-        )) +
+                                      0, ], aes(
+                                        x = as.numeric(year), y = as.numeric(mean_size),
+                                        col = fishery
+                                      )) +
           geom_point(col = "black") +
           geom_line() +
           facet_wrap(~gear, scales = "free") +
           scale_x_continuous(breaks = seq(min(LFLandingsDB$year),
-            max(LFLandingsDB$year),
-            by = 2
+                                          max(LFLandingsDB$year),
+                                          by = 2
           )) +
           theme(axis.text.x = element_text(
             angle = 45,
@@ -278,23 +281,23 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
         l <- length(output) + 1
         output[[l]] <- plot
         names(output)[[l]] <- paste("MeanLength", SP,
-          MS, GSA,
-          sep = " _ "
+                                    MS, GSA,
+                                    sep = " _ "
         )
 
         # MEDIAN LANDING
         plot <- ggplot(LFLandingsDB[LFLandingsDB$spline %in%
-          0.2 & LFLandingsDB$percentile %in% 0.5 & LFLandingsDB$total_number >
-          0, ], aes(
-          x = as.numeric(year), y = as.numeric(percentile_value),
-          col = fishery
-        )) +
+                                      0.2 & LFLandingsDB$percentile %in% 0.5 & LFLandingsDB$total_number >
+                                      0, ], aes(
+                                        x = as.numeric(year), y = as.numeric(percentile_value),
+                                        col = fishery
+                                      )) +
           geom_point(col = "black") +
           geom_line() +
           facet_wrap(~gear, scales = "free") +
           scale_x_continuous(breaks = seq(min(LFLandingsDB$year),
-            max(LFLandingsDB$year),
-            by = 2
+                                          max(LFLandingsDB$year),
+                                          by = 2
           )) +
           theme(axis.text.x = element_text(
             angle = 45,
@@ -320,13 +323,13 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
         l <- length(output) + 1
         output[[l]] <- plot
         names(output)[[l]] <- paste("MedianLength",
-          SP, MS, GSA,
-          sep = " _ "
+                                    SP, MS, GSA,
+                                    sep = " _ "
         )
 
         # 25th_percentile LANDING
         plot <- ggplot(LFLandingsDB[LFLandingsDB$spline %in%
-                     0.2 & LFLandingsDB$percentile %in% 0.25 & LFLandingsDB$total_number > 0, ], aes(x = as.numeric(year), y = as.numeric(percentile_value), col = fishery )) +
+                                      0.2 & LFLandingsDB$percentile %in% 0.25 & LFLandingsDB$total_number > 0, ], aes(x = as.numeric(year), y = as.numeric(percentile_value), col = fishery )) +
           geom_point(col = "black") +
           geom_line() +
           facet_wrap(~gear, scales = "free") +
@@ -494,10 +497,11 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
     var_no_landed <- grep("lengthclass", names(data), value = TRUE)
     sel_nl <- c(var_no_landed)
     cols_no_length <- colnames(data)[which(!colnames(data) %in% sel_nl)]
-    length_cols <- (data[, which(names(data) %in% sel_nl)])
-    length_cols = suppressWarnings(apply(length_cols, 2, function(x) as.numeric(as.character(x))))
+    length_cols <- (data[, which(names(data) %in% sel_nl), drop = FALSE])
+    # Convert length columns without materializing a matrix
+    length_cols <- suppressWarnings(as.data.frame(lapply(length_cols, function(x) as.numeric(as.character(x)))))
     length_cols[is.na(length_cols)] <- 0
-    no_lenght_col <- data[, which(colnames(data) %in% cols_no_length)]
+    no_lenght_col <- data[, which(colnames(data) %in% cols_no_length), drop = FALSE]
     data <- cbind(no_lenght_col, length_cols)
     data
     #-----------------------------
@@ -505,7 +509,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
     discarded$upload_id <- NA
     discarded$discards[discarded$discards == -1] <- 0
     disc <- discarded[which(discarded$area == GSA & discarded$country ==
-      MS & discarded$species == SP), ]
+                              MS & discarded$species == SP), ]
     if (nrow(disc) < 2) {
       if (verbose) {
         message(paste0(
@@ -516,15 +520,15 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
       output <- NULL
     } else {
       var_no_discard <- grep("lengthclass", names(disc),
-        value = TRUE
+                             value = TRUE
       )
       disc <- as.data.table(disc)
       max_no_discard <- disc[, lapply(.SD, max),
-        by = .(
-          country,
-          area, species, year, gear, mesh_size_range, fishery
-        ),
-        .SDcols = var_no_discard
+                             by = .(
+                               country,
+                               area, species, year, gear, mesh_size_range, fishery
+                             ),
+                             .SDcols = var_no_discard
       ]
       max_no_discard[max_no_discard == -1] <- 0
       max_no_discard2 <- max_no_discard[, -(1:7)]
@@ -549,12 +553,12 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           "", colnames(dat1)[lccols]
         )
         suppressWarnings(ddat <- data.table::melt(dat1,
-          id.vars = c(
-            "year", "area", "species",
-            "unit", "country", "gear",
-            "fishery"
-          ), variable.name = "start_length",
-          value.name = "value"
+                                                  id.vars = c(
+                                                    "year", "area", "species",
+                                                    "unit", "country", "gear",
+                                                    "fishery"
+                                                  ), variable.name = "start_length",
+                                                  value.name = "value"
         ))
         ddat$start_length <- as.integer(ddat$start_length)
         ddat[(ddat$value < 0) | is.na(ddat$value), "value"] <- 0
@@ -567,29 +571,24 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           "start_length", "value"
         )
         LFD$ID <- paste0(LFD$gear, "_", LFD$fishery,
-          sep = ""
+                         sep = ""
         )
         LFD$start_length <- LFD$start_length - 1
         LFL <- LFD
-        tempcum <- list()
-        c <- 1
-        for (i in unique(LFL$year)) {
-          tempyr <- LFL[LFL$year %in% i, ]
-          for (j in unique(tempyr$gear)) {
-            tempgear <- tempyr[tempyr$gear %in% j, ]
-            for (z in unique(tempgear$fishery)) {
-              tempfish <- tempgear[tempgear$fishery %in%
-                z, ]
-              xout <- as.data.frame(transform(tempfish,
-                cumFreq = cumsum(value)
-              ))
-              xout$relative <- xout$cumFreq / max(xout$cumFreq)
-              tempcum[[c]] <- xout
-              c <- c + 1
-            }
-          }
-        }
-        db <- do.call(rbind, tempcum)
+
+        # Compute cumulative distributions by group (same logic as nested loops)
+        LFL_dt <- as.data.table(LFL)
+        data.table::setorder(LFL_dt, year, gear, fishery, start_length)
+        db <- LFL_dt[, {
+          cumFreq <- cumsum(value)
+          .(start_length = start_length,
+            value = value,
+            ID = ID,
+            cumFreq = cumFreq,
+            relative = cumFreq / max(cumFreq))
+        }, by = .(year, gear, fishery)]
+        db <- as.data.frame(db)
+
         suppressMessages(NUMBERb <- LFL %>% group_by(
           year,
           gear, fishery
@@ -598,17 +597,17 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
           year,
           gear, fishery
         ) %>% summarize(mean_size = (sum(start_length *
-          value, na.rm = T)) / sum(value, na.rm = T)))
+                                           value, na.rm = T)) / sum(value, na.rm = T)))
         suppressMessages(LFL_mutate <- inner_join(
           LFL,
           MEANdb
         ))
         LFL_mutate$square <- (LFL_mutate$start_length -
-          LFL_mutate$mean_size)^2
+                                LFL_mutate$mean_size)^2
         LFL_mutate$fsquare <- LFL_mutate$square * LFL_mutate$value
         suppressMessages(SDdb <- suppressWarnings(LFL_mutate %>%
-          group_by(year, gear, fishery) %>% summarize(sd_size = sqrt(sum(fsquare) / (sum(value) -
-            1)))))
+                                                    group_by(year, gear, fishery) %>% summarize(sd_size = sqrt(sum(fsquare) / (sum(value) -
+                                                                                                                                 1)))))
         suppressMessages(MINdb <- LFL %>% group_by(
           year,
           gear, fishery
@@ -645,21 +644,24 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
         dbs <- filter(db, total_number != 0)
         tmp1 <- list()
         c <- 1
+
+        # Define X once (avoid re-allocations in the inner loop)
+        X <- seq(0, 100, 1)
+
         for (i in unique(dbs$year)) {
           tempyr <- dbs[dbs$year %in% i, ]
           for (j in unique(tempyr$gear)) {
             tempgear <- tempyr[tempyr$gear %in% j, ]
             for (z in unique(tempgear$fishery)) {
               tempfish <- tempgear[tempgear$fishery %in%
-                z, ]
+                                     z, ]
               for (q in unique(splines)) {
                 smooth_vals <- loess(tempfish$relative ~
-                tempfish$start_length, span = q)
-                X <- seq(0, 100, 1)
+                                       tempfish$start_length, span = q)
                 P <- abs(predict(smooth_vals, X))
                 M <- which.max(P)
                 Inverse1 <- suppressWarnings(approxfun(X[1:M] ~
-                P[1:M]))
+                                                         P[1:M]))
                 db1 <- data.frame(
                   spline = q, percentile = Xtresholds,
                   percentile_value = Inverse1(Xtresholds)
@@ -688,16 +690,16 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
 
         # MEAN DISCARD
         plot <- ggplot(LFDiscardsDB[LFDiscardsDB$total_number >
-          0, ], aes(
-          x = as.numeric(year), y = as.numeric(mean_size),
-          col = fishery
-        )) +
+                                      0, ], aes(
+                                        x = as.numeric(year), y = as.numeric(mean_size),
+                                        col = fishery
+                                      )) +
           geom_point() +
           geom_line() +
           facet_wrap(~gear, scales = "free") +
           scale_x_continuous(breaks = seq(min(LFDiscardsDB$year),
-            max(LFDiscardsDB$year),
-            by = 2
+                                          max(LFDiscardsDB$year),
+                                          by = 2
           )) +
           theme(axis.text.x = element_text(
             angle = 45,
@@ -722,23 +724,23 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
         l <- length(output) + 1
         output[[l]] <- plot
         names(output)[[l]] <- paste("MeanLength",
-          SP, MS, GSA,
-          sep = " _ "
+                                    SP, MS, GSA,
+                                    sep = " _ "
         )
 
         # MEDIAN DISCARD
         plot <- ggplot(LFDiscardsDB[LFDiscardsDB$spline %in%
-          0.2 & LFDiscardsDB$percentile %in% 0.5 & LFDiscardsDB$total_number >
-          0, ], aes(
-          x = as.numeric(year), y = as.numeric(percentile_value),
-          col = fishery
-        )) +
+                                      0.2 & LFDiscardsDB$percentile %in% 0.5 & LFDiscardsDB$total_number >
+                                      0, ], aes(
+                                        x = as.numeric(year), y = as.numeric(percentile_value),
+                                        col = fishery
+                                      )) +
           geom_point() +
           geom_line() +
           facet_wrap(~gear, scales = "free") +
           scale_x_continuous(breaks = seq(min(LFDiscardsDB$year),
-            max(LFDiscardsDB$year),
-            by = 2
+                                          max(LFDiscardsDB$year),
+                                          by = 2
           )) +
           theme(axis.text.x = element_text(
             angle = 45,
@@ -763,8 +765,8 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
         l <- length(output) + 1
         output[[l]] <- plot
         names(output)[[l]] <- paste("MedianLength",
-          SP, MS, GSA,
-          sep = " _ "
+                                    SP, MS, GSA,
+                                    sep = " _ "
         )
 
 
