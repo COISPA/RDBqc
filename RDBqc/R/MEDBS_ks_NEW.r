@@ -159,17 +159,38 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
 
             suppressMessages(SDdb <- LFL_mutate %>%
                                  group_by(year, gear, fishery) %>%
-                                 summarize(sd_size = sqrt(sum(fsquare) / (sum(value) - 1))))
+                                 summarize(sd_size = {
+                                     den <- sum(value, na.rm = T) - 1
+                                     if (is.na(den) || den <= 0) {
+                                         NA_real_
+                                     } else {
+                                         sqrt(sum(fsquare, na.rm = T) / den)
+                                     }
+                                 }))
 
             suppressMessages(MINdb <- LFL %>%
                                  group_by(year, gear, fishery) %>%
                                  filter(value > 0, na.rm = TRUE) %>%
-                                 summarize(min_size = min(start_length, na.rm = T)))
+                                 summarize(min_size = {
+                                     x <- start_length[!is.na(start_length)]
+                                     if (length(x) == 0) {
+                                         NA_real_
+                                     } else {
+                                         min(x, na.rm = T)
+                                     }
+                                 }))
 
             suppressMessages(MAXdb <- LFL %>%
                                  group_by(year, gear, fishery) %>%
                                  filter(value > 0, na.rm = TRUE) %>%
-                                 summarize(max_size = max(start_length, na.rm = T)))
+                                 summarize(max_size = {
+                                     x <- start_length[!is.na(start_length)]
+                                     if (length(x) == 0) {
+                                         NA_real_
+                                     } else {
+                                         max(x, na.rm = T)
+                                     }
+                                 }))
 
             suppressMessages(final_DB <- left_join(MINdb, MEANdb))
             suppressMessages(final_DB <- inner_join(final_DB, MAXdb))
@@ -238,13 +259,7 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
                 }
             }
 
-            # n <- length(plots)
-            # nsq <- round(sqrt(n), 0)
-            # nCol <- floor(sqrt(n))
-            # cols <- max(nsq, nCol)
-
             if (length(plots) > 0) {
-                # plots <- do.call(grid.arrange, c(plots, ncol = cols))
                 plots <- grid.arrange(
                     grobs = plots,
                     ncol = ceiling(sqrt(length(plots)))
@@ -296,14 +311,31 @@ MEDBS_ks <- function(data, type, SP, MS, GSA, Rt = 1, verbose = TRUE) {
         LFD[, `:=`(ID = paste0(gear, "_", fishery),
                    start_length = start_length - 1L)]
 
+        ## ------------------------------------------------------------
+        ## FIX WARNINGS: avoid Inf/-Inf in min/max and NaN in sd
+        ## ------------------------------------------------------------
         descr <- LFD[, {
-            tot <- sum(value)
-            ms <- if (tot) sum(start_length * value) / tot else NA_real_
-            sdv <- if (tot > 1) sqrt(sum(((start_length - ms)^2) * value) / (tot - 1)) else NA_real_
+            tot <- sum(value, na.rm = TRUE)
+
+            ms <- if (tot > 0) {
+                sum(start_length * value, na.rm = TRUE) / tot
+            } else {
+                NA_real_
+            }
+
+            den <- tot - 1
+            sdv <- if (!is.na(den) && den > 0) {
+                sqrt(sum(((start_length - ms)^2) * value, na.rm = TRUE) / den)
+            } else {
+                NA_real_
+            }
+
+            x <- start_length[value > 0 & !is.na(start_length)]
+
             list(total_number = tot,
-                 min_size = if (tot) min(start_length[value > 0]) else NA_integer_,
+                 min_size = if (length(x) == 0) NA_integer_ else min(x),
                  mean_size = ms,
-                 max_size = if (tot) max(start_length[value > 0]) else NA_integer_,
+                 max_size = if (length(x) == 0) NA_integer_ else max(x),
                  sd_size = sdv)
         }, by = .(year, gear, fishery)]
 
