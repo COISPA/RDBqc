@@ -66,7 +66,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
 
   if (type == "l") {
     landed <- data
-    landed$upload_id <- NA
+    landed$upload_id <- rep(NA, nrow(landed))
     id_landings <- NA
     landed <- cbind(id_landings, landed)
     landed$landings[landed$landings == -1] <- 0
@@ -506,7 +506,7 @@ MEDBS_length_ind <- function(data, type, SP, MS, GSA, splines = c(0.2, 0.4, 0.6,
     data
     #-----------------------------
     discarded <- data
-    discarded$upload_id <- NA
+    discarded$upload_id <- rep(NA, nrow(discarded))
     discarded$discards[discarded$discards == -1] <- 0
     disc <- discarded[which(discarded$area == GSA & discarded$country ==
                               MS & discarded$species == SP), ]
