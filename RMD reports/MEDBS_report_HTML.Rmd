@@ -46,19 +46,19 @@ lapply(lib, require, character.only = TRUE)
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
 Catch <-  read.coded.file("C:\\prova_rdbqc\\walter\\catch.csv", sep = ",") # Catch_tab_example
-Land <-  read.coded.file("C:\\prova_rdbqc\\walter\\landings.csv", sep = ",") #Landing_tab_example
-Disc <-  read.coded.file("C:\\prova_rdbqc\\walter\\discards.csv", sep = ",") #Discard_tab_example
-ML <- read.coded.file("C:\\prova_rdbqc\\walter\\ml.csv", sep = ",") #ML_tab_example 
-MA <- read.coded.file("C:\\prova_rdbqc\\walter\\ma.csv", sep = ",") # MA_tab_example
-SL <-  read.coded.file("C:\\prova_rdbqc\\walter\\srl.csv", sep = ",") #SL_tab_example
-SA <-  read.coded.file("C:\\prova_rdbqc\\walter\\sra.csv", sep = ",") #SA_tab_example
-GP <- read.coded.file("C:\\prova_rdbqc\\walter\\gp.csv", sep = ",") #GP_tab_example 
+#Land <-  read.coded.file("C:\\prova_rdbqc\\walter\\landings.csv", sep = ",") #Landing_tab_example
+#Disc <-  read.coded.file("C:\\prova_rdbqc\\walter\\discards.csv", sep = ",") #Discard_tab_example
+#ML <- read.coded.file("C:\\prova_rdbqc\\walter\\ml.csv", sep = ",") #ML_tab_example 
+#MA <- read.coded.file("C:\\prova_rdbqc\\walter\\ma.csv", sep = ",") # MA_tab_example
+#SL <-  read.coded.file("C:\\prova_rdbqc\\walter\\srl.csv", sep = ",") #SL_tab_example
+#SA <-  read.coded.file("C:\\prova_rdbqc\\walter\\sra.csv", sep = ",") #SA_tab_example
+#GP <- read.coded.file("C:\\prova_rdbqc\\walter\\gp.csv", sep = ",") #GP_tab_example 
 ALK <-  read.coded.file("C:\\prova_rdbqc\\walter\\alk.csv", sep = ",") #ALK_tab_example
 
-SPs <- c("ARS", "HKE","SQR", "MUR", "MUT", "MTS")
+SPs <- c("MUT","MTS") # "ARS", "HKE","SQR", "MUR", "MUT", 
 MS <- "ITA"
-GSAs <- "GSA 18"
-end_year <- 2024
+GSAs <- "GSA 19"
+end_year <- 2022
 ```
 
 
@@ -2014,7 +2014,7 @@ if (check_ALK) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_ALK(ALK, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
-      if (class(res) == "list" & length(res) > 0) {
+      if (class(res) == "list" & class(res)[1]!= "NULL") {
         l <- 1
         for (l in 1:length(res)) {
           sex <- strsplit(names(res[l]), " - ")[[1]][1]
@@ -2022,7 +2022,7 @@ if (check_ALK) {
           print(res[[l]])
           cat("\n\n\n")
         }
-      } else {
+      } else if (class(res)[1]!= "NULL"){
         cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
       }
     }
@@ -2042,10 +2042,10 @@ if (check_ALK ) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_ALK_MLAA(ALK, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
-       if (nrow(ALK)>0 & length(res)>0) {
+       if (nrow(ALK)>0 & class(res)[1]!= "NULL") {
           print(res)
           cat("\n\n\n")
-              } else if (nrow(ALK)==0){
+              } else if (class(res)[1]== "NULL"){
         cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
       }
     }
@@ -2064,16 +2064,19 @@ if (check_ALK ) {
       cat(paste0("\n#### ", SPs[s], "\n"))
       res <- suppressMessages(MEDBS_ALK_NB(ALK, SP = SPs[s], MS = MS, GSA = GSAs[g]))
 
-      if (nrow(ALK)>0 & nrow(res)>0) {
+      if (class(res)[1]!= "NULL") {
+          if(nrow(res)>0) {
       cat(paste0("\n Records for which the total number of hard structures is not consistent with the sum of numbers by age from ALK for ", SPs[s], " - ", MS, " - ", GSAs[g], " - ", "\n"))
            print(res %>% kable("html") %>% kable_styling(font_size = 12) %>% kable_classic(full_width = TRUE))
          cat("\n\n\n")
-        }    else if (nrow(ALK)==0){
-        cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
-      } else if (nrow(ALK)>0 & nrow(res)==0)
-      {
+          } else if ( nrow(res)==0){
+      
        cat(paste0("\n- All records are consistent for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))   
       }
+          }   else if (class(res)[1]== "NULL"){
+        cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
+        } 
+      
           
     }
   }
