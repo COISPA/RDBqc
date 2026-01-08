@@ -32,7 +32,9 @@ knitr::opts_chunk$set(
 ```{r libraries, include=FALSE}
 # loading needed libraries
 lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra","readr")
+
 lapply(lib, require, character.only = TRUE)
+
 ```
 
 <!-- USER DEFINED SOURCE FILES -->
@@ -43,17 +45,17 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-Catch <-  read.coded.file("C:\\prova_rdbqc\\Catch_GSA_18.csv", sep = ";") # Catch_tab_example
-Land <-  read.coded.file("C:\\prova_rdbqc\\Lnd_GSA_18.csv", sep = ";") #Landing_tab_example
-Disc <-  read.coded.file("C:\\prova_rdbqc\\Disc_GSA_18.csv", sep = ";") #Discard_tab_example
-ML <- read.coded.file("C:\\prova_rdbqc\\ML_GSA 18.csv", sep = ";") #ML_tab_example 
-MA <- read.coded.file("C:\\prova_rdbqc\\MA_GSA 18.csv", sep = ";") # MA_tab_example
-SL <-  read.coded.file("C:\\prova_rdbqc\\SRL_GSA 18.csv", sep = ";") #SL_tab_example
-SA <-  read.coded.file("C:\\prova_rdbqc\\SRA_GSA 18.csv", sep = ";") #SA_tab_example
-GP <- read.coded.file("C:\\prova_rdbqc\\GP_GSA 18.csv", sep = ";") #GP_tab_example 
-ALK <-  read.coded.file("C:\\prova_rdbqc\\ALK_GSA 18 with errors.csv", sep = ";") #ALK_tab_example
+Catch <-  read.coded.file("C:\\prova_rdbqc\\walter\\catch.csv", sep = ",") # Catch_tab_example
+Land <-  read.coded.file("C:\\prova_rdbqc\\walter\\landings.csv", sep = ",") #Landing_tab_example
+Disc <-  read.coded.file("C:\\prova_rdbqc\\walter\\discards.csv", sep = ",") #Discard_tab_example
+ML <- read.coded.file("C:\\prova_rdbqc\\walter\\ml.csv", sep = ",") #ML_tab_example 
+MA <- read.coded.file("C:\\prova_rdbqc\\walter\\ma.csv", sep = ",") # MA_tab_example
+SL <-  read.coded.file("C:\\prova_rdbqc\\walter\\srl.csv", sep = ",") #SL_tab_example
+SA <-  read.coded.file("C:\\prova_rdbqc\\walter\\sra.csv", sep = ",") #SA_tab_example
+GP <- read.coded.file("C:\\prova_rdbqc\\walter\\gp.csv", sep = ",") #GP_tab_example 
+ALK <-  read.coded.file("C:\\prova_rdbqc\\walter\\alk.csv", sep = ",") #ALK_tab_example
 
-SPs <- c("NEP")
+SPs <- c("MUT")
 MS <- "ITA"
 GSAs <- "GSA 18"
 end_year <- 2022
@@ -1897,6 +1899,7 @@ if (check_SRL) {
 ```{r SL_checks, results = 'asis', fig.height=6, fig.width=9}
 
 if (check_SRL) {
+  
   cat("\n## Plots of Sex Ratio at length (SRL) data\n")
 
   for (g in 1:length(GSAs)) {
@@ -1923,7 +1926,8 @@ if (check_SRL) {
 <!-- ALK -->
 
 ```{r check_ALK_data, results = 'asis'}
-sp_ALK= ALK[ALK$species %in% SPs & ALK$AREA %in% GSAs & ALK$COUNTRY %in% MS,]
+
+sp_ALK= ALK[ALK$species %in% SPs & ALK$area %in% GSAs & ALK$country %in% MS,]
 
 if (exists("ALK") & nrow(sp_ALK)>0) {
   if (class(ALK) == "data.frame") {

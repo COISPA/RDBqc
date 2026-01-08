@@ -61,9 +61,9 @@ MEDBS_Catch_LW <- function(data, SP, MS, GSA, verbose = TRUE) {
 
         Landing_lgt <- Data_call[, 1:12]
         for (i in 1:20) {
-            Landing_lgt <- cbind(Landing_lgt, Data_call[, colnames(Data_call) == paste("AGE_", i - 1, "_MEAN_LENGTH_LANDED", sep = "") | colnames(Data_call) == paste("AGE_", i - 1, "_LT_LANDED", sep = "")])
+            Landing_lgt <- cbind(Landing_lgt, Data_call[, colnames(Data_call) == paste("AGE_", i - 1, "_MEAN_LENGTH_LANDED", sep = "") | colnames(Data_call) == paste("AGE_", i - 1, "_LEN_LANDED", sep = "")])
         }
-        Landing_lgt <- cbind(Landing_lgt, Data_call[, colnames(Data_call) == "AGE_20_PLUS_MEAN_WEIGHT_LANDED" | colnames(Data_call) == "AGE_20_LT_LANDED"])
+        Landing_lgt <- cbind(Landing_lgt, Data_call[, colnames(Data_call) == "AGE_20_PLUS_MEAN_WEIGHT_LANDED" | colnames(Data_call) == "AGE_20_LEN_LANDED"])
         colnames(Landing_lgt) <- c(colnames(Data_call[1:12]), paste("AGE_", c(0:19), "_MEAN_LENGTH_LANDED", sep = ""), "AGE_20_PLUS_MEAN_LENGTHT_LANDED")
 
         Landing_lgt[, 13:ncol(Landing_lgt)][Landing_lgt[, 13:ncol(Landing_lgt)] == -1] <- 0
@@ -132,9 +132,9 @@ MEDBS_Catch_LW <- function(data, SP, MS, GSA, verbose = TRUE) {
 
       Discard_lgt <- Data_call[, c(1:11,13)]
       for (i in 1:20) {
-          Discard_lgt <- cbind(Discard_lgt, Data_call[, colnames(Data_call) == paste("AGE_", i - 1, "_MEAN_LENGTH_DISCARD", sep = "") | colnames(Data_call) == paste("AGE_", i - 1, "_LT_DISCARD", sep = "")])
+          Discard_lgt <- cbind(Discard_lgt, Data_call[, colnames(Data_call) == paste("AGE_", i - 1, "_MEAN_LENGTH_DISCARD", sep = "") | colnames(Data_call) == paste("AGE_", i - 1, "_LEN_DISCARD", sep = "")])
       }
-      Discard_lgt <- cbind(Discard_lgt, Data_call[, colnames(Data_call) == "AGE_20_PLUS_MEAN_WEIGHT_DISCARD" | colnames(Data_call) == "AGE_20_LT_DISCARD"])
+      Discard_lgt <- cbind(Discard_lgt, Data_call[, colnames(Data_call) == "AGE_20_PLUS_MEAN_WEIGHT_DISCARD" | colnames(Data_call) == "AGE_20_LEN_DISCARD"])
       colnames(Discard_lgt) <- c(colnames(Data_call[1:12]), paste("AGE_", c(0:19), "_MEAN_LENGTH_DISCARD", sep = ""), "AGE_20_PLUS_MEAN_LENGTHT_DISCARD")
 
       Discard_lgt[, 13:ncol(Discard_lgt)][Discard_lgt[, 13:ncol(Discard_lgt)] == -1] <- 0
