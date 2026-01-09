@@ -29,6 +29,7 @@ knitr::opts_chunk$set(
 
 ```{r libraries, include=FALSE}
 # loading needed libraries
+t0 <- Sys.time()
 lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra","readr","ggpubr")
 lapply(lib, require, character.only = TRUE)
 ```
@@ -2247,10 +2248,10 @@ if (check_ALK ) {
       }
           }   else if (class(res)[1]== "NULL"){
         cat(paste0("\n- No ALK data are available for the selected combination: ", SPs[s], " - ", MS, " - ", GSAs[g], ".\n"))
-        } 
-      
-          
+      } 
     }
   }
 }# check_ALK
+t1 <- Sys.time()
+t1-t0
 ```
