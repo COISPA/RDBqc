@@ -4,7 +4,7 @@
    * MEDBS_ks() was revised to improve performance and robustness when executed repeatedly in automated reporting workflows. The internal implementation was updated to reduce redundant computations and data reshaping within each call
    * MEDBS_Catch_LW was revised correcting the names of columns in the selection of mean lengh at age data.
    * MEDBS_report_HTML was updated to deal with null datasets in ALK (when calling MEDBS_ALK_MLAA and MEDBS_ALK_NB functions) and Catch (when calling MEDBS_Catch_LW and MEDBS_Catch_CAA functions)
-
+   * excluded the 999 in the GP_check and LW_check MEDBS functions
 # RBDqc 0.1.0 (26/06/2025)
  * Fixes for RDBFIS III
    * MEDBS_GP_check addedd new plots of boxplot of Linf, k and t0 parameters of VBGF
