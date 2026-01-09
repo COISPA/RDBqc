@@ -1728,7 +1728,7 @@ if (check_GP) {
         for (n in 1:length(list_name)) {
           short_list[n] <- list_name[[n]][1]
         }
-        index <- which(short_list == "VBGF_cum")
+        index <- which(short_list == "VBGF_cum" | short_list == "VBGF_param")
 
         for (x in index) {
           text <- strsplit(name[[x]], " _ ")[[1]][5]
@@ -1771,7 +1771,7 @@ if (check_GP) {
           short_list2[n] <- list_name[[n]][5]
         }
 
-        index <- which(short_list == "LW_cum" & !is.na(short_list2))
+        index <- which((short_list == "LW_cum" | short_list == "LW_param") & !is.na(short_list2))
 
         for (x in index) {
           text <- strsplit(name[[x]], " _ ")[[1]][5]
