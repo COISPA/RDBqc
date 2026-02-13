@@ -29,7 +29,6 @@ knitr::opts_chunk$set(
 
 ```{r libraries, include=FALSE}
 # loading needed libraries
-t0 <- Sys.time()
 lib <- c("RDBqc", "knitr", "kableExtra", "dplyr", "ggplot2", "rworldmap", "sp", "rworldxtra", "pander", "data.table", "grDevices", "magrittr", "tictoc", "tidyverse", "fishmethods", "tidyr", "gridExtra","readr","ggpubr")
 lapply(lib, require, character.only = TRUE)
 ```
@@ -42,21 +41,22 @@ lapply(lib, require, character.only = TRUE)
 # UNCOMMENT  THE FOLLOWING LINES FOR STAND-ALONE USE
 # SELECT THE APPROPRIATE FILE PATHS ON THE LOCAL FOLDERS
 
-Catch <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/catch.csv", sep = ",", header = TRUE)
-Land <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/landings.csv", sep = ",", header = TRUE)
-Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/discards.csv", sep = ",", header = TRUE)
-ML <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/ml.csv", sep = ",", header = TRUE)
-MA <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/ma.csv", sep = ",", header = TRUE)
-SL <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/srl.csv", sep = ",", header = TRUE)
-SA <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/sra.csv", sep = ",", header = TRUE)
-GP <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/gp.csv", sep = ",", header = TRUE)
-ALK <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial/alk.csv", sep = ",", header = TRUE)
+Catch <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial 3/ROU/ROU_catch.csv", sep = ",", header = TRUE)
+Land <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial 3/ROU/ROU_landings.csv", sep = ",", header = TRUE)
+Disc <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial 3/ROU/ROU_discards.csv", sep = ",", header = TRUE)
+ML <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial 3/ROU/ROU_ml.csv", sep = ",", header = TRUE)
+MA <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial 3/ROU/ROU_ma.csv", sep = ",", header = TRUE)
+SL <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial 3/ROU/ROU_srl.csv", sep = ",", header = TRUE)
+SA <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial 3/ROU/ROU_sra.csv", sep = ",", header = TRUE)
+GP <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial 3/ROU/ROU_gp.csv", sep = ",", header = TRUE)
+ALK <- read.table("D:/OneDrive - Coispa Tecnologia & Ricerca S.C.A.R.L/RDB3/test RDBqc/commercial 3/ROU/ROU_alk.csv", sep = ",", header = TRUE)
 
-SPs <- sort(c("HKE","DPS","NEP","ANE","OCC","MUT"))
-MS <- "ITA"
-GSAs <- "GSA 18"
+SPs <- NA # sort(c("HKE","MUT"))
+MS <- "ROU"
+GSAs <- NA # sort(c("GSA 20","GSA 22","GSA 23"))
 end_year <- 2022
 ```
+
 
 
 ```{r filters, include=FALSE}
@@ -117,6 +117,7 @@ if (exists("Rt")) {
 
 ```{r check_catch_data, results = 'asis'}
 
+check_Catch <- FALSE
 if (exists("Catch")) {
   if (class(Catch) == "data.frame") {
     if (nrow(Catch) > 0) {
@@ -365,6 +366,7 @@ if (check_Catch) {
 
 ```{r check_landing_data, results = 'asis'}
 
+check_Land <- FALSE
 if (exists("Land")) {
   if (class(Land) == "data.frame") {
     if (nrow(Land) > 0) {
@@ -597,8 +599,6 @@ if (check_Land) {
 
 ```{r KS_test_land, results = 'asis', fig.height=6, fig.width=9}
 
-# t0 <- Sys.time()
-
 if (check_Land) {
   cat("\n## Kolmogorov-Smirnov test of landings LFDs\n")
   cat("\nThe Kolmogorov-Smirnov test provides cumulative length distribution plots by fishery and year. The test is performed on couples of years to assess if their distributions belong to the same population. \n")
@@ -694,15 +694,11 @@ if (check_Land) {
     }
   }
 } # check_Land
-
-# t1 <- Sys.time() - t0
-# print( t1)
 ```
 
 
 
 ```{r length_ind_land, results = 'asis', fig.height=6, fig.width=9}
-# t0 <- Sys.time()
 
 if (check_Land) {
   cat("\n## Main length size indicators\n")
@@ -742,8 +738,6 @@ if (check_Land) {
   }
 } # check_Land
 
-# t1 <- Sys.time() - t0
-# print( t1)
 ```
 
 
@@ -1019,6 +1013,7 @@ if (check_Land) {
 
 ```{r check_discard_data, results = 'asis'}
 
+check_Disc <- FALSE
 if (exists("Disc")) {
   if (class(Disc) == "data.frame") {
     if (nrow(Disc) > 0) {
@@ -1041,6 +1036,7 @@ if (exists("Disc")) {
   cat("\n No Discard data available \n")
 }
 ```
+
 
 ```{r discards_duplicated_records, results = 'asis'}
 if (check_Disc) {
@@ -1649,6 +1645,7 @@ if (check_Disc) {
 
 ```{r check_GP_data, results = 'asis'}
 
+check_GP <- FALSE
 if (exists("GP")) {
   if (class(GP) == "data.frame") {
     if (nrow(GP) > 0) {
@@ -1728,7 +1725,7 @@ if (check_GP) {
         for (n in 1:length(list_name)) {
           short_list[n] <- list_name[[n]][1]
         }
-        index <- which(short_list == "VBGF_cum")
+        index <- which(short_list == "VBGF_cum" | short_list == "VBGF_param")
 
         for (x in index) {
           text <- strsplit(name[[x]], " _ ")[[1]][5]
@@ -1791,6 +1788,7 @@ if (check_GP) {
 
 ```{r check_MA_data, results = 'asis'}
 
+check_MA <- FALSE
 if (exists("MA")) {
   if (class(MA) == "data.frame") {
     if (nrow(MA) > 0) {
@@ -1895,6 +1893,7 @@ if (check_MA) {
 
 ```{r check_ML_data, results = 'asis'}
 
+check_ML <- FALSE
 if (exists("ML")) {
   if (class(ML) == "data.frame") {
     if (nrow(ML) > 0) {
@@ -2000,6 +1999,7 @@ if (check_ML) {
 
 ```{r check_SRA_data, results = 'asis'}
 
+check_SRA <- FALSE
 if (exists("SA")) {
   if (class(SA) == "data.frame") {
     if (nrow(SA) > 0) {
@@ -2085,6 +2085,7 @@ if (check_SRA) {
 
 ```{r check_SL_data, results = 'asis'}
 
+check_SRL <- FALSE
 if (exists("SL")) {
   if (class(SL) == "data.frame") {
     if (nrow(SL) > 0) {
@@ -2171,7 +2172,7 @@ if (check_SRL) {
 
 ```{r check_ALK_data, results = 'asis'}
 
-
+check_ALK <- FALSE
 if (exists("ALK") ) {
   if (class(ALK) == "data.frame") {
     if (nrow(ALK) > 0) {
@@ -2306,6 +2307,4 @@ if (check_ALK ) {
     }
   }
 }# check_ALK
-t1 <- Sys.time()
-t1-t0
 ```
