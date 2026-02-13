@@ -29,7 +29,7 @@ MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
   colnames(data) <- toupper(colnames(data))
   GP_tab <- data
   GP_tab <- GP_tab[GP_tab$SPECIES %in% SP & GP_tab$COUNTRY == MS & GP_tab$AREA == GSA, ]
-  GP_tab <- GP_tab[!is.na(GP_tab$VB_LINF) & GP_tab$VB_LINF != -1 & !GP_tab$VB_K %in% -1 & !GP_tab$VB_T0 %in% -999, ]
+  GP_tab <- GP_tab[!is.na(GP_tab$VB_LINF) & GP_tab$VB_LINF != -1 & !GP_tab$VB_K %in% -1 & !GP_tab$VB_LINF %in% c(-999,999), ]
   if (nrow(GP_tab) > 0) {
     GP_tab[is.na(GP_tab$VB_UNITS),"VB_UNITS"] <- "cm"
     Summary_GP <- suppressMessages(data.frame(GP_tab %>% group_by(COUNTRY, AREA, START_YEAR, END_YEAR, SPECIES, SEX) %>% summarize(COUNT = length(VB_LINF))))
