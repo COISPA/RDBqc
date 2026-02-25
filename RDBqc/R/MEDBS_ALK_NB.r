@@ -18,6 +18,14 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @examples MEDBS_ALK_NB(data = ALK_tab_example, SP = "MUT", MS = "ITA", GSA = "GSA 99")
 MEDBS_ALK_NB <- function(data, SP, MS, GSA, verbose = TRUE) {
+
+  if (FALSE){
+    data = ALK
+    SP = SPs[1]
+    MS = MS
+    GSA = GSAs[1]
+  }
+
   AGE <- len <- START_YEAR <- END_YEAR<-SEX<- AREA<-length_cm<-TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE<-YEARS<-LENGTHCLASS<-NULL
   colnames(data) <- toupper(colnames(data))
 
@@ -25,9 +33,9 @@ MEDBS_ALK_NB <- function(data, SP, MS, GSA, verbose = TRUE) {
   ALK <- data
   if (nrow(ALK) > 0) {
 
-    alk_LENGTH <- ALK[,c(14:114)]
+    alk_LENGTH <- ALK[,c(13:113)]
     alk_LENGTH[alk_LENGTH == -1] <- 0
-    ALK <- cbind( ALK[,c(1:13)],alk_LENGTH)
+    ALK <- cbind( ALK[,c(1:12)],alk_LENGTH)
     unit <- unique(ALK$UNIT)
     sexes <- unique(ALK$SEX)
     plots <- list()
@@ -47,7 +55,7 @@ MEDBS_ALK_NB <- function(data, SP, MS, GSA, verbose = TRUE) {
 
     # estimation of total numbers
     nb_total <- df_long %>%
-        group_by(START_YEAR, END_YEAR,SEX, AREA,TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE, LENGTHCLASS) %>%
+        group_by(START_YEAR, END_YEAR,SEX, AREA,TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE, AGE) %>%
         summarise(
             #num_reported = sum(TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE, na.rm = TRUE),
             total_n = sum(count, na.rm = TRUE),

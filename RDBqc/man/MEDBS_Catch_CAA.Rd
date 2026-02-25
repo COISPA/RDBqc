@@ -2,31 +2,49 @@
 % Please edit documentation in R/MEDBS_Catch_CAA.R
 \name{MEDBS_Catch_CAA}
 \alias{MEDBS_Catch_CAA}
-\title{Check the numbers-at-age in the Catch table}
+\title{Numbers-at-age plot from Catch table (Landings vs Discards)}
 \usage{
-MEDBS_Catch_CAA(data, SP, MS, GSA, verbose = TRUE)
+MEDBS_Catch_CAA(data, SP, MS, GSA, verbose = TRUE, embedded = TRUE)
 }
 \arguments{
-\item{data}{Catch table in MED&BS datacall format}
+\item{data}{A data.frame in MED&BS Catch datacall format.}
 
-\item{SP}{species code}
+\item{SP}{Species code (character).}
 
-\item{MS}{member state code}
+\item{MS}{Member State code (character).}
 
-\item{GSA}{GSA code (Geographical sub-area)}
+\item{GSA}{GSA code (character), e.g. "GSA 20".}
 
-\item{verbose}{boolean. If TRUE messages are returned}
+\item{verbose}{Logical; if TRUE prints informative messages.}
 }
 \value{
-A ggplot object: multi-panel barplots of numbers-at-age (quarters summed),
-by YEAR (columns) and by group GEAR - MESH_SIZE_RANGE - FISHERY (rows).
+A \code{trellis} object (lattice) or \code{NULL} if no data are available
+after filtering/cleaning.
 }
 \description{
-Check the numbers-at-age in the Catch table
+Builds a multi-panel numbers-at-age plot from the MED&BS Catch table.
+Age-specific counts are extracted from AGE_* columns (landed and discard),
+quarters are summed, and results are displayed as grouped barplots
+(Landing vs Discard) by \strong{YEAR} (columns) and \strong{GEAR-MESH-FISHERY group}
+(rows). Strip labels are displayed only on the outer margins using \pkg{HH}.
+}
+\details{
+The function:
+\enumerate{
+\item filters by AREA/COUNTRY/SPECIES;
+\item cleans AGE_* columns (NA and -1 set to 0);
+\item reshapes to long format and aggregates (quarters summed);
+\item plots numbers-at-age as grouped bars (Landing vs Discard);
+\item applies outer strips/scales through \code{HH::useOuterScales()}.
+}
 }
 \examples{
-MEDBS_Catch_CAA(data = Catch_tab_example, SP = "DPS", MS = "ITA", GSA = "GSA 9")
+\dontrun{
+p <- MEDBS_Catch_CAA(data = Catch_tab_example, SP = "ANE", MS = "GRC", GSA = "GSA 20")
+print(p)
+}
+
 }
 \author{
-Isabella Bitetto \href{mailto:bitetto@fondazionecoispa.org}{bitetto@fondazionecoispa.org}
+Walter Zupa
 }
