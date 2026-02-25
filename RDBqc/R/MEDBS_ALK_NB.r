@@ -47,7 +47,7 @@ MEDBS_ALK_NB <- function(data, SP, MS, GSA, verbose = TRUE) {
 
     # estimation of total numbers
     nb_total <- df_long %>%
-        group_by(START_YEAR, END_YEAR,SEX, AREA,TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE) %>%
+        group_by(START_YEAR, END_YEAR,SEX, AREA,TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE, LENGTHCLASS) %>%
         summarise(
             #num_reported = sum(TOTAL_NUMBER_OF_HARD_STRUCTURE_READ_BY_AGE, na.rm = TRUE),
             total_n = sum(count, na.rm = TRUE),
