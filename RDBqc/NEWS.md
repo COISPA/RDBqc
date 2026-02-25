@@ -1,10 +1,13 @@
-# RBDqc 0.1.1 (13/02/2026)
- * Fixes for RDBFIS III
-   * The function MEDBS_Catch_coverage modifiead to generate plots accounting data with a single year instead of a time series
-   * The function MEDBS_GP_check was updated by adding an optional parameter `all_plots = FALSE` to avoid generating plots that are not printed in the MEDBS RMarkdown report.
-   * The function MEDBS_ALK_MLAA was updated to (i) remove spurious coercion warnings during LENGTHCLASS parsing by recoding `LENGTHCLASS100_PLUS` to `LENGTHCLASS100` before numeric conversion, and (ii) change the mean length-at-age visualisation to overlay yearly series in a single panel (small points and coloured lines by year) instead of using faceting, ensuring that at least one point is visible even when only one year is available.
-   * Rmd for MEDBS changed to:
-     * reduce computational time in producing plots generating two resolution scenarios for RDBFIS embedded and stendalone analysis
+# RDBqc 0.1.2 (25/02/2026)
+* Fixes for RDBFIS III
+  * Performance and reporting updates for MEDBS QC workflows, including an embedded versus standalone plotting strategy in the MEDBS RMarkdown report to reduce computational time.
+  * Updated plotting dependencies and imports to support the revised visual outputs in `MEDBS_Catch_CAA` (added `lattice` and `HH`).
+  * `MEDBS_GP_check` updated by adding an optional parameter `all_plots = FALSE` to avoid generating plots that are not printed in the MEDBS RMarkdown report.
+  * Functions generating MEDBS time series plots were updated to correctly handle datasets with a single available year (single-year cases are plotted as points rather than time series areas).
+  * `MEDBS_Catch_coverage` updated to correctly handle datasets with a single available year (not only full time series).
+  * `MEDBS_ALK_MLAA` updated to (i) remove spurious coercion warnings during `LENGTHCLASS` parsing by recoding `LENGTHCLASS100_PLUS` to `LENGTHCLASS100` before numeric conversion, and (ii) change the mean length-at-age visualisation to overlay yearly series in a single panel (small points and coloured lines by year) instead of using faceting, ensuring that at least one point is visible also in single-year cases.
+  * `MEDBS_ALK_NB` updated to include `LENGTHCLASS` in the grouping for total-number estimation, improving internal consistency of the aggregation.
+  * MEDBS RMarkdown report updated to reduce computational time by running the most computationally demanding functions under more conservative settings and by disabling non-essential plots and tables only when `RDBqc` is executed embedded within RDBFIS.
 
 # RBDqc 0.1.1 (08/01/2026)
  * Fixes for RDBFIS III
