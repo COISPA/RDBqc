@@ -4,6 +4,7 @@
 #' @param MS member state code
 #' @param GSA GSA code (Geographical sub-area)
 #' @param verbose boolean. If TRUE messages are returned
+#' @param all_plots boolean. If TRUE all plots are generated; if FALSE only plots used in the Rmd chunk are generated
 #' @description The function checks the growth parameters by sex and year for a selected species
 #' @return A list of objects containing a summary table and different plots of the growth curves by sex and year is returned by the function.
 #' @export
@@ -14,7 +15,7 @@
 #' @importFrom ggpubr ggarrange annotate_figure text_grob
 #' @importFrom utils globalVariables
 #' @examples MEDBS_GP_check(GP_tab_example, "MUT", "ITA", "GSA 18")
-MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
+MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE, all_plots = FALSE) {
 
   if (FALSE) {
     data=GP
@@ -40,7 +41,7 @@ MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
       measure <- GP_tab$VB_UNITS[i]
 
       if ( measure %in% c("cm","NA")){
-      GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ", GP_tab$VB_LINF[i], ", k = ", GP_tab$VB_K[i], " t0 = ", GP_tab$VB_T0[i])
+        GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ", GP_tab$VB_LINF[i], ", k = ", GP_tab$VB_K[i], " t0 = ", GP_tab$VB_T0[i])
       } else {
         GP_tab$ID[i] <- paste0(GP_tab$START_YEAR[i], " Linf = ", GP_tab$VB_LINF[i]/10, ", k = ", GP_tab$VB_K[i], " t0 = ", GP_tab$VB_T0[i])
         GP_tab$VB_LINF[i] <- GP_tab$VB_LINF[i]/10
@@ -69,36 +70,38 @@ MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
     plots[[l]] <- Summary_table_GP
     names(plots)[[l]] <- "summary table"
 
-    p <- ggplot(VBGF, aes(x = AGE, y = LENGTH, col = SEX)) +
-      geom_point() +
-      geom_line() +
-      facet_wrap(~START_YEAR) +
-      ggtitle(paste0("VBGF curve of ", SP, " in ", MS, " - ", GSA)) +
-      scale_x_continuous(breaks = seq(0, 20, 2)) +
-      expand_limits(x = 0, y = 0) +
-      xlab("Age (years)") +
-      ylab(paste0("Length (cm)")) # unique(VBGF$UNIT)[1]
-
-    l <- length(plots) + 1
-    plots[[l]] <- p
-    names(plots)[[l]] <- paste("VBGF", SP, MS, GSA, sep = " _ ")
-
-    ## PLOT 2
-    i <- "M"
-    for (i in unique(VBGF$SEX)) {
-      p <- ggplot(VBGF[VBGF$SEX %in% i, ], aes(x = AGE, y = LENGTH, col = ID)) +
+    if (all_plots) {
+      p <- ggplot(VBGF, aes(x = AGE, y = LENGTH, col = SEX)) +
         geom_point() +
         geom_line() +
         facet_wrap(~START_YEAR) +
-        ggtitle(paste0("VBGF curve of ", i, " ", SP, " in ", MS, " - ", GSA)) +
-        theme(legend.text = element_text(color = "blue", size = 6)) +
-        guides(col = guide_legend(title = "")) +
+        ggtitle(paste0("VBGF curve of ", SP, " in ", MS, " - ", GSA)) +
+        scale_x_continuous(breaks = seq(0, 20, 2)) +
+        expand_limits(x = 0, y = 0) +
         xlab("Age (years)") +
-        ylab(paste0("Length (cm)")) # unique(VBGF[VBGF$SEX %in% i, "UNIT"])[1]
+        ylab(paste0("Length (cm)")) # unique(VBGF$UNIT)[1]
 
       l <- length(plots) + 1
       plots[[l]] <- p
-      names(plots)[[l]] <- paste("VBGF_year", SP, MS, GSA, i, sep = " _ ")
+      names(plots)[[l]] <- paste("VBGF", SP, MS, GSA, sep = " _ ")
+
+      ## PLOT 2
+      i <- "M"
+      for (i in unique(VBGF$SEX)) {
+        p <- ggplot(VBGF[VBGF$SEX %in% i, ], aes(x = AGE, y = LENGTH, col = ID)) +
+          geom_point() +
+          geom_line() +
+          facet_wrap(~START_YEAR) +
+          ggtitle(paste0("VBGF curve of ", i, " ", SP, " in ", MS, " - ", GSA)) +
+          theme(legend.text = element_text(color = "blue", size = 6)) +
+          guides(col = guide_legend(title = "")) +
+          xlab("Age (years)") +
+          ylab(paste0("Length (cm)")) # unique(VBGF[VBGF$SEX %in% i, "UNIT"])[1]
+
+        l <- length(plots) + 1
+        plots[[l]] <- p
+        names(plots)[[l]] <- paste("VBGF_year", SP, MS, GSA, i, sep = " _ ")
+      }
     }
 
     ## PROT 3
@@ -119,39 +122,39 @@ MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
 
     ## PROT 4
 
-      p01 <- ggplot(GP_tab, aes(x = SEX, y = VB_LINF, col = SEX)) +
-        geom_boxplot() +
-        # ggtitle(paste0("VBGF Linf values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
-        theme(legend.text = element_text(color = "blue", size = 6)) +
-        guides(col = guide_legend(title = "")) +
-        xlab("Sex") +
-        ylab(paste0("Linf (cm)"))
+    p01 <- ggplot(GP_tab, aes(x = SEX, y = VB_LINF, col = SEX)) +
+      geom_boxplot() +
+      # ggtitle(paste0("VBGF Linf values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
+      theme(legend.text = element_text(color = "blue", size = 6)) +
+      guides(col = guide_legend(title = "")) +
+      xlab("Sex") +
+      ylab(paste0("Linf (cm)"))
 
 
-      p02 <- ggplot(GP_tab, aes(x = SEX, y = VB_K, col = SEX)) +
-        geom_boxplot() +
-        # ggtitle(paste0("VBGF k values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
-        theme(legend.text = element_text(color = "blue", size = 6)) +
-        guides(col = guide_legend(title = "")) +
-        xlab("Sex") +
-        ylab(paste0("K")) # ", unique(VBGF[VBGF$SEX %in% i, "UNIT"])[1], "
+    p02 <- ggplot(GP_tab, aes(x = SEX, y = VB_K, col = SEX)) +
+      geom_boxplot() +
+      # ggtitle(paste0("VBGF k values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
+      theme(legend.text = element_text(color = "blue", size = 6)) +
+      guides(col = guide_legend(title = "")) +
+      xlab("Sex") +
+      ylab(paste0("K")) # ", unique(VBGF[VBGF$SEX %in% i, "UNIT"])[1], "
 
 
-      p03 <- ggplot(GP_tab, aes(x = AGE, y = VB_T0, col = SEX)) +
-        geom_boxplot() +
-        # ggtitle(paste0("VBGF T0 values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
-        theme(legend.text = element_text(color = "blue", size = 6)) +
-        guides(col = guide_legend(title = "")) +
-        xlab("Sex") +
-        ylab(paste0("t0")) # ", unique(VBGF[VBGF$SEX %in% i, "UNIT"])[1], "
+    p03 <- ggplot(GP_tab, aes(x = AGE, y = VB_T0, col = SEX)) +
+      geom_boxplot() +
+      # ggtitle(paste0("VBGF T0 values of ", i, " ", SP, " in ", MS, " - ", GSA)) +
+      theme(legend.text = element_text(color = "blue", size = 6)) +
+      guides(col = guide_legend(title = "")) +
+      xlab("Sex") +
+      ylab(paste0("t0")) # ", unique(VBGF[VBGF$SEX %in% i, "UNIT"])[1], "
 
-      p <- ggarrange(p01,p02,p03,
-                     labels=c("Linf","k","t0"),common.legend = TRUE,legend="right",nrow=1, ncol=3)
-      annotate_figure(p, top = text_grob(paste0("VBGF Linf, k and T0 values of ", SP, " in ", MS, " - ", GSA), size = 8))
+    p <- ggarrange(p01,p02,p03,
+                   labels=c("Linf","k","t0"),common.legend = TRUE,legend="right",nrow=1, ncol=3)
+    annotate_figure(p, top = text_grob(paste0("VBGF Linf, k and T0 values of ", SP, " in ", MS, " - ", GSA), size = 8))
 
-      l <- length(plots) + 1
-      plots[[l]] <- p
-      names(plots)[[l]] <- paste("VBGF_param", SP, MS, GSA, i, sep = " _ ")
+    l <- length(plots) + 1
+    plots[[l]] <- p
+    names(plots)[[l]] <- paste("VBGF_param", SP, MS, GSA, i, sep = " _ ")
 
 
 
@@ -159,8 +162,8 @@ MEDBS_GP_check <- function(data, SP, MS, GSA, verbose = FALSE) {
   } else {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
-  }
     }
+  }
 }
 
 utils::globalVariables(c(

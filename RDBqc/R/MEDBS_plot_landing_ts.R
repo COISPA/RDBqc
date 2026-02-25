@@ -48,21 +48,45 @@ MEDBS_plot_landing_ts <- function(data, SP, MS, GSA, by = "year", verbose = TRUE
     tmplandq[is.na(tmplandq[, 3]), 3] <- 0
 
     if (by == "quarter") {
-      plot <- ggplot(tmplandq, aes(x = year, y = tot, fill = as.factor(quarter))) +
-        geom_area(colour = "black", size = .2, alpha = .8) +
+
+      single_year <- length(unique(tmplandq$year)) == 1
+
+      plot <- ggplot(tmplandq, aes(x = year, y = tot,
+                                   fill = as.factor(quarter),
+                                   colour = as.factor(quarter))) +
+        {
+          if (single_year) {
+            geom_point(shape = 21, size = 3, alpha = .9, stroke = .2)
+          } else {
+            geom_area(colour = "black", size = .2, alpha = .8)
+          }
+        } +
         theme_bw() +
         scale_x_continuous(breaks = seq(min(quarter_tmp$year), max(quarter_tmp$year), 2)) +
         ggtitle(paste0(SP, " ", MS, " ", GSA, " Total landing by quarter")) +
-        labs(x = "", y = "Tonnes", fill = "Quarter")
+        labs(x = "", y = "Tonnes", fill = "Quarter", colour = "Quarter")
+
     } else if (by == "year") {
+
       tmpland <- suppressMessages(dplyr::left_join(gear_tmp, land_tmp))
       tmpland[is.na(tmpland[, 3]), 3] <- 0
-      plot <- ggplot(tmpland, aes(x = year, y = tot, fill = gear)) +
-        geom_area(colour = "black", size = .2, alpha = .8) +
+
+      single_year <- length(unique(tmpland$year)) == 1
+
+      plot <- ggplot(tmpland, aes(x = year, y = tot,
+                                  fill = gear,
+                                  colour = gear)) +
+        {
+          if (single_year) {
+            geom_point(shape = 21, size = 3, alpha = .9, stroke = .2)
+          } else {
+            geom_area(colour = "black", size = .2, alpha = .8)
+          }
+        } +
         theme_bw() +
         scale_x_continuous(breaks = seq(min(gear_tmp$year), max(gear_tmp$year), 2)) +
         ggtitle(paste0(SP, " ", MS, " ", GSA, " Total landing by gear")) +
-        labs(x = "", y = "Tonnes", fill = "Gear")
+        labs(x = "", y = "Tonnes", fill = "Gear", colour = "Gear")
     }
     return(suppressMessages(plot))
   }

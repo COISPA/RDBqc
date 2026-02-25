@@ -35,6 +35,11 @@ MEDBS_ALK_MLAA <- function(data, SP, MS, GSA, verbose = TRUE) {
     sexes <- unique(ALK$SEX)
     plots <- list()
 
+
+    tmp_names <- names(ALK)[startsWith(names(ALK), "LENGTHCLASS")]
+    bad <- tmp_names[is.na(suppressWarnings(as.numeric(stringr::str_remove(tmp_names, "LENGTHCLASS")))) &
+                       tmp_names != "LENGTHCLASS100_PLUS"]
+    bad
     # estimation of the mean length at age
 
     df_long <- data.frame(ALK %>%
@@ -43,13 +48,10 @@ MEDBS_ALK_MLAA <- function(data, SP, MS, GSA, verbose = TRUE) {
             names_to = "LENGTHCLASS",
             values_to = "count"
         ) %>%
-        mutate(
-            # Estrai il numero dalla colonna LENGTHCLASS
-            length_cm = case_when(
-                LENGTHCLASS == "LENGTHCLASS100_PLUS" ~ 100,
-                TRUE ~ as.numeric(str_remove(LENGTHCLASS, "LENGTHCLASS"))
-            )
-        ))
+          mutate(
+            LENGTHCLASS = dplyr::if_else(LENGTHCLASS == "LENGTHCLASS100_PLUS", "LENGTHCLASS100", LENGTHCLASS),
+            length_cm = as.numeric(stringr::str_remove(LENGTHCLASS, "LENGTHCLASS"))
+          ))
 
     # Calcolo media pesata per anno, sesso ed età
     mean_lengths <- df_long %>%
@@ -67,14 +69,14 @@ MEDBS_ALK_MLAA <- function(data, SP, MS, GSA, verbose = TRUE) {
         mean_lengths_F <- mean_lengths[mean_lengths$SEX == "F", ]
       #unit <- unique(ALK_F$UNIT)
       mean_lengths_F <- as.data.table(mean_lengths_F)
-      p <- ggplot(data = mean_lengths_F, aes(x = AGE, y = mean_length, col = YEARS)) +
-        geom_point(stat = "identity") +
+      p <- ggplot(data = mean_lengths_F, aes(x = AGE, y = mean_length, group = YEARS, col = YEARS)) +
+        geom_line() +
+        geom_point(size = 0.8) +
         ggtitle(paste("Females", SP, MS, GSA, sep = " - ")) +
         labs(col = "Year") +
         xlab("Age") +
         ylab(paste("Length (", unit, ")")) +
-        facet_wrap(YEARS ~ .) +
-        theme(legend.position = "none")
+        theme(legend.position = "right")
 
       l <- length(plots) + 1
       plots[[l]] <- p
@@ -85,14 +87,14 @@ MEDBS_ALK_MLAA <- function(data, SP, MS, GSA, verbose = TRUE) {
         mean_lengths_M <- mean_lengths[mean_lengths$SEX == "M", ]
         #unit <- unique(ALK_F$UNIT)
         mean_lengths_M <- as.data.table(mean_lengths_M)
-        p <- ggplot(data = mean_lengths_M, aes(x = AGE, y = mean_length, col = YEARS)) +
-            geom_point(stat = "identity") +
-            ggtitle(paste("Males", SP, MS, GSA, sep = " - ")) +
-            labs(col = "Year") +
-            xlab("Age") +
-            ylab(paste("Length (", unit, ")")) +
-            facet_wrap(YEARS ~ .) +
-            theme(legend.position = "none")
+        p <- ggplot(data = mean_lengths_M, aes(x = AGE, y = mean_length, group = YEARS, col = YEARS)) +
+          geom_line() +
+          geom_point(size = 0.8) +
+          ggtitle(paste("Males", SP, MS, GSA, sep = " - ")) +
+          labs(col = "Year") +
+          xlab("Age") +
+          ylab(paste("Length (", unit, ")")) +
+          theme(legend.position = "right")
 
         l <- length(plots) + 1
         plots[[l]] <- p
@@ -103,14 +105,14 @@ MEDBS_ALK_MLAA <- function(data, SP, MS, GSA, verbose = TRUE) {
         mean_lengths_C <- mean_lengths[mean_lengths$SEX == "C", ]
         #unit <- unique(ALK_F$UNIT)
         mean_lengths_C <- as.data.table(mean_lengths_C)
-        p <- ggplot(data = mean_lengths_C, aes(x = AGE, y = mean_length, col = YEARS)) +
-            geom_point(stat = "identity") +
-            ggtitle(paste("Combined", SP, MS, GSA, sep = " - ")) +
-            labs(col = "Year") +
-            xlab("Age") +
-            ylab(paste("Length (", unit, ")")) +
-            facet_wrap(YEARS ~ .) +
-            theme(legend.position = "none")
+        p <- ggplot(data = mean_lengths_C, aes(x = AGE, y = mean_length, group = YEARS, col = YEARS)) +
+          geom_line() +
+          geom_point(size = 0.8) +
+          ggtitle(paste("Combined", SP, MS, GSA, sep = " - ")) +
+          labs(col = "Year") +
+          xlab("Age") +
+          ylab(paste("Length (", unit, ")")) +
+          theme(legend.position = "right")
 
         l <- length(plots) + 1
         plots[[l]] <- p

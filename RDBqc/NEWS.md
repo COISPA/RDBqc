@@ -1,3 +1,11 @@
+# RBDqc 0.1.1 (13/02/2026)
+ * Fixes for RDBFIS III
+   * The function MEDBS_Catch_coverage modifiead to generate plots accounting data with a single year instead of a time series
+   * The function MEDBS_GP_check was updated by adding an optional parameter `all_plots = FALSE` to avoid generating plots that are not printed in the MEDBS RMarkdown report.
+   * The function MEDBS_ALK_MLAA was updated to (i) remove spurious coercion warnings during LENGTHCLASS parsing by recoding `LENGTHCLASS100_PLUS` to `LENGTHCLASS100` before numeric conversion, and (ii) change the mean length-at-age visualisation to overlay yearly series in a single panel (small points and coloured lines by year) instead of using faceting, ensuring that at least one point is visible even when only one year is available.
+   * Rmd for MEDBS changed to:
+     * reduce computational time in producing plots generating two resolution scenarios for RDBFIS embedded and stendalone analysis
+
 # RBDqc 0.1.1 (08/01/2026)
  * Fixes for RDBFIS III
    * The function MEDBS_length_ind() was updated to improve computational performance when repeatedly called across multiple species and GSAs (e.g., within RMarkdown reports), without altering its overall logic, structure, or returned outputs. Estimated improvement ≈ 10 × faster.

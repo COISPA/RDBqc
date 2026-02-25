@@ -12,7 +12,8 @@ MEDBS_length_ind(
   GSA,
   splines = c(0.2, 0.4, 0.6, 0.8),
   Xtresholds = c(0.25, 0.5, 0.75),
-  verbose = TRUE
+  verbose = TRUE,
+  embedded = FALSE
 )
 }
 \arguments{
@@ -31,24 +32,31 @@ MEDBS_length_ind(
 \item{Xtresholds}{threshold value}
 
 \item{verbose}{boolean. If TRUE messages are returned}
+
+\item{embedded}{boolean. If TRUE, the function generates only Min, Median and Max
+in a single combined plot. If FALSE, the combined plot includes also Mean, 25th and 75th percentiles.}
 }
 \value{
-The function returns a plot of the Main length size indicators time series by fishery
+The function returns a list containing a summary table and a combined plot of length indicators.
 }
 \description{
-The function allows to check the consistency of length data for a selected species on both landings and discards: Main length size indicators
+The function allows to check the consistency of length data for a selected species
+on both landings and discards: Main length size indicators. The function keeps the same
+calculations and checks of the original implementation, but it returns a single combined
+time series plot (instead of multiple plots).
 }
 \examples{
 MEDBS_length_ind(Landing_tab_example,
   type = "l", SP = "DPS", MS = c("ITA"),
   GSA = c("GSA 9"), splines = c(0.2, 0.4, 0.6, 0.8),
-  Xtresholds = c(0.25, 0.5, 0.75)
+  Xtresholds = c(0.25, 0.5, 0.75), embedded = FALSE
 )
 MEDBS_length_ind(Discard_tab_example,
   type = "d", SP = "DPS", MS = c("ITA"),
-  GSA = c("GSA 9"), splines = c(0.2, 0.4, 0.6, 0.8),
-  Xtresholds = c(0.25, 0.5, 0.75)
+  GSA = c("GSA 9"), splines = c(0.2),
+  Xtresholds = c(0.5), embedded = TRUE
 )
+
 }
 \author{
 Alessandro Mannini \href{mailto:alessandro.mannini@ec.europa.eu}{alessandro.mannini@ec.europa.eu}
