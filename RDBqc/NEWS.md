@@ -1,3 +1,6 @@
+# RDBqc 0.1.3 (06/03/2026)
+* Fixes for RDBFIS III
+  * check_RD_FDI_H and check_RD_FDI_I modified for inconsistencies in detecting disaggregated records
 # RDBqc 0.1.2 (25/02/2026)
 * Fixes for RDBFIS III
   * Performance and reporting updates for MEDBS QC workflows, including an embedded versus standalone plotting strategy in the MEDBS RMarkdown report to reduce computational time.
