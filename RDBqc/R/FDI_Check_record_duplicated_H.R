@@ -46,8 +46,8 @@ check_RD_FDI_H <- function(data, verbose = TRUE) {
                                            "specon_tech",
                                            "deep",
                                            "rectangle_type",
-                                           "latitude",
-                                           "longitude",
+                                           "rectangle_lat",
+                                           "rectangle_lon",
                                            "c_square",
                                            "species"))]
 

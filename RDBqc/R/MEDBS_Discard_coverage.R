@@ -57,8 +57,17 @@ MEDBS_discard_coverage <- function(Discard_tab, SP, MS, GSA, verbose = TRUE) {
 
     data[is.na(data)] <- 0
 
+    single_year <- length(unique(data$year)) == 1
+
     p <- ggplot(data, aes(x = year, y = discards, fill = gear)) +
-      geom_area(size = 0.5, colour = "black") +
+      {
+        if (single_year) {
+          geom_point(aes(colour = gear),
+                     shape = 21, size = 3, alpha = .9, stroke = .2)
+        } else {
+          geom_area(size = 0.5, colour = "black")
+        }
+      } +
       theme_bw() +
       ggtitle(paste0("Discards of ", SP, " in ", MS, " - ", GSA)) +
       xlab("") +

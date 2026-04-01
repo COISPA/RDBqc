@@ -1,7 +1,34 @@
-# RBDqc 0.1.00 (26/06/2025)
+# RDBqc 0.1.3 (06/03/2026)
+* Fixes for RDBFIS III
+  * check_RD_FDI_H and check_RD_FDI_I modified for inconsistencies in detecting disaggregated records
+# RDBqc 0.1.2 (25/02/2026)
+* Fixes for RDBFIS III
+  * Performance and reporting updates for MEDBS QC workflows, including an embedded versus standalone plotting strategy in the MEDBS RMarkdown report to reduce computational time.
+  * Updated plotting dependencies and imports to support the revised visual outputs in `MEDBS_Catch_CAA` (added `lattice` and `HH`).
+  * `MEDBS_GP_check` updated by adding an optional parameter `all_plots = FALSE` to avoid generating plots that are not printed in the MEDBS RMarkdown report.
+  * Functions generating MEDBS time series plots were updated to correctly handle datasets with a single available year (single-year cases are plotted as points rather than time series areas).
+  * `MEDBS_Catch_coverage` updated to correctly handle datasets with a single available year (not only full time series).
+  * `MEDBS_ALK_MLAA` updated to (i) remove spurious coercion warnings during `LENGTHCLASS` parsing by recoding `LENGTHCLASS100_PLUS` to `LENGTHCLASS100` before numeric conversion, and (ii) change the mean length-at-age visualisation to overlay yearly series in a single panel (small points and coloured lines by year) instead of using faceting, ensuring that at least one point is visible also in single-year cases.
+  * `MEDBS_ALK_NB` updated to include `LENGTHCLASS` in the grouping for total-number estimation, improving internal consistency of the aggregation.
+  * MEDBS RMarkdown report updated to reduce computational time by running the most computationally demanding functions under more conservative settings and by disabling non-essential plots and tables only when `RDBqc` is executed embedded within RDBFIS.
+
+# RBDqc 0.1.1 (08/01/2026)
  * Fixes for RDBFIS III
- ** MEDBS_GP_check addedd new plots of boxplot of Linf, k and t0 parameters of VBGF
- ** MEDBS_LW_check addedd new plots of boxplot of both a and b parameters of growth parameters
+   * The function MEDBS_length_ind() was updated to improve computational performance when repeatedly called across multiple species and GSAs (e.g., within RMarkdown reports), without altering its overall logic, structure, or returned outputs. Estimated improvement ≈ 10 × faster.
+   * MEDBS_ks() was revised to improve performance and robustness when executed repeatedly in automated reporting workflows. The internal implementation was updated to reduce redundant computations and data reshaping within each call
+   * MEDBS_Catch_LW was revised correcting the names of columns in the selection of mean lengh at age data.
+   * MEDBS_report_HTML was updated to deal with null datasets in ALK (when calling MEDBS_ALK_MLA and MEDBS_ALK_NB functions) and Catch (when calling MEDBS_Catch_LW and MEDBS_Catch_CAA functions)
+
+# RBDqc 0.1.0 (26/06/2025)
+ * Fixes for RDBFIS III
+   * MEDBS_GP_check addedd new plots of boxplot of Linf, k and t0 parameters of VBGF
+   * MEDBS_LW_check addedd new plots of boxplot of both a and b parameters of growth parameters
+   * MEDBS_ks has been refactored for speed and memory efficiency. The function no longer calls clus.lf() with 100 bootstrap resamples; instead, a lightweight helper (calc_KS_ID()) computes the Kolmogorov–Smirnov statistic analytically from vectorised length-frequency tables. Length-class columns are converted to numeric in a single multithreaded data.table pass, cumulative curves are built with a grouped cumsum(), and all data-frame merges have been replaced by in-place data-table joins. The public interface and output (KS decisions, cumulative plots) are unchanged, but runtime drops from ~5 s to ~0.16 s (≈ 30 × faster) and peak memory from ~645 MB to ~25 MB.
+   * New function: MEDBS_ALK_NB to verify the consistency between the total number of hard structures read and the sum of the structures by age
+   * New function: MEDBS_Catch_CAA to facilitate the check of catch at age by year in the Catch table through a multi-panel barplots of numbers-at-age, including landing and discard. 
+   * New function: MEDBS_Catch_LW to visually check of mean length and mean weight reported in the Catch table.
+   * New function: MEDBS_ALK_MLAA to visually check the mean length at age based on the ALK table. 
+   
 # RBDqc 0.0.17.25 (19/03/2025)
  * included the read.coded.file function to be used in Rmd templates to automatically select the encoding for opening the tables 
 # RBDqc 0.0.17.25

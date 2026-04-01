@@ -11,6 +11,7 @@
 #' @author Walter Zupa <zupa@@coispa.it>
 #' @import ggplot2 dplyr
 #' @importFrom grDevices dev.off
+#' @importFrom utils globalVariables
 #' @examples MEDBS_LW_check(GP_tab_example, "MUT", "ITA", "GSA 18")
 MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
 
@@ -22,7 +23,7 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
   colnames(data) <- toupper(colnames(data))
   GP_tab <- data
   GP_tab <- GP_tab[GP_tab$SPECIES == SP & GP_tab$COUNTRY == MS & GP_tab$AREA == GSA, ]
-  GP_tab <- GP_tab[!is.na(GP_tab$A) & GP_tab$A != -1 & !is.na(GP_tab$B) & GP_tab$B != -1 & GP_tab$A >=0 & GP_tab$B >= 0, ]
+  GP_tab <- GP_tab[!is.na(GP_tab$A) & GP_tab$A != -1 & !is.na(GP_tab$B) & GP_tab$B != -1 & GP_tab$A >=0 & GP_tab$B >= 0 & GP_tab$A !=-999 & GP_tab$A !=999, ]
   if (nrow(GP_tab) == 0) {
     if (verbose) {
       message(paste0("No data available for the selected species (", SP, ")"))
@@ -158,3 +159,7 @@ MEDBS_LW_check <- function(data, SP, MS, GSA, verbose = FALSE) {
     return(plots)
   } # nrow(GP_tab) > 0
 }
+
+utils::globalVariables(c(
+  "B"
+))

@@ -83,13 +83,13 @@ FDI_vessel_numbers <- function(dataJ, dataG, MS, verbose = TRUE) {
       }
     }
 
-    if (class(data1$totves) == "character" & "NK" %in% data1$totves) {
+    if (inherits(data1$totves, "character") & "NK" %in% data1$totves) {
       data1[data1$totves == "NK", "totves"] <- NA
       data1$totves <- as.numeric(data1$totves)
     }
     data1$totves <- suppressWarnings(as.numeric(data1$totves))
 
-    if (class(data2$totves) == "character" & "NK" %in% data2$totves) {
+    if (inherits(data2$totves, "character") & "NK" %in% data2$totves) {
       data2[data2$totves == "NK", "totves"] <- NA
       data2$totves <- as.numeric(data2$totves)
     }

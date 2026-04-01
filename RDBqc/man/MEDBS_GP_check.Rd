@@ -4,7 +4,7 @@
 \alias{MEDBS_GP_check}
 \title{Check of growth parameters table}
 \usage{
-MEDBS_GP_check(data, SP, MS, GSA, verbose = FALSE)
+MEDBS_GP_check(data, SP, MS, GSA, verbose = FALSE, all_plots = FALSE)
 }
 \arguments{
 \item{data}{growth parameters table in MED&BS data call format}
@@ -16,6 +16,8 @@ MEDBS_GP_check(data, SP, MS, GSA, verbose = FALSE)
 \item{GSA}{GSA code (Geographical sub-area)}
 
 \item{verbose}{boolean. If TRUE messages are returned}
+
+\item{all_plots}{boolean. If TRUE all plots are generated; if FALSE only plots used in the Rmd chunk are generated}
 }
 \value{
 A list of objects containing a summary table and different plots of the growth curves by sex and year is returned by the function.

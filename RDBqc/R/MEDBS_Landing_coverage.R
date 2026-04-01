@@ -53,14 +53,41 @@ MEDBS_Landing_coverage <- function(data, SP, MS, GSA, verbose = TRUE) {
     suppressMessages(data <- full_join(gr, data))
     data[is.na(data)] <- 0
 
-    p <- ggplot(data, aes(x = year, y = landings, fill = gear)) +
-      geom_area(size = 0.5, colour = "black") +
-      theme_bw() +
-      ggtitle(paste0("Landings of ", SP, " in ", MS, " - ", GSA)) +
-      xlab("") +
-      ylab("tonnes") +
-      theme(legend.position = "bottom") +
-      scale_x_continuous(breaks = seq(min(data$year), max(data$year), 2))
+    bw_like_panel <- theme(
+      panel.background = element_rect(fill = "white", colour = NA),
+      plot.background  = element_rect(fill = "white", colour = NA),
+      panel.grid.major = element_line(colour = "grey80", linewidth = 0.3),
+      panel.grid.minor = element_line(colour = "grey90", linewidth = 0.2),
+      panel.border = element_rect(fill = NA, colour = "black", linewidth = 0.5),
+      axis.line  = element_line(colour = "black", linewidth = 0.3),
+      axis.ticks = element_line(colour = "black", linewidth = 0.3),
+      axis.text  = element_text(colour = "black"),
+      axis.title = element_text(colour = "black")
+    )
+
+    if (dplyr::n_distinct(data$year) <= 1) {
+
+      p <- ggplot(data, aes(x = year, y = landings, colour = gear)) +
+        geom_point(size = 3) +
+        bw_like_panel +
+        ggtitle(paste0("Landings of ", SP, " in ", MS, " - ", GSA)) +
+        xlab("") +
+        ylab("tonnes") +
+        theme(legend.position = "bottom") +
+        scale_x_continuous(breaks = unique(data$year))
+
+    } else {
+
+      p <- ggplot(data, aes(x = year, y = landings, fill = gear)) +
+        geom_area(size = 0.5, colour = "black") +
+        bw_like_panel +
+        ggtitle(paste0("Landings of ", SP, " in ", MS, " - ", GSA)) +
+        xlab("") +
+        ylab("tonnes") +
+        theme(legend.position = "bottom") +
+        scale_x_continuous(breaks = seq(min(data$year), max(data$year), 2))
+
+    }
 
     l <- length(output) + 1
     output[[l]] <- p

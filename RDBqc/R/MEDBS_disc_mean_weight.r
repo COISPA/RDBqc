@@ -49,7 +49,8 @@ MEDBS_disc_mean_weight <- function(data, SP, MS, GSA, verbose = TRUE) {
     l <- length(output) + 1
     MWdb <- as.data.frame(MWdb)
     colnames(MWdb)[9] <- "MW(g)"
-    MWdb[is.infinite(MWdb$`MW(g)`), "MW(g)"] <- NA
+    # MWdb[is.infinite(MWdb$`MW(g)`), "MW(g)"] <- NA
+    MWdb <- MWdb[!is.na(MWdb$`MW(g)`) & !is.infinite(MWdb$`MW(g)`), ]
     output[[l]] <- as.data.frame(MWdb)
     names(output)[[l]] <- "summary table"
 

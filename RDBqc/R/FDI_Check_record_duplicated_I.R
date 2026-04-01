@@ -45,8 +45,8 @@ check_RD_FDI_I <- function(data, verbose = TRUE)
                                            "specon_tech",
                                            "deep",
                                            "rectangle_type",
-                                           "latitude",
-                                           "longitude",
+                                           "rectangle_lat",
+                                           "rectangle_lon",
                                            "c_square"))]
 
   duplicated_line <- which(duplicated(df))

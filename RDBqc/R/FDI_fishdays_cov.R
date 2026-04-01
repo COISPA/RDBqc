@@ -92,11 +92,11 @@ FDI_fishdays_cov <- function (dataG, dataI, MS, verbose = TRUE)
                       "rows, in table I"))
       }
     }
-    if (class(dataG$totfishdays) == "character") {
+    if (inherits(dataG$totfishdays, "character")) {
       message("Warning: Unexpected class values in 'totfishdays' field in table G. Converted to numeric")
       suppressWarnings(dataG$totfishdays <- as.numeric(dataG$totfishdays))
     }
-    if (class(dataI$totfishdays) == "character") {
+    if (inherits(dataI$totfishdays, "character")) {
       message("Warning: Unexpected class values in 'totfishdays' field in table I. Converted to numeric")
       suppressWarnings(dataG$totfishdays <- as.numeric(dataI$totfishdays))
     }

@@ -8,6 +8,7 @@
 #' @export
 #' @author Vasiliki Sgardeli <vsgard@@hcmr.gr>
 #' @author Walter Zupa <zupa@@coispa.it>
+#' @importFrom utils globalVariables
 #' @examples FDI_vessel_lenth(data = fdi_j_capacity, MS = "PSP", verbose = TRUE)
 FDI_vessel_lenth <- function(data, MS, verbose = TRUE) {
   country <- NULL
@@ -76,3 +77,8 @@ FDI_vessel_lenth <- function(data, MS, verbose = TRUE) {
   }
   return(list(Table_of_NAs = data_NAs, Table_of_mismatches = data_FALSE))
 }
+
+
+utils::globalVariables(c(
+  "vessel_length"
+))

@@ -41,18 +41,40 @@ MEDBS_plot_discard_ts <- function(data, SP, MS, GSA, by = "year") {
     tmpdiscq[is.na(tmpdiscq[, 3]), 3] <- 0
 
     if (by == "quarter") {
+
+      single_year <- length(unique(tmpdiscq$year)) == 1
+
       plot <- ggplot(tmpdiscq, aes(x = year, y = tot, fill = as.factor(quarter))) +
-        geom_area(colour = "black", size = .2, alpha = .8) +
+        {
+          if (single_year) {
+            geom_point(aes(colour = as.factor(quarter)),
+                       shape = 21, size = 3, alpha = .9, stroke = .2)
+          } else {
+            geom_area(colour = "black", size = .2, alpha = .8)
+          }
+        } +
         theme_bw() +
         scale_x_continuous(breaks = seq(min(quarter_tmp$year), max(quarter_tmp$year), 2)) +
         ggtitle(paste0(SP, " ", MS, " ", GSA, " Total discard by quarter")) +
         labs(x = "", y = "Tonnes", fill = "Quarter")
+
     } else if (by == "year") {
+
       suppressMessages(tmpdisc <- dplyr::left_join(gear_tmp, disc_tmp))
       tmpdisc[is.na(tmpdisc[, 3]), 3] <- 0
       tmpdisc$gear <- as.factor(tmpdisc$gear)
+
+      single_year <- length(unique(tmpdisc$year)) == 1
+
       plot <- ggplot(tmpdisc, aes(x = year, y = tot, fill = gear)) +
-        geom_area(colour = "black", size = .2, alpha = .8) +
+        {
+          if (single_year) {
+            geom_point(aes(colour = gear),
+                       shape = 21, size = 3, alpha = .9, stroke = .2)
+          } else {
+            geom_area(colour = "black", size = .2, alpha = .8)
+          }
+        } +
         theme_bw() +
         scale_x_continuous(breaks = seq(min(disc_tmp$year), max(gear_tmp$year), 2)) +
         ggtitle(paste0(SP, " ", MS, " ", GSA, " Total discard by gear")) +
