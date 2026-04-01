@@ -5,12 +5,13 @@ on:
     branches: [ "main", "dev" ]
     paths:
       - "RDBqc/**"
-      - ".github/workflows/R-CMD-check.yaml"
+      - ".github/workflows/r.yml"
   pull_request:
     branches: [ "main" ]
     paths:
       - "RDBqc/**"
-      - ".github/workflows/R-CMD-check.yaml"
+      - ".github/workflows/r.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -21,8 +22,8 @@ jobs:
 
     strategy:
       fail-fast: false
-    matrix:
-      r-version: ['4.5.1']
+      matrix:
+        r-version: [ "release", "devel" ]
 
     defaults:
       run:
