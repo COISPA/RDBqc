@@ -46,8 +46,12 @@ RCG_check_mat_ogive <- function(data, MS, GSA, SP, sex, immature_stages = c("0",
   } else if (nrow(data) > 0) {
     data_mat <- data[!is.na(data$Maturity_Stage), ]
     if (nrow(data_mat) > 0) {
-      data_mat$Mature[as.character(data_mat$Maturity_Stage) %in% immature_stages] <- 0
-      data_mat$Mature[!(as.character(data_mat$Maturity_Stage) %in% immature_stages)] <- 1
+      data_mat$Mature <- NA_character_
+      data_mat$Mature[as.character(data_mat$Maturity_Stage) %in% immature_stages] <- "0"
+      if (!"0" %in% immature_stages){
+        data_mat <- data_mat[!as.character(data_mat$Maturity_Stage) %in% "0" & !is.na(data_mat$Maturity_Stage), ]
+        }
+      data_mat$Mature[!(as.character(data_mat$Maturity_Stage) %in% immature_stages) & is.na(data_mat$Mature)] <- 1
 
       if (sex == "F") {
         merge_temp <- data_mat[as.character(data_mat$Sex) !=
