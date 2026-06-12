@@ -1,3 +1,5 @@
+# RDBqc 0.1.4 (12/06/2026)
+* `MEDBS_Catch_LW` updated to fix a bug where `AGE_20_PLUS_MEAN_WEIGHT_LANDED` and `AGE_20_PLUS_MEAN_WEIGHT_DISCARD` were erroneously selected as length variables, resolving the plotting artifact for the `AGE_20_PLUS` category.
 # RDBqc 0.1.3 (06/03/2026)
 * Fixes for RDBFIS III
   * check_RD_FDI_H and check_RD_FDI_I modified for inconsistencies in detecting disaggregated records
